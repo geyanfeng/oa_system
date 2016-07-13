@@ -1,5 +1,5 @@
 /**
- * There are <a href="https://github.com/thinkgem/jeesite">JeeSite</a> code generation
+ * 
  */
 package com.thinkgem.jeesite.modules.oa.dao;
 
