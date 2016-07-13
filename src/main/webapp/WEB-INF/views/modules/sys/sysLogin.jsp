@@ -67,9 +67,7 @@
 			<!--[if lte IE 6]><script type="text/javascript">$('#themeSwitch').hide();</script><![endif]-->
 		</div>
 	</form>
-	<div class="footer">
-		Copyright &copy; 2012-${fns:getConfig('copyrightYear')} <a href="${pageContext.request.contextPath}${fns:getFrontPath()}">${fns:getConfig('productName')}</a> - Powered By <a href="http://jeesite.com" target="_blank">JeeSite</a> ${fns:getConfig('version')} 
-	</div>
+	
 	<script src="${ctxStatic}/flash/zoom.min.js" type="text/javascript"></script>
 </body>
 </html>

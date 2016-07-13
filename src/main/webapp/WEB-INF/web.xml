@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
 
-	<display-name>JeeSite</display-name>
+	<display-name>上海精鲲计算机科技有限公司信息系统</display-name>
 
 	<!-- Context ConfigLocation -->
 	<context-param>
