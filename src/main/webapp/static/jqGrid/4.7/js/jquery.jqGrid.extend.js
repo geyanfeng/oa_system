@@ -885,7 +885,6 @@ $.extend($.jgrid,{
 
 /**
  * 扩展jqGrid方法
- * @author ThinkGem@163.com
  * @version 2015-1-12
  * @param $
  */

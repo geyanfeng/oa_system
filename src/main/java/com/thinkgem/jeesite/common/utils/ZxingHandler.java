@@ -155,7 +155,7 @@ public class ZxingHandler {
 		String imgPath2 = "target\\zxing.png";
 		String contents2 = "Hello Gem, welcome to Zxing!"
 				+ "\nBlog [ http://thinkgem.iteye.com ]"
-				+ "\nEMail [ thinkgem@163.com ]";
+				+ "\nEMail";
 		int width2 = 300, height2 = 300;
 
 		ZxingHandler.encode2(contents2, width2, height2, imgPath2);
