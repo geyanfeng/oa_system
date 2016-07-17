@@ -24,6 +24,7 @@
 	<form:form id="searchForm" modelAttribute="customer" action="${ctx}/oa/customer/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+		<sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();"/>
 		<ul class="ul-form">
 			<li><label>名称：</label>
 				<form:input path="name" htmlEscape="false" maxlength="100" class="input-medium"/>
@@ -51,12 +52,12 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th>名称</th>
+				<th class="sort-column name">名称</th>
 				<th>地址</th>
 				<th>联系人</th>
 				<th>电话</th>
 				<th>备注</th>
-				<th>状态</th>
+				<th class="sort-column usedFlag">状态</th>
 				<th>更新时间</th>
 				<shiro:hasPermission name="oa:customer:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
