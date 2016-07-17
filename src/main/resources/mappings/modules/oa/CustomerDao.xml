@@ -9,6 +9,7 @@
 		a.contact AS "contact",
 		a.phone AS "phone",
 		a.remark AS "remark",
+		a.used_flag AS "usedFlag",
 		a.del_flag AS "delFlag",
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
@@ -64,6 +65,9 @@
 					<if test="dbName == 'mssql'">'%'+#{remark}+'%'</if>
 					<if test="dbName == 'mysql'">concat('%',#{remark},'%')</if>
 			</if>
+			<if test="usedFlag != null and usedFlag != ''">
+				AND a.used_flag = #{usedFlag}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -101,6 +105,7 @@
 			contact,
 			phone,
 			remark,
+			used_flag,
 			del_flag,
 			create_by,
 			create_date,
@@ -113,6 +118,7 @@
 			#{contact},
 			#{phone},
 			#{remark},
+			#{usedFlag},
 			#{delFlag},
 			#{createBy.id},
 			#{createDate},
@@ -128,6 +134,7 @@
 			contact = #{contact},
 			phone = #{phone},
 			remark = #{remark},
+			used_flag = #{usedFlag},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate}
 		WHERE id = #{id}
@@ -146,5 +153,4 @@
 		<include refid="customerJoins"/>
 		WHERE a.name = #{name} and a.del_flag = 0
 	</select>
-	
 </mapper>

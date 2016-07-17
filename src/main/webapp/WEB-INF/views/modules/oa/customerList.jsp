@@ -40,6 +40,9 @@
 			<li><label>备注：</label>
 				<form:input path="remark" htmlEscape="false" maxlength="255" class="input-medium"/>
 			</li>
+			<li><label>状态：</label>
+				<form:radiobuttons path="usedFlag" items="${fns:getDictList('status')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
 		</ul>
@@ -53,6 +56,7 @@
 				<th>联系人</th>
 				<th>电话</th>
 				<th>备注</th>
+				<th>状态</th>
 				<th>更新时间</th>
 				<shiro:hasPermission name="oa:customer:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
@@ -74,6 +78,9 @@
 				</td>
 				<td>
 					${customer.remark}
+				</td>
+				<td>
+					${fns:getDictLabel(customer.usedFlag, 'status', '')}
 				</td>
 				<td>
 					<fmt:formatDate value="${customer.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>

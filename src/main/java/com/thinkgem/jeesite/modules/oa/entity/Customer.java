@@ -20,6 +20,7 @@ public class Customer extends DataEntity<Customer> {
 	private String contact;		// 联系人
 	private String phone;		// 电话
 	private String remark;		// 备注
+	private String usedFlag;		// 状态
 	
 	public Customer() {
 		super();
@@ -72,6 +73,15 @@ public class Customer extends DataEntity<Customer> {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+	
+	@Length(min=1, max=1, message="状态长度必须介于 1 和 1 之间")
+	public String getUsedFlag() {
+		return usedFlag;
+	}
+
+	public void setUsedFlag(String usedFlag) {
+		this.usedFlag = usedFlag;
 	}
 	
 }
