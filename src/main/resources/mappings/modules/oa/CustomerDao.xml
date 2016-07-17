@@ -153,4 +153,10 @@
 		<include refid="customerJoins"/>
 		WHERE a.name = #{name} and a.del_flag = 0
 	</select>
+
+	<update id="changeUsedFlag">
+		UPDATE oa_customer SET
+		used_flag = (case used_flag when 1 then 0 else 1 END)
+		WHERE id = #{id}
+	</update>
 </mapper>

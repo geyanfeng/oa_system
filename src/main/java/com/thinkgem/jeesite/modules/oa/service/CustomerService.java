@@ -50,4 +50,9 @@ public class CustomerService extends CrudService<CustomerDao, Customer> {
 	public Customer getCustomerByName(String name) {
 		return customerDao.getCustomerByName(name);
 	}
+
+	@Transactional(readOnly = false)
+	public void changeUsedFlag(Customer customer) {
+		customerDao.changeUsedFlag(customer);
+	}
 }

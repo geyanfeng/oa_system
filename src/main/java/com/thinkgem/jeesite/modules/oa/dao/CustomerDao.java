@@ -15,4 +15,6 @@ import com.thinkgem.jeesite.modules.oa.entity.Customer;
 @MyBatisDao
 public interface CustomerDao extends CrudDao<Customer> {
 	public Customer getCustomerByName(String name);
+
+	public void changeUsedFlag(Customer customer);
 }

@@ -98,4 +98,12 @@ public class CustomerController extends BaseController {
 		}
 		return "false";
 	}
+
+	@RequiresPermissions("oa:customer:edit")
+	@RequestMapping(value = "changeUsedFlag")
+	public String changeUsedFlag(Customer customer, RedirectAttributes redirectAttributes) {
+		customerService.changeUsedFlag(customer);
+		addMessage(redirectAttributes, "修改客户状态成功");
+		return "redirect:"+Global.getAdminPath()+"/oa/customer/?repage";
+	}
 }

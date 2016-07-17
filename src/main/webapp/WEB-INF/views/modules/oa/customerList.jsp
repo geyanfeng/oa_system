@@ -87,7 +87,8 @@
 				</td>
 				<shiro:hasPermission name="oa:customer:edit"><td>
     				<a href="${ctx}/oa/customer/form?id=${customer.id}">修改</a>
-					<a href="${ctx}/oa/customer/delete?id=${customer.id}" onclick="return confirmx('确认要删除该客户吗？', this.href)">删除</a>
+					<%--<a href="${ctx}/oa/customer/delete?id=${customer.id}" onclick="return confirmx('确认要删除该客户吗？', this.href)">删除</a>--%>
+					<a href="${ctx}/oa/customer/changeUsedFlag?id=${customer.id}" onclick="return confirmx('确认要修改该客户的状态吗？', this.href)">更改状态</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>
