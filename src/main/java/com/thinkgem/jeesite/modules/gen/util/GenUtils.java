@@ -146,6 +146,14 @@ public class GenUtils {
 				column.setJavaField(column.getJavaField().replaceAll("Id", ".id|name"));
 				column.setShowType("areaselect");
 			}
+
+			// 客户
+			else if (StringUtils.startsWithIgnoreCase(column.getName(), "customer_id")){
+				column.setJavaType(Area.class.getName());
+				column.setJavaField(column.getJavaField().replaceAll("Id", ".id|name"));
+				column.setShowType("customerselect");
+			}
+
 			// 创建者、更新者
 			else if (StringUtils.startsWithIgnoreCase(column.getName(), "create_by")
 					|| StringUtils.startsWithIgnoreCase(column.getName(), "update_by")){
