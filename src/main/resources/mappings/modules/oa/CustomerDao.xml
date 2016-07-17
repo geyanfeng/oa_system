@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.oa.dao.CustomerDao">
+    
+	<sql id="customerColumns">
+		a.id AS "id",
+		a.name AS "name",
+		a.address AS "address",
+		a.contact AS "contact",
+		a.phone AS "phone",
+		a.remark AS "remark",
+		a.del_flag AS "delFlag",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate"
+	</sql>
+	
+	<sql id="customerJoins">
+	</sql>
+    
+	<select id="get" resultType="Customer">
+		SELECT 
+			<include refid="customerColumns"/>
+		FROM oa_customer a
+		<include refid="customerJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Customer">
+		SELECT 
+			<include refid="customerColumns"/>
+		FROM oa_customer a
+		<include refid="customerJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+			<if test="address != null and address != ''">
+				AND a.address LIKE 
+					<if test="dbName == 'oracle'">'%'||#{address}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{address}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{address},'%')</if>
+			</if>
+			<if test="contact != null and contact != ''">
+				AND a.contact LIKE 
+					<if test="dbName == 'oracle'">'%'||#{contact}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{contact}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{contact},'%')</if>
+			</if>
+			<if test="phone != null and phone != ''">
+				AND a.phone LIKE 
+					<if test="dbName == 'oracle'">'%'||#{phone}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{phone}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{phone},'%')</if>
+			</if>
+			<if test="remark != null and remark != ''">
+				AND a.remark LIKE 
+					<if test="dbName == 'oracle'">'%'||#{remark}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{remark}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{remark},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Customer">
+		SELECT 
+			<include refid="customerColumns"/>
+		FROM oa_customer a
+		<include refid="customerJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO oa_customer(
+			id,
+			name,
+			address,
+			contact,
+			phone,
+			remark,
+			del_flag,
+			create_by,
+			create_date,
+			update_by,
+			update_date
+		) VALUES (
+			#{id},
+			#{name},
+			#{address},
+			#{contact},
+			#{phone},
+			#{remark},
+			#{delFlag},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE oa_customer SET 	
+			name = #{name},
+			address = #{address},
+			contact = #{contact},
+			phone = #{phone},
+			remark = #{remark},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE oa_customer SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+
+	<select id="getCustomerByName" resultType="Customer">
+		SELECT
+		<include refid="customerColumns"/>
+		FROM oa_customer a
+		<include refid="customerJoins"/>
+		WHERE a.name = #{name} and a.del_flag = 0
+	</select>
+	
+</mapper>
