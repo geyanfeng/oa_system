@@ -24,23 +24,10 @@
             var resizefunc = [];
         </script>
 
-        <!-- jQuery  -->
+         <!-- jQuery  -->
         <script src="${ctxStatic}/assets/js/jquery.min.js"></script>
         <script src="${ctxStatic}/assets/js/bootstrap.min.js"></script>
-        <script src="${ctxStatic}/assets/js/detect.js"></script>
-        <script src="${ctxStatic}/assets/js/fastclick.js"></script>
-        <script src="${ctxStatic}/assets/js/jquery.slimscroll.js"></script>
-        <script src="${ctxStatic}/assets/js/jquery.blockUI.js"></script>
-        <script src="${ctxStatic}/assets/js/waves.js"></script>
-        <script src="${ctxStatic}/assets/js/wow.min.js"></script>
-        <script src="${ctxStatic}/assets/js/jquery.nicescroll.js"></script>
-        <script src="${ctxStatic}/assets/js/jquery.scrollTo.min.js"></script>
 
-        <!-- App js -->
-        <script src="${ctxStatic}/assets/js/jquery.core.js"></script>
-        <script src="${ctxStatic}/assets/js/jquery.app.js"></script>
-        
-        
 <link href="${ctxStatic}/jquery-select2/3.4/select2.min.css" rel="stylesheet" />
 <script src="${ctxStatic}/jquery-select2/3.4/select2.min.js" type="text/javascript"></script>
 <link href="${ctxStatic}/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet" />
