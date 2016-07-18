@@ -5,16 +5,11 @@
 <head>
 	<title>${fns:getConfig('productName')} 登录</title>
 	<meta name="decorator" content="blank"/>
-	<style type="text/css">
-      html,body,table{background-color:#f5f5f5;width:100%;text-align:center;}.form-signin-heading{font-family:Helvetica, Georgia, Arial, sans-serif, 黑体;font-size:36px;margin-bottom:20px;color:#0663a2;}
-      .form-signin{position:relative;text-align:left;width:300px;padding:25px 29px 29px;margin:0 auto 20px;background-color:#fff;border:1px solid #e5e5e5;
-        	-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-webkit-box-shadow:0 1px 2px rgba(0,0,0,.05);-moz-box-shadow:0 1px 2px rgba(0,0,0,.05);box-shadow:0 1px 2px rgba(0,0,0,.05);}
-      .form-signin .checkbox{margin-bottom:10px;color:#0663a2;} .form-signin .input-label{font-size:16px;line-height:23px;color:#999;}
-      .form-signin .input-block-level{font-size:16px;height:auto;margin-bottom:15px;padding:7px;*width:283px;*padding-bottom:0;_padding:7px 7px 9px 7px;}
-      .form-signin .btn.btn-large{font-size:16px;} .form-signin #themeSwitch{position:absolute;right:15px;bottom:10px;}
-      .form-signin div.validateCode {padding-bottom:15px;} .mid{vertical-align:middle;}
+		<style type="text/css">
+
       .header{height:80px;padding-top:20px;} .alert{position:relative;width:300px;margin:0 auto;*padding-bottom:0px;}
       label.error{background:none;width:270px;font-weight:normal;color:inherit;margin:0;}
+      #messageBox {color:rgb(240, 165, 164);border-color: rgb(240, 165, 164); padding: 5px; text-align: center;}
     </style>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -46,27 +41,60 @@
 			<label id="loginError" class="error">${message}</label>
 		</div>
 	</div>
-	<h1 class="form-signin-heading">${fns:getConfig('productName')}</h1>
-	<form id="loginForm" class="form-signin" action="${ctx}/login" method="post">
-		<label class="input-label" for="username">登录名</label>
-		<input type="text" id="username" name="username" class="input-block-level required" value="${username}">
-		<label class="input-label" for="password">密码</label>
-		<input type="password" id="password" name="password" class="input-block-level required">
-		<c:if test="${isValidateCodeLogin}"><div class="validateCode">
-			<label class="input-label mid" for="validateCode">验证码</label>
-			<sys:validateCode name="validateCode" inputCssStyle="margin-bottom:0;"/>
-		</div></c:if><%--
-		<label for="mobile" title="手机登录"><input type="checkbox" id="mobileLogin" name="mobileLogin" ${mobileLogin ? 'checked' : ''}/></label> --%>
-		<input class="btn btn-large btn-primary" type="submit" value="登 录"/>&nbsp;&nbsp;
-		<label for="rememberMe" title="下次不需要再登录"><input type="checkbox" id="rememberMe" name="rememberMe" ${rememberMe ? 'checked' : ''}/> 记住我（公共场所慎用）</label>
-		<div id="themeSwitch" class="dropdown">
-			<a class="dropdown-toggle" data-toggle="dropdown" href="#">${fns:getDictLabel(cookie.theme.value,'theme','默认主题')}<b class="caret"></b></a>
-			<ul class="dropdown-menu">
-			  <c:forEach items="${fns:getDictList('theme')}" var="dict"><li><a href="#" onclick="location='${pageContext.request.contextPath}/theme/${dict.value}?url='+location.href">${dict.label}</a></li></c:forEach>
-			</ul>
-			<!--[if lte IE 6]><script type="text/javascript">$('#themeSwitch').hide();</script><![endif]-->
-		</div>
-	</form>
+		<DIV class="text-center logo-alt-box" style="margin-top:0px;">
+		<A class="logo"
+			href="#"><SPAN>${fns:getConfig('productName')}<SPAN>IT</SPAN></SPAN></A>
+
+		<H5 class="text-muted m-t-0">计算机信息系统</H5>
+	</DIV>
+	<DIV class="wrapper-page">
+		<DIV class="m-t-30 card-box">
+			<DIV class="text-center">
+				<H4 class="text-uppercase font-bold m-b-0">登录</H4>
+			</DIV>
+			<DIV class="panel-body">
+				<FORM id="loginForm" class="form-horizontal m-t-10" action="${ctx}/login" method="post">
+					<DIV class="form-group ">
+						<DIV class="col-xs-12">
+							<INPUT class="form-control" id="username" name="username" type="text"
+								placeholder="登录名">
+						</DIV>
+					</DIV>
+					<DIV class="form-group">
+						<DIV class="col-xs-12">
+							<INPUT class="form-control" id="password" name="password" type="password"
+								placeholder="密码">
+						</DIV>
+					</DIV>
+					<DIV class="form-group ">
+						<DIV class="col-xs-12">
+							<DIV class="checkbox checkbox-custom">
+								<INPUT id="checkbox-signup" type="checkbox" id="rememberMe" name="rememberMe" ${rememberMe ? 'checked' : ''}> <LABEL
+									for="checkbox-signup"> 记住我（公共场所慎用） </LABEL>
+							</DIV>
+						</DIV>
+					</DIV>
+					<DIV class="form-group ">
+						<DIV class="col-xs-12">
+							<c:if test="${isValidateCodeLogin}"><div class="validateCode">
+			                 <label for="validateCode">验证码</label>
+			                   <sys:validateCode name="validateCode" inputCssStyle="margin-bottom:0;display:inline;"/>
+		                     </div></c:if>
+						</DIV>
+					</DIV>
+					<DIV class="form-group text-center m-t-30">
+						<DIV class="col-xs-12">
+							<BUTTON
+								class="btn btn-custom btn-bordred btn-block waves-effect waves-light text-uppercase"
+								type="submit">登 录</BUTTON>
+						</DIV>
+					</DIV>
+				
+				</FORM>
+			</DIV>
+		</DIV>
+		<!-- end card-box -->
+	</DIV>
 	
 	<script src="${ctxStatic}/flash/zoom.min.js" type="text/javascript"></script>
 </body>
