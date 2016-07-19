@@ -140,8 +140,8 @@
 				<DIV class="container">
 					<!-- Page-Title -->
 					<iframe id="mainFrame" name="mainFrame" src=""
-						style="overflow: visible;" scrolling="no" frameborder="no"
-						width="100%" onload="this.style.height=this.contentDocument.body.scrollHeight +'px';"></iframe>
+						style="overflow: visible;" scrolling="yes" frameborder="no"
+						width="100%" height="650"></iframe>
 				</DIV>
 				<!-- container -->
 			</DIV>
