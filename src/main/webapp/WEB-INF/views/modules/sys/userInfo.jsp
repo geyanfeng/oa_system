@@ -54,7 +54,7 @@
 						<sys:message content="${message}" />
 						<div class="form-group">
 							<label class="col-md-2 control-label">头像:</label>
-							<div class="input-group">
+							<div class="col-md-4">
 								<form:hidden id="nameImage" path="photo" htmlEscape="false"
 									maxlength="255" class="input-xlarge" />
 								<sys:ckfinder input="nameImage" type="images"
@@ -64,64 +64,64 @@
 						</div>
 						<div class="form-group">
 							<label class="col-md-2 control-label">归属公司:</label>
-							<div class="input-group">
+							<div class="col-md-4">
 								<label class="control-label">${user.company.name}</label>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-2 control-label">归属部门:</label>
-							<div class="input-group">
+							<div class="col-md-4">
 								<label class="control-label">${user.office.name}</label>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-2 control-label">姓名:</label>
-							<div class="input-group">
+							<div class="col-md-4">
 								<form:input path="name" htmlEscape="false" maxlength="50"
 									class="required form-control" readonly="true" />
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-2 control-label">邮箱:</label>
-							<div class="input-group">
+							<div class="col-md-4">
 								<form:input path="email" htmlEscape="false" maxlength="50"
 									class="email form-control" />
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-2 control-label">电话:</label>
-							<div class="input-group">
+							<div class="col-md-4">
 								<form:input path="phone" class="form-control" htmlEscape="false" maxlength="50" />
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-2 control-label">手机:</label>
-							<div class="input-group">
+							<div class="col-md-4">
 								<form:input path="mobile" class="form-control" htmlEscape="false" maxlength="50" />
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-2 control-label">备注:</label>
-							<div class="input-group">
+							<div class="col-md-4">
 								<form:textarea path="remarks" htmlEscape="false" rows="3"
 									maxlength="200" class="form-control" />
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-2 control-label">用户类型:</label>
-							<div class="input-group">
+							<div class="col-md-4">
 								<label class="control-label">${fns:getDictLabel(user.userType, 'sys_user_type', '无')}</label>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-2 control-label">用户角色:</label>
-							<div class="input-group">
+							<div class="col-md-4">
 								<label class="control-label">${user.roleNames}</label>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-2 control-label">上次登录:</label>
-							<div class="input-group">
+							<div class="col-md-6">
 								<label class="control-label">IP:
 									${user.oldLoginIp}&nbsp;&nbsp;&nbsp;&nbsp;时间：<fmt:formatDate
 										value="${user.oldLoginDate}" type="both" dateStyle="full" />
