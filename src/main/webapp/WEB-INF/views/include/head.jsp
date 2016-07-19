@@ -4,11 +4,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <!-- App CSS -->
         <link href="${ctxStatic}/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="${ctxStatic}/assets/css/menu.css" rel="stylesheet" type="text/css" />
         <link href="${ctxStatic}/assets/css/core.css" rel="stylesheet" type="text/css" />
         <link href="${ctxStatic}/assets/css/components.css" rel="stylesheet" type="text/css" />
         <link href="${ctxStatic}/assets/css/icons.css" rel="stylesheet" type="text/css" />
         <link href="${ctxStatic}/assets/css/pages.css" rel="stylesheet" type="text/css" />
-        <link href="${ctxStatic}/assets/css/menu.css" rel="stylesheet" type="text/css" />
         <link href="${ctxStatic}/assets/css/responsive.css" rel="stylesheet" type="text/css" />
 
         <!-- HTML5 Shiv and Respond.js IE8 support of HTML5 elements and media queries -->

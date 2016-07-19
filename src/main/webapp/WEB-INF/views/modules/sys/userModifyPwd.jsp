@@ -47,49 +47,63 @@
 		<sys:message content="${message}" />
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="card-box">
-					<h4 class="header-title m-t-0 m-b-30">修改密码</h4>
+				<ul class="nav nav-tabs">
+					<li role="presentation"><a href="${ctx}/sys/user/info">个人信息</a></li>
+					<li role="presentation" class="active"><a
+						href="${ctx}/sys/user/modifyPwd">修改密码</a></li>
+				</ul>
+				<div class="tab-content">
+					<div role="tabpanel" class="tab-pane fade" id="home1"></div>
+					<div role="tabpanel" class="tab-pane fade in active" id="profile1">
+					
 					<div class="row">
 						<div class="col-md-12">
 							<div class="p-20">
 								<div class="form-group">
 									<label class="col-md-2 control-label">旧密码 <span
-											class="help-inline"><font color="red">*</font> </span></label>
+										class="help-inline"><font color="red">*</font> </span></label>
 									<div class="col-md-3">
 										<input id="oldPassword" name="oldPassword" type="password"
 											value="" maxlength="50" minlength="3"
-											class="required form-control" /> 
+											class="required form-control" />
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-md-2 control-label">新密码 <span
-											class="help-inline"><font color="red">*</font> </span></label>
+										class="help-inline"><font color="red">*</font> </span></label>
 									<div class="col-md-3">
 										<input id="newPassword" name="newPassword" type="password"
-											value="" maxlength="50" minlength="3" class="required  form-control" />
+											value="" maxlength="50" minlength="3"
+											class="required  form-control" />
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-md-2 control-label">确认新密码 <span
-											class="help-inline"><font color="red">*</font> </span></label>
+										class="help-inline"><font color="red">*</font> </span></label>
 									<div class="col-md-3">
 										<input id="confirmNewPassword" name="confirmNewPassword"
 											type="password" value="" maxlength="50" minlength="3"
 											class="required  form-control" equalTo="#newPassword" />
 									</div>
 								</div>
-								 <div class="form-group m-b-0">
-                                                    <div class="col-sm-offset-3 col-sm-9">
-                                                      <button id="btnSubmit" type="submit" class="btn btn-success waves-effect waves-light m-l-10 btn-md">保 存</button>
-                                                    </div>
-                                                </div>
-								
+								<div class="form-group m-b-0">
+									<div class="col-sm-offset-3 col-sm-9">
+										<button id="btnSubmit" type="submit"
+											class="btn btn-success waves-effect waves-light m-l-10 btn-md">保
+											存</button>
+									</div>
+								</div>
+
 							</div>
-						</div>
+					
 						<!-- end col -->
 					</div>
 					<!-- end row -->
 				</div>
+					</div>
+
+				</div>
+				
 			</div>
 			<!-- end col -->
 		</div>
