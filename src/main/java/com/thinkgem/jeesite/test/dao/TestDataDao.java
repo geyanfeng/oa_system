@@ -10,7 +10,7 @@ import com.thinkgem.jeesite.test.entity.TestData;
 /**
  * 单表生成DAO接口
  * @author ThinkGem
- * @version 2015-04-06
+ * @version 2016-07-21
  */
 @MyBatisDao
 public interface TestDataDao extends CrudDao<TestData> {

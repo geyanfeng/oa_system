@@ -9,13 +9,14 @@ import com.thinkgem.jeesite.modules.sys.entity.Area;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.thinkgem.jeesite.modules.oa.entity.Customer;
 
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 
 /**
  * 单表生成Entity
  * @author ThinkGem
- * @version 2015-04-06
+ * @version 2016-07-21
  */
 public class TestData extends DataEntity<TestData> {
 	
@@ -26,6 +27,7 @@ public class TestData extends DataEntity<TestData> {
 	private String name;		// 名称
 	private String sex;		// 性别
 	private Date inDate;		// 加入日期
+	private Customer customer;		// 客户
 	private Date beginInDate;		// 开始 加入日期
 	private Date endInDate;		// 结束 加入日期
 	
@@ -86,6 +88,14 @@ public class TestData extends DataEntity<TestData> {
 
 	public void setInDate(Date inDate) {
 		this.inDate = inDate;
+	}
+	
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 	
 	public Date getBeginInDate() {

@@ -80,6 +80,13 @@
 				<form:textarea path="remarks" htmlEscape="false" rows="4" maxlength="255" class="input-xxlarge "/>
 			</div>
 		</div>
+		<div class="control-group">
+			<label class="control-label">客户：</label>
+			<div class="controls">
+				<sys:treeselect id="customer" name="customer.id" value="${testData.customer.id}" labelName="customer.name" labelValue="${testData.customer.name}"
+					title="客户" url="/oa/customer/treeData" cssClass="" allowClear="true" notAllowSelectParent="true"/>
+			</div>
+		</div>
 		<div class="form-actions">
 			<shiro:hasPermission name="test:testData:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
