@@ -273,7 +273,7 @@ public class Page<T> {
 		sb1.append(funcName+"("+pageNo+",this.value,'"+funcParam+"');\" onclick=\"this.select();\"/> 条，");
 		sb1.append("共 " + count + " 条"+(message!=null?message:"")+"</a></div></div>\n");
 
-		sb.insert(0,"<div class=\"row\">"+sb1.toString()+"<div class=\"col-sm-8\"><div class=\"dataTables_paginate paging_simple_numbers\" style=\"float: right;\">><ul class=\"pagination\">\n").append("</ul></div></div></div>\n");
+		sb.insert(0,"<div class=\"row\">"+sb1.toString()+"<div class=\"col-sm-8\"><div class=\"dataTables_paginate paging_simple_numbers\" style=\"float: right;\"><ul class=\"pagination\">\n").append("</ul></div></div></div>\n");
 		
 		sb.append("<div style=\"clear:both;\"></div>");
 
