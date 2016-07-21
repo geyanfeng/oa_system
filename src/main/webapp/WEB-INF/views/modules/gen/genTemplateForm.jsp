@@ -33,25 +33,25 @@
 	<form:form id="inputForm" modelAttribute="genTemplate" action="${ctx}/gen/genTemplate/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>
-		<div class="control-group">
-			<label class="control-label">名称:</label>
-			<div class="controls">
-				<form:input path="name" htmlEscape="false" maxlength="200" class="required"/>
+		<div class="form-group">
+			<label class="col-md-2 control-label">名称:</label>
+			<div class="col-md-4">
+				<form:input path="name" htmlEscape="false" maxlength="200" class="required form-control"/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">归属分类:</label>
-			<div class="controls"><%--
-				<form:select path="category" class="required">
+		<div class="form-group">
+			<label class="col-md-2 control-label">归属分类:</label>
+			<div class="col-md-4"><%--
+				<form:select path="category" class="required form-control">
 					<form:option value=""></form:option>
 					<form:options items="${fns:getDictList('gen_category')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select> --%>
 				<form:checkboxes items="${fns:getDictList('gen_category')}" path="categoryList" itemLabel="label" itemValue="value" htmlEscape="false"/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">生成路径:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">生成路径:</label>
+			<div class="col-md-4">
 				<form:input path="filePath" htmlEscape="false" maxlength="500" class="required input-xxlarge"/>
 				<br/>
 				<span class="help-inline">
@@ -62,9 +62,9 @@
 				</span>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">生成文件名:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">生成文件名:</label>
+			<div class="col-md-4">
 				<form:input path="fileName" htmlEscape="false" maxlength="500" class="required input-xlarge"/>
 				<br/>
 				<span class="help-inline">
@@ -74,10 +74,10 @@
 				</span>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">内容:</label>
-			<div class="controls">
-				<form:textarea id="content" htmlEscape="true" path="content" rows="25" class="required" style="width:90%;" wrap="off" />
+		<div class="form-group">
+			<label class="col-md-2 control-label">内容:</label>
+			<div class="col-md-4">
+				<form:textarea id="content" htmlEscape="true" path="content" rows="25" class="required form-control" style="width:90%;" wrap="off" />
 				<script type="text/javascript">
 			        /*------selection operations-------*/
 			        function insertAtCursor(obj, txt) {
@@ -158,9 +158,9 @@
 				</script>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">备注:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">备注:</label>
+			<div class="col-md-4">
 				<form:textarea path="remarks" htmlEscape="false" rows="4" maxlength="200" class="input-xxlarge"/>
 			</div>
 		</div>

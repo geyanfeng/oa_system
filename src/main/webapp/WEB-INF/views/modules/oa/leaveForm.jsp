@@ -34,32 +34,32 @@
 	<form:form id="inputForm" modelAttribute="leave" action="${ctx}/oa/leave/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>
-		<div class="control-group">
-			<label class="control-label">请假类型：</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">请假类型：</label>
+			<div class="col-md-4">
 				<form:select path="leaveType" >
 					<form:options items="${fns:getDictList('oa_leave_type')}" itemLabel="label" itemValue="value" htmlEscape="false" />
 				</form:select>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">开始时间：</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">开始时间：</label>
+			<div class="col-md-4">
 				<input id="startTime" name="startTime" type="text" readonly="readonly" maxlength="20" class="Wdate required"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">结束时间：</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">结束时间：</label>
+			<div class="col-md-4">
 				<input id="endTime" name="endTime" type="text" readonly="readonly" maxlength="20" class="Wdate required"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">请假原因：</label>
-			<div class="controls">
-				<form:textarea path="reason" class="required" rows="5" maxlength="20"/>
+		<div class="form-group">
+			<label class="col-md-2 control-label">请假原因：</label>
+			<div class="col-md-4">
+				<form:textarea path="reason" class="required form-control" rows="5" maxlength="20"/>
 			</div>
 		</div>
 		<div class="form-actions">

@@ -64,59 +64,59 @@
 	<form:form id="inputForm" modelAttribute="testDataMain" action="${ctx}/test/testDataMain/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		
-		<div class="control-group">
-			<label class="control-label">归属用户：</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">归属用户：</label>
+			<div class="col-md-4">
 				<sys:treeselect id="user" name="user.id" value="${testDataMain.user.id}" labelName="user.name" labelValue="${testDataMain.user.name}"
 					title="用户" url="/sys/office/treeData?type=3" cssClass="" allowClear="true" notAllowSelectParent="true"/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">归属部门：</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">归属部门：</label>
+			<div class="col-md-4">
 				<sys:treeselect id="office" name="office.id" value="${testDataMain.office.id}" labelName="office.name" labelValue="${testDataMain.office.name}"
 					title="部门" url="/sys/office/treeData?type=2" cssClass="" allowClear="true" notAllowSelectParent="true"/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">归属区域：</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">归属区域：</label>
+			<div class="col-md-4">
 				<sys:treeselect id="area" name="area.id" value="${testDataMain.area.id}" labelName="area.name" labelValue="${testDataMain.area.name}"
 					title="区域" url="/sys/area/treeData" cssClass="" allowClear="true" notAllowSelectParent="true"/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">名称：</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">名称：</label>
+			<div class="col-md-4">
 				<form:input path="name" htmlEscape="false" maxlength="100" class="input-xlarge "/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">性别：</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">性别：</label>
+			<div class="col-md-4">
 				<form:select path="sex" class="input-xlarge ">
 					<form:option value="" label=""/>
 					<form:options items="${fns:getDictList('sex')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">加入日期：</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">加入日期：</label>
+			<div class="col-md-4">
 				<input name="inDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
 					value="<fmt:formatDate value="${testDataMain.inDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">备注信息：</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">备注信息：</label>
+			<div class="col-md-4">
 				<form:textarea path="remarks" htmlEscape="false" rows="4" maxlength="255" class="input-xxlarge "/>
 			</div>
 		</div>
-			<div class="control-group">
-				<label class="control-label">业务数据子表：</label>
-				<div class="controls">
+			<div class="form-group">
+				<label class="col-md-2 control-label">业务数据子表：</label>
+				<div class="col-md-4">
 					<table id="contentTable" class="table table-striped table-bordered table-condensed">
 						<thead>
 							<tr>

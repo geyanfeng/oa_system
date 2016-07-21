@@ -60,7 +60,7 @@
 								placeholder="登录名">
 						</DIV>
 					</DIV>
-					<DIV class="form-group">
+					<div class="form-group">
 						<DIV class="col-xs-12">
 							<INPUT class="form-control" id="password" name="password" type="password"
 								placeholder="密码">

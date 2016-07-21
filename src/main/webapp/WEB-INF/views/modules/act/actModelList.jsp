@@ -36,8 +36,10 @@
 		<li class="active"><a href="${ctx}/act/model/">模型管理</a></li>
 		<li><a href="${ctx}/act/model/create">新建模型</a></li>
 	</ul>
+	<div class="tab-content">
+				<div class="tab-pane fade in active">
 	<form id="searchForm" action="${ctx}/act/model/" method="post" class="breadcrumb form-search">
-		<select id="category" name="category" class="input-medium">
+		<select id="category" name="category" class="input-medium form-control">
 			<option value="">全部分类</option>
 			<c:forEach items="${fns:getDictList('act_category')}" var="dict">
 				<option value="${dict.value}" ${dict.value==category?'selected':''}>${dict.label}</option>
@@ -79,6 +81,7 @@
 			</c:forEach>
 		</tbody>
 	</table>
-	<div class="pagination">${page}</div>
+	 ${page}
+	</div></div>
 </body>
 </html>

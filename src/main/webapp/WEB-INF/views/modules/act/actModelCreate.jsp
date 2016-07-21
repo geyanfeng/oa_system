@@ -33,37 +33,39 @@
 	<ul class="nav nav-tabs">
 		<li><a href="${ctx}/act/model/">模型管理</a></li>
 		<li class="active"><a href="${ctx}/act/model/create">新建模型</a></li>
-	</ul><br/>
+	</ul>
+	<div class="tab-content">
+				<div class="tab-pane fade in active">
 	<sys:message content="${message}"/>
 	<form id="inputForm" action="${ctx}/act/model/create" target="_blank" method="post" class="form-horizontal">
-		<div class="control-group">
-			<label class="control-label">流程分类：</label>
-			<div class="controls">
-				<select id="category" name="category" class="required input-medium">
+		<div class="form-group">
+			<label class="col-md-2 control-label">流程分类：</label>
+			<div class="col-md-4">
+				<select id="category" name="category" class="required input-medium form-control">
 					<c:forEach items="${fns:getDictList('act_category')}" var="dict">
 						<option value="${dict.value}">${dict.label}</option>
 					</c:forEach>
 				</select>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">模块名称：</label>
-			<div class="controls">
-				<input id="name" name="name" type="text" class="required" />
+		<div class="form-group">
+			<label class="col-md-2 control-label">模块名称：</label>
+			<div class="col-md-4">
+				<input id="name" name="name" type="text" class="required form-control" />
 				<span class="help-inline"></span>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">模块标识：</label>
-			<div class="controls">
-				<input id="key" name="key" type="text" class="required" />
+		<div class="form-group">
+			<label class="col-md-2 control-label">模块标识：</label>
+			<div class="col-md-4">
+				<input id="key" name="key" type="text" class="required form-control" />
 				<span class="help-inline"></span>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">模块描述：</label>
-			<div class="controls">
-				<textarea id="description" name="description" class="required"></textarea>
+		<div class="form-group">
+			<label class="col-md-2 control-label">模块描述：</label>
+			<div class="col-md-4">
+				<textarea id="description" name="description" class="required form-control"></textarea>
 			</div>
 		</div>
 		<div class="form-actions">
@@ -71,5 +73,6 @@
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form>
+	</div></div>
 </body>
 </html>

@@ -313,7 +313,7 @@
 			</tr>
 			<tr>
 				<td>请假事由：</td>
-				<td><textarea id="reason" name="reason" class="required" rows="5">{{reason}}</textarea></td>
+				<td><textarea id="reason" name="reason" class="required form-control" rows="5">{{reason}}</textarea></td>
 			</tr>
 		</table>
 	</script>

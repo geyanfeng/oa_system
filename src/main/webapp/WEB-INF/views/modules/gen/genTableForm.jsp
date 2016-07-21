@@ -45,9 +45,9 @@
             <form:hidden path="id"/>
             <sys:message content="${message}"/>
             <br/>
-            <div class="control-group">
-                <label class="control-label">表名:</label>
-                <div class="controls">
+            <div class="form-group">
+                <label class="col-md-2 control-label">表名:</label>
+                <div class="col-md-4">
                     <form:select path="name" class="input-xxlarge">
                         <form:options items="${tableList}" itemLabel="nameAndComments" itemValue="name"
                                       htmlEscape="false"/>
@@ -67,27 +67,27 @@
             <sys:message content="${message}"/>
             <fieldset>
                 <legend>基本信息</legend>
-                <div class="control-group">
-                    <label class="control-label">表名:</label>
-                    <div class="controls">
-                        <form:input path="name" htmlEscape="false" maxlength="200" class="required" readonly="true"/>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">表名:</label>
+                    <div class="col-md-4">
+                        <form:input path="name" htmlEscape="false" maxlength="200" class="required form-control" readonly="true"/>
                     </div>
                 </div>
-                <div class="control-group">
-                    <label class="control-label">说明:</label>
-                    <div class="controls">
-                        <form:input path="comments" htmlEscape="false" maxlength="200" class="required"/>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">说明:</label>
+                    <div class="col-md-4">
+                        <form:input path="comments" htmlEscape="false" maxlength="200" class="required form-control"/>
                     </div>
                 </div>
-                <div class="control-group">
-                    <label class="control-label">类名:</label>
-                    <div class="controls">
-                        <form:input path="className" htmlEscape="false" maxlength="200" class="required"/>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">类名:</label>
+                    <div class="col-md-4">
+                        <form:input path="className" htmlEscape="false" maxlength="200" class="required form-control"/>
                     </div>
                 </div>
-                <div class="control-group">
-                    <label class="control-label">父表表名:</label>
-                    <div class="controls">
+                <div class="form-group">
+                    <label class="col-md-2 control-label">父表表名:</label>
+                    <div class="col-md-4">
                         <form:select path="parentTable" cssClass="input-xlarge">
                             <form:option value="">无</form:option>
                             <form:options items="${tableList}" itemLabel="nameAndComments" itemValue="name"
@@ -103,14 +103,14 @@
                     </div>
                 </div>
                 <div class="control-group hide">
-                    <label class="control-label">备注:</label>
-                    <div class="controls">
+                    <label class="col-md-2 control-label">备注:</label>
+                    <div class="col-md-4">
                         <form:textarea path="remarks" htmlEscape="false" rows="4" maxlength="200"
                                        class="input-xxlarge"/>
                     </div>
                 </div>
                 <legend>字段列表</legend>
-                <div class="control-group">
+                <div class="form-group">
                     <table id="contentTable" class="table table-striped table-bordered table-condensed">
                         <thead>
                         <tr>
@@ -146,7 +146,7 @@
                                 </td>
                                 <td>
                                     <input type="text" name="columnList[${vs.index}].comments"
-                                           value="${column.comments}" maxlength="200" class="required"
+                                           value="${column.comments}" maxlength="200" class="required form-control"
                                            style="width:100px;"/>
                                 </td>
                                 <td nowrap>
@@ -199,7 +199,7 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <select name="columnList[${vs.index}].showType" class="required"
+                                    <select name="columnList[${vs.index}].showType" class="required form-control"
                                             style="width:100px;">
                                         <c:forEach items="${config.showTypeList}" var="dict">
                                             <option value="${dict.value}" ${dict.value==column.showType?'selected':''}

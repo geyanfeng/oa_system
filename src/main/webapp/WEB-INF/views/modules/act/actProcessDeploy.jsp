@@ -29,23 +29,25 @@
 		<li><a href="${ctx}/act/process/">流程管理</a></li>
 		<li class="active"><a href="${ctx}/act/process/deploy/">部署流程</a></li>
 		<li><a href="${ctx}/act/process/running/">运行中的流程</a></li>
-	</ul><br/>
+	</ul>
+	<div class="tab-content">
+				<div class="tab-pane fade in active">
 	<sys:message content="${message}"/>
 	<form id="inputForm" action="${ctx}/act/process/deploy" method="post" enctype="multipart/form-data" class="form-horizontal">
-		<div class="control-group">
-			<label class="control-label">流程分类：</label>
-			<div class="controls">
-				<select id="category" name="category" class="required input-medium">
+		<div class="form-group">
+			<label class="col-md-2 control-label">流程分类：</label>
+			<div class="col-md-4">
+				<select id="category" name="category" class="required form-control">
 					<c:forEach items="${fns:getDictList('act_category')}" var="dict">
 						<option value="${dict.value}">${dict.label}</option>
 					</c:forEach>
 				</select>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">流程文件：</label>
-			<div class="controls">
-				<input type="file" id="file" name="file" class="required"/>
+		<div class="form-group">
+			<label class="col-md-2 control-label">流程文件：</label>
+			<div class="col-md-4">
+				<input type="file" id="file" name="file" class="required  form-control"/>
 				<span class="help-inline">支持文件格式：zip、bar、bpmn、bpmn20.xml</span>
 			</div>
 		</div>
@@ -54,5 +56,6 @@
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form>
+	</div></div>
 </body>
 </html>

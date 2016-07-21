@@ -33,30 +33,30 @@
 	<form:form id="inputForm" modelAttribute="testTree" action="${ctx}/test/testTree/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		
-		<div class="control-group">
-			<label class="control-label">上级父级编号:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">上级父级编号:</label>
+			<div class="col-md-4">
 				<sys:treeselect id="parent" name="parent.id" value="${testTree.parent.id}" labelName="parent.name" labelValue="${testTree.parent.name}"
 					title="父级编号" url="/test/testTree/treeData" extId="${testTree.id}" cssClass="" allowClear="true"/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">名称：</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">名称：</label>
+			<div class="col-md-4">
 				<form:input path="name" htmlEscape="false" maxlength="100" class="input-xlarge required"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">排序：</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">排序：</label>
+			<div class="col-md-4">
 				<form:input path="sort" htmlEscape="false" maxlength="10" class="input-xlarge required digits"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">备注信息：</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">备注信息：</label>
+			<div class="col-md-4">
 				<form:textarea path="remarks" htmlEscape="false" rows="4" maxlength="255" class="input-xxlarge "/>
 			</div>
 		</div>

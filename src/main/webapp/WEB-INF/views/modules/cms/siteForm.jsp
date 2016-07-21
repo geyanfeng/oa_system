@@ -33,57 +33,57 @@
 	<form:form id="inputForm" modelAttribute="site" action="${ctx}/cms/site/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>
-		<div class="control-group">
-			<label class="control-label">站点名称:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">站点名称:</label>
+			<div class="col-md-4">
 				<form:input path="name" htmlEscape="false" maxlength="200" class="input-xlarge required"/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">站点标题:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">站点标题:</label>
+			<div class="col-md-4">
 				<form:input path="title" htmlEscape="false" maxlength="200" class="input-xlarge required"/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">站点Logo:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">站点Logo:</label>
+			<div class="col-md-4">
 				<form:hidden path="logo" htmlEscape="false" maxlength="255" class="input-xlarge"/>
 				<sys:ckfinder input="logo" type="images" uploadPath="/cms/site"/>
 				<span class="help-inline">建议Logo大小：1000 × 145（像素）</span>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">描述:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">描述:</label>
+			<div class="col-md-4">
 				<form:textarea path="description" htmlEscape="false" rows="4" maxlength="200" class="input-xxlarge"/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">关键字:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">关键字:</label>
+			<div class="col-md-4">
 				<form:input path="keywords" htmlEscape="false" maxlength="200"/>
 				<span class="help-inline">填写描述及关键字，有助于搜索引擎优化</span>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">默认主题:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">默认主题:</label>
+			<div class="col-md-4">
 				<form:select path="theme" class="input-medium">
 					<form:options items="${fns:getDictList('cms_theme')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">版权信息:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">版权信息:</label>
+			<div class="col-md-4">
 				<form:textarea id="copyright" htmlEscape="true" path="copyright" rows="4" maxlength="200" class="input-xxlarge"/>
 				<sys:ckeditor replace="copyright" uploadPath="/cms/site" />
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">自定义首页视图:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">自定义首页视图:</label>
+			<div class="col-md-4">
 				<form:input path="customIndexView" htmlEscape="false" maxlength="200"/>
 			</div>
 		</div>

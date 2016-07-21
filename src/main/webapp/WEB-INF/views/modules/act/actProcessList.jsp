@@ -37,8 +37,10 @@
 		<li><a href="${ctx}/act/process/deploy/">部署流程</a></li>
 		<li><a href="${ctx}/act/process/running/">运行中的流程</a></li>
 	</ul>
+	<div class="tab-content">
+				<div class="tab-pane fade in active">
 	<form id="searchForm" action="${ctx}/act/process/" method="post" class="breadcrumb form-search">
-		<select id="category" name="category" class="input-medium">
+		<select id="category" name="category" class="input-medium form-control">
 			<option value="">全部分类</option>
 			<c:forEach items="${fns:getDictList('act_category')}" var="dict">
 				<option value="${dict.value}" ${dict.value==category?'selected':''}>${dict.label}</option>
@@ -47,11 +49,11 @@
 		&nbsp;<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
 	</form>
 	<sys:message content="${message}"/>
-	<table class="table table-striped table-bordered table-condensed">
+	<table class="table table-striped m-0">
 		<thead>
 			<tr>
 				<th>流程分类</th>
-				<th>流程ID</th>
+			
 				<th>流程标识</th>
 				<th>流程名称</th>
 				<th>流程版本</th>
@@ -67,7 +69,7 @@
 				<c:set var="deployment" value="${object[1]}" />
 				<tr>
 					<td><a href="javascript:updateCategory('${process.id}', '${process.category}')" title="设置分类">${fns:getDictLabel(process.category,'act_category','无分类')}</a></td>
-					<td>${process.id}</td>
+					
 					<td>${process.key}</td>
 					<td>${process.name}</td>
 					<td><b title='流程版本号'>V: ${process.version}</b></td>
@@ -88,6 +90,7 @@
 			</c:forEach>
 		</tbody>
 	</table>
-	<div class="pagination">${page}</div>
+	${page}
+	</div></div>
 </body>
 </html>

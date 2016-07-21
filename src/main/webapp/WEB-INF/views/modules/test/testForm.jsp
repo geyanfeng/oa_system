@@ -33,82 +33,82 @@
 	<form:form id="inputForm" modelAttribute="test" action="${ctx}/test/test/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>
-		<div class="control-group">
-			<label class="control-label">名称:</label>
-			<div class="controls">
-				<form:input path="name" htmlEscape="false" maxlength="200" class="required"/>
+		<div class="form-group">
+			<label class="col-md-2 control-label">名称:</label>
+			<div class="col-md-4">
+				<form:input path="name" htmlEscape="false" maxlength="200" class="required form-control"/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">下拉框:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">下拉框:</label>
+			<div class="col-md-4">
 				<form:select path="name" class="input-medium">
 					<form:option value="" label="请选择"/>
 					<form:options items="${fns:getDictList('act_category')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">单选框:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">单选框:</label>
+			<div class="col-md-4">
 				<form:radiobuttons path="name" items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">复选框:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">复选框:</label>
+			<div class="col-md-4">
 				<form:checkboxes path="name" items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">选人，选部门，选区域:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">选人，选部门，选区域:</label>
+			<div class="col-md-4">
                 <sys:treeselect id="user" name="user.id" value="${user.user.id}" labelName="user.name" labelValue="${user.office.name}"
-					title="用户" url="/sys/office/treeData?type=3" cssClass="required"  allowClear="true" notAllowSelectParent="true"/>
+					title="用户" url="/sys/office/treeData?type=3" cssclass="required form-control"  allowClear="true" notAllowSelectParent="true"/>
                 <sys:treeselect id="office" name="office.id" value="${user.office.id}" labelName="office.name" labelValue="${user.office.name}"
-					title="部门" url="/sys/office/treeData?type=2" cssClass="required" notAllowSelectParent="true"/>
+					title="部门" url="/sys/office/treeData?type=2" cssclass="required form-control" notAllowSelectParent="true"/>
 				<sys:treeselect id="company" name="company.id" value="${user.company.id}" labelName="company.name" labelValue="${user.company.name}"
-					title="公司" url="/sys/office/treeData?type=1" cssClass="required"/><br/>多选：<br/>
+					title="公司" url="/sys/office/treeData?type=1" cssclass="required form-control"/><br/>多选：<br/>
                 <sys:treeselect id="user2" name="user.id" value="${user.user.id}" labelName="user.name" labelValue="${user.office.name}"
-					title="用户" url="/sys/office/treeData?type=3" cssClass="required" notAllowSelectParent="true" checked="true"/>
+					title="用户" url="/sys/office/treeData?type=3" cssclass="required form-control" notAllowSelectParent="true" checked="true"/>
                 <sys:treeselect id="office2" name="office.id" value="${user.office.id}" labelName="office.name" labelValue="${user.office.name}"
-					title="部门" url="/sys/office/treeData?type=2" cssClass="required" notAllowSelectParent="true" checked="true"/>
+					title="部门" url="/sys/office/treeData?type=2" cssclass="required form-control" notAllowSelectParent="true" checked="true"/>
 				<sys:treeselect id="company2" name="company.id" value="${user.company.id}" labelName="company.name" labelValue="${user.company.name}"
-					title="公司" url="/sys/office/treeData?type=1" cssClass="required" notAllowSelectParent="true" checked="true"/>
+					title="公司" url="/sys/office/treeData?type=1" cssclass="required form-control" notAllowSelectParent="true" checked="true"/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">上传图片、文件:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">上传图片、文件:</label>
+			<div class="col-md-4">
 				<form:hidden id="nameImage" path="name" htmlEscape="false" maxlength="255" class="input-xlarge"/>
 				<sys:ckfinder input="nameImage" type="images" uploadPath="/test/test" selectMultiple="false"/>
 				<form:hidden id="nameFiles" path="name" htmlEscape="false" maxlength="255" class="input-xlarge"/>
 				<sys:ckfinder input="nameFiles" type="files" uploadPath="/test/test" selectMultiple="true"/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">富文本编辑器:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">富文本编辑器:</label>
+			<div class="col-md-4">
 				<form:textarea id="remarks" htmlEscape="true" path="remarks" rows="4" maxlength="200" class="input-xxlarge"/>
 				<sys:ckeditor replace="remarks" uploadPath="/test/test" />
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">多行文本框:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">多行文本框:</label>
+			<div class="col-md-4">
 				<form:textarea path="remarks" htmlEscape="false" rows="4" maxlength="200" class="input-xxlarge"/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">验证码:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">验证码:</label>
+			<div class="col-md-4">
 				<label class="input-label mid" for="validateCode">验证码</label>
 				<sys:validateCode name="validateCode" inputCssStyle="margin-bottom:0;"/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">JSTL、EL:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">JSTL、EL:</label>
+			<div class="col-md-4">
 				日期格式：<fmt:formatDate value="${test.createDate}" type="both" pattern="yyyy-MM-dd HH:mm:ss"/>
 				<input id="createDate" name="createDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
 					value="<fmt:formatDate value="${test.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
@@ -121,9 +121,9 @@
 				字典取列表：${fns:getDictList('yes_no')}<br/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">CSS、JS:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">CSS、JS:</label>
+			<div class="col-md-4">
 				<a class="btn" href="${ctxStatic}/bootstrap/2.3.1/docs/index.html">Bootstrap</a>
 				<a class="btn" href="http://ivaynberg.github.io/select2/">多功能下拉框组件</a>
 				<a class="btn" href="${ctxStatic}/jquery-ztree/3.5.12/demo/cn/index.html">树结构组件</a>

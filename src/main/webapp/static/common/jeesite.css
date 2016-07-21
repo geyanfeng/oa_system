@@ -23,7 +23,7 @@
 .form-search span label{margin-left:0;}
 .form-search .ul-form {margin:0;}
 .form-search .ul-form li{float:left;list-style:none;}
-.form-search .ul-form li label{width:90px;text-align:right;}
+.form-search .ul-form li label{width:100px;text-align:right;}
 .form-search .ul-form li span label{width:auto;}
 .form-search .ul-form li.clearfix{float:none;}
 .btn-primary { background-color: #3ec845 !important;

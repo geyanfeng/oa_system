@@ -34,7 +34,7 @@
 	<form:form id="searchForm" modelAttribute="act" action="${ctx}/act/task/todo/" method="get" class="breadcrumb form-search">
 		<div>
 		<ul class="ul-form">
-			<li><label class="control-label">流程类型：&nbsp;</label>
+			<li><label class="col-md-2 control-label">流程类型：&nbsp;</label>
 			<form:select path="procDefKey" class="input-medium form-control">
 				<form:option value="" label="全部流程"/>
 				<form:options items="${fns:getDictList('act_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>

@@ -44,19 +44,19 @@
 	<form:form id="inputForm" modelAttribute="article" action="${ctx}/cms/article/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>
-		<div class="control-group">
-			<label class="control-label">归属栏目:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">归属栏目:</label>
+			<div class="col-md-4">
                 <sys:treeselect id="category" name="category.id" value="${article.category.id}" labelName="category.name" labelValue="${article.category.name}"
-					title="栏目" url="/cms/category/treeData" module="article" selectScopeModule="true" notAllowSelectRoot="false" notAllowSelectParent="true" cssClass="required"/>&nbsp;
+					title="栏目" url="/cms/category/treeData" module="article" selectScopeModule="true" notAllowSelectRoot="false" notAllowSelectParent="true" cssclass="required form-control"/>&nbsp;
                 <span>
                     <input id="url" type="checkbox" onclick="if(this.checked){$('#linkBody').show()}else{$('#linkBody').hide()}$('#link').val()"><label for="url">外部链接</label>
                 </span>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">标题:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">标题:</label>
+			<div class="col-md-4">
 				<form:input path="title" htmlEscape="false" maxlength="200" class="input-xxlarge measure-input required"/>
 				&nbsp;<label>颜色:</label>
 				<form:select path="color" class="input-mini">
@@ -66,22 +66,22 @@
 			</div>
 		</div>
         <div id="linkBody" class="control-group" style="display:none">
-            <label class="control-label">外部链接:</label>
-            <div class="controls">
+            <label class="col-md-2 control-label">外部链接:</label>
+            <div class="col-md-4">
                 <form:input path="link" htmlEscape="false" maxlength="200" class="input-xlarge"/>
                 <span class="help-inline">绝对或相对地址。</span>
             </div>
         </div>
-		<div class="control-group">
-			<label class="control-label">关键字:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">关键字:</label>
+			<div class="col-md-4">
 				<form:input path="keywords" htmlEscape="false" maxlength="200" class="input-xlarge"/>
 				<span class="help-inline">多个关键字，用空格分隔。</span>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">权重:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">权重:</label>
+			<div class="col-md-4">
 				<form:input path="weight" htmlEscape="false" maxlength="200" class="input-mini required digits"/>&nbsp;
 				<span>
 					<input id="weightTop" type="checkbox" onclick="$('#weight').val(this.checked?'999':'0')"><label for="weightTop">置顶</label>
@@ -93,35 +93,35 @@
 				<span class="help-inline">数值越大排序越靠前，过期时间可为空，过期后取消置顶。</span>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">摘要:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">摘要:</label>
+			<div class="col-md-4">
 				<form:textarea path="description" htmlEscape="false" rows="4" maxlength="200" class="input-xxlarge"/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">缩略图:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">缩略图:</label>
+			<div class="col-md-4">
                 <input type="hidden" id="image" name="image" value="${article.imageSrc}" />
 				<sys:ckfinder input="image" type="thumb" uploadPath="/cms/article" selectMultiple="false"/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">正文:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">正文:</label>
+			<div class="col-md-4">
 				<form:textarea id="content" htmlEscape="true" path="articleData.content" rows="4" maxlength="200" class="input-xxlarge"/>
 				<sys:ckeditor replace="content" uploadPath="/cms/article" />
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">来源:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">来源:</label>
+			<div class="col-md-4">
 				<form:input path="articleData.copyfrom" htmlEscape="false" maxlength="200" class="input-xlarge"/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">相关文章:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">相关文章:</label>
+			<div class="col-md-4">
 				<form:hidden id="articleDataRelation" path="articleData.relation" htmlEscape="false" maxlength="200" class="input-xlarge"/>
 				<ol id="articleSelectList"></ol>
 				<a id="relationButton" href="javascript:" class="btn">添加相关</a>
@@ -166,39 +166,39 @@
 				</script>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">是否允许评论:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">是否允许评论:</label>
+			<div class="col-md-4">
 				<form:radiobuttons path="articleData.allowComment" items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">推荐位:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">推荐位:</label>
+			<div class="col-md-4">
 				<form:checkboxes path="posidList" items="${fns:getDictList('cms_posid')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">发布时间:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">发布时间:</label>
+			<div class="col-md-4">
 				<input id="createDate" name="createDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
 					value="<fmt:formatDate value="${article.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 			</div>
 		</div>
 		<shiro:hasPermission name="cms:article:audit">
-			<div class="control-group">
-				<label class="control-label">发布状态:</label>
-				<div class="controls">
-					<form:radiobuttons path="delFlag" items="${fns:getDictList('cms_del_flag')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required"/>
+			<div class="form-group">
+				<label class="col-md-2 control-label">发布状态:</label>
+				<div class="col-md-4">
+					<form:radiobuttons path="delFlag" items="${fns:getDictList('cms_del_flag')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required form-control"/>
 					<span class="help-inline"></span>
 				</div>
 			</div>
 		</shiro:hasPermission>
 		<shiro:hasPermission name="cms:category:edit">
-            <div class="control-group">
-                <label class="control-label">自定义内容视图:</label>
-                <div class="controls">
+            <div class="form-group">
+                <label class="col-md-2 control-label">自定义内容视图:</label>
+                <div class="col-md-4">
                       <form:select path="customContentView" class="input-medium">
                           <form:option value="" label="默认视图"/>
                           <form:options items="${contentViewList}" htmlEscape="false"/>
@@ -206,18 +206,18 @@
                       <span class="help-inline">自定义内容视图名称必须以"${article_DEFAULT_TEMPLATE}"开始</span>
                 </div>
             </div>
-            <div class="control-group">
-                <label class="control-label">自定义视图参数:</label>
-                <div class="controls">
+            <div class="form-group">
+                <label class="col-md-2 control-label">自定义视图参数:</label>
+                <div class="col-md-4">
                       <form:input path="viewConfig" htmlEscape="true"/>
                       <span class="help-inline">视图参数例如: {count:2, title_show:"yes"}</span>
                 </div>
             </div>
 		</shiro:hasPermission>
 		<c:if test="${not empty article.id}">
-			<div class="control-group">
-				<label class="control-label">查看评论:</label>
-				<div class="controls">
+			<div class="form-group">
+				<label class="col-md-2 control-label">查看评论:</label>
+				<div class="col-md-4">
 					<input id="btnComment" class="btn" type="button" value="查看评论" onclick="viewComment('${ctx}/cms/comment/?module=article&contentId=${article.id}&status=0')"/>
 					<script type="text/javascript">
 						function viewComment(href){

@@ -37,16 +37,20 @@
 		<li><a href="${ctx}/act/process/deploy/">部署流程</a></li>
 		<li class="active"><a href="${ctx}/act/process/running/">运行中的流程</a></li>
 	</ul>
+	<div class="tab-content">
+				<div class="tab-pane fade in active">
 	<form id="searchForm" action="${ctx}/act/process/running/" method="post" class="breadcrumb form-search">
-		<label>流程实例ID：</label><input type="text" id="procInsId" name="procInsId" value="${procInsId}" class="input-medium"/>
-		<label>流程定义Key：</label><input type="text" id="procDefKey" name="procDefKey" value="${procDefKey}" class="input-medium"/>
-		&nbsp;<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
+	<ul class="ul-form"> 
+		<li><label class="col-md-2 control-label" style="width:120px;">流程实例ID：</label><input type="text" id="procInsId" name="procInsId" value="${procInsId}" class="input-medium  form-control"/></li>
+		<li><label class="col-md-2 control-label" style="width:120px;">流程定义Key：</label><input type="text" id="procDefKey" name="procDefKey" value="${procDefKey}" class="input-medium  form-control"/></li>
+		<li><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
+		</ul>
 	</form>
 	<sys:message content="${message}"/>
-	<table class="table table-striped table-bordered table-condensed">
+	<table class="table table-striped m-0">
 		<thead>
 			<tr>
-				<th>执行ID</th>
+				
 				<th>流程实例ID</th>
 				<th>流程定义ID</th>
 				<th>当前环节</th>
@@ -57,7 +61,7 @@
 		<tbody>
 			<c:forEach items="${page.list}" var="procIns">
 				<tr>
-					<td>${procIns.id}</td>
+					
 					<td>${procIns.processInstanceId}</td>
 					<td>${procIns.processDefinitionId}</td>
 					<td>${procIns.activityId}</td>
@@ -71,6 +75,7 @@
 			</c:forEach>
 		</tbody>
 	</table>
-	<div class="pagination">${page}</div>
+	 ${page}
+	</div></div>
 </body>
 </html>

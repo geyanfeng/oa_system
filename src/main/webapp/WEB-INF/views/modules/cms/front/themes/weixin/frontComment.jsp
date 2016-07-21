@@ -71,15 +71,15 @@
 		<input type="hidden" name="contentId" value="${comment.contentId}"/>
 		<input type="hidden" name="title" value="${comment.title}"/>
 		<input type="hidden" name="replyId"/>
-		<div class="control-group">
-			<label class="control-label">留言内容:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">留言内容:</label>
+			<div class="col-md-4">
 				<textarea name="content" rows="4" maxlength="200" class="txt required" style="width:400px;"></textarea>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">姓名:</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">姓名:</label>
+			<div class="col-md-4">
 				<input type="text" name="name" maxlength="11" class="txt required" style="width:100px;" value="匿名"/>
 				<label class="mid">验证码:</label><sys:validateCode name="validateCode" />
 				<input class="btn mid" type="submit" value="提 交"/>&nbsp;

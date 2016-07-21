@@ -39,42 +39,42 @@
 	<form:form id="inputForm" modelAttribute="customer" action="${ctx}/oa/customer/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		
-		<div class="control-group">
-			<label class="control-label">名称：</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">名称：</label>
+			<div class="col-md-4">
 				<form:input path="name" htmlEscape="false" maxlength="100" class="input-xlarge required"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">地址：</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">地址：</label>
+			<div class="col-md-4">
 				<form:input path="address" htmlEscape="false" maxlength="255" class="input-xlarge "/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">联系人：</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">联系人：</label>
+			<div class="col-md-4">
 				<form:input path="contact" htmlEscape="false" maxlength="100" class="input-xlarge "/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">电话：</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">电话：</label>
+			<div class="col-md-4">
 				<form:input path="phone" htmlEscape="false" maxlength="100" class="input-xlarge "/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">状态</label>
-				<div class="controls">
-					<form:radiobuttons path="usedFlag" items="${fns:getDictList('status')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required"/>
+		<div class="form-group">
+			<label class="col-md-2 control-label">状态</label>
+				<div class="col-md-4">
+					<form:radiobuttons path="usedFlag" items="${fns:getDictList('status')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required form-control"/>
 					<span class="help-inline"><font color="red">*</font> </span>
 				</div>
 		</div>
 
-		<div class="control-group">
-			<label class="control-label">备注：</label>
-			<div class="controls">
+		<div class="form-group">
+			<label class="col-md-2 control-label">备注：</label>
+			<div class="col-md-4">
 				<form:textarea path="remark" htmlEscape="false" rows="4" maxlength="255" class="input-xxlarge "/>
 			</div>
 		</div>
