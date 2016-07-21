@@ -88,7 +88,7 @@
 		</c:forEach>
 		</tbody>
 	</table>
-	<div class="dataTables_paginate paging_simple_numbers">${page}</div>
+	${page}
 	</div>
 
   </div>

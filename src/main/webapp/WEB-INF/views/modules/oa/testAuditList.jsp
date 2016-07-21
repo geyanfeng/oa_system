@@ -21,15 +21,26 @@
 		<li class="active"><a href="${ctx}/oa/testAudit/">审批列表</a></li>
 		<shiro:hasPermission name="oa:testAudit:edit"><li><a href="${ctx}/oa/testAudit/form">审批申请流程</a></li></shiro:hasPermission>
 	</ul>
+	<div class="tab-content">
+				<div class="tab-pane fade in active">
 	<form:form id="searchForm" modelAttribute="testAudit" action="${ctx}/oa/testAudit/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
-		<label>姓名：</label><sys:treeselect id="user" name="user.id" value="${testAudit.user.id}" labelName="user.name" labelValue="${testAudit.user.name}" 
-			title="用户" url="/sys/office/treeData?type=3" cssStyle="width:150px" allowClear="true" notAllowSelectParent="true"/>
-		&nbsp;<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
+		<div class="form-group">
+				<label class="col-md-1 control-label">姓名：</label>
+				<div class="col-md-4">
+	               
+					<sys:treeselect id="user" name="user.id" value="${testAudit.user.id}" labelName="user.name" labelValue="${testAudit.user.name}" 
+			title="用户" url="/sys/office/treeData?type=3"  allowClear="true" notAllowSelectParent="true"/>
+				</div>
+				<div class="col-md-4">
+				<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
+				</div>
+			</div>
+			
 	</form:form>
 	<sys:message content="${message}"/>
-	<table id="contentTable" class="table table-striped table-bordered table-condensed">
+	<table id="contentTable" class="table table-striped m-0">
 		<thead><tr><th>姓名</th><th>部门</th><th>岗位职级</th><th>调整原因</th><th>申请时间</th><shiro:hasPermission name="oa:testAudit:edit"><th>操作</th></shiro:hasPermission></tr></thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="testAudit">
@@ -47,6 +58,7 @@
 		</c:forEach>
 		</tbody>
 	</table>
-	<div class="pagination">${page}</div>
+	${page}
+	</div></div>
 </body>
 </html>
