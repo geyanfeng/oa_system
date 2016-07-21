@@ -64,7 +64,7 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">备注:</label>
 			<div class="col-md-4">
-				<form:textarea path="remarks" htmlEscape="false" rows="3" maxlength="200" class="input-xlarge"/>
+				<form:textarea path="remarks" htmlEscape="false" rows="3" maxlength="200" class="input-xlarge form-control"/>
 			</div>
 		</div>
 		<div class="form-actions">

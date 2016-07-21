@@ -37,7 +37,7 @@
 			<label class="col-md-2 control-label">上级菜单:</label>
 			<div class="col-md-4">
                 <sys:treeselect id="menu" name="parent.id" value="${menu.parent.id}" labelName="parent.name" labelValue="${menu.parent.name}"
-					title="菜单" url="/sys/menu/treeData" extId="${menu.id}" cssclass="required form-control"/>
+					title="菜单" url="/sys/menu/treeData" extId="${menu.id}" cssClass="required form-control"/>
 			</div>
 		</div>
 		<div class="form-group">

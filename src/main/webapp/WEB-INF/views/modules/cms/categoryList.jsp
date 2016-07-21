@@ -23,7 +23,7 @@
 	</ul>
 	<sys:message content="${message}"/>
 	<form id="listForm" method="post">
-		<table id="treeTable" class="table table-striped table-bordered table-condensed">
+		<table id="treeTable" class="table table-striped m-0">
 			<tr><th>栏目名称</th><th>归属机构</th><th>栏目模型</th><th style="text-align:center;">排序</th><th title="是否在导航中显示该栏目">导航菜单</th><th title="是否在分类页中显示该栏目的文章列表">栏目列表</th><th>展现方式</th><th>操作</th></tr>
 			<c:forEach items="${list}" var="tpl">
 				<tr id="${tpl.id}" pId="${tpl.parent.id ne '1'?tpl.parent.id:'0'}">

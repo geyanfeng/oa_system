@@ -42,7 +42,7 @@
 			<label class="col-md-2 control-label">归属栏目:</label>
 			<div class="col-md-4">
                 <sys:treeselect id="category" name="category.id" value="${link.category.id}" labelName="category.name" labelValue="${link.category.name}"
-					title="栏目" url="/cms/category/treeData" module="link" selectScopeModule="true" notAllowSelectRoot="false" notAllowSelectParent="true" cssclass="required form-control"/>
+					title="栏目" url="/cms/category/treeData" module="link" selectScopeModule="true" notAllowSelectRoot="false" notAllowSelectParent="true" cssClass="required form-control"/>
 			</div>
 		</div>
 		<div class="form-group">
@@ -59,7 +59,7 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">链接图片:</label>
 			<div class="col-md-4">
-				<form:hidden path="image" htmlEscape="false" maxlength="255" class="input-xlarge"/>
+				<form:hidden path="image" htmlEscape="false" maxlength="255" class="input-xlarge form-control"/>
 				<sys:ckfinder input="image" type="images" uploadPath="/cms/link" selectMultiple="false"/>
 			</div>
 		</div>

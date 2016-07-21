@@ -41,7 +41,7 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">流程分类：</label>
 			<div class="col-md-4">
-				<select id="category" name="category" class="required input-medium form-control">
+				<select id="category" name="category" class="required form-control">
 					<c:forEach items="${fns:getDictList('act_category')}" var="dict">
 						<option value="${dict.value}">${dict.label}</option>
 					</c:forEach>

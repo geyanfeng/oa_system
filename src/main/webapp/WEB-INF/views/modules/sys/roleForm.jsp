@@ -108,7 +108,7 @@
 			<label class="col-md-2 control-label">归属机构:</label>
 			<div class="col-md-4">
                 <sys:treeselect id="office" name="office.id" value="${role.office.id}" labelName="office.name" labelValue="${role.office.name}"
-					title="机构" url="/sys/office/treeData" cssclass="required form-control"/>
+					title="机构" url="/sys/office/treeData" cssClass="required form-control"/>
 			</div>
 		</div>
 		<div class="form-group">
@@ -181,7 +181,7 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">备注:</label>
 			<div class="col-md-4">
-				<form:textarea path="remarks" htmlEscape="false" rows="3" maxlength="200" class="input-xlarge"/>
+				<form:textarea path="remarks" htmlEscape="false" rows="3" maxlength="200" class="input-xlarge form-control"/>
 			</div>
 		</div>
 		<div class="form-actions">

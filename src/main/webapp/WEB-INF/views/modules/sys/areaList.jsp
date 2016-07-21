@@ -33,7 +33,7 @@
 		<shiro:hasPermission name="sys:area:edit"><li><a href="${ctx}/sys/area/form">区域添加</a></li></shiro:hasPermission>
 	</ul>
 	<sys:message content="${message}"/>
-	<table id="treeTable" class="table table-striped table-bordered table-condensed">
+	<table id="treeTable" class="table table-striped m-0">
 		<thead><tr><th>区域名称</th><th>区域编码</th><th>区域类型</th><th>备注</th><shiro:hasPermission name="sys:area:edit"><th>操作</th></shiro:hasPermission></tr></thead>
 		<tbody id="treeTableList"></tbody>
 	</table>

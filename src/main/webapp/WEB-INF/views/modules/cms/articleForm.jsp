@@ -40,7 +40,9 @@
 	<ul class="nav nav-tabs">
 		<li><a href="${ctx}/cms/article/?category.id=${article.category.id}">文章列表</a></li>
 		<li class="active"><a href="<c:url value='${fns:getAdminPath()}/cms/article/form?id=${article.id}&category.id=${article.category.id}'><c:param name='category.name' value='${article.category.name}'/></c:url>">文章<shiro:hasPermission name="cms:article:edit">${not empty article.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="cms:article:edit">查看</shiro:lacksPermission></a></li>
-	</ul><br/>
+	</ul>
+	<div class="tab-content">
+				<div class="tab-pane fade in active">
 	<form:form id="inputForm" modelAttribute="article" action="${ctx}/cms/article/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>
@@ -48,7 +50,7 @@
 			<label class="col-md-2 control-label">归属栏目:</label>
 			<div class="col-md-4">
                 <sys:treeselect id="category" name="category.id" value="${article.category.id}" labelName="category.name" labelValue="${article.category.name}"
-					title="栏目" url="/cms/category/treeData" module="article" selectScopeModule="true" notAllowSelectRoot="false" notAllowSelectParent="true" cssclass="required form-control"/>&nbsp;
+					title="栏目" url="/cms/category/treeData" module="article" selectScopeModule="true" notAllowSelectRoot="false" notAllowSelectParent="true" cssClass="required input-medium  form-control"/>&nbsp;
                 <span>
                     <input id="url" type="checkbox" onclick="if(this.checked){$('#linkBody').show()}else{$('#linkBody').hide()}$('#link').val()"><label for="url">外部链接</label>
                 </span>
@@ -57,9 +59,9 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">标题:</label>
 			<div class="col-md-4">
-				<form:input path="title" htmlEscape="false" maxlength="200" class="input-xxlarge measure-input required"/>
+				<form:input path="title" htmlEscape="false" maxlength="200" class="form-control input-xxlarge measure-input required"/>
 				&nbsp;<label>颜色:</label>
-				<form:select path="color" class="input-mini">
+				<form:select path="color" class="form-control input-mini">
 					<form:option value="" label="默认"/>
 					<form:options items="${fns:getDictList('color')}" itemLabel="label" itemValue="value" htmlEscape="false" />
 				</form:select>
@@ -68,26 +70,26 @@
         <div id="linkBody" class="control-group" style="display:none">
             <label class="col-md-2 control-label">外部链接:</label>
             <div class="col-md-4">
-                <form:input path="link" htmlEscape="false" maxlength="200" class="input-xlarge"/>
+                <form:input path="link" htmlEscape="false" maxlength="200" class="input-xlarge form-control"/>
                 <span class="help-inline">绝对或相对地址。</span>
             </div>
         </div>
 		<div class="form-group">
 			<label class="col-md-2 control-label">关键字:</label>
 			<div class="col-md-4">
-				<form:input path="keywords" htmlEscape="false" maxlength="200" class="input-xlarge"/>
+				<form:input path="keywords" htmlEscape="false" maxlength="200" class="input-xlarge form-control"/>
 				<span class="help-inline">多个关键字，用空格分隔。</span>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-md-2 control-label">权重:</label>
 			<div class="col-md-4">
-				<form:input path="weight" htmlEscape="false" maxlength="200" class="input-mini required digits"/>&nbsp;
+				<form:input path="weight" htmlEscape="false" maxlength="200" class="form-control input-mini required digits"/>&nbsp;
 				<span>
 					<input id="weightTop" type="checkbox" onclick="$('#weight').val(this.checked?'999':'0')"><label for="weightTop">置顶</label>
 				</span>
 				&nbsp;过期时间：
-				<input id="weightDate" name="weightDate" type="text" readonly="readonly" maxlength="20" class="input-small Wdate"
+				<input id="weightDate" name="weightDate" type="text" readonly="readonly" maxlength="20" class="form-control input-small Wdate"
 					value="<fmt:formatDate value="${article.weightDate}" pattern="yyyy-MM-dd"/>"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
 				<span class="help-inline">数值越大排序越靠前，过期时间可为空，过期后取消置顶。</span>
@@ -96,7 +98,7 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">摘要:</label>
 			<div class="col-md-4">
-				<form:textarea path="description" htmlEscape="false" rows="4" maxlength="200" class="input-xxlarge"/>
+				<form:textarea path="description" htmlEscape="false" rows="4" maxlength="200" class="form-control input-xxlarge"/>
 			</div>
 		</div>
 		<div class="form-group">
@@ -109,20 +111,20 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">正文:</label>
 			<div class="col-md-4">
-				<form:textarea id="content" htmlEscape="true" path="articleData.content" rows="4" maxlength="200" class="input-xxlarge"/>
+				<form:textarea id="content" htmlEscape="true" path="articleData.content" rows="4" maxlength="200" class="form-control input-xxlarge"/>
 				<sys:ckeditor replace="content" uploadPath="/cms/article" />
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-md-2 control-label">来源:</label>
 			<div class="col-md-4">
-				<form:input path="articleData.copyfrom" htmlEscape="false" maxlength="200" class="input-xlarge"/>
+				<form:input path="articleData.copyfrom" htmlEscape="false" maxlength="200" class="input-xlarge form-control"/>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-md-2 control-label">相关文章:</label>
 			<div class="col-md-4">
-				<form:hidden id="articleDataRelation" path="articleData.relation" htmlEscape="false" maxlength="200" class="input-xlarge"/>
+				<form:hidden id="articleDataRelation" path="articleData.relation" htmlEscape="false" maxlength="200" class="input-xlarge form-control"/>
 				<ol id="articleSelectList"></ol>
 				<a id="relationButton" href="javascript:" class="btn">添加相关</a>
 				<script type="text/javascript">
@@ -181,7 +183,7 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">发布时间:</label>
 			<div class="col-md-4">
-				<input id="createDate" name="createDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+				<input id="createDate" name="createDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate form-control"
 					value="<fmt:formatDate value="${article.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 			</div>
@@ -190,7 +192,7 @@
 			<div class="form-group">
 				<label class="col-md-2 control-label">发布状态:</label>
 				<div class="col-md-4">
-					<form:radiobuttons path="delFlag" items="${fns:getDictList('cms_del_flag')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required form-control"/>
+					<form:radiobuttons path="delFlag" items="${fns:getDictList('cms_del_flag')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required"/>
 					<span class="help-inline"></span>
 				</div>
 			</div>
@@ -209,7 +211,7 @@
             <div class="form-group">
                 <label class="col-md-2 control-label">自定义视图参数:</label>
                 <div class="col-md-4">
-                      <form:input path="viewConfig" htmlEscape="true"/>
+                      <form:input path="viewConfig" htmlEscape="true"  class="form-control"/>
                       <span class="help-inline">视图参数例如: {count:2, title_show:"yes"}</span>
                 </div>
             </div>
@@ -240,5 +242,6 @@
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
+		</div></div>
 </body>
 </html>

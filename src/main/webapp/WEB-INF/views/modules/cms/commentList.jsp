@@ -28,15 +28,17 @@
 		<li class="active"><a href="${ctx}/cms/comment/">评论列表</a></li><%--
 		<shiro:hasPermission name="cms:comment:edit"><li><a href="${ctx}/cms/comment/form?id=${comment.id}">评论添加</a></li></shiro:hasPermission> --%>
 	</ul>
+	<div class="tab-content">
+				<div class="tab-pane fade in active">
 	<form:form id="searchForm" modelAttribute="comment" action="${ctx}/cms/comment/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
-		<label>文档标题：</label><form:input path="title" htmlEscape="false" maxlength="50" class="input-small"/>&nbsp;
+		<label>文档标题：</label><form:input path="title" htmlEscape="false" maxlength="50" class="input-small form-control"/>
 		<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>&nbsp;&nbsp;
 		<label>状态：</label><form:radiobuttons onclick="$('#searchForm').submit();" path="delFlag" items="${fns:getDictList('cms_del_flag')}" itemLabel="label" itemValue="value" htmlEscape="false" />
 	</form:form>
 	<sys:message content="${message}"/>
-	<table id="contentTable" class="table table-bordered table-condensed">
+	<table id="contentTable" class="table table-striped m-0">
 		<thead><tr><th>评论内容</th><th>文档标题</th><th>评论人</th><th>评论IP</th><th>评论时间</th><th nowrap="nowrap">操作</th></tr></thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="comment">
@@ -56,6 +58,7 @@
 		</c:forEach>
 		</tbody>
 	</table>
-	<div class="pagination">${page}</div>
+	${page}
+	</div></div>
 </body>
 </html>

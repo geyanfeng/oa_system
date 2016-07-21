@@ -35,7 +35,7 @@
 		代码模板管理，已废弃！模板管理改为XML配置方式，见  /src/main/java/com/thinkgem/jeesite/modules/gen/template 文件夹
 	</div>
 	<sys:message content="${message}"/>
-	<table id="contentTable" class="table table-striped table-bordered table-condensed">
+	<table id="contentTable" class="table table-striped m-0">
 		<thead><tr><th>名称</th><th>分类</th><th>备注</th><shiro:hasPermission name="gen:genTemplate:edit"><th>操作</th></shiro:hasPermission></tr></thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="genTemplate">

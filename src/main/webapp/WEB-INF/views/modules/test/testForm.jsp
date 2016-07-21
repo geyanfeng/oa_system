@@ -64,25 +64,25 @@
 			<label class="col-md-2 control-label">选人，选部门，选区域:</label>
 			<div class="col-md-4">
                 <sys:treeselect id="user" name="user.id" value="${user.user.id}" labelName="user.name" labelValue="${user.office.name}"
-					title="用户" url="/sys/office/treeData?type=3" cssclass="required form-control"  allowClear="true" notAllowSelectParent="true"/>
+					title="用户" url="/sys/office/treeData?type=3" cssClass="required form-control"  allowClear="true" notAllowSelectParent="true"/>
                 <sys:treeselect id="office" name="office.id" value="${user.office.id}" labelName="office.name" labelValue="${user.office.name}"
-					title="部门" url="/sys/office/treeData?type=2" cssclass="required form-control" notAllowSelectParent="true"/>
+					title="部门" url="/sys/office/treeData?type=2" cssClass="required form-control" notAllowSelectParent="true"/>
 				<sys:treeselect id="company" name="company.id" value="${user.company.id}" labelName="company.name" labelValue="${user.company.name}"
-					title="公司" url="/sys/office/treeData?type=1" cssclass="required form-control"/><br/>多选：<br/>
+					title="公司" url="/sys/office/treeData?type=1" cssClass="required form-control"/><br/>多选：<br/>
                 <sys:treeselect id="user2" name="user.id" value="${user.user.id}" labelName="user.name" labelValue="${user.office.name}"
-					title="用户" url="/sys/office/treeData?type=3" cssclass="required form-control" notAllowSelectParent="true" checked="true"/>
+					title="用户" url="/sys/office/treeData?type=3" cssClass="required form-control" notAllowSelectParent="true" checked="true"/>
                 <sys:treeselect id="office2" name="office.id" value="${user.office.id}" labelName="office.name" labelValue="${user.office.name}"
-					title="部门" url="/sys/office/treeData?type=2" cssclass="required form-control" notAllowSelectParent="true" checked="true"/>
+					title="部门" url="/sys/office/treeData?type=2" cssClass="required form-control" notAllowSelectParent="true" checked="true"/>
 				<sys:treeselect id="company2" name="company.id" value="${user.company.id}" labelName="company.name" labelValue="${user.company.name}"
-					title="公司" url="/sys/office/treeData?type=1" cssclass="required form-control" notAllowSelectParent="true" checked="true"/>
+					title="公司" url="/sys/office/treeData?type=1" cssClass="required form-control" notAllowSelectParent="true" checked="true"/>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-md-2 control-label">上传图片、文件:</label>
 			<div class="col-md-4">
-				<form:hidden id="nameImage" path="name" htmlEscape="false" maxlength="255" class="input-xlarge"/>
+				<form:hidden id="nameImage" path="name" htmlEscape="false" maxlength="255" class="input-xlarge form-control"/>
 				<sys:ckfinder input="nameImage" type="images" uploadPath="/test/test" selectMultiple="false"/>
-				<form:hidden id="nameFiles" path="name" htmlEscape="false" maxlength="255" class="input-xlarge"/>
+				<form:hidden id="nameFiles" path="name" htmlEscape="false" maxlength="255" class="input-xlarge form-control"/>
 				<sys:ckfinder input="nameFiles" type="files" uploadPath="/test/test" selectMultiple="true"/>
 			</div>
 		</div>

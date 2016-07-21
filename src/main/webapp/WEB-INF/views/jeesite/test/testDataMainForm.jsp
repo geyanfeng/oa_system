@@ -117,7 +117,7 @@
 			<div class="form-group">
 				<label class="col-md-2 control-label">业务数据子表：</label>
 				<div class="col-md-4">
-					<table id="contentTable" class="table table-striped table-bordered table-condensed">
+					<table id="contentTable" class="table table-striped m-0">
 						<thead>
 							<tr>
 								<th class="hide"></th>

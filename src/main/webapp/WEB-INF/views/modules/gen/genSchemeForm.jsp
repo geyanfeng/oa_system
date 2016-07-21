@@ -68,7 +68,7 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">生成子模块名:</label>
 			<div class="col-md-4">
-				<form:input path="subModuleName" htmlEscape="false" maxlength="500" class="input-xlarge"/>
+				<form:input path="subModuleName" htmlEscape="false" maxlength="500" class="input-xlarge form-control"/>
 				<span class="help-inline">可选，分层下的文件夹，例如 </span>
 			</div>
 		</div>

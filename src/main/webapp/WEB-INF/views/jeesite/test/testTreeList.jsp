@@ -54,7 +54,7 @@
 		</ul>
 	</form:form>
 	<sys:message content="${message}"/>
-	<table id="treeTable" class="table table-striped table-bordered table-condensed">
+	<table id="treeTable" class="table table-striped m-0">
 		<thead>
 			<tr>
 				<th>名称</th>

@@ -43,7 +43,7 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">头像:</label>
 			<div class="col-md-4">
-				<form:hidden id="nameImage" path="photo" htmlEscape="false" maxlength="255" class="input-xlarge"/>
+				<form:hidden id="nameImage" path="photo" htmlEscape="false" maxlength="255" class="input-xlarge form-control"/>
 				<sys:ckfinder input="nameImage" type="images" uploadPath="/photo" selectMultiple="false" maxWidth="100" maxHeight="100"/>
 			</div>
 		</div>
@@ -51,14 +51,14 @@
 			<label class="col-md-2 control-label">归属公司:</label>
 			<div class="col-md-4">
                 <sys:treeselect id="company" name="company.id" value="${user.company.id}" labelName="company.name" labelValue="${user.company.name}"
-					title="公司" url="/sys/office/treeData?type=1" cssclass="required form-control"/>
+					title="公司" url="/sys/office/treeData?type=1" cssClass="required form-control"/>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-md-2 control-label">归属部门:</label>
 			<div class="col-md-4">
                 <sys:treeselect id="office" name="office.id" value="${user.office.id}" labelName="office.name" labelValue="${user.office.name}"
-					title="部门" url="/sys/office/treeData?type=2" cssclass="required form-control" notAllowSelectParent="true"/>
+					title="部门" url="/sys/office/treeData?type=2" cssClass="required form-control" notAllowSelectParent="true"/>
 			</div>
 		</div>
 		<div class="form-group">
@@ -128,7 +128,7 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">用户类型:</label>
 			<div class="col-md-4">
-				<form:select path="userType" class="input-xlarge">
+				<form:select path="userType" class="input-xlarge form-control">
 					<form:option value="" label="请选择"/>
 					<form:options items="${fns:getDictList('sys_user_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
@@ -144,7 +144,7 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">备注:</label>
 			<div class="col-md-4">
-				<form:textarea path="remarks" htmlEscape="false" rows="3" maxlength="200" class="input-xlarge"/>
+				<form:textarea path="remarks" htmlEscape="false" rows="3" maxlength="200" class="input-xlarge form-control"/>
 			</div>
 		</div>
 		<c:if test="${not empty user.id}">

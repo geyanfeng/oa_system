@@ -37,14 +37,14 @@
 			<label class="col-md-2 control-label">归属机构:</label>
 			<div class="col-md-4">
                 <sys:treeselect id="office" name="office.id" value="${category.office.id}" labelName="office.name" labelValue="${category.office.name}"
-					title="机构" url="/sys/office/treeData" cssclass="required form-control"/>
+					title="机构" url="/sys/office/treeData" cssClass="required form-control"/>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-md-2 control-label">上级栏目:</label>
 			<div class="col-md-4">
                 <sys:treeselect id="category" name="parent.id" value="${category.parent.id}" labelName="parent.name" labelValue="${category.parent.name}"
-					title="栏目" url="/cms/category/treeData" extId="${category.id}" cssclass="required form-control"/>
+					title="栏目" url="/cms/category/treeData" extId="${category.id}" cssClass="required form-control"/>
 			</div>
 		</div>
 		<div class="form-group">
@@ -65,7 +65,7 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">缩略图:</label>
 			<div class="col-md-4">
-				<form:hidden path="image" htmlEscape="false" maxlength="255" class="input-xlarge"/>
+				<form:hidden path="image" htmlEscape="false" maxlength="255" class="input-xlarge form-control"/>
 				<sys:ckfinder input="image" type="thumb" uploadPath="/cms/category"/>
 			</div>
 		</div>

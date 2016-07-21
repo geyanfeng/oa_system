@@ -325,7 +325,7 @@
 		<shiro:hasPermission name="oa:leave:edit"><li><a href="${ctx}/oa/leave/form">请假申请</a></li></shiro:hasPermission>
 	</ul>
 	<sys:message content="${message}"/>
-	<table id="contentTable" class="table table-striped table-bordered table-condensed">
+	<table id="contentTable" class="table table-striped m-0">
 			<tr>
 				<th>假种</th>
 				<th>申请人</th>

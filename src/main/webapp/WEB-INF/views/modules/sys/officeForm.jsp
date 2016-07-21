@@ -44,7 +44,7 @@
 			<label class="col-md-2 control-label">归属区域:</label>
 			<div class="col-md-4">
                 <sys:treeselect id="area" name="area.id" value="${office.area.id}" labelName="area.name" labelValue="${office.area.name}"
-					title="区域" url="/sys/area/treeData" cssclass="required form-control"/>
+					title="区域" url="/sys/area/treeData" cssClass="required form-control"/>
 			</div>
 		</div>
 		<div class="form-group">
@@ -138,7 +138,7 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">备注:</label>
 			<div class="col-md-4">
-				<form:textarea path="remarks" htmlEscape="false" rows="3" maxlength="200" class="input-xlarge"/>
+				<form:textarea path="remarks" htmlEscape="false" rows="3" maxlength="200" class="input-xlarge form-control"/>
 			</div>
 		</div>
 		<c:if test="${empty office.id}">

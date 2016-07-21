@@ -38,7 +38,7 @@
 		</div>
 	</form:form>
 	<sys:message content="${message}"/>
-	<table id="contentTable" class="table table-striped table-bordered table-condensed">
+	<table id="contentTable" class="table table-striped m-0">
 		<thead><tr>
 			<th>请假编号</th>
 			<th>创建人</th>

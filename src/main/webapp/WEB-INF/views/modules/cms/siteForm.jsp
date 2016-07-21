@@ -48,7 +48,7 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">站点Logo:</label>
 			<div class="col-md-4">
-				<form:hidden path="logo" htmlEscape="false" maxlength="255" class="input-xlarge"/>
+				<form:hidden path="logo" htmlEscape="false" maxlength="255" class="input-xlarge form-control"/>
 				<sys:ckfinder input="logo" type="images" uploadPath="/cms/site"/>
 				<span class="help-inline">建议Logo大小：1000 × 145（像素）</span>
 			</div>

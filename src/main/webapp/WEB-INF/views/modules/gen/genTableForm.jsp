@@ -88,13 +88,13 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label">父表表名:</label>
                     <div class="col-md-4">
-                        <form:select path="parentTable" cssClass="input-xlarge">
+                        <form:select path="parentTable" cssclass="input-xlarge form-control">
                             <form:option value="">无</form:option>
                             <form:options items="${tableList}" itemLabel="nameAndComments" itemValue="name"
                                           htmlEscape="false"/>
                         </form:select>
                         &nbsp;当前表外键：
-                        <form:select path="parentTableFk" cssClass="input-xlarge">
+                        <form:select path="parentTableFk" cssclass="input-xlarge form-control">
                             <form:option value="">无</form:option>
                             <form:options items="${genTable.columnList}" itemLabel="nameAndComments" itemValue="name"
                                           htmlEscape="false"/>
@@ -111,7 +111,7 @@
                 </div>
                 <legend>字段列表</legend>
                 <div class="form-group">
-                    <table id="contentTable" class="table table-striped table-bordered table-condensed">
+                    <table id="contentTable" class="table table-striped m-0">
                         <thead>
                         <tr>
                             <th title="数据库字段名">列名</th>

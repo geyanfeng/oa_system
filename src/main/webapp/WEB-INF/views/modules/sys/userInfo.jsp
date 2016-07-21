@@ -49,14 +49,14 @@
 						action="${ctx}/sys/user/info" method="post"
 						class="form-horizontal">
 						<%--
-		<form:hidden path="email" htmlEscape="false" maxlength="255" class="input-xlarge"/>
+		<form:hidden path="email" htmlEscape="false" maxlength="255" class="input-xlarge form-control"/>
 		<sys:ckfinder input="email" type="files" uploadPath="/mytask" selectMultiple="false"/> --%>
 						<sys:message content="${message}" />
 						<div class="form-group">
 							<label class="col-md-2 control-label">头像:</label>
 							<div class="col-md-4">
 								<form:hidden id="nameImage" path="photo" htmlEscape="false"
-									maxlength="255" class="input-xlarge" />
+									maxlength="255" class="input-xlarge form-control" />
 								<sys:ckfinder input="nameImage" type="images"
 									uploadPath="/photo" selectMultiple="false" maxWidth="100"
 									maxHeight="100" />
