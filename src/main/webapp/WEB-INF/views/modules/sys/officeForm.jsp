@@ -29,7 +29,9 @@
 	<ul class="nav nav-tabs">
 		<li><a href="${ctx}/sys/office/list?id=${office.parent.id}&parentIds=${office.parentIds}">机构列表</a></li>
 		<li class="active"><a href="${ctx}/sys/office/form?id=${office.id}&parent.id=${office.parent.id}">机构<shiro:hasPermission name="sys:office:edit">${not empty office.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="sys:office:edit">查看</shiro:lacksPermission></a></li>
-	</ul><br/>
+	</ul>
+	<div class="tab-content">
+				<div class="tab-pane fade in active">
 	<form:form id="inputForm" modelAttribute="office" action="${ctx}/sys/office/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>
@@ -57,13 +59,13 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">机构编码:</label>
 			<div class="col-md-4">
-				<form:input path="code" htmlEscape="false" maxlength="50"/>
+				<form:input path="code" htmlEscape="false" maxlength="50"  class="form-control"/>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-md-2 control-label">机构类型:</label>
 			<div class="col-md-4">
-				<form:select path="type" class="input-medium">
+				<form:select path="type" class="form-control">
 					<form:options items="${fns:getDictList('sys_office_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</div>
@@ -71,7 +73,7 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">机构级别:</label>
 			<div class="col-md-4">
-				<form:select path="grade" class="input-medium">
+				<form:select path="grade" class="form-control">
 					<form:options items="${fns:getDictList('sys_office_grade')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</div>
@@ -102,37 +104,37 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">联系地址:</label>
 			<div class="col-md-4">
-				<form:input path="address" htmlEscape="false" maxlength="50"/>
+				<form:input path="address"  class="form-control" htmlEscape="false" maxlength="50"/>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-md-2 control-label">邮政编码:</label>
 			<div class="col-md-4">
-				<form:input path="zipCode" htmlEscape="false" maxlength="50"/>
+				<form:input path="zipCode"  class="form-control" htmlEscape="false" maxlength="50"/>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-md-2 control-label">负责人:</label>
 			<div class="col-md-4">
-				<form:input path="master" htmlEscape="false" maxlength="50"/>
+				<form:input path="master"  class="form-control" htmlEscape="false" maxlength="50"/>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-md-2 control-label">电话:</label>
 			<div class="col-md-4">
-				<form:input path="phone" htmlEscape="false" maxlength="50"/>
+				<form:input path="phone"  class="form-control" htmlEscape="false" maxlength="50"/>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-md-2 control-label">传真:</label>
 			<div class="col-md-4">
-				<form:input path="fax" htmlEscape="false" maxlength="50"/>
+				<form:input path="fax"  class="form-control" htmlEscape="false" maxlength="50"/>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-md-2 control-label">邮箱:</label>
 			<div class="col-md-4">
-				<form:input path="email" htmlEscape="false" maxlength="50"/>
+				<form:input path="email"  class="form-control" htmlEscape="false" maxlength="50"/>
 			</div>
 		</div>
 		<div class="form-group">
@@ -154,5 +156,6 @@
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
+	</div></div>
 </body>
 </html>

@@ -32,6 +32,8 @@
 		<li class="active"><a href="${ctx}/sys/office/list?id=${office.id}&parentIds=${office.parentIds}">机构列表</a></li>
 		<shiro:hasPermission name="sys:office:edit"><li><a href="${ctx}/sys/office/form?parent.id=${office.id}">机构添加</a></li></shiro:hasPermission>
 	</ul>
+	<div class="tab-content">
+				<div class="tab-pane fade in active">
 	<sys:message content="${message}"/>
 	<table id="treeTable" class="table table-striped m-0">
 		<thead><tr><th>机构名称</th><th>归属区域</th><th>机构编码</th><th>机构类型</th><th>备注</th><shiro:hasPermission name="sys:office:edit"><th>操作</th></shiro:hasPermission></tr></thead>
@@ -51,5 +53,6 @@
 			</td></shiro:hasPermission>
 		</tr>
 	</script>
+	</div></div>
 </body>
 </html>
