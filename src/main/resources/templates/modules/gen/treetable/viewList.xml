@@ -93,7 +93,7 @@
 					title="区域" url="/sys/area/treeData" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
 			<#elseif c.showType == "customerselect">
 				<sys:treeselect id="${c.simpleJavaField}" name="${c.javaFieldId}" value="${"$"}{${className}.${c.javaFieldId}}" labelName="${c.javaFieldName}" labelValue="${"$"}{${className}.${c.javaFieldName}}"
-					title="客户" url="/sys/area/treeData" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
+					title="客户" url="/oa/customer/treeData" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
 			</#if>
 			</li>
 			</#if>

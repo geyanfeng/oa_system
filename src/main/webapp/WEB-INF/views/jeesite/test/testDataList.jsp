@@ -51,6 +51,10 @@
 					value="<fmt:formatDate value="${testData.endInDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 			</li>
+			<li><label>客户：</label>
+				<sys:treeselect id="customer" name="customer.id" value="${testData.customer.id}" labelName="customer.name" labelValue="${testData.customer.name}"
+					title="客户" url="/oa/customer/treeData" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
+			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
 		</ul>
@@ -66,6 +70,7 @@
 				<th>性别</th>
 				<th>更新时间</th>
 				<th>备注信息</th>
+				<th>客户</th>
 				<shiro:hasPermission name="test:testData:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
@@ -92,6 +97,9 @@
 				</td>
 				<td>
 					${testData.remarks}
+				</td>
+				<td>
+					${testData.customer.name}
 				</td>
 				<shiro:hasPermission name="test:testData:edit"><td>
     				<a href="${ctx}/test/testData/form?id=${testData.id}">修改</a>

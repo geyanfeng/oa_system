@@ -6,6 +6,8 @@ package com.thinkgem.jeesite.modules.oa.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +24,9 @@ import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.oa.entity.Customer;
 import com.thinkgem.jeesite.modules.oa.service.CustomerService;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 客户信息Controller
@@ -105,5 +110,24 @@ public class CustomerController extends BaseController {
 		customerService.changeUsedFlag(customer);
 		addMessage(redirectAttributes, "修改客户状态成功");
 		return "redirect:"+Global.getAdminPath()+"/oa/customer/?repage";
+	}
+
+	@RequiresPermissions("oa:customer:view")
+	@ResponseBody
+	@RequestMapping(value = "treeData")
+	public List<Map<String, Object>> treeData(@RequestParam(required=false) String extId, HttpServletResponse response) {
+		List<Map<String, Object>> mapList = Lists.newArrayList();
+		Customer filter = new Customer();
+		filter.setDelFlag("0");
+		List<Customer> list = customerService.findList(filter);
+		for (int i=0; i<list.size(); i++){
+			Customer e = list.get(i);
+			Map<String, Object> map = Maps.newHashMap();
+			map.put("id", e.getId());
+			map.put("pId", "");
+			map.put("name", e.getName());
+			mapList.add(map);
+		}
+		return mapList;
 	}
 }

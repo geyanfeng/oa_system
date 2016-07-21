@@ -16,15 +16,18 @@
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag",
+		a.customer_id AS "customer.id",
 		u2.name AS "user.name",
 		o3.name AS "office.name",
-		a4.name AS "area.name"
+		a4.name AS "area.name",
+		a14.name AS "customer.name"
 	</sql>
 	
 	<sql id="testDataJoins">
 		LEFT JOIN sys_user u2 ON u2.id = a.user_id
 		LEFT JOIN sys_office o3 ON o3.id = a.office_id
 		LEFT JOIN sys_area a4 ON a4.id = a.area_id
+		LEFT JOIN oa_customer a14 ON a14.id = a.customer_id
 	</sql>
     
 	<select id="get" resultType="TestData">
@@ -62,6 +65,9 @@
 			</if>
 			<if test="beginInDate != null and endInDate != null and beginInDate != '' and endInDate != ''">
 				AND a.in_date BETWEEN #{beginInDate} AND #{endInDate}
+			</if>
+			<if test="customer != null and customer.id != null and customer.id != ''">
+				AND a.customer_id = #{customer.id}
 			</if>
 		</where>
 		<choose>
@@ -106,7 +112,8 @@
 			update_by,
 			update_date,
 			remarks,
-			del_flag
+			del_flag,
+			customer_id
 		) VALUES (
 			#{id},
 			#{user.id},
@@ -120,7 +127,8 @@
 			#{updateBy.id},
 			#{updateDate},
 			#{remarks},
-			#{delFlag}
+			#{delFlag},
+			#{customer.id}
 		)
 	</insert>
 	
@@ -134,7 +142,8 @@
 			in_date = #{inDate},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
-			remarks = #{remarks}
+			remarks = #{remarks},
+			customer_id = #{customer.id}
 		WHERE id = #{id}
 	</update>
 	
