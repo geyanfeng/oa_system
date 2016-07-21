@@ -53,11 +53,13 @@
                                       htmlEscape="false"/>
                     </form:select>
                 </div>
-                <div class="form-actions">
+               
+               
+            </div>
+             <div class="form-actions">
                     <input id="btnSubmit" class="btn btn-primary" type="submit" value="下一步"/>&nbsp;
                     <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
                 </div>
-            </div>
         </form:form>
     </c:when>
     <c:otherwise>

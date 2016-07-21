@@ -30,10 +30,10 @@
 					title="用户" url="/sys/office/treeData?type=3" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
 			</li>
 			<li><label>名称：</label>
-				<form:input path="name" htmlEscape="false" maxlength="100" class="input-medium"/>
+				<form:input path="name" htmlEscape="false" maxlength="100" class="input-medium form-control"/>
 			</li>
 			<li><label>性别：</label>
-				<form:select path="sex" class="input-medium">
+				<form:select path="sex" class="input-medium form-control">
 					<form:option value="" label=""/>
 					<form:options items="${fns:getDictList('sex')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
@@ -76,6 +76,6 @@
 		</c:forEach>
 		</tbody>
 	</table>
-	<div class="pagination">${page}</div>
+	${page}
 </body>
 </html>

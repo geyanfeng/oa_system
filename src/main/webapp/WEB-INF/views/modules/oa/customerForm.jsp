@@ -42,26 +42,26 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">名称：</label>
 			<div class="col-md-4">
-				<form:input path="name" htmlEscape="false" maxlength="100" class="input-xlarge required"/>
+				<form:input path="name" htmlEscape="false" maxlength="100" class="input-xlarge required form-control" />
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-md-2 control-label">地址：</label>
 			<div class="col-md-4">
-				<form:input path="address" htmlEscape="false" maxlength="255" class="input-xlarge "/>
+				<form:input path="address" htmlEscape="false" maxlength="255" class="input-xlarge form-control "/>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-md-2 control-label">联系人：</label>
 			<div class="col-md-4">
-				<form:input path="contact" htmlEscape="false" maxlength="100" class="input-xlarge "/>
+				<form:input path="contact" htmlEscape="false" maxlength="100" class="input-xlarge form-control "/>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-md-2 control-label">电话：</label>
 			<div class="col-md-4">
-				<form:input path="phone" htmlEscape="false" maxlength="100" class="input-xlarge "/>
+				<form:input path="phone" htmlEscape="false" maxlength="100" class="input-xlarge form-control "/>
 			</div>
 		</div>
 		<div class="form-group">
@@ -75,7 +75,7 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">备注：</label>
 			<div class="col-md-4">
-				<form:textarea path="remark" htmlEscape="false" rows="4" maxlength="255" class="input-xxlarge "/>
+				<form:textarea path="remark" htmlEscape="false" rows="4" maxlength="255" class="input-xxlarge form-control " />
 			</div>
 		</div>
 		<div class="form-actions">

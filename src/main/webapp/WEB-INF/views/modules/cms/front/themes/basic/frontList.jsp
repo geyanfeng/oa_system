@@ -31,7 +31,7 @@
 			<ul><c:forEach items="${page.list}" var="article">
 				<li><span class="pull-right"><fmt:formatDate value="${article.updateDate}" pattern="yyyy.MM.dd"/></span><a href="${article.url}" style="color:${article.color}">${fns:abbr(article.title,96)}</a></li>
 			</c:forEach></ul>
-			<div class="pagination">${page}</div>
+			${page}
 			<script type="text/javascript">
 				function page(n,s){
 					location="${ctx}/list-${category.id}${urlSuffix}?pageNo="+n+"&pageSize="+s;

@@ -121,7 +121,7 @@
 			<label class="control-label" title="默认展现方式：有子栏目显示栏目列表，无子栏目显示内容列表。">展现方式:</label>
 			<div class="col-md-4">
 				<form:radiobuttons path="showModes" items="${fns:getDictList('cms_show_modes')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required form-control"/><%--
-				<form:select path="showModes" class="input-medium">
+				<form:select path="showModes" class="input-medium form-control">
 					<form:option value="" label="默认"/>
 					<form:options items="${fns:getDictList('cms_show_modes')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select><span class="help-inline"></span> --%>

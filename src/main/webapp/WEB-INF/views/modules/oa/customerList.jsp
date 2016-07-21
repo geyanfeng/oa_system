@@ -27,19 +27,19 @@
 		<sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();"/>
 		<ul class="ul-form">
 			<li><label>名称：</label>
-				<form:input path="name" htmlEscape="false" maxlength="100" class="input-medium"/>
+				<form:input path="name" htmlEscape="false" maxlength="100" class="input-medium form-control"/>
 			</li>
 			<li><label>地址：</label>
-				<form:input path="address" htmlEscape="false" maxlength="255" class="input-medium"/>
+				<form:input path="address" htmlEscape="false" maxlength="255" class="input-medium form-control"/>
 			</li>
 			<li><label>联系人：</label>
-				<form:input path="contact" htmlEscape="false" maxlength="100" class="input-medium"/>
+				<form:input path="contact" htmlEscape="false" maxlength="100" class="input-medium form-control"/>
 			</li>
 			<li><label>电话：</label>
-				<form:input path="phone" htmlEscape="false" maxlength="100" class="input-medium"/>
+				<form:input path="phone" htmlEscape="false" maxlength="100" class="input-medium form-control"/>
 			</li>
 			<li><label>备注：</label>
-				<form:input path="remark" htmlEscape="false" maxlength="255" class="input-medium"/>
+				<form:input path="remark" htmlEscape="false" maxlength="255" class="input-medium form-control"/>
 			</li>
 			<li><label>状态：</label>
 				<form:radiobuttons path="usedFlag" items="${fns:getDictList('status')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
@@ -95,6 +95,6 @@
 		</c:forEach>
 		</tbody>
 	</table>
-	<div class="pagination">${page}</div>
+	${page}
 </body>
 </html>

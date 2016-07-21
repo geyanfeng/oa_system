@@ -43,7 +43,7 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">模板分类:</label>
 			<div class="col-md-4">
-				<form:select path="category" class="required input-xlarge">
+				<form:select path="category" class="required input-xlarge form-control">
 					<form:options items="${config.categoryList}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 				<span class="help-inline">
@@ -54,14 +54,14 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">生成包路径:</label>
 			<div class="col-md-4">
-				<form:input path="packageName" htmlEscape="false" maxlength="500" class="required input-xlarge"/>
+				<form:input path="packageName" htmlEscape="false" maxlength="500" class="required input-xlarge form-control"/>
 				<span class="help-inline">建议模块包：com.thinkgem.jeesite.modules</span>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-md-2 control-label">生成模块名:</label>
 			<div class="col-md-4">
-				<form:input path="moduleName" htmlEscape="false" maxlength="500" class="required input-xlarge"/>
+				<form:input path="moduleName" htmlEscape="false" maxlength="500" class="required input-xlarge form-control"/>
 				<span class="help-inline">可理解为子系统名，例如 sys</span>
 			</div>
 		</div>
@@ -75,28 +75,28 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">生成功能描述:</label>
 			<div class="col-md-4">
-				<form:input path="functionName" htmlEscape="false" maxlength="500" class="required input-xlarge"/>
+				<form:input path="functionName" htmlEscape="false" maxlength="500" class="required input-xlarge form-control"/>
 				<span class="help-inline">将设置到类描述</span>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-md-2 control-label">生成功能名:</label>
 			<div class="col-md-4">
-				<form:input path="functionNameSimple" htmlEscape="false" maxlength="500" class="required input-xlarge"/>
+				<form:input path="functionNameSimple" htmlEscape="false" maxlength="500" class="required input-xlarge form-control"/>
 				<span class="help-inline">用作功能提示，如：保存“某某”成功</span>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-md-2 control-label">生成功能作者:</label>
 			<div class="col-md-4">
-				<form:input path="functionAuthor" htmlEscape="false" maxlength="500" class="required input-xlarge"/>
+				<form:input path="functionAuthor" htmlEscape="false" maxlength="500" class="required input-xlarge form-control"/>
 				<span class="help-inline">功能开发者</span>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-md-2 control-label">业务表名:</label>
 			<div class="col-md-4">
-				<form:select path="genTable.id" class="required input-xlarge">
+				<form:select path="genTable.id" class="required input-xlarge form-control">
 					<form:options items="${tableList}" itemLabel="nameAndComments" itemValue="id" htmlEscape="false"/>
 				</form:select>
 				<span class="help-inline">生成的数据表，一对多情况下请选择主表。</span>

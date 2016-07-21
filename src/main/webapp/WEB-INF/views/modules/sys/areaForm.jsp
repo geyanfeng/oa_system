@@ -29,7 +29,9 @@
 	<ul class="nav nav-tabs">
 		<li><a href="${ctx}/sys/area/">区域列表</a></li>
 		<li class="active"><a href="form?id=${area.id}&parent.id=${area.parent.id}">区域<shiro:hasPermission name="sys:area:edit">${not empty area.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="sys:area:edit">查看</shiro:lacksPermission></a></li>
-	</ul><br/>
+	</ul>
+	<div class="tab-content">
+				<div class="tab-pane fade in active">
 	<form:form id="inputForm" modelAttribute="area" action="${ctx}/sys/area/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>
@@ -50,13 +52,13 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">区域编码:</label>
 			<div class="col-md-4">
-				<form:input path="code" htmlEscape="false" maxlength="50"/>
+				<form:input path="code" htmlEscape="false" maxlength="50" class="form-control"/>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-md-2 control-label">区域类型:</label>
 			<div class="col-md-4">
-				<form:select path="type" class="input-medium">
+				<form:select path="type" class="form-control">
 					<form:options items="${fns:getDictList('sys_area_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</div>
@@ -72,5 +74,6 @@
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
+	</div></div>
 </body>
 </html>

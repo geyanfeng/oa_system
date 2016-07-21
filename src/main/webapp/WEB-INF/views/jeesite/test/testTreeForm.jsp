@@ -43,21 +43,21 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">名称：</label>
 			<div class="col-md-4">
-				<form:input path="name" htmlEscape="false" maxlength="100" class="input-xlarge required"/>
+				<form:input path="name" htmlEscape="false" maxlength="100" class="input-xlarge required form-control" />
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-md-2 control-label">排序：</label>
 			<div class="col-md-4">
-				<form:input path="sort" htmlEscape="false" maxlength="10" class="input-xlarge required digits"/>
+				<form:input path="sort" htmlEscape="false" maxlength="10" class="input-xlarge required form-control form-control" />
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-md-2 control-label">备注信息：</label>
 			<div class="col-md-4">
-				<form:textarea path="remarks" htmlEscape="false" rows="4" maxlength="255" class="input-xxlarge "/>
+				<form:textarea path="remarks" htmlEscape="false" rows="4" maxlength="255" class="input-xxlarge form-control " />
 			</div>
 		</div>
 		<div class="form-actions">

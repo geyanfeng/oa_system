@@ -25,9 +25,9 @@
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();"/>
-		<label>表名：</label><form:input path="nameLike" htmlEscape="false" maxlength="50" class="input-medium"/>
-		<label>说明：</label><form:input path="comments" htmlEscape="false" maxlength="50" class="input-medium"/>
-		<label>父表表名：</label><form:input path="parentTable" htmlEscape="false" maxlength="50" class="input-medium"/>
+		<label>表名：</label><form:input path="nameLike" htmlEscape="false" maxlength="50" class="input-medium form-control"/>
+		<label>说明：</label><form:input path="comments" htmlEscape="false" maxlength="50" class="input-medium form-control"/>
+		<label>父表表名：</label><form:input path="parentTable" htmlEscape="false" maxlength="50" class="input-medium form-control"/>
 		&nbsp;<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
 	</form:form>
 	<sys:message content="${message}"/>
@@ -48,6 +48,6 @@
 		</c:forEach>
 		</tbody>
 	</table>
-	<div class="pagination">${page}</div>
+	${page}
 </body>
 </html>

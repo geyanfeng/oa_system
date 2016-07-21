@@ -62,7 +62,7 @@
 		<li>暂时还没有人评论！</li>
 	</c:if>
 </ul>
-<div class="pagination">${page}</div>
+${page}
 <h5>我要评论</h5>
 <div id="commentForm0"></div>
 <script id="commentFormTpl" type="text/javascript"><!--/*-->

@@ -47,7 +47,7 @@
 	<form:form id="searchForm" modelAttribute="testTree" action="${ctx}/test/testTree/" method="post" class="breadcrumb form-search">
 		<ul class="ul-form">
 			<li><label>名称：</label>
-				<form:input path="name" htmlEscape="false" maxlength="100" class="input-medium"/>
+				<form:input path="name" htmlEscape="false" maxlength="100" class="input-medium form-control"/>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>

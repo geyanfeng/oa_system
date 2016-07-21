@@ -16,7 +16,7 @@
 .control-group {padding-bottom:8px;margin-bottom:0;border-bottom:1px dotted #dddddd;} legend + .control-group {margin-top:8px;}
 .controls .lbl {display:inline-block;padding-top:5px;margin-bottom:0;vertical-align:middle;}
 .measure-input {background:url("../images/ruler.gif") repeat-x scroll 0 bottom transparent;}
-.input-min{width:30px;} .input-mini{width:90px;} .input-small{width:120px;} .input-medium {width:163px;}.input-xxlarge {width:460px;}
+.input-min{width:30px;} .input-mini{width:120px;} .input-small{width:120px;} .input-medium {width:163px;}.input-xxlarge {width:460px;}
 .help-block,.help-inline {color:#aaaaaa;} .alert {margin-bottom:10px;}
 
 .form-search label{padding-top:7px;margin-bottom:0;text-align:right}
@@ -26,6 +26,7 @@
 .form-search .ul-form li label{width:100px;text-align:right;}
 .form-search .ul-form li span label{width:auto;}
 .form-search .ul-form li.clearfix{float:none;}
+.form-search .ul-form .input-group {width:163px;}
 .btn-primary { background-color: #3ec845 !important;
   border: 1px solid #3ec845 !important; position: relative;
   cursor: pointer;
@@ -97,3 +98,8 @@
 #left,#right,#openClose {float:left;} #openClose {width:6px;margin:0 1px;cursor:pointer;}
 #openClose,#openClose.close {background:#efefef url("../images/openclose.png") no-repeat -29px center;}
 #openClose.close {background-position:1px center;opacity:0.5;filter:alpha(opacity=50)}
+.select2-container { background-color: #ffffff !important;
+  border: 1px solid #dcdcdc;
+  border-radius: 4px;
+	
+}

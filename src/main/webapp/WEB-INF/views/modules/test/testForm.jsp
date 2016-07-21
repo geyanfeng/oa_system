@@ -42,7 +42,7 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">下拉框:</label>
 			<div class="col-md-4">
-				<form:select path="name" class="input-medium">
+				<form:select path="name" class="input-medium form-control">
 					<form:option value="" label="请选择"/>
 					<form:options items="${fns:getDictList('act_category')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
@@ -110,7 +110,7 @@
 			<label class="col-md-2 control-label">JSTL、EL:</label>
 			<div class="col-md-4">
 				日期格式：<fmt:formatDate value="${test.createDate}" type="both" pattern="yyyy-MM-dd HH:mm:ss"/>
-				<input id="createDate" name="createDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+				<input id="createDate" name="createDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate form-control"
 					value="<fmt:formatDate value="${test.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 				<br/>

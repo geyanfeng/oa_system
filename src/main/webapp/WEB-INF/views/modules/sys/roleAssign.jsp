@@ -10,6 +10,8 @@
 		<li><a href="${ctx}/sys/role/">角色列表</a></li>
 		<li class="active"><a href="${ctx}/sys/role/assign?id=${role.id}"><shiro:hasPermission name="sys:role:edit">角色分配</shiro:hasPermission><shiro:lacksPermission name="sys:role:edit">人员列表</shiro:lacksPermission></a></li>
 	</ul>
+	<div class="tab-content">
+				<div class="tab-pane fade in active">
 	<div class="container-fluid breadcrumb">
 		<div class="row-fluid span12">
 			<span class="span4">角色名称: <b>${role.name}</b></span>
@@ -31,7 +33,7 @@
 		<input id="assignButton" class="btn btn-primary" type="submit" value="分配角色"/>
 		<script type="text/javascript">
 			$("#assignButton").click(function(){
-				top.$.jBox.open("iframe:${ctx}/sys/role/usertorole?id=${role.id}", "分配角色",810,$(top.document).height()-240,{
+				top.$.jBox.open("iframe:${ctx}/sys/role/usertorole?id=${role.id}", "分配角色",810,$(top.document).height()-340,{
 					buttons:{"确定分配":"ok", "清除已选":"clear", "关闭":true}, bottomText:"通过选择部门，然后为列出的人员分配角色。",submit:function(v, h, f){
 						var pre_ids = h.find("iframe")[0].contentWindow.pre_ids;
 						var ids = h.find("iframe")[0].contentWindow.ids;
@@ -85,5 +87,6 @@
 		</c:forEach>
 		</tbody>
 	</table>
+	</div></div>
 </body>
 </html>

@@ -88,13 +88,13 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">名称：</label>
 			<div class="col-md-4">
-				<form:input path="name" htmlEscape="false" maxlength="100" class="input-xlarge "/>
+				<form:input path="name" htmlEscape="false" maxlength="100" class="input-xlarge form-control "/>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-md-2 control-label">性别：</label>
 			<div class="col-md-4">
-				<form:select path="sex" class="input-xlarge ">
+				<form:select path="sex" class="input-xlarge form-control ">
 					<form:option value="" label=""/>
 					<form:options items="${fns:getDictList('sex')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
@@ -103,7 +103,7 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">加入日期：</label>
 			<div class="col-md-4">
-				<input name="inDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+				<input name="inDate" type="text" readonly="readonly" maxlength="20"  class="input-medium Wdate form-control"
 					value="<fmt:formatDate value="${testDataMain.inDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 			</div>
@@ -111,7 +111,7 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">备注信息：</label>
 			<div class="col-md-4">
-				<form:textarea path="remarks" htmlEscape="false" rows="4" maxlength="255" class="input-xxlarge "/>
+				<form:textarea path="remarks" htmlEscape="false" rows="4" maxlength="255" class="input-xxlarge form-control " />
 			</div>
 		</div>
 			<div class="form-group">

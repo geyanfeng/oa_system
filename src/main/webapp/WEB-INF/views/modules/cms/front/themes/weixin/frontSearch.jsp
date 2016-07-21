@@ -86,7 +86,7 @@
 			<dd><ul><li>检查输入是否正确；</li><li>简化输入词；</li><li>尝试其他相关词，如同义、近义词等。</li></ul></dd>
 		</c:if>
 	</dl>
-	<div class="pagination">${page}</div>
+	${page}
 	<script type="text/javascript">
 		function page(n,s){
 			$("#pageNo").val(n);

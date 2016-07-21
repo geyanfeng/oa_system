@@ -100,7 +100,9 @@
 	<ul class="nav nav-tabs">
 		<li><a href="${ctx}/sys/role/">角色列表</a></li>
 		<li class="active"><a href="${ctx}/sys/role/form?id=${role.id}">角色<shiro:hasPermission name="sys:role:edit">${not empty role.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="sys:role:edit">查看</shiro:lacksPermission></a></li>
-	</ul><br/>
+	</ul>
+<div class="tab-content">
+				<div class="tab-pane fade in active">
 	<form:form id="inputForm" modelAttribute="role" action="${ctx}/sys/role/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>
@@ -133,7 +135,7 @@
 				<form:input path="roleType" htmlEscape="false" maxlength="50" class="required form-control"/>
 				<span class="help-inline" title="activiti有3种预定义的组类型：security-role、assignment、user 如果使用Activiti Explorer，需要security-role才能看到manage页签，需要assignment才能claim任务">
 					工作流组用户组类型（security-role：管理员、assignment：可进行任务分配、user：普通用户）</span> --%>
-				<form:select path="roleType" class="input-medium">
+				<form:select path="roleType" class="input-medium form-control">
 					<form:option value="assignment">任务分配</form:option>
 					<form:option value="security-role">管理角色</form:option>
 					<form:option value="user">普通角色</form:option>
@@ -163,10 +165,16 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">数据范围:</label>
 			<div class="col-md-4">
-				<form:select path="dataScope" class="input-medium">
+				<form:select path="dataScope" class="input-medium form-control">
 					<form:options items="${fns:getDictList('sys_data_scope')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 				<span class="help-inline">特殊情况下，设置为“按明细设置”，可进行跨机构授权</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-md-2 control-label">备注:</label>
+			<div class="col-md-4">
+				<form:textarea path="remarks" htmlEscape="false" rows="3" maxlength="200" class="input-xlarge form-control"/>
 			</div>
 		</div>
 		<div class="form-group">
@@ -178,12 +186,7 @@
 				<form:hidden path="officeIds"/>
 			</div>
 		</div>
-		<div class="form-group">
-			<label class="col-md-2 control-label">备注:</label>
-			<div class="col-md-4">
-				<form:textarea path="remarks" htmlEscape="false" rows="3" maxlength="200" class="input-xlarge form-control"/>
-			</div>
-		</div>
+		
 		<div class="form-actions">
 			<c:if test="${(role.sysData eq fns:getDictValue('是', 'yes_no', '1') && fns:getUser().admin)||!(role.sysData eq fns:getDictValue('是', 'yes_no', '1'))}">
 				<shiro:hasPermission name="sys:role:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
@@ -191,5 +194,6 @@
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
+	</div></div>
 </body>
 </html>

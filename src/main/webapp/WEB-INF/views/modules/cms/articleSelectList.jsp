@@ -72,7 +72,7 @@
 		</c:forEach>
 		</tbody>
 	</table>
-	<div class="pagination">${page}</div>
+	${page}
 	</div>
 </body>
 </html>

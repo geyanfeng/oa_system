@@ -201,7 +201,7 @@
             <div class="form-group">
                 <label class="col-md-2 control-label">自定义内容视图:</label>
                 <div class="col-md-4">
-                      <form:select path="customContentView" class="input-medium">
+                      <form:select path="customContentView" class="input-medium form-control">
                           <form:option value="" label="默认视图"/>
                           <form:options items="${contentViewList}" htmlEscape="false"/>
                       </form:select>

@@ -85,7 +85,7 @@
 	<form:form id="searchForm" modelAttribute="test" action="${ctx}/test/test/listData.json" method="post" class="breadcrumb form-search hide" onsubmit="return page();">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
-		<label>名称 ：</label><form:input path="name" htmlEscape="false" maxlength="50" class="input-medium"/>
+		<label>名称 ：</label><form:input path="name" htmlEscape="false" maxlength="50" class="input-medium form-control"/>
 		&nbsp;<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
 	</form:form>
 	<sys:message content="${message}"/>

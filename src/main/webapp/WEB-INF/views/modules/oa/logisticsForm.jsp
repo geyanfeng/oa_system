@@ -36,14 +36,14 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">名称：</label>
 			<div class="col-md-4">
-				<form:input path="name" htmlEscape="false" maxlength="100" class="input-xlarge required"/>
+				<form:input path="name" htmlEscape="false" maxlength="100" class="input-xlarge required form-control" />
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-md-2 control-label">费用：</label>
 			<div class="col-md-4">
-				<form:input path="cost" htmlEscape="false" class="input-xlarge "/>
+				<form:input path="cost" htmlEscape="false" class="input-xlarge form-control "/>
 			</div>
 		</div>
 		<div class="form-actions">

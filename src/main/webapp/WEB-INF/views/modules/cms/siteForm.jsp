@@ -36,13 +36,13 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">站点名称:</label>
 			<div class="col-md-4">
-				<form:input path="name" htmlEscape="false" maxlength="200" class="input-xlarge required"/>
+				<form:input path="name" htmlEscape="false" maxlength="200" class="input-xlarge required form-control" />
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-md-2 control-label">站点标题:</label>
 			<div class="col-md-4">
-				<form:input path="title" htmlEscape="false" maxlength="200" class="input-xlarge required"/>
+				<form:input path="title" htmlEscape="false" maxlength="200" class="input-xlarge required form-control" />
 			</div>
 		</div>
 		<div class="form-group">
@@ -69,7 +69,7 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">默认主题:</label>
 			<div class="col-md-4">
-				<form:select path="theme" class="input-medium">
+				<form:select path="theme" class="input-medium form-control">
 					<form:options items="${fns:getDictList('cms_theme')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</div>

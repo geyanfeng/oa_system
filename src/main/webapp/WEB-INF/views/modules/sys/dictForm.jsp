@@ -29,7 +29,9 @@
 	<ul class="nav nav-tabs">
 		<li><a href="${ctx}/sys/dict/">字典列表</a></li>
 		<li class="active"><a href="${ctx}/sys/dict/form?id=${dict.id}">字典<shiro:hasPermission name="sys:dict:edit">${not empty dict.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="sys:dict:edit">查看</shiro:lacksPermission></a></li>
-	</ul><br/>
+	</ul>
+	<div class="tab-content">
+				<div class="tab-pane fade in active">
 	<form:form id="inputForm" modelAttribute="dict" action="${ctx}/sys/dict/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>
@@ -48,7 +50,7 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">类型:</label>
 			<div class="col-md-4">
-				<form:input path="type" htmlEscape="false" maxlength="50" class="required abc"/>
+				<form:input path="type" htmlEscape="false" maxlength="50" class="required abc form-control"/>
 			</div>
 		</div>
 		<div class="form-group">
@@ -60,7 +62,7 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">排序:</label>
 			<div class="col-md-4">
-				<form:input path="sort" htmlEscape="false" maxlength="11" class="required digits"/>
+				<form:input path="sort" htmlEscape="false" maxlength="11" class="required digits form-control"/>
 			</div>
 		</div>
 		<div class="form-group">
@@ -74,5 +76,6 @@
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
+	</div></div>
 </body>
 </html>

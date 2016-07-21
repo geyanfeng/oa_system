@@ -21,9 +21,11 @@
 		<li class="active"><a href="${ctx}/sys/menu/">菜单列表</a></li>
 		<shiro:hasPermission name="sys:menu:edit"><li><a href="${ctx}/sys/menu/form">菜单添加</a></li></shiro:hasPermission>
 	</ul>
+	<div class="tab-content">
+				<div class="tab-pane fade in active">
 	<sys:message content="${message}"/>
 	<form id="listForm" method="post">
-		<table id="treeTable" class="table table-striped table-bordered table-condensed hide">
+		<table id="treeTable" class="table table-striped table-bordered table-condensed">
 			<thead><tr><th>名称</th><th>链接</th><th style="text-align:center;">排序</th><th>可见</th><th>权限标识</th><shiro:hasPermission name="sys:menu:edit"><th>操作</th></shiro:hasPermission></tr></thead>
 			<tbody><c:forEach items="${list}" var="menu">
 				<tr id="${menu.id}" pId="${menu.parent.id ne '1'?menu.parent.id:'0'}">
@@ -32,7 +34,7 @@
 					<td style="text-align:center;">
 						<shiro:hasPermission name="sys:menu:edit">
 							<input type="hidden" name="ids" value="${menu.id}"/>
-							<input name="sorts" type="text" value="${menu.sort}" style="width:50px;margin:0;padding:0;text-align:center;">
+							<input name="sorts" type="text" value="${menu.sort}" style="width:50px;height:25px;margin:0;padding:0;text-align:center;" class="form-control">
 						</shiro:hasPermission><shiro:lacksPermission name="sys:menu:edit">
 							${menu.sort}
 						</shiro:lacksPermission>
@@ -51,5 +53,6 @@
 			<input id="btnSubmit" class="btn btn-primary" type="button" value="保存排序" onclick="updateSort();"/>
 		</div></shiro:hasPermission>
 	 </form>
+	 </div></div>
 </body>
 </html>

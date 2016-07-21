@@ -55,7 +55,7 @@
 				<li>暂时还没有人留言！</li>
 			</c:if>
 		</ul>
-		<div class="pagination">${page}</div>
+		${page}
 		<h4>我要留言</h4>
 		<form:form id="inputForm" action="${ctx}/guestbook" method="post" class="form-horizontal">
 			<div class="form-group">

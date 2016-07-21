@@ -38,16 +38,16 @@
 					title="区域" url="/sys/area/treeData" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
 			</li>
 			<li><label>名称：</label>
-				<form:input path="name" htmlEscape="false" maxlength="100" class="input-medium"/>
+				<form:input path="name" htmlEscape="false" maxlength="100" class="input-medium form-control"/>
 			</li>
 			<li><label>性别：</label>
 				<form:radiobuttons path="sex" items="${fns:getDictList('sex')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 			</li>
 			<li><label>加入日期：</label>
-				<input name="beginInDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+				<input name="beginInDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate form-control"
 					value="<fmt:formatDate value="${testData.beginInDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/> - 
-				<input name="endInDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+				<input name="endInDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate form-control"
 					value="<fmt:formatDate value="${testData.endInDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 			</li>
@@ -109,6 +109,6 @@
 		</c:forEach>
 		</tbody>
 	</table>
-	<div class="pagination">${page}</div>
+	${page}
 </body>
 </html>

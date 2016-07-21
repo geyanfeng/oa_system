@@ -65,7 +65,7 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">生成文件名:</label>
 			<div class="col-md-4">
-				<form:input path="fileName" htmlEscape="false" maxlength="500" class="required input-xlarge"/>
+				<form:input path="fileName" htmlEscape="false" maxlength="500" class="required input-xlarge form-control"/>
 				<br/>
 				<span class="help-inline">
 					示例如下：<br/>

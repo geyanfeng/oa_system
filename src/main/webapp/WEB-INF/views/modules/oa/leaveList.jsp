@@ -23,15 +23,15 @@
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<div>
-			<label>请假编号：&nbsp;</label><form:input path="ids" htmlEscape="false" maxlength="50" class="input-medium" placeholder="多个用逗号或空格隔开"/>
+			<label>请假编号：&nbsp;</label><form:input path="ids" htmlEscape="false" maxlength="50" class="input-medium form-control" placeholder="多个用逗号或空格隔开"/>
 		</div>
 		<div style="margin-top:8px;">
 			<label>创建时间：</label>
-			<input id="createDateStart"  name="createDateStart"  type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:163px;"
+			<input id="createDateStart"  name="createDateStart"  type="text" readonly="readonly" maxlength="20" class="input-medium Wdate form-control" style="width:163px;"
 				value="<fmt:formatDate value="${leave.createDateStart}" pattern="yyyy-MM-dd"/>"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/>
 				　--　
-			<input id="createDateEnd" name="createDateEnd" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate" style="width:163px;"
+			<input id="createDateEnd" name="createDateEnd" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate form-control" style="width:163px;"
 				value="<fmt:formatDate value="${leave.createDateEnd}" pattern="yyyy-MM-dd"/>"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"/>
 			&nbsp;<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
@@ -69,6 +69,6 @@
 		</c:forEach>
 		</tbody>
 	</table>
-	<div class="pagination">${page}</div>
+	${page}
 </body>
 </html>
