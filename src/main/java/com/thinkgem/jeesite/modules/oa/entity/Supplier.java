@@ -16,6 +16,7 @@ public class Supplier extends DataEntity<Supplier> {
 	
 	private static final long serialVersionUID = 1L;
 	private String name;		// 名称
+	private String remark;		// 备注
 	
 	public Supplier() {
 		super();
@@ -32,6 +33,15 @@ public class Supplier extends DataEntity<Supplier> {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	@Length(min=0, max=255, message="备注长度必须介于 0 和 255 之间")
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 	
 }

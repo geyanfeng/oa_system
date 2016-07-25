@@ -28,6 +28,9 @@
 			<li><label>名称：</label>
 				<form:input path="name" htmlEscape="false" maxlength="100" class="input-medium"/>
 			</li>
+			<li><label>备注：</label>
+				<form:input path="remark" htmlEscape="false" maxlength="255" class="input-medium"/>
+			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
 		</ul>
@@ -37,6 +40,7 @@
 		<thead>
 			<tr>
 				<th>名称</th>
+				<th>备注</th>
 				<th>更新时间</th>
 				<shiro:hasPermission name="oa:supplier:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
@@ -47,6 +51,9 @@
 				<td><a href="${ctx}/oa/supplier/form?id=${supplier.id}">
 					${supplier.name}
 				</a></td>
+				<td>
+					${supplier.remark}
+				</td>
 				<td>
 					<fmt:formatDate value="${supplier.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>

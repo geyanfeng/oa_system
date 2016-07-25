@@ -5,6 +5,7 @@
 	<sql id="supplierColumns">
 		a.id AS "id",
 		a.name AS "name",
+		a.remark AS "remark",
 		a.del_flag AS "delFlag",
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
@@ -35,6 +36,12 @@
 					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
 					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
 					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+			<if test="remark != null and remark != ''">
+				AND a.remark LIKE 
+					<if test="dbName == 'oracle'">'%'||#{remark}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{remark}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{remark},'%')</if>
 			</if>
 		</where>
 		<choose>
@@ -69,6 +76,7 @@
 		INSERT INTO oa_supplier(
 			id,
 			name,
+			remark,
 			del_flag,
 			create_by,
 			create_date,
@@ -77,6 +85,7 @@
 		) VALUES (
 			#{id},
 			#{name},
+			#{remark},
 			#{delFlag},
 			#{createBy.id},
 			#{createDate},
@@ -88,6 +97,7 @@
 	<update id="update">
 		UPDATE oa_supplier SET 	
 			name = #{name},
+			remark = #{remark},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate}
 		WHERE id = #{id}

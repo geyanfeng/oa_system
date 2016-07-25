@@ -36,8 +36,14 @@
 		<div class="control-group">
 			<label class="col-md-2 control-label">名称：</label>
 			<div class="col-md-4">
-				<form:input path="name" htmlEscape="false" maxlength="100" class="input-xlarge required form-control"/>
+				<form:input path="name" htmlEscape="false" maxlength="100" class="form-control input-xlarge required"/>
 				<span class="help-inline"><font color="red">*</font> </span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="col-md-2 control-label">备注：</label>
+			<div class="col-md-4">
+				<form:textarea path="remark" htmlEscape="false" rows="4" maxlength="255" class="form-control input-xxlarge "/>
 			</div>
 		</div>
 		<div class="form-actions">
