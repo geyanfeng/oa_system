@@ -103,7 +103,7 @@
 							<c:forEach items="${menuList}" var="menu2">
 							    <li>
 								<c:if test="${menu2.parent.id eq menu.id&&menu2.isShow eq '1'}">							 
-										<A data-href=".menu3-${menu2.id}" href="${not empty menu2.href ? (fn:indexOf(menu2.href, '://') eq -1 ? ctx : '') + menu2.href : 'javascript:void(0);'}" class="waves-effect" target="${not empty menu2.target ? menu2.target : 'mainFrame'}"><SPAN>${menu2.name}</SPAN> </A>
+										<A data-href=".menu3-${menu2.id}" href="${not empty menu2.href ? ctx : ''}${not empty menu2.href ? menu2.href : 'javascript:void(0);'}"  class="waves-effect" target="${not empty menu2.target ? menu2.target : 'mainFrame'}"><SPAN>${menu2.name}</SPAN> </A>
 										<UL>
 										   <c:forEach items="${menuList}" var="menu3">
 								<c:if test="${menu3.parent.id eq menu2.id&&menu3.isShow eq '1'}">							 
