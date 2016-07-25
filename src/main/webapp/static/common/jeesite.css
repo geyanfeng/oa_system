@@ -3,6 +3,7 @@
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
+ .hide{display:block!important}
 .form-control {display:inline;}
 .table {margin-bottom:8px;background-color:#fdfdfd;}
 .table th, .table td {vertical-align:middle;}
