@@ -67,7 +67,7 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">状态</label>
 				<div class="col-md-4">
-					<form:radiobuttons path="usedFlag" items="${fns:getDictList('status')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required"/>
+					<form:radiobuttons path="usedFlag" items="${fns:getDictList('oa_customer_status')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required"/>
 					<span class="help-inline"><font color="red">*</font> </span>
 				</div>
 		</div>

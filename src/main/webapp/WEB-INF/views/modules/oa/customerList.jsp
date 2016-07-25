@@ -42,7 +42,7 @@
 				<form:input path="remark" htmlEscape="false" maxlength="255" class="input-medium form-control"/>
 			</li>
 			<li><label>状态：</label>
-				<form:radiobuttons path="usedFlag" items="${fns:getDictList('status')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				<form:radiobuttons path="usedFlag" items="${fns:getDictList('oa_customer_status')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
@@ -81,7 +81,7 @@
 					${customer.remark}
 				</td>
 				<td>
-					${fns:getDictLabel(customer.usedFlag, 'status', '')}
+					${fns:getDictLabel(customer.usedFlag, 'oa_customer_status', '')}
 				</td>
 				<td>
 					<fmt:formatDate value="${customer.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>

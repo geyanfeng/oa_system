@@ -6,6 +6,8 @@ package com.thinkgem.jeesite.test.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.thinkgem.jeesite.modules.oa.entity.Customer;
+import com.thinkgem.jeesite.modules.oa.service.CustomerService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +24,8 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.test.entity.TestData;
 import com.thinkgem.jeesite.test.service.TestDataService;
 
+import java.util.List;
+
 /**
  * 单表生成Controller
  * @author ThinkGem
@@ -33,6 +37,8 @@ public class TestDataController extends BaseController {
 
 	@Autowired
 	private TestDataService testDataService;
+	@Autowired
+	private CustomerService customerService;
 	
 	@ModelAttribute
 	public TestData get(@RequestParam(required=false) String id) {
@@ -49,6 +55,8 @@ public class TestDataController extends BaseController {
 	@RequiresPermissions("test:testData:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(TestData testData, HttpServletRequest request, HttpServletResponse response, Model model) {
+		List<Customer> customerList = customerService.findList(new Customer());
+		model.addAttribute("customerList", customerList);
 		Page<TestData> page = testDataService.findPage(new Page<TestData>(request, response), testData); 
 		model.addAttribute("page", page);
 		return "jeesite/test/testDataList";

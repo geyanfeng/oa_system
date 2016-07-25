@@ -52,8 +52,12 @@
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 			</li>
 			<li><label>客户：</label>
-				<sys:treeselect id="customer" name="customer.id" value="${testData.customer.id}" labelName="customer.name" labelValue="${testData.customer.name}"
-					title="客户" url="/oa/customer/treeData" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
+				<%--<sys:treeselect id="customer" name="customer.id" value="${testData.customer.id}" labelName="customer.name" labelValue="${testData.customer.name}"
+					title="客户" url="/oa/customer/treeData" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>--%>
+				<form:select path="customer.id" class="input-xxlarge">
+					<form:options items="${customerList}" itemLabel="name" itemValue="id"
+								  htmlEscape="false"/>
+				</form:select>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
