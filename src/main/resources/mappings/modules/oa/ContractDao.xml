@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.oa.dao.ContractDao">
+    
+	<sql id="contractColumns">
+		a.id AS "id",
+		a.proc_ins_id AS "procInsId",
+		a.parent_id AS "parent.id",
+		a.no AS "no",
+		a.name AS "name",
+		a.company_name AS "companyName",
+		a.contract_type AS "contractType",
+		a.customer_id AS "customer.id",
+		a.status AS "status",
+		a.payment_method AS "paymentMethod",
+		a.payment_cycle AS "paymentCycle",
+		a.payment_time AS "paymentTime",
+		a.payment_amount AS "paymentAmount",
+		a.business_person_id AS "business_person.id",
+		a.artisan_id AS "artisan.id",
+		a.customer_cost AS "customerCost",
+		a.is_deduction AS "isDeduction",
+		a.discount AS "discount",
+		a.expiry_date AS "expiryDate",
+		a.invoice_type AS "invoiceType",
+		a.invoice_customer_name AS "invoiceCustomerName",
+		a.invoice_no AS "invoiceNo",
+		a.invoice_bank AS "invoiceBank",
+		a.invoice_bank_no AS "invoiceBankNo",
+		a.invoice_address AS "invoiceAddress",
+		a.invoice_phone AS "invoicePhone",
+		a.ship_address_type AS "shipAddressType",
+		a.ship_address AS "shipAddress",
+		a.files AS "files",
+		a.remark AS "remark",
+		a.del_flag AS "delFlag",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a8.name AS "customer.name",
+		u14.name AS "business_person.name",
+		u15.name AS "artisan.name"
+	</sql>
+	
+	<sql id="contractJoins">
+		LEFT JOIN oa_customer a8 ON a8.id = a.customer_id
+		LEFT JOIN sys_user u14 ON u14.id = a.business_person_id
+		LEFT JOIN sys_user u15 ON u15.id = a.artisan_id
+	</sql>
+    
+	<select id="get" resultType="Contract">
+		SELECT 
+			<include refid="contractColumns"/>
+		FROM oa_contract a
+		<include refid="contractJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Contract">
+		SELECT 
+			<include refid="contractColumns"/>
+		FROM oa_contract a
+		<include refid="contractJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Contract">
+		SELECT 
+			<include refid="contractColumns"/>
+		FROM oa_contract a
+		<include refid="contractJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO oa_contract(
+			id,
+			proc_ins_id,
+			parent_id,
+			no,
+			name,
+			company_name,
+			contract_type,
+			customer_id,
+			status,
+			payment_method,
+			payment_cycle,
+			payment_time,
+			payment_amount,
+			business_person_id,
+			artisan_id,
+			customer_cost,
+			is_deduction,
+			discount,
+			expiry_date,
+			invoice_type,
+			invoice_customer_name,
+			invoice_no,
+			invoice_bank,
+			invoice_bank_no,
+			invoice_address,
+			invoice_phone,
+			ship_address_type,
+			ship_address,
+			files,
+			remark,
+			del_flag,
+			create_by,
+			create_date,
+			update_by,
+			update_date
+		) VALUES (
+			#{id},
+			#{procInsId},
+			#{parent.id},
+			#{no},
+			#{name},
+			#{companyName},
+			#{contractType},
+			#{customer.id},
+			#{status},
+			#{paymentMethod},
+			#{paymentCycle},
+			#{paymentTime},
+			#{paymentAmount},
+			#{business_person.id},
+			#{artisan.id},
+			#{customerCost},
+			#{isDeduction},
+			#{discount},
+			#{expiryDate},
+			#{invoiceType},
+			#{invoiceCustomerName},
+			#{invoiceNo},
+			#{invoiceBank},
+			#{invoiceBankNo},
+			#{invoiceAddress},
+			#{invoicePhone},
+			#{shipAddressType},
+			#{shipAddress},
+			#{files},
+			#{remark},
+			#{delFlag},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE oa_contract SET 	
+			proc_ins_id = #{procInsId},
+			parent_id = #{parent.id},
+			no = #{no},
+			name = #{name},
+			company_name = #{companyName},
+			contract_type = #{contractType},
+			customer_id = #{customer.id},
+			status = #{status},
+			payment_method = #{paymentMethod},
+			payment_cycle = #{paymentCycle},
+			payment_time = #{paymentTime},
+			payment_amount = #{paymentAmount},
+			business_person_id = #{business_person.id},
+			artisan_id = #{artisan.id},
+			customer_cost = #{customerCost},
+			is_deduction = #{isDeduction},
+			discount = #{discount},
+			expiry_date = #{expiryDate},
+			invoice_type = #{invoiceType},
+			invoice_customer_name = #{invoiceCustomerName},
+			invoice_no = #{invoiceNo},
+			invoice_bank = #{invoiceBank},
+			invoice_bank_no = #{invoiceBankNo},
+			invoice_address = #{invoiceAddress},
+			invoice_phone = #{invoicePhone},
+			ship_address_type = #{shipAddressType},
+			ship_address = #{shipAddress},
+			files = #{files},
+			remark = #{remark},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE oa_contract SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

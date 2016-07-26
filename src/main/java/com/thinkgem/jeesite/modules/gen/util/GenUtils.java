@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
 
+import com.thinkgem.jeesite.modules.oa.entity.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -149,7 +150,7 @@ public class GenUtils {
 
 			// 客户
 			else if (StringUtils.startsWithIgnoreCase(column.getName(), "customer_id")){
-				column.setJavaType(Area.class.getName());
+				column.setJavaType(Customer.class.getName());
 				column.setJavaField(column.getJavaField().replaceAll("Id", ".id|name"));
 				column.setShowType("customerselect");
 			}
