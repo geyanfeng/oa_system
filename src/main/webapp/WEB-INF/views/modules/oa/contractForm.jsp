@@ -340,6 +340,13 @@
 
 		<div class="card-box">
 			<h4 class="header-title m-t-0 m-b-30">合同产品明细表</h4>
+			<shiro:hasPermission name="oa:contract:edit">
+				<div class="pull-right">
+					<a href="javascript:"
+					   onclick="addRow('#contractProductList', contractProductRowIdx, contractProductTpl);contractProductRowIdx = contractProductRowIdx + 1;"
+					   class="btn btn-info waves-effect w-md waves-light m-b-5 ti-plus">新增</a>
+				</div>
+			</shiro:hasPermission>
 			<div class="row">
 				<div class="col-sm-12">
 					<table id="contentTable" class="table table-striped table-bordered table-condensed">
@@ -359,15 +366,7 @@
 						</thead>
 						<tbody id="contractProductList">
 						</tbody>
-						<shiro:hasPermission name="oa:contract:edit">
-							<tfoot>
-							<tr>
-								<td colspan="8"><a href="javascript:"
-												   onclick="addRow('#contractProductList', contractProductRowIdx, contractProductTpl);contractProductRowIdx = contractProductRowIdx + 1;"
-												   class="btn">新增</a></td>
-							</tr>
-							</tfoot>
-						</shiro:hasPermission>
+
 					</table>
 					<script type="text/template" id="contractProductTpl">//<!--
 						<tr id="contractProductList{{idx}}" row="row">
