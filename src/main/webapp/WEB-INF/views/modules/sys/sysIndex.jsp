@@ -140,8 +140,8 @@
 				<DIV class="container">
 					<!-- Page-Title -->
 					<iframe id="mainFrame" name="mainFrame" src=""
-						style="overflow: visible;" scrolling="yes" frameborder="no"
-						width="100%" height="650"></iframe>
+						style="overflow: visible;" scrolling="no" frameborder="no"
+						width="100%" height="100%" onLoad="iFrameHeight()"></iframe>
 				</DIV>
 				<!-- container -->
 			</DIV>
@@ -230,5 +230,16 @@
   <!-- App js -->
         <script src="${ctxStatic}/assets/js/jquery.core.js"></script>
         <script src="${ctxStatic}/assets/js/jquery.app.js"></script>
+
+	<script type="text/javascript" language="javascript">
+		function iFrameHeight() {
+			var ifm= document.getElementById("mainFrame");
+			var subWeb = document.frames ? document.frames["mainFrame"].document : ifm.contentDocument;
+			if(ifm != null && subWeb != null) {
+				ifm.height = subWeb.body.scrollHeight;
+				ifm.width = subWeb.body.scrollWidth;
+			}
+		}
+	</script>
 </BODY>
 </html>
