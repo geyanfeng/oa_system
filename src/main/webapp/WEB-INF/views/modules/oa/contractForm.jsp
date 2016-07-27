@@ -57,249 +57,335 @@
 	</script>
 </head>
 <body>
-	<ul class="nav nav-tabs">
+	<%--<ul class="nav nav-tabs">
 		<li><a href="${ctx}/oa/contract/">合同列表</a></li>
 		<li class="active"><a href="${ctx}/oa/contract/form?id=${contract.id}">合同<shiro:hasPermission name="oa:contract:edit">${not empty contract.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="oa:contract:edit">查看</shiro:lacksPermission></a></li>
-	</ul><br/>
+	</ul><br/>--%>
 	<form:form id="inputForm" modelAttribute="contract" action="${ctx}/oa/contract/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
-		<sys:message content="${message}"/>		
-		<div class="control-group">
-			<label class="control-label">流程实例ID：</label>
-			<div class="controls">
-				<form:input path="procInsId" htmlEscape="false" maxlength="64" class="input-xlarge "/>
+		<sys:message content="${message}"/>
+		<div class="col-sm-12">
+			<div class="card-box">
+				<h4 class="header-title m-t-0 m-b-30">合同信息</h4>
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="form-group">
+							<label class="col-md-2 control-label">合同号：</label>
+							<div class="col-md-4">
+								<form:input path="no" htmlEscape="false" maxlength="100" class="form-control required"/>
+								<span class="help-inline"><font color="red">*</font> </span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">合同类型：</label>
+							<div class="col-md-4">
+								<form:select path="contractType" class="form-control col-md-12 required">
+									<form:option value="" label=""/>
+									<form:options items="${fns:getDictList('oa_contract_type')}" itemLabel="label"
+												  itemValue="value" htmlEscape="false"/>
+								</form:select>
+								<span class="help-inline"><font color="red">*</font> </span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">商务人员：</label>
+							<div class="col-md-4">
+								<sys:treeselect id="business_person" name="business_person.id"
+												value="${contract.business_person.id}" labelName="business_person.name"
+												labelValue="${contract.business_person.name}"
+												title="用户" url="/sys/office/treeData?type=3" cssClass="form-control "
+												allowClear="true" notAllowSelectParent="true"/>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-lg-6">
+						<div class="form-group">
+							<label class="col-md-2 control-label">合同名称：</label>
+							<div class="col-md-4">
+								<form:input path="name" htmlEscape="false" maxlength="255"
+											class="form-control required"/>
+								<span class="help-inline"><font color="red">*</font> </span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">客户：</label>
+							<div class="col-md-4">
+								<sys:treeselect id="customer" name="customer.id" value="${contract.customer.id}"
+												labelName="customer.name" labelValue="${contract.customer.name}"
+												title="客户" url="/oa/customer/treeData" cssClass="" allowClear="true"
+												notAllowSelectParent="true"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">技术人员：</label>
+							<div class="col-md-4">
+								<sys:treeselect id="artisan" name="artisan.id" value="${contract.artisan.id}"
+												labelName="artisan.name" labelValue="${contract.artisan.name}"
+												title="用户" url="/sys/office/treeData?type=3" cssClass="form-control "
+												allowClear="true" notAllowSelectParent="true"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card-box">
+				<h4 class="header-title m-t-0 m-b-30">开票信息</h4>
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="form-group">
+							<label class="col-md-2 control-label">发票类型：</label>
+							<div class="col-md-4">
+								<form:radiobuttons path="invoiceType" items="${fns:getDictList('oa_invoice_type')}"
+												   itemLabel="label" itemValue="value" htmlEscape="false" class=""
+												   element="span class='radio radio-success col-sm-4'"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">发票客户名称：</label>
+							<div class="col-md-4">
+								<form:input path="invoiceCustomerName" htmlEscape="false" maxlength="255"
+											class="form-control "/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">发票税务登记号：</label>
+							<div class="col-md-4">
+								<form:input path="invoiceNo" htmlEscape="false" maxlength="255" class="form-control "/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">开户行：</label>
+							<div class="col-md-4">
+								<form:input path="invoiceBank" htmlEscape="false" maxlength="255"
+											class="form-control "/>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<div class="form-group">
+							<label class="col-md-2 control-label">银行帐号：</label>
+							<div class="col-md-4">
+								<form:input path="invoiceBankNo" htmlEscape="false" maxlength="255"
+											class="form-control "/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">地址：</label>
+							<div class="col-md-4">
+								<form:input path="invoiceAddress" htmlEscape="false" maxlength="1000"
+											class="form-control "/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">电话：</label>
+							<div class="col-md-4">
+								<form:input path="invoicePhone" htmlEscape="false" maxlength="100"
+											class="form-control "/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">公司抬头：</label>
+							<div class="col-md-4">
+								<form:select path="companyName" class="form-control col-md-12 required">
+									<form:option value="" label=""/>
+									<form:options items="${fns:getDictList('oa_company_name')}" itemLabel="label"
+												  itemValue="value" htmlEscape="false"/>
+								</form:select>
+								<span class="help-inline"><font color="red">*</font> </span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card-box">
+				<h4 class="header-title m-t-0 m-b-30">付款信息</h4>
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="form-group">
+							<label class="col-md-2 control-label">付款方式：</label>
+							<div class="col-md-4">
+								<form:radiobuttons path="paymentMethod" items="${fns:getDictList('oa_payment_method')}"
+												   itemLabel="label" itemValue="value" htmlEscape="false" class=""
+												   element="span class='radio radio-success col-sm-4'"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">付款周期类型：</label>
+							<div class="col-md-4">
+								<form:select path="paymentCycle" class="form-control col-md-12 ">
+									<form:option value="" label=""/>
+									<form:options items="${fns:getDictList('oa_payment_cycle')}" itemLabel="label"
+												  itemValue="value" htmlEscape="false"/>
+								</form:select>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<div class="form-group">
+							<label class="col-md-2 control-label">付款时间：</label>
+							<div class="col-md-4">
+								<input name="paymentTime" type="text" readonly="readonly" maxlength="20"
+									   class="form-control Wdate "
+									   value="<fmt:formatDate value="${contract.paymentTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+									   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">付款金额：</label>
+							<div class="col-md-4">
+								<form:input path="paymentAmount" htmlEscape="false" class="form-control  number"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card-box">
+				<h4 class="header-title m-t-0 m-b-30">其它</h4>
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="form-group">
+							<label class="col-md-2 control-label">客户费用：</label>
+							<div class="col-md-4">
+								<form:input path="customerCost" htmlEscape="false" class="form-control  number"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">是否业绩抵扣：</label>
+							<div class="col-md-4">
+								<form:checkboxes path="isDeduction" items="${fns:getDictList('')}" itemLabel="label"
+												 itemValue="value" htmlEscape="false" class="form-control required"/>
+								<span class="help-inline"><font color="red">*</font> </span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">抵扣金额：</label>
+							<div class="col-md-4">
+								<form:input path="discount" htmlEscape="false" class="form-control  number"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">有效期：</label>
+							<div class="col-md-4">
+								<input name="expiryDate" type="text" readonly="readonly" maxlength="20"
+									   class="form-control Wdate "
+									   value="<fmt:formatDate value="${contract.expiryDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+									   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<div class="form-group">
+							<label class="col-md-2 control-label">发货地址类型：</label>
+							<div class="col-md-4">
+								<form:select path="shipAddressType" class="form-control col-md-12 ">
+									<form:option value="" label=""/>
+									<form:options items="${fns:getDictList('oa_ship_address_type')}" itemLabel="label"
+												  itemValue="value" htmlEscape="false"/>
+								</form:select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">发货地址：</label>
+							<div class="col-md-4">
+								<form:input path="shipAddress" htmlEscape="false" maxlength="255"
+											class="form-control "/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-2 control-label">备注：</label>
+							<div class="col-md-4">
+								<form:input path="remark" htmlEscape="false" maxlength="255"
+											class="form-control required"/>
+								<span class="help-inline"><font color="red">*</font> </span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="form-group">
+							<label class="col-md-2 control-label">附件：</label>
+							<div class="col-md-4">
+								<form:hidden id="files" path="files" htmlEscape="false" maxlength="2000" class="form-control"/>
+								<sys:ckfinder input="files" type="files" uploadPath="/oa/contract" selectMultiple="true"/>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">父级id：</label>
-			<div class="controls">
-				<form:input path="parent.id" htmlEscape="false" maxlength="64" class="input-xlarge "/>
+
+
+
+		<div class="form-group hidden">
+			<label class="col-md-2 control-label">合同金额：</label>
+			<div class="col-md-4">
+				<form:input path="amount" htmlEscape="false" class="form-control  number"/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">合同号：</label>
-			<div class="controls">
-				<form:input path="no" htmlEscape="false" maxlength="100" class="input-xlarge required"/>
-				<span class="help-inline"><font color="red">*</font> </span>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">合同名称：</label>
-			<div class="controls">
-				<form:input path="name" htmlEscape="false" maxlength="255" class="input-xlarge required"/>
-				<span class="help-inline"><font color="red">*</font> </span>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">公司抬头：</label>
-			<div class="controls">
-				<form:input path="companyName" htmlEscape="false" maxlength="255" class="input-xlarge required"/>
-				<span class="help-inline"><font color="red">*</font> </span>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">合同类型：</label>
-			<div class="controls">
-				<form:select path="contractType" class="input-xlarge required">
+
+
+
+		<div class="form-group hidden">
+			<label class="col-md-2 control-label">合同状态：</label>
+			<div class="col-md-4">
+				<form:select path="status" class="form-control col-md-12 ">
 					<form:option value="" label=""/>
-					<form:options items="${fns:getDictList('oa_contract_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-				<span class="help-inline"><font color="red">*</font> </span>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">客户id：</label>
-			<div class="controls">
-				<sys:treeselect id="customer" name="customer.id" value="${contract.customer.id}" labelName="customer.name" labelValue="${contract.customer.name}"
-					title="客户" url="/oa/customer/treeData" cssClass="" allowClear="true" notAllowSelectParent="true"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">订单状态：</label>
-			<div class="controls">
-				<form:input path="status" htmlEscape="false" maxlength="2" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">付款方式：</label>
-			<div class="controls">
-				<form:checkboxes path="paymentMethod" items="${fns:getDictList('oa_payment_method')}" itemLabel="label" itemValue="value" htmlEscape="false" class=""/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">付款周期类型：</label>
-			<div class="controls">
-				<form:select path="paymentCycle" class="input-xlarge ">
-					<form:option value="" label=""/>
-					<form:options items="${fns:getDictList('oa_payment_cycle')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+					<form:options items="${fns:getDictList('oa_contract_status')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">付款时间：</label>
-			<div class="controls">
-				<input name="paymentTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
-					value="<fmt:formatDate value="${contract.paymentTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">付款金额：</label>
-			<div class="controls">
-				<form:input path="paymentAmount" htmlEscape="false" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">商务人员id：</label>
-			<div class="controls">
-				<sys:treeselect id="business_person" name="business_person.id" value="${contract.business_person.id}" labelName="business_person.name" labelValue="${contract.business_person.name}"
-					title="用户" url="/sys/office/treeData?type=3" cssClass="" allowClear="true" notAllowSelectParent="true"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">技术人员id：</label>
-			<div class="controls">
-				<sys:treeselect id="artisan" name="artisan.id" value="${contract.artisan.id}" labelName="artisan.name" labelValue="${contract.artisan.name}"
-					title="用户" url="/sys/office/treeData?type=3" cssClass="" allowClear="true" notAllowSelectParent="true"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">客户费用：</label>
-			<div class="controls">
-				<form:input path="customerCost" htmlEscape="false" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">是否业绩抵扣：</label>
-			<div class="controls">
-				<form:checkboxes path="isDeduction" items="${fns:getDictList('')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required"/>
-				<span class="help-inline"><font color="red">*</font> </span>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">抵扣金额：</label>
-			<div class="controls">
-				<form:input path="discount" htmlEscape="false" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">有效期：</label>
-			<div class="controls">
-				<input name="expiryDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
-					value="<fmt:formatDate value="${contract.expiryDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">发票类型：</label>
-			<div class="controls">
-				<form:radiobuttons path="invoiceType" items="${fns:getDictList('oa_invoice_type')}" itemLabel="label" itemValue="value" htmlEscape="false" class=""/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">发票客户名称：</label>
-			<div class="controls">
-				<form:input path="invoiceCustomerName" htmlEscape="false" maxlength="255" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">发票税务登记号：</label>
-			<div class="controls">
-				<form:input path="invoiceNo" htmlEscape="false" maxlength="255" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">开户行：</label>
-			<div class="controls">
-				<form:input path="invoiceBank" htmlEscape="false" maxlength="255" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">银行帐号：</label>
-			<div class="controls">
-				<form:input path="invoiceBankNo" htmlEscape="false" maxlength="255" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">地址：</label>
-			<div class="controls">
-				<form:input path="invoiceAddress" htmlEscape="false" maxlength="1000" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">电话：</label>
-			<div class="controls">
-				<form:input path="invoicePhone" htmlEscape="false" maxlength="100" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">发货地址类型：</label>
-			<div class="controls">
-				<form:select path="shipAddressType" class="input-xlarge ">
-					<form:option value="" label=""/>
-					<form:options items="${fns:getDictList('')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">发货地址：</label>
-			<div class="controls">
-				<form:input path="shipAddress" htmlEscape="false" maxlength="255" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">附件：</label>
-			<div class="controls">
-				<form:hidden id="files" path="files" htmlEscape="false" maxlength="2000" class="input-xlarge"/>
-				<sys:ckfinder input="files" type="files" uploadPath="/oa/contract" selectMultiple="true"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">备注：</label>
-			<div class="controls">
-				<form:input path="remark" htmlEscape="false" maxlength="255" class="input-xlarge required"/>
-				<span class="help-inline"><font color="red">*</font> </span>
-			</div>
-		</div>
-			<div class="control-group">
-				<label class="control-label">合同产品明细表：</label>
-				<div class="controls">
+
+
+		<div class="card-box">
+			<h4 class="header-title m-t-0 m-b-30">合同产品明细表</h4>
+			<div class="row">
+				<div class="col-sm-12">
 					<table id="contentTable" class="table table-striped table-bordered table-condensed">
 						<thead>
-							<tr>
-								<th class="hide"></th>
-								<th>名称</th>
-								<th>价格</th>
-								<th>数量</th>
-								<th>单位</th>
-								<th>金额</th>
-								<th>备注</th>
-								<shiro:hasPermission name="oa:contract:edit"><th width="10">&nbsp;</th></shiro:hasPermission>
-							</tr>
+						<tr role="row">
+							<th class="hide"></th>
+							<th>名称</th>
+							<th>价格</th>
+							<th>数量</th>
+							<th>单位</th>
+							<th>金额</th>
+							<th>备注</th>
+							<shiro:hasPermission name="oa:contract:edit">
+								<th width="10">&nbsp;</th>
+							</shiro:hasPermission>
+						</tr>
 						</thead>
 						<tbody id="contractProductList">
 						</tbody>
-						<shiro:hasPermission name="oa:contract:edit"><tfoot>
-							<tr><td colspan="8"><a href="javascript:" onclick="addRow('#contractProductList', contractProductRowIdx, contractProductTpl);contractProductRowIdx = contractProductRowIdx + 1;" class="btn">新增</a></td></tr>
-						</tfoot></shiro:hasPermission>
+						<shiro:hasPermission name="oa:contract:edit">
+							<tfoot>
+							<tr>
+								<td colspan="8"><a href="javascript:"
+												   onclick="addRow('#contractProductList', contractProductRowIdx, contractProductTpl);contractProductRowIdx = contractProductRowIdx + 1;"
+												   class="btn">新增</a></td>
+							</tr>
+							</tfoot>
+						</shiro:hasPermission>
 					</table>
 					<script type="text/template" id="contractProductTpl">//<!--
-						<tr id="contractProductList{{idx}}">
+						<tr id="contractProductList{{idx}}" class="row">
 							<td class="hide">
 								<input id="contractProductList{{idx}}_id" name="contractProductList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
 								<input id="contractProductList{{idx}}_delFlag" name="contractProductList[{{idx}}].delFlag" type="hidden" value="0"/>
 							</td>
 							<td>
-								<input id="contractProductList{{idx}}_name" name="contractProductList[{{idx}}].name" type="text" value="{{row.name}}" maxlength="100" class="input-small required"/>
+								<input id="contractProductList{{idx}}_name" name="contractProductList[{{idx}}].name" type="text" value="{{row.name}}" maxlength="100" class="form-control input-block required"/>
 							</td>
 							<td>
-								<input id="contractProductList{{idx}}_price" name="contractProductList[{{idx}}].price" type="text" value="{{row.price}}" class="input-small "/>
+								<input id="contractProductList{{idx}}_price" name="contractProductList[{{idx}}].price" type="text" value="{{row.price}}" class="form-control input-block"/>
 							</td>
 							<td>
-								<input id="contractProductList{{idx}}_num" name="contractProductList[{{idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="input-small "/>
+								<input id="contractProductList{{idx}}_num" name="contractProductList[{{idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="form-control input-block"/>
 							</td>
 							<td>
-								<select id="contractProductList{{idx}}_unit" name="contractProductList[{{idx}}].unit" data-value="{{row.unit}}" class="input-small ">
+								<select id="contractProductList{{idx}}_unit" name="contractProductList[{{idx}}].unit" data-value="{{row.unit}}" class="form-control input-block">
 									<option value=""></option>
 									<c:forEach items="${fns:getDictList('oa_unit')}" var="dict">
 										<option value="${dict.value}">${dict.label}</option>
@@ -307,10 +393,10 @@
 								</select>
 							</td>
 							<td>
-								<input id="contractProductList{{idx}}_amount" name="contractProductList[{{idx}}].amount" type="text" value="{{row.amount}}" class="input-small "/>
+								<input id="contractProductList{{idx}}_amount" name="contractProductList[{{idx}}].amount" type="text" value="{{row.amount}}" class="form-control input-block"/>
 							</td>
 							<td>
-								<input id="contractProductList{{idx}}_remark" name="contractProductList[{{idx}}].remark" type="text" value="{{row.remark}}" maxlength="255" class="input-small "/>
+								<input id="contractProductList{{idx}}_remark" name="contractProductList[{{idx}}].remark" type="text" value="{{row.remark}}" maxlength="255" class="form-control input-block"/>
 							</td>
 							<shiro:hasPermission name="oa:contract:edit"><td class="text-center" width="10">
 								{{#delBtn}}<span class="close" onclick="delRow(this, '#contractProductList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
@@ -318,10 +404,10 @@
 						</tr>//-->
 					</script>
 					<script type="text/javascript">
-						var contractProductRowIdx = 0, contractProductTpl = $("#contractProductTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
-						$(document).ready(function() {
+						var contractProductRowIdx = 0, contractProductTpl = $("#contractProductTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
+						$(document).ready(function () {
 							var data = ${fns:toJson(contract.contractProductList)};
-							for (var i=0; i<data.length; i++){
+							for (var i = 0; i < data.length; i++) {
 								addRow('#contractProductList', contractProductRowIdx, contractProductTpl, data[i]);
 								contractProductRowIdx = contractProductRowIdx + 1;
 							}
@@ -329,6 +415,8 @@
 					</script>
 				</div>
 			</div>
+
+		</div>
 		<div class="form-actions">
 			<shiro:hasPermission name="oa:contract:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
