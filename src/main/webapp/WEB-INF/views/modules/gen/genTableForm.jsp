@@ -193,7 +193,7 @@
                                            value="1" ${column.isQuery eq '1' ? 'checked' : ''}/>
                                 </td>
                                 <td>
-                                    <select name="columnList[${vs.index}].queryType" class="required input-mini">
+                                    <select name="columnList[${vs.index}].queryType" class="required input-mini" style="width:50px;">
                                         <c:forEach items="${config.queryTypeList}" var="dict">
                                             <option value="${fns:escapeHtml(dict.value)}" ${fns:escapeHtml(dict.value)==column.queryType?'selected':''}
                                                     title="${dict.description}">${fns:escapeHtml(dict.label)}</option>
@@ -202,7 +202,7 @@
                                 </td>
                                 <td>
                                     <select name="columnList[${vs.index}].showType" class="required form-control"
-                                            style="width:100px;">
+                                            style="width:130px;">
                                         <c:forEach items="${config.showTypeList}" var="dict">
                                             <option value="${dict.value}" ${dict.value==column.showType?'selected':''}
                                                     title="${dict.description}">${dict.label}</option>

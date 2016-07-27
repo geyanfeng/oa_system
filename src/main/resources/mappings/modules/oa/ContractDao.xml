@@ -8,6 +8,7 @@
 		a.parent_id AS "parent.id",
 		a.no AS "no",
 		a.name AS "name",
+		a.amount AS "amount",
 		a.company_name AS "companyName",
 		a.contract_type AS "contractType",
 		a.customer_id AS "customer.id",
@@ -38,15 +39,17 @@
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
-		a8.name AS "customer.name",
-		u14.name AS "business_person.name",
-		u15.name AS "artisan.name"
+		a9.name AS "customer.name",
+		u15.name AS "business_person.name",
+		u16.name AS "artisan.name",
+		u33.name AS "createBy.name"
 	</sql>
 	
 	<sql id="contractJoins">
-		LEFT JOIN oa_customer a8 ON a8.id = a.customer_id
-		LEFT JOIN sys_user u14 ON u14.id = a.business_person_id
-		LEFT JOIN sys_user u15 ON u15.id = a.artisan_id
+		LEFT JOIN oa_customer a9 ON a9.id = a.customer_id
+		LEFT JOIN sys_user u15 ON u15.id = a.business_person_id
+		LEFT JOIN sys_user u16 ON u16.id = a.artisan_id
+		LEFT JOIN sys_user u33 ON u33.id = a.create_by
 	</sql>
     
 	<select id="get" resultType="Contract">
@@ -64,11 +67,17 @@
 		<include refid="contractJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-			<if test="name != null and name != ''">
-				AND a.name LIKE 
-					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
-					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
-					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			<if test="customer != null and customer.id != null and customer.id != ''">
+				AND a.customer_id = #{customer.id}
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status = #{status}
+			</if>
+			<if test="createBy != null and createBy.id != null and createBy.id != ''">
+				AND a.create_by = #{createBy.id}
+			</if>
+			<if test="beginCreateDate != null and endCreateDate != null and beginCreateDate != '' and endCreateDate != ''">
+				AND a.create_date BETWEEN #{beginCreateDate} AND #{endCreateDate}
 			</if>
 		</where>
 		<choose>
@@ -102,10 +111,9 @@
 	<insert id="insert">
 		INSERT INTO oa_contract(
 			id,
-			proc_ins_id,
-			parent_id,
 			no,
 			name,
+			amount,
 			company_name,
 			contract_type,
 			customer_id,
@@ -138,10 +146,9 @@
 			update_date
 		) VALUES (
 			#{id},
-			#{procInsId},
-			#{parent.id},
 			#{no},
 			#{name},
+			#{amount},
 			#{companyName},
 			#{contractType},
 			#{customer.id},
@@ -177,10 +184,9 @@
 	
 	<update id="update">
 		UPDATE oa_contract SET 	
-			proc_ins_id = #{procInsId},
-			parent_id = #{parent.id},
 			no = #{no},
 			name = #{name},
+			amount = #{amount},
 			company_name = #{companyName},
 			contract_type = #{contractType},
 			customer_id = #{customer.id},

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <template>
-	<name>viewForm</name>
-	<filePath>src/main/webapp/WEB-INF/views/${lastPackageName}/${moduleName}/${subModuleName}</filePath>
-	<fileName>${className}Form.jsp</fileName>
-	<content><![CDATA[
+    <name>viewForm</name>
+    <filePath>src/main/webapp/WEB-INF/views/${lastPackageName}/${moduleName}/${subModuleName}</filePath>
+    <fileName>${className}Form.jsp</fileName>
+    <content><![CDATA[
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
@@ -41,24 +41,24 @@
 		<sys:message content="${r"${message}"}"/>		
 		<#list table.columnList as c>
 			<#if c.isEdit?? && c.isEdit == "1" && (c.isNotBaseField || c.simpleJavaField == 'remarks')>
-		<div class="control-group">
+		<div class="form-group">
 			<label class="col-md-2 control-label">${c.comments}：</label>
 			<div class="col-md-4">
 			<#if c.showType == "input">
-				<form:input path="${c.javaFieldId}" htmlEscape="false"<#if c.dataLength != "0"> maxlength="${c.dataLength}"</#if> class="form-control input-xlarge <#if c.isNull != "1">required</#if><#if c.javaType == "Long" || c.javaType == "Integer"> digits</#if><#if c.javaType == "Double"> number</#if>"/>
+				<form:input path="${c.javaFieldId}" htmlEscape="false"<#if c.dataLength != "0"> maxlength="${c.dataLength}"</#if> class="form-control <#if c.isNull != "1">required</#if><#if c.javaType == "Long" || c.javaType == "Integer"> digits</#if><#if c.javaType == "Double"> number</#if>"/>
 			<#elseif c.showType == "textarea">
-				<form:textarea path="${c.javaFieldId}" htmlEscape="false" rows="4"<#if c.dataLength != "0"> maxlength="${c.dataLength}"</#if> class="form-control input-xxlarge <#if c.isNull != "1">required</#if>"/>
+				<form:textarea path="${c.javaFieldId}" htmlEscape="false" rows="4"<#if c.dataLength != "0"> maxlength="${c.dataLength}"</#if> class="form-control<#if c.isNull != "1">required</#if>"/>
 			<#elseif c.showType == "select">
-				<form:select path="${c.javaFieldId}" class="form-control input-xlarge <#if c.isNull != "1">required</#if>">
+				<form:select path="${c.javaFieldId}" class="form-control col-md-12 <#if c.isNull != "1">required</#if>">
 					<form:option value="" label=""/>
 					<form:options items="${"$"}{fns:getDictList('${c.dictType}')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			<#elseif c.showType == "checkbox">
 				<form:checkboxes path="${c.javaFieldId}" items="${"$"}{fns:getDictList('${c.dictType}')}" itemLabel="label" itemValue="value" htmlEscape="false" class="form-control <#if c.isNull != "1">required</#if>"/>
 			<#elseif c.showType == "radiobox">
-				<form:radiobuttons path="${c.javaFieldId}" items="${"$"}{fns:getDictList('${c.dictType}')}" itemLabel="label" itemValue="value" htmlEscape="false" class="form-control <#if c.isNull != "1">required</#if>"/>
+				<form:radiobuttons path="${c.javaFieldId}" items="${"$"}{fns:getDictList('${c.dictType}')}" itemLabel="label" itemValue="value" htmlEscape="false" class="form-control <#if c.isNull != "1"  element="span class='radio radio-success col-sm-4'>required</#if>"/>
 			<#elseif c.showType == "dateselect">
-				<input name="${c.javaFieldId}" type="text" readonly="readonly" maxlength="20" class="form-control input-medium Wdate <#if c.isNull != "1">required</#if>"
+				<input name="${c.javaFieldId}" type="text" readonly="readonly" maxlength="20" class="form-control Wdate <#if c.isNull != "1">required</#if>"
 					value="<fmt:formatDate value="${"$"}{${className}.${c.javaFieldId}}" pattern="yyyy-MM-dd HH:mm:ss"/>"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 			<#elseif c.showType == "userselect">
@@ -74,7 +74,7 @@
 				<sys:treeselect id="${c.simpleJavaField}" name="${c.javaFieldId}" value="${"$"}{${className}.${c.javaFieldId}}" labelName="${c.javaFieldName}" labelValue="${"$"}{${className}.${c.javaFieldName}}"
 					title="客户" url="/oa/customer/treeData" cssClass="form-control <#if c.isNull != "1">required</#if>" allowClear="true" notAllowSelectParent="true"/>
 			<#elseif c.showType == "fileselect">
-				<form:hidden id="${c.simpleJavaField}" path="${c.javaFieldId}" htmlEscape="false"<#if c.dataLength != "0"> maxlength="${c.dataLength}"</#if> class="form-control input-xlarge"/>
+				<form:hidden id="${c.simpleJavaField}" path="${c.javaFieldId}" htmlEscape="false"<#if c.dataLength != "0"> maxlength="${c.dataLength}"</#if> class="form-control"/>
 				<sys:ckfinder input="${c.simpleJavaField}" type="files" uploadPath="/${moduleName}<#if subModuleName != "">/${subModuleName}</#if>/${className}" selectMultiple="true"/>
 			</#if>
 			<#if c.isNull != "1">
@@ -91,5 +91,5 @@
 	</form:form>
 </body>
 </html>]]>
-	</content>
+    </content>
 </template>

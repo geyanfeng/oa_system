@@ -10,7 +10,7 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 /**
  * 各种合同Entity
  * @author anthony
- * @version 2016-07-26
+ * @version 2016-07-28
  */
 public class ContractProduct extends DataEntity<ContractProduct> {
 	

@@ -9,6 +9,7 @@ import com.thinkgem.jeesite.modules.oa.entity.Customer;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.thinkgem.jeesite.modules.sys.entity.User;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import com.google.common.collect.Lists;
 
@@ -17,7 +18,7 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 /**
  * 各种合同Entity
  * @author anthony
- * @version 2016-07-26
+ * @version 2016-07-28
  */
 public class Contract extends DataEntity<Contract> {
 	
@@ -26,19 +27,20 @@ public class Contract extends DataEntity<Contract> {
 	private Contract parent;		// 父级id
 	private String no;		// 合同号
 	private String name;		// 合同名称
+	private Double amount;		// 合同金额
 	private String companyName;		// 公司抬头
 	private String contractType;		// 合同类型
-	private Customer customer;		// 客户id
-	private String status;		// 订单状态
+	private Customer customer;		// 客户
+	private String status;		// 合同状态
 	private String paymentMethod;		// 付款方式
 	private String paymentCycle;		// 付款周期类型
 	private Date paymentTime;		// 付款时间
-	private String paymentAmount;		// 付款金额
-	private User business_person;		// 商务人员id
-	private User artisan;		// 技术人员id
-	private String customerCost;		// 客户费用
-	private String isDeduction;		// 是否业绩抵扣
-	private String discount;		// 抵扣金额
+	private Double paymentAmount;		// 付款金额
+	private User business_person;		// 商务人员
+	private User artisan;		// 技术人员
+	private Double customerCost;		// 客户费用
+	private Integer isDeduction;		// 是否业绩抵扣
+	private Double discount;		// 抵扣金额
 	private Date expiryDate;		// 有效期
 	private String invoiceType;		// 发票类型
 	private String invoiceCustomerName;		// 发票客户名称
@@ -51,6 +53,8 @@ public class Contract extends DataEntity<Contract> {
 	private String shipAddress;		// 发货地址
 	private String files;		// 附件
 	private String remark;		// 备注
+	private Date beginCreateDate;		// 开始 日期
+	private Date endCreateDate;		// 结束 日期
 	private List<ContractProduct> contractProductList = Lists.newArrayList();		// 子表列表
 	
 	public Contract() {
@@ -97,6 +101,14 @@ public class Contract extends DataEntity<Contract> {
 		this.name = name;
 	}
 	
+	public Double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
+	
 	@Length(min=1, max=255, message="公司抬头长度必须介于 1 和 255 之间")
 	public String getCompanyName() {
 		return companyName;
@@ -123,7 +135,7 @@ public class Contract extends DataEntity<Contract> {
 		this.customer = customer;
 	}
 	
-	@Length(min=0, max=2, message="订单状态长度必须介于 0 和 2 之间")
+	@Length(min=0, max=2, message="合同状态长度必须介于 0 和 2 之间")
 	public String getStatus() {
 		return status;
 	}
@@ -159,11 +171,11 @@ public class Contract extends DataEntity<Contract> {
 		this.paymentTime = paymentTime;
 	}
 	
-	public String getPaymentAmount() {
+	public Double getPaymentAmount() {
 		return paymentAmount;
 	}
 
-	public void setPaymentAmount(String paymentAmount) {
+	public void setPaymentAmount(Double paymentAmount) {
 		this.paymentAmount = paymentAmount;
 	}
 	
@@ -183,28 +195,28 @@ public class Contract extends DataEntity<Contract> {
 		this.artisan = artisan;
 	}
 	
-	public String getCustomerCost() {
+	public Double getCustomerCost() {
 		return customerCost;
 	}
 
-	public void setCustomerCost(String customerCost) {
+	public void setCustomerCost(Double customerCost) {
 		this.customerCost = customerCost;
 	}
 	
-	@Length(min=1, max=1, message="是否业绩抵扣长度必须介于 1 和 1 之间")
-	public String getIsDeduction() {
+	@NotNull(message="是否业绩抵扣不能为空")
+	public Integer getIsDeduction() {
 		return isDeduction;
 	}
 
-	public void setIsDeduction(String isDeduction) {
+	public void setIsDeduction(Integer isDeduction) {
 		this.isDeduction = isDeduction;
 	}
 	
-	public String getDiscount() {
+	public Double getDiscount() {
 		return discount;
 	}
 
-	public void setDiscount(String discount) {
+	public void setDiscount(Double discount) {
 		this.discount = discount;
 	}
 	
@@ -316,6 +328,22 @@ public class Contract extends DataEntity<Contract> {
 		this.remark = remark;
 	}
 	
+	public Date getBeginCreateDate() {
+		return beginCreateDate;
+	}
+
+	public void setBeginCreateDate(Date beginCreateDate) {
+		this.beginCreateDate = beginCreateDate;
+	}
+	
+	public Date getEndCreateDate() {
+		return endCreateDate;
+	}
+
+	public void setEndCreateDate(Date endCreateDate) {
+		this.endCreateDate = endCreateDate;
+	}
+		
 	public List<ContractProduct> getContractProductList() {
 		return contractProductList;
 	}

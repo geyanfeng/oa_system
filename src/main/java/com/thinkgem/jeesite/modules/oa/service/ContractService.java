@@ -20,7 +20,7 @@ import com.thinkgem.jeesite.modules.oa.dao.ContractProductDao;
 /**
  * 各种合同Service
  * @author anthony
- * @version 2016-07-26
+ * @version 2016-07-28
  */
 @Service
 @Transactional(readOnly = true)
