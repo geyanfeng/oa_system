@@ -345,7 +345,7 @@
 					<table id="contentTable" class="table table-striped table-bordered table-condensed">
 						<thead>
 						<tr role="row">
-							<th class="hide"></th>
+							<th class="hidden"></th>
 							<th>名称</th>
 							<th>价格</th>
 							<th>数量</th>
@@ -370,8 +370,8 @@
 						</shiro:hasPermission>
 					</table>
 					<script type="text/template" id="contractProductTpl">//<!--
-						<tr id="contractProductList{{idx}}" class="row">
-							<td class="hide">
+						<tr id="contractProductList{{idx}}" row="row">
+							<td class="hidden">
 								<input id="contractProductList{{idx}}_id" name="contractProductList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
 								<input id="contractProductList{{idx}}_delFlag" name="contractProductList[{{idx}}].delFlag" type="hidden" value="0"/>
 							</td>
