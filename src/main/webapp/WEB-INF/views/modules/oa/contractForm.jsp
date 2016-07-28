@@ -55,6 +55,20 @@
 				$(obj).parent().parent().removeClass("error");
 			}
 		}
+
+		function changeContractType(){
+			var contractType_value = $('#contractType').val();
+			switch (contractType_value){
+				case "1":
+						$('#card_other').hide();
+						$('#card_products').hide();
+					break;
+				default:
+					$('#card_other').show();
+					$('#card_products').show();
+					break;
+			}
+		}
 	</script>
 </head>
 <body>
@@ -80,7 +94,7 @@
 						<div class="form-group">
 							<label class="col-sm-3 control-label">合同类型：</label>
 							<div class="col-sm-7">
-								<form:select path="contractType" class="form-control col-md-12 required">
+								<form:select path="contractType" class="form-control col-md-12 required" onchange="changeContractType()">
 									<form:option value="" label=""/>
 									<form:options items="${fns:getDictList('oa_contract_type')}" itemLabel="label"
 												  itemValue="value" htmlEscape="false"/>
@@ -241,7 +255,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="card-box">
+			<div class="card-box" id="card_other">
 				<h4 class="header-title m-t-0 m-b-30">其它</h4>
 				<div class="row">
 					<div class="col-sm-6">
@@ -294,9 +308,8 @@
 						<div class="form-group">
 							<label class="col-sm-3 control-label">备注：</label>
 							<div class="col-sm-7">
-								<form:input path="remark" htmlEscape="false" maxlength="255"
-											class="form-control required"/>
-								<span class="help-inline"><font color="red">*</font> </span>
+								<form:textarea path="remark" htmlEscape="false" maxlength="255"
+											class="form-control"/>
 							</div>
 						</div>
 					</div>
@@ -313,61 +326,37 @@
 					</div>
 				</div>
 			</div>
-		</div>
+			<div class="card-box" id="card_products">
+				<h4 class="header-title m-t-0 m-b-30">合同产品明细表</h4>
+				<shiro:hasPermission name="oa:contract:edit">
+					<div class="pull-right">
+						<a href="javascript:"
+						   onclick="addRow('#contractProductList', contractProductRowIdx, contractProductTpl);contractProductRowIdx = contractProductRowIdx + 1;"
+						   class="btn btn-custom waves-effect w-md waves-light m-b-5 ti-plus">新增</a>
+					</div>
+				</shiro:hasPermission>
+				<div class="row">
+					<div class="col-sm-12">
+						<table id="contentTable" class="table table-striped table-bordered table-condensed">
+							<thead>
+							<tr role="row">
+								<th class="hidden"></th>
+								<th>名称</th>
+								<th>价格</th>
+								<th>数量</th>
+								<th>单位</th>
+								<th>金额</th>
+								<th>备注</th>
+								<shiro:hasPermission name="oa:contract:edit">
+									<th width="10">&nbsp;</th>
+								</shiro:hasPermission>
+							</tr>
+							</thead>
+							<tbody id="contractProductList">
+							</tbody>
 
-
-
-		<div class="form-group hidden">
-			<label class="col-sm-3 control-label">合同金额：</label>
-			<div class="col-sm-7">
-				<form:input path="amount" htmlEscape="false" class="form-control  number"/>
-			</div>
-		</div>
-
-
-
-		<div class="form-group hidden">
-			<label class="col-sm-3 control-label">合同状态：</label>
-			<div class="col-sm-7">
-				<form:select path="status" class="form-control col-md-12 ">
-					<form:option value="" label=""/>
-					<form:options items="${fns:getDictList('oa_contract_status')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-			</div>
-		</div>
-
-
-		<div class="card-box">
-			<h4 class="header-title m-t-0 m-b-30">合同产品明细表</h4>
-			<shiro:hasPermission name="oa:contract:edit">
-				<div class="pull-right">
-					<a href="javascript:"
-					   onclick="addRow('#contractProductList', contractProductRowIdx, contractProductTpl);contractProductRowIdx = contractProductRowIdx + 1;"
-					   class="btn btn-info waves-effect w-md waves-light m-b-5 ti-plus">新增</a>
-				</div>
-			</shiro:hasPermission>
-			<div class="row">
-				<div class="col-sm-12">
-					<table id="contentTable" class="table table-striped table-bordered table-condensed">
-						<thead>
-						<tr role="row">
-							<th class="hidden"></th>
-							<th>名称</th>
-							<th>价格</th>
-							<th>数量</th>
-							<th>单位</th>
-							<th>金额</th>
-							<th>备注</th>
-							<shiro:hasPermission name="oa:contract:edit">
-								<th width="10">&nbsp;</th>
-							</shiro:hasPermission>
-						</tr>
-						</thead>
-						<tbody id="contractProductList">
-						</tbody>
-
-					</table>
-					<script type="text/template" id="contractProductTpl">//<!--
+						</table>
+						<script type="text/template" id="contractProductTpl">//<!--
 						<tr id="contractProductList{{idx}}" row="row">
 							<td class="hidden">
 								<input id="contractProductList{{idx}}_id" name="contractProductList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
@@ -400,23 +389,43 @@
 								{{#delBtn}}<span class="close" onclick="delRow(this, '#contractProductList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
 							</td></shiro:hasPermission>
 						</tr>//-->
-					</script>
-					<script type="text/javascript">
-						var contractProductRowIdx = 0, contractProductTpl = $("#contractProductTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
-						$(document).ready(function () {
-							var data = ${fns:toJson(contract.contractProductList)};
-							for (var i = 0; i < data.length; i++) {
-								addRow('#contractProductList', contractProductRowIdx, contractProductTpl, data[i]);
-								contractProductRowIdx = contractProductRowIdx + 1;
-							}
-						});
-					</script>
+						</script>
+						<script type="text/javascript">
+							var contractProductRowIdx = 0, contractProductTpl = $("#contractProductTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
+							$(document).ready(function () {
+								var data = ${fns:toJson(contract.contractProductList)};
+								for (var i = 0; i < data.length; i++) {
+									addRow('#contractProductList', contractProductRowIdx, contractProductTpl, data[i]);
+									contractProductRowIdx = contractProductRowIdx + 1;
+								}
+							});
+						</script>
+					</div>
 				</div>
-			</div>
 
+			</div>
 		</div>
+
+	<%--	<div class="form-group hidden">
+			<label class="col-sm-3 control-label">合同金额：</label>
+			<div class="col-sm-7">
+				<form:input path="amount" htmlEscape="false" class="form-control  number"/>
+			</div>
+		</div>
+
+		<div class="form-group hidden">
+			<label class="col-sm-3 control-label">合同状态：</label>
+			<div class="col-sm-7">
+				<form:select path="status" class="form-control col-md-12 ">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('oa_contract_status')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+			</div>
+		</div>
+--%>
+
 		<div class="form-actions">
-			<shiro:hasPermission name="oa:contract:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="oa:contract:edit"><input id="btnSubmit" class="btn btn-custom" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
