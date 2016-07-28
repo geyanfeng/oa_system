@@ -17,39 +17,77 @@
 	</script>
 </head>
 <body>
-	<ul class="nav nav-tabs">
+<%--	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/oa/contract/">合同列表</a></li>
 		<shiro:hasPermission name="oa:contract:edit"><li><a href="${ctx}/oa/contract/form">合同添加</a></li></shiro:hasPermission>
-	</ul>
+	</ul>--%>
 	<form:form id="searchForm" modelAttribute="contract" action="${ctx}/oa/contract/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
-		<ul class="ul-form">
-			<li><label>客户：</label>
-				<sys:treeselect id="customer" name="customer.id" value="${contract.customer.id}" labelName="customer.name" labelValue="${contract.customer.name}"
-					title="客户" url="/oa/customer/treeData" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
-			</li>
-			<li><label>合同状态：</label>
-				<form:select path="status" class="input-medium">
-					<form:option value="" label=""/>
-					<form:options items="${fns:getDictList('oa_contract_status')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-				</form:select>
-			</li>
-			<li><label>销售：</label>
-				<sys:treeselect id="createBy" name="createBy.id" value="${contract.createBy.id}" labelName="createBy.name" labelValue="${contract.createBy.name}"
-					title="用户" url="/sys/office/treeData?type=3" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
-			</li>
-			<li><label>日期：</label>
-				<input name="beginCreateDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
-					value="<fmt:formatDate value="${contract.beginCreateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/> - 
-				<input name="endCreateDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
-					value="<fmt:formatDate value="${contract.endCreateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
-			</li>
-			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
-			<li class="clearfix"></li>
-		</ul>
+		<div class="col-sm-12">
+			<div class="card-box">
+				<div class="row">
+					<div class="col-sm-5">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">日期：</label>
+							<div class="col-sm-7">
+								<div class="row">
+									<div class="col-sm-5">
+										<input name="beginCreateDate" type="text" readonly="readonly" maxlength="20"
+											   class="form-control Wdate "
+											   value="<fmt:formatDate value="${contract.beginCreateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+											   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+									</div>
+									<div class="col-sm-1">-</div>
+									<div class="col-sm-5">
+										<input name="endCreateDate" type="text" readonly="readonly" maxlength="20"
+											   class="form-control Wdate "
+											   value="<fmt:formatDate value="${contract.endCreateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+											   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group m-t-20">
+							<label class="col-sm-3 control-label">客户：</label>
+							<div class="col-sm-7">
+								<sys:treeselect id="customer" name="customer.id" value="${contract.customer.id}"
+												labelName="customer.name" labelValue="${contract.customer.name}"
+												title="客户" url="/oa/customer/treeData" cssClass="input-small"
+												allowClear="true" notAllowSelectParent="true"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-5">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">合同状态：</label>
+							<div class="col-sm-7">
+								<form:select path="status" class="select2-container form-control col-md-12">
+									<form:option value="" label=""/>
+									<form:options items="${fns:getDictList('oa_contract_status')}" itemLabel="label"
+												  itemValue="value" htmlEscape="false"/>
+								</form:select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-3 control-label">销售：</label>
+							<div class="col-sm-7">
+								<sys:treeselect id="createBy" name="createBy.id" value="${contract.createBy.id}"
+												labelName="createBy.name" labelValue="${contract.createBy.name}"
+												title="用户" url="/sys/office/treeData?type=3" cssClass="input-small"
+												allowClear="true" notAllowSelectParent="true"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-2">
+						<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
 	</form:form>
 	<sys:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
