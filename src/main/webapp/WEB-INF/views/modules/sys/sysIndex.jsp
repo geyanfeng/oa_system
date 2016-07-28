@@ -4,7 +4,6 @@
 <head>
 <title>${fns:getConfig('productName')}</title>
 <meta name="decorator" content="blank" />
-
 </head>
 <BODY class="fixed-left">
 	<!-- Begin page -->
@@ -139,9 +138,8 @@
 			<DIV class="content">
 				<DIV class="container">
 					<!-- Page-Title -->
-					<iframe id="mainFrame" name="mainFrame" src=""
-						style="overflow: visible;" scrolling="no" frameborder="no"
-						width="100%" height="100%" onLoad="iFrameHeight()"></iframe>
+					<iframe id="mainFrame" name="mainFrame" src="" scrolling="no" frameborder="no"
+						width="100%"></iframe>
 				</DIV>
 				<!-- container -->
 			</DIV>
@@ -230,16 +228,8 @@
   <!-- App js -->
         <script src="${ctxStatic}/assets/js/jquery.core.js"></script>
         <script src="${ctxStatic}/assets/js/jquery.app.js"></script>
-
-	<script type="text/javascript" language="javascript">
-		function iFrameHeight() {
-			var ifm= document.getElementById("mainFrame");
-			var subWeb = document.frames ? document.frames["mainFrame"].document : ifm.contentDocument;
-			if(ifm != null && subWeb != null) {
-				ifm.height = subWeb.body.scrollHeight;
-				ifm.width = subWeb.body.scrollWidth;
-			}
-		}
+	<script type="text/javascript">
+		$('#mainFrame').iFrameResize([{log: true}]);
 	</script>
 </BODY>
 </html>

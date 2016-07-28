@@ -143,7 +143,7 @@ a.editable-click:hover {
 .select2-chosen {
   height: 34px;
   line-height: 34px;
-  padding-left: 15px;
+  /*padding-left: 15px;*/
 }
 /* Bootstrap-select */
 .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {

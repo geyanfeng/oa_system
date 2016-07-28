@@ -4,6 +4,7 @@
 <head>
 	<title>合同管理</title>
 	<meta name="decorator" content="default"/>
+
 	<script type="text/javascript">
 		$(document).ready(function() {
 			//$("#name").focus();
@@ -68,17 +69,17 @@
 			<div class="card-box">
 				<h4 class="header-title m-t-0 m-b-30">合同信息</h4>
 				<div class="row">
-					<div class="col-lg-6">
+					<div class="col-sm-6">
 						<div class="form-group">
-							<label class="col-md-2 control-label">合同号：</label>
-							<div class="col-md-4">
+							<label class="col-sm-3 control-label">合同号：</label>
+							<div class="col-sm-7">
 								<form:input path="no" htmlEscape="false" maxlength="100" class="form-control required"/>
 								<span class="help-inline"><font color="red">*</font> </span>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-2 control-label">合同类型：</label>
-							<div class="col-md-4">
+							<label class="col-sm-3 control-label">合同类型：</label>
+							<div class="col-sm-7">
 								<form:select path="contractType" class="form-control col-md-12 required">
 									<form:option value="" label=""/>
 									<form:options items="${fns:getDictList('oa_contract_type')}" itemLabel="label"
@@ -88,8 +89,8 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-2 control-label">商务人员：</label>
-							<div class="col-md-4">
+							<label class="col-sm-3 control-label">商务人员：</label>
+							<div class="col-sm-7">
 								<sys:treeselect id="business_person" name="business_person.id"
 												value="${contract.business_person.id}" labelName="business_person.name"
 												labelValue="${contract.business_person.name}"
@@ -99,18 +100,18 @@
 						</div>
 
 					</div>
-					<div class="col-lg-6">
+					<div class="col-sm-6">
 						<div class="form-group">
-							<label class="col-md-2 control-label">合同名称：</label>
-							<div class="col-md-4">
+							<label class="col-sm-3 control-label">合同名称：</label>
+							<div class="col-sm-7">
 								<form:input path="name" htmlEscape="false" maxlength="255"
 											class="form-control required"/>
 								<span class="help-inline"><font color="red">*</font> </span>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-2 control-label">客户：</label>
-							<div class="col-md-4">
+							<label class="col-sm-3 control-label">客户：</label>
+							<div class="col-sm-7">
 								<sys:treeselect id="customer" name="customer.id" value="${contract.customer.id}"
 												labelName="customer.name" labelValue="${contract.customer.name}"
 												title="客户" url="/oa/customer/treeData" cssClass="" allowClear="true"
@@ -118,8 +119,8 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-2 control-label">技术人员：</label>
-							<div class="col-md-4">
+							<label class="col-sm-3 control-label">技术人员：</label>
+							<div class="col-sm-7">
 								<sys:treeselect id="artisan" name="artisan.id" value="${contract.artisan.id}"
 												labelName="artisan.name" labelValue="${contract.artisan.name}"
 												title="用户" url="/sys/office/treeData?type=3" cssClass="form-control "
@@ -132,61 +133,61 @@
 			<div class="card-box">
 				<h4 class="header-title m-t-0 m-b-30">开票信息</h4>
 				<div class="row">
-					<div class="col-lg-6">
+					<div class="col-sm-6">
 						<div class="form-group">
-							<label class="col-md-2 control-label">发票类型：</label>
-							<div class="col-md-4">
+							<label class="col-sm-3 control-label">发票类型：</label>
+							<div class="col-sm-7">
 								<form:radiobuttons path="invoiceType" items="${fns:getDictList('oa_invoice_type')}"
 												   itemLabel="label" itemValue="value" htmlEscape="false" class=""
 												   element="span class='radio radio-success col-sm-4'"/>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-2 control-label">发票客户名称：</label>
-							<div class="col-md-4">
+							<label class="col-sm-3 control-label">发票客户名称：</label>
+							<div class="col-sm-7">
 								<form:input path="invoiceCustomerName" htmlEscape="false" maxlength="255"
 											class="form-control "/>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-2 control-label">发票税务登记号：</label>
-							<div class="col-md-4">
+							<label class="col-sm-3 control-label">发票税务登记号：</label>
+							<div class="col-sm-7">
 								<form:input path="invoiceNo" htmlEscape="false" maxlength="255" class="form-control "/>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-2 control-label">开户行：</label>
-							<div class="col-md-4">
+							<label class="col-sm-3 control-label">开户行：</label>
+							<div class="col-sm-7">
 								<form:input path="invoiceBank" htmlEscape="false" maxlength="255"
 											class="form-control "/>
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-6">
+					<div class="col-sm-6">
 						<div class="form-group">
-							<label class="col-md-2 control-label">银行帐号：</label>
-							<div class="col-md-4">
+							<label class="col-sm-3 control-label">银行帐号：</label>
+							<div class="col-sm-7">
 								<form:input path="invoiceBankNo" htmlEscape="false" maxlength="255"
 											class="form-control "/>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-2 control-label">地址：</label>
-							<div class="col-md-4">
+							<label class="col-sm-3 control-label">地址：</label>
+							<div class="col-sm-7">
 								<form:input path="invoiceAddress" htmlEscape="false" maxlength="1000"
 											class="form-control "/>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-2 control-label">电话：</label>
-							<div class="col-md-4">
+							<label class="col-sm-3 control-label">电话：</label>
+							<div class="col-sm-7">
 								<form:input path="invoicePhone" htmlEscape="false" maxlength="100"
 											class="form-control "/>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-2 control-label">公司抬头：</label>
-							<div class="col-md-4">
+							<label class="col-sm-3 control-label">公司抬头：</label>
+							<div class="col-sm-7">
 								<form:select path="companyName" class="form-control col-md-12 required">
 									<form:option value="" label=""/>
 									<form:options items="${fns:getDictList('oa_company_name')}" itemLabel="label"
@@ -201,18 +202,18 @@
 			<div class="card-box">
 				<h4 class="header-title m-t-0 m-b-30">付款信息</h4>
 				<div class="row">
-					<div class="col-lg-6">
+					<div class="col-sm-6">
 						<div class="form-group">
-							<label class="col-md-2 control-label">付款方式：</label>
-							<div class="col-md-4">
+							<label class="col-sm-3 control-label">付款方式：</label>
+							<div class="col-sm-7">
 								<form:radiobuttons path="paymentMethod" items="${fns:getDictList('oa_payment_method')}"
 												   itemLabel="label" itemValue="value" htmlEscape="false" class=""
 												   element="span class='radio radio-success col-sm-4'"/>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-2 control-label">付款周期类型：</label>
-							<div class="col-md-4">
+							<label class="col-sm-3 control-label">付款周期类型：</label>
+							<div class="col-sm-7">
 								<form:select path="paymentCycle" class="form-control col-md-12 ">
 									<form:option value="" label=""/>
 									<form:options items="${fns:getDictList('oa_payment_cycle')}" itemLabel="label"
@@ -221,10 +222,10 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-6">
+					<div class="col-sm-6">
 						<div class="form-group">
-							<label class="col-md-2 control-label">付款时间：</label>
-							<div class="col-md-4">
+							<label class="col-sm-3 control-label">付款时间：</label>
+							<div class="col-sm-7">
 								<input name="paymentTime" type="text" readonly="readonly" maxlength="20"
 									   class="form-control Wdate "
 									   value="<fmt:formatDate value="${contract.paymentTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
@@ -232,8 +233,8 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-2 control-label">付款金额：</label>
-							<div class="col-md-4">
+							<label class="col-sm-3 control-label">付款金额：</label>
+							<div class="col-sm-7">
 								<form:input path="paymentAmount" htmlEscape="false" class="form-control  number"/>
 							</div>
 						</div>
@@ -243,30 +244,30 @@
 			<div class="card-box">
 				<h4 class="header-title m-t-0 m-b-30">其它</h4>
 				<div class="row">
-					<div class="col-lg-6">
+					<div class="col-sm-6">
 						<div class="form-group">
-							<label class="col-md-2 control-label">客户费用：</label>
-							<div class="col-md-4">
+							<label class="col-sm-3 control-label">客户费用：</label>
+							<div class="col-sm-7">
 								<form:input path="customerCost" htmlEscape="false" class="form-control  number"/>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-2 control-label">是否业绩抵扣：</label>
-							<div class="col-md-4">
+							<label class="col-sm-3 control-label">是否业绩抵扣：</label>
+							<div class="col-sm-7">
 								<form:checkboxes path="isDeduction" items="${fns:getDictList('')}" itemLabel="label"
 												 itemValue="value" htmlEscape="false" class="form-control required"/>
 								<span class="help-inline"><font color="red">*</font> </span>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-2 control-label">抵扣金额：</label>
-							<div class="col-md-4">
+							<label class="col-sm-3 control-label">抵扣金额：</label>
+							<div class="col-sm-7">
 								<form:input path="discount" htmlEscape="false" class="form-control  number"/>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-2 control-label">有效期：</label>
-							<div class="col-md-4">
+							<label class="col-sm-3 control-label">有效期：</label>
+							<div class="col-sm-7">
 								<input name="expiryDate" type="text" readonly="readonly" maxlength="20"
 									   class="form-control Wdate "
 									   value="<fmt:formatDate value="${contract.expiryDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
@@ -274,10 +275,10 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-6">
+					<div class="col-sm-6">
 						<div class="form-group">
-							<label class="col-md-2 control-label">发货地址类型：</label>
-							<div class="col-md-4">
+							<label class="col-sm-3 control-label">发货地址类型：</label>
+							<div class="col-sm-7">
 								<form:select path="shipAddressType" class="form-control col-md-12 ">
 									<form:option value="" label=""/>
 									<form:options items="${fns:getDictList('oa_ship_address_type')}" itemLabel="label"
@@ -286,15 +287,15 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-2 control-label">发货地址：</label>
-							<div class="col-md-4">
+							<label class="col-sm-3 control-label">发货地址：</label>
+							<div class="col-sm-7">
 								<form:input path="shipAddress" htmlEscape="false" maxlength="255"
 											class="form-control "/>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-md-2 control-label">备注：</label>
-							<div class="col-md-4">
+							<label class="col-sm-3 control-label">备注：</label>
+							<div class="col-sm-7">
 								<form:input path="remark" htmlEscape="false" maxlength="255"
 											class="form-control required"/>
 								<span class="help-inline"><font color="red">*</font> </span>
@@ -303,10 +304,10 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-lg-6">
+					<div class="col-sm-6">
 						<div class="form-group">
-							<label class="col-md-2 control-label">附件：</label>
-							<div class="col-md-4">
+							<label class="col-sm-3 control-label">附件：</label>
+							<div class="col-sm-7">
 								<form:hidden id="files" path="files" htmlEscape="false" maxlength="2000" class="form-control"/>
 								<sys:ckfinder input="files" type="files" uploadPath="/oa/contract" selectMultiple="true"/>
 							</div>
@@ -319,8 +320,8 @@
 
 
 		<div class="form-group hidden">
-			<label class="col-md-2 control-label">合同金额：</label>
-			<div class="col-md-4">
+			<label class="col-sm-3 control-label">合同金额：</label>
+			<div class="col-sm-7">
 				<form:input path="amount" htmlEscape="false" class="form-control  number"/>
 			</div>
 		</div>
@@ -328,8 +329,8 @@
 
 
 		<div class="form-group hidden">
-			<label class="col-md-2 control-label">合同状态：</label>
-			<div class="col-md-4">
+			<label class="col-sm-3 control-label">合同状态：</label>
+			<div class="col-sm-7">
 				<form:select path="status" class="form-control col-md-12 ">
 					<form:option value="" label=""/>
 					<form:options items="${fns:getDictList('oa_contract_status')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
