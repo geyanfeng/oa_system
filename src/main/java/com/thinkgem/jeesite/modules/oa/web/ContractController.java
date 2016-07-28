@@ -3,9 +3,12 @@
  */
 package com.thinkgem.jeesite.modules.oa.web;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.thinkgem.jeesite.common.config.Global;
+import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.oa.entity.Contract;
+import com.thinkgem.jeesite.modules.oa.service.ContractService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,12 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.thinkgem.jeesite.common.config.Global;
-import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.common.utils.StringUtils;
-import com.thinkgem.jeesite.modules.oa.entity.Contract;
-import com.thinkgem.jeesite.modules.oa.service.ContractService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 各种合同Controller
@@ -57,6 +56,12 @@ public class ContractController extends BaseController {
 	@RequiresPermissions("oa:contract:view")
 	@RequestMapping(value = "form")
 	public String form(Contract contract, Model model) {
+		contract.setContractType("2"); //设置默认合同类型为客户合同
+		contract.setCompanyName("1"); //设置默认我司抬头为上海精鲲
+		contract.setInvoiceType("1"); //设置默认发票类型为增值税普票
+		contract.setPaymentMethod("2");//设置默认付款方式为银行转账
+		contract.setPaymentCycle("2");//设置默认付款周期为分期付款
+		contract.setShipAddressType("1");//设置默认发货地址类型为客户名称
 		model.addAttribute("contract", contract);
 		return "modules/oa/contractForm";
 	}

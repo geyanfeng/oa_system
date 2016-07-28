@@ -3,17 +3,16 @@
  */
 package com.thinkgem.jeesite.modules.oa.entity;
 
-import org.hibernate.validator.constraints.Length;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.thinkgem.jeesite.modules.oa.entity.Customer;
-import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.thinkgem.jeesite.modules.sys.entity.User;
-import javax.validation.constraints.NotNull;
-import java.util.List;
 import com.google.common.collect.Lists;
-
 import com.thinkgem.jeesite.common.persistence.DataEntity;
+import com.thinkgem.jeesite.modules.sys.entity.User;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotNull;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 各种合同Entity
@@ -39,7 +38,7 @@ public class Contract extends DataEntity<Contract> {
 	private User business_person;		// 商务人员
 	private User artisan;		// 技术人员
 	private Double customerCost;		// 客户费用
-	private Integer isDeduction;		// 是否业绩抵扣
+	private Boolean isDeduction;		// 是否业绩抵扣
 	private Double discount;		// 抵扣金额
 	private Date expiryDate;		// 有效期
 	private String invoiceType;		// 发票类型
@@ -204,11 +203,11 @@ public class Contract extends DataEntity<Contract> {
 	}
 	
 	@NotNull(message="是否业绩抵扣不能为空")
-	public Integer getIsDeduction() {
+	public Boolean getIsDeduction() {
 		return isDeduction;
 	}
 
-	public void setIsDeduction(Integer isDeduction) {
+	public void setIsDeduction(Boolean isDeduction) {
 		this.isDeduction = isDeduction;
 	}
 	
