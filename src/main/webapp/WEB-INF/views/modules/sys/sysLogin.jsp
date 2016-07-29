@@ -6,7 +6,7 @@
 	<title>${fns:getConfig('productName')} 登录</title>
 	<meta name="decorator" content="blank"/>
 		<style type="text/css">
-
+      .hide {display:none !important;}
       .header{height:80px;padding-top:20px;} .alert{position:relative;width:300px;margin:0 auto;*padding-bottom:0px;}
       label.error{background:none;width:270px;font-weight:normal;color:inherit;margin:0;}
       #messageBox {color:rgb(240, 165, 164);border-color: rgb(240, 165, 164); padding: 5px; text-align: center;}
