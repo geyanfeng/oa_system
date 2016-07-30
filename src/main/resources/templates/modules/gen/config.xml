@@ -39,6 +39,7 @@
 	</category>
 	<!-- java类型 -->
 	<javaType>
+		<dict value="Boolean" label="Boolean"/>
 		<dict value="String" label="String"/>
 		<dict value="Long" label="Long"/>
 		<dict value="Integer" label="Integer"/>

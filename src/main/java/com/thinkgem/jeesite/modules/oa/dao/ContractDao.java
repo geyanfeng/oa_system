@@ -10,7 +10,7 @@ import com.thinkgem.jeesite.modules.oa.entity.Contract;
 /**
  * 各种合同DAO接口
  * @author anthony
- * @version 2016-07-28
+ * @version 2016-07-30
  */
 @MyBatisDao
 public interface ContractDao extends CrudDao<Contract> {

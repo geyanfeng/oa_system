@@ -3,21 +3,22 @@
  */
 package com.thinkgem.jeesite.modules.oa.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.google.common.collect.Lists;
-import com.thinkgem.jeesite.common.persistence.DataEntity;
-import com.thinkgem.jeesite.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
-
-import javax.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.thinkgem.jeesite.modules.oa.entity.Customer;
 import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.thinkgem.jeesite.modules.sys.entity.User;
+import javax.validation.constraints.NotNull;
 import java.util.List;
+import com.google.common.collect.Lists;
+
+import com.thinkgem.jeesite.common.persistence.DataEntity;
 
 /**
  * 各种合同Entity
  * @author anthony
- * @version 2016-07-28
+ * @version 2016-07-30
  */
 public class Contract extends DataEntity<Contract> {
 	
@@ -318,7 +319,7 @@ public class Contract extends DataEntity<Contract> {
 		this.files = files;
 	}
 	
-	@Length(min=0, max=255, message="备注长度必须介于 1 和 255 之间")
+	@Length(min=1, max=255, message="备注长度必须介于 1 和 255 之间")
 	public String getRemark() {
 		return remark;
 	}

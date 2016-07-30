@@ -20,7 +20,7 @@ import com.thinkgem.jeesite.modules.oa.dao.ContractProductDao;
 /**
  * 各种合同Service
  * @author anthony
- * @version 2016-07-28
+ * @version 2016-07-30
  */
 @Service
 @Transactional(readOnly = true)
@@ -52,7 +52,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 			}
 			if (ContractProduct.DEL_FLAG_NORMAL.equals(contractProduct.getDelFlag())){
 				if (StringUtils.isBlank(contractProduct.getId())){
-					contractProduct.setContractId(contract);
+					contractProduct.setOa_contract(contract);
 					contractProduct.preInsert();
 					contractProductDao.insert(contractProduct);
 				}else{

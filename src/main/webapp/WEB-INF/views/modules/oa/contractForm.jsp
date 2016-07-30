@@ -69,6 +69,34 @@
 					break;
 			}
 		}
+
+		//更新表格中的金额, 同时更新合同总金额
+		function updatePriceAmount(sender) {
+			var row = $(sender).closest('tr');
+			//var price = $("#contentTable input[id$=row + '_price']").val();
+			var price = row.find("input[id$='_price']").val();
+			var num = row.find("input[id$='_num']").val();
+			if (price && num) {
+				row.find("input[id$='_amount']").val(price * num);
+			}
+
+			//更新合同总金额
+			updateAmount();
+		}
+
+		//更新合同总金额
+		function updateAmount(){
+			var amount = 0;
+			var rowCount = $("#contentTable tbody tr").length;
+			if(rowCount>0){
+				var priceFields = $("#contentTable tbody tr input[id$='_price");
+				var numFields = $("#contentTable tbody tr input[id$='_num");
+				for(var i=0;i<rowCount;i++){
+					amount += ($(priceFields[i]).val() * $(numFields[i]).val())
+				}
+				$("#amount").val(amount);
+			}
+		}
 	</script>
 </head>
 <body>
@@ -366,10 +394,10 @@
 								<input id="contractProductList{{idx}}_name" name="contractProductList[{{idx}}].name" type="text" value="{{row.name}}" maxlength="100" class="form-control input-block required"/>
 							</td>
 							<td>
-								<input id="contractProductList{{idx}}_price" name="contractProductList[{{idx}}].price" type="text" value="{{row.price}}" class="form-control input-block"/>
+								<input id="contractProductList{{idx}}_price" name="contractProductList[{{idx}}].price" type="text" value="{{row.price}}" class="form-control input-block" onchange="updatePriceAmount(this);"/>
 							</td>
 							<td>
-								<input id="contractProductList{{idx}}_num" name="contractProductList[{{idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="form-control input-block"/>
+								<input id="contractProductList{{idx}}_num" name="contractProductList[{{idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="form-control input-block" onchange="updatePriceAmount(this);"//>
 							</td>
 							<td>
 								<select id="contractProductList{{idx}}_unit" name="contractProductList[{{idx}}].unit" data-value="{{row.unit}}" class="form-control input-block">
@@ -406,7 +434,7 @@
 			</div>
 		</div>
 
-	<%--	<div class="form-group hidden">
+		<div class="form-group">
 			<label class="col-sm-3 control-label">合同金额：</label>
 			<div class="col-sm-7">
 				<form:input path="amount" htmlEscape="false" class="form-control  number"/>
@@ -422,7 +450,6 @@
 				</form:select>
 			</div>
 		</div>
---%>
 
 		<div class="form-actions">
 			<shiro:hasPermission name="oa:contract:edit"><input id="btnSubmit" class="btn btn-custom" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
