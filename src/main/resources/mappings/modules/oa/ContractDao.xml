@@ -67,6 +67,9 @@
 		<include refid="contractJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="contractType != null and contractType != ''">
+				AND a.contract_type = #{contractType}
+			</if>
 			<if test="customer != null and customer.id != null and customer.id != ''">
 				AND a.customer_id = #{customer.id}
 			</if>
