@@ -9,6 +9,12 @@
 		$(document).ready(function() {
 			//$("#name").focus();
 			$("#inputForm").validate({
+				rules: {
+					name: {remote: "${ctx}/oa/contract/checkName?oldName=" + encodeURIComponent('${contract.name}')}
+				},
+				messages: {
+					name: {remote: "合同名称已存在"}
+				},
 				submitHandler: function(form){
 					loading('正在提交，请稍等...');
 					form.submit();
@@ -30,6 +36,20 @@
 				$("#iframe-contract-list").attr("src", frameSrc);
 				$('#modal-contract-list').modal({ show: true, backdrop: 'static' });
 			});
+
+			//更改发票类型时,显示或隐藏列
+			$('input[name=invoiceType]').change(function(){
+				var sVal = $('input[name=invoiceType]:checked ').val();
+				switch (sVal){
+					case "1":
+						$("div[id^=field-invoice]").hide();
+						break;
+					default:
+						$("div[id^=field-invoice]").show();
+						break;
+				}
+			});
+			$('input[name=invoiceType]').trigger('change');
 		});
 		function addRow(list, idx, tpl, row){
 			$(list).append(Mustache.render(tpl, {
@@ -128,6 +148,12 @@
 			$('input[name=paymentTime]').val(contract.paymentTime);
 			$("#paymentAmount").val(contract.paymentAmount);
 		}
+
+		//更改客户
+		function changeCustomer(sender){
+			var self = $(sender);
+			$('#invoiceCustomerName').val(self.select2('data').text);
+		}
 	</script>
 </head>
 <body>
@@ -188,7 +214,7 @@
 						<div class="form-group">
 							<label class="col-sm-3 control-label">客户：</label>
 							<div class="col-sm-7">
-								<form:select path="customer.id" class="form-control col-md-12 required" id="customer">
+								<form:select path="customer.id" class="form-control col-md-12 required" id="customer" onchange="changeCustomer(this)">
 									<form:option value="" label=""/>
 									<form:options items="${customerList}" itemLabel="name"
 												  itemValue="id" htmlEscape="false"/>
@@ -219,20 +245,20 @@
 												   element="span class='radio radio-success col-sm-4'"/>
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group" id="field-invoiceCustomerName">
 							<label class="col-sm-3 control-label">发票客户名称：</label>
 							<div class="col-sm-7">
 								<form:input path="invoiceCustomerName" htmlEscape="false" maxlength="255"
 											class="form-control "/>
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group" id="field-invoiceNo">
 							<label class="col-sm-3 control-label">发票税务登记号：</label>
 							<div class="col-sm-7">
 								<form:input path="invoiceNo" htmlEscape="false" maxlength="255" class="form-control "/>
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group" id="field-invoiceBank">
 							<label class="col-sm-3 control-label">开户行：</label>
 							<div class="col-sm-7">
 								<form:input path="invoiceBank" htmlEscape="false" maxlength="255"
@@ -241,21 +267,21 @@
 						</div>
 					</div>
 					<div class="col-sm-6">
-						<div class="form-group">
+						<div class="form-group" id="field-invoiceBankNo">
 							<label class="col-sm-3 control-label">银行帐号：</label>
 							<div class="col-sm-7">
 								<form:input path="invoiceBankNo" htmlEscape="false" maxlength="255"
 											class="form-control "/>
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group" id="field-invoiceAddress">
 							<label class="col-sm-3 control-label">地址：</label>
 							<div class="col-sm-7">
 								<form:input path="invoiceAddress" htmlEscape="false" maxlength="1000"
 											class="form-control "/>
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group" id="filed-invoicePhone">
 							<label class="col-sm-3 control-label">电话：</label>
 							<div class="col-sm-7">
 								<form:input path="invoicePhone" htmlEscape="false" maxlength="100"

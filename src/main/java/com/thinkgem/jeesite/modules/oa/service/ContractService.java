@@ -27,6 +27,9 @@ import com.thinkgem.jeesite.modules.oa.dao.ContractProductDao;
 public class ContractService extends CrudService<ContractDao, Contract> {
 
 	@Autowired
+	private ContractDao contractDao;
+
+	@Autowired
 	private ContractProductDao contractProductDao;
 	
 	public Contract get(String id) {
@@ -70,5 +73,8 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 		super.delete(contract);
 		contractProductDao.delete(new ContractProduct(contract));
 	}
-	
+
+	public Contract getByName(String name) {
+		return contractDao.getByName(name);
+	}
 }

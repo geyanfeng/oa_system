@@ -14,5 +14,6 @@ import com.thinkgem.jeesite.modules.oa.entity.Contract;
  */
 @MyBatisDao
 public interface ContractDao extends CrudDao<Contract> {
-	
+
+    Contract getByName(String name);
 }

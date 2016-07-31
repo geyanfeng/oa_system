@@ -225,5 +225,13 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
+
+	<select id="getByName" resultType="Contract">
+		SELECT
+		<include refid="contractColumns"/>
+		FROM oa_contract a
+		<include refid="contractJoins"/>
+		WHERE a.name = #{name} and a.del_flag = 0
+	</select>
 	
 </mapper>
