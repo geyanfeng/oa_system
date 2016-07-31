@@ -8,18 +8,22 @@ import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.oa.entity.Contract;
+import com.thinkgem.jeesite.modules.oa.entity.Customer;
 import com.thinkgem.jeesite.modules.oa.service.ContractService;
+import com.thinkgem.jeesite.modules.oa.service.CustomerService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 各种合同Controller
@@ -32,6 +36,8 @@ public class ContractController extends BaseController {
 
 	@Autowired
 	private ContractService contractService;
+	@Autowired
+	private CustomerService customerService;
 	
 	@ModelAttribute
 	public Contract get(@RequestParam(required=false) String id) {
@@ -47,22 +53,49 @@ public class ContractController extends BaseController {
 	
 	@RequiresPermissions("oa:contract:view")
 	@RequestMapping(value = {"list", ""})
-	public String list(Contract contract, HttpServletRequest request, HttpServletResponse response, Model model) {
+	public String list(Contract contract, @RequestParam(value="isSelect", required=false) Boolean isSelect, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<Contract> page = contractService.findPage(new Page<Contract>(request, response), contract); 
 		model.addAttribute("page", page);
+		model.addAttribute("isSelect", isSelect);//是否为框架合同选择列表
 		return "modules/oa/contractList";
 	}
 
 	@RequiresPermissions("oa:contract:view")
 	@RequestMapping(value = "form")
-	public String form(Contract contract, Model model) {
-		contract.setContractType("2"); //设置默认合同类型为客户合同
-		contract.setCompanyName("1"); //设置默认我司抬头为上海精鲲
-		contract.setInvoiceType("1"); //设置默认发票类型为增值税普票
-		contract.setPaymentMethod("2");//设置默认付款方式为银行转账
-		contract.setPaymentCycle("2");//设置默认付款周期为分期付款
-		contract.setShipAddressType("1");//设置默认发货地址类型为客户名称
+	public String form(Contract contract, @RequestParam(value="originalId", required=false) String originalId, Model model) {
+		//如果是来自父级,复制部分数据
+		if(originalId !=null){
+			Contract originalContract = contractService.get(originalId);
+			contract.setCustomer(originalContract.getCustomer());
+			contract.setInvoiceType(originalContract.getInvoiceType());
+			contract.setInvoiceCustomerName(originalContract.getInvoiceCustomerName());
+			contract.setInvoiceNo(originalContract.getInvoiceNo());
+			contract.setInvoiceBank(originalContract.getInvoiceBank());
+			contract.setInvoiceBankNo(originalContract.getInvoiceBankNo());
+			contract.setInvoiceAddress(originalContract.getInvoiceAddress());
+			contract.setInvoicePhone(originalContract.getInvoicePhone());
+			contract.setCompanyName(originalContract.getCompanyName());
+			contract.setPaymentMethod(originalContract.getPaymentMethod());
+			contract.setPaymentCycle(originalContract.getPaymentCycle());
+			contract.setPaymentTime(originalContract.getPaymentTime());
+			contract.setPaymentAmount(originalContract.getPaymentAmount());
+		}
+		if (contract.getContractType() == null)
+			contract.setContractType("2"); //设置默认合同类型为客户合同
+		if (contract.getCompanyName() == null)
+			contract.setCompanyName("1"); //设置默认我司抬头为上海精鲲
+		if (contract.getInvoiceType() == null)
+			contract.setInvoiceType("1"); //设置默认发票类型为增值税普票
+		if (contract.getPaymentMethod() == null)
+			contract.setPaymentMethod("2");//设置默认付款方式为银行转账
+		if (contract.getPaymentCycle() == null)
+			contract.setPaymentCycle("2");//设置默认付款周期为分期付款
+		if (contract.getShipAddressType() == null)
+			contract.setShipAddressType("1");//设置默认发货地址类型为客户名称
 		model.addAttribute("contract", contract);
+		//获取所有客户
+		List<Customer> customerList = customerService.findList(new Customer());
+		model.addAttribute("customerList", customerList);
 		return "modules/oa/contractForm";
 	}
 
@@ -70,11 +103,11 @@ public class ContractController extends BaseController {
 	@RequestMapping(value = "save")
 	public String save(Contract contract, Model model, RedirectAttributes redirectAttributes) {
 		if (!beanValidator(model, contract)){
-			return form(contract, model);
+			return form(contract, null, model);
 		}
 		contractService.save(contract);
 		addMessage(redirectAttributes, "保存合同成功");
-		return "redirect:"+Global.getAdminPath()+"/oa/contract/?repage";
+		return "redirect:"+Global.getAdminPath()+"/oa/contract/?contractType="+contract.getContractType()+"&repage";
 	}
 	
 	@RequiresPermissions("oa:contract:edit")
@@ -84,5 +117,4 @@ public class ContractController extends BaseController {
 		addMessage(redirectAttributes, "删除合同成功");
 		return "redirect:"+Global.getAdminPath()+"/oa/contract/?repage";
 	}
-
 }
