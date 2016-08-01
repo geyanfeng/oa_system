@@ -331,8 +331,8 @@
 							<div class="col-sm-7">
 								<input name="paymentTime" type="text" readonly="readonly" maxlength="20"
 									   class="form-control Wdate "
-									   value="<fmt:formatDate value="${contract.paymentTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-									   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+									   value="<fmt:formatDate value="${contract.paymentTime}" pattern="yyyy-MM-dd"/>"
+									   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
 							</div>
 						</div>
 						<div class="form-group">
@@ -371,8 +371,8 @@
 							<div class="col-sm-7">
 								<input name="expiryDate" type="text" readonly="readonly" maxlength="20"
 									   class="form-control Wdate "
-									   value="<fmt:formatDate value="${contract.expiryDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-									   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+									   value="<fmt:formatDate value="${contract.expiryDate}" pattern="yyyy-MM-dd"/>"
+									   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
 							</div>
 						</div>
 					</div>

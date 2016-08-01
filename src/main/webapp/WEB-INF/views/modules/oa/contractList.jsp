@@ -50,14 +50,14 @@
                                 <div class="col-sm-5">
                                     <input name="beginCreateDate" type="text" readonly="readonly" maxlength="20"
                                            class="form-control Wdate "
-                                           value="<fmt:formatDate value="${contract.beginCreateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+                                           value="<fmt:formatDate value="${contract.beginCreateDate}" pattern="yyyy-MM-dd"/>"
                                            onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
                                 </div>
                                 <div class="col-sm-1">-</div>
                                 <div class="col-sm-5">
                                     <input name="endCreateDate" type="text" readonly="readonly" maxlength="20"
                                            class="form-control Wdate "
-                                           value="<fmt:formatDate value="${contract.endCreateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+                                           value="<fmt:formatDate value="${contract.endCreateDate}" pattern="yyyy-MM-dd"/>"
                                            onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
                                 </div>
                             </div>
@@ -177,10 +177,10 @@
                     ${contract.createBy.name}
             </td>
             <td>
-                <fmt:formatDate value="${contract.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                <fmt:formatDate value="${contract.createDate}" pattern="yyyy-MM-dd"/>
             </td>
             <td>
-                <fmt:formatDate value="${contract.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                <fmt:formatDate value="${contract.updateDate}" pattern="yyyy-MM-dd"/>
             </td>
             <shiro:hasPermission name="oa:contract:edit">
                 <td>
