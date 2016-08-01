@@ -65,12 +65,10 @@
 										<I class="zmdi zmdi-dot-circle"></I>
 									</DIV></A>
 								<UL class="dropdown-menu">
-									<LI><A href="javascript:void(0)"><I
-											class="ti-user m-r-5"></I> Profile</A></LI>
-									<LI><A href="javascript:void(0)"><I
-											class="ti-settings m-r-5"></I> Settings</A></LI>
-									<LI><A href="javascript:void(0)"><I
-											class="ti-lock m-r-5"></I> Lock screen</A></LI>
+									<LI><A href="${ctx}/sys/user/info" target="mainFrame"><I
+											class="ti-user m-r-5"></I>个人信息</A></LI>
+									<LI><A href="${ctx}/sys/user/modifyPwd" target="mainFrame"><I
+											class="ti-settings m-r-5"></I>修改密码</A></LI>
 									<LI><A href="${ctx}/logout" title="退出登录"><I
 											class="ti-power-off m-r-5"></I> 退出</A></LI>
 								</UL></LI>
