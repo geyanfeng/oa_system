@@ -11,10 +11,12 @@
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
-		a.update_date AS "updateDate"
+		a.update_date AS "updateDate",
+		a1.name As "typeGroup.name"
 	</sql>
 	
 	<sql id="productTypeJoins">
+		LEFT JOIN oa_product_type_group a1 ON a1.id = a.type_group
 	</sql>
     
 	<select id="get" resultType="ProductType">

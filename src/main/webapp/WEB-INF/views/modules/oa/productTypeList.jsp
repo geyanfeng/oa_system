@@ -55,9 +55,9 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="productType">
 			<tr>
-				<td><a href="${ctx}/oa/productType/form?id=${productType.id}">
-					${typeGroup.name}
-				</a></td>
+				<td>
+					${productType.typeGroup.name}
+				</td>
 				<td>
 					${productType.name}
 				</td>
