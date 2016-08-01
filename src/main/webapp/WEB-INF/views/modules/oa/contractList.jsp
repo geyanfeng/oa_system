@@ -180,7 +180,7 @@
                 <fmt:formatDate value="${contract.createDate}" pattern="yyyy-MM-dd"/>
             </td>
             <td>
-                <fmt:formatDate value="${contract.updateDate}" pattern="yyyy-MM-dd"/>
+                <fmt:formatDate value="${contract.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
             </td>
             <shiro:hasPermission name="oa:contract:edit">
                 <td>
