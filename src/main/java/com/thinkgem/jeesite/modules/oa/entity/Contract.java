@@ -3,21 +3,22 @@
  */
 package com.thinkgem.jeesite.modules.oa.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.google.common.collect.Lists;
-import com.thinkgem.jeesite.common.persistence.DataEntity;
-import com.thinkgem.jeesite.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
-
-import javax.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.thinkgem.jeesite.modules.oa.entity.Customer;
 import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.thinkgem.jeesite.modules.sys.entity.User;
+import javax.validation.constraints.NotNull;
 import java.util.List;
+import com.google.common.collect.Lists;
+
+import com.thinkgem.jeesite.common.persistence.DataEntity;
 
 /**
  * 各种合同Entity
  * @author anthony
- * @version 2016-07-28
+ * @version 2016-07-30
  */
 public class Contract extends DataEntity<Contract> {
 	

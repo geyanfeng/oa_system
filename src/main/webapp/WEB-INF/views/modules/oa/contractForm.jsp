@@ -9,6 +9,12 @@
 		$(document).ready(function() {
 			//$("#name").focus();
 			$("#inputForm").validate({
+				rules: {
+					name: {remote: "${ctx}/oa/contract/checkName?oldName=" + encodeURIComponent('${contract.name}')}
+				},
+				messages: {
+					name: {remote: "合同名称已存在"}
+				},
 				submitHandler: function(form){
 					loading('正在提交，请稍等...');
 					form.submit();
@@ -23,6 +29,27 @@
 					}
 				}
 			});
+			changeContractType();//如果从合同列表中新合同时, 初始化时加载合同类型
+
+			$("#btnTest").click(function(){
+				var frameSrc = "${ctx}/oa/contract/list?contractType=1&isSelect=true";
+				$("#iframe-contract-list").attr("src", frameSrc);
+				$('#modal-contract-list').modal({ show: true, backdrop: 'static' });
+			});
+
+			//更改发票类型时,显示或隐藏列
+			$('input[name=invoiceType]').change(function(){
+				var sVal = $('input[name=invoiceType]:checked ').val();
+				switch (sVal){
+					case "1":
+						$("div[id^=field-invoice]").hide();
+						break;
+					default:
+						$("div[id^=field-invoice]").show();
+						break;
+				}
+			});
+			$('input[name=invoiceType]').trigger('change');
 		});
 		function addRow(list, idx, tpl, row){
 			$(list).append(Mustache.render(tpl, {
@@ -69,6 +96,64 @@
 					break;
 			}
 		}
+
+		//更新表格中的金额, 同时更新合同总金额
+		function updatePriceAmount(sender) {
+			var row = $(sender).closest('tr');
+			//var price = $("#contentTable input[id$=row + '_price']").val();
+			var price = row.find("input[id$='_price']").val();
+			var num = row.find("input[id$='_num']").val();
+			if (price && num) {
+				row.find("input[id$='_amount']").val(price * num);
+			}
+
+			//更新合同总金额
+			updateAmount();
+		}
+
+		//更新合同总金额
+		function updateAmount(){
+			var amount = 0;
+			var rowCount = $("#contentTable tbody tr").length;
+			if(rowCount>0){
+				var priceFields = $("#contentTable tbody tr input[id$='_price");
+				var numFields = $("#contentTable tbody tr input[id$='_num");
+				for(var i=0;i<rowCount;i++){
+					amount += ($(priceFields[i]).val() * $(numFields[i]).val())
+				}
+				$("#amount").val(amount);
+			}
+		}
+
+		//关闭框架合同选择框,并设置相关的值
+		function closeSelectContractModal(selectedContract){
+			$('#modal-contract-list').modal('hide');
+			setSelectedContract(selectedContract);
+		}
+
+		//选中框架合同后,设置相关值
+		function setSelectedContract(contract){
+			$('#customer').val(contract.customer.id).trigger("change");
+			$("input[name=invoiceType][value="+ contract.invoiceType +"]").attr("checked",true);
+			$("#invoiceCustomerName").val(contract.invoiceCustomerName);
+			$("#invoiceNo").val(contract.invoiceNo);
+			$("#invoiceBank").val(contract.invoiceBank);
+			$("#invoiceBankNo").val(contract.invoiceBankNo);
+			$("#invoiceAddress").val(contract.invoiceAddress);
+			$("#invoicePhone").val(contract.invoicePhone);
+			$('#companyName').val(contract.companyName).trigger("change");
+
+			$("input[name=paymentMethod][value="+ contract.paymentMethod +"]").attr("checked",true);
+			$('#paymentCycle').val(contract.paymentCycle).trigger("change");
+			$('input[name=paymentTime]').val(contract.paymentTime);
+			$("#paymentAmount").val(contract.paymentAmount);
+		}
+
+		//更改客户
+		function changeCustomer(sender){
+			var self = $(sender);
+			$('#invoiceCustomerName').val(self.select2('data').text);
+		}
 	</script>
 </head>
 <body>
@@ -76,12 +161,15 @@
 		<li><a href="${ctx}/oa/contract/">合同列表</a></li>
 		<li class="active"><a href="${ctx}/oa/contract/form?id=${contract.id}">合同<shiro:hasPermission name="oa:contract:edit">${not empty contract.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="oa:contract:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>--%>
+
 	<form:form id="inputForm" modelAttribute="contract" action="${ctx}/oa/contract/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>
 		<div class="col-sm-12">
-			<div class="card-box">
-				<h4 class="header-title m-t-0 m-b-30">合同信息</h4>
+			<div class="card-box" name="card_info">
+				<h4 class="header-title m-t-0 m-b-30">合同信息
+					<a class="btn btn-custom waves-effect waves-light" data-toggle="modal" data-target="#con-close-modal" id="btnTest">选择框架合同</a>
+				</h4>
 				<div class="row">
 					<div class="col-sm-6">
 						<div class="form-group">
@@ -126,10 +214,11 @@
 						<div class="form-group">
 							<label class="col-sm-3 control-label">客户：</label>
 							<div class="col-sm-7">
-								<sys:treeselect id="customer" name="customer.id" value="${contract.customer.id}"
-												labelName="customer.name" labelValue="${contract.customer.name}"
-												title="客户" url="/oa/customer/treeData" cssClass="" allowClear="true"
-												notAllowSelectParent="true"/>
+								<form:select path="customer.id" class="form-control col-md-12 required" id="customer" onchange="changeCustomer(this)">
+									<form:option value="" label=""/>
+									<form:options items="${customerList}" itemLabel="name"
+												  itemValue="id" htmlEscape="false"/>
+								</form:select>
 							</div>
 						</div>
 						<div class="form-group">
@@ -156,20 +245,20 @@
 												   element="span class='radio radio-success col-sm-4'"/>
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group" id="field-invoiceCustomerName">
 							<label class="col-sm-3 control-label">发票客户名称：</label>
 							<div class="col-sm-7">
 								<form:input path="invoiceCustomerName" htmlEscape="false" maxlength="255"
 											class="form-control "/>
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group" id="field-invoiceNo">
 							<label class="col-sm-3 control-label">发票税务登记号：</label>
 							<div class="col-sm-7">
 								<form:input path="invoiceNo" htmlEscape="false" maxlength="255" class="form-control "/>
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group" id="field-invoiceBank">
 							<label class="col-sm-3 control-label">开户行：</label>
 							<div class="col-sm-7">
 								<form:input path="invoiceBank" htmlEscape="false" maxlength="255"
@@ -178,21 +267,21 @@
 						</div>
 					</div>
 					<div class="col-sm-6">
-						<div class="form-group">
+						<div class="form-group" id="field-invoiceBankNo">
 							<label class="col-sm-3 control-label">银行帐号：</label>
 							<div class="col-sm-7">
 								<form:input path="invoiceBankNo" htmlEscape="false" maxlength="255"
 											class="form-control "/>
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group" id="field-invoiceAddress">
 							<label class="col-sm-3 control-label">地址：</label>
 							<div class="col-sm-7">
 								<form:input path="invoiceAddress" htmlEscape="false" maxlength="1000"
 											class="form-control "/>
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group" id="filed-invoicePhone">
 							<label class="col-sm-3 control-label">电话：</label>
 							<div class="col-sm-7">
 								<form:input path="invoicePhone" htmlEscape="false" maxlength="100"
@@ -255,7 +344,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="card-box" id="card_other">
+			<div class="card-box" id="card_other" name="card_other">
 				<h4 class="header-title m-t-0 m-b-30">其它</h4>
 				<div class="row">
 					<div class="col-sm-6">
@@ -332,7 +421,7 @@
 					<div class="pull-right">
 						<a href="javascript:"
 						   onclick="addRow('#contractProductList', contractProductRowIdx, contractProductTpl);contractProductRowIdx = contractProductRowIdx + 1;"
-						   class="btn btn-custom waves-effect w-md waves-light m-b-5 ti-plus">新增</a>
+						   class="btn btn-primary waves-effect waves-light m-b-5">新增<i class="fa fa-plus"></i></a>
 					</div>
 				</shiro:hasPermission>
 				<div class="row">
@@ -366,10 +455,10 @@
 								<input id="contractProductList{{idx}}_name" name="contractProductList[{{idx}}].name" type="text" value="{{row.name}}" maxlength="100" class="form-control input-block required"/>
 							</td>
 							<td>
-								<input id="contractProductList{{idx}}_price" name="contractProductList[{{idx}}].price" type="text" value="{{row.price}}" class="form-control input-block"/>
+								<input id="contractProductList{{idx}}_price" name="contractProductList[{{idx}}].price" type="text" value="{{row.price}}" class="form-control input-block" onchange="updatePriceAmount(this);"/>
 							</td>
 							<td>
-								<input id="contractProductList{{idx}}_num" name="contractProductList[{{idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="form-control input-block"/>
+								<input id="contractProductList{{idx}}_num" name="contractProductList[{{idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="form-control input-block" onchange="updatePriceAmount(this);"//>
 							</td>
 							<td>
 								<select id="contractProductList{{idx}}_unit" name="contractProductList[{{idx}}].unit" data-value="{{row.unit}}" class="form-control input-block">
@@ -386,7 +475,7 @@
 								<input id="contractProductList{{idx}}_remark" name="contractProductList[{{idx}}].remark" type="text" value="{{row.remark}}" maxlength="255" class="form-control input-block"/>
 							</td>
 							<shiro:hasPermission name="oa:contract:edit"><td class="text-center" width="10">
-								{{#delBtn}}<span class="close" onclick="delRow(this, '#contractProductList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
+								{{#delBtn}}<a href="#" class="on-default remove-row" onclick="delRow(this, '#contractProductList{{idx}}')"  title="删除"><i class="fa fa-trash-o"></i></a>{{/delBtn}}
 							</td></shiro:hasPermission>
 						</tr>//-->
 						</script>
@@ -406,7 +495,7 @@
 			</div>
 		</div>
 
-	<%--	<div class="form-group hidden">
+		<div class="form-group">
 			<label class="col-sm-3 control-label">合同金额：</label>
 			<div class="col-sm-7">
 				<form:input path="amount" htmlEscape="false" class="form-control  number"/>
@@ -422,12 +511,28 @@
 				</form:select>
 			</div>
 		</div>
---%>
 
 		<div class="form-actions">
 			<shiro:hasPermission name="oa:contract:edit"><input id="btnSubmit" class="btn btn-custom" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
+
+	<%--选择框架合同的modal--%>
+	<div id="modal-contract-list" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog modal-full">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title">选择框架合同</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+							<iframe id="iframe-contract-list" width="100%" height="500" frameborder="0"></iframe>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
