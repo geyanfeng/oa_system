@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.oa.dao.ContractAttachmentDao">
+    
+	<sql id="contractAttachmentColumns">
+		a.id AS "id",
+		a.contract_id AS "contractId",
+		a.type AS "type",
+		a.files AS "files",
+		a.remark AS "remark",
+		a.del_flag AS "delFlag",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate"
+	</sql>
+	
+	<sql id="contractAttachmentJoins">
+		LEFT JOIN oa_contract b ON b.id = a.contract_id
+	</sql>
+    
+	<select id="get" resultType="ContractAttachment">
+		SELECT 
+			<include refid="contractAttachmentColumns"/>
+		FROM oa_contract_attachment a
+		<include refid="contractAttachmentJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ContractAttachment">
+		SELECT 
+			<include refid="contractAttachmentColumns"/>
+		FROM oa_contract_attachment a
+		<include refid="contractAttachmentJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="contractId != null and contractId != ''">
+				AND a.contract_id = #{contractId}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ContractAttachment">
+		SELECT 
+			<include refid="contractAttachmentColumns"/>
+		FROM oa_contract_attachment a
+		<include refid="contractAttachmentJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO oa_contract_attachment(
+			id,
+			contract_id,
+			type,
+			files,
+			remark,
+			del_flag,
+			create_by,
+			create_date,
+			update_by,
+			update_date
+		) VALUES (
+			#{id},
+			#{contractId},
+			#{type},
+			#{files},
+			#{remark},
+			#{delFlag},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE oa_contract_attachment SET 	
+			contract_id = #{contractId},
+			type = #{type},
+			files = #{files},
+			remark = #{remark},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE oa_contract_attachment SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		<choose>
+			<when test="id !=null and id != ''">
+				WHERE id = #{id}
+			</when>
+			<otherwise>
+				WHERE contract_id = #{contractId}
+			</otherwise>
+		</choose>
+	</update>
+	
+</mapper>

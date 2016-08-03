@@ -18,7 +18,7 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 /**
  * 各种合同Entity
  * @author anthony
- * @version 2016-07-30
+ * @version 2016-08-03
  */
 public class Contract extends DataEntity<Contract> {
 	
@@ -51,10 +51,10 @@ public class Contract extends DataEntity<Contract> {
 	private String invoicePhone;		// 电话
 	private String shipAddressType;		// 发货地址类型
 	private String shipAddress;		// 发货地址
-	private String files;		// 附件
 	private String remark;		// 备注
 	private Date beginCreateDate;		// 开始 日期
 	private Date endCreateDate;		// 结束 日期
+	private List<ContractAttachment> contractAttachmentList = Lists.newArrayList();		// 子表列表
 	private List<ContractProduct> contractProductList = Lists.newArrayList();		// 子表列表
 	
 	public Contract() {
@@ -310,16 +310,7 @@ public class Contract extends DataEntity<Contract> {
 		this.shipAddress = shipAddress;
 	}
 	
-	@Length(min=0, max=2000, message="附件长度必须介于 0 和 2000 之间")
-	public String getFiles() {
-		return files;
-	}
-
-	public void setFiles(String files) {
-		this.files = files;
-	}
-	
-	@Length(min=0, max=255, message="备注长度必须介于 1 和 255 之间")
+	@Length(min=1, max=255, message="备注长度必须介于 1 和 255 之间")
 	public String getRemark() {
 		return remark;
 	}
@@ -344,6 +335,13 @@ public class Contract extends DataEntity<Contract> {
 		this.endCreateDate = endCreateDate;
 	}
 		
+	public List<ContractAttachment> getContractAttachmentList() {
+		return contractAttachmentList;
+	}
+
+	public void setContractAttachmentList(List<ContractAttachment> contractAttachmentList) {
+		this.contractAttachmentList = contractAttachmentList;
+	}
 	public List<ContractProduct> getContractProductList() {
 		return contractProductList;
 	}

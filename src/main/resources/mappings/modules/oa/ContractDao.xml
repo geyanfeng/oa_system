@@ -32,7 +32,6 @@
 		a.invoice_phone AS "invoicePhone",
 		a.ship_address_type AS "shipAddressType",
 		a.ship_address AS "shipAddress",
-		a.files AS "files",
 		a.remark AS "remark",
 		a.del_flag AS "delFlag",
 		a.create_by AS "createBy.id",
@@ -42,14 +41,14 @@
 		a9.name AS "customer.name",
 		u15.name AS "business_person.name",
 		u16.name AS "artisan.name",
-		u33.name AS "createBy.name"
+		u32.name AS "createBy.name"
 	</sql>
 	
 	<sql id="contractJoins">
 		LEFT JOIN oa_customer a9 ON a9.id = a.customer_id
 		LEFT JOIN sys_user u15 ON u15.id = a.business_person_id
 		LEFT JOIN sys_user u16 ON u16.id = a.artisan_id
-		LEFT JOIN sys_user u33 ON u33.id = a.create_by
+		LEFT JOIN sys_user u32 ON u32.id = a.create_by
 	</sql>
     
 	<select id="get" resultType="Contract">
@@ -140,7 +139,6 @@
 			invoice_phone,
 			ship_address_type,
 			ship_address,
-			files,
 			remark,
 			del_flag,
 			create_by,
@@ -175,7 +173,6 @@
 			#{invoicePhone},
 			#{shipAddressType},
 			#{shipAddress},
-			#{files},
 			#{remark},
 			#{delFlag},
 			#{createBy.id},
@@ -213,7 +210,6 @@
 			invoice_phone = #{invoicePhone},
 			ship_address_type = #{shipAddressType},
 			ship_address = #{shipAddress},
-			files = #{files},
 			remark = #{remark},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate}

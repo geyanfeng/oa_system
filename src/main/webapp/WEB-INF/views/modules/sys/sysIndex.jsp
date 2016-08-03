@@ -227,7 +227,7 @@
         <script src="${ctxStatic}/assets/js/jquery.core.js"></script>
         <script src="${ctxStatic}/assets/js/jquery.app.js"></script>
 	<script type="text/javascript">
-		$('#mainFrame').iFrameResize([{log: true}]);
+		$('#mainFrame').iFrameResize([{log: true, minHeight:700 }]);
 	</script>
 </BODY>
 </html>

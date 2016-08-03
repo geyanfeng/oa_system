@@ -90,20 +90,27 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label">父表表名:</label>
                     <div class="col-md-4">
-                        <form:select path="parentTable" cssclass="input-xlarge form-control">
+                        <form:select path="parentTable" class="form-control col-md-12">
                             <form:option value="">无</form:option>
                             <form:options items="${tableList}" itemLabel="nameAndComments" itemValue="name"
                                           htmlEscape="false"/>
                         </form:select>
-                        &nbsp;当前表外键：
-                        <form:select path="parentTableFk" cssclass="input-xlarge form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">当前表外键：</label>
+                    <div class="col-md-4">
+                        <form:select path="parentTableFk" class="form-control col-md-12">
                             <form:option value="">无</form:option>
                             <form:options items="${genTable.columnList}" itemLabel="nameAndComments" itemValue="name"
                                           htmlEscape="false"/>
                         </form:select>
                         <span class="help-inline">如果有父表，请指定父表表名和外键</span>
+
                     </div>
                 </div>
+
+
                 <div class="control-group hide">
                     <label class="col-md-2 control-label">备注:</label>
                     <div class="col-md-4">
