@@ -4,7 +4,7 @@
     
 	<sql id="contractAttachmentColumns">
 		a.id AS "id",
-		a.contract_id AS "contractId",
+		a.contract_id AS "oa_contract.id",
 		a.type AS "type",
 		a.files AS "files",
 		a.remark AS "remark",
@@ -34,8 +34,8 @@
 		<include refid="contractAttachmentJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-			<if test="contractId != null and contractId != ''">
-				AND a.contract_id = #{contractId}
+			<if test="oa_contract != null and oa_contract.id != null and oa_contract.id != ''">
+				AND a.contract_id = #{oa_contract.id}
 			</if>
 		</where>
 		<choose>
@@ -80,7 +80,7 @@
 			update_date
 		) VALUES (
 			#{id},
-			#{contractId},
+			#{oa_contract.id},
 			#{type},
 			#{files},
 			#{remark},
@@ -94,7 +94,7 @@
 	
 	<update id="update">
 		UPDATE oa_contract_attachment SET 	
-			contract_id = #{contractId},
+			contract_id =  #{oa_contract.id},
 			type = #{type},
 			files = #{files},
 			remark = #{remark},
@@ -111,7 +111,7 @@
 				WHERE id = #{id}
 			</when>
 			<otherwise>
-				WHERE contract_id = #{contractId}
+				WHERE contract_id =  #{oa_contract.id}
 			</otherwise>
 		</choose>
 	</update>

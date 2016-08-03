@@ -15,7 +15,7 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 public class ContractAttachment extends DataEntity<ContractAttachment> {
 	
 	private static final long serialVersionUID = 1L;
-	private Contract contractId;		// 合同 父类
+	private Contract oa_contract;		// 合同 父类
 	private String type;		// 附件类型
 	private String files;		// 名称
 	private String remark;		// 备注
@@ -28,17 +28,17 @@ public class ContractAttachment extends DataEntity<ContractAttachment> {
 		super(id);
 	}
 
-	public ContractAttachment(Contract contractId){
-		this.contractId = contractId;
+	public ContractAttachment(Contract oa_contract){
+		this.oa_contract = oa_contract;
 	}
 
 	@Length(min=1, max=64, message="合同长度必须介于 1 和 64 之间")
-	public Contract getContractId() {
-		return contractId;
+	public Contract getContract() {
+		return oa_contract;
 	}
 
-	public void setContractId(Contract contractId) {
-		this.contractId = contractId;
+	public void setContract(Contract contractId) {
+		this.oa_contract = contractId;
 	}
 	
 	@Length(min=1, max=2, message="附件类型长度必须介于 1 和 2 之间")

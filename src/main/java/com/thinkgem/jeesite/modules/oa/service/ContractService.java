@@ -59,7 +59,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 			}
 			if (ContractAttachment.DEL_FLAG_NORMAL.equals(contractAttachment.getDelFlag())){
 				if (StringUtils.isBlank(contractAttachment.getId())){
-					contractAttachment.setContractId(contract);
+					contractAttachment.setContract(contract);
 					contractAttachment.preInsert();
 					contractAttachmentDao.insert(contractAttachment);
 				}else{

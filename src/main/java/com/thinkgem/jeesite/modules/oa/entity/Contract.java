@@ -310,7 +310,7 @@ public class Contract extends DataEntity<Contract> {
 		this.shipAddress = shipAddress;
 	}
 	
-	@Length(min=1, max=255, message="备注长度必须介于 1 和 255 之间")
+	@Length(min=0, max=255, message="备注长度必须介于 0 和 255 之间")
 	public String getRemark() {
 		return remark;
 	}

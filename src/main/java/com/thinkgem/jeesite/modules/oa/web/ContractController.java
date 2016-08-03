@@ -8,9 +8,12 @@ import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.oa.entity.Contract;
+import com.thinkgem.jeesite.modules.oa.entity.ContractAttachment;
 import com.thinkgem.jeesite.modules.oa.entity.Customer;
 import com.thinkgem.jeesite.modules.oa.service.ContractService;
 import com.thinkgem.jeesite.modules.oa.service.CustomerService;
+import com.thinkgem.jeesite.modules.sys.entity.Dict;
+import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -93,6 +97,17 @@ public class ContractController extends BaseController {
 		//获取所有客户
 		List<Customer> customerList = customerService.findList(new Customer());
 		model.addAttribute("customerList", customerList);
+		//获取附件
+		if(contract.getContractAttachmentList()==null || contract.getContractAttachmentList().size()==0){
+			ArrayList<ContractAttachment> attachmentList = new ArrayList<ContractAttachment>();
+			List<Dict> attachmentTypes =  DictUtils.getDictList("oa_contract_attachment_type");
+			for (Dict attachType : attachmentTypes){
+				ContractAttachment attachment = new ContractAttachment();
+				attachment.setType(attachType.getValue());
+				attachmentList.add(attachment);
+			}
+			contract.setContractAttachmentList(attachmentList);
+		}
 		return "modules/oa/contractForm";
 	}
 

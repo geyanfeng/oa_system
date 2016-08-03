@@ -403,18 +403,8 @@
 						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-sm-6">
-						<div class="form-group">
-							<label class="col-sm-3 control-label">附件：</label>
-							<div class="col-sm-7">
-								<form:hidden id="files" path="files" htmlEscape="false" maxlength="2000" class="form-control"/>
-								<sys:ckfinder input="files" type="files" uploadPath="/oa/contract" selectMultiple="true"/>
-							</div>
-						</div>
-					</div>
-				</div>
 			</div>
+			<!--合同产品明细表-->
 			<div class="card-box" id="card_products">
 				<h4 class="header-title m-t-0 m-b-30">合同产品明细表</h4>
 				<shiro:hasPermission name="oa:contract:edit">
@@ -491,11 +481,50 @@
 						</script>
 					</div>
 				</div>
-
 			</div>
-		</div>
 
-		<div class="form-group">
+			<!--附件-->
+			<div class="card-box" id="card_attachemnts">
+				<h4 class="header-title m-t-0 m-b-30">附件</h4>
+				<div class="row">
+					<div class="col-sm-12">
+						<table id="attchmentTable" class="table table-striped table-bordered table-condensed">
+							<thead>
+							<tr role="row">
+								<th class="hidden"></th>
+								<th>附件类型</th>
+								<th>文件名</th>
+								<th>创建时间</th>
+							</tr>
+							</thead>
+							<tbody id="attchmentList">
+								<c:forEach items="${contract.contractAttachmentList}" var="attachment" varStatus="status">
+									<tr row="row">
+										<td class="hidden">
+											<input id="contractAttachmentList${status.index}_id" name="contractAttachmentList[${status.index}].id" type="hidden" value="${attachment.id}"/>
+										</td>
+										<td>
+											${fns:getDictLabel(attachment.type, 'oa_contract_attachment_type', '')}
+											<a href="#" class="zmdi zmdi-upload" onclick="files${status.index}FinderOpen();"></a>
+											<input id="contractAttachmentList${status.index}_type" name="contractAttachmentList[${status.index}].type" type="hidden" value="${attachment.type}"/>
+										</td>
+										<td>
+											<form:hidden id="files${status.index}" path="contractAttachmentList[${status.index}].files" htmlEscape="false" maxlength="2000" class="form-control"/>
+											<sys:myckfinder input="files${status.index}" type="files" uploadPath="/oa/contract" selectMultiple="true"/>
+										</td>
+										<td>
+											<fmt:formatDate value="${attachment.updateDate}" pattern="yyyy-MM-dd"/>
+										</td>
+									</tr>
+
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
 			<label class="col-sm-3 control-label">合同金额：</label>
 			<div class="col-sm-7">
 				<form:input path="amount" htmlEscape="false" class="form-control  number"/>
