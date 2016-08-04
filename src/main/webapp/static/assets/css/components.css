@@ -905,6 +905,10 @@ File: Components
 .portlet .portlet-heading .portlet-widgets .collapsed .zmdi-minus:before {
   content: "\f278" !important;
 }
+
+.card-box .collapsed .zmdi-minus:before {
+  content: "\f278" !important;
+}
 .portlet .portlet-heading a {
   color: #999999;
   padding: 0px 5px;

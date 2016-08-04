@@ -100,7 +100,7 @@ public class ContractController extends BaseController {
 		//获取附件
 		if(contract.getContractAttachmentList()==null || contract.getContractAttachmentList().size()==0){
 			ArrayList<ContractAttachment> attachmentList = new ArrayList<ContractAttachment>();
-			List<Dict> attachmentTypes =  DictUtils.getDictList("contract_attachment_type");
+			List<Dict> attachmentTypes =  DictUtils.getDictList("oa_contract_attachment_type");
 			for (Dict attachType : attachmentTypes){
 				ContractAttachment attachment = new ContractAttachment();
 				attachment.setType(attachType.getValue());

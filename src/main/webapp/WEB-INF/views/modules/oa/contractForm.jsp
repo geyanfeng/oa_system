@@ -167,27 +167,29 @@
 		<sys:message content="${message}"/>
 		<div class="col-sm-12">
 			<div class="card-box" name="card_info">
-				<h4 class="header-title m-t-0 m-b-30">合同信息
+				<div class="pull-right">
+					<a data-toggle="collapse"  href="#card-collapse" class="" aria-expanded="true"><i class="zmdi zmdi-minus"></i></a>
 					<a class="btn btn-custom waves-effect waves-light" data-toggle="modal" data-target="#con-close-modal" id="btnTest">选择框架合同</a>
-				</h4>
-				<div class="row">
+				</div>
+
+				<h3 class="header-title m-t-0 m-b-30">合同信息
+				</h3>
+				<div class="row panel-collapse collapse in" id="card-collapse">
 					<div class="col-sm-6">
 						<div class="form-group">
-							<label class="col-sm-3 control-label">合同号：</label>
+							<label class="col-sm-3 control-label"><span class="help-inline"><font color="red">*</font> </span>合同号：</label>
 							<div class="col-sm-7">
 								<form:input path="no" htmlEscape="false" maxlength="100" class="form-control required"/>
-								<span class="help-inline"><font color="red">*</font> </span>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-3 control-label">合同类型：</label>
+							<label class="col-sm-3 control-label"><span class="help-inline"><font color="red">*</font> </span>合同类型：</label>
 							<div class="col-sm-7">
 								<form:select path="contractType" class="form-control col-md-12 required" onchange="changeContractType()">
 									<form:option value="" label=""/>
 									<form:options items="${fns:getDictList('oa_contract_type')}" itemLabel="label"
 												  itemValue="value" htmlEscape="false"/>
 								</form:select>
-								<span class="help-inline"><font color="red">*</font> </span>
 							</div>
 						</div>
 						<div class="form-group">
@@ -204,11 +206,10 @@
 					</div>
 					<div class="col-sm-6">
 						<div class="form-group">
-							<label class="col-sm-3 control-label">合同名称：</label>
+							<label class="col-sm-3 control-label"><span class="help-inline"><font color="red">*</font> </span>合同名称：</label>
 							<div class="col-sm-7">
 								<form:input path="name" htmlEscape="false" maxlength="255"
 											class="form-control required"/>
-								<span class="help-inline"><font color="red">*</font> </span>
 							</div>
 						</div>
 						<div class="form-group">
@@ -234,8 +235,11 @@
 				</div>
 			</div>
 			<div class="card-box">
+				<div class="pull-right">
+					<a data-toggle="collapse"  href="#invoice-collapse" class="" aria-expanded="true"><i class="zmdi zmdi-minus"></i></a>
+				</div>
 				<h4 class="header-title m-t-0 m-b-30">开票信息</h4>
-				<div class="row">
+				<div class="row panel-collapse collapse in" id="invoice-collapse">
 					<div class="col-sm-6">
 						<div class="form-group">
 							<label class="col-sm-3 control-label">发票类型：</label>
@@ -289,22 +293,24 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-3 control-label">公司抬头：</label>
+							<label class="col-sm-3 control-label"><span class="help-inline"><font color="red">*</font> </span>公司抬头：</label>
 							<div class="col-sm-7">
 								<form:select path="companyName" class="form-control col-md-12 required">
 									<form:option value="" label=""/>
 									<form:options items="${fns:getDictList('oa_company_name')}" itemLabel="label"
 												  itemValue="value" htmlEscape="false"/>
 								</form:select>
-								<span class="help-inline"><font color="red">*</font> </span>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="card-box">
+				<div class="pull-right">
+					<a data-toggle="collapse"  href="#payment-collapse" class="" aria-expanded="true"><i class="zmdi zmdi-minus"></i></a>
+				</div>
 				<h4 class="header-title m-t-0 m-b-30">付款信息</h4>
-				<div class="row">
+				<div class="row panel-collapse collapse in" id="payment-collapse">
 					<div class="col-sm-6">
 						<div class="form-group">
 							<label class="col-sm-3 control-label">付款方式：</label>
@@ -345,8 +351,11 @@
 				</div>
 			</div>
 			<div class="card-box" id="card_other" name="card_other">
+				<div class="pull-right">
+					<a data-toggle="collapse"  href="#other-collapse" class="collapsed" aria-expanded="true"><i class="zmdi zmdi-minus"></i></a>
+				</div>
 				<h4 class="header-title m-t-0 m-b-30">其它</h4>
-				<div class="row">
+				<div class="row panel-collapse collapse" id="other-collapse">
 					<div class="col-sm-6">
 						<div class="form-group">
 							<label class="col-sm-3 control-label">客户费用：</label>
@@ -406,17 +415,21 @@
 			</div>
 			<!--合同产品明细表-->
 			<div class="card-box" id="card_products">
+				<div class="pull-right">
+					<a data-toggle="collapse"  href="#products-collapse" class="" aria-expanded="true"><i class="zmdi zmdi-minus"></i></a>
+				</div>
 				<h4 class="header-title m-t-0 m-b-30">合同产品明细表</h4>
-				<shiro:hasPermission name="oa:contract:edit">
-					<div class="pull-right">
-						<a href="javascript:"
-						   onclick="addRow('#contractProductList', contractProductRowIdx, contractProductTpl);contractProductRowIdx = contractProductRowIdx + 1;"
-						   class="btn btn-primary waves-effect waves-light m-b-5">新增<i class="fa fa-plus"></i></a>
-					</div>
-				</shiro:hasPermission>
-				<div class="row">
+
+				<div class="row panel-collapse collapse in" id="products-collapse">
+					<shiro:hasPermission name="oa:contract:edit">
+						<div class="pull-right">
+							<a href="javascript:"
+							   onclick="addRow('#contractProductList', contractProductRowIdx, contractProductTpl);contractProductRowIdx = contractProductRowIdx + 1;"
+							   class="btn btn-primary waves-effect waves-light m-b-5">新增<i class="fa fa-plus"></i></a>
+						</div>
+					</shiro:hasPermission>
 					<div class="col-sm-12">
-						<table id="contentTable" class="table table-striped table-bordered table-condensed">
+						<table id="contentTable" class="table table-striped">
 							<thead>
 							<tr role="row">
 								<th class="hidden"></th>
@@ -485,10 +498,13 @@
 
 			<!--附件-->
 			<div class="card-box" id="card_attachemnts">
+				<div class="pull-right">
+					<a data-toggle="collapse" href="#attachment-collapse" class="collapsed"><i class="zmdi zmdi-minus"></i></a>
+				</div>
 				<h4 class="header-title m-t-0 m-b-30">附件</h4>
-				<div class="row">
+				<div class="row panel-collapse collapse" id="attachment-collapse">
 					<div class="col-sm-12">
-						<table id="attchmentTable" class="table table-striped table-bordered table-condensed">
+						<table id="attchmentTable" class="table table-striped">
 							<thead>
 							<tr role="row">
 								<th class="hidden"></th>
@@ -505,7 +521,7 @@
 										</td>
 										<td>
 											${fns:getDictLabel(attachment.type, 'oa_contract_attachment_type', '')}
-											<a href="#" class="zmdi zmdi-upload" onclick="files${status.index}FinderOpen();"></a>
+											<a href="#" title="上传文档" class="zmdi zmdi-upload pull-right" onclick="files${status.index}FinderOpen();"></a>
 											<input id="contractAttachmentList${status.index}_type" name="contractAttachmentList[${status.index}].type" type="hidden" value="${attachment.type}"/>
 										</td>
 										<td>

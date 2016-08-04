@@ -28,6 +28,7 @@
 		<li class="active"><a href="${ctx}/oa/contract/">合同列表</a></li>
 		<shiro:hasPermission name="oa:contract:edit"><li><a href="${ctx}/oa/contract/form">合同添加</a></li></shiro:hasPermission>
 	</ul>--%>
+<div class="contrainer">
 <form:form id="searchForm" modelAttribute="contract" action="${ctx}/oa/contract/" method="post"
            class="breadcrumb form-search">
     <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
@@ -127,7 +128,7 @@
 
 </form:form>
 <sys:message content="${message}"/>
-<table id="contentTable" class="table table-striped table-bordered table-condensed">
+<table id="contentTable" class="table table-striped">
     <thead>
     <tr>
         <th>合同号</th>
@@ -202,5 +203,6 @@
     </tbody>
 </table>
 ${page}
+</div>
 </body>
 </html>
