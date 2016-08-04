@@ -67,6 +67,23 @@
 				}
 			});
 		}
+
+		function addChildRow(list, idx, child_idx, tpl, row){
+			$(list).append(Mustache.render(tpl, {
+				idx: idx,child_idx:child_idx, delBtn: true, row: row
+			}));
+			$(list+idx).find("select").each(function(){
+				$(this).val($(this).attr("data-value"));
+			});
+			$(list+idx).find("input[type='checkbox'], input[type='radio']").each(function(){
+				var ss = $(this).attr("data-value").split(',');
+				for (var i=0; i<ss.length; i++){
+					if($(this).val() == ss[i]){
+						$(this).attr("checked","checked");
+					}
+				}
+			});
+		}
 		function delRow(obj, prefix){
 			var id = $(prefix+"_id");
 			var delFlag = $(prefix+"_delFlag");
@@ -455,7 +472,8 @@
 								<input id="contractProductList{{idx}}_delFlag" name="contractProductList[{{idx}}].delFlag" type="hidden" value="0"/>
 							</td>
 							<td>
-								<input id="contractProductList{{idx}}_name" name="contractProductList[{{idx}}].name" type="text" value="{{row.name}}" maxlength="100" class="form-control input-block required"/>
+								<input id="contractProductList{{idx}}_name" name="contractProductList[{{idx}}].name" type="text" value="{{row.name}}" maxlength="100" class="form-control required"  style="width: 90%;display: inline-block;"/>
+								<a href="javascript:" class="fa fa-plus"></a>
 							</td>
 							<td>
 								<input id="contractProductList{{idx}}_price" name="contractProductList[{{idx}}].price" type="text" value="{{row.price}}" class="form-control input-block" onchange="updatePriceAmount(this);"/>
@@ -480,15 +498,53 @@
 							<shiro:hasPermission name="oa:contract:edit"><td class="text-center" width="10">
 								{{#delBtn}}<a href="#" class="on-default remove-row" onclick="delRow(this, '#contractProductList{{idx}}')"  title="删除"><i class="fa fa-trash-o"></i></a>{{/delBtn}}
 							</td></shiro:hasPermission>
-						</tr>//-->
+						</tr>
+						<tr>
+							<td colspan=6 style="padding-left: 40px;">
+							 <table class="table" id="contractProductList{{idx}}_childtable">
+								<tbody id="contractProductList{{idx}}_child">
+								  </tbody>
+								</table>
+							</td>
+						<tr>
+						//-->
+						</script>
+						<script type="text/template" id="contractProductChildTpl">//<!--
+						<tr id="contractProductList{{idx}}" row="row">
+							<td class="hidden">
+								<input id="contractProductList{{idx}}_{{child_idx}}_id" name="contractProductList[{{idx}}].child[{{child_idx}}].id" type="hidden" value="{{row.id}}"/>
+								<input id="contractProductList{{idx}}_{{child_idx}}_delFlag" name="contractProductList[{{idx}}].delFlag" type="hidden" value="0"/>
+							</td>
+							<td>
+								<input id="contractProductList{{idx}}_{{child_idx}}_name" name="contractProductList[{{idx}}].child[{{child_idx}}].name" type="text" value="{{row.name}}" maxlength="100" class="form-control required"  style="width: 90%;display: inline-block;"/>
+								<a href="javascript:" class="fa fa-plus"></a>
+							</td>
+							<td>
+								<input id="contractProductList{{idx}}_{{child_idx}}_num" name="contractProductList[{{idx}}].child[{{child_idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="form-control input-block" onchange="updatePriceAmount(this);"//>
+							</td>
+							<td>
+								<select id="contractProductList{{idx}}_{{child_idx}}_unit" name="contractProductList[{{idx}}].child[{{child_idx}}].unit" data-value="{{row.unit}}" class="form-control input-block">
+									<option value=""></option>
+									<c:forEach items="${fns:getDictList('oa_unit')}" var="dict">
+										<option value="${dict.value}">${dict.label}</option>
+									</c:forEach>
+								</select>
+							</td>
+						<tr>
+						//-->
 						</script>
 						<script type="text/javascript">
 							var contractProductRowIdx = 0, contractProductTpl = $("#contractProductTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
+							var childRowIdx = 0, contractProductChildTpl = $("#contractProductChildTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");;
 							$(document).ready(function () {
 								var data = ${fns:toJson(contract.contractProductList)};
 								for (var i = 0; i < data.length; i++) {
+									childRowIdx = 0;
 									addRow('#contractProductList', contractProductRowIdx, contractProductTpl, data[i]);
 									contractProductRowIdx = contractProductRowIdx + 1;
+									for(var j=0;j<data[i].childs;j++){
+										addRow('#contractProductChildTpl', contractProductRowIdx,childRowIdx, contractProductChildTpl, data[i].childs[j]);
+									}
 								}
 							});
 						</script>
