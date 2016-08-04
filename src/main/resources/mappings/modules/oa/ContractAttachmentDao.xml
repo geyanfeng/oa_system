@@ -4,7 +4,7 @@
     
 	<sql id="contractAttachmentColumns">
 		a.id AS "id",
-		a.contract_id AS "oa_contract.id",
+		a.contract_id AS "contract.id",
 		a.type AS "type",
 		a.files AS "files",
 		a.remark AS "remark",
@@ -34,8 +34,8 @@
 		<include refid="contractAttachmentJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-			<if test="oa_contract != null and oa_contract.id != null and oa_contract.id != ''">
-				AND a.contract_id = #{oa_contract.id}
+			<if test="contract != null and contract.id != null and contract.id != ''">
+				AND a.contract_id = #{contract.id}
 			</if>
 		</where>
 		<choose>
@@ -43,7 +43,7 @@
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
-				ORDER BY a.create_date ASC
+				ORDER BY a.contract_id, a.type ASC
 			</otherwise>
 		</choose>
 	</select>
@@ -80,7 +80,7 @@
 			update_date
 		) VALUES (
 			#{id},
-			#{oa_contract.id},
+			#{contract.id},
 			#{type},
 			#{files},
 			#{remark},
@@ -94,7 +94,7 @@
 	
 	<update id="update">
 		UPDATE oa_contract_attachment SET 	
-			contract_id =  #{oa_contract.id},
+			contract_id =  #{contract.id},
 			type = #{type},
 			files = #{files},
 			remark = #{remark},
@@ -111,7 +111,7 @@
 				WHERE id = #{id}
 			</when>
 			<otherwise>
-				WHERE contract_id =  #{oa_contract.id}
+				WHERE contract_id =  #{contract.id}
 			</otherwise>
 		</choose>
 	</update>

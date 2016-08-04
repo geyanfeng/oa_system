@@ -53,6 +53,25 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 	@Transactional(readOnly = false)
 	public void save(Contract contract) {
 		super.save(contract);
+
+		for (ContractProduct contractProduct : contract.getContractProductList()){
+			if (contractProduct.getId() == null){
+				continue;
+			}
+			if (ContractProduct.DEL_FLAG_NORMAL.equals(contractProduct.getDelFlag())){
+				if (StringUtils.isBlank(contractProduct.getId())){
+					contractProduct.setcontract(contract);
+					contractProduct.preInsert();
+					contractProductDao.insert(contractProduct);
+				}else{
+					contractProduct.preUpdate();
+					contractProductDao.update(contractProduct);
+				}
+			}else{
+				contractProductDao.delete(contractProduct);
+			}
+		}
+
 		for (ContractAttachment contractAttachment : contract.getContractAttachmentList()){
 			if (contractAttachment.getId() == null){
 				continue;
@@ -68,23 +87,6 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 				}
 			}else{
 				contractAttachmentDao.delete(contractAttachment);
-			}
-		}
-		for (ContractProduct contractProduct : contract.getContractProductList()){
-			if (contractProduct.getId() == null){
-				continue;
-			}
-			if (ContractProduct.DEL_FLAG_NORMAL.equals(contractProduct.getDelFlag())){
-				if (StringUtils.isBlank(contractProduct.getId())){
-					contractProduct.setOa_contract(contract);
-					contractProduct.preInsert();
-					contractProductDao.insert(contractProduct);
-				}else{
-					contractProduct.preUpdate();
-					contractProductDao.update(contractProduct);
-				}
-			}else{
-				contractProductDao.delete(contractProduct);
 			}
 		}
 	}

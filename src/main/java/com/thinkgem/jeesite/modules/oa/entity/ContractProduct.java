@@ -15,7 +15,7 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 public class ContractProduct extends DataEntity<ContractProduct> {
 	
 	private static final long serialVersionUID = 1L;
-	private Contract oa_contract;		// 合同主表 父类
+	private Contract contract;		// 合同主表 父类
 	private String name;		// 名称
 	private String price;		// 价格
 	private String num;		// 数量
@@ -31,17 +31,17 @@ public class ContractProduct extends DataEntity<ContractProduct> {
 		super(id);
 	}
 
-	public ContractProduct(Contract oa_contract){
-		this.oa_contract = oa_contract;
+	public ContractProduct(Contract contract){
+		this.contract = contract;
 	}
 
 	@Length(min=0, max=64, message="合同主表长度必须介于 0 和 64 之间")
-	public Contract getOa_contract() {
-		return oa_contract;
+	public Contract getcontract() {
+		return contract;
 	}
 
-	public void setOa_contract(Contract oa_contract) {
-		this.oa_contract = oa_contract;
+	public void setcontract(Contract contract) {
+		this.contract = contract;
 	}
 	
 	@Length(min=1, max=100, message="名称长度必须介于 1 和 100 之间")

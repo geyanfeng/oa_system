@@ -4,7 +4,7 @@
     
 	<sql id="contractProductColumns">
 		a.id AS "id",
-		a.contract_id AS "oa_contract.id",
+		a.contract_id AS "contract.id",
 		a.name AS "name",
 		a.price AS "price",
 		a.num AS "num",
@@ -37,8 +37,8 @@
 		<include refid="contractProductJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-			<if test="oa_contract != null and oa_contract.id != null and oa_contract.id != ''">
-				AND a.contract_id = #{oa_contract.id}
+			<if test="contract != null and contract.id != null and contract.id != ''">
+				AND a.contract_id = #{contract.id}
 			</if>
 			<if test="name != null and name != ''">
 				AND a.name LIKE 
@@ -92,7 +92,7 @@
 			update_date
 		) VALUES (
 			#{id},
-			#{oa_contract.id},
+			#{contract.id},
 			#{name},
 			#{price},
 			#{num},
@@ -109,7 +109,7 @@
 	
 	<update id="update">
 		UPDATE oa_contract_product SET 	
-			contract_id = #{oa_contract.id},
+			contract_id = #{contract.id},
 			name = #{name},
 			price = #{price},
 			num = #{num},
@@ -129,7 +129,7 @@
 				WHERE id = #{id}
 			</when>
 			<otherwise>
-				WHERE contract_id = #{oa_contract.id}
+				WHERE contract_id = #{contract.id}
 			</otherwise>
 		</choose>
 	</update>
