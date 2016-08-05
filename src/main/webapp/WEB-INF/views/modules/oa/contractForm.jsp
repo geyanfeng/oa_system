@@ -276,7 +276,7 @@
 					<div class="form-group clearfix">
 						<label class="col-sm-3 control-label  p-0"><span class="help-inline"><font color="red">*</font> </span>商务人员：</label>
 						<div class="col-sm-7  p-0">
-							<sys:treeselect id="business_person" name="business_person.id"
+							<sys:treeselect id="business_person" name="businessPerson.id"
 											value="${contract.businessPerson.id}" labelName="businessPerson.name"
 											labelValue="${contract.businessPerson.name}"
 											title="用户" url="/sys/office/treeData?type=3" cssClass="form-control required input-sm" buttonIconCss="input-sm"
