@@ -3,9 +3,11 @@
  */
 package com.thinkgem.jeesite.modules.oa.entity;
 
+import com.google.common.collect.Lists;
+import com.thinkgem.jeesite.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 
-import com.thinkgem.jeesite.common.persistence.DataEntity;
+import java.util.List;
 
 /**
  * 各种合同Entity
@@ -22,6 +24,7 @@ public class ContractProduct extends DataEntity<ContractProduct> {
 	private String unit;		// 单位
 	private String amount;		// 金额
 	private String remark;		// 备注
+	private List<ContractProduct> childs = Lists.newArrayList();		// 子表列表
 	
 	public ContractProduct() {
 		super();
@@ -95,5 +98,12 @@ public class ContractProduct extends DataEntity<ContractProduct> {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	
+
+	public List<ContractProduct> getChilds() {
+		return childs;
+	}
+
+	public void setChilds(List<ContractProduct> childs) {
+		this.childs = childs;
+	}
 }
