@@ -71,6 +71,9 @@ public class ContractController extends BaseController {
 		//如果是来自父级,复制部分数据
 		if(originalId !=null){
 			Contract originalContract = contractService.get(originalId);
+			contract.setParentId(originalContract.getId());
+			contract.setParentName(originalContract.getName());
+			contract.setParentNo(originalContract.getName());
 			contract.setCustomer(originalContract.getCustomer());
 			contract.setInvoiceType(originalContract.getInvoiceType());
 			contract.setInvoiceCustomerName(originalContract.getInvoiceCustomerName());

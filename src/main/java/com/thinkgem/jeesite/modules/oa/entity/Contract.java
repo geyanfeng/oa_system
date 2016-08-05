@@ -24,7 +24,9 @@ public class Contract extends DataEntity<Contract> {
 	
 	private static final long serialVersionUID = 1L;
 	private String procInsId;		// 流程实例ID
-	private Contract parent;		// 父级id
+	private String parentId;		// 父级id
+	private String parentNo;		// 父级no
+	private String parentName;		// 父级name
 	private String no;		// 合同号
 	private String name;		// 合同名称
 	private Double amount;		// 合同金额
@@ -73,14 +75,31 @@ public class Contract extends DataEntity<Contract> {
 	public void setProcInsId(String procInsId) {
 		this.procInsId = procInsId;
 	}
-	
-	@JsonBackReference
-	public Contract getParent() {
-		return parent;
+
+	public String getParentId() {
+		return parentId;
 	}
 
-	public void setParent(Contract parent) {
-		this.parent = parent;
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
+	}
+
+
+	public String getParentNo() {
+		return parentNo;
+	}
+
+	public void setParentNo(String parentNo) {
+		this.parentNo = parentNo;
+	}
+
+
+	public String getParentName() {
+		return parentName;
+	}
+
+	public void setParentName(String parentName) {
+		this.parentName = parentName;
 	}
 	
 	@Length(min=1, max=100, message="合同号长度必须介于 1 和 100 之间")

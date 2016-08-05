@@ -5,7 +5,7 @@
 	<sql id="contractColumns">
 		a.id AS "id",
 		a.proc_ins_id AS "procInsId",
-		a.parent_id AS "parent.id",
+		a.parent_id AS "parentId",
 		a.no AS "no",
 		a.name AS "name",
 		a.amount AS "amount",
@@ -38,6 +38,8 @@
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
+		p.no AS "parentNo",
+		p.name AS "parentName",
 		a9.name AS "customer.name",
 		u15.name AS "businessPerson.name",
 		u16.name AS "artisan.name",
@@ -49,6 +51,7 @@
 		LEFT JOIN sys_user u15 ON u15.id = a.business_person_id
 		LEFT JOIN sys_user u16 ON u16.id = a.artisan_id
 		LEFT JOIN sys_user u32 ON u32.id = a.create_by
+		LEFT JOIN oa_contract p ON p.id = a.parent_Id
 	</sql>
     
 	<select id="get" resultType="Contract">
@@ -113,6 +116,7 @@
 	<insert id="insert">
 		INSERT INTO oa_contract(
 			id,
+			parent_id,
 			no,
 			name,
 			amount,
@@ -147,6 +151,7 @@
 			update_date
 		) VALUES (
 			#{id},
+			#{parentId},
 			#{no},
 			#{name},
 			#{amount},
