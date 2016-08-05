@@ -36,7 +36,7 @@ public class Contract extends DataEntity<Contract> {
 	private String paymentCycle;		// 付款周期类型
 	private Date paymentTime;		// 付款时间
 	private Double paymentAmount;		// 付款金额
-	private User business_person;		// 商务人员
+	private User businessPerson;		// 商务人员
 	private User artisan;		// 技术人员
 	private Double customerCost;		// 客户费用
 	private Boolean isDeduction;		// 是否业绩抵扣
@@ -179,14 +179,14 @@ public class Contract extends DataEntity<Contract> {
 		this.paymentAmount = paymentAmount;
 	}
 	
-	public User getBusiness_person() {
-		return business_person;
+	public User getBusinessPerson() {
+		return businessPerson;
 	}
 
-	public void setBusiness_person(User business_person) {
-		this.business_person = business_person;
+	public void setBusinessPerson(User businessPerson) {
+		this.businessPerson = businessPerson;
 	}
-	
+
 	public User getArtisan() {
 		return artisan;
 	}

@@ -67,15 +67,22 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 	public void save(Contract contract) {
 		super.save(contract);
 
+		Integer sort=1;
 		for (ContractProduct contractProduct : contract.getContractProductList()){
+			contractProduct.setSort(sort);
+			sort++;
 			if (contractProduct.getId() == null){
 				continue;
 			}
 			//删除子商品
+			Integer childSort = 1;
 			for (ContractProduct childProduct: contractProduct.getChilds()){
+				childProduct.setSort(childSort);
+				childSort++;
 				if (childProduct.getId() == null){
 					continue;
 				}
+
 				if (!childProduct.DEL_FLAG_NORMAL.equals(childProduct.getDelFlag())){
 					contractProductDao.delete(childProduct);
 				}
@@ -91,6 +98,10 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 					contractProductDao.update(contractProduct);
 				}
 			}else{
+				//删除下面所有的子商品
+				for (ContractProduct childProduct: contractProduct.getChilds()){
+						contractProductDao.delete(childProduct);
+				}
 				contractProductDao.delete(contractProduct);
 			}
 			//增加或修改子商品
@@ -106,8 +117,8 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 						childProduct.preInsert();
 						contractProductDao.insert(childProduct);
 					}else{
-						childProduct.setContract(contract);
-						childProduct.setParentId(contractProduct.getId());
+					/*	childProduct.setContract(contract);
+						childProduct.setParentId(contractProduct.getId());*/
 						childProduct.preUpdate();
 						contractProductDao.update(childProduct);
 					}

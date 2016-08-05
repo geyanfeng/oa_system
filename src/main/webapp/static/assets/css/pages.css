@@ -142,7 +142,7 @@ a.editable-click:hover {
 }
 .select2-chosen {
   height: 34px;
-  line-height: 34px;
+  line-height: 22px;
   /*padding-left: 15px;*/
 }
 /* Bootstrap-select */

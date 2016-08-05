@@ -10,8 +10,10 @@ import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.oa.entity.Contract;
 import com.thinkgem.jeesite.modules.oa.entity.ContractAttachment;
 import com.thinkgem.jeesite.modules.oa.entity.Customer;
+import com.thinkgem.jeesite.modules.oa.entity.ProductType;
 import com.thinkgem.jeesite.modules.oa.service.ContractService;
 import com.thinkgem.jeesite.modules.oa.service.CustomerService;
+import com.thinkgem.jeesite.modules.oa.service.ProductTypeService;
 import com.thinkgem.jeesite.modules.sys.entity.Dict;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -39,6 +41,8 @@ public class ContractController extends BaseController {
 	private ContractService contractService;
 	@Autowired
 	private CustomerService customerService;
+	@Autowired
+	private ProductTypeService productTypeService;
 	
 	@ModelAttribute
 	public Contract get(@RequestParam(required=false) String id) {
@@ -108,6 +112,8 @@ public class ContractController extends BaseController {
 			}
 			contract.setContractAttachmentList(attachmentList);
 		}
+		//商品类型
+		model.addAttribute("productTypeList", productTypeService.findList(new ProductType()));
 		return "modules/oa/contractForm";
 	}
 

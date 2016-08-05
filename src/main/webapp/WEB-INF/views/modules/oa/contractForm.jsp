@@ -72,10 +72,10 @@
             $(list).append(Mustache.render(tpl, {
                 idx: idx, child_idx: child_idx, delBtn: true, row: row
             }));
-            $(list + idx).find("select").each(function () {
+            $(list + "_" + child_idx).find("select").each(function () {
                 $(this).val($(this).attr("data-value"));
             });
-            $(list + idx).find("input[type='checkbox'], input[type='radio']").each(function () {
+            $(list + "_" + child_idx).find("input[type='checkbox'], input[type='radio']").each(function () {
                 var ss = $(this).attr("data-value").split(',');
                 for (var i = 0; i < ss.length; i++) {
                     if ($(this).val() == ss[i]) {
@@ -88,9 +88,9 @@
         function addNewChildRow(sender){
             var parentRow = $(sender).closest('tr');
             var parentIdx = parentRow.data('idx');
-            var childTable = $('#contractProductList'+parentIdx+'_childtable');
+            var childTable = $('#childProductList'+parentIdx+'_table');
             var childIdx = childTable.find('tr').length;
-            addChildRow('#contractProductList'+parentIdx+'_childtable_body', parentIdx, childIdx, contractProductChildTpl);
+            addChildRow('#childProductList'+parentIdx, parentIdx, childIdx, contractProductChildTpl);
         }
 
         function delRow(obj, prefix) {
@@ -206,15 +206,15 @@
         <div class="row panel-collapse collapse in" id="card-collapse">
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label class="col-sm-3 control-label"><span class="help-inline"><font color="red">*</font> </span>合同号：</label>
+                    <label class="col-sm-3 control-label" for="no"><span class="help-inline"><font color="red">*</font> </span>合同号：</label>
                     <div class="col-sm-7">
-                        <form:input path="no" htmlEscape="false" maxlength="100" class="form-control required"/>
+                        <form:input path="no" htmlEscape="false" maxlength="100" class="form-control required input-sm"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label"><span class="help-inline"><font color="red">*</font> </span>合同类型：</label>
                     <div class="col-sm-7">
-                        <form:select path="contractType" class="form-control col-md-12 required"
+                        <form:select path="contractType" class="form-control col-md-12 required input-sm"
                                      onchange="changeContractType()">
                             <form:option value="" label=""/>
                             <form:options items="${fns:getDictList('oa_contract_type')}" itemLabel="label"
@@ -223,12 +223,12 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">商务人员：</label>
+                    <label class="col-sm-3 control-label"><span class="help-inline"><font color="red">*</font> </span>商务人员：</label>
                     <div class="col-sm-7">
                         <sys:treeselect id="business_person" name="business_person.id"
-                                        value="${contract.business_person.id}" labelName="business_person.name"
-                                        labelValue="${contract.business_person.name}"
-                                        title="用户" url="/sys/office/treeData?type=3" cssClass="form-control "
+                                        value="${contract.businessPerson.id}" labelName="businessPerson.name"
+                                        labelValue="${contract.businessPerson.name}"
+                                        title="用户" url="/sys/office/treeData?type=3" cssClass="form-control required input-sm" buttonIconCss="input-sm"
                                         allowClear="true" notAllowSelectParent="true"/>
                     </div>
                 </div>
@@ -239,13 +239,13 @@
                     <label class="col-sm-3 control-label"><span class="help-inline"><font color="red">*</font> </span>合同名称：</label>
                     <div class="col-sm-7">
                         <form:input path="name" htmlEscape="false" maxlength="255"
-                                    class="form-control required"/>
+                                    class="form-control required input-sm"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">客户：</label>
                     <div class="col-sm-7">
-                        <form:select path="customer.id" class="form-control col-md-12 required" id="customer"
+                        <form:select path="customer.id" class="form-control col-md-12 required input-sm" id="customer"
                                      onchange="changeCustomer(this)">
                             <form:option value="" label=""/>
                             <form:options items="${customerList}" itemLabel="name"
@@ -254,11 +254,11 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">技术人员：</label>
+                    <label class="col-sm-3 control-label"><span class="help-inline"><font color="red">*</font> </span>技术人员：</label>
                     <div class="col-sm-7">
                         <sys:treeselect id="artisan" name="artisan.id" value="${contract.artisan.id}"
                                         labelName="artisan.name" labelValue="${contract.artisan.name}"
-                                        title="用户" url="/sys/office/treeData?type=3" cssClass="form-control "
+                                        title="用户" url="/sys/office/treeData?type=3" cssClass="form-control required input-sm" buttonIconCss="input-sm"
                                         allowClear="true" notAllowSelectParent="true"/>
                     </div>
                 </div>
@@ -278,27 +278,27 @@
                     <div class="col-sm-7">
                         <form:radiobuttons path="invoiceType" items="${fns:getDictList('oa_invoice_type')}"
                                            itemLabel="label" itemValue="value" htmlEscape="false" class=""
-                                           element="span class='radio radio-success col-sm-4'"/>
+                                           element="span class='radio radio-success col-sm-4 input-sm'"/>
                     </div>
                 </div>
                 <div class="form-group" id="field-invoiceCustomerName">
                     <label class="col-sm-3 control-label">发票客户名称：</label>
                     <div class="col-sm-7">
                         <form:input path="invoiceCustomerName" htmlEscape="false" maxlength="255"
-                                    class="form-control "/>
+                                    class="form-control input-sm"/>
                     </div>
                 </div>
                 <div class="form-group" id="field-invoiceNo">
                     <label class="col-sm-3 control-label">发票税务登记号：</label>
                     <div class="col-sm-7">
-                        <form:input path="invoiceNo" htmlEscape="false" maxlength="255" class="form-control "/>
+                        <form:input path="invoiceNo" htmlEscape="false" maxlength="255" class="form-control input-sm"/>
                     </div>
                 </div>
                 <div class="form-group" id="field-invoiceBank">
                     <label class="col-sm-3 control-label">开户行：</label>
                     <div class="col-sm-7">
                         <form:input path="invoiceBank" htmlEscape="false" maxlength="255"
-                                    class="form-control "/>
+                                    class="form-control input-sm"/>
                     </div>
                 </div>
             </div>
@@ -307,27 +307,27 @@
                     <label class="col-sm-3 control-label">银行帐号：</label>
                     <div class="col-sm-7">
                         <form:input path="invoiceBankNo" htmlEscape="false" maxlength="255"
-                                    class="form-control "/>
+                                    class="form-control input-sm"/>
                     </div>
                 </div>
                 <div class="form-group" id="field-invoiceAddress">
                     <label class="col-sm-3 control-label">地址：</label>
                     <div class="col-sm-7">
                         <form:input path="invoiceAddress" htmlEscape="false" maxlength="1000"
-                                    class="form-control "/>
+                                    class="form-control input-sm"/>
                     </div>
                 </div>
                 <div class="form-group" id="filed-invoicePhone">
                     <label class="col-sm-3 control-label">电话：</label>
                     <div class="col-sm-7">
                         <form:input path="invoicePhone" htmlEscape="false" maxlength="100"
-                                    class="form-control "/>
+                                    class="form-control input-sm"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label"><span class="help-inline"><font color="red">*</font> </span>公司抬头：</label>
                     <div class="col-sm-7">
-                        <form:select path="companyName" class="form-control col-md-12 required">
+                        <form:select path="companyName" class="form-control col-md-12 required input-sm">
                             <form:option value="" label=""/>
                             <form:options items="${fns:getDictList('oa_company_name')}" itemLabel="label"
                                           itemValue="value" htmlEscape="false"/>
@@ -350,13 +350,13 @@
                     <div class="col-sm-7">
                         <form:radiobuttons path="paymentMethod" items="${fns:getDictList('oa_payment_method')}"
                                            itemLabel="label" itemValue="value" htmlEscape="false" class=""
-                                           element="span class='radio radio-success col-sm-4'"/>
+                                           element="span class='radio radio-success col-sm-4 input-sm'"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">付款周期类型：</label>
                     <div class="col-sm-7">
-                        <form:select path="paymentCycle" class="form-control col-md-12 ">
+                        <form:select path="paymentCycle" class="form-control col-md-12 input-sm">
                             <form:option value="" label=""/>
                             <form:options items="${fns:getDictList('oa_payment_cycle')}" itemLabel="label"
                                           itemValue="value" htmlEscape="false"/>
@@ -369,7 +369,7 @@
                     <label class="col-sm-3 control-label">付款时间：</label>
                     <div class="col-sm-7">
                         <input name="paymentTime" type="text" readonly="readonly" maxlength="20"
-                               class="form-control Wdate "
+                               class="form-control Wdate input-sm"
                                value="<fmt:formatDate value="${contract.paymentTime}" pattern="yyyy-MM-dd"/>"
                                onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
                     </div>
@@ -377,7 +377,7 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">付款金额：</label>
                     <div class="col-sm-7">
-                        <form:input path="paymentAmount" htmlEscape="false" class="form-control  number"/>
+                        <form:input path="paymentAmount" htmlEscape="false" class="form-control  number input-sm"/>
                     </div>
                 </div>
             </div>
@@ -394,7 +394,7 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">客户费用：</label>
                     <div class="col-sm-7">
-                        <form:input path="customerCost" htmlEscape="false" class="form-control  number"/>
+                        <form:input path="customerCost" htmlEscape="false" class="form-control  number input-sm"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -406,14 +406,14 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">抵扣金额：</label>
                     <div class="col-sm-7">
-                        <form:input path="discount" htmlEscape="false" class="form-control  number"/>
+                        <form:input path="discount" htmlEscape="false" class="form-control  number input-sm"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">有效期：</label>
                     <div class="col-sm-7">
                         <input name="expiryDate" type="text" readonly="readonly" maxlength="20"
-                               class="form-control Wdate "
+                               class="form-control Wdate input-sm"
                                value="<fmt:formatDate value="${contract.expiryDate}" pattern="yyyy-MM-dd"/>"
                                onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
                     </div>
@@ -423,7 +423,7 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">发货地址类型：</label>
                     <div class="col-sm-7">
-                        <form:select path="shipAddressType" class="form-control col-md-12 ">
+                        <form:select path="shipAddressType" class="form-control col-md-12 input-sm">
                             <form:option value="" label=""/>
                             <form:options items="${fns:getDictList('oa_ship_address_type')}" itemLabel="label"
                                           itemValue="value" htmlEscape="false"/>
@@ -434,7 +434,7 @@
                     <label class="col-sm-3 control-label">发货地址：</label>
                     <div class="col-sm-7">
                         <form:input path="shipAddress" htmlEscape="false" maxlength="255"
-                                    class="form-control "/>
+                                    class="form-control input-sm"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -492,28 +492,32 @@
 								<input id="contractProductList{{idx}}_delFlag" name="contractProductList[{{idx}}].delFlag" type="hidden" value="0"/>
 							</td>
 							<td>
-								<input id="contractProductList{{idx}}_name" name="contractProductList[{{idx}}].name" type="text" value="{{row.name}}" maxlength="100" class="form-control required"  style="width: 90%;display: inline-block;"/>
+								<input id="contractProductList{{idx}}_name" name="contractProductList[{{idx}}].name" type="text" value="{{row.name}}" maxlength="100" class="form-control required input-sm"  style="width: 50%;display: inline-block;"/>
+								<select id="contractProductList{{idx}}_productType" name="contractProductList[{{idx}}].productType" data-value="{{row.productType.id}}" class="form-control input-block required input-sm" style="width: 40%;display: inline-block;">
+									<c:forEach items="${productTypeList}" var="dict">
+										<option value="${dict.id}">${dict.name}</option>
+									</c:forEach>
+								</select>
 								<a href="javascript:" class="fa fa-plus" onclick="addNewChildRow(this)"></a>
 							</td>
 							<td>
-								<input id="contractProductList{{idx}}_price" name="contractProductList[{{idx}}].price" type="text" value="{{row.price}}" class="form-control input-block" onchange="updatePriceAmount(this);"/>
+								<input id="contractProductList{{idx}}_price" name="contractProductList[{{idx}}].price" type="text" value="{{row.price}}" class="form-control number input-block required input-sm" onchange="updatePriceAmount(this);"/>
 							</td>
 							<td>
-								<input id="contractProductList{{idx}}_num" name="contractProductList[{{idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="form-control input-block" onchange="updatePriceAmount(this);"//>
+								<input id="contractProductList{{idx}}_num" name="contractProductList[{{idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="form-control number input-block required input-sm" onchange="updatePriceAmount(this);"//>
 							</td>
 							<td>
-								<select id="contractProductList{{idx}}_unit" name="contractProductList[{{idx}}].unit" data-value="{{row.unit}}" class="form-control input-block">
-									<option value=""></option>
+								<select id="contractProductList{{idx}}_unit" name="contractProductList[{{idx}}].unit" data-value="{{row.unit}}" class="form-control input-block required input-sm">
 									<c:forEach items="${fns:getDictList('oa_unit')}" var="dict">
 										<option value="${dict.value}">${dict.label}</option>
 									</c:forEach>
 								</select>
 							</td>
 							<td>
-								<input id="contractProductList{{idx}}_amount" name="contractProductList[{{idx}}].amount" type="text" value="{{row.amount}}" class="form-control input-block"/>
+								<input id="contractProductList{{idx}}_amount" name="contractProductList[{{idx}}].amount" type="text" value="{{row.amount}}" class="form-control input-block input-sm" disabled/>
 							</td>
 							<td>
-								<input id="contractProductList{{idx}}_remark" name="contractProductList[{{idx}}].remark" type="text" value="{{row.remark}}" maxlength="255" class="form-control input-block"/>
+								<input id="contractProductList{{idx}}_remark" name="contractProductList[{{idx}}].remark" type="text" value="{{row.remark}}" maxlength="255" class="form-control input-block input-sm"/>
 							</td>
 							<shiro:hasPermission name="oa:contract:edit"><td class="text-center" width="10">
 								{{#delBtn}}<a href="#" class="on-default remove-row" onclick="delRow(this, '#contractProductList{{idx}}')"  title="删除"><i class="fa fa-trash-o"></i></a>{{/delBtn}}
@@ -521,8 +525,8 @@
 						</tr>
 						<tr>
 							<td colspan=6 style="padding-left: 40px;">
-							 <table class="table" id="contractProductList{{idx}}_childtable">
-								<tbody id="contractProductList{{idx}}_childtable_body">
+							 <table class="table" id="childProductList{{idx}}_table">
+								<tbody id="childProductList{{idx}}">
 								  </tbody>
 								</table>
 							</td>
@@ -530,27 +534,34 @@
 						//-->
                 </script>
                 <script type="text/template" id="contractProductChildTpl">//<!--
-						<tr id="contractProductList{{idx}}" row="row">
+						<tr id="childProductList{{idx}}_{{child_idx}}" row="row">
 							<td class="hidden">
-								<input id="contractProductList{{idx}}_{{child_idx}}_id" name="contractProductList[{{idx}}].childs[{{child_idx}}].id" type="hidden" value="{{row.id}}"/>
-								<input id="contractProductList{{idx}}_{{child_idx}}_sort" name="contractProductList[{{idx}}].childs[{{child_idx}}].sort" type="hidden" value="{{row.sort}}"/>
-								<input id="contractProductList{{idx}}_{{child_idx}}_delFlag" name="contractProductList[{{idx}}].childs[{{child_idx}}].delFlag" type="hidden" value="0"/>
+								<input id="childProductList{{idx}}_{{child_idx}}_id" name="contractProductList[{{idx}}].childs[{{child_idx}}].id" type="hidden" value="{{row.id}}"/>
+								<input id="childProductList{{idx}}_{{child_idx}}_sort" name="contractProductList[{{idx}}].childs[{{child_idx}}].sort" type="hidden" value="{{row.sort}}"/>
+								<input id="childProductList{{idx}}_{{child_idx}}_delFlag" name="contractProductList[{{idx}}].childs[{{child_idx}}].delFlag" type="hidden" value="0"/>
 							</td>
 							<td>
-								<input id="contractProductList{{idx}}_{{child_idx}}_name" name="contractProductList[{{idx}}].childs[{{child_idx}}].name" type="text" value="{{row.name}}" maxlength="100" class="form-control required"  style="width: 90%;display: inline-block;"/>
+								<input id="childProductList{{idx}}_{{child_idx}}_name" name="contractProductList[{{idx}}].childs[{{child_idx}}].name" type="text" value="{{row.name}}" maxlength="100" class="form-control required input-sm"  style="width: 50%;display: inline-block;"/>
+								<select id="childProductList{{idx}}_{{child_idx}}_productType" name="contractProductList[{{idx}}].childs[{{child_idx}}].productType" data-value="{{row.productType.id}}" class="form-control input-block required input-sm"  style="width: 40%;display: inline-block;">
+									<c:forEach items="${productTypeList}" var="dict">
+										<option value="${dict.id}">${dict.name}</option>
+									</c:forEach>
+								</select>
 							</td>
 							<td>
-								<input id="contractProductList{{idx}}_{{child_idx}}_num" name="contractProductList[{{idx}}].childs[{{child_idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="form-control input-block" onchange="updatePriceAmount(this);"//>
+								<input id="cchildProductList{{idx}}_{{child_idx}}_num" name="contractProductList[{{idx}}].childs[{{child_idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="form-control number input-block required input-sm" onchange="updatePriceAmount(this);"//>
 							</td>
 							<td>
-								<select id="contractProductList{{idx}}_{{child_idx}}_unit" name="contractProductList[{{idx}}].childs[{{child_idx}}].unit" data-value="{{row.unit}}" class="form-control input-block">
-									<option value=""></option>
+								<select id="childProductList{{idx}}_{{child_idx}}_unit" name="contractProductList[{{idx}}].childs[{{child_idx}}].unit" data-value="{{row.unit}}" class="form-control input-block required input-sm">
 									<c:forEach items="${fns:getDictList('oa_unit')}" var="dict">
 										<option value="${dict.value}">${dict.label}</option>
 									</c:forEach>
 								</select>
 							</td>
-						<tr>
+							<shiro:hasPermission name="oa:contract:edit"><td class="text-center" width="10">
+								{{#delBtn}}<a href="#" class="on-default remove-row" onclick="delRow(this, '#childProductList{{idx}}_{{child_idx}}')"  title="删除"><i class="fa fa-trash-o"></i></a>{{/delBtn}}
+							</td></shiro:hasPermission>
+						</tr>
 						//-->
                 </script>
                 <script type="text/javascript">
@@ -563,7 +574,7 @@
 
                             if(data[i].childs) {
                                 for (var j = 0; j < data[i].childs.length; j++) {
-                                    addChildRow('#contractProductList'+contractProductRowIdx+'_childtable_body', contractProductRowIdx, j, contractProductChildTpl,data[i].childs[j]);
+                                    addChildRow('#childProductList'+contractProductRowIdx, contractProductRowIdx, j, contractProductChildTpl,data[i].childs[j]);
                                 }
                             }
 
@@ -630,14 +641,14 @@
     <div class="form-group">
         <label class="col-sm-3 control-label">合同金额：</label>
         <div class="col-sm-7">
-            <form:input path="amount" htmlEscape="false" class="form-control  number"/>
+            <form:input path="amount" htmlEscape="false" class="form-control  number input-sm"/>
         </div>
     </div>
 
     <div class="form-group hidden">
         <label class="col-sm-3 control-label">合同状态：</label>
         <div class="col-sm-7">
-            <form:select path="status" class="form-control col-md-12 ">
+            <form:select path="status" class="form-control col-md-12 input-sm">
                 <form:option value="" label=""/>
                 <form:options items="${fns:getDictList('oa_contract_status')}" itemLabel="label" itemValue="value"
                               htmlEscape="false"/>

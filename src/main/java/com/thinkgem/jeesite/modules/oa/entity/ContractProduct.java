@@ -27,6 +27,7 @@ public class ContractProduct extends DataEntity<ContractProduct> {
 	private String amount;		// 金额
 	private String remark;		// 备注
 	private Integer sort;		//排序
+	private ProductType productType; //商品类型
 	private List<ContractProduct> childs = Lists.newArrayList();		// 子表列表
 	
 	public ContractProduct() {
@@ -111,7 +112,15 @@ public class ContractProduct extends DataEntity<ContractProduct> {
 		this.remark = remark;
 	}
 	
-	@NotNull(message="排序不能为空")
+	@NotNull(message="商品类型不能为空")
+	public ProductType getProductType() {
+		return productType;
+	}
+
+	public void setProductType(ProductType productType) {
+		this.productType = productType;
+	}
+
 	public Integer getSort() {
 		return sort;
 	}

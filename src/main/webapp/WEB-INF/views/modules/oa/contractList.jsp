@@ -169,7 +169,7 @@
                     ${fns:getDictLabel(contract.status, 'oa_contract_status', '')}
             </td>
             <td>
-                    ${contract.business_person.name}
+                    ${contract.businessPerson.name}
             </td>
             <td>
                     ${contract.artisan.name}
