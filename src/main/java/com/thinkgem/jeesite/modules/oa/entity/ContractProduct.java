@@ -7,23 +7,26 @@ import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
  * 各种合同Entity
  * @author anthony
- * @version 2016-07-30
+ * @version 2016-08-05
  */
 public class ContractProduct extends DataEntity<ContractProduct> {
 	
 	private static final long serialVersionUID = 1L;
 	private Contract contract;		// 合同主表 父类
+	private String parentId;		// 父级商品
 	private String name;		// 名称
 	private String price;		// 价格
 	private String num;		// 数量
 	private String unit;		// 单位
 	private String amount;		// 金额
 	private String remark;		// 备注
+	private Integer sort;		//排序
 	private List<ContractProduct> childs = Lists.newArrayList();		// 子表列表
 	
 	public ContractProduct() {
@@ -39,12 +42,21 @@ public class ContractProduct extends DataEntity<ContractProduct> {
 	}
 
 	@Length(min=0, max=64, message="合同主表长度必须介于 0 和 64 之间")
-	public Contract getcontract() {
+	public Contract getContract() {
 		return contract;
 	}
 
-	public void setcontract(Contract contract) {
+	public void setContract(Contract contract) {
 		this.contract = contract;
+	}
+	
+	@Length(min=0, max=64, message="父级商品长度必须介于 0 和 64 之间")
+	public String getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
 	}
 	
 	@Length(min=1, max=100, message="名称长度必须介于 1 和 100 之间")
@@ -98,12 +110,21 @@ public class ContractProduct extends DataEntity<ContractProduct> {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
+	
+	@NotNull(message="排序不能为空")
+	public Integer getSort() {
+		return sort;
+	}
+
+	public void setSort(Integer sort) {
+		this.sort = sort;
+	}
 
 	public List<ContractProduct> getChilds() {
 		return childs;
 	}
 
-	public void setChilds(List<ContractProduct> childs) {
+	public void setChilds( List<ContractProduct> childs) {
 		this.childs = childs;
 	}
 }

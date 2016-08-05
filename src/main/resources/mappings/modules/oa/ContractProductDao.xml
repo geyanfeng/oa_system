@@ -5,6 +5,7 @@
 	<sql id="contractProductColumns">
 		a.id AS "id",
 		a.contract_id AS "contract.id",
+		a.parent_id AS "parentId",
 		a.name AS "name",
 		a.price AS "price",
 		a.num AS "num",
@@ -13,6 +14,7 @@
 		a.remark AS "remark",
 		a.del_flag AS "delFlag",
 		a.create_by AS "createBy.id",
+		a.sort AS "sort",
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate"
@@ -52,7 +54,7 @@
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
-				ORDER BY a.create_date ASC
+				ORDER BY a.sort ASC
 			</otherwise>
 		</choose>
 	</select>
@@ -79,6 +81,7 @@
 		INSERT INTO oa_contract_product(
 			id,
 			contract_id,
+			parent_id,
 			name,
 			price,
 			num,
@@ -87,12 +90,14 @@
 			remark,
 			del_flag,
 			create_by,
+			sort,
 			create_date,
 			update_by,
 			update_date
 		) VALUES (
 			#{id},
 			#{contract.id},
+			#{parentId},
 			#{name},
 			#{price},
 			#{num},
@@ -101,6 +106,7 @@
 			#{remark},
 			#{delFlag},
 			#{createBy.id},
+			#{sort},
 			#{createDate},
 			#{updateBy.id},
 			#{updateDate}
@@ -110,12 +116,14 @@
 	<update id="update">
 		UPDATE oa_contract_product SET 	
 			contract_id = #{contract.id},
+			parent_id = #{parentId},
 			name = #{name},
 			price = #{price},
 			num = #{num},
 			unit = #{unit},
 			amount = #{amount},
 			remark = #{remark},
+			sort = #{sort},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate}
 		WHERE id = #{id}

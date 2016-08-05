@@ -3,21 +3,21 @@
  */
 package com.thinkgem.jeesite.modules.oa.service;
 
-import java.util.List;
-
+import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.service.CrudService;
+import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.modules.oa.dao.ContractAttachmentDao;
+import com.thinkgem.jeesite.modules.oa.dao.ContractDao;
+import com.thinkgem.jeesite.modules.oa.dao.ContractProductDao;
+import com.thinkgem.jeesite.modules.oa.entity.Contract;
+import com.thinkgem.jeesite.modules.oa.entity.ContractAttachment;
+import com.thinkgem.jeesite.modules.oa.entity.ContractProduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.service.CrudService;
-import com.thinkgem.jeesite.common.utils.StringUtils;
-import com.thinkgem.jeesite.modules.oa.entity.Contract;
-import com.thinkgem.jeesite.modules.oa.dao.ContractDao;
-import com.thinkgem.jeesite.modules.oa.entity.ContractAttachment;
-import com.thinkgem.jeesite.modules.oa.dao.ContractAttachmentDao;
-import com.thinkgem.jeesite.modules.oa.entity.ContractProduct;
-import com.thinkgem.jeesite.modules.oa.dao.ContractProductDao;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 各种合同Service
@@ -38,7 +38,20 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 	public Contract get(String id) {
 		Contract contract = super.get(id);
 		contract.setContractAttachmentList(contractAttachmentDao.findList(new ContractAttachment(contract)));
-		contract.setContractProductList(contractProductDao.findList(new ContractProduct(contract)));
+		List<ContractProduct> productList = contractProductDao.findList(new ContractProduct(contract));
+		List<ContractProduct> parentProductList = new ArrayList<ContractProduct>();
+		for (ContractProduct product: productList) {
+			if(product.getParentId() == null || product.getParentId()==""){
+				List<ContractProduct> childProductList = new ArrayList<ContractProduct>();
+				for (ContractProduct cproduct: productList) {
+					if(cproduct.getParentId() !=null && cproduct.getParentId().equals(product.getId()))
+						childProductList.add(cproduct);
+				}
+				product.setChilds(childProductList);
+				parentProductList.add(product);
+			}
+		}
+		contract.setContractProductList(parentProductList);
 		return contract;
 	}
 	
@@ -58,9 +71,19 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 			if (contractProduct.getId() == null){
 				continue;
 			}
+			//删除子商品
+			for (ContractProduct childProduct: contractProduct.getChilds()){
+				if (childProduct.getId() == null){
+					continue;
+				}
+				if (!childProduct.DEL_FLAG_NORMAL.equals(childProduct.getDelFlag())){
+					contractProductDao.delete(childProduct);
+				}
+			}
+
 			if (ContractProduct.DEL_FLAG_NORMAL.equals(contractProduct.getDelFlag())){
 				if (StringUtils.isBlank(contractProduct.getId())){
-					contractProduct.setcontract(contract);
+					contractProduct.setContract(contract);
 					contractProduct.preInsert();
 					contractProductDao.insert(contractProduct);
 				}else{
@@ -69,6 +92,26 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 				}
 			}else{
 				contractProductDao.delete(contractProduct);
+			}
+			//增加或修改子商品
+			for (ContractProduct childProduct: contractProduct.getChilds()){
+				if (childProduct.getId() == null){
+					continue;
+				}
+
+				if (childProduct.DEL_FLAG_NORMAL.equals(childProduct.getDelFlag())){
+					if (StringUtils.isBlank(childProduct.getId())){
+						childProduct.setContract(contract);
+						childProduct.setParentId(contractProduct.getId());
+						childProduct.preInsert();
+						contractProductDao.insert(childProduct);
+					}else{
+						childProduct.setContract(contract);
+						childProduct.setParentId(contractProduct.getId());
+						childProduct.preUpdate();
+						contractProductDao.update(childProduct);
+					}
+				}
 			}
 		}
 

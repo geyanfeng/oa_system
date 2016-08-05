@@ -488,6 +488,7 @@
 						<tr id="contractProductList{{idx}}" row="row" data-idx={{idx}}>
 							<td class="hidden">
 								<input id="contractProductList{{idx}}_id" name="contractProductList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
+								<input id="contractProductList{{idx}}_sort" name="contractProductList[{{idx}}].sort" type="hidden" value="{{row.sort}}"/>
 								<input id="contractProductList{{idx}}_delFlag" name="contractProductList[{{idx}}].delFlag" type="hidden" value="0"/>
 							</td>
 							<td>
@@ -532,6 +533,7 @@
 						<tr id="contractProductList{{idx}}" row="row">
 							<td class="hidden">
 								<input id="contractProductList{{idx}}_{{child_idx}}_id" name="contractProductList[{{idx}}].childs[{{child_idx}}].id" type="hidden" value="{{row.id}}"/>
+								<input id="contractProductList{{idx}}_{{child_idx}}_sort" name="contractProductList[{{idx}}].childs[{{child_idx}}].sort" type="hidden" value="{{row.sort}}"/>
 								<input id="contractProductList{{idx}}_{{child_idx}}_delFlag" name="contractProductList[{{idx}}].childs[{{child_idx}}].delFlag" type="hidden" value="0"/>
 							</td>
 							<td>
@@ -557,12 +559,15 @@
                     $(document).ready(function () {
                         var data = ${fns:toJson(contract.contractProductList)};
                         for (var i = 0; i < data.length; i++) {
-                            childRowIdx = 0;
                             addRow('#contractProductList', contractProductRowIdx, contractProductTpl, data[i]);
-                            contractProductRowIdx = contractProductRowIdx + 1;
-                            for (var j = 0; j < data[i].childs; j++) {
-                                addRow('#contractProductChildTpl', contractProductRowIdx, childRowIdx, contractProductChildTpl, data[i].childs[j]);
+
+                            if(data[i].childs) {
+                                for (var j = 0; j < data[i].childs.length; j++) {
+                                    addChildRow('#contractProductList'+contractProductRowIdx+'_childtable_body', contractProductRowIdx, j, contractProductChildTpl,data[i].childs[j]);
+                                }
                             }
+
+                            contractProductRowIdx = contractProductRowIdx + 1;
                         }
                     });
                 </script>
