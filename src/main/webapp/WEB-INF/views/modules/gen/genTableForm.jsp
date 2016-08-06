@@ -48,7 +48,7 @@
             <div class="form-group">
                 <label class="col-md-2 control-label">表名:</label>
                 <div class="col-md-4">
-                    <form:select path="name" class="input-xxlarge">
+                    <form:select path="name" class="input-xxlarge form-control">
                         <form:options items="${tableList}" itemLabel="nameAndComments" itemValue="name"
                                       htmlEscape="false"/>
                     </form:select>

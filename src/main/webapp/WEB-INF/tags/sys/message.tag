@@ -6,12 +6,32 @@
 <c:if test="${not empty content}">
     <c:if test="${not empty type}"><c:set var="ctype" value="${type}"/></c:if><c:if test="${empty type}"><c:set
         var="ctype" value="${fn:indexOf(content,'失败') eq -1?'success':'error'}"/></c:if>
-    <div id="messageBox" class="alert alert-${ctype} hide">
+    <%--<div id="messageBox" class="alert alert-${ctype} hide">
         <button data-dismiss="alert" class="close">×</button>
             ${content}</div>
     <script type="text/javascript">if (!top.$.jBox.tip.mess) {
         top.$.jBox.tip.mess = 1;
         top.$.jBox.tip("${content}", "${ctype}", {persistent: true, opacity: 0});
         $("#messageBox").show();
-    }</script>
+    }</script>--%>
+    <script type="text/javascript">
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        toastr["${ctype}"]("${content}");
+    </script>
 </c:if>

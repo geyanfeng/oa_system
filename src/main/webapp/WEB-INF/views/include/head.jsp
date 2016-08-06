@@ -10,6 +10,9 @@
         <link href="${ctxStatic}/assets/css/icons.css" rel="stylesheet" type="text/css" />
         <link href="${ctxStatic}/assets/css/pages.css" rel="stylesheet" type="text/css" />
         <link href="${ctxStatic}/assets/css/responsive.css" rel="stylesheet" type="text/css" />
+       <!-- Notification css (Toastr) -->
+       <link href="${ctxStatic}/assets/plugins/toastr/toastr.min.css" rel="stylesheet" type="text/css" />
+
        <%-- <link href="${ctxStatic}/common/jeesite.css" rel="stylesheet" type="text/css" />--%>
 
         <!-- HTML5 Shiv and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -41,3 +44,6 @@
 <script src="${ctxStatic}/assets/js/iframeResizer.min.js" type="text/javascript"></script>
 <script src="${ctxStatic}/assets/js/iframeResizer.contentWindow.min.js" type="text/javascript"></script>
 <script type="text/javascript">var ctx = '${ctx}', ctxStatic='${ctxStatic}';</script>
+
+<!-- Toastr js -->
+<script src="${ctxStatic}/assets/plugins/toastr/toastr.min.js"></script>

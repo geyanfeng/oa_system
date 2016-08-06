@@ -25,28 +25,21 @@
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();"/>
-		<ul class="ul-form">
-			<li><label>名称：</label>
-				<form:input path="name" htmlEscape="false" maxlength="100" class="input-medium form-control"/>
-			</li>
-			<li><label>地址：</label>
-				<form:input path="address" htmlEscape="false" maxlength="255" class="input-medium form-control"/>
-			</li>
-			<li><label>联系人：</label>
-				<form:input path="contact" htmlEscape="false" maxlength="100" class="input-medium form-control"/>
-			</li>
-			<li><label>电话：</label>
-				<form:input path="phone" htmlEscape="false" maxlength="100" class="input-medium form-control"/>
-			</li>
-			<li><label>备注：</label>
-				<form:input path="remark" htmlEscape="false" maxlength="255" class="input-medium form-control"/>
-			</li>
-			<li><label>状态：</label>
+
+			<label>名称：</label>
+				<form:input path="name" htmlEscape="false" maxlength="100" class="input-medium"/>
+			<label>地址：</label>
+				<form:input path="address" htmlEscape="false" maxlength="255" class="input-medium"/>
+			<label>联系人：</label>
+				<form:input path="contact" htmlEscape="false" maxlength="100" class="input-medium"/>
+			<label>电话：</label>
+				<form:input path="phone" htmlEscape="false" maxlength="100" class="input-medium"/>
+			<label>备注：</label>
+				<form:input path="remark" htmlEscape="false" maxlength="255" class="input-medium"/>
+			<label>状态：</label>
 				<form:radiobuttons path="usedFlag" items="${fns:getDictList('oa_customer_status')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-			</li>
-			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
-			<li class="clearfix"></li>
-		</ul>
+			<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
+
 	</form:form>
 	<sys:message content="${message}"/>
 	<table id="contentTable" class="table table-striped m-0">
