@@ -266,14 +266,14 @@ public class Page<T> {
 		}
 
 		StringBuilder sb1 = new StringBuilder();
-		sb1.append("<div class=\"col-sm-4 disabled controls\"><div class=\"dataTables_info\"><a href=\"javascript:\">当前 ");
-		sb1.append("<input type=\"text\" value=\""+pageNo+"\" onkeypress=\"var e=window.event||event;var c=e.keyCode||e.which;if(c==13)");
+		sb1.append("<div class=\"col-sm-6 disabled controls\"><div class=\"dataTables_info\"><a href=\"javascript:\">当前 ");
+		sb1.append("<input style=\"width: 40px;\" type=\"text\" value=\""+pageNo+"\" onkeypress=\"var e=window.event||event;var c=e.keyCode||e.which;if(c==13)");
 		sb1.append(funcName+"(this.value,"+pageSize+",'"+funcParam+"');\" onclick=\"this.select();\"/> / ");
-		sb1.append("<input type=\"text\" value=\""+pageSize+"\" onkeypress=\"var e=window.event||event;var c=e.keyCode||e.which;if(c==13)");
+		sb1.append("<input style=\"width: 40px;\" type=\"text\" value=\""+pageSize+"\" onkeypress=\"var e=window.event||event;var c=e.keyCode||e.which;if(c==13)");
 		sb1.append(funcName+"("+pageNo+",this.value,'"+funcParam+"');\" onclick=\"this.select();\"/> 条，");
 		sb1.append("共 " + count + " 条"+(message!=null?message:"")+"</a></div></div>\n");
 
-		sb.insert(0,"<div class=\"row\">"+sb1.toString()+"<div class=\"col-sm-8\"><div class=\"dataTables_paginate paging_simple_numbers\" style=\"float: right;\"><ul class=\"pagination\">\n").append("</ul></div></div></div>\n");
+		sb.insert(0,"<div class=\"row\">"+sb1.toString()+"<div class=\"col-sm-6\"><div class=\"dataTables_paginate paging_simple_numbers\" style=\"float: right;\"><ul class=\"pagination\">\n").append("</ul></div></div></div>\n");
 		
 		sb.append("<div style=\"clear:both;\"></div>");
 
