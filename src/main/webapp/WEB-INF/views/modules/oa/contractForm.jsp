@@ -704,7 +704,7 @@
                                                                 value="保 存"/>&nbsp;
                 <c:if test="${not empty contract.id}">
                     <input id="btnCancel" class="btn btn-custom" type="submit" value="提交"
-                           onclick="$('#flag').val('提交')"/>&nbsp;
+                           onclick="$('#flag').val('submit_audit')"/>&nbsp;
                 </c:if>
             </shiro:hasPermission>
 

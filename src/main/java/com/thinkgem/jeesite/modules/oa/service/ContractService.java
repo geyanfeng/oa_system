@@ -40,8 +40,8 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 	@Autowired
 	private ContractAttachmentDao contractAttachmentDao;
 
-	public TestAudit getByProcInsId(String procInsId) {
-		return contractDao.getByProcInsId(procInsId);
+	public Contract getByProcInsId(String procInsId) {
+		return dao.getByProcInsId(procInsId);
 	}
 	
 	public Contract get(String id) {
@@ -171,7 +171,8 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 		String taskDefKey = contract.getAct().getTaskDefKey();
 		String flag= contract.getAct().getFlag();
 
-		if("submit_audit".equals(taskDefKey)){
+		if("submit_audit".equals(flag)){
+			//dao.insert(contract);
 			contract.getAct().setComment("提交审批");
 			actTaskService.startProcess(ActUtils.PD_CONTRAT_AUDIT[0], ActUtils.PD_CONTRAT_AUDIT[1], contract.getId(), contract.getName());
 		}

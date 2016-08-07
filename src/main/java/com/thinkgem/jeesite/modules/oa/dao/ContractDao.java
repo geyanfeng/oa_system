@@ -18,5 +18,5 @@ public interface ContractDao extends CrudDao<Contract> {
 
     Contract getByName(String name);
 
-    TestAudit getByProcInsId(String procInsId);
+    Contract getByProcInsId(String procInsId);
 }
