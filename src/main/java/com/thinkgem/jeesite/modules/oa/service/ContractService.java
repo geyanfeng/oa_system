@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.oa.service;
 
+import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.common.utils.StringUtils;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 各种合同Service
@@ -172,9 +174,13 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 		String flag= contract.getAct().getFlag();
 
 		if("submit_audit".equals(flag)){
+			// 完成流程任务
+			Map<String, Object> vars = Maps.newHashMap();
+			vars.put("business_person", contract.getBusinessPerson().getName());
+			vars.put("artisan", contract.getArtisan().getName());
 			//dao.insert(contract);
 			contract.getAct().setComment("提交审批");
-			actTaskService.startProcess(ActUtils.PD_CONTRAT_AUDIT[0], ActUtils.PD_CONTRAT_AUDIT[1], contract.getId(), contract.getName());
+			actTaskService.startProcess(ActUtils.PD_CONTRAT_AUDIT[0], ActUtils.PD_CONTRAT_AUDIT[1], contract.getId(), contract.getName(),vars);
 		}
 	}
 }
