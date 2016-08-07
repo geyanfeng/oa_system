@@ -4,7 +4,7 @@
     
 	<sql id="contractColumns">
 		a.id AS "id",
-		a.proc_ins_id AS "procInsId",
+		a.proc_ins_id,
 		a.parent_id AS "parentId",
 		a.no AS "no",
 		a.name AS "name",

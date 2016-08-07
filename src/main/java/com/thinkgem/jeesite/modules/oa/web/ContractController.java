@@ -147,7 +147,7 @@ public class ContractController extends BaseController {
 		{
 			contractService.audit(contract);
 			addMessage(redirectAttributes, "成功提交审批");
-			return "redirect:"+Global.getAdminPath()+"/oa/contract/?contractType="+contract.getContractType()+"&repage";
+			return "redirect:" + adminPath + "/act/task/todo/";
 		}
 		if (!beanValidator(model, contract)){
 			return form(contract, null, model);

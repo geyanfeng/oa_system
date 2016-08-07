@@ -24,7 +24,6 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 public class Contract extends ActEntity<Contract> {
 	
 	private static final long serialVersionUID = 1L;
-	private String procInsId;		// 流程实例ID
 	private String parentId;		// 父级id
 	private String parentNo;		// 父级no
 	private String parentName;		// 父级name
@@ -66,15 +65,6 @@ public class Contract extends ActEntity<Contract> {
 
 	public Contract(String id){
 		super(id);
-	}
-
-	@Length(min=0, max=64, message="流程实例ID长度必须介于 0 和 64 之间")
-	public String getProcInsId() {
-		return procInsId;
-	}
-
-	public void setProcInsId(String procInsId) {
-		this.procInsId = procInsId;
 	}
 
 	public String getParentId() {

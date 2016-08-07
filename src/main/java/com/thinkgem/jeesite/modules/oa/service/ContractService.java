@@ -16,6 +16,8 @@ import com.thinkgem.jeesite.modules.oa.entity.Contract;
 import com.thinkgem.jeesite.modules.oa.entity.ContractAttachment;
 import com.thinkgem.jeesite.modules.oa.entity.ContractProduct;
 import com.thinkgem.jeesite.modules.oa.entity.TestAudit;
+import com.thinkgem.jeesite.modules.sys.entity.Dict;
+import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static org.codehaus.plexus.util.StringUtils.isBlank;
 import static org.codehaus.plexus.util.StringUtils.isNotBlank;
 
 /**
@@ -46,7 +49,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
     private ContractAttachmentDao contractAttachmentDao;
 
     public Contract getByProcInsId(String procInsId) {
-        return dao.getByProcInsId(procInsId);
+        return contractDao.getByProcInsId(procInsId);
     }
 
     public Contract get(String id) {
@@ -176,8 +179,12 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         String taskDefKey = contract.getAct().getTaskDefKey();
         String flag = contract.getAct().getFlag();
 
-        if ("submit_audit".equals(flag)) {
-            // 完成流程任务
+        if (isBlank(taskDefKey) && "submit_audit".equals(flag)) {
+            //更新合同状态
+            contract.setStatus(DictUtils.getDictValue("已签约","oa_contract_status",""));
+            contract.preUpdate();
+            contractDao.update(contract);
+            // 设置流程变量
             Map<String, Object> vars = Maps.newHashMap();
             vars.put("business_person", contract.getBusinessPerson().getName());
             vars.put("artisan", contract.getArtisan().getName());
@@ -185,12 +192,42 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             contract.getAct().setComment("提交审批");
             actTaskService.startProcess(ActUtils.PD_CONTRAT_AUDIT[0], ActUtils.PD_CONTRAT_AUDIT[1], contract.getId(), contract.getName(), vars);
         } else {
+            //拆分po
+            if("split_po".equals(taskDefKey)){
+                contract.setStatus(DictUtils.getDictValue("待审批","oa_contract_status",""));
+            } else if("business_person_createbill".equals(taskDefKey)){//商务下单
+                contract.setStatus(DictUtils.getDictValue("已下单","oa_contract_status",""));
+            }
 
             Map<String, Object> vars = Maps.newHashMap();
             if (isNotBlank(contract.getAct().getFlag())) {
-                contract.getAct().setComment(("yes".equals(contract.getAct().getFlag())?"[同意] ":"[驳回] ")+contract.getAct().getComment());
-                vars.put("pass", "yes".equals(contract.getAct().getFlag()) ? "1" : "0");
+                Boolean pass = "yes".equals(contract.getAct().getFlag());
+                String comment = contract.getAct().getComment();
+                comment = (pass?"[同意] ":"[驳回] ") +(isNotBlank(comment)? comment:"");
+                contract.getAct().setComment(comment);
+                vars.put("pass", pass ? "1" : "0");
+
+                //销售审核和技术审核
+                if("saler_audit".equals(taskDefKey) || "artisan_audit".equals(taskDefKey)){
+                    if(pass) {
+                        contract.setStatus(DictUtils.getDictValue("待审批", "oa_contract_status", ""));
+                    } else
+                    {
+                        contract.setStatus(DictUtils.getDictValue("已签约","oa_contract_status",""));
+                    }
+
+                } else if("saler_audit".equals(taskDefKey)){//总监审核
+                    if(pass) {
+                        contract.setStatus(DictUtils.getDictValue("待审批", "oa_contract_status", ""));
+                    } else
+                    {
+                        contract.setStatus(DictUtils.getDictValue("待签约","oa_contract_status",""));
+                    }
+                }
             }
+
+            contract.preUpdate();
+            contractDao.update(contract);
             actTaskService.complete(contract.getAct().getTaskId(), contract.getAct().getProcInsId(), contract.getAct().getComment(), vars);
         }
 
