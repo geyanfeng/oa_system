@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.oa.entity;
 
+import com.thinkgem.jeesite.common.persistence.ActEntity;
 import org.hibernate.validator.constraints.Length;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.thinkgem.jeesite.modules.oa.entity.Customer;
@@ -20,7 +21,7 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
  * @author anthony
  * @version 2016-08-03
  */
-public class Contract extends DataEntity<Contract> {
+public class Contract extends ActEntity<Contract> {
 	
 	private static final long serialVersionUID = 1L;
 	private String procInsId;		// 流程实例ID

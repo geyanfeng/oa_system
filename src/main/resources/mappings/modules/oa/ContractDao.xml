@@ -53,7 +53,15 @@
 		LEFT JOIN sys_user u32 ON u32.id = a.create_by
 		LEFT JOIN oa_contract p ON p.id = a.parent_Id
 	</sql>
-    
+
+	<select id="getByProcInsId" resultType="Contract">
+		SELECT
+		<include refid="contractColumns"/>
+		FROM oa_contract a
+		<include refid="contractJoins"/>
+		WHERE a.proc_ins_id = #{procInsId}
+	</select>
+
 	<select id="get" resultType="Contract">
 		SELECT 
 			<include refid="contractColumns"/>

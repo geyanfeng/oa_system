@@ -6,12 +6,15 @@ package com.thinkgem.jeesite.modules.oa.service;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.modules.act.service.ActTaskService;
+import com.thinkgem.jeesite.modules.act.utils.ActUtils;
 import com.thinkgem.jeesite.modules.oa.dao.ContractAttachmentDao;
 import com.thinkgem.jeesite.modules.oa.dao.ContractDao;
 import com.thinkgem.jeesite.modules.oa.dao.ContractProductDao;
 import com.thinkgem.jeesite.modules.oa.entity.Contract;
 import com.thinkgem.jeesite.modules.oa.entity.ContractAttachment;
 import com.thinkgem.jeesite.modules.oa.entity.ContractProduct;
+import com.thinkgem.jeesite.modules.oa.entity.TestAudit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,11 +32,17 @@ import java.util.List;
 public class ContractService extends CrudService<ContractDao, Contract> {
 
 	@Autowired
+	private ActTaskService actTaskService;
+	@Autowired
 	private ContractDao contractDao;
 	@Autowired
 	private ContractProductDao contractProductDao;
 	@Autowired
 	private ContractAttachmentDao contractAttachmentDao;
+
+	public TestAudit getByProcInsId(String procInsId) {
+		return contractDao.getByProcInsId(procInsId);
+	}
 	
 	public Contract get(String id) {
 		Contract contract = super.get(id);
@@ -154,5 +163,17 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 
 	public Contract getByName(String name) {
 		return contractDao.getByName(name);
+	}
+
+	@Transactional(readOnly = false)
+	public void audit(Contract contract) {
+		// 对不同环节的业务逻辑进行操作
+		String taskDefKey = contract.getAct().getTaskDefKey();
+		String flag= contract.getAct().getFlag();
+
+		if("submit_audit".equals(taskDefKey)){
+			contract.getAct().setComment("提交审批");
+			actTaskService.startProcess(ActUtils.PD_CONTRAT_AUDIT[0], ActUtils.PD_CONTRAT_AUDIT[1], contract.getId(), contract.getName());
+		}
 	}
 }

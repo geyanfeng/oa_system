@@ -28,6 +28,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.codehaus.plexus.util.StringUtils.isNotBlank;
+
 /**
  * 各种合同Controller
  * @author anthony
@@ -68,6 +70,7 @@ public class ContractController extends BaseController {
 	@RequiresPermissions("oa:contract:view")
 	@RequestMapping(value = "form")
 	public String form(Contract contract, @RequestParam(value="originalId", required=false) String originalId, Model model) {
+		String view = "contractForm";
 		//如果是来自父级,复制部分数据
 		if(originalId !=null){
 			Contract originalContract = contractService.get(originalId);
@@ -100,7 +103,7 @@ public class ContractController extends BaseController {
 			contract.setPaymentCycle("2");//设置默认付款周期为分期付款
 		if (contract.getShipAddressType() == null)
 			contract.setShipAddressType("1");//设置默认发货地址类型为客户名称
-		model.addAttribute("contract", contract);
+
 		//获取所有客户
 		List<Customer> customerList = customerService.findList(new Customer());
 		model.addAttribute("customerList", customerList);
@@ -117,12 +120,35 @@ public class ContractController extends BaseController {
 		}
 		//商品类型
 		model.addAttribute("productTypeList", productTypeService.findList(new ProductType()));
-		return "modules/oa/contractForm";
+
+		// 查看审批申请单
+		if (isNotBlank(contract.getId())) {//.getAct().getProcInsId())){
+			// 环节编号
+			String taskDefKey = contract.getAct().getTaskDefKey();
+
+			/*// 查看工单
+			if(contract.getAct().isFinishTask()){
+				view = "testAuditView";
+			}
+			// 修改环节
+			else if ("modify".equals(taskDefKey)){
+				view = "testAuditForm";
+			}*/
+			model.addAttribute("taskDefKey",taskDefKey);
+		}
+		model.addAttribute("contract", contract);
+		return "modules/oa/" + view;
 	}
 
 	@RequiresPermissions("oa:contract:edit")
 	@RequestMapping(value = "save")
 	public String save(Contract contract, Model model, RedirectAttributes redirectAttributes) {
+		if(isNotBlank(contract.getAct().getFlag()))
+		{
+			contractService.audit(contract);
+			addMessage(redirectAttributes, "成功提交审批");
+			return "redirect:"+Global.getAdminPath()+"/oa/contract/?contractType="+contract.getContractType()+"&repage";
+		}
 		if (!beanValidator(model, contract)){
 			return form(contract, null, model);
 		}
