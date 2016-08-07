@@ -143,7 +143,7 @@ public class ContractController extends BaseController {
 	@RequiresPermissions("oa:contract:edit")
 	@RequestMapping(value = "save")
 	public String save(Contract contract, Model model, RedirectAttributes redirectAttributes) {
-		if(isNotBlank(contract.getAct().getFlag()))
+		if(isNotBlank(contract.getAct().getFlag()) || isNotBlank(contract.getAct().getTaskDefKey()))
 		{
 			contractService.audit(contract);
 			addMessage(redirectAttributes, "成功提交审批");

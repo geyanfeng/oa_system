@@ -694,7 +694,9 @@
             </form:select>
         </div>
     </div>
+    <c:if test="${not empty contract.id and not empty contract.act.taskDefKey}">
         <act:histoicFlow procInsId="${contract.act.procInsId}"/>
+    </c:if>
     <div class="form-group">
         <div class="col-sm-offset-4 col-sm-8">
 
@@ -705,6 +707,10 @@
                 <c:if test="${not empty contract.id}">
                     <input id="btnCancel" class="btn btn-custom" type="submit" value="提交"
                            onclick="$('#flag').val('submit_audit')"/>&nbsp;
+                    <c:if test="${contract.act.taskDefKey ne 'end' and contract.act.taskDefKey ne 'submit_audit'}">
+                        <input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
+                        <input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
+                    </c:if>
                 </c:if>
             </shiro:hasPermission>
 

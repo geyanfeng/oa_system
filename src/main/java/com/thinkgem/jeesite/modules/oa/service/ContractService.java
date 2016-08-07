@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.thinkgem.jeesite.modules.oa.service;
 
@@ -24,8 +24,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static org.codehaus.plexus.util.StringUtils.isNotBlank;
+
 /**
  * 各种合同Service
+ *
  * @author anthony
  * @version 2016-08-03
  */
@@ -33,154 +36,163 @@ import java.util.Map;
 @Transactional(readOnly = true)
 public class ContractService extends CrudService<ContractDao, Contract> {
 
-	@Autowired
-	private ActTaskService actTaskService;
-	@Autowired
-	private ContractDao contractDao;
-	@Autowired
-	private ContractProductDao contractProductDao;
-	@Autowired
-	private ContractAttachmentDao contractAttachmentDao;
+    @Autowired
+    private ActTaskService actTaskService;
+    @Autowired
+    private ContractDao contractDao;
+    @Autowired
+    private ContractProductDao contractProductDao;
+    @Autowired
+    private ContractAttachmentDao contractAttachmentDao;
 
-	public Contract getByProcInsId(String procInsId) {
-		return dao.getByProcInsId(procInsId);
-	}
-	
-	public Contract get(String id) {
-		Contract contract = super.get(id);
-		contract.setContractAttachmentList(contractAttachmentDao.findList(new ContractAttachment(contract)));
-		List<ContractProduct> productList = contractProductDao.findList(new ContractProduct(contract));
-		List<ContractProduct> parentProductList = new ArrayList<ContractProduct>();
-		for (ContractProduct product: productList) {
-			if(product.getParentId() == null || product.getParentId()==""){
-				List<ContractProduct> childProductList = new ArrayList<ContractProduct>();
-				for (ContractProduct cproduct: productList) {
-					if(cproduct.getParentId() !=null && cproduct.getParentId().equals(product.getId()))
-						childProductList.add(cproduct);
-				}
-				product.setChilds(childProductList);
-				parentProductList.add(product);
-			}
-		}
-		contract.setContractProductList(parentProductList);
-		return contract;
-	}
-	
-	public List<Contract> findList(Contract contract) {
-		return super.findList(contract);
-	}
-	
-	public Page<Contract> findPage(Page<Contract> page, Contract contract) {
-		return super.findPage(page, contract);
-	}
-	
-	@Transactional(readOnly = false)
-	public void save(Contract contract) {
-		super.save(contract);
+    public Contract getByProcInsId(String procInsId) {
+        return dao.getByProcInsId(procInsId);
+    }
 
-		Integer sort=1;
-		for (ContractProduct contractProduct : contract.getContractProductList()){
-			contractProduct.setSort(sort);
-			sort++;
-			if (contractProduct.getId() == null){
-				continue;
-			}
-			//删除子商品
-			Integer childSort = 1;
-			for (ContractProduct childProduct: contractProduct.getChilds()){
-				childProduct.setSort(childSort);
-				childSort++;
-				if (childProduct.getId() == null){
-					continue;
-				}
+    public Contract get(String id) {
+        Contract contract = super.get(id);
+        contract.setContractAttachmentList(contractAttachmentDao.findList(new ContractAttachment(contract)));
+        List<ContractProduct> productList = contractProductDao.findList(new ContractProduct(contract));
+        List<ContractProduct> parentProductList = new ArrayList<ContractProduct>();
+        for (ContractProduct product : productList) {
+            if (product.getParentId() == null || product.getParentId() == "") {
+                List<ContractProduct> childProductList = new ArrayList<ContractProduct>();
+                for (ContractProduct cproduct : productList) {
+                    if (cproduct.getParentId() != null && cproduct.getParentId().equals(product.getId()))
+                        childProductList.add(cproduct);
+                }
+                product.setChilds(childProductList);
+                parentProductList.add(product);
+            }
+        }
+        contract.setContractProductList(parentProductList);
+        return contract;
+    }
 
-				if (!childProduct.DEL_FLAG_NORMAL.equals(childProduct.getDelFlag())){
-					contractProductDao.delete(childProduct);
-				}
-			}
+    public List<Contract> findList(Contract contract) {
+        return super.findList(contract);
+    }
 
-			if (ContractProduct.DEL_FLAG_NORMAL.equals(contractProduct.getDelFlag())){
-				if (StringUtils.isBlank(contractProduct.getId())){
-					contractProduct.setContract(contract);
-					contractProduct.preInsert();
-					contractProductDao.insert(contractProduct);
-				}else{
-					contractProduct.preUpdate();
-					contractProductDao.update(contractProduct);
-				}
-			}else{
-				//删除下面所有的子商品
-				for (ContractProduct childProduct: contractProduct.getChilds()){
-						contractProductDao.delete(childProduct);
-				}
-				contractProductDao.delete(contractProduct);
-			}
-			//增加或修改子商品
-			for (ContractProduct childProduct: contractProduct.getChilds()){
-				if (childProduct.getId() == null){
-					continue;
-				}
+    public Page<Contract> findPage(Page<Contract> page, Contract contract) {
+        return super.findPage(page, contract);
+    }
 
-				if (childProduct.DEL_FLAG_NORMAL.equals(childProduct.getDelFlag())){
-					if (StringUtils.isBlank(childProduct.getId())){
-						childProduct.setContract(contract);
-						childProduct.setParentId(contractProduct.getId());
-						childProduct.preInsert();
-						contractProductDao.insert(childProduct);
-					}else{
-					/*	childProduct.setContract(contract);
+    @Transactional(readOnly = false)
+    public void save(Contract contract) {
+        super.save(contract);
+
+        Integer sort = 1;
+        for (ContractProduct contractProduct : contract.getContractProductList()) {
+            contractProduct.setSort(sort);
+            sort++;
+            if (contractProduct.getId() == null) {
+                continue;
+            }
+            //删除子商品
+            Integer childSort = 1;
+            for (ContractProduct childProduct : contractProduct.getChilds()) {
+                childProduct.setSort(childSort);
+                childSort++;
+                if (childProduct.getId() == null) {
+                    continue;
+                }
+
+                if (!childProduct.DEL_FLAG_NORMAL.equals(childProduct.getDelFlag())) {
+                    contractProductDao.delete(childProduct);
+                }
+            }
+
+            if (ContractProduct.DEL_FLAG_NORMAL.equals(contractProduct.getDelFlag())) {
+                if (StringUtils.isBlank(contractProduct.getId())) {
+                    contractProduct.setContract(contract);
+                    contractProduct.preInsert();
+                    contractProductDao.insert(contractProduct);
+                } else {
+                    contractProduct.preUpdate();
+                    contractProductDao.update(contractProduct);
+                }
+            } else {
+                //删除下面所有的子商品
+                for (ContractProduct childProduct : contractProduct.getChilds()) {
+                    contractProductDao.delete(childProduct);
+                }
+                contractProductDao.delete(contractProduct);
+            }
+            //增加或修改子商品
+            for (ContractProduct childProduct : contractProduct.getChilds()) {
+                if (childProduct.getId() == null) {
+                    continue;
+                }
+
+                if (childProduct.DEL_FLAG_NORMAL.equals(childProduct.getDelFlag())) {
+                    if (StringUtils.isBlank(childProduct.getId())) {
+                        childProduct.setContract(contract);
+                        childProduct.setParentId(contractProduct.getId());
+                        childProduct.preInsert();
+                        contractProductDao.insert(childProduct);
+                    } else {
+                    /*	childProduct.setContract(contract);
 						childProduct.setParentId(contractProduct.getId());*/
-						childProduct.preUpdate();
-						contractProductDao.update(childProduct);
-					}
-				}
-			}
-		}
+                        childProduct.preUpdate();
+                        contractProductDao.update(childProduct);
+                    }
+                }
+            }
+        }
 
-		for (ContractAttachment contractAttachment : contract.getContractAttachmentList()){
-			if (contractAttachment.getId() == null){
-				continue;
-			}
-			if (ContractAttachment.DEL_FLAG_NORMAL.equals(contractAttachment.getDelFlag())){
-				if (StringUtils.isBlank(contractAttachment.getId())){
-					contractAttachment.setContract(contract);
-					contractAttachment.preInsert();
-					contractAttachmentDao.insert(contractAttachment);
-				}else{
-					contractAttachment.preUpdate();
-					contractAttachmentDao.update(contractAttachment);
-				}
-			}else{
-				contractAttachmentDao.delete(contractAttachment);
-			}
-		}
-	}
-	
-	@Transactional(readOnly = false)
-	public void delete(Contract contract) {
-		super.delete(contract);
-		contractAttachmentDao.delete(new ContractAttachment(contract));
-		contractProductDao.delete(new ContractProduct(contract));
-	}
+        for (ContractAttachment contractAttachment : contract.getContractAttachmentList()) {
+            if (contractAttachment.getId() == null) {
+                continue;
+            }
+            if (ContractAttachment.DEL_FLAG_NORMAL.equals(contractAttachment.getDelFlag())) {
+                if (StringUtils.isBlank(contractAttachment.getId())) {
+                    contractAttachment.setContract(contract);
+                    contractAttachment.preInsert();
+                    contractAttachmentDao.insert(contractAttachment);
+                } else {
+                    contractAttachment.preUpdate();
+                    contractAttachmentDao.update(contractAttachment);
+                }
+            } else {
+                contractAttachmentDao.delete(contractAttachment);
+            }
+        }
+    }
 
-	public Contract getByName(String name) {
-		return contractDao.getByName(name);
-	}
+    @Transactional(readOnly = false)
+    public void delete(Contract contract) {
+        super.delete(contract);
+        contractAttachmentDao.delete(new ContractAttachment(contract));
+        contractProductDao.delete(new ContractProduct(contract));
+    }
 
-	@Transactional(readOnly = false)
-	public void audit(Contract contract) {
-		// 对不同环节的业务逻辑进行操作
-		String taskDefKey = contract.getAct().getTaskDefKey();
-		String flag= contract.getAct().getFlag();
+    public Contract getByName(String name) {
+        return contractDao.getByName(name);
+    }
 
-		if("submit_audit".equals(flag)){
-			// 完成流程任务
-			Map<String, Object> vars = Maps.newHashMap();
-			vars.put("business_person", contract.getBusinessPerson().getName());
-			vars.put("artisan", contract.getArtisan().getName());
-			//dao.insert(contract);
-			contract.getAct().setComment("提交审批");
-			actTaskService.startProcess(ActUtils.PD_CONTRAT_AUDIT[0], ActUtils.PD_CONTRAT_AUDIT[1], contract.getId(), contract.getName(),vars);
-		}
-	}
+    @Transactional(readOnly = false)
+    public void audit(Contract contract) {
+        // 对不同环节的业务逻辑进行操作
+        String taskDefKey = contract.getAct().getTaskDefKey();
+        String flag = contract.getAct().getFlag();
+
+        if ("submit_audit".equals(flag)) {
+            // 完成流程任务
+            Map<String, Object> vars = Maps.newHashMap();
+            vars.put("business_person", contract.getBusinessPerson().getName());
+            vars.put("artisan", contract.getArtisan().getName());
+            //dao.insert(contract);
+            contract.getAct().setComment("提交审批");
+            actTaskService.startProcess(ActUtils.PD_CONTRAT_AUDIT[0], ActUtils.PD_CONTRAT_AUDIT[1], contract.getId(), contract.getName(), vars);
+        } else {
+
+            Map<String, Object> vars = Maps.newHashMap();
+            if (isNotBlank(contract.getAct().getFlag())) {
+                contract.getAct().setComment(("yes".equals(contract.getAct().getFlag())?"[同意] ":"[驳回] ")+contract.getAct().getComment());
+                vars.put("pass", "yes".equals(contract.getAct().getFlag()) ? "1" : "0");
+            }
+            actTaskService.complete(contract.getAct().getTaskId(), contract.getAct().getProcInsId(), contract.getAct().getComment(), vars);
+        }
+
+    }
 }
