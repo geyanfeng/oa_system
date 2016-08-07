@@ -136,7 +136,7 @@
 			<DIV class="content">
 				<DIV class="container">
 					<!-- Page-Title -->
-					<iframe id="mainFrame" name="mainFrame" src="" scrolling="no" frameborder="no"
+					<iframe id="mainFrame" name="mainFrame" scrolling="no" frameborder="no" src="${ctx}/oa/home"
 						width="100%"></iframe>
 				</DIV>
 				<!-- container -->
