@@ -5,6 +5,7 @@ package com.thinkgem.jeesite.common.persistence;
 
 import java.util.Date;
 
+import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Length;
 

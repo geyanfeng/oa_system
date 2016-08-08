@@ -3,12 +3,12 @@
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
- .hide{display:block!important}
-.form-control {display:inline;}
-.table {margin-bottom:8px;background-color:#fdfdfd;}
+/* .hide{display:block!important}*/
+/*.table {margin-bottom:8px;background-color:#fdfdfd;}
 .table th, .table td {vertical-align:middle;}
 .table td i{margin:0 2px;}
 .table-striped tbody>tr:nth-child(odd)>td, .table-striped tbody>tr:nth-child(odd)>th{background-color:#F5F5F5}
+.form-control {display:inline;}*/
 
 .sort-column{color:#0663A2;cursor:pointer;}
 
@@ -82,11 +82,11 @@
 .modal.tree {width:300px;margin:-250px 0 0 -180px;*margin:-200px 0 0 -150px;}
 .modal.tree .modal-body {height:260px;padding:20px 25px;}
 
-.accordion-heading,.table th {white-space:nowrap;background-color:#f5f5f5;
+/*.accordion-heading,.table th {white-space:nowrap;background-color:#f5f5f5;
 	background-image:-moz-linear-gradient(top,#ffffff,#f5f5f5);background-image:-ms-linear-gradient(top,#ffffff,#f5f5f5);
 	background-image:-webkit-gradient(linear, 0 0, 0 100%, from(#FAFAF9), to(#f5f5f5));background-image:-webkit-linear-gradient(top,#ffffff,#f5f5f5);
 	background-image:-o-linear-gradient(top,#ffffff,#f5f5f5);background-image:linear-gradient(top,#ffffff,#f5f5f5);
-	background-repeat:repeat-x;}
+	background-repeat:repeat-x;}*/
 .accordion-heading {filter:progid:dximagetransform.microsoft.gradient(startColorstr='#fefefe', endColorstr='#f5f5f5', GradientType=0);
 	float:inherit;width:100%;-webkit-border-radius:3px 3px 0 0;-moz-border-radius:3px 3px 0 0;border-radius:3px 3px 0 0;}
 .accordion-heading a:hover,.dropdown a:hover {text-decoration:none;background:none;}

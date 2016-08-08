@@ -5,7 +5,9 @@ package com.thinkgem.jeesite.modules.oa.web;
 
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.oa.entity.Contract;
 import com.thinkgem.jeesite.modules.oa.entity.ContractAttachment;
@@ -15,6 +17,7 @@ import com.thinkgem.jeesite.modules.oa.service.ContractService;
 import com.thinkgem.jeesite.modules.oa.service.CustomerService;
 import com.thinkgem.jeesite.modules.oa.service.ProductTypeService;
 import com.thinkgem.jeesite.modules.sys.entity.Dict;
+import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -162,7 +165,7 @@ public class ContractController extends BaseController {
 	public String delete(Contract contract, RedirectAttributes redirectAttributes) {
 		contractService.delete(contract);
 		addMessage(redirectAttributes, "删除合同成功");
-		return "redirect:"+Global.getAdminPath()+"/oa/contract/?repage";
+		return "redirect:"+Global.getAdminPath()+"/oa/contract?contractType="+ contract.getContractType() +"&repage";
 	}
 
 	/**
@@ -181,5 +184,20 @@ public class ContractController extends BaseController {
 			return "true";
 		}
 		return "false";
+	}
+
+	@RequiresPermissions("oa:contract:view")
+	@RequestMapping(value = "export", method=RequestMethod.POST)
+	public String exportFile(Contract contract, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
+		try {
+			String contractType = isNotBlank(contract.getContractType())? DictUtils.getDictLabel(contract.getContractType(),"oa_contract_type","合同列表"):"合同列表";
+			String fileName = contractType+ DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
+			Page<Contract> page = contractService.findPage(new Page<Contract>(request, response,-1), contract);
+			new ExportExcel(contractType, Contract.class).setDataList(page.getList()).write(response, fileName).dispose();
+			return null;
+		} catch (Exception e) {
+			addMessage(redirectAttributes, "导出合同列表！失败信息："+e.getMessage());
+		}
+		return "redirect:" + Global.getAdminPath()+"/oa/contract?contractType="+ contract.getContractType() +"&repage";
 	}
 }

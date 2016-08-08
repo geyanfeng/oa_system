@@ -21,7 +21,14 @@
 				</DIV>
 			</DIV>
 			<!-- Button mobile view to collapse sidebar menu -->
-
+			<div class="topbar-left">
+				<div class="text-center">
+					<a href="${ctx}?login" class="logo" >
+						<i class="zmdi zmdi-toys icon-c-logo"></i><span>首页</span>
+						<!--<span><img src="assets/images/logo.png" alt="logo" style="height: 20px;"></span>-->
+					</a>
+				</div>
+			</div>
 			<DIV class="navbar navbar-default" role="navigation">
 				<DIV class="container">
 					<DIV>
@@ -32,13 +39,13 @@
 							</BUTTON>
 							<SPAN class="clearfix"></SPAN>
 						</DIV>
-						<FORM class="navbar-left app-search pull-left hidden-xs"
+					<%--	<FORM class="navbar-left app-search pull-left hidden-xs"
 							role="search">
 							<INPUT class="form-control" type="text" placeholder="Search..."
 								value=""><A
 								href="http://coderthemes.com/flacto_1.1/layout_2_green/"><I
 								class="fa fa-search"></I></A>
-						</FORM>
+						</FORM>--%>
 						<UL class="nav navbar-nav navbar-right pull-right">
 							<LI>
 								<!-- Notification -->

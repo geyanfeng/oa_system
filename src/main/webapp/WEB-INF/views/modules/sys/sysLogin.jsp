@@ -43,9 +43,9 @@
 	</div>
 		<DIV class="text-center logo-alt-box" style="margin-top:0px;">
 		<A class="logo"
-			href="#"><SPAN>${fns:getConfig('productName')}<SPAN>IT</SPAN></SPAN></A>
+			href="#"><SPAN>${fns:getConfig('productName')}</SPAN></A>
 
-		<H5 class="text-muted m-t-0">计算机信息系统</H5>
+		<%--<H5 class="text-muted m-t-0">计算机信息系统</H5>--%>
 	</DIV>
 	<DIV class="wrapper-page">
 		<DIV class="m-t-30 card-box">

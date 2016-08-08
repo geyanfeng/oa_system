@@ -5,13 +5,21 @@
     <title>合同管理</title>
     <meta name="decorator" content="default"/>
     <style>
-        .form-group, label, input[type=text],.col-sm-5{
+        .form-group, label, input[type=text], .col-sm-5 {
             padding: 0px !important;
         }
     </style>
     <script type="text/javascript">
         $(document).ready(function () {
-
+            $("#btnExport").click(function () {
+                top.$.jBox.confirm("确认要导出合同列表吗？", "系统提示", function (v, h, f) {
+                    if (v == "ok") {
+                        $("#searchForm").attr("action", "${ctx}/oa/contract/export");
+                        $("#searchForm").submit();
+                    }
+                }, {buttonsFocus: 1});
+                top.$('.jbox-body .jbox-icon').css('top', '55px');
+            });
         });
         function page(n, s) {
             $("#pageNo").val(n);
@@ -43,10 +51,15 @@
         <div class="pull-right">
             <c:if test="${empty isSelect}">
                 <shiro:hasPermission name="oa:contract:edit">
+                    <a id="btnExport" class="btn btn-primary waves-effect waves-light input-sm" type="button"
+                       title="导出">
+                        导出&nbsp;<i
+                            class="fa fa-download"></i></a>
+                    </a>
                     <a id="btnNew"
                        href="${ctx}/oa/contract/form?contractType=${contract.contractType}"
                        class="btn btn-primary waves-effect waves-light input-sm" title="新增"
-                       data-content="新增">新增<i
+                       data-content="新增">新增&nbsp;<i
                             class="fa fa-plus"></i></a>
                 </shiro:hasPermission>
             </c:if>
@@ -56,99 +69,89 @@
 
     <div class="panel-body">
         <form:form id="searchForm" modelAttribute="contract" action="${ctx}/oa/contract/" method="post"
-                   class="breadcrumb form-search">
+                   class="breadcrumb form-search form-inline">
             <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
             <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+            <sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();"/>
             <!--过滤条件-->
             <div class="hidden">
                 <input name="contractType" value="${contract.contractType}"/>
                 <input name="isSelect" value="${isSelect}"/>
             </div>
 
-            <div class="row">
+            <div class="form-group">
+                <label>日期：</label>
 
-                <div class="form-group clearfix col-sm-3">
-                    <label class="col-sm-2 control-label">日期：</label>
-                    <div class="col-sm-10">
-                        <div class="row">
-                            <div class="col-sm-5">
-                                <input name="beginCreateDate" type="text" readonly="readonly"
-                                       maxlength="20"
-                                       class="form-control Wdate input-sm"
-                                       value="<fmt:formatDate value="${contract.beginCreateDate}" pattern="yyyy-MM-dd"/>"
-                                       onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
-                            </div>
-                            <div class="col-sm-1">-</div>
-                            <div class="col-sm-5">
-                                <input name="endCreateDate" type="text" readonly="readonly"
-                                       maxlength="20"
-                                       class="form-control Wdate input-sm"
-                                       value="<fmt:formatDate value="${contract.endCreateDate}" pattern="yyyy-MM-dd"/>"
-                                       onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <input name="beginCreateDate" type="text" readonly="readonly"
+                       maxlength="20"
+                       class="form-control Wdate input-sm"
+                       value="<fmt:formatDate value="${contract.beginCreateDate}" pattern="yyyy-MM-dd"/>"
+                       onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
 
-                <div class="form-group clearfix col-sm-3">
-                    <label class="col-sm-2 control-label">客户：</label>
-                    <div class="col-sm-10">
-                        <sys:treeselect id="customer" name="customer.id" value="${contract.customer.id}"
-                                        labelName="customer.name" labelValue="${contract.customer.name}"
-                                        title="客户" url="/oa/customer/treeData" cssClass="input-small input-sm"
-                                        allowClear="true" notAllowSelectParent="true" buttonIconCss="input-sm"/>
-                    </div>
-                </div>
+                -
 
+                <input name="endCreateDate" type="text" readonly="readonly"
+                       maxlength="20"
+                       class="form-control Wdate input-sm"
+                       value="<fmt:formatDate value="${contract.endCreateDate}" pattern="yyyy-MM-dd"/>"
+                       onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
 
-                <div class="form-group clearfix col-sm-3 hidden">
-                    <label class="col-sm-2 control-label">合同状态：</label>
-                    <div class="col-sm-10">
-                        <form:select path="status" class="select2-container form-control input-sm">
-                            <form:option value="" label=""/>
-                            <form:options items="${fns:getDictList('oa_contract_status')}"
-                                          itemLabel="label"
-                                          itemValue="value" htmlEscape="false"/>
-                        </form:select>
-                    </div>
-                </div>
+            </div>
 
-                <div class="form-group clearfix col-sm-3">
-                    <label class="col-sm-2 control-label">销售：</label>
-                    <div class="col-sm-10">
-                        <sys:treeselect id="createBy" name="createBy.id" value="${contract.createBy.id}"
-                                        labelName="createBy.name" labelValue="${contract.createBy.name}"
-                                        title="用户" url="/sys/office/treeData?type=3"
-                                        cssClass="input-small input-sm"
-                                        allowClear="true" notAllowSelectParent="true" buttonIconCss="input-sm"/>
-                    </div>
-                </div>
+            <div class="form-group">
+                <label>客户：</label>
 
+                <sys:treeselect id="customer" name="customer.id" value="${contract.customer.id}"
+                                labelName="customer.name" labelValue="${contract.customer.name}"
+                                title="客户" url="/oa/customer/treeData" cssClass="input-small input-sm"
+                                allowClear="true" notAllowSelectParent="true" buttonIconCss="input-sm"/>
 
-                <button id="btnSubmit" class="btn btn-primary input-sm" type="submit" value="查询">
-                    查询<i class="fa fa-search"></i>
-                </button>
+            </div>
 
+            <div class="form-group">
+                <label>合同状态：</label>
+                <form:select path="status" class="select2-container form-control input-sm" cssStyle="width:100px;">
+                    <form:option value="" label=""/>
+                    <form:options items="${fns:getDictList('oa_contract_status')}"
+                                  itemLabel="label"
+                                  itemValue="value" htmlEscape="false"/>
+                </form:select>
+
+            </div>
+
+            <div class="form-group">
+                <label>销售：</label>
+
+                <sys:treeselect id="createBy" name="createBy.id" value="${contract.createBy.id}"
+                                labelName="createBy.name" labelValue="${contract.createBy.name}"
+                                title="用户" url="/sys/office/treeData?type=3"
+                                cssClass="input-small input-sm"
+                                allowClear="true" notAllowSelectParent="true" buttonIconCss="input-sm"/>
 
             </div>
 
 
+            <button id="btnSubmit" class="btn btn-primary input-sm" type="submit" value="查询">
+                查询<i class="fa fa-search"></i>
+            </button>
+
+
         </form:form>
         <sys:message content="${message}"/>
-        <table id="contentTable" class="table table-striped">
+        <table id="contentTable" class="table table-striped table-condensed table-hover">
             <thead>
             <tr>
-                <th>日期</th>
-                <th>合同号</th>
-                <th>公司抬头</th>
-                <th>客户</th>
-                <th>合同名称</th>
-                <th>合同金额</th>
-                <th>合同状态</th>
-                <th>销售</th>
-                <th>商务人员</th>
-                <th>技术人员</th>
-               <%-- <th>更新时间</th>--%>
+                <th class="sort-column createDate">日期</th>
+                <th class="sort-column no">合同号</th>
+                <th class="sort-column companyName">公司抬头</th>
+                <th class="sort-column a9.name">客户</th>
+                <th class="sort-column name">合同名称</th>
+                <th class="sort-column amount">合同金额</th>
+                <th class="sort-column status">合同状态</th>
+                <th class="sort-column u32.name">销售</th>
+                <th class="sort-column u15.name">商务人员</th>
+                <th class="sort-column u16.name">技术人员</th>
+                <%-- <th>更新时间</th>--%>
                 <shiro:hasPermission name="oa:contract:edit">
                     <th>操作</th>
                 </shiro:hasPermission>
@@ -180,7 +183,7 @@
                             ${fns:getDictLabel(contract.status, 'oa_contract_status', '')}
                     </td>
                     <td>
-                        ${contract.createBy.name}
+                            ${contract.createBy.name}
                     </td>
 
                     <td>
@@ -191,9 +194,9 @@
                     </td>
 
 
-                    <%--<td>
-                        <fmt:formatDate value="${contract.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
-                    </td>--%>
+                        <%--<td>
+                            <fmt:formatDate value="${contract.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                        </td>--%>
                     <shiro:hasPermission name="oa:contract:edit">
                         <td>
                             <c:if test="${empty isSelect}">

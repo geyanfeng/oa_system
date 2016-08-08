@@ -7,12 +7,12 @@
 </head>
 <body>
 	<div id="content" class="row-fluid">
-		<div id="left">
+		<div id="left" class="pull-left">
 			<iframe id="cmsMenuFrame" name="cmsMenuFrame" src="${ctx}/cms/tree" style="overflow:visible;"
 				scrolling="yes" frameborder="no" width="100%"></iframe>
 		</div>
-		<div id="openClose" class="close">&nbsp;</div>
-		<div id="right">
+		<div id="openClose" class="close pull-left">&nbsp;</div>
+		<div id="right" class="pull-right">
 			<iframe id="cmsMainFrame" name="cmsMainFrame" src="${ctx}/cms/none" style="overflow:visible;"
 				scrolling="yes" frameborder="no" width="100%"></iframe>
 		</div>

@@ -13,7 +13,7 @@
        <!-- Notification css (Toastr) -->
        <link href="${ctxStatic}/assets/plugins/toastr/toastr.min.css" rel="stylesheet" type="text/css" />
 
-       <%-- <link href="${ctxStatic}/common/jeesite.css" rel="stylesheet" type="text/css" />--%>
+        <link href="${ctxStatic}/common/jeesite.css" rel="stylesheet" type="text/css" />
 
         <!-- HTML5 Shiv and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

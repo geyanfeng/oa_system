@@ -41,11 +41,11 @@
             $('input[name=invoiceType]').change(function () {
                 var sVal = $('input[name=invoiceType]:checked ').val();
                 switch (sVal) {
-                    case "1":
-                        $("div[id^=field-invoice]").hide();
+                    case "2":
+                        $("div[id^=field-invoice]").show();
                         break;
                     default:
-                        $("div[id^=field-invoice]").show();
+                        $("div[id^=field-invoice]").hide();
                         break;
                 }
             });
@@ -335,7 +335,7 @@
                     <div class="col-sm-7">
                         <form:radiobuttons path="invoiceType" items="${fns:getDictList('oa_invoice_type')}"
                                            itemLabel="label" itemValue="value" htmlEscape="false" class=""
-                                           element="span class='radio radio-success col-sm-4 input-sm'"/>
+                                           element="span class='radio radio-success input-sm radio-inline'"/>
                     </div>
                 </div>
                 <div class="form-group clearfix" id="field-invoiceCustomerName">
@@ -396,7 +396,7 @@
                 </div>
             </shiro:hasPermission>
             <div class="col-sm-12">
-                <table id="contentTable" class="table table-striped">
+                <table id="contentTable" class="table table-striped table-condensed">
                     <thead>
                     <tr role="row">
                         <th class="hidden"></th>
@@ -456,7 +456,7 @@
 						</tr>
 						<tr>
 							<td colspan=6 style="padding-left: 40px;">
-							 <table class="table" id="childProductList{{idx}}_table">
+							 <table class="table table-condensed" id="childProductList{{idx}}_table">
 								<tbody id="childProductList{{idx}}">
 								  </tbody>
 								</table>
@@ -527,7 +527,7 @@
                     <div class="col-sm-7">
                         <form:radiobuttons path="paymentMethod" items="${fns:getDictList('oa_payment_method')}"
                                            itemLabel="label" itemValue="value" htmlEscape="false" class=""
-                                           element="span class='radio radio-success col-sm-4 input-sm'"/>
+                                           element="span class='radio radio-success input-sm radio-inline'"/>
                     </div>
                 </div>
                 <div class="form-group clearfix">
@@ -573,9 +573,9 @@
                     </div>
                 </div>
                 <div class="form-group clearfix">
-                    <label class="col-md-2 control-label"></label>
-                    <div class="col-md-4">
-                        <form:checkbox path="isDeduction" label="是否业绩抵扣"/>
+                    <label class="col-md-3 control-label" for="isDeduction">是否业绩抵扣</label>
+                    <div class="col-md-7">
+                        <input id="isDeduction" name="isDeduction" type="checkbox" value="${contract.isDeduction}">
                     </div>
                 </div>
                 <div class="form-group clearfix">
@@ -621,7 +621,7 @@
     <div class="panel panel-default" id="card_attachemnts">
         <div class="panel-heading">附件</div>
         <div class="panel-body">
-            <table id="attchmentTable" class="table table-striped">
+            <table id="attchmentTable" class="table table-striped table-condensed">
                 <thead>
                 <tr role="row">
                     <th class="hidden"></th>

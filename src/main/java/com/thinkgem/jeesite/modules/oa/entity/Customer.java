@@ -83,5 +83,9 @@ public class Customer extends DataEntity<Customer> {
 	public void setUsedFlag(String usedFlag) {
 		this.usedFlag = usedFlag;
 	}
-	
+
+	@Override
+	public String toString() {
+		return name;
+	}
 }

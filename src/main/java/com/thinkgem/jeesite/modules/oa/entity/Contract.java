@@ -3,7 +3,9 @@
  */
 package com.thinkgem.jeesite.modules.oa.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thinkgem.jeesite.common.persistence.ActEntity;
+import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
 import org.hibernate.validator.constraints.Length;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.thinkgem.jeesite.modules.oa.entity.Customer;
@@ -75,6 +77,18 @@ public class Contract extends ActEntity<Contract> {
 		this.parentId = parentId;
 	}
 
+	@JsonIgnore
+	@ExcelField(title="销售", align=2, sort=80, value="createBy.name")
+	public User getCreateBy() {
+		return createBy;
+	}
+
+
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@ExcelField(title="日期", align=2, sort=10)
+	public Date getCreateDate() {
+		return createDate;
+	}
 
 	public String getParentNo() {
 		return parentNo;
@@ -94,6 +108,7 @@ public class Contract extends ActEntity<Contract> {
 	}
 	
 	@Length(min=1, max=100, message="合同号长度必须介于 1 和 100 之间")
+	@ExcelField(title="合同号", align=2, sort=20)
 	public String getNo() {
 		return no;
 	}
@@ -103,6 +118,7 @@ public class Contract extends ActEntity<Contract> {
 	}
 	
 	@Length(min=1, max=255, message="合同名称长度必须介于 1 和 255 之间")
+	@ExcelField(title="合同名称", align=2, sort=50)
 	public String getName() {
 		return name;
 	}
@@ -110,7 +126,8 @@ public class Contract extends ActEntity<Contract> {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
+	@ExcelField(title="合同金额", align=2, sort=60)
 	public Double getAmount() {
 		return amount;
 	}
@@ -120,6 +137,7 @@ public class Contract extends ActEntity<Contract> {
 	}
 	
 	@Length(min=1, max=255, message="公司抬头长度必须介于 1 和 255 之间")
+	@ExcelField(title="公司抬头", align=2, sort=30,dictType = "oa_company_name")
 	public String getCompanyName() {
 		return companyName;
 	}
@@ -136,7 +154,8 @@ public class Contract extends ActEntity<Contract> {
 	public void setContractType(String contractType) {
 		this.contractType = contractType;
 	}
-	
+
+	@ExcelField(title="客户", align=2, sort=40, value = "customer.name")
 	public Customer getCustomer() {
 		return customer;
 	}
@@ -146,6 +165,7 @@ public class Contract extends ActEntity<Contract> {
 	}
 	
 	@Length(min=0, max=2, message="合同状态长度必须介于 0 和 2 之间")
+	@ExcelField(title="合同状态", align=2, sort=70, dictType = "oa_contract_status")
 	public String getStatus() {
 		return status;
 	}
@@ -188,7 +208,8 @@ public class Contract extends ActEntity<Contract> {
 	public void setPaymentAmount(Double paymentAmount) {
 		this.paymentAmount = paymentAmount;
 	}
-	
+
+	@ExcelField(title="商务人员", align=2, sort=90, value="businessPerson.name")
 	public User getBusinessPerson() {
 		return businessPerson;
 	}
@@ -197,6 +218,7 @@ public class Contract extends ActEntity<Contract> {
 		this.businessPerson = businessPerson;
 	}
 
+	@ExcelField(title="技术人员", align=2, sort=100, value="artisan.name")
 	public User getArtisan() {
 		return artisan;
 	}
@@ -336,7 +358,7 @@ public class Contract extends ActEntity<Contract> {
 	public void setBeginCreateDate(Date beginCreateDate) {
 		this.beginCreateDate = beginCreateDate;
 	}
-	
+
 	public Date getEndCreateDate() {
 		return endCreateDate;
 	}

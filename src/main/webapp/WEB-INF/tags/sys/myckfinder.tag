@@ -7,7 +7,7 @@
 <%@ attribute name="readonly" type="java.lang.Boolean" required="false" description="是否查看模式" %>
 <%@ attribute name="maxWidth" type="java.lang.String" required="false" description="最大宽度" %>
 <%@ attribute name="maxHeight" type="java.lang.String" required="false" description="最大高度" %>
-<ol id="${input}Preview"></ol>
+<ol id="${input}Preview" style="margin-bottom:0;"></ol>
 <%--<c:if test="${!readonly}"><a href="javascript:" onclick="${input}FinderOpen();"
                              class="btn">${selectMultiple?'添加':'选择'}</a>&nbsp;<a href="javascript:" onclick="${input}DelAll();" class="btn">清除</a></c:if>--%>
 <script type="text/javascript">
