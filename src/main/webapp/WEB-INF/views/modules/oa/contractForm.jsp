@@ -321,6 +321,7 @@
         </div>
     </div>
 
+    <!--开票信息-->
     <div class="panel panel-default">
         <div class="panel-heading">开票信息
             <div class="pull-right">
@@ -335,7 +336,7 @@
                     <div class="col-sm-7">
                         <form:radiobuttons path="invoiceType" items="${fns:getDictList('oa_invoice_type')}"
                                            itemLabel="label" itemValue="value" htmlEscape="false" class=""
-                                           element="span class='radio radio-success input-sm radio-inline'"/>
+                                           element="span class='radio radio-success radio-inline'"/>
                     </div>
                 </div>
                 <div class="form-group clearfix" id="field-invoiceCustomerName">
@@ -521,41 +522,60 @@
     <div class="panel panel-default">
         <div class="panel-heading">付款信息</div>
         <div class="panel-body panel-collapse collapse in" id="payment-collapse">
-            <div class="col-sm-6">
-                <div class="form-group clearfix">
-                    <label class="col-sm-3 control-label">付款方式：</label>
-                    <div class="col-sm-7">
-                        <form:radiobuttons path="paymentMethod" items="${fns:getDictList('oa_payment_method')}"
-                                           itemLabel="label" itemValue="value" htmlEscape="false" class=""
-                                           element="span class='radio radio-success input-sm radio-inline'"/>
-                    </div>
-                </div>
-                <div class="form-group clearfix">
-                    <label class="col-sm-3 control-label">付款周期类型：</label>
-                    <div class="col-sm-7">
-                        <form:select path="paymentCycle" class="form-control col-md-12 input-sm">
-                            <form:option value="" label=""/>
-                            <form:options items="${fns:getDictList('oa_payment_cycle')}" itemLabel="label"
-                                          itemValue="value" htmlEscape="false"/>
-                        </form:select>
-                    </div>
+            <div class="row">
+                <div class="form-group">
+                    <label class="control-label">付款周期：</label>
+                    <form:radiobuttons path="paymentCycle" items="${fns:getDictList('oa_payment_cycle')}"
+                                       itemLabel="label" itemValue="value" htmlEscape="false" class=""
+                                       element="span class='radio radio-success radio-inline'"/>
                 </div>
             </div>
-            <div class="col-sm-6">
-                <div class="form-group clearfix">
-                    <label class="col-sm-3 control-label">付款时间：</label>
-                    <div class="col-sm-7">
-                        <input name="paymentTime" type="text" readonly="readonly" maxlength="20"
-                               class="form-control Wdate input-sm"
-                               value="<fmt:formatDate value="${contract.paymentTime}" pattern="yyyy-MM-dd"/>"
-                               onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
-                    </div>
+            <div class="row form-inline" id="payment-onetime">
+                <div class="form-group">
+                    <label class="control-label">付款金额：</label>
+                    <form:input path="paymentAmount" htmlEscape="false" class="form-control  number input-sm"/>
                 </div>
-                <div class="form-group clearfix">
-                    <label class="col-sm-3 control-label">付款金额：</label>
-                    <div class="col-sm-7">
-                        <form:input path="paymentAmount" htmlEscape="false" class="form-control  number input-sm"/>
-                    </div>
+                <div class="form-group">
+                    <label class="control-label">付款方式：</label>
+                    <c:forEach items="${fns:getDictList('oa_payment_method')}" var="dict" varStatus="s">
+                        <span class="radio radio-success radio-inline">
+                            <input id="paymentMethod${s.index+1}" name="paymentCycle" type="radio"
+                                   value="${dict.value}">
+                            <label for="paymentMethod${s.index+1}">${dict.label}</label>
+                        </span>
+                    </c:forEach>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">账期：</label>
+                    <input path="payment-onetime-time" type="text" class="form-control number input-sm"/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">账期点数：</label>
+                    <input path="payment-onetime-pointnum" type="text" class="form-control number input-sm"/>
+                </div>
+            </div>
+            <div class="row form-inline" id="payment-installment">
+                <div class="form-group">
+                    <label class="control-label">付款金额：</label>
+                    <form:input path="paymentAmount" htmlEscape="false" class="form-control  number input-sm"/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">付款方式：</label>
+                    <c:forEach items="${fns:getDictList('oa_payment_method')}" var="dict" varStatus="s">
+                        <span class="radio radio-success radio-inline">
+                            <input id="paymentMethod${s.index+1}" name="paymentCycle" type="radio"
+                                   value="${dict.value}">
+                            <label for="paymentMethod${s.index+1}">${dict.label}</label>
+                        </span>
+                    </c:forEach>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">账期：</label>
+                    <input path="payment-onetime-time" type="text" class="form-control number input-sm"/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">账期点数：</label>
+                    <input path="payment-onetime-pointnum" type="text" class="form-control number input-sm"/>
                 </div>
             </div>
         </div>
