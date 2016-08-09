@@ -36,10 +36,8 @@ public class Contract extends ActEntity<Contract> {
 	private String contractType;		// 合同类型
 	private Customer customer;		// 客户
 	private String status;		// 合同状态
-	private String paymentMethod;		// 付款方式
 	private String paymentCycle;		// 付款周期类型
-	private Date paymentTime;		// 付款时间
-	private Double paymentAmount;		// 付款金额
+	private String paymentDetail;		// 付款明细
 	private User businessPerson;		// 商务人员
 	private User artisan;		// 技术人员
 	private Double customerCost;		// 客户费用
@@ -173,15 +171,7 @@ public class Contract extends ActEntity<Contract> {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
-	@Length(min=0, max=2, message="付款方式长度必须介于 0 和 2 之间")
-	public String getPaymentMethod() {
-		return paymentMethod;
-	}
 
-	public void setPaymentMethod(String paymentMethod) {
-		this.paymentMethod = paymentMethod;
-	}
 	
 	@Length(min=0, max=2, message="付款周期类型长度必须介于 0 和 2 之间")
 	public String getPaymentCycle() {
@@ -191,23 +181,15 @@ public class Contract extends ActEntity<Contract> {
 	public void setPaymentCycle(String paymentCycle) {
 		this.paymentCycle = paymentCycle;
 	}
-	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	public Date getPaymentTime() {
-		return paymentTime;
+
+	public String getPaymentDetail() {
+		return paymentDetail;
 	}
 
-	public void setPaymentTime(Date paymentTime) {
-		this.paymentTime = paymentTime;
-	}
-	
-	public Double getPaymentAmount() {
-		return paymentAmount;
+	public void setPaymentDetail(String paymentDetail) {
+		this.paymentDetail = paymentDetail;
 	}
 
-	public void setPaymentAmount(Double paymentAmount) {
-		this.paymentAmount = paymentAmount;
-	}
 
 	@ExcelField(title="商务人员", align=2, sort=90, value="businessPerson.name")
 	public User getBusinessPerson() {

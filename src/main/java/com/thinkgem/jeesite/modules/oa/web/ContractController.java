@@ -89,10 +89,8 @@ public class ContractController extends BaseController {
 			contract.setInvoiceAddress(originalContract.getInvoiceAddress());
 			contract.setInvoicePhone(originalContract.getInvoicePhone());
 			contract.setCompanyName(originalContract.getCompanyName());
-			contract.setPaymentMethod(originalContract.getPaymentMethod());
 			contract.setPaymentCycle(originalContract.getPaymentCycle());
-			contract.setPaymentTime(originalContract.getPaymentTime());
-			contract.setPaymentAmount(originalContract.getPaymentAmount());
+			contract.setPaymentDetail(originalContract.getPaymentDetail());
 		}
 		if (contract.getContractType() == null)
 			contract.setContractType("2"); //设置默认合同类型为客户合同
@@ -100,8 +98,6 @@ public class ContractController extends BaseController {
 			contract.setCompanyName("1"); //设置默认我司抬头为上海精鲲
 		if (contract.getInvoiceType() == null)
 			contract.setInvoiceType("1"); //设置默认发票类型为增值税普票
-		if (contract.getPaymentMethod() == null)
-			contract.setPaymentMethod("2");//设置默认付款方式为银行转账
 		if (contract.getPaymentCycle() == null)
 			contract.setPaymentCycle("2");//设置默认付款周期为分期付款
 		if (contract.getShipAddressType() == null)

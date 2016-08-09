@@ -4,7 +4,11 @@
 <head>
     <title>合同管理</title>
     <meta name="decorator" content="default"/>
-
+    <style>
+        #payment-collapse .row .form-group{
+            margin-left:20px;
+        }
+    </style>
     <script type="text/javascript">
         $(document).ready(function () {
             //$("#name").focus();
@@ -50,7 +54,9 @@
                 }
             });
             $('input[name=invoiceType]').trigger('change');
+
         });
+
         function addRow(list, idx, tpl, row) {
             $(list).append(Mustache.render(tpl, {
                 idx: idx, delBtn: true, row: row
@@ -182,6 +188,7 @@
             var self = $(sender);
             $('#invoiceCustomerName').val(self.select2('data').text);
         }
+
     </script>
 </head>
 <body>
@@ -528,56 +535,219 @@
                     <form:radiobuttons path="paymentCycle" items="${fns:getDictList('oa_payment_cycle')}"
                                        itemLabel="label" itemValue="value" htmlEscape="false" class=""
                                        element="span class='radio radio-success radio-inline'"/>
+                    <form:hidden path="paymentDetail"></form:hidden>
                 </div>
             </div>
-            <div class="row form-inline" id="payment-onetime">
-                <div class="form-group">
-                    <label class="control-label">付款金额：</label>
-                    <form:input path="paymentAmount" htmlEscape="false" class="form-control  number input-sm"/>
+            <script type="text/template" id="payment-onetime-tpl">//<!--
+                <div class="row form-inline" id="payment-onetime">
+                    <div class="form-group">
+                        <label class="control-label">付款金额：</label>
+                        <input type="text" class="form-control  number input-sm" id="payment_onetime_amount" value="{{row.payment_onetime_amount}}"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">付款方式：</label>
+                        <c:forEach items="${fns:getDictList('oa_payment_method')}" var="dict" varStatus="s">
+                            <span class="radio radio-success radio-inline" style="padding-left:2px">
+                                <input id="payment_onetime_paymentMethod${s.index+1}" name="payment_onetime_paymentMethod" type="radio"
+                                       value="${dict.value}" data-value="{{row.payment_onetime_paymentMethod}}" >
+                                <label for="payment_onetime_paymentMethod${s.index+1}">${dict.label}</label>
+                            </span>
+                        </c:forEach>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">账期：</label>
+                        <input id="payment_onetime_time" type="text" class="form-control number input-sm" value="{{row.payment_onetime_time}}"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">账期点数：</label>
+                        <input id="payment_onetime_pointnum" type="text" class="form-control number input-sm" value="{{row.payment_onetime_pointnum}}"/>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="control-label">付款方式：</label>
-                    <c:forEach items="${fns:getDictList('oa_payment_method')}" var="dict" varStatus="s">
-                        <span class="radio radio-success radio-inline">
-                            <input id="paymentMethod${s.index+1}" name="paymentCycle" type="radio"
-                                   value="${dict.value}">
-                            <label for="paymentMethod${s.index+1}">${dict.label}</label>
-                        </span>
-                    </c:forEach>
+                    //-->
+            </script>
+            <script type="text/template" id="payment-installment-tpl">//<!--
+                <div class="row form-inline" id="payment-installment_{{idx}}">
+                    <div class="form-group">
+                        <label class="control-label">付款金额：</label>
+                        <input type="text" class="form-control  number input-sm" id="payment_installment_amount_{{idx}}"
+                        value="{{row.payment_installment_amount}}"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">账期：</label>
+                        <input id="payment_installment_time_{{idx}}" type="text" class="form-control number input-sm"
+                        value="{{row.payment_installment_time}}"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">付款方式：</label>
+                        <c:forEach items="${fns:getDictList('oa_payment_method')}" var="dict" varStatus="s">
+                            <span class="radio radio-success radio-inline" style="padding-left:2px">
+                                <input id="payment_installment_paymentMethod_{{idx}}_${s.index+1}" name="payment_installment_paymentMethod_{{idx}}" type="radio"
+                                       value="${dict.value}" data-value="{{row.payment_installment_paymentMethod}}">
+                                <label for="payment_installment_paymentMethod_{{idx}}_${s.index+1}">${dict.label}</label>
+                            </span>
+                        </c:forEach>
+                    </div>
+                    <a href="#" onclick="addNewInstallmentPayment(this)" title="增加新的分期付款" class="zmdi zmdi-plus-circle text-success" style="font-size:25px;"></a>
+                    <a href="#" onclick="deleteInstallmentPayment(this)" title="删除" class="zmdi zmdi-minus-square text-success" style="font-size:25px;"></a>
                 </div>
-                <div class="form-group">
-                    <label class="control-label">账期：</label>
-                    <input path="payment-onetime-time" type="text" class="form-control number input-sm"/>
+                //-->
+            </script>
+            <script type="text/template" id="payment-month-tpl">//<!--
+                <div class="row form-inline" id="payment-month">
+                    <div class="form-group">
+                        <label class="control-label">付款金额：</label>
+                        <input type="text" class="form-control  number input-sm" id="payment_month_amount" size="10"
+                        value="{{row.payment_month_amount}}"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">付款方式：</label>
+                        <c:forEach items="${fns:getDictList('oa_payment_method')}" var="dict" varStatus="s">
+                            <span class="radio radio-success radio-inline" style="padding-left:2px">
+                                <input id="payment_month_paymentMethod${s.index+1}" name="payment_month_paymentMethod" type="radio"
+                                       value="${dict.value}" data-value="{{row.payment_month_paymentMethod}}">
+                                <label for="payment_month_paymentMethod${s.index+1}">${dict.label}</label>
+                            </span>
+                        </c:forEach>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">{{type}}数：</label>
+                        <input id="payment_month_num" type="text" class="form-control number input-sm" size="10"
+                        value="{{row.payment_month_num}}"/>个{{type}}
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">付款日：</label>
+                        <input id="payment_month_day" type="text" class="form-control number input-sm" size="10"
+                        value="{{row.payment_month_day}}"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">起始月：</label>
+                        <input id="payment_month_start" type="text" class="form-control number input-sm" size="10"
+                        value="{{row.payment_month_start}}"/>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="control-label">账期点数：</label>
-                    <input path="payment-onetime-pointnum" type="text" class="form-control number input-sm"/>
-                </div>
+                 //-->
+            </script>
+            <div id="payment-body" data-idx="1">
+
             </div>
-            <div class="row form-inline" id="payment-installment">
-                <div class="form-group">
-                    <label class="control-label">付款金额：</label>
-                    <form:input path="paymentAmount" htmlEscape="false" class="form-control  number input-sm"/>
-                </div>
-                <div class="form-group">
-                    <label class="control-label">付款方式：</label>
-                    <c:forEach items="${fns:getDictList('oa_payment_method')}" var="dict" varStatus="s">
-                        <span class="radio radio-success radio-inline">
-                            <input id="paymentMethod${s.index+1}" name="paymentCycle" type="radio"
-                                   value="${dict.value}">
-                            <label for="paymentMethod${s.index+1}">${dict.label}</label>
-                        </span>
-                    </c:forEach>
-                </div>
-                <div class="form-group">
-                    <label class="control-label">账期：</label>
-                    <input path="payment-onetime-time" type="text" class="form-control number input-sm"/>
-                </div>
-                <div class="form-group">
-                    <label class="control-label">账期点数：</label>
-                    <input path="payment-onetime-pointnum" type="text" class="form-control number input-sm"/>
-                </div>
-            </div>
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $("#btnSubmit").click(function(){
+                        $("#paymentDetail").val(JSON.stringify(getPaymentDetail()));
+                    });
+                    //付款周期
+                    $("input[id^='paymentCycle']").change(function(){
+                        $("#payment-body").empty();
+                        addPaymentRow();
+                    });
+                    if(!$('#id').val())
+                        $("input[id^='paymentCycle']").trigger('change');
+
+                    var paymentDetail = JSON.parse(${fns:toJson(contract.paymentDetail)});
+                    var paymentCycle = ${contract.paymentCycle};
+                    switch (paymentCycle){
+                        case 1:
+                        case 3:
+                        case 4:
+                                addPaymentRow(paymentDetail);
+                            break;
+                        case 2:
+                                $.each(paymentDetail, function(idx,item){
+                                    addPaymentRow(item, idx+1);
+                                });
+                            break;
+                    }
+                });
+
+                function addPaymentRow(row,idx){
+                    var paymentCycle = $("input[id^='paymentCycle']:checked").val();
+                    switch(paymentCycle){
+                        case "1":
+                                $("#payment-body").append(Mustache.render($("#payment-onetime-tpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""), {row:row}));
+                            break;
+                        case "2":
+                                if(!idx)
+                                    idx=1;
+                                $("#payment-body").append(Mustache.render($("#payment-installment-tpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""), {idx:idx, row:row}));
+                                idx = idx+1;
+                                $("#payment-body").data("idx",idx);
+                            break;
+                        case "3":
+                                $("#payment-body").append(Mustache.render($("#payment-month-tpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""), {type:"月",row:row}));
+                            break;
+                        case "4":
+                                $("#payment-body").append(Mustache.render($("#payment-month-tpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""), {type:"季",row:row}));
+                            break;
+                    }
+                    $("#payment-body").find("select").each(function () {
+                        $(this).val($(this).attr("data-value"));
+                    });
+                    $("#payment-body").find("input[type='checkbox'], input[type='radio']").each(function () {
+                        var ss = $(this).attr("data-value").split(',');
+                        for (var i = 0; i < ss.length; i++) {
+                            if ($(this).val() == ss[i]) {
+                                $(this).attr("checked", "checked");
+                            }
+                        }
+                    });
+                }
+
+                function addNewInstallmentPayment(sender){
+                    var self = $(sender);
+                    var selfRow = self.closest('.row');
+                    var idx = parseInt($("#payment-body").data("idx"));
+
+                    selfRow.after(Mustache.render($("#payment-installment-tpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""), {idx: idx}));
+                    idx = idx+1;
+                    $("#payment-body").data("idx",idx);
+                }
+
+                function deleteInstallmentPayment(sender){
+                    var self = $(sender);
+                    var rowCount = $("#payment-body .row").length;
+                    if(rowCount>1)
+                        self.closest('.row').remove();
+                }
+
+                //得到付款明细数据
+                function getPaymentDetail(){
+                    var paymentCycle = $("input[id^='paymentCycle']:checked").val();
+                    var paymentDetail;
+                    switch(paymentCycle){
+                        case "1":
+                                paymentDetail={
+                                    payment_onetime_amount:$("#payment-onetime #payment_onetime_amount").val(),
+                                    payment_onetime_paymentMethod:$("#payment-onetime input[id^='payment_onetime_paymentMethod']:checked").val(),
+                                    payment_onetime_time:$("#payment-onetime #payment_onetime_time").val(),
+                                    payment_onetime_pointnum:$("#payment-onetime #payment_onetime_pointnum").val()
+                                };
+                            break;
+                        case "2":
+                            paymentDetail=[];
+                            $(".row[id^='payment-installment']").each(function(index, item){
+                                var row = $(item);
+                                paymentDetail.push({
+                                    payment_installment_amount: row.find("input[id^='payment_installment_amount']").val(),
+                                    payment_installment_time :row.find("input[id^='payment_installment_time']").val(),
+                                    payment_installment_paymentMethod :row.find("input[id^='payment_installment_paymentMethod']:checked").val(),
+                                });
+                            });
+                            break;
+                        case "3":
+                        case "4":
+                            paymentDetail= {
+                                payment_month_amount: $("#payment-month #payment_month_amount").val(),
+                                payment_month_paymentMethod: $("#payment-month input[id^='payment_month_paymentMethod']:checked").val(),
+                                payment_month_num: $("#payment-month #payment_month_num").val(),
+                                payment_month_day: $("#payment-month #payment_month_day").val(),
+                                payment_month_start: $("#payment-month #payment_month_start").val()
+                            };
+                            break;
+                    }
+                    /*console.log(JSON.stringify(paymentDetail));*/
+                    return paymentDetail;
+                }
+            </script>
         </div>
     </div>
 
