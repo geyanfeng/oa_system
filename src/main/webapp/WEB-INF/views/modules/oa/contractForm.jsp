@@ -270,7 +270,7 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group clearfix">
-                        <label class="col-sm-2 control-label  p-0"><span class="help-inline"><font color="red">*</font> </span>父级合同：</label>
+                        <label class="col-sm-2 control-label  p-0">父级合同：</label>
                         <div class="col-sm-6  p-0">
                             <div class="input-group">
                                 <input type="text" htmlEscape="false" maxlength="255"
