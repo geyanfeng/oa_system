@@ -41,7 +41,6 @@
 <script src="${ctxStatic}/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
 <script src="${ctxStatic}/common/mustache.min.js" type="text/javascript"></script>
 <script src="${ctxStatic}/common/jeesite.js" type="text/javascript"></script>
-<script src="${ctxStatic}/assets/js/iframeResizer.min.js" type="text/javascript"></script>
 <script src="${ctxStatic}/assets/js/iframeResizer.contentWindow.min.js" type="text/javascript"></script>
 <script type="text/javascript">var ctx = '${ctx}', ctxStatic='${ctxStatic}';</script>
 

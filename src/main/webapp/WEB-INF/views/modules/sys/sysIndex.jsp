@@ -233,6 +233,7 @@
   <!-- App js -->
         <script src="${ctxStatic}/assets/js/jquery.core.js"></script>
         <script src="${ctxStatic}/assets/js/jquery.app.js"></script>
+	<script src="${ctxStatic}/assets/js/iframeResizer.min.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		$('#mainFrame').iFrameResize([{log: true, minHeight:700 }]);
 	</script>

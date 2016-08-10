@@ -646,30 +646,33 @@
             </div>
             <script type="text/javascript">
                 $(document).ready(function () {
-                    $("#btnSubmit").click(function(){
+                    $("#btnSubmit").click(function () {
                         $("#paymentDetail").val(JSON.stringify(getPaymentDetail()));
                     });
                     //付款周期
-                    $("input[id^='paymentCycle']").change(function(){
+                    $("input[id^='paymentCycle']").change(function () {
                         $("#payment-body").empty();
                         addPaymentRow();
                     });
-                    if(!$('#id').val())
-                        $("input[id^='paymentCycle']").trigger('change');
 
-                    var paymentDetail = JSON.parse(${fns:toJson(contract.paymentDetail)});
-                    var paymentCycle = ${contract.paymentCycle};
-                    switch (paymentCycle){
-                        case 1:
-                        case 3:
-                        case 4:
+                    if ($('#id').val()!="") {
+                        //load payment detail from saved data
+                        var paymentDetail = JSON.parse(${fns:toJson(contract.paymentDetail)});
+                        var paymentCycle = ${contract.paymentCycle};
+                        switch (paymentCycle) {
+                            case 1:
+                            case 3:
+                            case 4:
                                 addPaymentRow(paymentDetail);
-                            break;
-                        case 2:
-                                $.each(paymentDetail, function(idx,item){
-                                    addPaymentRow(item, idx+1);
+                                break;
+                            case 2:
+                                $.each(paymentDetail, function (idx, item) {
+                                    addPaymentRow(item, idx + 1);
                                 });
-                            break;
+                                break;
+                        }
+                    } else{
+                        $("input[id^='paymentCycle']").trigger('change');
                     }
                 });
 
