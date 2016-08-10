@@ -3,20 +3,17 @@
  */
 package com.thinkgem.jeesite.modules.oa.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.common.persistence.ActEntity;
 import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
-import org.hibernate.validator.constraints.Length;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.thinkgem.jeesite.modules.oa.entity.Customer;
-import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.thinkgem.jeesite.modules.sys.entity.User;
-import javax.validation.constraints.NotNull;
-import java.util.List;
-import com.google.common.collect.Lists;
+import org.hibernate.validator.constraints.Length;
 
-import com.thinkgem.jeesite.common.persistence.DataEntity;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 各种合同Entity
@@ -51,8 +48,11 @@ public class Contract extends ActEntity<Contract> {
 	private String invoiceBankNo;		// 银行帐号
 	private String invoiceAddress;		// 地址
 	private String invoicePhone;		// 电话
-	private String shipAddressType;		// 发货地址类型
+	private String shipMode;			//发货方式
 	private String shipAddress;		// 发货地址
+	private String shipReceiver;		//收货人
+	private String shipPhone;			//联系电话
+	private String shipEms;			//快递单号
 	private String remark;		// 备注
 	private Date beginCreateDate;		// 开始 日期
 	private Date endCreateDate;		// 结束 日期
@@ -306,22 +306,49 @@ public class Contract extends ActEntity<Contract> {
 		this.invoicePhone = invoicePhone;
 	}
 	
-	@Length(min=0, max=2, message="发货地址类型长度必须介于 0 和 2 之间")
-	public String getShipAddressType() {
-		return shipAddressType;
+	@Length(min=1, max=2, message="发货方式长度必须介于 0 和 2 之间")
+	public String getShipMode() {
+		return shipMode;
 	}
 
-	public void setShipAddressType(String shipAddressType) {
-		this.shipAddressType = shipAddressType;
+	public void setShipMode(String shipMode) {
+		this.shipMode = shipMode;
 	}
 	
-	@Length(min=0, max=255, message="发货地址长度必须介于 0 和 255 之间")
+
 	public String getShipAddress() {
 		return shipAddress;
 	}
 
 	public void setShipAddress(String shipAddress) {
 		this.shipAddress = shipAddress;
+	}
+
+
+	public String getShipReceiver() {
+		return shipReceiver;
+	}
+
+	public void setShipReceiver(String shipReceiver) {
+		this.shipReceiver = shipReceiver;
+	}
+
+
+	public String getShipPhone() {
+		return shipPhone;
+	}
+
+	public void setShipPhone(String shipPhone) {
+		this.shipPhone = shipPhone;
+	}
+
+
+	public String getShipEms() {
+		return shipEms;
+	}
+
+	public void setShipEms(String shipEms) {
+		this.shipEms = shipEms;
 	}
 	
 	@Length(min=0, max=255, message="备注长度必须介于 0 和 255 之间")

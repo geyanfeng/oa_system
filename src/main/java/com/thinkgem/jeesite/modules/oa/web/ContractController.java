@@ -17,7 +17,6 @@ import com.thinkgem.jeesite.modules.oa.service.ContractService;
 import com.thinkgem.jeesite.modules.oa.service.CustomerService;
 import com.thinkgem.jeesite.modules.oa.service.ProductTypeService;
 import com.thinkgem.jeesite.modules.sys.entity.Dict;
-import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,8 +99,8 @@ public class ContractController extends BaseController {
 			contract.setInvoiceType("1"); //设置默认发票类型为增值税普票
 		if (contract.getPaymentCycle() == null)
 			contract.setPaymentCycle("2");//设置默认付款周期为分期付款
-		if (contract.getShipAddressType() == null)
-			contract.setShipAddressType("1");//设置默认发货地址类型为客户名称
+		if (contract.getShipMode() == null)
+			contract.setShipMode("3");//设置默认发货方式为同城第三方物流
 
 		//获取所有客户
 		List<Customer> customerList = customerService.findList(new Customer());
@@ -136,13 +135,18 @@ public class ContractController extends BaseController {
 			model.addAttribute("taskDefKey",taskDefKey);
 		}
 		model.addAttribute("contract", contract);
+
+		//如果是框架性合同显示不同的界面
+		if(contract.getContractType().equals("1"))
+			view ="contractForm_kj";
+
 		return "modules/oa/" + view;
 	}
 
 	@RequiresPermissions("oa:contract:edit")
 	@RequestMapping(value = "save")
 	public String save(Contract contract, Model model, RedirectAttributes redirectAttributes) {
-		if(isNotBlank(contract.getAct().getFlag()) || isNotBlank(contract.getAct().getTaskDefKey()))
+		if(!contract.getContractType().equals("1") && isNotBlank(contract.getAct().getFlag()) || isNotBlank(contract.getAct().getTaskDefKey()))
 		{
 			contractService.audit(contract);
 			addMessage(redirectAttributes, "成功提交审批");

@@ -751,6 +751,44 @@
         </div>
     </div>
 
+    <!--物流信息-->
+    <div class="panel panel-default">
+        <div class="panel-heading">物流信息</div>
+        <div class="panel-body panel-collapse collapse in" id="ship-collapse">
+            <div class="row">
+                <div class="form-group">
+                    <label class="control-label">发货方式：</label>
+                    <form:radiobuttons path="shipMode" items="${fns:getDictList('oa_ship_mode')}"
+                                       itemLabel="label" itemValue="value" htmlEscape="false" class=""
+                                       element="span class='radio radio-success radio-inline'"/>
+
+                </div>
+            </div>
+            <div class="row form-inline">
+                <div class="form-group">
+                    <label class="control-label">收货地址：</label>
+                    <form:input path="shipAddress" htmlEscape="false" class="form-control  input-sm" size="60"/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">收货人：</label>
+                    <form:input path="shipReceiver" htmlEscape="false" class="form-control  input-sm"/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">联系电话：</label>
+                    <form:input path="shipPhone" htmlEscape="false" class="form-control  input-sm phone"/>
+                </div>
+
+            </div>
+            <div class="row form-inline" style="margin-top:10px;">
+                <div class="form-group">
+                    <label class="control-label">快递单号：</label>
+                    <form:input path="shipEms" htmlEscape="false" class="form-control  input-sm" size="60"/>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <!--其它-->
     <div class="panel panel-default" id="card_other">
         <div class="panel-heading">其它</div>
@@ -783,26 +821,6 @@
                                onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
                     </div>
                 </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="form-group clearfix">
-                    <label class="col-sm-3 control-label">发货地址类型：</label>
-                    <div class="col-sm-7">
-                        <form:select path="shipAddressType" class="form-control col-md-12 input-sm">
-                            <form:option value="" label=""/>
-                            <form:options items="${fns:getDictList('oa_ship_address_type')}" itemLabel="label"
-                                          itemValue="value" htmlEscape="false"/>
-                        </form:select>
-                    </div>
-                </div>
-                <div class="form-group clearfix">
-                    <label class="col-sm-3 control-label">发货地址：</label>
-                    <div class="col-sm-7">
-                        <form:input path="shipAddress" htmlEscape="false" maxlength="255"
-                                    class="form-control input-sm"/>
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>
