@@ -157,6 +157,16 @@ public class ContractController extends BaseController {
 		return "modules/oa/" + view;
 	}
 
+	@RequiresPermissions("oa:contract:view")
+	@RequestMapping(value = "view")
+	public String view(Contract contract, Model model) {
+		model.addAttribute("contract", contract);
+		//商品类型
+		model.addAttribute("productTypeList", productTypeService.findList(new ProductType()));
+
+		return "modules/oa/contractView";
+	}
+
 	@RequiresPermissions("oa:contract:edit")
 	@RequestMapping(value = "save")
 	public String save(Contract contract, Model model, RedirectAttributes redirectAttributes) {

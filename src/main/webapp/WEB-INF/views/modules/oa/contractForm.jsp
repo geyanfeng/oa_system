@@ -395,7 +395,7 @@
                     </div>
                 </div>
                 <div class="form-group clearfix" id="field-invoiceNo">
-                    <label class="col-sm-3 control-label"><span class="help-inline"><font color="red">*</font> </span>发票税务登记号：</label>
+                    <label class="col-sm-3 control-label"><span class="help-inline"><font color="red">*</font> </span>纳税人识别码：</label>
                     <div class="col-sm-7">
                         <form:input path="invoiceNo" htmlEscape="false" maxlength="255"
                                     class="form-control input-sm required"/>
