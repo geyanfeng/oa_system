@@ -20,6 +20,7 @@
 		a.customer_cost AS "customerCost",
 		a.is_deduction AS "isDeduction",
 		a.discount AS "discount",
+		a.performance_percentage AS "performancePercentage",
 		a.expiry_date AS "expiryDate",
 		a.invoice_type AS "invoiceType",
 		a.invoice_customer_name AS "invoiceCustomerName",
@@ -140,6 +141,7 @@
 			customer_cost,
 			is_deduction,
 			discount,
+			performance_percentage,
 			expiry_date,
 			invoice_type,
 			invoice_customer_name,
@@ -176,6 +178,7 @@
 			#{customerCost},
 			#{isDeduction},
 			#{discount},
+			#{performancePercentage},
 			#{expiryDate},
 			#{invoiceType},
 			#{invoiceCustomerName},
@@ -214,6 +217,7 @@
 			customer_cost = #{customerCost},
 			is_deduction = #{isDeduction},
 			discount = #{discount},
+			performance_percentage = #{performancePercentage},
 			expiry_date = #{expiryDate},
 			invoice_type = #{invoiceType},
 			invoice_customer_name = #{invoiceCustomerName},
@@ -246,5 +250,12 @@
 		<include refid="contractJoins"/>
 		WHERE a.name = #{name} and a.del_flag = 0
 	</select>
-	
+
+
+	<select id="getCountByNoPref" resultType="Integer">
+		SELECT count(1)
+		FROM oa_contract a
+		where a.no like concat(#{noPref},'%')
+
+	</select>
 </mapper>

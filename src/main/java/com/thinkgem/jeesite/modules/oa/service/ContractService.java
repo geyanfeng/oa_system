@@ -15,8 +15,6 @@ import com.thinkgem.jeesite.modules.oa.dao.ContractProductDao;
 import com.thinkgem.jeesite.modules.oa.entity.Contract;
 import com.thinkgem.jeesite.modules.oa.entity.ContractAttachment;
 import com.thinkgem.jeesite.modules.oa.entity.ContractProduct;
-import com.thinkgem.jeesite.modules.oa.entity.TestAudit;
-import com.thinkgem.jeesite.modules.sys.entity.Dict;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -231,5 +229,9 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             actTaskService.complete(contract.getAct().getTaskId(), contract.getAct().getProcInsId(), contract.getAct().getComment(), vars);
         }
 
+    }
+
+    public Integer getCountByNoPref(String noPref) {
+        return contractDao.getCountByNoPref(noPref);
     }
 }

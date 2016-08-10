@@ -76,6 +76,7 @@
             <!--过滤条件-->
             <div class="hidden">
                 <input name="contractType" value="${contract.contractType}"/>
+                <input name="isSelect" value="${isSelect}"/>
             </div>
 
             <div class="form-group">
@@ -108,17 +109,6 @@
             </div>
 
             <div class="form-group">
-                <label>合同状态：</label>
-                <form:select path="status" class="select2-container form-control input-sm" cssStyle="width:100px;">
-                    <form:option value="" label=""/>
-                    <form:options items="${fns:getDictList('oa_contract_status')}"
-                                  itemLabel="label"
-                                  itemValue="value" htmlEscape="false"/>
-                </form:select>
-
-            </div>
-
-            <div class="form-group">
                 <label>销售：</label>
 
                 <sys:treeselect id="createBy" name="createBy.id" value="${contract.createBy.id}"
@@ -142,14 +132,10 @@
             <tr>
                 <th class="sort-column createDate">日期</th>
                 <th class="sort-column no">合同号</th>
+                <th class="sort-column name">合同名称</th>
                 <th class="sort-column companyName">公司抬头</th>
                 <th class="sort-column a9.name">客户</th>
-                <th class="sort-column name">合同名称</th>
-                <th class="sort-column amount">合同金额</th>
-                <th class="sort-column status">合同状态</th>
-                <th class="sort-column u32.name">销售</th>
-                <th class="sort-column u15.name">商务人员</th>
-                <th class="sort-column u16.name">技术人员</th>
+                <th class="sort-column u32.name">有效期</th>
                 <%-- <th>更新时间</th>--%>
                 <shiro:hasPermission name="oa:contract:edit">
                     <th>操作</th>
@@ -167,40 +153,32 @@
                             ${contract.no}
                     </a></td>
                     <td>
+                            ${contract.name}
+                    </td>
+                    <td>
                             ${fns:getDictLabel(contract.companyName, 'oa_company_name', '')}
                     </td>
                     <td>
                             ${contract.customer.name}
                     </td>
-                    <td>
-                            ${contract.name}
-                    </td>
-                    <td>
-                            ${contract.amount}
-                    </td>
-                    <td>
-                            ${fns:getDictLabel(contract.status, 'oa_contract_status', '')}
-                    </td>
-                    <td>
-                            ${contract.createBy.name}
-                    </td>
 
                     <td>
-                            ${contract.businessPerson.name}
+                        <fmt:formatDate value="${contract.expiryDate}" pattern="yyyy-MM-dd"/>
                     </td>
-                    <td>
-                            ${contract.artisan.name}
-                    </td>
-
-
-                        <%--<td>
+                                         <%--<td>
                             <fmt:formatDate value="${contract.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
                         </td>--%>
                     <shiro:hasPermission name="oa:contract:edit">
                         <td>
+                            <c:if test="${empty isSelect}">
                                 <a href="${ctx}/oa/contract/form?id=${contract.id}">修改</a>
                                 <a href="${ctx}/oa/contract/delete?id=${contract.id}"
                                    onclick="return confirmx('确认要删除该合同吗？', this.href)">删除</a>
+                                <a href="${ctx}/oa/contract/form?originalId=${contract.id}">生成</a>
+                            </c:if>
+                            <c:if test="${not empty isSelect}">
+                                <a href="#" onclick="selectContract(this);">选择</a>
+                            </c:if>
                         </td>
                     </shiro:hasPermission>
                 </tr>

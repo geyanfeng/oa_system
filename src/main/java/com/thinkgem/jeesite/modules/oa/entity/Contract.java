@@ -11,7 +11,6 @@ import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -40,6 +39,7 @@ public class Contract extends ActEntity<Contract> {
 	private Double customerCost;		// 客户费用
 	private Boolean isDeduction;		// 是否业绩抵扣
 	private Double discount;		// 抵扣金额
+	private Double performancePercentage;   //业绩提成比例
 	private Date expiryDate;		// 有效期
 	private String invoiceType;		// 发票类型
 	private String invoiceCustomerName;		// 发票客户名称
@@ -115,7 +115,7 @@ public class Contract extends ActEntity<Contract> {
 		this.no = no;
 	}
 	
-	@Length(min=1, max=255, message="合同名称长度必须介于 1 和 255 之间")
+	@Length(min=0, max=255, message="合同名称长度必须介于 1 和 255 之间")
 	@ExcelField(title="合同名称", align=2, sort=50)
 	public String getName() {
 		return name;
@@ -162,7 +162,7 @@ public class Contract extends ActEntity<Contract> {
 		this.customer = customer;
 	}
 	
-	@Length(min=0, max=2, message="合同状态长度必须介于 0 和 2 之间")
+	@Length(min=0, max=4, message="合同状态长度必须介于 0 和 2 之间")
 	@ExcelField(title="合同状态", align=2, sort=70, dictType = "oa_contract_status")
 	public String getStatus() {
 		return status;
@@ -173,7 +173,7 @@ public class Contract extends ActEntity<Contract> {
 	}
 
 	
-	@Length(min=0, max=2, message="付款周期类型长度必须介于 0 和 2 之间")
+	@Length(min=0, max=4, message="付款周期类型长度必须介于 0 和 2 之间")
 	public String getPaymentCycle() {
 		return paymentCycle;
 	}
@@ -216,8 +216,7 @@ public class Contract extends ActEntity<Contract> {
 	public void setCustomerCost(Double customerCost) {
 		this.customerCost = customerCost;
 	}
-	
-	@NotNull(message="是否业绩抵扣不能为空")
+
 	public Boolean getIsDeduction() {
 		return isDeduction;
 	}
@@ -232,6 +231,14 @@ public class Contract extends ActEntity<Contract> {
 
 	public void setDiscount(Double discount) {
 		this.discount = discount;
+	}
+
+	public Double getPerformancePercentage() {
+		return performancePercentage;
+	}
+
+	public void setPerformancePercentage(Double performancePercentage) {
+		this.performancePercentage = performancePercentage;
 	}
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -306,7 +313,7 @@ public class Contract extends ActEntity<Contract> {
 		this.invoicePhone = invoicePhone;
 	}
 	
-	@Length(min=1, max=2, message="发货方式长度必须介于 0 和 2 之间")
+	@Length(min=0, max=4, message="发货方式长度必须介于 0 和 2 之间")
 	public String getShipMode() {
 		return shipMode;
 	}

@@ -8,6 +8,9 @@
         #payment-collapse .row .form-group{
             margin-left:20px;
         }
+        .row.form-inline .form-group{
+            margin-left:20px;
+        }
     </style>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -33,7 +36,7 @@
                     }
                 }
             });
-            changeContractType();//如果从合同列表中新合同时, 初始化时加载合同类型
+            //changeContractType();//如果从合同列表中新合同时, 初始化时加载合同类型
 
             $("#btnTest").click(function () {
                 var frameSrc = "${ctx}/oa/contract/list?contractType=1&isSelect=true";
@@ -55,6 +58,16 @@
             });
             $('input[name=invoiceType]').trigger('change');
 
+            //更改是否业绩抵扣
+            $("#isDeduction1").change(function(){
+                if($(this).prop('checked'))
+                    $("#discount-group").show();
+                else {
+                    $("#discount").val("");
+                    $("#discount-group").hide();
+                }
+            });
+            $("#isDeduction1").trigger('change');
         });
 
         function addRow(list, idx, tpl, row) {
@@ -117,7 +130,7 @@
 
         function changeContractType() {
             var contractType_value = $('#contractType').val();
-            switch (contractType_value) {
+            /*switch (contractType_value) {
                 case "1":
                     $('#card_other').hide();
                     $('#card_products').hide();
@@ -126,7 +139,8 @@
                     $('#card_other').show();
                     $('#card_products').show();
                     break;
-            }
+            }*/
+            window.location.replace("${ctx}/oa/contract/form?contractType="+contractType_value);
         }
 
         //更新表格中的金额, 同时更新合同总金额
@@ -319,8 +333,8 @@
                         <label class="col-sm-3 control-label p-0" for="no"><span class="help-inline"><font
                                 color="red">*</font> </span>合同号：</label>
                         <div class="col-sm-7 p-0">
-                            <form:input path="no" htmlEscape="false" maxlength="100"
-                                        class="form-control required input-sm"/>
+                            <input id="no" name="no" value="${contract.no}" htmlEscape="false" maxlength="100"
+                                        class="form-control required input-sm" disabled/>
                         </div>
                     </div>
                 </div>
@@ -793,33 +807,24 @@
     <div class="panel panel-default" id="card_other">
         <div class="panel-heading">其它</div>
         <div class="panel-body">
-            <div class="col-sm-6">
-                <div class="form-group clearfix">
-                    <label class="col-sm-3 control-label">客户费用：</label>
-                    <div class="col-sm-7">
-                        <form:input path="customerCost" htmlEscape="false" class="form-control  number input-sm"/>
-                    </div>
+            <div class="row form-inline">
+                <div class="form-group">
+                    <label class="control-label">销售奖金：</label>
+
+                    <form:input path="customerCost" htmlEscape="false" class="form-control  number input-sm"/>
+
                 </div>
-                <div class="form-group clearfix">
-                    <label class="col-md-3 control-label" for="isDeduction">是否业绩抵扣</label>
-                    <div class="col-md-7">
-                        <input id="isDeduction" name="isDeduction" type="checkbox" value="${contract.isDeduction}">
-                    </div>
+                <div class="form-group">
+                    <label class="control-label" for="isDeduction">是否业绩抵扣</label>
+                    <form:checkbox path="isDeduction" name="isDeduction"/>
                 </div>
-                <div class="form-group clearfix">
-                    <label class="col-sm-3 control-label">抵扣金额：</label>
-                    <div class="col-sm-7">
-                        <form:input path="discount" htmlEscape="false" class="form-control  number input-sm"/>
-                    </div>
+                <div class="form-group" id="discount-group">
+                    <label class="control-label">抵扣金额：</label>
+                    <form:input path="discount" htmlEscape="false" class="form-control  number input-sm"/>
                 </div>
-                <div class="form-group clearfix">
-                    <label class="col-sm-3 control-label">有效期：</label>
-                    <div class="col-sm-7">
-                        <input name="expiryDate" type="text" readonly="readonly" maxlength="20"
-                               class="form-control Wdate input-sm"
-                               value="<fmt:formatDate value="${contract.expiryDate}" pattern="yyyy-MM-dd"/>"
-                               onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
-                    </div>
+                <div class="form-group">
+                    <label class="control-label">业绩分成比例：</label>
+                    <form:input path="performancePercentage" htmlEscape="false" class="form-control  number input-sm"/>%
                 </div>
             </div>
         </div>
