@@ -38,10 +38,11 @@
             });
             //changeContractType();//如果从合同列表中新合同时, 初始化时加载合同类型
 
-            $("#btnTest").click(function () {
+            $("#btnSelectParentContract").click(function () {
                 var frameSrc = "${ctx}/oa/contract/list?contractType=1&isSelect=true";
-                $("#iframe-contract-list").attr("src", frameSrc);
-                $('#modal-contract-list').modal({show: true, backdrop: 'static'});
+                $('#modal iframe').attr("src", frameSrc);
+                $('#modal .modal-title').html('选择框架合同');
+                $('#modal').modal({show: true, backdrop: 'static'});
             });
 
             //更改发票类型时,显示或隐藏列
@@ -68,6 +69,12 @@
                 }
             });
             $("#isDeduction1").trigger('change');
+
+            //清除modal中的内容
+            $('#modal').on('hidden.bs.modal', function(){
+                $(this).find('iframe').html("");
+                $(this).find('iframe').attr("src", "");
+            });
         });
 
         function addRow(list, idx, tpl, row) {
@@ -173,7 +180,7 @@
 
         //关闭框架合同选择框,并设置相关的值
         function closeSelectContractModal(selectedContract) {
-            $('#modal-contract-list').modal('hide');
+            $('#modal').modal('hide');
             setSelectedContract(selectedContract);
         }
 
@@ -203,6 +210,25 @@
             $('#invoiceCustomerName').val(self.select2('data').text);
         }
 
+        //增加客户
+        function addCustomer(sender){
+            var frameSrc = "${ctx}/oa/customer/form?fromModal=1";
+            $('#modal iframe').attr("src", frameSrc);
+            $('#modal .modal-title').html('增加客户');
+            $('#modal').modal({show: true, backdrop: 'static'});
+        }
+
+        //关闭增加
+        function closeCustomerModal(){
+            $('#modal').modal('hide');
+            $.get('${ctx}/oa/customer/treeData',function(data){
+                $('#customer').children().remove();
+                $("#customer").append("<option value='' selected='selected'></option>");
+                $.each(data,function(idx, item){
+                    $("#customer").append("<option value='"+item.id+"'>"+item.name+"</option>");
+                });
+            });
+        }
     </script>
 </head>
 <body>
@@ -257,6 +283,7 @@
                                               itemValue="id" htmlEscape="false"/>
                             </form:select>
                         </div>
+                        <a href="#" onclick="addCustomer(this)" title="新增客户" class="zmdi zmdi-plus-circle text-success" style="margin-left:10px;font-size:25px;"></a>
                     </div>
                 </div>
                 <div class="col-sm-4">
@@ -293,7 +320,7 @@
                                 <input type="hidden" name="parentId" id="parentId" value="${contract.parentId}"
                                        class="hidden"/>
 								<span class="input-group-btn">
-									<a id="btnTest" href="javascript:" class=" " style=""> <button
+									<a id="btnSelectParentContract" href="javascript:" class=" " style=""> <button
                                             class="btn waves-effect waves-light btn-custom input-sm" type="button"><i
                                             class="fa fa-search"></i></button></a>
 								</span>
@@ -938,17 +965,17 @@
     </form:form>
 
     <%--选择框架合同的modal--%>
-    <div id="modal-contract-list" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    <div id="modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true" style="display: none;">
         <div class="modal-dialog modal-full">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title">选择框架合同</h4>
+                    <h4 class="modal-title"></h4>
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <iframe id="iframe-contract-list" width="100%" height="500" frameborder="0"></iframe>
+                        <iframe width="100%" height="500" frameborder="0"></iframe>
                     </div>
                 </div>
             </div>

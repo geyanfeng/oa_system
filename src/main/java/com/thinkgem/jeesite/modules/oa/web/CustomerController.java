@@ -28,6 +28,9 @@ import com.thinkgem.jeesite.modules.oa.service.CustomerService;
 import java.util.List;
 import java.util.Map;
 
+import static org.codehaus.plexus.util.StringUtils.isBlank;
+import static org.codehaus.plexus.util.StringUtils.isNotBlank;
+
 /**
  * 客户信息Controller
  * @author anthony
@@ -62,19 +65,27 @@ public class CustomerController extends BaseController {
 
 	@RequiresPermissions("oa:customer:view")
 	@RequestMapping(value = "form")
-	public String form(Customer customer, Model model) {
+	public String form(Customer customer,@RequestParam(value="fromModal", required=false) String fromModal, Model model) {
 		model.addAttribute("customer", customer);
+		if(isNotBlank(fromModal)){
+			model.addAttribute("fromModal", fromModal);
+		}
 		return "modules/oa/customerForm";
 	}
 
+
+
 	@RequiresPermissions("oa:customer:edit")
 	@RequestMapping(value = "save")
-	public String save(Customer customer, Model model, RedirectAttributes redirectAttributes) {
+	public String save(Customer customer,@RequestParam(value="fromModal", required=false) String fromModal, Model model, RedirectAttributes redirectAttributes) {
 		if (!beanValidator(model, customer)){
-			return form(customer, model);
+			return form(customer,null, model);
 		}
 		customerService.save(customer);
-		addMessage(redirectAttributes, "保存客户成功");
+		if(isBlank(fromModal)) {
+			addMessage(redirectAttributes, "保存客户成功");
+		}
+
 		return "redirect:"+Global.getAdminPath()+"/oa/customer/?repage";
 	}
 	

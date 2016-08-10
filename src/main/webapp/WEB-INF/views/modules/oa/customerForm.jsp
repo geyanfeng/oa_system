@@ -32,11 +32,11 @@
 	</script>
 </head>
 <body>
-	<ul class="nav nav-tabs">
+<%--	<ul class="nav nav-tabs">
 		<li><a href="${ctx}/oa/customer/">客户列表</a></li>
 		<li class="active"><a href="${ctx}/oa/customer/form?id=${customer.id}">客户<shiro:hasPermission name="oa:customer:edit">${not empty customer.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="oa:customer:edit">查看</shiro:lacksPermission></a></li>
-	</ul><br/>
-	<form:form id="inputForm" modelAttribute="customer" action="${ctx}/oa/customer/save" method="post" class="form-horizontal">
+	</ul><br/>--%>
+	<form:form id="inputForm" modelAttribute="customer" action="${ctx}/oa/customer/save${not empty fromModal?'?fromModal=':''}${fromModal}" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		
 		<div class="form-group">

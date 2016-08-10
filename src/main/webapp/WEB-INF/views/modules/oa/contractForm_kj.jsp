@@ -55,6 +55,12 @@
                 }
             });
             $('input[name=invoiceType]').trigger('change');
+
+            //清除modal中的内容
+            $('#modal').on('hidden.bs.modal', function(){
+                $(this).find('iframe').html("");
+                $(this).find('iframe').attr("src", "");
+            });
         });
 
         function changeContractType() {
@@ -78,6 +84,26 @@
             $('#invoiceCustomerName').val(self.select2('data').text);
         }
 
+
+        //增加客户
+        function addCustomer(sender){
+            var frameSrc = "${ctx}/oa/customer/form?fromModal=1";
+            $('#modal iframe').attr("src", frameSrc);
+            $('#modal .modal-title').html('增加客户');
+            $('#modal').modal({show: true, backdrop: 'static'});
+        }
+
+        //关闭增加
+        function closeCustomerModal(){
+            $('#modal').modal('hide');
+            $.get('${ctx}/oa/customer/treeData',function(data){
+                $('#customer').children().remove();
+                $("#customer").append("<option value='' selected='selected'></option>");
+                $.each(data,function(idx, item){
+                    $("#customer").append("<option value='"+item.id+"'>"+item.name+"</option>");
+                });
+            });
+        }
     </script>
 </head>
 <body>
@@ -127,6 +153,7 @@
                         <form:options items="${customerList}" itemLabel="name"
                                       itemValue="id" htmlEscape="false"  />
                     </form:select>
+                    <a href="#" onclick="addCustomer(this)" title="新增客户" class="zmdi zmdi-plus-circle text-success" style="margin-left:10px;font-size:25px;"></a>
                 </div>
                 <div class="form-group ">
                     <label class="control-label"><span class="help-inline"><font
@@ -302,5 +329,22 @@
         </div>
     </div>
     </form:form>
+
+    <div id="modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-full">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <iframe width="100%" height="500" frameborder="0"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

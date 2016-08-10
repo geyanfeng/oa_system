@@ -14,13 +14,18 @@
 			$("#searchForm").submit();
         	return false;
         }
+
+		var message = "${message}";
+		if(message == "" && parent.closeCustomerModal){
+			parent.closeCustomerModal();
+		}
 	</script>
 </head>
 <body>
-	<ul class="nav nav-tabs">
+	<%--<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/oa/customer/">客户列表</a></li>
 		<shiro:hasPermission name="oa:customer:edit"><li><a href="${ctx}/oa/customer/form">客户添加</a></li></shiro:hasPermission>
-	</ul>
+	</ul>--%>
 	<form:form id="searchForm" modelAttribute="customer" action="${ctx}/oa/customer/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
@@ -39,7 +44,11 @@
 			<label>状态：</label>
 				<form:radiobuttons path="usedFlag" items="${fns:getDictList('oa_customer_status')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 			<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
-
+		<a id="btnNew"
+		   href="${ctx}/oa/customer/form"
+		   class="btn btn-primary waves-effect waves-light input-sm" title="新增"
+		   data-content="新增">新增&nbsp;<i
+				class="fa fa-plus"></i></a>
 	</form:form>
 	<sys:message content="${message}"/>
 	<table id="contentTable" class="table table-striped m-0">
