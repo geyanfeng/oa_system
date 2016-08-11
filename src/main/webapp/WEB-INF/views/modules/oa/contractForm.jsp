@@ -77,63 +77,7 @@
             });
         });
 
-        function addRow(list, idx, tpl, row) {
-            $(list).append(Mustache.render(tpl, {
-                idx: idx, delBtn: true, row: row
-            }));
-            $(list + idx).find("select").each(function () {
-                $(this).val($(this).attr("data-value"));
-            });
-            $(list + idx).find("input[type='checkbox'], input[type='radio']").each(function () {
-                var ss = $(this).attr("data-value").split(',');
-                for (var i = 0; i < ss.length; i++) {
-                    if ($(this).val() == ss[i]) {
-                        $(this).attr("checked", "checked");
-                    }
-                }
-            });
-        }
 
-        function addChildRow(list, idx, child_idx, tpl, row) {
-            $(list).append(Mustache.render(tpl, {
-                idx: idx, child_idx: child_idx, delBtn: true, row: row
-            }));
-            $(list + "_" + child_idx).find("select").each(function () {
-                $(this).val($(this).attr("data-value"));
-            });
-            $(list + "_" + child_idx).find("input[type='checkbox'], input[type='radio']").each(function () {
-                var ss = $(this).attr("data-value").split(',');
-                for (var i = 0; i < ss.length; i++) {
-                    if ($(this).val() == ss[i]) {
-                        $(this).attr("checked", "checked");
-                    }
-                }
-            });
-        }
-
-        function addNewChildRow(sender) {
-            var parentRow = $(sender).closest('tr');
-            var parentIdx = parentRow.data('idx');
-            var childTable = $('#childProductList' + parentIdx + '_table');
-            var childIdx = childTable.find('tr').length;
-            addChildRow('#childProductList' + parentIdx, parentIdx, childIdx, contractProductChildTpl);
-        }
-
-        function delRow(obj, prefix) {
-            var id = $(prefix + "_id");
-            var delFlag = $(prefix + "_delFlag");
-            if (id.val() == "") {
-                $(obj).parent().parent().remove();
-            } else if (delFlag.val() == "0") {
-                delFlag.val("1");
-                $(obj).html("&divide;").attr("title", "撤销删除");
-                $(obj).parent().parent().addClass("error");
-            } else if (delFlag.val() == "1") {
-                delFlag.val("0");
-                $(obj).html("&times;").attr("title", "删除");
-                $(obj).parent().parent().removeClass("error");
-            }
-        }
 
         function changeContractType() {
             var contractType_value = $('#contractType').val();
@@ -245,6 +189,7 @@
 <form:hidden path="act.procInsId"/>
 <form:hidden path="act.procDefId"/>
 <form:hidden id="flag" path="act.flag"/>
+<%--<input name="status" value="${empty contract.status?10:contract.status}" type="hidden"/>--%>
 <sys:message content="${message}"/>
 <div class="col-sm-12">
 
@@ -474,7 +419,7 @@
 							<td>
 								<input id="contractProductList{{idx}}_name" name="contractProductList[{{idx}}].name" type="text" value="{{row.name}}" maxlength="100" class="form-control required input-sm"  style="width: 50%;display: inline-block;"/>
 								<select id="contractProductList{{idx}}_productType" name="contractProductList[{{idx}}].productType" data-value="{{row.productType.id}}" class="form-control input-block required input-sm" style="width: 40%;display: inline-block;">
-									<c:forEach items="${productTypeList}" var="dict">
+									<c:forEach items="${productTypeGroupList}" var="dict">
 										<option value="${dict.id}">${dict.name}</option>
 									</c:forEach>
 								</select>
@@ -494,7 +439,7 @@
 								</select>
 							</td>
 							<td>
-								<input id="contractProductList{{idx}}_amount" name="contractProductList[{{idx}}].amount" type="text" value="{{row.amount}}" class="form-control input-block input-sm" disabled/>
+								<input id="contractProductList{{idx}}_amount" name="contractProductList[{{idx}}].amount" type="text" value="{{row.amount}}" class="form-control input-block input-sm" readonly style="background-color: #e8e8e8 !important;"/>
 							</td>
 							<td>
 								<input id="contractProductList{{idx}}_remark" name="contractProductList[{{idx}}].remark" type="text" value="{{row.remark}}" maxlength="255" class="form-control input-block input-sm"/>
@@ -523,9 +468,7 @@
 							<td>
 								<input id="childProductList{{idx}}_{{child_idx}}_name" name="contractProductList[{{idx}}].childs[{{child_idx}}].name" type="text" value="{{row.name}}" maxlength="100" class="form-control required input-sm"  style="width: 50%;display: inline-block;"/>
 								<select id="childProductList{{idx}}_{{child_idx}}_productType" name="contractProductList[{{idx}}].childs[{{child_idx}}].productType" data-value="{{row.productType.id}}" class="form-control input-block required input-sm"  style="width: 40%;display: inline-block;">
-									<c:forEach items="${productTypeList}" var="dict">
-										<option value="${dict.id}">${dict.name}</option>
-									</c:forEach>
+										{{#productTypes}}<option value="{{id}}">{{name}}</option>{{/productTypes}}
 								</select>
 							</td>
 							<td>
@@ -547,20 +490,101 @@
                 <script type="text/javascript">
                     var contractProductRowIdx = 0, contractProductTpl = $("#contractProductTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
                     var childRowIdx = 0, contractProductChildTpl = $("#contractProductChildTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
+                    var productTypeList = ${fns:toJson(productTypeList)};
+                    var filterProductTypes=[];
+
                     $(document).ready(function () {
                         var data = ${fns:toJson(contract.contractProductList)};
                         for (var i = 0; i < data.length; i++) {
                             addRow('#contractProductList', contractProductRowIdx, contractProductTpl, data[i]);
 
+                            //得到产品类型组对应的产品类型
+                            filterProductTypes=[];
+                            for(var k = 0; k< productTypeList.length;k++){
+                                if(productTypeList[k].typeGroup.id == data[i].productType.id){
+                                    filterProductTypes.push(productTypeList[k]);
+                                }
+                            }
+
                             if (data[i].childs) {
                                 for (var j = 0; j < data[i].childs.length; j++) {
-                                    addChildRow('#childProductList' + contractProductRowIdx, contractProductRowIdx, j, contractProductChildTpl, data[i].childs[j]);
+                                    addChildRow('#childProductList' + contractProductRowIdx, contractProductRowIdx, j, contractProductChildTpl, data[i].childs[j], filterProductTypes);
                                 }
                             }
 
                             contractProductRowIdx = contractProductRowIdx + 1;
                         }
                     });
+
+                    function addRow(list, idx, tpl, row) {
+                        $(list).append(Mustache.render(tpl, {
+                            idx: idx, delBtn: true, row: row
+                        }));
+                        $(list + idx).find("select").each(function () {
+                            $(this).val($(this).attr("data-value"));
+                        });
+                        $(list + idx).find("input[type='checkbox'], input[type='radio']").each(function () {
+                            var ss = $(this).attr("data-value").split(',');
+                            for (var i = 0; i < ss.length; i++) {
+                                if ($(this).val() == ss[i]) {
+                                    $(this).attr("checked", "checked");
+                                }
+                            }
+                        });
+                    }
+
+                    function addChildRow(list, idx, child_idx, tpl, row, productTypes) {
+                        $(list).append(Mustache.render(tpl, {
+                            idx: idx, child_idx: child_idx, delBtn: true, row: row, productTypes: productTypes
+                        }));
+                        $(list + "_" + child_idx).find("select").each(function () {
+                            $(this).val($(this).attr("data-value"));
+                        });
+                        $(list + "_" + child_idx).find("input[type='checkbox'], input[type='radio']").each(function () {
+                            var ss = $(this).attr("data-value").split(',');
+                            for (var i = 0; i < ss.length; i++) {
+                                if ($(this).val() == ss[i]) {
+                                    $(this).attr("checked", "checked");
+                                }
+                            }
+                        });
+                    }
+
+                    function addNewChildRow(sender) {
+                        var parentRow = $(sender).closest('tr');
+                        var parentIdx = parentRow.data('idx');
+                        var childTable = $('#childProductList' + parentIdx + '_table');
+                        var childIdx = childTable.find('tr').length;
+                        var productTypeGroup = parentRow.find('select').val();
+
+                        //得到产品类型组对应的产品类型
+                        var filterProductTypes=[];
+                        if(productTypeGroup) {
+                            for (var k = 0; k < productTypeList.length; k++) {
+                                if (productTypeList[k].typeGroup.id == productTypeGroup) {
+                                    filterProductTypes.push(productTypeList[k]);
+                                }
+                            }
+                        }
+
+                        addChildRow('#childProductList' + parentIdx, parentIdx, childIdx, contractProductChildTpl, null, filterProductTypes);
+                    }
+
+                    function delRow(obj, prefix) {
+                        var id = $(prefix + "_id");
+                        var delFlag = $(prefix + "_delFlag");
+                        if (id.val() == "") {
+                            $(obj).parent().parent().remove();
+                        } else if (delFlag.val() == "0") {
+                            delFlag.val("1");
+                            $(obj).html("&divide;").attr("title", "撤销删除");
+                            $(obj).parent().parent().addClass("error");
+                        } else if (delFlag.val() == "1") {
+                            delFlag.val("0");
+                            $(obj).html("&times;").attr("title", "删除");
+                            $(obj).parent().parent().removeClass("error");
+                        }
+                    }
                 </script>
             </div>
         </div>
@@ -927,16 +951,6 @@
         </div>
     </div>
 
-    <div class="form-group clearfix hidden">
-        <label class="col-sm-3 control-label">合同状态：</label>
-        <div class="col-sm-7">
-            <form:select path="status" class="form-control col-md-12 input-sm">
-                <form:option value="" label=""/>
-                <form:options items="${fns:getDictList('oa_contract_status')}" itemLabel="label" itemValue="value"
-                              htmlEscape="false"/>
-            </form:select>
-        </div>
-    </div>
     <c:if test="${not empty contract.id and not empty contract.act.procInsId}">
         <act:histoicFlow procInsId="${contract.act.procInsId}"/>
     </c:if>
@@ -950,12 +964,12 @@
                 <c:if test="${contract.contractType ne '1' and not empty contract.id}">
                     <c:if test="${empty contract.act.procInsId}">
                     <input id="btnCancel" class="btn btn-custom" type="submit" value="提交"
-                           onclick="$('#flag').val('submit_audit')"/>&nbsp;
+                           onclick="$('#flag').val('submit_audit');"/>&nbsp;
                     </c:if>
-                    <c:if test="${not empty contract.act.taskId and contract.act.taskDefKey ne 'end' and contract.act.taskDefKey ne 'submit_audit'}">
+                 <%--   <c:if test="${not empty contract.act.taskId and contract.act.taskDefKey ne 'end' and contract.act.taskDefKey ne 'submit_audit'}">
                         <input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
                         <input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
-                    </c:if>
+                    </c:if>--%>
                 </c:if>
             </shiro:hasPermission>
 

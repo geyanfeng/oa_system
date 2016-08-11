@@ -84,6 +84,11 @@ public class ContractService extends CrudService<ContractDao, Contract> {
     public void save(Contract contract) {
         super.save(contract);
 
+        saveProducts(contract);
+        saveAttachments(contract);
+    }
+
+    public void saveProducts(Contract contract){
         Integer sort = 1;
         for (ContractProduct contractProduct : contract.getContractProductList()) {
             contractProduct.setSort(sort);
@@ -142,7 +147,9 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                 }
             }
         }
+    }
 
+    public void saveAttachments(Contract contract){
         for (ContractAttachment contractAttachment : contract.getContractAttachmentList()) {
             if (contractAttachment.getId() == null) {
                 continue;
@@ -178,6 +185,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         // 对不同环节的业务逻辑进行操作
         String taskDefKey = contract.getAct().getTaskDefKey();
         String flag = contract.getAct().getFlag();
+        Boolean pass = false;
 
         if (isBlank(taskDefKey) && "submit_audit".equals(flag)) {
             //更新合同状态
@@ -192,36 +200,37 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             contract.getAct().setComment("提交审批");
             actTaskService.startProcess(ActUtils.PD_CONTRAT_AUDIT[0], ActUtils.PD_CONTRAT_AUDIT[1], contract.getId(), contract.getName(), vars);
         } else {
+            Map<String, Object> vars = Maps.newHashMap();
+            String comment = contract.getAct().getComment();
+            if (isNotBlank(flag) && ("yes".equals(flag) || "no".equals(flag))) {
+                pass = "yes".equals(contract.getAct().getFlag());
+                comment = (pass ? "[同意] " : "[驳回] ") + (isNotBlank(comment) ? comment : "");
+                contract.getAct().setComment(comment);
+                vars.put("pass", pass ? "1" : "0");
+            }
+
             //拆分po
             if("split_po".equals(taskDefKey)){
                 contract.setStatus(DictUtils.getDictValue("待审批","oa_contract_status",""));
+                saveProducts(contract);
             } else if("business_person_createbill".equals(taskDefKey)){//商务下单
                 contract.setStatus(DictUtils.getDictValue("已下单","oa_contract_status",""));
-            }
+            } else {
+                if (isNotBlank(flag)) {
+                    //销售审核和技术审核
+                    if ("saler_audit".equals(taskDefKey) || "artisan_audit".equals(taskDefKey)) {
+                        if (pass) {
+                            contract.setStatus(DictUtils.getDictValue("待审批", "oa_contract_status", ""));
+                        } else {
+                            contract.setStatus(DictUtils.getDictValue("已签约", "oa_contract_status", ""));
+                        }
 
-            Map<String, Object> vars = Maps.newHashMap();
-            if (isNotBlank(contract.getAct().getFlag())) {
-                Boolean pass = "yes".equals(contract.getAct().getFlag());
-                String comment = contract.getAct().getComment();
-                comment = (pass?"[同意] ":"[驳回] ") +(isNotBlank(comment)? comment:"");
-                contract.getAct().setComment(comment);
-                vars.put("pass", pass ? "1" : "0");
-
-                //销售审核和技术审核
-                if("saler_audit".equals(taskDefKey) || "artisan_audit".equals(taskDefKey)){
-                    if(pass) {
-                        contract.setStatus(DictUtils.getDictValue("待审批", "oa_contract_status", ""));
-                    } else
-                    {
-                        contract.setStatus(DictUtils.getDictValue("已签约","oa_contract_status",""));
-                    }
-
-                } else if("saler_audit".equals(taskDefKey)){//总监审核
-                    if(pass) {
-                        contract.setStatus(DictUtils.getDictValue("待审批", "oa_contract_status", ""));
-                    } else
-                    {
-                        contract.setStatus(DictUtils.getDictValue("待签约","oa_contract_status",""));
+                    } else if ("saler_audit".equals(taskDefKey)) {//总监审核
+                        if (pass) {
+                            contract.setStatus(DictUtils.getDictValue("待审批", "oa_contract_status", ""));
+                        } else {
+                            contract.setStatus(DictUtils.getDictValue("待签约", "oa_contract_status", ""));
+                        }
                     }
                 }
             }

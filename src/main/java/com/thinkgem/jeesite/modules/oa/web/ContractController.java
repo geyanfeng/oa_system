@@ -9,12 +9,10 @@ import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.modules.oa.entity.Contract;
-import com.thinkgem.jeesite.modules.oa.entity.ContractAttachment;
-import com.thinkgem.jeesite.modules.oa.entity.Customer;
-import com.thinkgem.jeesite.modules.oa.entity.ProductType;
+import com.thinkgem.jeesite.modules.oa.entity.*;
 import com.thinkgem.jeesite.modules.oa.service.ContractService;
 import com.thinkgem.jeesite.modules.oa.service.CustomerService;
+import com.thinkgem.jeesite.modules.oa.service.ProductTypeGroupService;
 import com.thinkgem.jeesite.modules.oa.service.ProductTypeService;
 import com.thinkgem.jeesite.modules.sys.entity.Dict;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
@@ -47,6 +45,8 @@ public class ContractController extends BaseController {
 	private CustomerService customerService;
 	@Autowired
 	private ProductTypeService productTypeService;
+	@Autowired
+	private ProductTypeGroupService productTypeGroupService;
 	
 	@ModelAttribute
 	public Contract get(@RequestParam(required=false) String id) {
@@ -110,6 +110,8 @@ public class ContractController extends BaseController {
 		model.addAttribute("customerList", customerList);
 		//获取附件
 		setContractAttachment(contract);
+		//商品类型组
+		model.addAttribute("productTypeGroupList", productTypeGroupService.findList(new ProductTypeGroup()));
 		//商品类型
 		model.addAttribute("productTypeList", productTypeService.findList(new ProductType()));
 
@@ -148,6 +150,11 @@ public class ContractController extends BaseController {
 			}*/
 			model.addAttribute("taskDefKey",taskDefKey);
 		}
+		//商品类型组
+		model.addAttribute("productTypeGroupList", productTypeGroupService.findList(new ProductTypeGroup()));
+		//商品类型
+		model.addAttribute("productTypeList", productTypeService.findList(new ProductType()));
+
 		return "modules/oa/contractView";
 	}
 
@@ -168,12 +175,7 @@ public class ContractController extends BaseController {
 	@RequiresPermissions("oa:contract:edit")
 	@RequestMapping(value = "save")
 	public String save(Contract contract, Model model, RedirectAttributes redirectAttributes) {
-		if(!contract.getContractType().equals("1") && isNotBlank(contract.getAct().getFlag()) || isNotBlank(contract.getAct().getTaskDefKey()))
-		{
-			contractService.audit(contract);
-			addMessage(redirectAttributes, "成功提交审批");
-			return "redirect:" + adminPath + "/act/task/todo/";
-		}
+
 		if (!beanValidator(model, contract)){
 			return form(contract, null, model);
 		}
@@ -182,6 +184,18 @@ public class ContractController extends BaseController {
 
 		contractService.save(contract);
 		addMessage(redirectAttributes, "保存合同成功");
+		return "redirect:"+Global.getAdminPath()+"/oa/contract/?contractType="+contract.getContractType()+"&repage";
+	}
+
+	@RequiresPermissions("oa:contract:edit")
+	@RequestMapping(value = "audit")
+	public String audit(Contract contract, Model model, RedirectAttributes redirectAttributes) {
+		if(!contract.getContractType().equals("1") && isNotBlank(contract.getAct().getFlag()) || isNotBlank(contract.getAct().getTaskDefKey()))
+		{
+			contractService.audit(contract);
+			addMessage(redirectAttributes, "成功提交审批");
+			return "redirect:" + adminPath + "/act/task/todo/";
+		}
 		return "redirect:"+Global.getAdminPath()+"/oa/contract/?contractType="+contract.getContractType()+"&repage";
 	}
 	

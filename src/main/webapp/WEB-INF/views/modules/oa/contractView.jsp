@@ -23,7 +23,7 @@
     <li class="active"><a href="${ctx}/oa/contract/form?id=${contract.id}">合同<shiro:hasPermission name="oa:contract:edit">${not empty contract.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="oa:contract:edit">查看</shiro:lacksPermission></a></li>
 </ul><br/>--%>
 
-<form:form id="inputForm" modelAttribute="contract" action="${ctx}/oa/contract/save" method="post" role="form">
+<form:form id="inputForm" modelAttribute="contract" action="${ctx}/oa/contract/audit" method="post" role="form">
 <form:hidden path="id"/>
 <form:hidden path="act.taskId"/>
 <form:hidden path="act.taskName"/>
@@ -142,7 +142,7 @@
     <div class="panel panel-default" id="card_products">
         <div class="panel-heading">采购列表</div>
         <div class="panel-body panel-collapse collapse in" id="products-collapse">
-            <table id="contentTable" class="table table-striped table-condensed">
+            <table id="contentTable" class="table table-condensed">
                 <thead>
                 <tr role="row">
                     <th class="hidden"></th>
@@ -163,16 +163,21 @@
 								<input id="contractProductList{{idx}}_id" name="contractProductList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
 								<input id="contractProductList{{idx}}_sort" name="contractProductList[{{idx}}].sort" type="hidden" value="{{row.sort}}"/>
 								<input id="contractProductList{{idx}}_delFlag" name="contractProductList[{{idx}}].delFlag" type="hidden" value="0"/>
+								<input id="contractProductList{{idx}}_productTypeGroup" name="contractProductList[{{idx}}].productType" type="hidden" value="{{row.productType.id}}"/>
+
+								<input id="contractProductList{{idx}}_name" name="contractProductList[{{idx}}].name" type="hidden" value="{{row.name}}"/>
+								<input id="contractProductList{{idx}}_productType" name="contractProductList[{{idx}}].productType" type="hidden" value="{{row.productType.id}}"/>
+								<input id="contractProductList{{idx}}_price" name="contractProductList[{{idx}}].price" type="hidden" value="{{row.price}}"/>
+								<input id="contractProductList{{idx}}_num" name="contractProductList[{{idx}}].num" type="hidden" value="{{row.num}}"/>
+								<input id="contractProductList{{idx}}_unit" name="contractProductList[{{idx}}].unit" type="hidden" value="{{row.unit}}"/>
+								<input id="contractProductList{{idx}}_amount" name="contractProductList[{{idx}}].amount" type="hidden" value="{{row.amount}}"/>
+								<input id="contractProductList{{idx}}_remark" name="contractProductList[{{idx}}].remark" type="hidden" value="{{row.remark}}"/>
 							</td>
 							<td>
-							    ${act.taskDefKey eq "business_person_createbill"?"<input type='checkbox'/>":""}
+							    ${contract.act.taskDefKey eq "business_person_createbill"?"<input type='checkbox'/>":""}
 								{{row.name}}
-								<select id="contractProductList{{idx}}_productType" name="contractProductList[{{idx}}].productType" data-value="{{row.productType.id}}" class="form-control input-block required input-sm" style="width: 40%;display: inline-block;">
-									<c:forEach items="${productTypeList}" var="dict">
-										<option value="${dict.id}">${dict.name}</option>
-									</c:forEach>
-								</select>
-								${act.taskDefKey eq "split_po"?"<a href='javascript:' class='fa fa-plus' onclick='addNewChildRow(this)'></a>":""}
+								 <span style="margin-left:50px;">{{row.productTypeGroupName}}</span>
+								${contract.act.taskDefKey eq "split_po"?"<a href='javascript:' class='fa fa-plus' onclick='addNewChildRow(this)'></a>":""}
 							</td>
 							<td>
 								{{row.price}}
@@ -192,7 +197,7 @@
 						</tr>
 						<tr>
 							<td colspan=6 style="padding-left: 40px;">
-							 <table class="table table-condensed" id="childProductList{{idx}}_table" style="width: 60%;">
+							 <table class="table table-condensed" id="childProductList{{idx}}_table" style="width: 600px;">
 								<tbody id="childProductList{{idx}}">
 								  </tbody>
 								</table>
@@ -210,9 +215,7 @@
 							<td>
 								<input id="childProductList{{idx}}_{{child_idx}}_name" name="contractProductList[{{idx}}].childs[{{child_idx}}].name" type="text" value="{{row.name}}" maxlength="100" class="form-control required input-sm"  style="width: 50%;display: inline-block;"/>
 								<select id="childProductList{{idx}}_{{child_idx}}_productType" name="contractProductList[{{idx}}].childs[{{child_idx}}].productType" data-value="{{row.productType.id}}" class="form-control input-block required input-sm"  style="width: 40%;display: inline-block;">
-									<c:forEach items="${productTypeList}" var="dict">
-										<option value="${dict.id}">${dict.name}</option>
-									</c:forEach>
+									{{#productTypes}}<option value="{{id}}">{{name}}</option>{{/productTypes}}
 								</select>
 							</td>
 							<td>
@@ -239,13 +242,9 @@
 								<input id="childProductList{{idx}}_{{child_idx}}_delFlag" name="contractProductList[{{idx}}].childs[{{child_idx}}].delFlag" type="hidden" value="0"/>
 							</td>
 							<td>
-							    ${act.taskDefKey eq "business_person_createbill"?"<input type='checkbox'/>":""}
-								{{row.name}}
-								<select id="contractProductList{{idx}}_productType" name="contractProductList[{{idx}}].productType" data-value="{{row.productType.id}}" class="form-control input-block required input-sm" style="width: 40%;display: inline-block;">
-									<c:forEach items="${productTypeList}" var="dict">
-										<option value="${dict.id}">${dict.name}</option>
-									</c:forEach>
-								</select>
+							    ${contract.act.taskDefKey eq "business_person_createbill"?"<input type='checkbox'/>":""}
+								<span style="display:inline-block;width:100px;">{{row.name}}</span>
+								<span style="margin-left:50px">{{row.productType.name}}</span>
 							</td>
 							<td>
 								{{row.num}}
@@ -261,6 +260,8 @@
                 var childRowIdx = 0, contractProductChildTpl = $("#contractProductChildTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""),
                         contractProductChildViewTpl = $("#contractProductChildViewTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
                 var unitList = ${fns:getDictListJson('oa_unit')};
+                var productTypeList = ${fns:toJson(productTypeList)};
+                var filterProductTypes=[];
 
                 $(document).ready(function () {
                     var data = ${fns:toJson(contract.contractProductList)};
@@ -273,11 +274,29 @@
                                 break;
                             }
                         }
+                        data[i].productTypeGroupName = data[i].productType.name;
+
+                        //得到产品类型组对应的产品类型
+                        filterProductTypes=[];
+                        for(var k = 0; k< productTypeList.length;k++){
+                            if(productTypeList[k].typeGroup.id == data[i].productType.id){
+                                filterProductTypes.push(productTypeList[k]);
+                            }
+                        }
+
                         addRow('#contractProductList', contractProductRowIdx, contractProductTpl, data[i]);
 
                         if (data[i].childs) {
                             for (var j = 0; j < data[i].childs.length; j++) {
-                                addChildRow('#childProductList' + contractProductRowIdx, contractProductRowIdx, j, ${act.taskDefKey eq "split_po"? "contractProductChildTpl": "contractProductChildViewTpl"}, data[i].childs[j]);
+                                data[i].childs[j].unitName = "";
+                                for(var m = 0; m<unitList.length; m++){
+                                    if(data[i].childs[j].unit!= "" && unitList[m].value == data[i].childs[j].unit)
+                                    {
+                                        data[i].childs[j].unitName = unitList[m].label;
+                                        break;
+                                    }
+                                }
+                                addChildRow('#childProductList' + contractProductRowIdx, contractProductRowIdx, j, ${contract.act.taskDefKey eq "split_po"? "contractProductChildTpl": "contractProductChildViewTpl"}, data[i].childs[j],filterProductTypes);
                             }
                         }
 
@@ -302,9 +321,9 @@
                     });
                 }
 
-                function addChildRow(list, idx, child_idx, tpl, row) {
+                function addChildRow(list, idx, child_idx, tpl, row, productTypes) {
                     $(list).append(Mustache.render(tpl, {
-                        idx: idx, child_idx: child_idx, delBtn: true, row: row
+                        idx: idx, child_idx: child_idx, delBtn: true, row: row, productTypes:productTypes
                     }));
                     $(list + "_" + child_idx).find("select").each(function () {
                         $(this).val($(this).attr("data-value"));
@@ -324,7 +343,20 @@
                     var parentIdx = parentRow.data('idx');
                     var childTable = $('#childProductList' + parentIdx + '_table');
                     var childIdx = childTable.find('tr').length;
-                    addChildRow('#childProductList' + parentIdx, parentIdx, childIdx, contractProductChildTpl);
+
+                    var productTypeGroup = parentRow.find("input[id$='productTypeGroup']").val();
+
+                    //得到产品类型组对应的产品类型
+                    var filterProductTypes=[];
+                    if(productTypeGroup) {
+                        for (var k = 0; k < productTypeList.length; k++) {
+                            if (productTypeList[k].typeGroup.id == productTypeGroup) {
+                                filterProductTypes.push(productTypeList[k]);
+                            }
+                        }
+                    }
+
+                    addChildRow('#childProductList' + parentIdx, parentIdx, childIdx, contractProductChildTpl, null, filterProductTypes);
                 }
 
                 function delRow(obj, prefix) {
@@ -545,12 +577,25 @@
         </div>
     </div>
 
-    <div class="form-group clearfix hidden">
-        <label class="col-sm-3 control-label">合同金额：</label>
-        <div class="col-sm-7">
-            <form:input path="amount" htmlEscape="false" class="form-control  number input-sm"/>
+    <c:if test="${not empty contract.id and not empty contract.act.procInsId}">
+        <act:histoicFlow procInsId="${contract.act.procInsId}"/>
+    </c:if>
+
+    <!--您的意见和建议-->
+    <c:if test="${contract.act.taskDefKey eq 'saler_audit' ||
+                    contract.act.taskDefKey eq 'artisan_audit' ||
+                    contract.act.taskDefKey eq 'cso_audit' }">
+        <div class="panel panel-default" id="comment_other">
+            <div class="panel-heading">您的意见和建议</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <form:textarea path="act.comment" class="required form-control" rows="5"/>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </c:if>
 
     <div class="form-group clearfix hidden">
         <label class="col-sm-3 control-label">合同状态：</label>
@@ -562,20 +607,33 @@
             </form:select>
         </div>
     </div>
-    <c:if test="${not empty contract.id and not empty contract.act.procInsId}">
-        <act:histoicFlow procInsId="${contract.act.procInsId}"/>
-    </c:if>
+
     <div class="form-group">
         <div class="col-sm-offset-4 col-sm-8">
                 <c:if test="${contract.contractType ne '1' and not empty contract.id}">
-                    <c:if test="${empty contract.act.procInsId}">
+                    <c:choose>
+                        <c:when test="${empty contract.act.procInsId ||
+                                            contract.act.taskDefKey eq 'split_po' ||
+                                            contract.act.taskDefKey eq 'contract_edit' ||
+                                            contract.act.taskDefKey eq 'business_person_createbill'}">
+                            <input id="btnCancel" class="btn btn-custom" type="submit" value="提交" onclick="$('#flag').val('submit_audit')"/>&nbsp;
+                        </c:when>
+
+                        <c:otherwise>
+                            <input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
+                            <input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
+                        </c:otherwise>
+                    </c:choose>
+
+
+                    <%--<c:if test="${empty contract.act.procInsId}">
                         <input id="btnCancel" class="btn btn-custom" type="submit" value="提交"
                                onclick="$('#flag').val('submit_audit')"/>&nbsp;
                     </c:if>
                     <c:if test="${not empty contract.act.taskId and contract.act.taskDefKey ne 'end' and contract.act.taskDefKey ne 'submit_audit'}">
                         <input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
                         <input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
-                    </c:if>
+                    </c:if>--%>
                 </c:if>
 
             <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
