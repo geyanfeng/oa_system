@@ -34,7 +34,7 @@
 <body>
 
 	<div class="row">
-		<div class="col-lg-6">
+		<div class="col-lg-12">
 
 			<ul class="nav nav-tabs">
 				<li role="presentation" class="active"><a
