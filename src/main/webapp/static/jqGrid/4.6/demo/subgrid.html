@@ -171,7 +171,7 @@
 </head>
 <body>
 	<div class="searchDiv"><div class="searchText">查询条件</div></div>
-	<form:form id="searchForm" modelAttribute="jxjhGcglTask" action="${ctx}/jxjh/zbfpSjzb/listData" method="post" class="breadcrumb form-search"
+	<form:form id="searchForm" modelAttribute="jxjhGcglTask" action="${ctx}/jxjh/zbfpSjzb/listData" method="post" class="breadcrumb form-search form-inline"
 		data-page-no="${page.pageNo}" data-page-size="${page.pageSize}" data-order-by="${page.orderBy}">
 		<ul class="ul-form">	
 			<li><label>状态：</label>
@@ -191,15 +191,15 @@
 		</ul>
 	</form:form>
 	<form:form id="searchForm2" modelAttribute="jxjhGcglTask" action="${ctx}/sjzbfj/jxJxjhQjzb/sjzbfj/listData" method="post"
-		class="breadcrumb form-search hide" data-page-no="${page.pageNo}" data-page-size="${page.pageSize}" data-order-by="${page.orderBy}">
+		class="breadcrumb form-search form-inline hide" data-page-no="${page.pageNo}" data-page-size="${page.pageSize}" data-order-by="${page.orderBy}">
 		<input type="hidden" id="sjzbId" name="sjzbId">
 	</form:form>
 	<form:form id="searchForm3" modelAttribute="jxjhGcglTask" action="${ctx}/sjzbfj/jxJxjhQjzb/sjzbfj/listData" method="post"
-		class="breadcrumb form-search hide" data-page-no="${page.pageNo}" data-page-size="${page.pageSize}" data-order-by="${page.orderBy}">
+		class="breadcrumb form-search form-inline hide" data-page-no="${page.pageNo}" data-page-size="${page.pageSize}" data-order-by="${page.orderBy}">
 		<input type="hidden" id="sjzbId3" name="sjzbId">
 	</form:form>
 	<form:form id="searchForm4" modelAttribute="jxjhGcglTask" action="${ctx}/sjzbfj/jxJxjhQjzb/sjzbfj/listData" method="post"
-		class="breadcrumb form-search hide" data-page-no="${page.pageNo}" data-page-size="${page.pageSize}" data-order-by="${page.orderBy}">
+		class="breadcrumb form-search form-inline hide" data-page-no="${page.pageNo}" data-page-size="${page.pageSize}" data-order-by="${page.orderBy}">
 		<input type="hidden" id="sjzbId4" name="sjzbId">
 	</form:form>
 	<sys:message content="${message}"/>

@@ -82,7 +82,7 @@
 			<a class="btn" onclick="$('#searchForm').toggle();su.autoHeight();"><i class="icon-search"></i>查询</a>
 		</div>
 	</div>
-	<form:form id="searchForm" modelAttribute="test" action="${ctx}/test/test/listData.json" method="post" class="breadcrumb form-search hide" onsubmit="return page();">
+	<form:form id="searchForm" modelAttribute="test" action="${ctx}/test/test/listData.json" method="post" class="breadcrumb form-search form-inline hide" onsubmit="return page();">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<label>名称 ：</label><form:input path="name" htmlEscape="false" maxlength="50" class="input-medium form-control"/>

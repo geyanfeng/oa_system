@@ -30,7 +30,7 @@
 	</ul>
 	<div class="tab-content">
 				<div class="tab-pane fade in active">
-	<form:form id="searchForm" modelAttribute="comment" action="${ctx}/cms/comment/" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="comment" action="${ctx}/cms/comment/" method="post" class="breadcrumb form-search form-inline">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<label>文档标题：</label><form:input path="title" htmlEscape="false" maxlength="50" class="input-small form-control"/>

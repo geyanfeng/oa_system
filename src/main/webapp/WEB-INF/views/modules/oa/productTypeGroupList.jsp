@@ -20,7 +20,7 @@
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/oa/productTypeGroup/">商品类型组列表</a></li>
 	</ul>
-	<form:form id="searchForm" modelAttribute="productTypeGroup" action="${ctx}/oa/productTypeGroup/" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="productTypeGroup" action="${ctx}/oa/productTypeGroup/" method="post" class="breadcrumb form-search form-inline">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">

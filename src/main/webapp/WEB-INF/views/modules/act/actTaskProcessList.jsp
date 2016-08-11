@@ -21,7 +21,7 @@
 	</ul>
 	<div class="tab-content">
 				<div class="tab-pane fade in active">
-	<form id="searchForm" action="${ctx}/act/task/process/" method="post" class="breadcrumb form-search">
+	<form id="searchForm" action="${ctx}/act/task/process/" method="post" class="breadcrumb form-search form-inline">
 		<select id="category" name="category" class="input-medium form-control">
 			<option value="">全部分类</option>
 			<c:forEach items="${fns:getDictList('act_category')}" var="dict">

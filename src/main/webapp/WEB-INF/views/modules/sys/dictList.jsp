@@ -20,7 +20,7 @@
 	</ul>
 	<div class="tab-content">
 				<div class="tab-pane fade in active">
-	<form:form id="searchForm" modelAttribute="dict" action="${ctx}/sys/dict/" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="dict" action="${ctx}/sys/dict/" method="post" class="breadcrumb form-search form-inline">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<label>类型：</label><form:select id="type" path="type" class="input-medium form-control"><form:option value="" label=""/><form:options items="${typeList}" htmlEscape="false"/></form:select>

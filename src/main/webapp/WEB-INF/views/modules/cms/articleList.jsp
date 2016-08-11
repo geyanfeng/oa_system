@@ -36,7 +36,7 @@
 <div class="tab-content">
     <div class="tab-pane fade in active">
         <form:form id="searchForm" modelAttribute="article" action="${ctx}/cms/article/" method="post"
-                   class="breadcrumb form-search">
+                   class="breadcrumb form-search form-inline">
             <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
             <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 

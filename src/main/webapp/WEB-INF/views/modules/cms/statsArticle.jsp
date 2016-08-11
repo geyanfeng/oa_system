@@ -29,7 +29,7 @@
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/cms/stats/article">信息量统计</a></li>
 	</ul>
-	<form:form id="searchForm" modelAttribute="article" action="${ctx}/cms/stats/article" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="article" action="${ctx}/cms/stats/article" method="post" class="breadcrumb form-search form-inline">
 		<div>
 			<label>归属栏目：</label><sys:treeselect id="category" name="categoryId" value="${paramMap.id}" labelName="categoryName" labelValue="${paramMap.name}"
 				title="栏目" url="/cms/category/treeData" module="article" cssClass="input-small" allowClear="true"/>

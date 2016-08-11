@@ -21,7 +21,7 @@
 		<li class="active"><a href="${ctx}/gen/genTemplate/">代码模板列表</a></li>
 		<shiro:hasPermission name="gen:genTemplate:edit"><li><a href="${ctx}/gen/genTemplate/form">代码模板添加</a></li></shiro:hasPermission>
 	</ul>
-	<form:form id="searchForm" modelAttribute="genTemplate" action="${ctx}/gen/genTemplate/" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="genTemplate" action="${ctx}/gen/genTemplate/" method="post" class="breadcrumb form-search form-inline">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<label>分类 ：</label><form:select path="category" class="input-medium form-control">

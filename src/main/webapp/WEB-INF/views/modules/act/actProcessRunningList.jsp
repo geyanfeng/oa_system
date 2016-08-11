@@ -39,7 +39,7 @@
 	</ul>
 	<div class="tab-content">
 				<div class="tab-pane fade in active">
-	<form id="searchForm" action="${ctx}/act/process/running/" method="post" class="breadcrumb form-search">
+	<form id="searchForm" action="${ctx}/act/process/running/" method="post" class="breadcrumb form-search form-inline">
 	<ul class="ul-form"> 
 		<li><label class="col-md-2 control-label" style="width:120px;">流程实例ID：</label><input type="text" id="procInsId" name="procInsId" value="${procInsId}" class="input-medium  form-control"/></li>
 		<li><label class="col-md-2 control-label" style="width:120px;">流程定义Key：</label><input type="text" id="procDefKey" name="procDefKey" value="${procDefKey}" class="input-medium  form-control"/></li>

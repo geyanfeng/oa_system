@@ -31,7 +31,7 @@
 	</ul>
 	<div class="tab-content">
 				<div class="tab-pane fade in active">
-	<form:form id="searchForm" modelAttribute="act" action="${ctx}/act/task/todo/" method="get" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="act" action="${ctx}/act/task/todo/" method="get" class="breadcrumb form-search form-inline">
 		<div>
 		<ul class="ul-form">
 			<li><label class="col-md-2 control-label">流程类型：&nbsp;</label>

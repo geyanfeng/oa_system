@@ -21,7 +21,7 @@
 		<li class="active"><a href="${ctx}/oa/supplier/">供应商列表</a></li>
 		<shiro:hasPermission name="oa:supplier:edit"><li><a href="${ctx}/oa/supplier/form">供应商添加</a></li></shiro:hasPermission>
 	</ul>
-	<form:form id="searchForm" modelAttribute="supplier" action="${ctx}/oa/supplier/" method="post" class="breadcrumb form-search">
+	<form:form id="searchForm" modelAttribute="supplier" action="${ctx}/oa/supplier/" method="post" class="breadcrumb form-search form-inline">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
