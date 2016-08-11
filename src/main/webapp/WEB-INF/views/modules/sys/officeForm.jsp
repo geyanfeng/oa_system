@@ -32,7 +32,7 @@
 	</ul>
 	<div class="tab-content">
 				<div class="tab-pane fade in active">
-	<form:form id="inputForm" modelAttribute="office" action="${ctx}/sys/office/save" method="post" class="form-horizontal" style="width:300px;">
+	<form:form id="inputForm" modelAttribute="office" action="${ctx}/sys/office/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>
 		<div class="form-group">

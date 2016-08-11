@@ -54,5 +54,6 @@
 		</tr>
 	</script>
 	</div></div>
+	<script src="${ctxStatic}/assets/js/iframeResizer.contentWindow.min.js" type="text/javascript"></script>
 </body>
 </html>
