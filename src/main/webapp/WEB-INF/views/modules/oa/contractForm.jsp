@@ -505,7 +505,7 @@
 						</tr>
 						<tr>
 							<td colspan=6 style="padding-left: 40px;">
-							 <table class="table table-condensed" id="childProductList{{idx}}_table">
+							 <table class="table table-condensed" id="childProductList{{idx}}_table" style="width: 60%;">
 								<tbody id="childProductList{{idx}}">
 								  </tbody>
 								</table>

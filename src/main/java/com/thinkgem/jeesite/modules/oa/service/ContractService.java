@@ -20,7 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -233,5 +235,16 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 
     public Integer getCountByNoPref(String noPref) {
         return contractDao.getCountByNoPref(noPref);
+    }
+
+    //设置合同号
+    public void setContractNo(Contract contract){
+        if(isBlank(contract.getId())) {
+            SimpleDateFormat dateFormater = new SimpleDateFormat("yyyyMMdd");
+            String noPref = String.format("%s%s%s", contract.getCompanyName(), contract.getContractType(), dateFormater.format(new Date()));
+            Integer count;
+            count = getCountByNoPref(noPref);
+            contract.setNo(String.format("%s%d",noPref,count+1));
+        }
     }
 }

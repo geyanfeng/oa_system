@@ -196,13 +196,18 @@
                         <%--<td>
                             <fmt:formatDate value="${contract.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
                         </td>--%>
-                    <shiro:hasPermission name="oa:contract:edit">
+
                         <td>
+                            <shiro:hasPermission name="oa:contract:view">
+                                <a href="${ctx}/oa/contract/view?id=${contract.id}">查看</a>
+                            </shiro:hasPermission>
+                            <shiro:hasPermission name="oa:contract:edit">
                                 <a href="${ctx}/oa/contract/form?id=${contract.id}">修改</a>
                                 <a href="${ctx}/oa/contract/delete?id=${contract.id}"
                                    onclick="return confirmx('确认要删除该合同吗？', this.href)">删除</a>
+                            </shiro:hasPermission>
                         </td>
-                    </shiro:hasPermission>
+
                 </tr>
             </c:forEach>
             </tbody>

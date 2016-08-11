@@ -27,12 +27,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import static org.codehaus.plexus.util.StringUtils.isBlank;
 import static org.codehaus.plexus.util.StringUtils.isNotBlank;
 
 /**
@@ -112,19 +109,30 @@ public class ContractController extends BaseController {
 		List<Customer> customerList = customerService.findList(new Customer());
 		model.addAttribute("customerList", customerList);
 		//获取附件
-		if(contract.getContractAttachmentList()==null || contract.getContractAttachmentList().size()==0){
-			ArrayList<ContractAttachment> attachmentList = new ArrayList<ContractAttachment>();
-			List<Dict> attachmentTypes =  DictUtils.getDictList("oa_contract_attachment_type");
-			for (Dict attachType : attachmentTypes){
-				ContractAttachment attachment = new ContractAttachment();
-				attachment.setType(attachType.getValue());
-				attachmentList.add(attachment);
-			}
-			contract.setContractAttachmentList(attachmentList);
-		}
+		setContractAttachment(contract);
 		//商品类型
 		model.addAttribute("productTypeList", productTypeService.findList(new ProductType()));
 
+		//设置合同号
+		contractService.setContractNo(contract);
+
+		model.addAttribute("contract", contract);
+
+		//如果是框架性合同显示不同的界面
+		if(contract.getContractType().equals("1"))
+			view ="contractForm_kj";
+
+		return "modules/oa/" + view;
+	}
+
+	@RequiresPermissions("oa:contract:view")
+	@RequestMapping(value = "view")
+	public String view(Contract contract, HttpServletRequest request, HttpServletResponse response, Model model) {
+		model.addAttribute("contract", contract);
+		//商品类型
+		model.addAttribute("productTypeList", productTypeService.findList(new ProductType()));
+		//获取附件
+		setContractAttachment(contract);
 		// 查看审批申请单
 		if (isNotBlank(contract.getId())) {//.getAct().getProcInsId())){
 			// 环节编号
@@ -140,31 +148,21 @@ public class ContractController extends BaseController {
 			}*/
 			model.addAttribute("taskDefKey",taskDefKey);
 		}
-		//设置合同号
-		if(isBlank(contract.getId())) {
-			SimpleDateFormat dateFormater = new SimpleDateFormat("yyyyMMdd");
-			String noPref = String.format("%s%s%s", contract.getCompanyName(), contract.getContractType(), dateFormater.format(new Date()));
-			Integer count = contractService.getCountByNoPref(noPref);
-			contract.setNo(String.format("%s%d",noPref,count+1));
-		}
-
-		model.addAttribute("contract", contract);
-
-		//如果是框架性合同显示不同的界面
-		if(contract.getContractType().equals("1"))
-			view ="contractForm_kj";
-
-		return "modules/oa/" + view;
+		return "modules/oa/contractView";
 	}
 
-	@RequiresPermissions("oa:contract:view")
-	@RequestMapping(value = "view")
-	public String view(Contract contract, Model model) {
-		model.addAttribute("contract", contract);
-		//商品类型
-		model.addAttribute("productTypeList", productTypeService.findList(new ProductType()));
-
-		return "modules/oa/contractView";
+	private void setContractAttachment(Contract contract){
+		//获取附件
+		if(contract.getContractAttachmentList()==null || contract.getContractAttachmentList().size()==0){
+			ArrayList<ContractAttachment> attachmentList = new ArrayList<ContractAttachment>();
+			List<Dict> attachmentTypes =  DictUtils.getDictList("oa_contract_attachment_type");
+			for (Dict attachType : attachmentTypes){
+				ContractAttachment attachment = new ContractAttachment();
+				attachment.setType(attachType.getValue());
+				attachmentList.add(attachment);
+			}
+			contract.setContractAttachmentList(attachmentList);
+		}
 	}
 
 	@RequiresPermissions("oa:contract:edit")
@@ -180,12 +178,8 @@ public class ContractController extends BaseController {
 			return form(contract, null, model);
 		}
 		//设置合同号
-		if(isBlank(contract.getId())) {
-			SimpleDateFormat dateFormater = new SimpleDateFormat("yyyyMMdd");
-			String noPref = String.format("%s%s%s", contract.getCompanyName(), contract.getContractType(), dateFormater.format(new Date()));
-			Integer count = contractService.getCountByNoPref(noPref);
-			contract.setNo(String.format("%s%d",noPref,count+1));
-		}
+		contractService.setContractNo(contract);
+
 		contractService.save(contract);
 		addMessage(redirectAttributes, "保存合同成功");
 		return "redirect:"+Global.getAdminPath()+"/oa/contract/?contractType="+contract.getContractType()+"&repage";
