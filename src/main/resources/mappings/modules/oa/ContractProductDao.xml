@@ -16,7 +16,7 @@
 		a.create_by AS "createBy.id",
 		a.sort AS "sort",
 		a.product_type AS "productType.id",
-		(case when a.parent_id is null then g.name else c.name end) AS "productType.name",
+ 		c.name AS "productType.name",
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate"
@@ -24,7 +24,6 @@
 	
 	<sql id="contractProductJoins">
 		LEFT JOIN oa_contract b ON b.id = a.contract_id
-		LEFT JOIN oa_product_type_group g ON g.id = a.product_type
 		LEFT JOIN oa_product_type c ON c.id = a.product_type
 	</sql>
     

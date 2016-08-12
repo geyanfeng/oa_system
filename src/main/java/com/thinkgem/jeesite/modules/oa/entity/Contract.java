@@ -182,6 +182,7 @@ public class Contract extends ActEntity<Contract> {
 		this.paymentCycle = paymentCycle;
 	}
 
+	@JsonFormat
 	public String getPaymentDetail() {
 		return paymentDetail;
 	}

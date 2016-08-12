@@ -110,8 +110,6 @@ public class ContractController extends BaseController {
 		model.addAttribute("customerList", customerList);
 		//获取附件
 		setContractAttachment(contract);
-		//商品类型组
-		model.addAttribute("productTypeGroupList", productTypeGroupService.findList(new ProductTypeGroup()));
 		//商品类型
 		model.addAttribute("productTypeList", productTypeService.findList(new ProductType()));
 
@@ -150,8 +148,6 @@ public class ContractController extends BaseController {
 			}*/
 			model.addAttribute("taskDefKey",taskDefKey);
 		}
-		//商品类型组
-		model.addAttribute("productTypeGroupList", productTypeGroupService.findList(new ProductTypeGroup()));
 		//商品类型
 		model.addAttribute("productTypeList", productTypeService.findList(new ProductType()));
 

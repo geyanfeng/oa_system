@@ -215,7 +215,9 @@
 							<td>
 								<input id="childProductList{{idx}}_{{child_idx}}_name" name="contractProductList[{{idx}}].childs[{{child_idx}}].name" type="text" value="{{row.name}}" maxlength="100" class="form-control required input-sm"  style="width: 50%;display: inline-block;"/>
 								<select id="childProductList{{idx}}_{{child_idx}}_productType" name="contractProductList[{{idx}}].childs[{{child_idx}}].productType" data-value="{{row.productType.id}}" class="form-control input-block required input-sm"  style="width: 40%;display: inline-block;">
-									{{#productTypes}}<option value="{{id}}">{{name}}</option>{{/productTypes}}
+									<c:forEach items="${productTypeList}" var="dict">
+										<option value="${dict.id}">${dict.name}</option>
+									</c:forEach>
 								</select>
 							</td>
 							<td>
@@ -261,7 +263,6 @@
                         contractProductChildViewTpl = $("#contractProductChildViewTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
                 var unitList = ${fns:getDictListJson('oa_unit')};
                 var productTypeList = ${fns:toJson(productTypeList)};
-                var filterProductTypes=[];
 
                 $(document).ready(function () {
                     var data = ${fns:toJson(contract.contractProductList)};
@@ -276,14 +277,6 @@
                         }
                         data[i].productTypeGroupName = data[i].productType.name;
 
-                        //得到产品类型组对应的产品类型
-                        filterProductTypes=[];
-                        for(var k = 0; k< productTypeList.length;k++){
-                            if(productTypeList[k].typeGroup.id == data[i].productType.id){
-                                filterProductTypes.push(productTypeList[k]);
-                            }
-                        }
-
                         addRow('#contractProductList', contractProductRowIdx, contractProductTpl, data[i]);
 
                         if (data[i].childs) {
@@ -296,7 +289,7 @@
                                         break;
                                     }
                                 }
-                                addChildRow('#childProductList' + contractProductRowIdx, contractProductRowIdx, j, ${contract.act.taskDefKey eq "split_po"? "contractProductChildTpl": "contractProductChildViewTpl"}, data[i].childs[j],filterProductTypes);
+                                addChildRow('#childProductList' + contractProductRowIdx, contractProductRowIdx, j, ${contract.act.taskDefKey eq "split_po"? "contractProductChildTpl": "contractProductChildViewTpl"}, data[i].childs[j]);
                             }
                         }
 
@@ -321,9 +314,9 @@
                     });
                 }
 
-                function addChildRow(list, idx, child_idx, tpl, row, productTypes) {
+                function addChildRow(list, idx, child_idx, tpl, row) {
                     $(list).append(Mustache.render(tpl, {
-                        idx: idx, child_idx: child_idx, delBtn: true, row: row, productTypes:productTypes
+                        idx: idx, child_idx: child_idx, delBtn: true, row: row
                     }));
                     $(list + "_" + child_idx).find("select").each(function () {
                         $(this).val($(this).attr("data-value"));
@@ -346,17 +339,7 @@
 
                     var productTypeGroup = parentRow.find("input[id$='productTypeGroup']").val();
 
-                    //得到产品类型组对应的产品类型
-                    var filterProductTypes=[];
-                    if(productTypeGroup) {
-                        for (var k = 0; k < productTypeList.length; k++) {
-                            if (productTypeList[k].typeGroup.id == productTypeGroup) {
-                                filterProductTypes.push(productTypeList[k]);
-                            }
-                        }
-                    }
-
-                    addChildRow('#childProductList' + parentIdx, parentIdx, childIdx, contractProductChildTpl, null, filterProductTypes);
+                    addChildRow('#childProductList' + parentIdx, parentIdx, childIdx, contractProductChildTpl);
                 }
 
                 function delRow(obj, prefix) {
@@ -496,6 +479,70 @@
         </div>
     </div>
 
+    <!--物流信息-->
+    <div class="panel panel-default">
+        <div class="panel-heading">物流信息</div>
+        <div class="panel-body panel-collapse collapse in" id="ship-collapse">
+            <c:choose>
+                <c:when test="${contract.act.taskDefKey eq 'verify_ship'}">
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="control-label">发货方式：</label>
+                            <form:radiobuttons path="shipMode" items="${fns:getDictList('oa_ship_mode')}"
+                                               itemLabel="label" itemValue="value" htmlEscape="false" class=""
+                                               element="span class='radio radio-success radio-inline'"/>
+
+                        </div>
+                    </div>
+                    <div class="row form-inline">
+                        <div class="form-group">
+                            <label class="control-label">收货地址：</label>
+                            <form:input path="shipAddress" htmlEscape="false" class="form-control  input-sm" size="60"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">收货人：</label>
+                            <form:input path="shipReceiver" htmlEscape="false" class="form-control  input-sm"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">联系电话：</label>
+                            <form:input path="shipPhone" htmlEscape="false" class="form-control  input-sm phone"/>
+                        </div>
+
+                    </div>
+                    <div class="row form-inline" style="margin-top:10px;">
+                        <div class="form-group">
+                            <label class="control-label">快递单号：</label>
+                            <form:input path="shipEms" htmlEscape="false" class="form-control  input-sm" size="60"/>
+                        </div>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            发货方式：${fns:getDictLabel(contract.shipMode, "oa_ship_mode","" )}
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <div class="col-sm-4">
+                            收货地址：${contract.shipAddress}
+                        </div>
+                        <div class="col-sm-4">
+                            收货人：${contract.shipReceiver}
+                        </div>
+                        <div class="col-sm-4">
+                           联系电话：${contract.shipPhone}
+                        </div>
+
+                    </div>
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-sm-6">
+                            快递单号：${contract.shipEms}
+                        </div>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+        </div>
+    </div>
 
     <!--其它-->
     <div class="panel panel-default" id="card_other">
@@ -584,7 +631,8 @@
     <!--您的意见和建议-->
     <c:if test="${contract.act.taskDefKey eq 'saler_audit' ||
                     contract.act.taskDefKey eq 'artisan_audit' ||
-                    contract.act.taskDefKey eq 'cso_audit' }">
+                    contract.act.taskDefKey eq 'cso_audit' ||
+                    contract.act.taskDefKey eq 'verify_receiving'}">
         <div class="panel panel-default" id="comment_other">
             <div class="panel-heading">您的意见和建议</div>
             <div class="panel-body">
@@ -615,7 +663,11 @@
                         <c:when test="${empty contract.act.procInsId ||
                                             contract.act.taskDefKey eq 'split_po' ||
                                             contract.act.taskDefKey eq 'contract_edit' ||
-                                            contract.act.taskDefKey eq 'business_person_createbill'}">
+                                            contract.act.taskDefKey eq 'business_person_createbill' ||
+                                            contract.act.taskDefKey eq 'verify_ship' ||
+                                            contract.act.taskDefKey eq 'cw_kp' ||
+                                            contract.act.taskDefKey eq 'verify_sk' ||
+                                            contract.act.taskDefKey eq 'finish'}">
                             <input id="btnCancel" class="btn btn-custom" type="submit" value="提交" onclick="$('#flag').val('submit_audit')"/>&nbsp;
                         </c:when>
 

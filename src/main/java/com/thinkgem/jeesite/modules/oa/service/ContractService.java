@@ -215,6 +215,14 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                 saveProducts(contract);
             } else if("business_person_createbill".equals(taskDefKey)){//商务下单
                 contract.setStatus(DictUtils.getDictValue("已下单","oa_contract_status",""));
+            } else if("verify_ship".equals(taskDefKey)){//确认发货
+                contract.setStatus(DictUtils.getDictValue("已发货","oa_contract_status",""));
+            } else if("cw_kp".equals(taskDefKey)){//财务开票
+                contract.setStatus(DictUtils.getDictValue("已开票","oa_contract_status",""));
+            } else if("verify_sk".equals(taskDefKey)){//确认收款
+                contract.setStatus(DictUtils.getDictValue("已收款","oa_contract_status",""));
+            } else if("finish".equals(taskDefKey)){//商务确认合同完成
+                contract.setStatus(DictUtils.getDictValue("已完成","oa_contract_status",""));
             } else {
                 if (isNotBlank(flag)) {
                     //销售审核和技术审核
@@ -230,6 +238,12 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                             contract.setStatus(DictUtils.getDictValue("待审批", "oa_contract_status", ""));
                         } else {
                             contract.setStatus(DictUtils.getDictValue("待签约", "oa_contract_status", ""));
+                        }
+                    } else if ("verify_receiving".equals(taskDefKey)) {//收货验收
+                        if (pass) {
+                            contract.setStatus(DictUtils.getDictValue("已验收", "oa_contract_status", ""));
+                        } else {
+                            contract.setStatus(DictUtils.getDictValue("已发货", "oa_contract_status", ""));
                         }
                     }
                 }
