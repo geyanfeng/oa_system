@@ -17,7 +17,7 @@
         }
     </style>
 </head>
-<body>
+<body data-spy="scroll" data-target="#navbar">
 <%--<ul class="nav nav-tabs">
     <li><a href="${ctx}/oa/contract/">合同列表</a></li>
     <li class="active"><a href="${ctx}/oa/contract/form?id=${contract.id}">合同<shiro:hasPermission name="oa:contract:edit">${not empty contract.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="oa:contract:edit">查看</shiro:lacksPermission></a></li>
@@ -32,9 +32,22 @@
 <form:hidden path="act.procDefId"/>
 <form:hidden id="flag" path="act.flag"/>
 <sys:message content="${message}"/>
+<div class="navbar navbar-default navbar-fixed-top  navbar-static" role="navigation" id="navbar">
+    <div class="collapse navbar-collapse bs-js-navbar-scrollspy">
+        <ul class="nav navbar-nav">
+            <li><a href="#panel-baseInfo">合同信息</a></li>
+            <li><a href="#panel-invoice">开票信息</a></li>
+            <li><a href="#card_products">采购列表</a></li>
+            <li><a href="#panel-payment">付款信息</a></li>
+            <li><a href="#card_other">其它信息</a></li>
+            <li><a href="#card_attachemnts">附件</a></li>
+            <li><a href="#panel-audit">操作信息</a></li>
+        </ul>
+    </div>
+</div>
 <div class="col-sm-12">
 
-    <div class="row m-b-20">
+    <div class="row m-b-20" style="margin-top: 60px !important;">
         <div class="col-sm-3">
             合同编号：${contract.no}
         </div>
@@ -47,7 +60,7 @@
     </div>
 
     <!--合同信息-->
-    <div class="panel panel-default">
+    <div class="panel panel-default" id="panel-baseInfo">
         <div class="panel-heading">合同信息
             <div class="pull-right">
                 <a data-toggle="collapse" href="#card-collapse" class="" aria-expanded="true"><i
@@ -95,7 +108,7 @@
     </div>
 
     <!--开票信息-->
-    <div class="panel panel-default">
+    <div class="panel panel-default" id="panel-invoice">
         <div class="panel-heading">开票信息
             <div class="pull-right">
                 <a data-toggle="collapse" href="#invoice-collapse" class="" aria-expanded="true"><i
@@ -174,10 +187,14 @@
 								<input id="contractProductList{{idx}}_remark" name="contractProductList[{{idx}}].remark" type="hidden" value="{{row.remark}}"/>
 							</td>
 							<td>
-							    ${contract.act.taskDefKey eq "business_person_createbill"?"<input type='checkbox'/>":""}
-								{{row.name}}
+							    <c:if test="${contract.act.taskDefKey eq 'business_person_createbill'}">
+							        <input type="checkbox">
+                                </c:if>
+								<span>{{row.name}}</span>
 								 <span style="margin-left:50px;">{{row.productTypeGroupName}}</span>
-								${contract.act.taskDefKey eq "split_po"?"<a href='javascript:' class='fa fa-plus' onclick='addNewChildRow(this)'></a>":""}
+								<c:if test="${contract.act.taskDefKey eq 'split_po'}">
+							        <a href="javascript:" class="fa fa-plus" onclick="addNewChildRow(this)"></a>
+                                </c:if>
 							</td>
 							<td>
 								{{row.price}}
@@ -244,7 +261,9 @@
 								<input id="childProductList{{idx}}_{{child_idx}}_delFlag" name="contractProductList[{{idx}}].childs[{{child_idx}}].delFlag" type="hidden" value="0"/>
 							</td>
 							<td>
-							    ${contract.act.taskDefKey eq "business_person_createbill"?"<input type='checkbox'/>":""}
+							     <c:if test="${contract.act.taskDefKey eq 'business_person_createbill'}">
+							        <input type="checkbox">
+                                </c:if>
 								<span style="display:inline-block;width:100px;">{{row.name}}</span>
 								<span style="margin-left:50px">{{row.productType.name}}</span>
 							</td>
@@ -305,10 +324,13 @@
                         $(this).val($(this).attr("data-value"));
                     });
                     $(list + idx).find("input[type='checkbox'], input[type='radio']").each(function () {
-                        var ss = $(this).attr("data-value").split(',');
-                        for (var i = 0; i < ss.length; i++) {
-                            if ($(this).val() == ss[i]) {
-                                $(this).attr("checked", "checked");
+                        var dataValue = $(this).attr("data-value")
+                        if(dataValue) {
+                            var ss = dataValue.split(',');
+                            for (var i = 0; i < ss.length; i++) {
+                                if ($(this).val() == ss[i]) {
+                                    $(this).attr("checked", "checked");
+                                }
                             }
                         }
                     });
@@ -322,10 +344,13 @@
                         $(this).val($(this).attr("data-value"));
                     });
                     $(list + "_" + child_idx).find("input[type='checkbox'], input[type='radio']").each(function () {
-                        var ss = $(this).attr("data-value").split(',');
-                        for (var i = 0; i < ss.length; i++) {
-                            if ($(this).val() == ss[i]) {
-                                $(this).attr("checked", "checked");
+                        var dataValue = $(this).attr("data-value")
+                        if(dataValue) {
+                            var ss = dataValue.split(',');
+                            for (var i = 0; i < ss.length; i++) {
+                                if ($(this).val() == ss[i]) {
+                                    $(this).attr("checked", "checked");
+                                }
                             }
                         }
                     });
@@ -362,7 +387,7 @@
     </div>
 
     <!--付款信息-->
-    <div class="panel panel-default">
+    <div class="panel panel-default" id="panel-payment">
         <div class="panel-heading">付款信息</div>
         <div class="panel-body panel-collapse collapse in" id="payment-collapse">
             <form:hidden path="paymentDetail"></form:hidden>
@@ -710,5 +735,41 @@
             </div>
         </div>
     </div>
+
+    <c:if test="${contract.act.taskDefKey eq 'business_person_createbill'}">
+        <script src="${ctxStatic}/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
+        <div class="col-sm-3"id="draggable">
+            <div class="panel panel-default">
+                <div class="panel-heading">采购下单
+                    <div class="pull-right">
+                        <a href="#"><i class="zmdi zmdi-minus"></i></a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div id="div_bill_products">
+                        <table>
+                            <tbody>
+                            <tr>
+                                <td>主机</td>
+                                <td><input type="text" class="input-sm">台</td>
+                                <td><input type="text" class="input-sm">元</td>
+                            </tr>
+                            <tr>
+                                <td>主机</td>
+                                <td><input type="text" class="input-sm">台</td>
+                                <td><input type="text" class="input-sm">元</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+        $( function() {
+            $( "#draggable" ).draggable();
+            } );
+        </script>
+    </c:if>
 </body>
 </html>

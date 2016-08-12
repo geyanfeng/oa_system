@@ -3,8 +3,8 @@
 <%@ attribute name="procInsId" type="java.lang.String" required="true" description="流程实例ID"%>
 <%@ attribute name="startAct" type="java.lang.String" required="false" description="开始活动节点名称"%>
 <%@ attribute name="endAct" type="java.lang.String" required="false" description="结束活动节点名称"%>
-<div class="panel panel-default" id="card_other">
-	<div class="panel-heading">流转信息</div>
+<div class="panel panel-default" id="panel-audit">
+	<div class="panel-heading">操作信息</div>
 	<div class="panel-body" id="histoicFlowList">
 		正在加载流转信息...
 	</div>
