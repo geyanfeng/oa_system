@@ -15,13 +15,36 @@
         table[id^='childProductList']>tbody>tr>td{
             border: 1px solid transparent !important;
         }
+        .div_bill {position: absolute; right: 10px;top: 100px;z-index:100;}
     </style>
+    <script>
+        function getModal(){
+            return $('#modal');
+        }
+    </script>
 </head>
 <body data-spy="scroll" data-target="#navbar">
-<%--<ul class="nav nav-tabs">
-    <li><a href="${ctx}/oa/contract/">合同列表</a></li>
-    <li class="active"><a href="${ctx}/oa/contract/form?id=${contract.id}">合同<shiro:hasPermission name="oa:contract:edit">${not empty contract.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="oa:contract:edit">查看</shiro:lacksPermission></a></li>
-</ul><br/>--%>
+
+<%--<c:if test="${contract.act.taskDefKey eq 'business_person_createbill'}">--%>
+    <script src="${ctxStatic}/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <div class="col-sm-5 div_bill"id="draggable">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="text-align: center;">采购下单
+                <div class="pull-right">
+                    <a href="#"><i class="glyphicon glyphicon-remove"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <iframe id="poFrame" name="poFrame" scrolling="no" frameborder="no" src="${ctx}/oa/purchaseOrder/form?fromModal=1" width="100%" height="500px"></iframe>
+            </div>
+        </div>
+    </div>
+    <script>
+        $( function() {
+            $( "#draggable" ).draggable();
+        } );
+    </script>
+<%--</c:if>--%>
 
 <form:form id="inputForm" modelAttribute="contract" action="${ctx}/oa/contract/audit" method="post" role="form">
 <form:hidden path="id"/>
@@ -45,6 +68,9 @@
         </ul>
     </div>
 </div>
+
+
+
 <div class="col-sm-12">
 
     <div class="row m-b-20" style="margin-top: 60px !important;">
@@ -736,40 +762,6 @@
         </div>
     </div>
 
-    <c:if test="${contract.act.taskDefKey eq 'business_person_createbill'}">
-        <script src="${ctxStatic}/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
-        <div class="col-sm-3"id="draggable">
-            <div class="panel panel-default">
-                <div class="panel-heading">采购下单
-                    <div class="pull-right">
-                        <a href="#"><i class="zmdi zmdi-minus"></i></a>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <div id="div_bill_products">
-                        <table>
-                            <tbody>
-                            <tr>
-                                <td>主机</td>
-                                <td><input type="text" class="input-sm">台</td>
-                                <td><input type="text" class="input-sm">元</td>
-                            </tr>
-                            <tr>
-                                <td>主机</td>
-                                <td><input type="text" class="input-sm">台</td>
-                                <td><input type="text" class="input-sm">元</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <script>
-        $( function() {
-            $( "#draggable" ).draggable();
-            } );
-        </script>
-    </c:if>
+
 </body>
 </html>

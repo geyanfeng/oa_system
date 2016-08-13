@@ -85,6 +85,7 @@ public class CustomerController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/oa/customer/?repage";
 	}
 
+	@SuppressWarnings("Duplicates")
 	@RequiresPermissions("oa:customer:edit")
 	@RequestMapping(value = "ajaxSave")
 	@ResponseBody

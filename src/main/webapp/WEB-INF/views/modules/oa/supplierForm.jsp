@@ -4,14 +4,17 @@
 <head>
 	<title>供应商管理</title>
 	<meta name="decorator" content="default"/>
+	<script src="${ctxStatic}/assets/js/jquery.form.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			//$("#name").focus();
 			$("#inputForm").validate({
+				<c:if test="${empty fromModal}">
 				submitHandler: function(form){
 					loading('正在提交，请稍等...');
 					form.submit();
 				},
+				</c:if>
 				errorContainer: "#messageBox",
 				errorPlacement: function(error, element) {
 					$("#messageBox").text("输入有误，请先更正。");
@@ -22,25 +25,30 @@
 					}
 				}
 			});
+
+			<c:if test="${not empty fromModal}">
+			$("#inputForm").ajaxForm({success:function(result){
+				var status= result.status;
+				if(status!="1") return;
+				if(parent.closeSupplierModal)
+					parent.closeSupplierModal(result.data);
+			}});
+			</c:if>
 		});
 	</script>
 </head>
 <body>
-	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/oa/supplier/">供应商列表</a></li>
-		<li class="active"><a href="${ctx}/oa/supplier/form?id=${supplier.id}">供应商<shiro:hasPermission name="oa:supplier:edit">${not empty supplier.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="oa:supplier:edit">查看</shiro:lacksPermission></a></li>
-	</ul><br/>
 	<form:form id="inputForm" modelAttribute="supplier" action="${ctx}/oa/supplier/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		
-		<div class="control-group">
+		<div class="form-group">
 			<label class="col-md-2 control-label">名称：</label>
 			<div class="col-md-4">
 				<form:input path="name" htmlEscape="false" maxlength="100" class="form-control input-xlarge required"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="form-group">
 			<label class="col-md-2 control-label">备注：</label>
 			<div class="col-md-4">
 				<form:textarea path="remark" htmlEscape="false" rows="4" maxlength="255" class="form-control input-xxlarge "/>
@@ -48,7 +56,9 @@
 		</div>
 		<div class="form-actions">
 			<shiro:hasPermission name="oa:supplier:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
-			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+			<c:if test="${empty fromModal}">
+				<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+			</c:if>
 		</div>
 	</form:form>
 </body>

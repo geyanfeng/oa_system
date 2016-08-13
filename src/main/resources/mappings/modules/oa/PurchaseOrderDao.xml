@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.oa.dao.PurchaseOrderDao">
+    
+	<sql id="purchaseOrderColumns">
+		a.id AS "id",
+		a.proc_ins_id,
+		a.no AS "no",
+		a.contract_id AS "contract.id",
+		a.company_name AS "companyName",
+		a.supplier_id AS "supplier.id",
+		a.payment_detail AS "paymentDetail",
+		a.payment_pointnum AS "paymentPointnum",
+		a.ship_date AS "shipDate",
+		a.remark AS "remark",
+		a.del_flag AS "delFlag",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a9.name AS "supplier.name",
+		a10.name AS "contract.name",
+		a10.no AS "contract.no"
+	</sql>
+	
+	<sql id="purchaseOrderJoins">
+		LEFT JOIN oa_supplier a9 ON a9.id = a.supplier_id
+		LEFT JOIN oa_contract a10 ON a10.id = a.contract_id
+	</sql>
+    
+	<select id="get" resultType="PurchaseOrder">
+		SELECT 
+			<include refid="purchaseOrderColumns"/>
+		FROM oa_po a
+		<include refid="purchaseOrderJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="PurchaseOrder">
+		SELECT 
+			<include refid="purchaseOrderColumns"/>
+		FROM oa_po a
+		<include refid="purchaseOrderJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="PurchaseOrder">
+		SELECT 
+			<include refid="purchaseOrderColumns"/>
+		FROM oa_po a
+		<include refid="purchaseOrderJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO oa_po(
+			id,
+			no,
+			contract_id,
+			company_name,
+			supplier_id,
+			payment_detail,
+			payment_pointnum,
+			ship_date,
+			remark,
+			del_flag,
+			create_by,
+			create_date,
+			update_by,
+			update_date
+		) VALUES (
+			#{id},
+			#{no},
+			#{contractId},
+			#{companyName},
+			#{supplier.id},
+			#{paymentDetail},
+			#{paymentPointnum},
+			#{shipDate},
+			#{remark},
+			#{delFlag},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE oa_po SET
+			no = #{no},
+			company_name = #{companyName},
+			supplier_id = #{supplier.id},
+			payment_detail = #{paymentDetail},
+			payment_pointnum = #{paymentPointnum},
+			ship_date = #{shipDate},
+			remark = #{remark},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE oa_po SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+
+
+	<select id="getByProcInsId" resultType="PurchaseOrder">
+		SELECT
+		<include refid="purchaseOrderColumns"/>
+		FROM oa_contract a
+		<include refid="purchaseOrderJoins"/>
+		WHERE a.proc_ins_id = #{procInsId}
+	</select>
+	
+</mapper>
