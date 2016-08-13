@@ -14,11 +14,6 @@
 			$("#searchForm").submit();
         	return false;
         }
-
-		var message = "${message}";
-		if(message == "" && parent.closeCustomerModal){
-			parent.closeCustomerModal();
-		}
 	</script>
 </head>
 <body>

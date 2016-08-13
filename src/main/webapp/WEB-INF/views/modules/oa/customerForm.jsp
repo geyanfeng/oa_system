@@ -4,6 +4,7 @@
 <head>
 	<title>客户管理</title>
 	<meta name="decorator" content="default"/>
+	<script src="${ctxStatic}/assets/js/jquery.form.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			//$("#name").focus();
@@ -14,10 +15,12 @@
 				messages: {
 					name: {remote: "客户名称已存在"}
 				},
-				submitHandler: function(form){
-					loading('正在提交，请稍等...');
-					form.submit();
-				},
+				<c:if test="${empty fromModal}">
+					submitHandler: function(form){
+						loading('正在提交，请稍等...');
+						form.submit();
+					},
+				</c:if>
 				errorContainer: "#messageBox",
 				errorPlacement: function(error, element) {
 					$("#messageBox").text("输入有误，请先更正。");
@@ -28,6 +31,15 @@
 					}
 				}
 			});
+
+			<c:if test="${not empty fromModal}">
+				$("#inputForm").ajaxForm({success:function(result){
+					var status= result.status;
+					if(status!="1") return;
+					if(parent.closeCustomerModal)
+						parent.closeCustomerModal(result.data);
+				}});
+			</c:if>
 		});
 	</script>
 </head>
@@ -36,7 +48,7 @@
 		<li><a href="${ctx}/oa/customer/">客户列表</a></li>
 		<li class="active"><a href="${ctx}/oa/customer/form?id=${customer.id}">客户<shiro:hasPermission name="oa:customer:edit">${not empty customer.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="oa:customer:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>--%>
-	<form:form id="inputForm" modelAttribute="customer" action="${ctx}/oa/customer/save${not empty fromModal?'?fromModal=':''}${fromModal}" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="customer" action="${ctx}/oa/customer/${not empty fromModal?'ajaxSave':'save'}" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		
 		<div class="form-group">
