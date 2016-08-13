@@ -21,15 +21,18 @@
 				</DIV>
 			</DIV>
 			<!-- Button mobile view to collapse sidebar menu -->
-			<div class="topbar-left">
+			<%--<div class="topbar-left">
 				<div class="text-center">
 					<a href="${ctx}?login" class="logo" >
 						<i class="zmdi zmdi-toys icon-c-logo"></i><span>首页</span>
 						<!--<span><img src="assets/images/logo.png" alt="logo" style="height: 20px;"></span>-->
 					</a>
 				</div>
-			</div>
+			</div>--%>
 			<DIV class="navbar navbar-default" role="navigation">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="${ctx}?login">首页</a>
+				</div>
 				<DIV class="container">
 					<DIV>
 						<DIV class="pull-left">
