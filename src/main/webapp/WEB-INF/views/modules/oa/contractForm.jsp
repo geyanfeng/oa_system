@@ -163,7 +163,7 @@
         }
 
         //关闭增加
-        function closeCustomerModal(){
+        function closeCustomerModal(customer){
             $('#modal').modal('hide');
             $.get('${ctx}/oa/customer/treeData',function(data){
                 $('#customer').children().remove();
@@ -171,6 +171,8 @@
                 $.each(data,function(idx, item){
                     $("#customer").append("<option value='"+item.id+"'>"+item.name+"</option>");
                 });
+                if(customer && customer.id)
+                    $('#customer').val(customer.id).trigger("change");
             });
         }
     </script>

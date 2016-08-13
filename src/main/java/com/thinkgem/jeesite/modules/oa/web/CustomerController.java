@@ -77,16 +77,23 @@ public class CustomerController extends BaseController {
 
 	@RequiresPermissions("oa:customer:edit")
 	@RequestMapping(value = "save")
-	public String save(Customer customer,@RequestParam(value="fromModal", required=false) String fromModal, Model model, RedirectAttributes redirectAttributes) {
+	public String save(Customer customer,Model model, RedirectAttributes redirectAttributes) {
 		if (!beanValidator(model, customer)){
 			return form(customer,null, model);
 		}
 		customerService.save(customer);
-		if(isBlank(fromModal)) {
-			addMessage(redirectAttributes, "保存客户成功");
-		}
-
 		return "redirect:"+Global.getAdminPath()+"/oa/customer/?repage";
+	}
+
+	@RequiresPermissions("oa:customer:edit")
+	@RequestMapping(value = "ajaxSave")
+	@ResponseBody
+	public Map<String, Object> ajaxSave(Customer customer, Model model, RedirectAttributes redirectAttributes) {
+		save(customer, model, redirectAttributes);
+		Map<String, Object> map = Maps.newHashMap();
+		map.put("status",1);//1成功,
+		map.put("data", customer);
+		return map;
 	}
 	
 	@RequiresPermissions("oa:customer:edit")
