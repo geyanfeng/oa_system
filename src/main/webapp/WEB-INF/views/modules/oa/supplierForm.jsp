@@ -30,15 +30,16 @@
 			$("#inputForm").ajaxForm({success:function(result){
 				var status= result.status;
 				if(status!="1") return;
-				if(parent.closeSupplierModal)
-					parent.closeSupplierModal(result.data);
+				var poModalWin =  parent.window.document.getElementById("poFrame").contentWindow;
+				if(poModalWin.closeSupplierModal)
+					poModalWin.closeSupplierModal(result.data);
 			}});
 			</c:if>
 		});
 	</script>
 </head>
 <body>
-	<form:form id="inputForm" modelAttribute="supplier" action="${ctx}/oa/supplier/save" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="supplier" action="${ctx}/oa/supplier/${not empty fromModal?'ajaxSave':'save'}" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		
 		<div class="form-group">

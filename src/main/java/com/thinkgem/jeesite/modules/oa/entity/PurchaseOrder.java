@@ -25,8 +25,8 @@ public class PurchaseOrder extends ActEntity<PurchaseOrder> {
 	private String companyName;		// 公司抬头
 	private Supplier supplier;		// 供应商
 	private String paymentDetail;		// 付款信息
-	private Boolean paymentPointnum;		// 帐期点数
-	private Boolean shipDate;		// 预计到货时间
+	private Integer paymentPointnum;		// 帐期点数
+	private Integer shipDate;		// 预计到货时间
 	private String remark;		// 备注
 	private List<PurchaseOrderProduct> purchaseOrderProductList = Lists.newArrayList();		// 子表列表
 	
@@ -90,19 +90,19 @@ public class PurchaseOrder extends ActEntity<PurchaseOrder> {
 		this.paymentDetail = paymentDetail;
 	}
 	
-	public Boolean getPaymentPointnum() {
+	public Integer getPaymentPointnum() {
 		return paymentPointnum;
 	}
 
-	public void setPaymentPointnum(Boolean paymentPointnum) {
+	public void setPaymentPointnum(Integer paymentPointnum) {
 		this.paymentPointnum = paymentPointnum;
 	}
 	
-	public Boolean getShipDate() {
+	public Integer getShipDate() {
 		return shipDate;
 	}
 
-	public void setShipDate(Boolean shipDate) {
+	public void setShipDate(Integer shipDate) {
 		this.shipDate = shipDate;
 	}
 	

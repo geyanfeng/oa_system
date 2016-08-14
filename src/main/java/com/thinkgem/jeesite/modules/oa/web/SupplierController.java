@@ -6,6 +6,7 @@ package com.thinkgem.jeesite.modules.oa.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.oa.entity.Supplier;
 import com.thinkgem.jeesite.modules.oa.service.SupplierService;
 
+import java.util.List;
 import java.util.Map;
 
 import static org.codehaus.plexus.util.StringUtils.isNotBlank;
@@ -101,4 +103,21 @@ public class SupplierController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/oa/supplier/?repage";
 	}
 
+	@RequiresPermissions("oa:supplier:view")
+	@ResponseBody
+	@RequestMapping(value = "data")
+	public List<Map<String, Object>> data( HttpServletResponse response) {
+		List<Map<String, Object>> mapList = Lists.newArrayList();
+		Supplier filter = new Supplier();
+		filter.setDelFlag("0");
+		List<Supplier> list = supplierService.findList(filter);
+		for (int i=0; i<list.size(); i++){
+			Supplier e = list.get(i);
+			Map<String, Object> map = Maps.newHashMap();
+			map.put("id", e.getId());
+			map.put("name", e.getName());
+			mapList.add(map);
+		}
+		return mapList;
+	}
 }

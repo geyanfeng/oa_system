@@ -27,6 +27,7 @@ public class ContractProduct extends DataEntity<ContractProduct> {
 	private String amount;		// 金额
 	private String remark;		// 备注
 	private Integer sort;		//排序
+	private Integer hasSendNum; //已下单数
 	private ProductType productType; //商品类型
 	private List<ContractProduct> childs = Lists.newArrayList();		// 子表列表
 	
@@ -127,6 +128,14 @@ public class ContractProduct extends DataEntity<ContractProduct> {
 
 	public void setSort(Integer sort) {
 		this.sort = sort;
+	}
+
+	public Integer getHasSendNum() {
+		return hasSendNum;
+	}
+
+	public void setHasSendNum(Integer hasSendNum) {
+		this.hasSendNum = hasSendNum;
 	}
 
 	public List<ContractProduct> getChilds() {

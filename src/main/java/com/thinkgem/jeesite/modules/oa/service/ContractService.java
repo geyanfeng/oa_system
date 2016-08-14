@@ -270,4 +270,9 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             contract.setNo(String.format("%s%d",noPref,count+1));
         }
     }
+
+    //更新已下单数
+    public void updateHasSendProduct(ContractProduct contractProduct){
+        contractProductDao.updateHasSendNum(contractProduct);
+    }
 }

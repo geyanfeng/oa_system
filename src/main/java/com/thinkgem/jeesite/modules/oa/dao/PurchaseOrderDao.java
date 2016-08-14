@@ -15,4 +15,5 @@ import com.thinkgem.jeesite.modules.oa.entity.PurchaseOrder;
 @MyBatisDao
 public interface PurchaseOrderDao extends CrudDao<PurchaseOrder> {
     PurchaseOrder getByProcInsId(String procInsId);
+    Integer getCountByNoPref(String noPref);
 }

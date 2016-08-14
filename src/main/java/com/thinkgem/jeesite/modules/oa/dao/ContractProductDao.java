@@ -14,5 +14,5 @@ import com.thinkgem.jeesite.modules.oa.entity.ContractProduct;
  */
 @MyBatisDao
 public interface ContractProductDao extends CrudDao<ContractProduct> {
-	
+	public void updateHasSendNum(ContractProduct contractProduct);
 }

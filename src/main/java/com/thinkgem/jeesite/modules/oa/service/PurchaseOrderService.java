@@ -3,9 +3,13 @@
  */
 package com.thinkgem.jeesite.modules.oa.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import com.thinkgem.jeesite.modules.act.service.ActTaskService;
+import com.thinkgem.jeesite.modules.oa.entity.Contract;
+import com.thinkgem.jeesite.modules.oa.entity.ContractProduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +37,8 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 	private PurchaseOrderProductDao purchaseOrderProductDao;
 	@Autowired
 	private PurchaseOrderDao purchaseOrderDao;
-
+	@Autowired
+	private ContractService contractService;
 	public PurchaseOrder getByProcInsId(String procInsId) {
 		return purchaseOrderDao.getByProcInsId(procInsId);
 	}
@@ -54,11 +59,31 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 	
 	@Transactional(readOnly = false)
 	public void save(PurchaseOrder purchaseOrder) {
+		Integer sort = 1;
+
+		Contract contract = getContract(purchaseOrder.getContract().getId());
+		//设置订单号
+		setNo(purchaseOrder);
 		super.save(purchaseOrder);
 		for (PurchaseOrderProduct purchaseOrderProduct : purchaseOrder.getPurchaseOrderProductList()){
+			purchaseOrderProduct.setSort(sort);
+			sort++;
+
 			if (purchaseOrderProduct.getId() == null){
 				continue;
 			}
+			if(StringUtils.isBlank(purchaseOrderProduct.getProductType())|| StringUtils.isBlank(purchaseOrderProduct.getUnit())) {
+				//得到合同产品
+				ContractProduct contractProduct = getContractProduct(contract, purchaseOrderProduct.getContractProductId());
+				if (contractProduct == null) continue;
+				//设置产品类型
+				purchaseOrderProduct.setProductType(contractProduct.getProductType().getId());
+				//设置产品单位
+				purchaseOrderProduct.setUnit(contractProduct.getUnit());
+			}
+			//计算金额
+			purchaseOrderProduct.setAmount(purchaseOrderProduct.getNum() * purchaseOrderProduct.getPrice());
+
 			if (PurchaseOrderProduct.DEL_FLAG_NORMAL.equals(purchaseOrderProduct.getDelFlag())){
 				if (StringUtils.isBlank(purchaseOrderProduct.getId())){
 					purchaseOrderProduct.setPurchaseOrder(purchaseOrder);
@@ -79,5 +104,37 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 		super.delete(purchaseOrder);
 		purchaseOrderProductDao.delete(new PurchaseOrderProduct(purchaseOrder));
 	}
-	
+
+	public Integer getCountByNoPref(String noPref) {
+		return purchaseOrderDao.getCountByNoPref(noPref);
+	}
+
+	//设置订单号
+	public void setNo(PurchaseOrder purchaseOrder){
+		if(StringUtils.isBlank(purchaseOrder.getId())) {
+			SimpleDateFormat dateFormater = new SimpleDateFormat("yyyyMMdd");
+			String noPref = String.format("%s", dateFormater.format(new Date()));
+			Integer count;
+			count = getCountByNoPref(noPref);
+			purchaseOrder.setNo(String.format("%s%d",noPref,count+1));
+		}
+	}
+
+	private Contract getContract(String contractId){
+		return contractService.get(contractId);
+	}
+
+	private ContractProduct getContractProduct(Contract contract, String contractProductId){
+		for (ContractProduct contractProduct: contract.getContractProductList()){
+			if(contractProduct.getChilds().size() == 0 && contractProduct.getId().equals(contractProductId))
+				return contractProduct;
+			else{
+				for (ContractProduct contractChildProduct : contractProduct.getChilds()){
+					if(contractChildProduct.getId().equals(contractProductId))
+						return contractChildProduct;
+				}
+			}
+		}
+		return null;
+	}
 }

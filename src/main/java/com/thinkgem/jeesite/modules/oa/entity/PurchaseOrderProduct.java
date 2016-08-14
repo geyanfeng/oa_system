@@ -21,12 +21,12 @@ public class PurchaseOrderProduct extends DataEntity<PurchaseOrderProduct> {
 	private String contractProductId;		// 合同商品
 	private String name;		// 名称
 	private String productType;		// 商品类型
-	private Boolean price;		// 价格
-	private Boolean num;		// 数量
+	private Double price;		// 价格
+	private Double num;		// 数量
 	private String unit;		// 单位
-	private Boolean amount;		// 金额
+	private Double amount;		// 金额
 	private String remark;		// 备注
-	private Boolean sort;		// 排序
+	private Integer sort;		// 排序
 	
 	public PurchaseOrderProduct() {
 		super();
@@ -40,12 +40,11 @@ public class PurchaseOrderProduct extends DataEntity<PurchaseOrderProduct> {
 		this.purchaseOrder = purchaseOrder;
 	}
 
-	@JsonBackReference
 	public PurchaseOrder getPurchaseOrder() {
 		return purchaseOrder;
 	}
 
-	public void setPurchaseOrder(PurchaseOrder parent) {
+	public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
 		this.purchaseOrder = purchaseOrder;
 	}
 	
@@ -76,19 +75,19 @@ public class PurchaseOrderProduct extends DataEntity<PurchaseOrderProduct> {
 		this.productType = productType;
 	}
 	
-	public Boolean getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(Boolean price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 	
-	public Boolean getNum() {
+	public Double getNum() {
 		return num;
 	}
 
-	public void setNum(Boolean num) {
+	public void setNum(Double num) {
 		this.num = num;
 	}
 	
@@ -101,11 +100,11 @@ public class PurchaseOrderProduct extends DataEntity<PurchaseOrderProduct> {
 		this.unit = unit;
 	}
 	
-	public Boolean getAmount() {
+	public Double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(Boolean amount) {
+	public void setAmount(Double amount) {
 		this.amount = amount;
 	}
 	
@@ -119,11 +118,11 @@ public class PurchaseOrderProduct extends DataEntity<PurchaseOrderProduct> {
 	}
 	
 	@NotNull(message="排序不能为空")
-	public Boolean getSort() {
+	public Integer getSort() {
 		return sort;
 	}
 
-	public void setSort(Boolean sort) {
+	public void setSort(Integer sort) {
 		this.sort = sort;
 	}
 	

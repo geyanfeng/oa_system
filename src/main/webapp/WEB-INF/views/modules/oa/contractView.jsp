@@ -15,7 +15,7 @@
         table[id^='childProductList']>tbody>tr>td{
             border: 1px solid transparent !important;
         }
-        .div_bill {position: absolute; right: 10px;top: 100px;z-index:100;}
+        .div_bill {position: absolute; right: 10px;top: 100px;z-index:1040;}
     </style>
     <script>
         function getModal(){
@@ -25,7 +25,7 @@
 </head>
 <body data-spy="scroll" data-target="#navbar">
 
-<%--<c:if test="${contract.act.taskDefKey eq 'business_person_createbill'}">--%>
+<c:if test="${contract.act.taskDefKey eq 'business_person_createbill'}">
     <script src="${ctxStatic}/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
     <div class="col-sm-5 div_bill"id="draggable">
         <div class="panel panel-default">
@@ -34,17 +34,37 @@
                     <a href="#"><i class="glyphicon glyphicon-remove"></i></a>
                 </div>
             </div>
-            <div class="panel-body">
-                <iframe id="poFrame" name="poFrame" scrolling="no" frameborder="no" src="${ctx}/oa/purchaseOrder/form?fromModal=1" width="100%" height="500px"></iframe>
+            <div class="panel-body" style="padding:0;">
+                <iframe id="poFrame" name="poFrame" scrolling="auto" frameborder="no" src="${ctx}/oa/purchaseOrder/form?contract.id=${contract.id}&fromModal=1" width="100%" height="600px"></iframe>
             </div>
         </div>
     </div>
     <script>
         $( function() {
             $( "#draggable" ).draggable();
-        } );
+
+            if(parent.mainFrame){
+                parent.window.onscroll = function(){
+                    var winHeight = $(parent.window).height(), winWidth = $(parent.window).width(), divHeight =  $("#draggable").height(), divWidth = $("#draggable").width();
+                    $("#draggable").css('top',parent.window.document.body.scrollTop + (winHeight - divHeight - 100)); //控制上下位置
+                    $("#draggable").css('left',(winWidth - divWidth -300 - 20)); //控制横向位置
+                };
+            } else{
+                window.onscroll = function(){
+                    var winHeight = $(window).height(), winWidth = $(window).width(), divHeight =  $("#draggable").height(), divWidth = $("#draggable").width();
+                    $("#draggable").css('top',document.body.scrollTop + (winHeight - divHeight - 100)); //控制上下位置
+                    $("#draggable").css('left',document.body.scrollLeft + (winWidth - divWidth - 20)); //控制横向位置
+                };
+            }
+            if(parent.mainFrame) {
+                parent.window.onscroll();
+            } else{
+                $(window).trigger('scroll');
+            }
+
+        });
     </script>
-<%--</c:if>--%>
+</c:if>
 
 <form:form id="inputForm" modelAttribute="contract" action="${ctx}/oa/contract/audit" method="post" role="form">
 <form:hidden path="id"/>
@@ -197,7 +217,7 @@
                 </tbody>
             </table>
             <script type="text/template" id="contractProductTpl">//<!--
-						<tr id="contractProductList{{idx}}" row="row" data-idx={{idx}}>
+						<tr id="contractProductList{{idx}}" row="row" data-idx={{idx}} data-id="{{row.id}}">
 							<td class="hidden">
 								<input id="contractProductList{{idx}}_id" name="contractProductList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
 								<input id="contractProductList{{idx}}_sort" name="contractProductList[{{idx}}].sort" type="hidden" value="{{row.sort}}"/>
@@ -205,20 +225,28 @@
 								<input id="contractProductList{{idx}}_productTypeGroup" name="contractProductList[{{idx}}].productType" type="hidden" value="{{row.productType.id}}"/>
 
 								<input id="contractProductList{{idx}}_name" name="contractProductList[{{idx}}].name" type="hidden" value="{{row.name}}"/>
-								<input id="contractProductList{{idx}}_productType" name="contractProductList[{{idx}}].productType" type="hidden" value="{{row.productType.id}}"/>
+								<c:if test="${contract.act.taskDefKey ne 'split_po'}">
+								    <input id="contractProductList{{idx}}_productType" name="contractProductList[{{idx}}].productType" type="hidden" value="{{row.productType.id}}"/>
+								</c:if>
 								<input id="contractProductList{{idx}}_price" name="contractProductList[{{idx}}].price" type="hidden" value="{{row.price}}"/>
 								<input id="contractProductList{{idx}}_num" name="contractProductList[{{idx}}].num" type="hidden" value="{{row.num}}"/>
 								<input id="contractProductList{{idx}}_unit" name="contractProductList[{{idx}}].unit" type="hidden" value="{{row.unit}}"/>
 								<input id="contractProductList{{idx}}_amount" name="contractProductList[{{idx}}].amount" type="hidden" value="{{row.amount}}"/>
 								<input id="contractProductList{{idx}}_remark" name="contractProductList[{{idx}}].remark" type="hidden" value="{{row.remark}}"/>
+								<input id="contractProductList{{idx}}_hasSendNum" name="contractProductList[{{idx}}].hasSendNum" type="hidden" value="{{row.hasSendNum}}"/>
 							</td>
 							<td>
 							    <c:if test="${contract.act.taskDefKey eq 'business_person_createbill'}">
-							        <input type="checkbox">
+							        <input type="checkbox" onchange="selectProduct(this, '{{row.json}}')">
                                 </c:if>
 								<span>{{row.name}}</span>
 								 <span style="margin-left:50px;">{{row.productTypeGroupName}}</span>
 								<c:if test="${contract.act.taskDefKey eq 'split_po'}">
+                                    <select id="contractProductList{{idx}}_productType" name="contractProductList[{{idx}}].productType" data-value="{{row.productType.id}}" class="form-control input-block required input-sm" style="width: 40%;display: inline-block;">
+                                        <c:forEach items="${productTypeList}" var="dict">
+                                            <option value="${dict.id}">${dict.name}</option>
+                                        </c:forEach>
+                                    </select>
 							        <a href="javascript:" class="fa fa-plus" onclick="addNewChildRow(this)"></a>
                                 </c:if>
 							</td>
@@ -249,11 +277,12 @@
 						//-->
             </script>
             <script type="text/template" id="contractProductChildTpl">//<!--
-						<tr id="childProductList{{idx}}_{{child_idx}}" row="row">
+						<tr id="childProductList{{idx}}_{{child_idx}}" row="row" data-id="{{row.id}}" data-parentid = "{{row.parentId}}">
 							<td class="hidden">
 								<input id="childProductList{{idx}}_{{child_idx}}_id" name="contractProductList[{{idx}}].childs[{{child_idx}}].id" type="hidden" value="{{row.id}}"/>
 								<input id="childProductList{{idx}}_{{child_idx}}_sort" name="contractProductList[{{idx}}].childs[{{child_idx}}].sort" type="hidden" value="{{row.sort}}"/>
 								<input id="childProductList{{idx}}_{{child_idx}}_delFlag" name="contractProductList[{{idx}}].childs[{{child_idx}}].delFlag" type="hidden" value="0"/>
+								<input id="childProductList{{idx}}_{{child_idx}}_hasSendNum" name="contractProductList[{{idx}}].childs[{{child_idx}}].hasSendNum" type="hidden" value="{{row.hasSendNum}}"/>
 							</td>
 							<td>
 								<input id="childProductList{{idx}}_{{child_idx}}_name" name="contractProductList[{{idx}}].childs[{{child_idx}}].name" type="text" value="{{row.name}}" maxlength="100" class="form-control required input-sm"  style="width: 50%;display: inline-block;"/>
@@ -264,7 +293,7 @@
 								</select>
 							</td>
 							<td>
-								<input id="cchildProductList{{idx}}_{{child_idx}}_num" name="contractProductList[{{idx}}].childs[{{child_idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="form-control number input-block required input-sm" onchange="updatePriceAmount(this);"//>
+								<input id="cchildProductList{{idx}}_{{child_idx}}_num" name="contractProductList[{{idx}}].childs[{{child_idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="form-control number input-block required input-sm" onchange="updatePriceAmount(this);"/>
 							</td>
 							<td>
 								<select id="childProductList{{idx}}_{{child_idx}}_unit" name="contractProductList[{{idx}}].childs[{{child_idx}}].unit" data-value="{{row.unit}}" class="form-control input-block required input-sm">
@@ -280,15 +309,16 @@
 						//-->
             </script>
             <script type="text/template" id="contractProductChildViewTpl">//<!--
-						<tr id="childProductList{{idx}}_{{child_idx}}" row="row">
+						<tr id="childProductList{{idx}}_{{child_idx}}" row="row" data-id="{{row.id}}" data-parentid = "{{row.parentId}}">
 							<td class="hidden">
 								<input id="childProductList{{idx}}_{{child_idx}}_id" name="contractProductList[{{idx}}].childs[{{child_idx}}].id" type="hidden" value="{{row.id}}"/>
 								<input id="childProductList{{idx}}_{{child_idx}}_sort" name="contractProductList[{{idx}}].childs[{{child_idx}}].sort" type="hidden" value="{{row.sort}}"/>
 								<input id="childProductList{{idx}}_{{child_idx}}_delFlag" name="contractProductList[{{idx}}].childs[{{child_idx}}].delFlag" type="hidden" value="0"/>
+								<input id="childProductList{{idx}}_{{child_idx}}_hasSendNum" name="contractProductList[{{idx}}].childs[{{child_idx}}].hasSendNum" type="hidden" value="{{row.hasSendNum}}"/>
 							</td>
 							<td>
 							     <c:if test="${contract.act.taskDefKey eq 'business_person_createbill'}">
-							        <input type="checkbox">
+							        <input type="checkbox" onchange="selectProduct(this, '{{row.json}}')">
                                 </c:if>
 								<span style="display:inline-block;width:100px;">{{row.name}}</span>
 								<span style="margin-left:50px">{{row.productType.name}}</span>
@@ -343,6 +373,9 @@
                 });
 
                 function addRow(list, idx, tpl, row) {
+                    <c:if test="${contract.act.taskDefKey eq 'business_person_createbill'}">
+                        row.json = JSON.stringify(row);
+                    </c:if>
                     $(list).append(Mustache.render(tpl, {
                         idx: idx, delBtn: true, row: row, unitList:unitList
                     }));
@@ -363,6 +396,9 @@
                 }
 
                 function addChildRow(list, idx, child_idx, tpl, row) {
+                    <c:if test="${contract.act.taskDefKey eq 'business_person_createbill'}">
+                        row.json = JSON.stringify(row);
+                    </c:if>
                     $(list).append(Mustache.render(tpl, {
                         idx: idx, child_idx: child_idx, delBtn: true, row: row
                     }));
@@ -407,6 +443,50 @@
                         $(obj).html("&times;").attr("title", "删除");
                         $(obj).parent().parent().removeClass("error");
                     }
+                }
+
+                function selectProduct(sender, dataString){
+                    var self = $(sender);
+                    var checked = self.is(':checked');
+                    var poFrameWin = document.getElementById("poFrame").contentWindow;
+                    var data = JSON.parse(dataString);
+                    if(checked){
+                        if(data.childs){
+                            if(poFrameWin.addProduct){
+                                $.each(data.childs, function(idx, item){
+                                    $("#card_products tr[data-id='"+ item.id +"'] input:checkbox").prop("checked","checked");
+                                    $("#card_products tr[data-id='"+ item.id +"'] input:checkbox").trigger('change');
+                                    //poFrameWin.addProduct(item);
+                                });
+                            }
+                        } else {
+                            if(poFrameWin.addProduct) {
+                                poFrameWin.addProduct(data);
+                            } else
+                                self.prop("checked","");
+                        }
+                    } else{
+                        if(data.childs) {
+                            $.each(data.childs, function(idx, item){
+                                if(poFrameWin.removeProduct){
+                                    $("#card_products tr[data-id='"+ item.id +"'] input:checkbox").prop("checked","");
+                                    poFrameWin.removeProduct(item.id);
+                                }
+                            });
+                        } else{
+                            if(poFrameWin.removeProduct){
+                                poFrameWin.removeProduct(data.id);
+                            } else
+                                self.prop("checked","checked");
+                        }
+                    }
+                }
+
+                function unSelectProduct(id){
+                    $("#card_products tr[data-id='"+ id +"'] input:checkbox").prop("checked","");
+                    var parentId = $("#card_products tr[data-id='"+ id +"']").data("parentid");
+                    if(parentId)
+                        $("#card_products tr[data-id='"+ parentId +"'] input:checkbox").prop("checked","");
                 }
             </script>
         </div>

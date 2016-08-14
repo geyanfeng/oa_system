@@ -91,7 +91,7 @@
 		) VALUES (
 			#{id},
 			#{no},
-			#{contractId},
+			#{contract.id},
 			#{companyName},
 			#{supplier.id},
 			#{paymentDetail},
@@ -130,9 +130,14 @@
 	<select id="getByProcInsId" resultType="PurchaseOrder">
 		SELECT
 		<include refid="purchaseOrderColumns"/>
-		FROM oa_contract a
+		FROM oa_po a
 		<include refid="purchaseOrderJoins"/>
 		WHERE a.proc_ins_id = #{procInsId}
 	</select>
-	
+
+	<select id="getCountByNoPref" resultType="Integer">
+		SELECT count(1)
+		FROM oa_po a
+		where a.no like concat(#{noPref},'%')
+	</select>
 </mapper>

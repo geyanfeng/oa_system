@@ -12,6 +12,7 @@
 		a.unit AS "unit",
 		a.amount AS "amount",
 		a.remark AS "remark",
+		a.has_send_num AS "hasSendNum",
 		a.del_flag AS "delFlag",
 		a.create_by AS "createBy.id",
 		a.sort AS "sort",
@@ -128,10 +129,17 @@
 			unit = #{unit},
 			amount = #{amount},
 			remark = #{remark},
+			has_send_num = #{hasSendNum}
 			sort = #{sort},
 			product_type = #{productType.id},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+
+	<update id="updateHasSendNum">
+		UPDATE oa_contract_product SET
+		has_send_num = #{hasSendNum}
 		WHERE id = #{id}
 	</update>
 	

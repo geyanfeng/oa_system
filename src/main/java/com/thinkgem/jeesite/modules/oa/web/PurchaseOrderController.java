@@ -6,6 +6,7 @@ package com.thinkgem.jeesite.modules.oa.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.modules.oa.entity.ProductType;
 import com.thinkgem.jeesite.modules.oa.entity.Supplier;
 import com.thinkgem.jeesite.modules.oa.service.ProductTypeGroupService;
@@ -18,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.config.Global;
@@ -28,6 +30,7 @@ import com.thinkgem.jeesite.modules.oa.entity.PurchaseOrder;
 import com.thinkgem.jeesite.modules.oa.service.PurchaseOrderService;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.codehaus.plexus.util.StringUtils.isNotBlank;
 
@@ -96,6 +99,18 @@ public class PurchaseOrderController extends BaseController {
 		purchaseOrderService.save(purchaseOrder);
 		addMessage(redirectAttributes, "保存采购订单成功");
 		return "redirect:"+Global.getAdminPath()+"/oa/purchaseOrder/?repage";
+	}
+
+	@SuppressWarnings("Duplicates")
+	@RequiresPermissions("oa:purchaseOrder:edit")
+	@RequestMapping(value = "ajaxSave")
+	@ResponseBody
+	public Map<String, Object> ajaxSave(PurchaseOrder purchaseOrder, Model model, RedirectAttributes redirectAttributes) {
+		save(purchaseOrder, model, redirectAttributes);
+		Map<String, Object> map = Maps.newHashMap();
+		map.put("status",1);//1成功,
+		map.put("data", purchaseOrder);
+		return map;
 	}
 	
 	@RequiresPermissions("oa:purchaseOrder:edit")

@@ -419,13 +419,15 @@
 								<input id="contractProductList{{idx}}_delFlag" name="contractProductList[{{idx}}].delFlag" type="hidden" value="0"/>
 							</td>
 							<td>
-								<input id="contractProductList{{idx}}_name" name="contractProductList[{{idx}}].name" type="text" value="{{row.name}}" maxlength="100" class="form-control required input-sm"  style="width: 50%;display: inline-block;"/>
-								<select id="contractProductList{{idx}}_productType" name="contractProductList[{{idx}}].productType" data-value="{{row.productType.id}}" class="form-control input-block required input-sm" style="width: 40%;display: inline-block;">
-									<c:forEach items="${productTypeList}" var="dict">
-										<option value="${dict.id}">${dict.name}</option>
-									</c:forEach>
-								</select>
-								<a href="javascript:" class="fa fa-plus" onclick="addNewChildRow(this)"></a>
+								<input id="contractProductList{{idx}}_name" name="contractProductList[{{idx}}].name" type="text" value="{{row.name}}" maxlength="100" class="form-control required input-sm"  style="display: inline-block;"/>
+								<c:if test="${contract.act.taskDefKey eq 'split_po'}">
+                                    <select id="contractProductList{{idx}}_productType" name="contractProductList[{{idx}}].productType" data-value="{{row.productType.id}}" class="form-control input-block required input-sm" style="width: 40%;display: inline-block;">
+                                        <c:forEach items="${productTypeList}" var="dict">
+                                            <option value="${dict.id}">${dict.name}</option>
+                                        </c:forEach>
+                                    </select>
+							        <a href="javascript:" class="fa fa-plus" onclick="addNewChildRow(this)"></a>
+                                </c:if>
 							</td>
 							<td>
 								<input id="contractProductList{{idx}}_price" name="contractProductList[{{idx}}].price" type="text" value="{{row.price}}" class="form-control number input-block required input-sm" onchange="updatePriceAmount(this);"/>

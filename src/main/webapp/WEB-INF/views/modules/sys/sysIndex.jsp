@@ -146,7 +146,7 @@
 			<DIV class="content">
 				<DIV class="container">
 					<!-- Page-Title -->
-					<iframe id="mainFrame" name="mainFrame" scrolling="no" frameborder="no" src="${ctx}/oa/home"
+					<iframe id="mainFrame" name="mainFrame" scrolling="auto" frameborder="no" src="${ctx}/oa/home"
 						width="100%"></iframe>
 				</DIV>
 				<!-- container -->
@@ -238,7 +238,9 @@
         <script src="${ctxStatic}/assets/js/jquery.app.js"></script>
 	<script src="${ctxStatic}/assets/js/iframeResizer.min.js" type="text/javascript"></script>
 	<script type="text/javascript">
-		$('#mainFrame').iFrameResize([{log: true, minHeight:700 }]);
+		var frameResizer = $('#mainFrame').iFrameResize([{log: true, minHeight:700, scrolling:true }]);
+		var mainFrame = document.getElementById("mainFrame");
+		//$(mainFrame).height($(window).height()-190);
 	</script>
 </BODY>
 </html>
