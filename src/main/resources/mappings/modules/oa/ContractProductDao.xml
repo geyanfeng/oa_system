@@ -129,7 +129,7 @@
 			unit = #{unit},
 			amount = #{amount},
 			remark = #{remark},
-			has_send_num = #{hasSendNum}
+			has_send_num = #{hasSendNum},
 			sort = #{sort},
 			product_type = #{productType.id},
 			update_by = #{updateBy.id},

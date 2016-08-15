@@ -21,11 +21,19 @@
         function getModal(){
             return $('#modal');
         }
+
+        $(function(){
+            if(parent.mainFrame){
+               $(parent.window).scroll( function(){
+                    $('.navbar').css('top', parent.window.document.body.scrollTop)
+                });
+            }
+        });
     </script>
 </head>
 <body data-spy="scroll" data-target="#navbar">
 
-<c:if test="${contract.act.taskDefKey eq 'business_person_createbill'}">
+<c:if test="${contract.status eq '35'}">
     <script src="${ctxStatic}/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
     <div class="col-sm-5 div_bill"id="draggable">
         <div class="panel panel-default">
@@ -42,22 +50,21 @@
     <script>
         $( function() {
             $( "#draggable" ).draggable();
-
             if(parent.mainFrame){
-                parent.window.onscroll = function(){
+                $(parent.window).scroll(  function(){
                     var winHeight = $(parent.window).height(), winWidth = $(parent.window).width(), divHeight =  $("#draggable").height(), divWidth = $("#draggable").width();
-                    $("#draggable").css('top',parent.window.document.body.scrollTop + (winHeight - divHeight - 100)); //控制上下位置
+                    $("#draggable").css('top',parent.window.document.body.scrollTop  + $('.navbar').height() + 20); //控制上下位置
                     $("#draggable").css('left',(winWidth - divWidth -300 - 20)); //控制横向位置
-                };
+                });
             } else{
-                window.onscroll = function(){
+                $(parent).scroll( function(){
                     var winHeight = $(window).height(), winWidth = $(window).width(), divHeight =  $("#draggable").height(), divWidth = $("#draggable").width();
-                    $("#draggable").css('top',document.body.scrollTop + (winHeight - divHeight - 100)); //控制上下位置
+                    $("#draggable").css('top',document.body.scrollTop + $('.navbar').height() + 20); //控制上下位置
                     $("#draggable").css('left',document.body.scrollLeft + (winWidth - divWidth - 20)); //控制横向位置
-                };
+                });
             }
             if(parent.mainFrame) {
-                parent.window.onscroll();
+                $(parent.window).trigger('scroll');
             } else{
                 $(window).trigger('scroll');
             }
@@ -236,7 +243,7 @@
 								<input id="contractProductList{{idx}}_hasSendNum" name="contractProductList[{{idx}}].hasSendNum" type="hidden" value="{{row.hasSendNum}}"/>
 							</td>
 							<td>
-							    <c:if test="${contract.act.taskDefKey eq 'business_person_createbill'}">
+							    <c:if test="${contract.status eq '35'}">
 							        <input type="checkbox" onchange="selectProduct(this, '{{row.json}}')">
                                 </c:if>
 								<span>{{row.name}}</span>
@@ -317,7 +324,7 @@
 								<input id="childProductList{{idx}}_{{child_idx}}_hasSendNum" name="contractProductList[{{idx}}].childs[{{child_idx}}].hasSendNum" type="hidden" value="{{row.hasSendNum}}"/>
 							</td>
 							<td>
-							     <c:if test="${contract.act.taskDefKey eq 'business_person_createbill'}">
+							     <c:if test="${contract.status eq '35'}">
 							        <input type="checkbox" onchange="selectProduct(this, '{{row.json}}')">
                                 </c:if>
 								<span style="display:inline-block;width:100px;">{{row.name}}</span>
@@ -341,6 +348,10 @@
 
                 $(document).ready(function () {
                     var data = ${fns:toJson(contract.contractProductList)};
+                   loadProducts(data);
+                });
+
+                function loadProducts(data){
                     for (var i = 0; i < data.length; i++) {
                         data[i].unitName = "";
                         for(var j = 0; j<unitList.length; j++){
@@ -370,10 +381,34 @@
 
                         contractProductRowIdx = contractProductRowIdx + 1;
                     }
-                });
+
+                    <c:if test="${contract.status eq '35'}">
+                    //如果是订单下单,过滤已经下过的产品
+                    for (var i = 0; i < data.length; i++) {
+                        var existChildCount = 0;
+                        if (data[i].childs) {
+                            for (var j = 0; j < data[i].childs.length; j++) {
+                                if(data[i].childs[j].hasSendNum == data[i].childs[j].num){
+                                    $("tr[data-id="+data[i].childs[j].id+"]").remove();
+                                } else{
+                                    existChildCount = existChildCount + 1;
+                                }
+                            }
+                            if(existChildCount == 0)
+                                $("tr[data-id="+data[i].id+"]").remove();
+                                //$("tr[data-id="+data[i].id+"]").next().remove();
+                        } else{
+                            if(data[i].hasSendNum == data[i].num){
+                                $("tr[data-id="+data[i].id+"]").remove();
+                                /*$("tr[data-id="+data[i].id+"]").next("tr").remove();*/
+                            }
+                        }
+                    }
+                    </c:if>
+                }
 
                 function addRow(list, idx, tpl, row) {
-                    <c:if test="${contract.act.taskDefKey eq 'business_person_createbill'}">
+                    <c:if test="${contract.status eq '35'}">
                         row.json = JSON.stringify(row);
                     </c:if>
                     $(list).append(Mustache.render(tpl, {
@@ -396,7 +431,7 @@
                 }
 
                 function addChildRow(list, idx, child_idx, tpl, row) {
-                    <c:if test="${contract.act.taskDefKey eq 'business_person_createbill'}">
+                    <c:if test="${contract.status eq '35'}">
                         row.json = JSON.stringify(row);
                     </c:if>
                     $(list).append(Mustache.render(tpl, {
@@ -487,6 +522,11 @@
                     var parentId = $("#card_products tr[data-id='"+ id +"']").data("parentid");
                     if(parentId)
                         $("#card_products tr[data-id='"+ parentId +"'] input:checkbox").prop("checked","");
+                }
+
+                function loadProductsAfterClear(data){
+                    $('#contractProductList').empty();
+                    loadProducts(data.contractProductList);
                 }
             </script>
         </div>

@@ -3,11 +3,10 @@
  */
 package com.thinkgem.jeesite.modules.oa.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import org.hibernate.validator.constraints.Length;
-import javax.validation.constraints.NotNull;
-
 import com.thinkgem.jeesite.common.persistence.DataEntity;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * 采购订单Entity
@@ -22,7 +21,7 @@ public class PurchaseOrderProduct extends DataEntity<PurchaseOrderProduct> {
 	private String name;		// 名称
 	private String productType;		// 商品类型
 	private Double price;		// 价格
-	private Double num;		// 数量
+	private Integer num;		// 数量
 	private String unit;		// 单位
 	private Double amount;		// 金额
 	private String remark;		// 备注
@@ -83,11 +82,11 @@ public class PurchaseOrderProduct extends DataEntity<PurchaseOrderProduct> {
 		this.price = price;
 	}
 	
-	public Double getNum() {
+	public Integer getNum() {
 		return num;
 	}
 
-	public void setNum(Double num) {
+	public void setNum(Integer num) {
 		this.num = num;
 	}
 	

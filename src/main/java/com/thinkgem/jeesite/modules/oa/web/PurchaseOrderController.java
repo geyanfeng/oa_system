@@ -3,15 +3,15 @@
  */
 package com.thinkgem.jeesite.modules.oa.web;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.google.common.collect.Maps;
+import com.thinkgem.jeesite.common.config.Global;
+import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.oa.entity.ProductType;
+import com.thinkgem.jeesite.modules.oa.entity.PurchaseOrder;
 import com.thinkgem.jeesite.modules.oa.entity.Supplier;
-import com.thinkgem.jeesite.modules.oa.service.ProductTypeGroupService;
-import com.thinkgem.jeesite.modules.oa.service.ProductTypeService;
-import com.thinkgem.jeesite.modules.oa.service.SupplierService;
+import com.thinkgem.jeesite.modules.oa.service.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,13 +22,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.thinkgem.jeesite.common.config.Global;
-import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.common.utils.StringUtils;
-import com.thinkgem.jeesite.modules.oa.entity.PurchaseOrder;
-import com.thinkgem.jeesite.modules.oa.service.PurchaseOrderService;
-
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -51,6 +46,8 @@ public class PurchaseOrderController extends BaseController {
 	private ProductTypeService productTypeService;
 	@Autowired
 	private ProductTypeGroupService productTypeGroupService;
+	@Autowired
+	private ContractService contractService;
 	
 	@ModelAttribute
 	public PurchaseOrder get(@RequestParam(required=false) String id) {
@@ -106,10 +103,18 @@ public class PurchaseOrderController extends BaseController {
 	@RequestMapping(value = "ajaxSave")
 	@ResponseBody
 	public Map<String, Object> ajaxSave(PurchaseOrder purchaseOrder, Model model, RedirectAttributes redirectAttributes) {
-		save(purchaseOrder, model, redirectAttributes);
 		Map<String, Object> map = Maps.newHashMap();
-		map.put("status",1);//1成功,
-		map.put("data", purchaseOrder);
+		try {
+			save(purchaseOrder, model, redirectAttributes);
+			map.put("status",1);//1成功,
+			map.put("contractId", purchaseOrder.getContract().getId());
+			/*purchaseOrder.setContract(contractService.get(purchaseOrder.getContract().getId()));
+			map.put("data", purchaseOrder);*/
+		}
+		catch(Exception e){
+			map.put("status",0);//1失败
+			map.put("msg", e.getMessage());
+		}
 		return map;
 	}
 	

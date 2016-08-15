@@ -18,6 +18,7 @@
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
+		a.amount AS "amount",
 		a9.name AS "supplier.name",
 		a10.name AS "contract.name",
 		a10.no AS "contract.no"
@@ -87,7 +88,8 @@
 			create_by,
 			create_date,
 			update_by,
-			update_date
+			update_date,
+			amount
 		) VALUES (
 			#{id},
 			#{no},
@@ -102,7 +104,8 @@
 			#{createBy.id},
 			#{createDate},
 			#{updateBy.id},
-			#{updateDate}
+			#{updateDate},
+			#{amount}
 		)
 	</insert>
 	
@@ -116,7 +119,8 @@
 			ship_date = #{shipDate},
 			remark = #{remark},
 			update_by = #{updateBy.id},
-			update_date = #{updateDate}
+			update_date = #{updateDate},
+			amount = #{amount}
 		WHERE id = #{id}
 	</update>
 	

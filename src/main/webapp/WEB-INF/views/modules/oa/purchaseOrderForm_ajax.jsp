@@ -51,11 +51,17 @@
                 }
             });
 
-            $("#inputForm").ajaxForm({success:function(result){
-                var status= result.status;
-                if(status!="1") return;
-                if(parent.closeCustomerModal)
-                    parent.closeCustomerModal(result.data);
+            $("#inputForm").ajaxForm({resetForm: true,
+                success:function(result){
+                        var status= result.status;
+                        if(status!="1") return;
+                        if(parent.loadProductsAfterClear){
+                            $.getJSON("${ctx}/oa/contract/get?id="+result.contractId, function(result){
+                                parent.loadProductsAfterClear(result.data);
+                                location.reload();
+                            });
+                        }
+
             }, beforeSubmit: function () {
                 $("#paymentDetail").val(JSON.stringify(getPaymentDetail()));
             }});
@@ -145,7 +151,7 @@
 								{{row.name}}
 							</td>
 							<td>
-								<input id="purchaseOrderProductList{{idx}}_num" name="purchaseOrderProductList[{{idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="form-control number input-block required input-sm" onchange="updatePriceAmount(this);" style="display:inline-block"/>
+								<input id="purchaseOrderProductList{{idx}}_num" name="purchaseOrderProductList[{{idx}}].num" type="text" value="{{row.num}}" max="{{row.maxNum}}" maxlength="10" class="form-control number input-block required input-sm" onchange="updatePriceAmount(this);" style="display:inline-block"/>
 							</td>
 							<td>
 							    {{row.unitName}}
@@ -194,7 +200,6 @@
                 //$(list + idx).find('.bootstrap-touchspin').css('width','100px');
             }
 
-
             function delRow(obj, prefix, contractProductId) {
                 if(parent.unSelectProduct){
                     parent.unSelectProduct(contractProductId);
@@ -219,10 +224,10 @@
                 var row = {
                     contractProductId: data.id,
                     name: data.name,
-                    num: data.num,
+                    num: (data.num - data.hasSendNum),
                     unit: data.unit,
                     unitName: $.trim(data.unitName),
-                    maxNum: data.maxNum
+                    maxNum: (data.num - data.hasSendNum)
                 }
                 addRow('#purchaseOrderProductList', poProductRowIdx, poProductTpl, row);
                 poProductRowIdx = poProductRowIdx + 1;

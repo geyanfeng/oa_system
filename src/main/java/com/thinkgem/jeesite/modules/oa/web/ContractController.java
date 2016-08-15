@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.oa.web;
 
+import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.DateUtils;
@@ -27,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.codehaus.plexus.util.StringUtils.isNotBlank;
 
@@ -58,6 +60,21 @@ public class ContractController extends BaseController {
 			entity = new Contract();
 		}
 		return entity;
+	}
+
+	@RequestMapping(value = {"get"})
+	@ResponseBody
+	public Map<String, Object> getData(@RequestParam(required=false) String id) {
+		Contract entity = null;
+		if (StringUtils.isNotBlank(id)){
+			entity = contractService.get(id);
+		}
+		if (entity == null){
+			entity = new Contract();
+		}
+		Map<String, Object> map = Maps.newHashMap();
+		map.put("data",entity);
+		return map;
 	}
 	
 	@RequiresPermissions("oa:contract:view")

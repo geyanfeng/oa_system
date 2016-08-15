@@ -3,13 +3,11 @@
  */
 package com.thinkgem.jeesite.modules.oa.entity;
 
+import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.common.persistence.ActEntity;
 import org.hibernate.validator.constraints.Length;
-import com.thinkgem.jeesite.modules.oa.entity.Customer;
-import java.util.List;
-import com.google.common.collect.Lists;
 
-import com.thinkgem.jeesite.common.persistence.DataEntity;
+import java.util.List;
 
 /**
  * 采购订单Entity
@@ -28,6 +26,7 @@ public class PurchaseOrder extends ActEntity<PurchaseOrder> {
 	private Integer paymentPointnum;		// 帐期点数
 	private Integer shipDate;		// 预计到货时间
 	private String remark;		// 备注
+	private Double amount;		// 金额
 	private List<PurchaseOrderProduct> purchaseOrderProductList = Lists.newArrayList();		// 子表列表
 	
 	public PurchaseOrder() {
@@ -36,6 +35,14 @@ public class PurchaseOrder extends ActEntity<PurchaseOrder> {
 
 	public PurchaseOrder(String id){
 		super(id);
+	}
+
+	public Double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Double amount) {
+		this.amount = amount;
 	}
 
 	@Length(min=0, max=64, message="流程实例ID长度必须介于 0 和 64 之间")

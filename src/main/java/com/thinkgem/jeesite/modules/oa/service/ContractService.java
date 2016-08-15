@@ -235,7 +235,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 
                     } else if ("saler_audit".equals(taskDefKey)) {//总监审核
                         if (pass) {
-                            contract.setStatus(DictUtils.getDictValue("待审批", "oa_contract_status", ""));
+                            contract.setStatus(DictUtils.getDictValue("待下单", "oa_contract_status", ""));
                         } else {
                             contract.setStatus(DictUtils.getDictValue("待签约", "oa_contract_status", ""));
                         }
