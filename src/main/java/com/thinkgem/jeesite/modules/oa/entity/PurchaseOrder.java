@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.common.persistence.ActEntity;
 import org.hibernate.validator.constraints.Length;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,7 +28,11 @@ public class PurchaseOrder extends ActEntity<PurchaseOrder> {
 	private Integer shipDate;		// 预计到货时间
 	private String remark;		// 备注
 	private Double amount;		// 金额
+	private String status;		// 订单状态
+	private Date beginCreateDate;		// 开始 日期
+	private Date endCreateDate;		// 结束 日期
 	private List<PurchaseOrderProduct> purchaseOrderProductList = Lists.newArrayList();		// 子表列表
+	private List<PurchaseOrderAttachment> purchaseOrderAttachmentList = Lists.newArrayList();		// 子表列表
 	
 	public PurchaseOrder() {
 		super();
@@ -35,6 +40,14 @@ public class PurchaseOrder extends ActEntity<PurchaseOrder> {
 
 	public PurchaseOrder(String id){
 		super(id);
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public Double getAmount() {
@@ -121,6 +134,22 @@ public class PurchaseOrder extends ActEntity<PurchaseOrder> {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
+
+	public Date getBeginCreateDate() {
+		return beginCreateDate;
+	}
+
+	public void setBeginCreateDate(Date beginCreateDate) {
+		this.beginCreateDate = beginCreateDate;
+	}
+
+	public Date getEndCreateDate() {
+		return endCreateDate;
+	}
+
+	public void setEndCreateDate(Date endCreateDate) {
+		this.endCreateDate = endCreateDate;
+	}
 	
 	public List<PurchaseOrderProduct> getPurchaseOrderProductList() {
 		return purchaseOrderProductList;
@@ -128,5 +157,13 @@ public class PurchaseOrder extends ActEntity<PurchaseOrder> {
 
 	public void setPurchaseOrderProductList(List<PurchaseOrderProduct> purchaseOrderProductList) {
 		this.purchaseOrderProductList = purchaseOrderProductList;
+	}
+
+	public List<PurchaseOrderAttachment> getPurchaseOrderAttachmentList() {
+		return purchaseOrderAttachmentList;
+	}
+
+	public void setPurchaseOrderAttachmentList(List<PurchaseOrderAttachment> purchaseOrderAttachmentList) {
+		this.purchaseOrderAttachmentList = purchaseOrderAttachmentList;
 	}
 }

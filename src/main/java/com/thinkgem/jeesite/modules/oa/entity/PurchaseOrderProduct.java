@@ -19,7 +19,7 @@ public class PurchaseOrderProduct extends DataEntity<PurchaseOrderProduct> {
 	private PurchaseOrder purchaseOrder;		// 订单主表 父类
 	private String contractProductId;		// 合同商品
 	private String name;		// 名称
-	private String productType;		// 商品类型
+	private ProductType productType;		// 商品类型
 	private Double price;		// 价格
 	private Integer num;		// 数量
 	private String unit;		// 单位
@@ -66,11 +66,11 @@ public class PurchaseOrderProduct extends DataEntity<PurchaseOrderProduct> {
 	}
 	
 	@Length(min=1, max=64, message="商品类型长度必须介于 1 和 64 之间")
-	public String getProductType() {
+	public ProductType getProductType() {
 		return productType;
 	}
 
-	public void setProductType(String productType) {
+	public void setProductType(ProductType productType) {
 		this.productType = productType;
 	}
 	

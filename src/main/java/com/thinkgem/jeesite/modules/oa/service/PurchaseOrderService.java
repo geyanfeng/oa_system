@@ -3,16 +3,15 @@
  */
 package com.thinkgem.jeesite.modules.oa.service;
 
+import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.act.service.ActTaskService;
-import com.thinkgem.jeesite.modules.oa.dao.ContractProductDao;
-import com.thinkgem.jeesite.modules.oa.dao.PurchaseOrderDao;
-import com.thinkgem.jeesite.modules.oa.dao.PurchaseOrderProductDao;
-import com.thinkgem.jeesite.modules.oa.entity.ContractProduct;
-import com.thinkgem.jeesite.modules.oa.entity.PurchaseOrder;
-import com.thinkgem.jeesite.modules.oa.entity.PurchaseOrderProduct;
+import com.thinkgem.jeesite.modules.act.utils.ActUtils;
+import com.thinkgem.jeesite.modules.oa.dao.*;
+import com.thinkgem.jeesite.modules.oa.entity.*;
+import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
+import static org.jasig.cas.client.util.CommonUtils.isBlank;
 
 /**
  * 采购订单Service
@@ -38,6 +40,10 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 	private PurchaseOrderDao purchaseOrderDao;
 	@Autowired
 	private ContractProductDao contractProductDao;
+	@Autowired
+	private ContractDao contractDao;
+	@Autowired
+	private PurchaseOrderAttachmentDao purchaseOrderAttachmentDao;
 
 	public PurchaseOrder getByProcInsId(String procInsId) {
 		return purchaseOrderDao.getByProcInsId(procInsId);
@@ -46,6 +52,7 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 	public PurchaseOrder get(String id) {
 		PurchaseOrder purchaseOrder = super.get(id);
 		purchaseOrder.setPurchaseOrderProductList(purchaseOrderProductDao.findList(new PurchaseOrderProduct(purchaseOrder)));
+		purchaseOrder.setPurchaseOrderAttachmentList(purchaseOrderAttachmentDao.findList(new PurchaseOrderAttachment(purchaseOrder)));
 		return purchaseOrder;
 	}
 	
@@ -64,6 +71,10 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 
 		//设置订单号
 		setNo(purchaseOrder);
+		if(purchaseOrder.getAmount()==null)
+			purchaseOrder.setAmount(0.00);
+		if(purchaseOrder.getStatus()==null)
+			purchaseOrder.setStatus("40");
 		super.save(purchaseOrder);
 
 		for (PurchaseOrderProduct purchaseOrderProduct : purchaseOrder.getPurchaseOrderProductList()) {
@@ -78,8 +89,8 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 			ContractProduct contractProduct = contractProductDao.get(purchaseOrderProduct.getContractProductId());
 			if (contractProduct == null) continue;
 			//设置产品类型
-			if (StringUtils.isBlank(purchaseOrderProduct.getProductType()))
-				purchaseOrderProduct.setProductType(contractProduct.getProductType().getId());
+			if (purchaseOrderProduct.getProductType() == null || StringUtils.isBlank(purchaseOrderProduct.getProductType().getId()))
+				purchaseOrderProduct.setProductType(new ProductType(contractProduct.getProductType().getId()));
 			//设置产品单位
 			if (StringUtils.isBlank(purchaseOrderProduct.getUnit()))
 				purchaseOrderProduct.setUnit(contractProduct.getUnit());
@@ -116,8 +127,35 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 			contractProduct.preUpdate();
 			contractProductDao.update(contractProduct);
 		}
+
+		//保存附件
+		saveAttachments(purchaseOrder);
 		//更新订单
 		super.save(purchaseOrder);
+
+		//启动流程审核
+		purchaseOrder.getAct().setFlag("submit_audit");
+		audit(purchaseOrder);
+	}
+
+	public void saveAttachments(PurchaseOrder purchaseOrder){
+		for (PurchaseOrderAttachment purchaseOrderAttachment : purchaseOrder.getPurchaseOrderAttachmentList()) {
+			if (purchaseOrderAttachment.getId() == null) {
+				continue;
+			}
+			if (ContractAttachment.DEL_FLAG_NORMAL.equals(purchaseOrderAttachment.getDelFlag())) {
+				if (StringUtils.isBlank(purchaseOrderAttachment.getId())) {
+					purchaseOrderAttachment.setPurchaseOrder(purchaseOrder);
+					purchaseOrderAttachment.preInsert();
+					purchaseOrderAttachmentDao.insert(purchaseOrderAttachment);
+				} else {
+					purchaseOrderAttachment.preUpdate();
+					purchaseOrderAttachmentDao.update(purchaseOrderAttachment);
+				}
+			} else {
+				purchaseOrderAttachmentDao.delete(purchaseOrderAttachment);
+			}
+		}
 	}
 	
 	@Transactional(readOnly = false)
@@ -139,5 +177,57 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 			count = getCountByNoPref(noPref);
 			purchaseOrder.setNo(String.format("%s%d",noPref,count+1));
 		}
+	}
+
+	@Transactional(readOnly = false)
+	public void audit(PurchaseOrder purchaseOrder) {
+		// 对不同环节的业务逻辑进行操作
+		String taskDefKey = purchaseOrder.getAct().getTaskDefKey();
+		String flag = purchaseOrder.getAct().getFlag();
+		Boolean pass = false;
+		Contract contract = contractDao.get(purchaseOrder.getContract().getId());
+
+		if (isBlank(taskDefKey) && "submit_audit".equals(flag)) {
+			//更新订单状态
+			purchaseOrder.setStatus(DictUtils.getDictValue("已下单","oa_po_status",""));
+			purchaseOrder.preUpdate();
+			purchaseOrderDao.update(purchaseOrder);
+			// 设置流程变量
+			Map<String, Object> vars = Maps.newHashMap();
+			vars.put("business_person", contract.getBusinessPerson().getName());
+			vars.put("artisan", contract.getArtisan().getName());
+			purchaseOrder.getAct().setComment("商务下单");
+			actTaskService.startProcess(ActUtils.PD_PO_AUDIT[0], ActUtils.PD_PO_AUDIT[1], purchaseOrder.getId(), purchaseOrder.getNo(), vars);
+		} else {
+			Map<String, Object> vars = Maps.newHashMap();
+			String comment = purchaseOrder.getAct().getComment();
+			if (StringUtils.isNotBlank(flag) && ("yes".equals(flag) || "no".equals(flag))) {
+				pass = "yes".equals(purchaseOrder.getAct().getFlag());
+				comment = (pass ? "[同意] " : "[驳回] ") + (StringUtils.isNotBlank(comment) ? comment : "");
+				purchaseOrder.getAct().setComment(comment);
+				vars.put("pass", pass ? "1" : "0");
+			}
+
+			if("verify_ship".equals(taskDefKey)){//确认发货
+				purchaseOrder.setStatus(DictUtils.getDictValue("已发货","oa_po_status",""));
+			} else if("payment".equals(taskDefKey)){//付款
+				purchaseOrder.setStatus(DictUtils.getDictValue("已完成","oa_po_status",""));
+			} else {
+				if (StringUtils.isNotBlank(flag)) {
+					if ("verify_receiving".equals(taskDefKey)) {//收货验收
+						if (pass) {
+							purchaseOrder.setStatus(DictUtils.getDictValue("已验收", "oa_po_status", ""));
+						} else {
+							purchaseOrder.setStatus(DictUtils.getDictValue("已发货", "oa_po_status", ""));
+						}
+					}
+				}
+			}
+
+			purchaseOrder.preUpdate();
+			purchaseOrderDao.update(purchaseOrder);
+			actTaskService.complete(purchaseOrder.getAct().getTaskId(), purchaseOrder.getAct().getProcInsId(), purchaseOrder.getAct().getComment(), vars);
+		}
+
 	}
 }

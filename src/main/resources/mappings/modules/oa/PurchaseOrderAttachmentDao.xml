@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.oa.dao.PurchaseOrderAttachmentDao">
+    
+	<sql id="purchaseOrderAttachmentColumns">
+		a.id AS "id",
+		a.po_id AS "purchaseOrder.id",
+		a.type AS "type",
+		a.files AS "files",
+		a.remark AS "remark",
+		a.del_flag AS "delFlag",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate"
+	</sql>
+	
+	<sql id="purchaseOrderAttachmentJoins">
+		LEFT JOIN oa_po b ON b.id = a.po_id
+	</sql>
+    
+	<select id="get" resultType="PurchaseOrderAttachment">
+		SELECT 
+			<include refid="purchaseOrderAttachmentColumns"/>
+		FROM oa_po_attachment a
+		<include refid="purchaseOrderAttachmentJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="PurchaseOrderAttachment">
+		SELECT 
+			<include refid="purchaseOrderAttachmentColumns"/>
+		FROM oa_po_attachment a
+		<include refid="purchaseOrderAttachmentJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="purchaseOrder != null and purchaseOrder.id != null and purchaseOrder.id != ''">
+				AND a.po_id = #{purchaseOrder.id}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.po_id, a.type ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="PurchaseOrderAttachment">
+		SELECT 
+			<include refid="purchaseOrderAttachmentColumns"/>
+		FROM oa_po_attachment a
+		<include refid="purchaseOrderAttachmentJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO oa_po_attachment(
+			id,
+			po_id,
+			type,
+			files,
+			remark,
+			del_flag,
+			create_by,
+			create_date,
+			update_by,
+			update_date
+		) VALUES (
+			#{id},
+			#{purchaseOrder.id},
+			#{type},
+			#{files},
+			#{remark},
+			#{delFlag},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE oa_po_attachment SET 	
+			po_id =  #{purchaseOrder.id},
+			type = #{type},
+			files = #{files},
+			remark = #{remark},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE oa_po_attachment SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		<choose>
+			<when test="id !=null and id != ''">
+				WHERE id = #{id}
+			</when>
+			<otherwise>
+				WHERE po_id =  #{purchaseOrder.id}
+			</otherwise>
+		</choose>
+	</update>
+	
+</mapper>

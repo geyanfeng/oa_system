@@ -19,7 +19,6 @@
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
-		b.name AS "purchaseOrder.name",
 		c.name AS "productType.name"
 	</sql>
 	
@@ -43,7 +42,7 @@
 		<include refid="purchaseOrderProductJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-			<if test="parent != null and purchaseOrder.id != null and purchaseOrder.id != ''">
+			<if test="purchaseOrder.id != null and purchaseOrder.id != ''">
 				AND a.po_id = #{purchaseOrder.id}
 			</if>
 			<if test="name != null and name != ''">
@@ -104,7 +103,7 @@
 			#{purchaseOrder.id},
 			#{contractProductId},
 			#{name},
-			#{productType},
+			#{productType.id},
 			#{price},
 			#{num},
 			#{unit},
@@ -124,7 +123,7 @@
 			po_id = #{purchaseOrder.id},
 			contract_product_id = #{contractProductId},
 			name = #{name},
-			product_type = #{productType},
+			product_type = #{productType.id},
 			price = #{price},
 			num = #{num},
 			unit = #{unit},

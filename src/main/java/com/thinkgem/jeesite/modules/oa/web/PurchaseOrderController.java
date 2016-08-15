@@ -66,6 +66,9 @@ public class PurchaseOrderController extends BaseController {
 	public String list(PurchaseOrder purchaseOrder, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<PurchaseOrder> page = purchaseOrderService.findPage(new Page<PurchaseOrder>(request, response), purchaseOrder); 
 		model.addAttribute("page", page);
+		//获取所有供应商
+		List<Supplier> supplierList = supplierService.findList(new Supplier());
+		model.addAttribute("supplierList", supplierList);
 		return "modules/oa/purchaseOrderList";
 	}
 
@@ -84,6 +87,21 @@ public class PurchaseOrderController extends BaseController {
 		if(isNotBlank(fromModal)){
 			view = "purchaseOrderForm_ajax";
 		}
+		return "modules/oa/" + view;
+	}
+
+	@RequiresPermissions("oa:purchaseOrder:view")
+	@RequestMapping(value = "view")
+	public String view(PurchaseOrder purchaseOrder, Model model) {
+		String view = "purchaseOrderView";
+		//获取所有供应商
+		List<Supplier> supplierList = supplierService.findList(new Supplier());
+		model.addAttribute("supplierList", supplierList);
+		//商品类型
+		model.addAttribute("productTypeList", productTypeService.findList(new ProductType()));
+		//得到合同全部信息
+		purchaseOrder.setContract(contractService.get(purchaseOrder.getContract().getId()));
+		model.addAttribute("purchaseOrder", purchaseOrder);
 		return "modules/oa/" + view;
 	}
 
@@ -126,4 +144,15 @@ public class PurchaseOrderController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/oa/purchaseOrder/?repage";
 	}
 
+	@RequiresPermissions("oa:purchaseOrder:edit")
+	@RequestMapping(value = "audit")
+	public String audit(PurchaseOrder purchaseOrder, Model model, RedirectAttributes redirectAttributes) {
+		if(isNotBlank(purchaseOrder.getAct().getFlag()) || isNotBlank(purchaseOrder.getAct().getTaskDefKey()))
+		{
+			purchaseOrderService.audit(purchaseOrder);
+			addMessage(redirectAttributes, "成功提交审批");
+			return "redirect:" + adminPath + "/act/task/todo/";
+		}
+		return "redirect:"+Global.getAdminPath()+"/oa/purchaseOrder";
+	}
 }

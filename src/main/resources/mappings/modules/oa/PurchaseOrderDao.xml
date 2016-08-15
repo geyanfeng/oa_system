@@ -19,6 +19,7 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.amount AS "amount",
+		a.status AS "status",
 		a9.name AS "supplier.name",
 		a10.name AS "contract.name",
 		a10.no AS "contract.no"
@@ -44,6 +45,15 @@
 		<include refid="purchaseOrderJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="supplier != null and supplier.id != null and supplier.id != ''">
+				AND a.supplier_id = #{supplier.id}
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status = #{status}
+			</if>
+			<if test="beginCreateDate != null and endCreateDate != null and beginCreateDate != '' and endCreateDate != ''">
+				AND a.create_date BETWEEN #{beginCreateDate} AND #{endCreateDate}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -120,7 +130,8 @@
 			remark = #{remark},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
-			amount = #{amount}
+			amount = #{amount},
+			status = #{status}
 		WHERE id = #{id}
 	</update>
 	

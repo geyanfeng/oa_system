@@ -16,6 +16,9 @@
             border: 1px solid transparent !important;
         }
         .div_bill {position: absolute; right: 10px;top: 100px;z-index:1040;}
+        html,body{
+            background: #FFF;
+        }
     </style>
     <script>
         function getModal(){
@@ -100,7 +103,7 @@
 
 <div class="col-sm-12">
 
-    <div class="row m-b-20" style="margin-top: 60px !important;">
+    <div class="row m-b-20" style="margin-top: 80px !important;">
         <div class="col-sm-3">
             合同编号：${contract.no}
         </div>
@@ -881,7 +884,5 @@
             </div>
         </div>
     </div>
-
-
 </body>
 </html>

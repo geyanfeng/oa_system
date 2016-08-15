@@ -151,7 +151,7 @@
 								{{row.name}}
 							</td>
 							<td>
-								<input id="purchaseOrderProductList{{idx}}_num" name="purchaseOrderProductList[{{idx}}].num" type="text" value="{{row.num}}" max="{{row.maxNum}}" maxlength="10" class="form-control number input-block required input-sm" onchange="updatePriceAmount(this);" style="display:inline-block"/>
+								<input id="purchaseOrderProductList{{idx}}_num" name="purchaseOrderProductList[{{idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="form-control number input-block required input-sm" onchange="updatePriceAmount(this);" style="display:inline-block"/>
 							</td>
 							<td>
 							    {{row.unitName}}
@@ -192,11 +192,20 @@
                         }
                     }
                 });
-                $(list + idx).find("input[name$='.num'],input[name$='.price']").TouchSpin({
+                $(list + idx).find("input[name$='.price']").TouchSpin({
+                    buttondown_class: "btn btn-custom",
+                    buttonup_class: "btn btn-custom"
+                });
+                $(list + idx).find("input[name$='.num']").TouchSpin({
                     buttondown_class: "btn btn-custom",
                     buttonup_class: "btn btn-custom",
-                    max:100000000000
+                    max:row.maxNum
                 });
+                $(list + idx).find("input[name$='.num']").rules('add', {
+                    max: row.maxNum
+                });
+
+
                 //$(list + idx).find('.bootstrap-touchspin').css('width','100px');
             }
 
