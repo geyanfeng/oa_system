@@ -390,12 +390,13 @@
     </div>
 
     <hr>
+
     <!--备注信息 -->
      <h4>备注</h4>
     <form:input path="remark" htmlEscape="false" maxlength="255" class="form-control input-sm"/>
 
     <div class="row pull-right">
-        <input id="btnCancel" class="btn" type="button" value="取 消" onclick=""/>
+        <input id="btnCancel" class="btn" type="button" value="取 消" onclick="if(parent.openOrClosePOPanel)parent.openOrClosePOPanel();"/>
         <shiro:hasPermission name="oa:purchaseOrder:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
     </div>
 </form:form>

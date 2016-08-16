@@ -168,19 +168,20 @@
                                          <%--<td>
                             <fmt:formatDate value="${contract.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
                         </td>--%>
-                    <shiro:hasPermission name="oa:contract:edit">
+
                         <td>
+                            <shiro:hasPermission name="oa:contract:edit">
                             <c:if test="${empty isSelect}">
                                 <a href="${ctx}/oa/contract/form?id=${contract.id}">修改</a>
                                 <a href="${ctx}/oa/contract/delete?id=${contract.id}"
                                    onclick="return confirmx('确认要删除该合同吗？', this.href)">删除</a>
                                 <a href="${ctx}/oa/contract/form?originalId=${contract.id}">生成</a>
                             </c:if>
+                            </shiro:hasPermission>
                             <c:if test="${not empty isSelect}">
                                 <a href="#" onclick="selectContract(this);">选择</a>
                             </c:if>
                         </td>
-                    </shiro:hasPermission>
                 </tr>
             </c:forEach>
             </tbody>

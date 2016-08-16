@@ -19,6 +19,12 @@
         html,body{
             background: #FFF;
         }
+        a.anchor {
+            display: block;
+            position: relative;
+            top: -150px;
+            visibility: hidden;
+        }
     </style>
     <script>
         function getModal(){
@@ -52,9 +58,9 @@
             <li><a href="#panel-2">供应商信息</a></li>
             <li><a href="#panel-3">采购清单</a></li>
             <li><a href="#panel-4">付款信息</a></li>
-            <li><a href="#panel_5">发货信息</a></li>
-            <li><a href="#panel_attachemnts">附件</a></li>
-            <li><a href="#panel-audit">操作日志</a></li>
+            <li><a href="#panel-5">发货信息</a></li>
+            <li><a href="#panel-6">附件</a></li>
+            <li><a href="#panel-7">操作日志</a></li>
         </ul>
     </div>
 </div>
@@ -70,7 +76,8 @@
     </div>
 
     <!--合同信息-->
-    <div class="panel panel-default" id="panel-1">
+    <a class="anchor" name="panel-1"></a>
+    <div class="panel panel-default">
         <div class="panel-heading">合同信息
             <div class="pull-right">
                 <a data-toggle="collapse" href="#card-collapse" class="" aria-expanded="true"><i
@@ -119,7 +126,8 @@
 
     <!--供应商信息-->
     <%--todo:供应商信息不完善 --%>
-    <div class="panel panel-default" id="panel-2">
+    <a class="anchor" name="panel-2"></a>
+    <div class="panel panel-default">
         <div class="panel-heading">供应商信息 </div>
         <div class="panel-body">
             <div class="row">
@@ -149,7 +157,8 @@
      </div>
 
     <!--采购列表-->
-    <div class="panel panel-default" id="panel-3">
+    <a class="anchor" name="panel-3"></a>
+    <div class="panel panel-default">
         <div class="panel-heading">采购列表</div>
         <div class="panel-body">
             <table id="contentTable" class="table table-condensed">
@@ -181,7 +190,8 @@
 
     <!--付款信息-->
     <%--todo: 付款期限--%>
-    <div class="panel panel-default" id="panel-4">
+    <a class="anchor" name="panel-4"></a>
+    <div class="panel panel-default">
         <div class="panel-heading">付款信息</div>
         <div class="panel-body">
             <script type="text/template" id="payment-installment-tpl">//<!--
@@ -236,7 +246,8 @@
     </div>
 
     <!--发货信息-->
-    <div class="panel panel-default" id="panel-5">
+    <a class="anchor" name="panel-5"></a>
+    <div class="panel panel-default">
         <div class="panel-heading">发货信息</div>
         <div class="panel-body">
             <div class="row"><%--todo: 发货信息--%>
@@ -248,7 +259,8 @@
     </div>
 
     <!--附件-->
-    <div class="panel panel-default" id="panel_attachemnts">
+    <a class="anchor" name="panel-6"></a>
+    <div class="panel panel-default">
         <div class="panel-heading">附件</div>
         <div class="panel-body">
             <table id="attchmentTable" class="table table-striped table-condensed">
@@ -306,6 +318,7 @@
         </div>
     </div>
 
+    <a class="anchor" name="panel-7"></a>
     <c:if test="${not empty purchaseOrder.id and not empty purchaseOrder.act.procInsId}">
         <act:histoicFlow procInsId="${purchaseOrder.act.procInsId}"/>
     </c:if>

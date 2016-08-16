@@ -19,6 +19,12 @@
         html,body{
             background: #FFF;
         }
+        a.anchor {
+            display: block;
+            position: relative;
+            top: -150px;
+            visibility: hidden;
+        }
     </style>
     <script>
         function getModal(){
@@ -28,7 +34,7 @@
         $(function(){
             if(parent.mainFrame){
                $(parent.window).scroll( function(){
-                    $('.navbar').css('top', parent.window.document.body.scrollTop)
+                   $('.navbar').css('top', parent.window.document.body.scrollTop);
                 });
             }
         });
@@ -38,11 +44,11 @@
 
 <c:if test="${contract.status eq '35'}">
     <script src="${ctxStatic}/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
-    <div class="col-sm-5 div_bill"id="draggable">
+    <div class="col-sm-5 div_bill" id="panel_po">
         <div class="panel panel-default">
             <div class="panel-heading" style="text-align: center;">采购下单
                 <div class="pull-right">
-                    <a href="#"><i class="glyphicon glyphicon-remove"></i></a>
+                    <a href="#" onclick="openOrClosePOPanel()"><i class="glyphicon glyphicon-remove"></i></a>
                 </div>
             </div>
             <div class="panel-body" style="padding:0;">
@@ -52,18 +58,18 @@
     </div>
     <script>
         $( function() {
-            $( "#draggable" ).draggable();
+            $( "#panel_po" ).draggable();
             if(parent.mainFrame){
                 $(parent.window).scroll(  function(){
-                    var winHeight = $(parent.window).height(), winWidth = $(parent.window).width(), divHeight =  $("#draggable").height(), divWidth = $("#draggable").width();
-                    $("#draggable").css('top',parent.window.document.body.scrollTop  + $('.navbar').height() + 20); //控制上下位置
-                    $("#draggable").css('left',(winWidth - divWidth -300 - 20)); //控制横向位置
+                    var winHeight = $(parent.window).height(), winWidth = $(parent.window).width(), divHeight =  $("#panel_po").height(), divWidth = $("#panel_po").width();
+                    $("#panel_po").css('top',parent.window.document.body.scrollTop  + $('.navbar').height() + 20); //控制上下位置
+                    $("#panel_po").css('left',(winWidth - divWidth -300 - 20)); //控制横向位置
                 });
             } else{
                 $(parent).scroll( function(){
-                    var winHeight = $(window).height(), winWidth = $(window).width(), divHeight =  $("#draggable").height(), divWidth = $("#draggable").width();
-                    $("#draggable").css('top',document.body.scrollTop + $('.navbar').height() + 20); //控制上下位置
-                    $("#draggable").css('left',document.body.scrollLeft + (winWidth - divWidth - 20)); //控制横向位置
+                    var winHeight = $(window).height(), winWidth = $(window).width(), divHeight =  $("#panel_po").height(), divWidth = $("#panel_po").width();
+                    $("#panel_po").css('top',document.body.scrollTop + $('.navbar').height() + 20); //控制上下位置
+                    $("#panel_po").css('left',document.body.scrollLeft + (winWidth - divWidth - 20)); //控制横向位置
                 });
             }
             if(parent.mainFrame) {
@@ -71,8 +77,14 @@
             } else{
                 $(window).trigger('scroll');
             }
-
         });
+        //关闭采购下单panel
+        function openOrClosePOPanel(){
+            if($("#panel_po").is(":hidden"))
+                $("#panel_po" ).fadeIn();
+            else
+                $("#panel_po" ).fadeOut();
+        }
     </script>
 </c:if>
 
@@ -88,18 +100,17 @@
 <div class="navbar navbar-default navbar-fixed-top  navbar-static" role="navigation" id="navbar">
     <div class="collapse navbar-collapse bs-js-navbar-scrollspy">
         <ul class="nav navbar-nav">
-            <li><a href="#panel-baseInfo">合同信息</a></li>
-            <li><a href="#panel-invoice">开票信息</a></li>
-            <li><a href="#card_products">采购列表</a></li>
-            <li><a href="#panel-payment">付款信息</a></li>
-            <li><a href="#card_other">其它信息</a></li>
-            <li><a href="#card_attachemnts">附件</a></li>
-            <li><a href="#panel-audit">操作信息</a></li>
+            <li><a href="#panel-1">合同信息</a></li>
+            <li><a href="#panel-2">开票信息</a></li>
+            <li><a href="#panel-3">采购列表</a></li>
+            <li><a href="#panel-4">付款信息</a></li>
+            <li><a href="#panel-5">物流信息</a></li>
+            <li><a href="#panel-6">其它信息</a></li>
+            <li><a href="#panel-7">附件</a></li>
+            <li><a href="#panel-8">操作信息</a></li>
         </ul>
     </div>
 </div>
-
-
 
 <div class="col-sm-12">
 
@@ -116,6 +127,7 @@
     </div>
 
     <!--合同信息-->
+    <a class="anchor" name="panel-1"></a>
     <div class="panel panel-default" id="panel-baseInfo">
         <div class="panel-heading">合同信息
             <div class="pull-right">
@@ -164,6 +176,7 @@
     </div>
 
     <!--开票信息-->
+    <a class="anchor" name="panel-2"></a>
     <div class="panel panel-default" id="panel-invoice">
         <div class="panel-heading">开票信息
             <div class="pull-right">
@@ -208,6 +221,7 @@
     </div>
 
     <!--采购列表-->
+    <a class="anchor" name="panel-3"></a>
     <div class="panel panel-default" id="card_products">
         <div class="panel-heading">采购列表</div>
         <div class="panel-body panel-collapse collapse in" id="products-collapse">
@@ -518,6 +532,8 @@
                                 self.prop("checked","checked");
                         }
                     }
+                    if($("#panel_po").is(":hidden"))
+                        $("#panel_po" ).fadeIn();
                 }
 
                 function unSelectProduct(id){
@@ -536,6 +552,7 @@
     </div>
 
     <!--付款信息-->
+    <a class="anchor" name="panel-4"></a>
     <div class="panel panel-default" id="panel-payment">
         <div class="panel-heading">付款信息</div>
         <div class="panel-body panel-collapse collapse in" id="payment-collapse">
@@ -654,6 +671,7 @@
     </div>
 
     <!--物流信息-->
+    <a class="anchor" name="panel-5"></a>
     <div class="panel panel-default">
         <div class="panel-heading">物流信息</div>
         <div class="panel-body panel-collapse collapse in" id="ship-collapse">
@@ -719,6 +737,7 @@
     </div>
 
     <!--其它-->
+    <a class="anchor" name="panel-6"></a>
     <div class="panel panel-default" id="card_other">
         <div class="panel-heading">其它</div>
         <div class="panel-body">
@@ -740,6 +759,7 @@
     </div>
 
     <!--附件-->
+    <a class="anchor" name="panel-7"></a>
     <div class="panel panel-default" id="card_attachemnts">
         <div class="panel-heading">附件</div>
         <div class="panel-body">
@@ -798,6 +818,7 @@
         </div>
     </div>
 
+    <a class="anchor" name="panel-8"></a>
     <c:if test="${not empty contract.id and not empty contract.act.procInsId}">
         <act:histoicFlow procInsId="${contract.act.procInsId}"/>
     </c:if>
