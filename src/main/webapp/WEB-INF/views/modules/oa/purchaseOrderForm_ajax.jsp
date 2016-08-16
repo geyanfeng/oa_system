@@ -33,10 +33,24 @@
         $(document).ready(function() {
             //$("#name").focus();
             $("#inputForm").validate({
-               /* submitHandler: function(form){
-                    loading('正在提交，请稍等...');
-                    form.submit();
-                },*/
+                submitHandler: function(form){
+                    /*loading('正在提交，请稍等...');
+                    form.submit();*/
+                    $("#inputForm").ajaxForm({resetForm: true,
+                        success:function(result){
+                            var status= result.status;
+                            if(status!="1") return;
+                            if(parent.loadProductsAfterClear){
+                                $.getJSON("${ctx}/oa/contract/get?id="+result.contractId, function(result){
+                                    parent.loadProductsAfterClear(result.data.contractProductList);
+                                    location.reload();
+                                });
+                            }
+
+                        }, beforeSubmit: function () {
+                            $("#paymentDetail").val(JSON.stringify(getPaymentDetail()));
+                        }});
+                },
                 errorContainer: "#messageBox",
                 errorPlacement: function(error, element) {
                     $("#messageBox").text("输入有误，请先更正。");
@@ -50,21 +64,6 @@
                     }
                 }
             });
-
-            $("#inputForm").ajaxForm({resetForm: true,
-                success:function(result){
-                        var status= result.status;
-                        if(status!="1") return;
-                        if(parent.loadProductsAfterClear){
-                            $.getJSON("${ctx}/oa/contract/get?id="+result.contractId, function(result){
-                                parent.loadProductsAfterClear(result.data);
-                                location.reload();
-                            });
-                        }
-
-            }, beforeSubmit: function () {
-                $("#paymentDetail").val(JSON.stringify(getPaymentDetail()));
-            }});
         });
         function addRow(list, idx, tpl, row){
             $(list).append(Mustache.render(tpl, {

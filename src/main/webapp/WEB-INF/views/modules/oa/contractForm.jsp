@@ -14,15 +14,22 @@
     </style>
     <script type="text/javascript">
         $(document).ready(function () {
-            //$("#name").focus();
+            //增加定义付款金额验证规则
+            $.validator.addMethod("validationPaymentAmount", function(value) {
+                return validationPaymentAmount();
+            }, "付款金额与合同金额不相等,合同金额为:"+ parseFloat($("#amount").val()));
+
             $("#inputForm").validate({
                 rules: {
-                    name: {remote: "${ctx}/oa/contract/checkName?oldName=" + encodeURIComponent('${contract.name}')}
+                    name: {remote: "${ctx}/oa/contract/checkName?oldName=" + encodeURIComponent('${contract.name}')},
+                    paymentCycle:  "validationPaymentAmount"
                 },
                 messages: {
                     name: {remote: "合同名称已存在"}
                 },
                 submitHandler: function (form) {
+                    if(!validationPaymentAmount())
+                            return;
                     loading('正在提交，请稍等...');
                     form.submit();
                 },
@@ -587,30 +594,31 @@
                                        element="span class='radio radio-success radio-inline'"/>
                     <form:hidden path="paymentDetail"></form:hidden>
                 </div>
+                <span id="paymentMsg" style="display:none" class="label label-danger pull-right"></span>
             </div>
             <script type="text/template" id="payment-onetime-tpl">//<!--
                 <div class="row form-inline" id="payment-onetime">
                     <div class="form-group">
                         <label class="control-label">付款金额：</label>
-                        <input type="text" class="form-control  number input-sm" id="payment_onetime_amount" value="{{row.payment_onetime_amount}}"/>
+                        <input type="text" class="form-control  number input-sm required" id="payment_onetime_amount" value="{{row.payment_onetime_amount}}"/>
                     </div>
                     <div class="form-group">
                         <label class="control-label">付款方式：</label>
                         <c:forEach items="${fns:getDictList('oa_payment_method')}" var="dict" varStatus="s">
                             <span class="radio radio-success radio-inline" style="padding-left:2px">
                                 <input id="payment_onetime_paymentMethod${s.index+1}" name="payment_onetime_paymentMethod" type="radio"
-                                       value="${dict.value}" data-value="{{row.payment_onetime_paymentMethod}}" >
+                                       value="${dict.value}" data-value="{{row.payment_onetime_paymentMethod}}"  checked>
                                 <label for="payment_onetime_paymentMethod${s.index+1}">${dict.label}</label>
                             </span>
                         </c:forEach>
                     </div>
                     <div class="form-group">
                         <label class="control-label">账期：</label>
-                        <input id="payment_onetime_time" type="text" class="form-control number input-sm" value="{{row.payment_onetime_time}}"/>
+                        <input id="payment_onetime_time" type="text" class="form-control number input-sm required" value="{{row.payment_onetime_time}}"/>
                     </div>
                     <div class="form-group">
                         <label class="control-label">账期点数：</label>
-                        <input id="payment_onetime_pointnum" type="text" class="form-control number input-sm" value="{{row.payment_onetime_pointnum}}"/>
+                        <input id="payment_onetime_pointnum" type="text" class="form-control number input-sm required" value="{{row.payment_onetime_pointnum}}"/>
                     </div>
                 </div>
                     //-->
@@ -619,12 +627,12 @@
                 <div class="row form-inline" id="payment-installment_{{idx}}">
                     <div class="form-group">
                         <label class="control-label">付款金额：</label>
-                        <input type="text" class="form-control  number input-sm" id="payment_installment_amount_{{idx}}"
+                        <input type="text" class="form-control required number input-sm" id="payment_installment_amount_{{idx}}"
                         value="{{row.payment_installment_amount}}"/>
                     </div>
                     <div class="form-group">
                         <label class="control-label">账期：</label>
-                        <input id="payment_installment_time_{{idx}}" type="text" class="form-control number input-sm"
+                        <input id="payment_installment_time_{{idx}}" type="text" class="form-control number input-sm required"
                         value="{{row.payment_installment_time}}"/>
                     </div>
                     <div class="form-group">
@@ -632,7 +640,7 @@
                         <c:forEach items="${fns:getDictList('oa_payment_method')}" var="dict" varStatus="s">
                             <span class="radio radio-success radio-inline" style="padding-left:2px">
                                 <input id="payment_installment_paymentMethod_{{idx}}_${s.index+1}" name="payment_installment_paymentMethod_{{idx}}" type="radio"
-                                       value="${dict.value}" data-value="{{row.payment_installment_paymentMethod}}">
+                                       value="${dict.value}" data-value="{{row.payment_installment_paymentMethod}}" checked>
                                 <label for="payment_installment_paymentMethod_{{idx}}_${s.index+1}">${dict.label}</label>
                             </span>
                         </c:forEach>
@@ -646,7 +654,7 @@
                 <div class="row form-inline" id="payment-month">
                     <div class="form-group">
                         <label class="control-label">付款金额：</label>
-                        <input type="text" class="form-control  number input-sm" id="payment_month_amount" size="10"
+                        <input type="text" class="form-control  number input-sm required" id="payment_month_amount" size="10"
                         value="{{row.payment_month_amount}}"/>
                     </div>
                     <div class="form-group">
@@ -654,24 +662,24 @@
                         <c:forEach items="${fns:getDictList('oa_payment_method')}" var="dict" varStatus="s">
                             <span class="radio radio-success radio-inline" style="padding-left:2px">
                                 <input id="payment_month_paymentMethod${s.index+1}" name="payment_month_paymentMethod" type="radio"
-                                       value="${dict.value}" data-value="{{row.payment_month_paymentMethod}}">
+                                       value="${dict.value}" data-value="{{row.payment_month_paymentMethod}}" checked>
                                 <label for="payment_month_paymentMethod${s.index+1}">${dict.label}</label>
                             </span>
                         </c:forEach>
                     </div>
                     <div class="form-group">
                         <label class="control-label">{{type}}数：</label>
-                        <input id="payment_month_num" type="text" class="form-control number input-sm" size="10"
+                        <input id="payment_month_num" type="text" class="form-control number input-sm required" size="10"
                         value="{{row.payment_month_num}}"/>个{{type}}
                     </div>
                     <div class="form-group">
                         <label class="control-label">付款日：</label>
-                        <input id="payment_month_day" type="text" class="form-control number input-sm" size="10"
+                        <input id="payment_month_day" type="text" class="form-control number input-sm required" size="10"
                         value="{{row.payment_month_day}}"/>
                     </div>
                     <div class="form-group">
                         <label class="control-label">起始月：</label>
-                        <input id="payment_month_start" type="text" class="form-control number input-sm" size="10"
+                        <input id="payment_month_start" type="text" class="form-control number input-sm required" size="10"
                         value="{{row.payment_month_start}}"/>
                     </div>
                 </div>
@@ -682,6 +690,7 @@
             </div>
             <script type="text/javascript">
                 $(document).ready(function () {
+
                     $("#btnSubmit").click(function () {
                         $("#paymentDetail").val(JSON.stringify(getPaymentDetail()));
                     });
@@ -799,6 +808,36 @@
                     }
                     /*console.log(JSON.stringify(paymentDetail));*/
                     return paymentDetail;
+                }
+
+                //验证付款金额
+                function validationPaymentAmount(){
+                    var result = false;
+                    var paymentCycle = $("input[id^='paymentCycle']:checked").val();
+                    switch(paymentCycle){
+                        case "1":
+                            result = parseFloat($("#payment_onetime_amount").val()) == parseFloat($("#amount").val());
+                            break;
+                        case "2":
+                             var sumAmount = 0.00;
+                            $("input[id^='payment_installment_amount']").each(function(idx, item){
+                               sumAmount = sumAmount + parseFloat($(item).val());
+                            });
+                            result = sumAmount ==  parseFloat($("#amount").val());
+                            break;
+                        case "3":
+                        case "4":
+                            result = (parseFloat($("#payment_month_amount").val())* parseFloat($("#payment_month_num").val())) ==  parseFloat($("#amount").val());
+                            break;
+                    }
+                    /*if(!result){
+                        $("#paymentMsg").html("付款金额与合同金额不相等,合同金额为:"+ parseFloat($("#amount").val())) ;
+                        $("#paymentMsg").show();
+                    } else{
+                        $("#paymentMsg").hide();
+                    }*/
+
+                    return result;
                 }
             </script>
         </div>

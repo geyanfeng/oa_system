@@ -223,7 +223,13 @@
     <!--采购列表-->
     <a class="anchor" name="panel-3"></a>
     <div class="panel panel-default" id="card_products">
-        <div class="panel-heading">采购列表</div>
+        <div class="panel-heading">采购列表
+            <c:if test="${contract.act.taskDefKey eq 'split_po'}">
+            <div class="pull-right">
+                <a href="javascript:" class="btn btn-primary waves-effect waves-light m-b-5 btn-xs" id="btnSetProductCanEdit"><i class="zmdi zmdi-edit"></i>&nbsp;编辑</a><%--fa fa-save--%>
+            </div>
+            </c:if>
+        </div>
         <div class="panel-body panel-collapse collapse in" id="products-collapse">
             <table id="contentTable" class="table table-condensed">
                 <thead>
@@ -246,12 +252,9 @@
 								<input id="contractProductList{{idx}}_id" name="contractProductList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
 								<input id="contractProductList{{idx}}_sort" name="contractProductList[{{idx}}].sort" type="hidden" value="{{row.sort}}"/>
 								<input id="contractProductList{{idx}}_delFlag" name="contractProductList[{{idx}}].delFlag" type="hidden" value="0"/>
-								<input id="contractProductList{{idx}}_productTypeGroup" name="contractProductList[{{idx}}].productType" type="hidden" value="{{row.productType.id}}"/>
+								<input id="contractProductList{{idx}}_productType" name="contractProductList[{{idx}}].productType" type="hidden" value="{{row.productType.id}}"/>
 
 								<input id="contractProductList{{idx}}_name" name="contractProductList[{{idx}}].name" type="hidden" value="{{row.name}}"/>
-								<c:if test="${contract.act.taskDefKey ne 'split_po'}">
-								    <input id="contractProductList{{idx}}_productType" name="contractProductList[{{idx}}].productType" type="hidden" value="{{row.productType.id}}"/>
-								</c:if>
 								<input id="contractProductList{{idx}}_price" name="contractProductList[{{idx}}].price" type="hidden" value="{{row.price}}"/>
 								<input id="contractProductList{{idx}}_num" name="contractProductList[{{idx}}].num" type="hidden" value="{{row.num}}"/>
 								<input id="contractProductList{{idx}}_unit" name="contractProductList[{{idx}}].unit" type="hidden" value="{{row.unit}}"/>
@@ -260,11 +263,7 @@
 								<input id="contractProductList{{idx}}_hasSendNum" name="contractProductList[{{idx}}].hasSendNum" type="hidden" value="{{row.hasSendNum}}"/>
 							</td>
 							<td>
-							    <c:if test="${contract.status eq '35'}">
-							        <input type="checkbox" onchange="selectProduct(this, '{{row.json}}')">
-                                </c:if>
 								<span>{{row.name}}</span>
-								 <span style="margin-left:50px;">{{row.productTypeGroupName}}</span>
 								<c:if test="${contract.act.taskDefKey eq 'split_po'}">
                                     <select id="contractProductList{{idx}}_productType" name="contractProductList[{{idx}}].productType" data-value="{{row.productType.id}}" class="form-control input-block required input-sm" style="width: 40%;display: inline-block;">
                                         <c:forEach items="${productTypeList}" var="dict">
@@ -273,6 +272,55 @@
                                     </select>
 							        <a href="javascript:" class="fa fa-plus" onclick="addNewChildRow(this)"></a>
                                 </c:if>
+							</td>
+							<td>
+								{{row.price}}
+							</td>
+							<td>
+								{{row.num}}
+							</td>
+							<td>
+							    {{row.unitName}}
+							</td>
+							<td>
+								{{row.amount}}
+							</td>
+							<td>
+								{{row.remark}}
+							</td>
+						</tr>
+						<tr>
+							<td colspan=6 style="padding-left: 40px;">
+							 <table class="table table-condensed" id="childProductList{{idx}}_table" style="width: 600px;">
+								<tbody id="childProductList{{idx}}">
+								  </tbody>
+								</table>
+							</td>
+						<tr>
+						//-->
+            </script>
+            <script type="text/template" id="contractProductViewTpl">//<!--
+						<tr id="contractProductList{{idx}}" row="row" data-idx={{idx}} data-id="{{row.id}}">
+							<td class="hidden">
+								<input id="contractProductList{{idx}}_id" name="contractProductList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
+								<input id="contractProductList{{idx}}_sort" name="contractProductList[{{idx}}].sort" type="hidden" value="{{row.sort}}"/>
+								<input id="contractProductList{{idx}}_delFlag" name="contractProductList[{{idx}}].delFlag" type="hidden" value="0"/>
+								<input id="contractProductList{{idx}}_productType" name="contractProductList[{{idx}}].productType" type="hidden" value="{{row.productType.id}}"/>
+
+								<input id="contractProductList{{idx}}_name" name="contractProductList[{{idx}}].name" type="hidden" value="{{row.name}}"/>
+								<input id="contractProductList{{idx}}_price" name="contractProductList[{{idx}}].price" type="hidden" value="{{row.price}}"/>
+								<input id="contractProductList{{idx}}_num" name="contractProductList[{{idx}}].num" type="hidden" value="{{row.num}}"/>
+								<input id="contractProductList{{idx}}_unit" name="contractProductList[{{idx}}].unit" type="hidden" value="{{row.unit}}"/>
+								<input id="contractProductList{{idx}}_amount" name="contractProductList[{{idx}}].amount" type="hidden" value="{{row.amount}}"/>
+								<input id="contractProductList{{idx}}_remark" name="contractProductList[{{idx}}].remark" type="hidden" value="{{row.remark}}"/>
+								<input id="contractProductList{{idx}}_hasSendNum" name="contractProductList[{{idx}}].hasSendNum" type="hidden" value="{{row.hasSendNum}}"/>
+							</td>
+							<td>
+							    <c:if test="${contract.act.taskDefKey eq 'split_po'}">
+							        <input type="checkbox" onchange="selectProduct(this, '{{row.json}}')">
+                                </c:if>
+								<span>{{row.name}}</span>
+								 <span style="margin-left:50px;">{{row.productType.name}}</span>
 							</td>
 							<td>
 								{{row.price}}
@@ -341,7 +389,7 @@
 								<input id="childProductList{{idx}}_{{child_idx}}_hasSendNum" name="contractProductList[{{idx}}].childs[{{child_idx}}].hasSendNum" type="hidden" value="{{row.hasSendNum}}"/>
 							</td>
 							<td>
-							     <c:if test="${contract.status eq '35'}">
+							    <c:if test="${contract.act.taskDefKey eq 'split_po'}">
 							        <input type="checkbox" onchange="selectProduct(this, '{{row.json}}')">
                                 </c:if>
 								<span style="display:inline-block;width:100px;">{{row.name}}</span>
@@ -357,15 +405,32 @@
 						//-->
             </script>
             <script type="text/javascript">
-                var contractProductRowIdx = 0, contractProductTpl = $("#contractProductTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
+                var contractProductRowIdx = 0, contractProductTpl = $("#contractProductTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""),
+                        contractProductViewTpl = $("#contractProductViewTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "")
                 var childRowIdx = 0, contractProductChildTpl = $("#contractProductChildTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""),
                         contractProductChildViewTpl = $("#contractProductChildViewTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
                 var unitList = ${fns:getDictListJson('oa_unit')};
                 var productTypeList = ${fns:toJson(productTypeList)};
+                var isEdit = false;
+                var contractProductList = ${fns:toJson(contract.contractProductList)};
 
                 $(document).ready(function () {
-                    var data = ${fns:toJson(contract.contractProductList)};
-                   loadProducts(data);
+                   loadProducts(contractProductList);
+
+                    $("#btnSetProductCanEdit").click(function () {
+                        //保存数据并重新加载数据
+                        if(isEdit){
+
+                        }
+                        isEdit = !isEdit;
+                        if(isEdit) {
+                            $("#btnSetProductCanEdit").html("<i class='fa fa-save'></i>&nbsp;保存");
+                        }
+                        else {
+                            $("#btnSetProductCanEdit").html("<i class='zmdi zmdi-edit'></i>&nbsp;编辑");
+                        }
+                        loadProductsAfterClear(contractProductList);
+                    });
                 });
 
                 function loadProducts(data){
@@ -378,9 +443,8 @@
                                 break;
                             }
                         }
-                        data[i].productTypeGroupName = data[i].productType.name;
 
-                        addRow('#contractProductList', contractProductRowIdx, contractProductTpl, data[i]);
+                        addRow('#contractProductList', contractProductRowIdx, isEdit?contractProductTpl:contractProductViewTpl, data[i]);
 
                         if (data[i].childs) {
                             for (var j = 0; j < data[i].childs.length; j++) {
@@ -392,14 +456,14 @@
                                         break;
                                     }
                                 }
-                                addChildRow('#childProductList' + contractProductRowIdx, contractProductRowIdx, j, ${contract.act.taskDefKey eq "split_po"? "contractProductChildTpl": "contractProductChildViewTpl"}, data[i].childs[j]);
+                                addChildRow('#childProductList' + contractProductRowIdx, contractProductRowIdx, j, isEdit? contractProductChildTpl: contractProductChildViewTpl, data[i].childs[j]);
                             }
                         }
 
                         contractProductRowIdx = contractProductRowIdx + 1;
                     }
 
-                    <c:if test="${contract.status eq '35'}">
+                   /* <c:if test="${contract.status eq '35'}">
                     //如果是订单下单,过滤已经下过的产品
                     for (var i = 0; i < data.length; i++) {
                         var existChildCount = 0;
@@ -417,11 +481,11 @@
                         } else{
                             if(data[i].hasSendNum == data[i].num){
                                 $("tr[data-id="+data[i].id+"]").remove();
-                                /*$("tr[data-id="+data[i].id+"]").next("tr").remove();*/
+                                /!*$("tr[data-id="+data[i].id+"]").next("tr").remove();*!/
                             }
                         }
                     }
-                    </c:if>
+                    </c:if>*/
                 }
 
                 function addRow(list, idx, tpl, row) {
@@ -545,18 +609,19 @@
 
                 function loadProductsAfterClear(data){
                     $('#contractProductList').empty();
-                    loadProducts(data.contractProductList);
+                    loadProducts(data);
                 }
             </script>
         </div>
     </div>
+
+    <!--todo:订单列表-->
 
     <!--付款信息-->
     <a class="anchor" name="panel-4"></a>
     <div class="panel panel-default" id="panel-payment">
         <div class="panel-heading">付款信息</div>
         <div class="panel-body panel-collapse collapse in" id="payment-collapse">
-            <form:hidden path="paymentDetail"></form:hidden>
             <div class="row">
                 <div class="col-sm-12">
                     付款周期：${fns:getDictLabel(contract.paymentCycle,"oa_payment_cycle" ,"" )}
