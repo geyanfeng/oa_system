@@ -105,7 +105,7 @@ public class PurchaseOrderController extends BaseController {
 
 	@RequiresPermissions("oa:purchaseOrder:edit")
 	@RequestMapping(value = "save")
-	public String save(PurchaseOrder purchaseOrder, Model model, RedirectAttributes redirectAttributes) {
+	public String save(PurchaseOrder purchaseOrder, Model model, RedirectAttributes redirectAttributes) throws Exception {
 		if (!beanValidator(model, purchaseOrder)){
 			return form(purchaseOrder, model, null);
 		}

@@ -33,7 +33,8 @@
 
         $(function(){
             if(parent.mainFrame){
-               $(parent.window).scroll( function(){
+                if(parent.window)
+                    $(parent.window).scroll( function(){
                    $('.navbar').css('top', parent.window.document.body.scrollTop);
                 });
             }
@@ -60,7 +61,8 @@
         $( function() {
             $( "#panel_po" ).draggable();
             if(parent.mainFrame){
-                $(parent.window).scroll(  function(){
+                if(parent.window)
+                    $(parent.window).scroll(  function(){
                     var winHeight = $(parent.window).height(), winWidth = $(parent.window).width(), divHeight =  $("#panel_po").height(), divWidth = $("#panel_po").width();
                     $("#panel_po").css('top',parent.window.document.body.scrollTop  + $('.navbar').height() + 20); //控制上下位置
                     $("#panel_po").css('left',(winWidth - divWidth -300 - 20)); //控制横向位置
@@ -73,7 +75,8 @@
                 });
             }
             if(parent.mainFrame) {
-                $(parent.window).trigger('scroll');
+                if(parent.window)
+                    $(parent.window).trigger('scroll');
             } else{
                 $(window).trigger('scroll');
             }
@@ -589,6 +592,19 @@
                     var poFrameWin = document.getElementById("poFrame").contentWindow;
                     var data = JSON.parse(dataString);
                     if(checked){
+                        //检测是否设置产品类型
+                        if(!data.childs){
+                            if(!data.productType){
+                                if(parent.showTipMsg)
+                                    parent.showTipMsg("没有设置产品类型, 不能下单", "error");
+                                else
+                                    showTipMsg("没有设置产品类型, 不能下单", "error");
+                                self.prop("checked","");
+                                return;
+                            }
+                        }
+                    }
+                    if(checked){
                         if(data.childs){
                             if(poFrameWin.addProduct){
                                 $.each(data.childs, function(idx, item){
@@ -778,11 +794,12 @@
                     loadPoList();
                 });
                 function loadPoList(){
+                    $("#poBody").empty();
                     var poViewTpl = $("#poViewTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
                     $.getJSON("${ctx}/oa/purchaseOrder/poList/contract/${contract.id}",
                             function(data){
                                 $.each(data, function(idx, po){
-                                    addRow("#poTable", idx,poViewTpl,po );
+                                    addRow("#poBody", idx,poViewTpl,po );
                                 });
 
                     });

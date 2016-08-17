@@ -220,7 +220,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             //拆分po
             if("split_po".equals(taskDefKey)){
                 if(!isFinishSplitPO(contract))
-                    throw new Exception("还没有完成拆分po, 不能提交!");
+                    throw new Exception("提交失败: 还没有完成拆分po, 不能提交!");
                 contract.setStatus(DictUtils.getDictValue("待审批","oa_contract_status",""));
                 saveProducts(contract);
             } else if("business_person_createbill".equals(taskDefKey)){//商务下单

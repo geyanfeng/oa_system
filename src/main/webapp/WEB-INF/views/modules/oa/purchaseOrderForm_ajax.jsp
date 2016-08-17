@@ -36,16 +36,23 @@
                 submitHandler: function(form){
                     /*loading('正在提交，请稍等...');
                     form.submit();*/
-                    $("#inputForm").ajaxSubmit({resetForm: true,
+                    $("#inputForm").ajaxSubmit({
                         success:function(result){
                             var status= result.status;
-                            if(status!="1") return;
+                            if(status!="1"){
+                                if(result.msg)
+                                    showTipMsg(result.msg,"error");
+                                return;
+                            }
+                            showTipMsg("保存成功","success");
                             if(parent.loadProductsAfterClear){
                                 $.getJSON("${ctx}/oa/contract/get?id="+result.contractId, function(result){
                                     parent.loadProductsAfterClear(result.data.contractProductList);
                                     location.reload();
                                 });
                             }
+                            if(parent.loadPoList)
+                                    parent.loadPoList();
 
                         }, beforeSubmit: function () {
                             $("#paymentDetail").val(JSON.stringify(getPaymentDetail()));

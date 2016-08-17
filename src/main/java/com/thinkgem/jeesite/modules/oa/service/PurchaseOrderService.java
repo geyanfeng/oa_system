@@ -89,8 +89,9 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 			ContractProduct contractProduct = contractProductDao.get(purchaseOrderProduct.getContractProductId());
 			if (contractProduct == null) continue;
 			//设置产品类型
-			if (purchaseOrderProduct.getProductType() == null || StringUtils.isBlank(purchaseOrderProduct.getProductType().getId()))
+			if (purchaseOrderProduct.getProductType() == null || StringUtils.isBlank(purchaseOrderProduct.getProductType().getId())) {
 				purchaseOrderProduct.setProductType(new ProductType(contractProduct.getProductType().getId()));
+			}
 			//设置产品单位
 			if (StringUtils.isBlank(purchaseOrderProduct.getUnit()))
 				purchaseOrderProduct.setUnit(contractProduct.getUnit());
