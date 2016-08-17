@@ -155,4 +155,12 @@
 		FROM oa_po a
 		where a.no like concat(#{noPref},'%')
 	</select>
+
+	<select id="getPoListByContractId" resultType="PurchaseOrder">
+		SELECT
+		<include refid="purchaseOrderColumns"/>
+		FROM oa_po a
+		<include refid="purchaseOrderJoins"/>
+		WHERE a.contract_id = #{contract_id}
+	</select>
 </mapper>

@@ -230,4 +230,8 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 		}
 
 	}
+
+	public List<PurchaseOrder> getPoListByContractId(String contractId) {
+		return purchaseOrderDao.getPoListByContractId(contractId);
+	}
 }

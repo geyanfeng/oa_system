@@ -729,8 +729,67 @@
         </div>
     </div>
 
-    <!--todo:订单列表-->
+    <!--订单列表-->
+    <!--todo: 帐期点数和帐期日利率没有计算-->
     <a class="anchor" name="panel-9"></a>
+    <div class="panel panel-default">
+        <div class="panel-heading">订单列表</div>
+        <div class="panel-body">
+            <table id="poTable" class="table table-striped table-condensed table-hover">
+                <thead>
+                <tr role="row">
+                    <th>订单编号</th>
+                    <th>供应商</th>
+                    <th>金额</th>
+                    <th>帐期</th>
+                    <th>帐期点</th>
+                    <th>帐期日利率</th>
+                </tr>
+                </thead>
+                <tbody id="poBody">
+                </tbody>
+            </table>
+            <script type="text/template" id="poViewTpl">//<!--
+						<tr role="row">
+							<td>
+							   {{row.no}}
+							</td>
+							<td>
+								{{row.supplier.name}}
+							</td>
+							<td>
+								{{row.amount}}
+							</td>
+							<td>
+
+							</td>
+							<td>
+								{{row.paymentPointnum}}
+							</td>
+							<td>
+
+							</td>
+						</tr>
+						//-->
+            </script>
+            <script>
+
+                $(function(){
+                    loadPoList();
+                });
+                function loadPoList(){
+                    var poViewTpl = $("#poViewTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
+                    $.getJSON("${ctx}/oa/purchaseOrder/poList/contract/${contract.id}",
+                            function(data){
+                                $.each(data, function(idx, po){
+                                    addRow("#poTable", idx,poViewTpl,po );
+                                });
+
+                    });
+                }
+            </script>
+        </div>
+    </div>
 
     <!--付款信息-->
     <a class="anchor" name="panel-4"></a>
