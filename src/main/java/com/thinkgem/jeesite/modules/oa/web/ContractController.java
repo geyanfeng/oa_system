@@ -252,4 +252,11 @@ public class ContractController extends BaseController {
 		}
 		return "redirect:" + Global.getAdminPath()+"/oa/contract?contractType="+ contract.getContractType() +"&repage";
 	}
+
+	@RequiresPermissions("oa:contract:edit")
+	@RequestMapping(value = "saveProduct")
+	@ResponseBody
+	public List<ContractProduct> saveProduct(HttpServletRequest request, HttpServletResponse response,@RequestJsonParam(value = "list") List<UserModel> list, @RequestJsonParam(value = "contractProductList") List<ContractProduct> contractProductList) {
+		return contractProductList;
+	}
 }

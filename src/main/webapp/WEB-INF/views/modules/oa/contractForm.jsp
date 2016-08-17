@@ -84,8 +84,6 @@
             });
         });
 
-
-
         function changeContractType() {
             var contractType_value = $('#contractType').val();
             /*switch (contractType_value) {

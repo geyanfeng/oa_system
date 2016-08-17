@@ -12,7 +12,7 @@
             border-bottom: 1px solid;
             padding-bottom: 10px;
         }
-        table[id^='childProductList']>tbody>tr>td{
+        .productChildTable>tbody>tr>td{
             border: 1px solid transparent !important;
         }
         .div_bill {position: absolute; right: 10px;top: 100px;z-index:1040;}
@@ -225,6 +225,7 @@
     <div class="panel panel-default" id="card_products">
         <div class="panel-heading">采购列表
             <c:if test="${contract.act.taskDefKey eq 'split_po'}">
+                <span id="productMsg" style="display:none" class="label label-danger"></span>
             <div class="pull-right">
                 <a href="javascript:" class="btn btn-primary waves-effect waves-light m-b-5 btn-xs" id="btnSetProductCanEdit"><i class="zmdi zmdi-edit"></i>&nbsp;编辑</a><%--fa fa-save--%>
             </div>
@@ -252,8 +253,6 @@
 								<input id="contractProductList{{idx}}_id" name="contractProductList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
 								<input id="contractProductList{{idx}}_sort" name="contractProductList[{{idx}}].sort" type="hidden" value="{{row.sort}}"/>
 								<input id="contractProductList{{idx}}_delFlag" name="contractProductList[{{idx}}].delFlag" type="hidden" value="0"/>
-								<input id="contractProductList{{idx}}_productType" name="contractProductList[{{idx}}].productType" type="hidden" value="{{row.productType.id}}"/>
-
 								<input id="contractProductList{{idx}}_name" name="contractProductList[{{idx}}].name" type="hidden" value="{{row.name}}"/>
 								<input id="contractProductList{{idx}}_price" name="contractProductList[{{idx}}].price" type="hidden" value="{{row.price}}"/>
 								<input id="contractProductList{{idx}}_num" name="contractProductList[{{idx}}].num" type="hidden" value="{{row.num}}"/>
@@ -291,8 +290,8 @@
 						</tr>
 						<tr>
 							<td colspan=6 style="padding-left: 40px;">
-							 <table class="table table-condensed" id="childProductList{{idx}}_table" style="width: 600px;">
-								<tbody id="childProductList{{idx}}">
+							 <table class="table table-condensed productChildTable" id="contractProductList{{idx}}_childTable" style="width: 600px;">
+								<tbody id="contractProductList{{idx}}_child">
 								  </tbody>
 								</table>
 							</td>
@@ -340,8 +339,8 @@
 						</tr>
 						<tr>
 							<td colspan=6 style="padding-left: 40px;">
-							 <table class="table table-condensed" id="childProductList{{idx}}_table" style="width: 600px;">
-								<tbody id="childProductList{{idx}}">
+							 <table class="table table-condensed" id="contractProductList{{idx}}_childTable" style="width: 600px;">
+								<tbody id="contractProductList{{idx}}_child">
 								  </tbody>
 								</table>
 							</td>
@@ -365,7 +364,7 @@
 								</select>
 							</td>
 							<td>
-								<input id="cchildProductList{{idx}}_{{child_idx}}_num" name="contractProductList[{{idx}}].childs[{{child_idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="form-control number input-block required input-sm" onchange="updatePriceAmount(this);"/>
+								<input id="childProductList{{idx}}_{{child_idx}}_num" name="contractProductList[{{idx}}].childs[{{child_idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="form-control number input-block required input-sm" />
 							</td>
 							<td>
 								<select id="childProductList{{idx}}_{{child_idx}}_unit" name="contractProductList[{{idx}}].childs[{{child_idx}}].unit" data-value="{{row.unit}}" class="form-control input-block required input-sm">
@@ -420,16 +419,30 @@
                     $("#btnSetProductCanEdit").click(function () {
                         //保存数据并重新加载数据
                         if(isEdit){
-
+                            if(!getSaveProducts())
+                                return;
+                            else{
+                                $.ajax(
+                                        {
+                                            type: 'POST',
+                                            url: "${ctx}/oa/contract/saveProduct",
+                                            contentType: "application/json; charset=utf-8",
+                                            dataType: "json",
+                                            data: JSON.stringify(contractProductList),
+                                            success: function (result) {
+                                                loadProductsAfterClear(contractProductList);
+                                                $("#btnSetProductCanEdit").html("<i class='fa fa-save'></i>&nbsp;编辑");
+                                            },
+                                            error: function (a) {
+                                                console.log(a);
+                                            }
+                                        });
+                            }
+                        } else{
+                            $("#btnSetProductCanEdit").html("<i class='fa fa-save'></i>&nbsp;保存");
+                            loadProductsAfterClear(contractProductList);
                         }
                         isEdit = !isEdit;
-                        if(isEdit) {
-                            $("#btnSetProductCanEdit").html("<i class='fa fa-save'></i>&nbsp;保存");
-                        }
-                        else {
-                            $("#btnSetProductCanEdit").html("<i class='zmdi zmdi-edit'></i>&nbsp;编辑");
-                        }
-                        loadProductsAfterClear(contractProductList);
                     });
                 });
 
@@ -444,7 +457,7 @@
                             }
                         }
 
-                        addRow('#contractProductList', contractProductRowIdx, isEdit?contractProductTpl:contractProductViewTpl, data[i]);
+                        addRow('#contractProductList', contractProductRowIdx, !isEdit?contractProductTpl:contractProductViewTpl, data[i]);
 
                         if (data[i].childs) {
                             for (var j = 0; j < data[i].childs.length; j++) {
@@ -456,7 +469,7 @@
                                         break;
                                     }
                                 }
-                                addChildRow('#childProductList' + contractProductRowIdx, contractProductRowIdx, j, isEdit? contractProductChildTpl: contractProductChildViewTpl, data[i].childs[j]);
+                                addChildRow('#contractProductList' + contractProductRowIdx + '_child', contractProductRowIdx, j, !isEdit? contractProductChildTpl: contractProductChildViewTpl, data[i].childs[j]);
                             }
                         }
 
@@ -542,7 +555,7 @@
 
                     var productTypeGroup = parentRow.find("input[id$='productTypeGroup']").val();
 
-                    addChildRow('#childProductList' + parentIdx, parentIdx, childIdx, contractProductChildTpl);
+                    addChildRow('#contractProductList' + parentIdx + '_child', parentIdx, childIdx, contractProductChildTpl);
                 }
 
                 function delRow(obj, prefix) {
@@ -610,6 +623,98 @@
                 function loadProductsAfterClear(data){
                     $('#contractProductList').empty();
                     loadProducts(data);
+                }
+
+                //当在拆分po阶段 ajax方式保存编辑的采购列表
+                function getSaveProducts(){
+                    //得到每一行编辑的产品信息
+                    function getProduct(tr, tdPref){
+                        var product = {
+                            id: tr.find("#" + tdPref + "id").val(),
+                            sort: tr.find("#" + tdPref + "sort").val(),
+                            delFlag: tr.find("#" + tdPref + "delFlag").val(),
+                            productType: {},
+                            name: tr.find("#" + tdPref + "name").val(),
+                            price: tr.find("#" + tdPref + "price").val(),
+                            num: tr.find("#" + tdPref + "num").val(),
+                            unit: tr.find("#" + tdPref + "unit").val(),
+                            amount: tr.find("#" + tdPref + "amount").val(),
+                            remark: tr.find("#" + tdPref + "remark").val(),
+                            hasSendNum: tr.find("#" + tdPref + "hasSendNum").val()
+                        };
+                        product.productType.id=tr.find("#" + tdPref + "productType").val();
+                        product.productType.name=tr.find("#" + tdPref + "productType").find("option:selected").text();
+                        return product;
+                    }
+
+                    function checkData(tr, tdPref, type){
+                        switch (type){
+                            case 0:
+                                if(!(tr.find("#" + tdPref + "productType").length > 0 && tr.find("#" + tdPref + "productType").val()))
+                                    return false;
+                                break;
+                            case 1:
+                                if(!(tr.find("#" + tdPref + "name").length > 0 && tr.find("#" + tdPref + "name").val()))
+                                    return false;
+                                if(!(tr.find("#" + tdPref + "productType").length > 0 && tr.find("#" + tdPref + "productType").val()))
+                                    return false;
+                                if(!(tr.find("#" + tdPref + "num").length > 0 && tr.find("#" + tdPref + "num").val()))
+                                    return false;
+                                if(!(tr.find("#" + tdPref + "unit").length > 0 && tr.find("#" + tdPref + "unit").val()))
+                                    return false;
+                                if(!(tr.find("#" + tdPref + "num").length > 0 && isNum(tr.find("#" + tdPref + "num").val())))
+                                    return false;
+                                break;
+                        }
+                        return true;
+                    }
+
+                    var productList = [], validateResult = true;
+                    $("#contractProductList>tr[id^=contractProductList]").each(function(idx, item){
+                        if(!validateResult){
+                            return false;
+                        }
+                        var parentTrId = $(item).prop("id");
+                        var parentTdPref = parentTrId+"_";
+                        validateResult= checkData($(item), parentTdPref, 0);
+                        if(!validateResult){
+                            return false;
+                        }
+                        var product = getProduct($(item), parentTdPref);
+                        product.childs = [];
+                        $("#"+ parentTdPref +"child>tr").each(function(childIdx, childItem){
+                            if(!validateResult){
+                                return false;
+                            }
+                            var childTrId = $(childItem).prop("id");
+                            var childTdPref = childTrId+"_";
+                            validateResult= checkData($(childItem), childTdPref, 1);
+                            if(!validateResult){
+                                return false;
+                            }
+                            var childProduct = getProduct($(childItem), childTdPref);
+                            product.childs.push(childProduct);
+                        });
+
+                        productList.push(product);
+                    });
+                    if(!validateResult){
+                        $("#productMsg").html("请检查数据!");
+                        $("#productMsg").show();
+                        return false;
+                    } else{
+                        $("#productMsg").hide();
+                    }
+
+                    contractProductList = productList;
+                    return true;
+                }
+
+                //检查是否数字
+                function isNum(a)
+                {
+                    var reg = /[1-9]\d*/;
+                    return reg.test(a);
                 }
             </script>
         </div>
