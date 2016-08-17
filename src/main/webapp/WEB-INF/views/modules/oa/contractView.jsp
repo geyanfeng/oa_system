@@ -42,9 +42,9 @@
 </head>
 <body data-spy="scroll" data-target="#navbar">
 
-<c:if test="${contract.status eq '35'}">
+<c:if test="${contract.act.taskDefKey eq 'split_po'}">
     <script src="${ctxStatic}/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
-    <div class="col-sm-5 div_bill" id="panel_po">
+    <div class="col-sm-5 div_bill" id="panel_po" style="display: none">
         <div class="panel panel-default">
             <div class="panel-heading" style="text-align: center;">采购下单
                 <div class="pull-right">
@@ -103,6 +103,7 @@
             <li><a href="#panel-1">合同信息</a></li>
             <li><a href="#panel-2">开票信息</a></li>
             <li><a href="#panel-3">采购列表</a></li>
+            <li><a href="#panel-9">订单列表</a></li>
             <li><a href="#panel-4">付款信息</a></li>
             <li><a href="#panel-5">物流信息</a></li>
             <li><a href="#panel-6">其它信息</a></li>
@@ -227,7 +228,8 @@
             <c:if test="${contract.act.taskDefKey eq 'split_po'}">
                 <span id="productMsg" style="display:none" class="label label-danger"></span>
             <div class="pull-right">
-                <a href="javascript:" class="btn btn-primary waves-effect waves-light m-b-5 btn-xs" id="btnSetProductCanEdit"><i class="zmdi zmdi-edit"></i>&nbsp;编辑</a><%--fa fa-save--%>
+                <a href="javascript:" class="btn btn-primary waves-effect waves-light m-b-5 btn-xs" id="btnSetProductCanEdit"><i class="zmdi zmdi-edit"></i>&nbsp;编辑</a>
+                <a href="javascript:" class="btn btn-primary waves-effect waves-light m-b-5 btn-xs" onclick="$('#panel_po').show()"><i class="fa fa-folder-open-o"></i>&nbsp;打开下单</a>
             </div>
             </c:if>
         </div>
@@ -425,13 +427,15 @@
                                 $.ajax(
                                         {
                                             type: 'POST',
-                                            url: "${ctx}/oa/contract/saveProduct",
-                                            contentType: "application/json; charset=utf-8",
-                                            dataType: "json",
+                                            url: "${ctx}/oa/contract/${contract.id}/saveProduct",
+                                            contentType: "application/json;",
                                             data: JSON.stringify(contractProductList),
-                                            success: function (result) {
-                                                loadProductsAfterClear(contractProductList);
-                                                $("#btnSetProductCanEdit").html("<i class='fa fa-save'></i>&nbsp;编辑");
+                                            success: function () {
+                                                $.getJSON("${ctx}/oa/contract/get?id=${contract.id}", function(result){
+                                                    contractProductList=result.data.contractProductList;
+                                                    loadProductsAfterClear(contractProductList);
+                                                    $("#btnSetProductCanEdit").html("<i class='fa fa-save'></i>&nbsp;编辑");;
+                                                });
                                             },
                                             error: function (a) {
                                                 console.log(a);
@@ -443,6 +447,11 @@
                             loadProductsAfterClear(contractProductList);
                         }
                         isEdit = !isEdit;
+
+                        if(isEdit){
+                            $("#btnSetProductCanEdit").html("<i class='fa fa-save'></i>&nbsp;保存");
+                            loadProductsAfterClear(contractProductList);
+                        }
                     });
                 });
 
@@ -457,7 +466,7 @@
                             }
                         }
 
-                        addRow('#contractProductList', contractProductRowIdx, !isEdit?contractProductTpl:contractProductViewTpl, data[i]);
+                        addRow('#contractProductList', contractProductRowIdx, isEdit?contractProductTpl:contractProductViewTpl, data[i]);
 
                         if (data[i].childs) {
                             for (var j = 0; j < data[i].childs.length; j++) {
@@ -469,40 +478,40 @@
                                         break;
                                     }
                                 }
-                                addChildRow('#contractProductList' + contractProductRowIdx + '_child', contractProductRowIdx, j, !isEdit? contractProductChildTpl: contractProductChildViewTpl, data[i].childs[j]);
+                                addChildRow('#contractProductList' + contractProductRowIdx + '_child', contractProductRowIdx, j, isEdit? contractProductChildTpl: contractProductChildViewTpl, data[i].childs[j]);
                             }
                         }
 
                         contractProductRowIdx = contractProductRowIdx + 1;
                     }
 
-                   /* <c:if test="${contract.status eq '35'}">
-                    //如果是订单下单,过滤已经下过的产品
+                    <c:if test="${contract.act.taskDefKey eq 'split_po'}">
+                    //如果是拆分po,过滤已经下过的产品
                     for (var i = 0; i < data.length; i++) {
                         var existChildCount = 0;
                         if (data[i].childs) {
                             for (var j = 0; j < data[i].childs.length; j++) {
                                 if(data[i].childs[j].hasSendNum == data[i].childs[j].num){
-                                    $("tr[data-id="+data[i].childs[j].id+"]").remove();
+                                    $("tr[data-id="+data[i].childs[j].id+"] input:checkbox").remove();
                                 } else{
                                     existChildCount = existChildCount + 1;
                                 }
                             }
                             if(existChildCount == 0)
-                                $("tr[data-id="+data[i].id+"]").remove();
+                                $("tr[data-id="+data[i].id+"] input:checkbox").remove();
                                 //$("tr[data-id="+data[i].id+"]").next().remove();
                         } else{
                             if(data[i].hasSendNum == data[i].num){
-                                $("tr[data-id="+data[i].id+"]").remove();
+                                $("tr[data-id="+data[i].id+"] input:checkbox").remove();
                                 /!*$("tr[data-id="+data[i].id+"]").next("tr").remove();*!/
                             }
                         }
                     }
-                    </c:if>*/
+                    </c:if>
                 }
 
                 function addRow(list, idx, tpl, row) {
-                    <c:if test="${contract.status eq '35'}">
+                    <c:if test="${contract.act.taskDefKey eq 'split_po'}">
                         row.json = JSON.stringify(row);
                     </c:if>
                     $(list).append(Mustache.render(tpl, {
@@ -525,7 +534,7 @@
                 }
 
                 function addChildRow(list, idx, child_idx, tpl, row) {
-                    <c:if test="${contract.status eq '35'}">
+                    <c:if test="${contract.act.taskDefKey eq 'split_po'}">
                         row.json = JSON.stringify(row);
                     </c:if>
                     $(list).append(Mustache.render(tpl, {
@@ -721,6 +730,7 @@
     </div>
 
     <!--todo:订单列表-->
+    <a class="anchor" name="panel-9"></a>
 
     <!--付款信息-->
     <a class="anchor" name="panel-4"></a>

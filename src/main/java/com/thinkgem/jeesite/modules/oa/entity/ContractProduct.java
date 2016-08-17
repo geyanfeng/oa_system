@@ -21,10 +21,10 @@ public class ContractProduct extends DataEntity<ContractProduct> {
 	private Contract contract;		// 合同主表 父类
 	private String parentId;		// 父级商品
 	private String name;		// 名称
-	private String price;		// 价格
-	private String num;		// 数量
+	private Double price;		// 价格
+	private Integer num;		// 数量
 	private String unit;		// 单位
-	private String amount;		// 金额
+	private Double amount;		// 金额
 	private String remark;		// 备注
 	private Integer sort;		//排序
 	private Integer hasSendNum; //已下单数
@@ -70,23 +70,23 @@ public class ContractProduct extends DataEntity<ContractProduct> {
 		this.name = name;
 	}
 	
-	public String getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(String price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 	
 	@Length(min=0, max=10, message="数量长度必须介于 0 和 10 之间")
-	public String getNum() {
+	public Integer getNum() {
 		return num;
 	}
 
-	public void setNum(String num) {
+	public void setNum(Integer num) {
 		this.num = num;
 	}
-	
+
 	@Length(min=0, max=2, message="单位长度必须介于 0 和 2 之间")
 	public String getUnit() {
 		return unit;
@@ -96,11 +96,11 @@ public class ContractProduct extends DataEntity<ContractProduct> {
 		this.unit = unit;
 	}
 	
-	public String getAmount() {
+	public Double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(String amount) {
+	public void setAmount(Double amount) {
 		this.amount = amount;
 	}
 	

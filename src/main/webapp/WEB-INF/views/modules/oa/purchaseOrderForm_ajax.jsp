@@ -36,7 +36,7 @@
                 submitHandler: function(form){
                     /*loading('正在提交，请稍等...');
                     form.submit();*/
-                    $("#inputForm").ajaxForm({resetForm: true,
+                    $("#inputForm").ajaxSubmit({resetForm: true,
                         success:function(result){
                             var status= result.status;
                             if(status!="1") return;
@@ -193,7 +193,8 @@
                 });
                 $(list + idx).find("input[name$='.price']").TouchSpin({
                     buttondown_class: "btn btn-custom",
-                    buttonup_class: "btn btn-custom"
+                    buttonup_class: "btn btn-custom",
+                    max:99999999
                 });
                 $(list + idx).find("input[name$='.num']").TouchSpin({
                     buttondown_class: "btn btn-custom",
@@ -266,6 +267,7 @@
     <hr>
 
     <!--付款信息-->
+    <!--todo: 检查付款总金额等于产品总金额之和-->
     <h4>付款信息</h4>
     <form:hidden path="paymentDetail"/>
     <div id="payment-body" data-idx="1"></div>

@@ -3,8 +3,10 @@
  */
 package com.thinkgem.jeesite.modules.oa.web;
 
+import com.alibaba.druid.support.json.JSONUtils;
 import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.config.Global;
+import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
@@ -205,8 +207,13 @@ public class ContractController extends BaseController {
 	public String audit(Contract contract, Model model, RedirectAttributes redirectAttributes) {
 		if(!contract.getContractType().equals("1") && isNotBlank(contract.getAct().getFlag()) || isNotBlank(contract.getAct().getTaskDefKey()))
 		{
-			contractService.audit(contract);
-			addMessage(redirectAttributes, "成功提交审批");
+			try {
+				contractService.audit(contract);
+				addMessage(redirectAttributes, "成功提交审批");
+			}
+			catch(Exception e){
+				addMessage(redirectAttributes, e.getMessage());
+			}
 			return "redirect:" + adminPath + "/act/task/todo/";
 		}
 		return "redirect:"+Global.getAdminPath()+"/oa/contract/?contractType="+contract.getContractType()+"&repage";
@@ -254,9 +261,11 @@ public class ContractController extends BaseController {
 	}
 
 	@RequiresPermissions("oa:contract:edit")
-	@RequestMapping(value = "saveProduct")
+	@RequestMapping(value = "{contractId}/saveProduct")
 	@ResponseBody
-	public List<ContractProduct> saveProduct(HttpServletRequest request, HttpServletResponse response,@RequestJsonParam(value = "list") List<UserModel> list, @RequestJsonParam(value = "contractProductList") List<ContractProduct> contractProductList) {
-		return contractProductList;
+	public void saveProduct(@PathVariable String contractId,@RequestBody List<ContractProduct> contractProductList) {
+		Contract contract = get(contractId);
+		contract.setContractProductList(contractProductList);
+		contractService.saveProducts(contract);
 	}
 }

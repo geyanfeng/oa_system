@@ -4,6 +4,7 @@
 package com.thinkgem.jeesite.modules.oa.service;
 
 import com.google.common.collect.Maps;
+import com.sun.mail.iap.BadCommandException;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.common.utils.StringUtils;
@@ -19,6 +20,8 @@ import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -88,6 +91,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         saveAttachments(contract);
     }
 
+    @Transactional(readOnly = false)
     public void saveProducts(Contract contract){
         Integer sort = 1;
         for (ContractProduct contractProduct : contract.getContractProductList()) {
@@ -116,6 +120,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                     contractProduct.preInsert();
                     contractProductDao.insert(contractProduct);
                 } else {
+                    contractProduct.setContract(contract);
                     contractProduct.preUpdate();
                     contractProductDao.update(contractProduct);
                 }
@@ -136,11 +141,14 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                     if (StringUtils.isBlank(childProduct.getId())) {
                         childProduct.setContract(contract);
                         childProduct.setParentId(contractProduct.getId());
+                        childProduct.setParentId(contractProduct.getId());
                         childProduct.preInsert();
                         contractProductDao.insert(childProduct);
                     } else {
                     /*	childProduct.setContract(contract);
 						childProduct.setParentId(contractProduct.getId());*/
+                        childProduct.setParentId(contractProduct.getId());
+                        childProduct.setContract(contract);
                         childProduct.preUpdate();
                         contractProductDao.update(childProduct);
                     }
@@ -181,7 +189,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
     }
 
     @Transactional(readOnly = false)
-    public void audit(Contract contract) {
+    public void audit(Contract contract) throws Exception {
         // 对不同环节的业务逻辑进行操作
         String taskDefKey = contract.getAct().getTaskDefKey();
         String flag = contract.getAct().getFlag();
@@ -211,6 +219,8 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 
             //拆分po
             if("split_po".equals(taskDefKey)){
+                if(!isFinishSplitPO(contract))
+                    throw new Exception("还没有完成拆分po, 不能提交!");
                 contract.setStatus(DictUtils.getDictValue("待审批","oa_contract_status",""));
                 saveProducts(contract);
             } else if("business_person_createbill".equals(taskDefKey)){//商务下单
@@ -274,5 +284,21 @@ public class ContractService extends CrudService<ContractDao, Contract> {
     //更新已下单数
     public void updateHasSendProduct(ContractProduct contractProduct){
         contractProductDao.updateHasSendNum(contractProduct);
+    }
+
+    //判断是否完成拆分po
+    private Boolean isFinishSplitPO(Contract contract){
+        for (ContractProduct product : contract.getContractProductList()) {
+            if(product.getChilds().size() == 0 ){
+                if(!product.getNum().equals(product.getHasSendNum()))
+                    return false;
+            } else{
+                for (ContractProduct childProduct : product.getChilds()) {
+                    if(!childProduct.getNum().equals(childProduct.getHasSendNum()))
+                        return false;
+                }
+            }
+        }
+        return true;
     }
 }
