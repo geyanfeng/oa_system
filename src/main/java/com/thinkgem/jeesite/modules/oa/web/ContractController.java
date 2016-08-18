@@ -200,7 +200,7 @@ public class ContractController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/oa/contract/?contractType="+contract.getContractType()+"&repage";
 	}
 
-	@RequiresPermissions("oa:contract:edit")
+	@RequiresPermissions("oa:contract:audit")
 	@RequestMapping(value = "audit")
 	public String audit(Contract contract, Model model, RedirectAttributes redirectAttributes) {
 		if(!contract.getContractType().equals("1") && isNotBlank(contract.getAct().getFlag()) || isNotBlank(contract.getAct().getTaskDefKey()))

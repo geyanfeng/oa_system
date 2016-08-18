@@ -310,3 +310,23 @@ function abbr(name, maxLength){
  }  
  return nameSub;  
 }
+
+//配置ajax
+$.ajaxSetup({
+    'error':function (xhr, status, err) {
+        var status = parseInt(xhr.status);
+        var msg="";
+        if (status !== 0) {
+            switch (status){
+                case 403:
+                    msg = "没有权限";
+                    break;
+                default:
+                    msg = xhr.responseText;
+                    break;
+            }
+            console.log(msg);
+            showMsg(msg, "error");
+        }
+    }
+});
