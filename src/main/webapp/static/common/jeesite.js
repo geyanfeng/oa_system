@@ -86,6 +86,15 @@ function showTip(mess, type, timeout, lazytime){
 }
 
 function showTipMsg(msg, type){
+   if(parent.showMsg){
+       parent.showMsg(msg,type);
+   } else
+       showMsg(msg, type);
+}
+
+function showMsg(msg, type){
+    if(!type)
+        type="info";
     toastr.options = {
         "closeButton": true,
         "debug": false,

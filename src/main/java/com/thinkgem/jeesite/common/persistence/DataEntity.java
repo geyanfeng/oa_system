@@ -3,17 +3,15 @@
  */
 package com.thinkgem.jeesite.common.persistence;
 
-import java.util.Date;
-
-import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
-import org.apache.commons.lang3.StringUtils;
-import org.hibernate.validator.constraints.Length;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thinkgem.jeesite.common.utils.IdGen;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.hibernate.validator.constraints.Length;
+
+import java.util.Date;
 
 /**
  * 数据Entity类
@@ -115,7 +113,6 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
 		this.updateDate = updateDate;
 	}
 
-	@JsonIgnore
 	@Length(min=1, max=1)
 	public String getDelFlag() {
 		return delFlag;

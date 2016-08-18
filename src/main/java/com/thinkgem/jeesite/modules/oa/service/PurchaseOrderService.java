@@ -162,6 +162,14 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 	@Transactional(readOnly = false)
 	public void delete(PurchaseOrder purchaseOrder) {
 		super.delete(purchaseOrder);
+		for(PurchaseOrderProduct purchaseOrderProduct : purchaseOrder.getPurchaseOrderProductList()){
+			//得到合同产品
+			ContractProduct contractProduct = contractProductDao.get(purchaseOrderProduct.getContractProductId());
+			//修改合同产品已发货数
+			contractProduct.setHasSendNum(contractProduct.getHasSendNum() - purchaseOrderProduct.getNum());
+			contractProduct.preUpdate();
+			contractProductDao.update(contractProduct);
+		}
 		purchaseOrderProductDao.delete(new PurchaseOrderProduct(purchaseOrder));
 	}
 

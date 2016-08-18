@@ -136,7 +136,7 @@
 						<shiro:hasPermission name="oa:purchaseOrder:edit">
 							<a href="${ctx}/oa/purchaseOrder/form?id=${purchaseOrder.id}">修改</a>
 							<a href="${ctx}/oa/purchaseOrder/delete?id=${purchaseOrder.id}"
-							   onclick="return confirmx('确认要删除该合同吗？', this.href)">删除</a>
+							   onclick="return confirmx('确认要删除该订单吗吗？', this.href)">删除</a>
 						</shiro:hasPermission>
 					</td>
 

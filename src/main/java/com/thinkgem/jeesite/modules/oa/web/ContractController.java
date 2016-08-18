@@ -3,10 +3,8 @@
  */
 package com.thinkgem.jeesite.modules.oa.web;
 
-import com.alibaba.druid.support.json.JSONUtils;
 import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.config.Global;
-import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
@@ -263,8 +261,18 @@ public class ContractController extends BaseController {
 	@RequiresPermissions("oa:contract:edit")
 	@RequestMapping(value = "{contractId}/saveProduct")
 	@ResponseBody
-	public void saveProduct(@PathVariable String contractId,@RequestBody List<ContractProduct> contractProductList) {
+	public void saveProduct(@PathVariable String contractId,@RequestBody List<ContractProduct> contractProductList) throws Exception {
 		Contract contract = get(contractId);
+		for (ContractProduct contractProduct : contract.getContractProductList()){
+			if(contractProduct.getHasSendNum()>0){
+				throw new Exception("已经下单不能修改");
+			}
+			for(ContractProduct childProduct : contractProduct.getChilds()){
+				if(childProduct.getHasSendNum()>0){
+					throw new Exception("已经下单不能修改");
+				}
+			}
+		}
 		contract.setContractProductList(contractProductList);
 		contractService.saveProducts(contract);
 	}

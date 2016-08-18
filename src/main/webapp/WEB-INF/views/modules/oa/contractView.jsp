@@ -296,7 +296,14 @@
 						<tr>
 							<td colspan=6 style="padding-left: 40px;">
 							 <table class="table table-condensed productChildTable" id="contractProductList{{idx}}_childTable" style="width: 600px;">
+							    <thead>
+							     <th class="hidden"></th>
+								    <th>子项/类别</th>
+								    <th>数量</th>
+								    <th>单位</th>
+							    </thead>
 								<tbody id="contractProductList{{idx}}_child">
+
 								  </tbody>
 								</table>
 							</td>
@@ -345,7 +352,14 @@
 						<tr>
 							<td colspan=6 style="padding-left: 40px;">
 							 <table class="table table-condensed" id="contractProductList{{idx}}_childTable" style="width: 600px;">
+							    <thead>
+							     <th class="hidden"></th>
+								    <th>子项/类别</th>
+								    <th>数量</th>
+								    <th>单位</th>
+							    </thead>
 								<tbody id="contractProductList{{idx}}_child">
+
 								  </tbody>
 								</table>
 							</td>
@@ -434,25 +448,25 @@
                                             contentType: "application/json;",
                                             data: JSON.stringify(contractProductList),
                                             success: function () {
-                                                $.getJSON("${ctx}/oa/contract/get?id=${contract.id}", function(result){
-                                                    contractProductList=result.data.contractProductList;
-                                                    loadProductsAfterClear(contractProductList);
-                                                    $("#btnSetProductCanEdit").html("<i class='fa fa-save'></i>&nbsp;编辑");;
-                                                });
+                                                loadProductsFromServer();//从服务器加载产品数据
                                             },
                                             error: function (a) {
-                                                console.log(a);
+                                                showTipMsg(a, "error");
                                             }
                                         });
                             }
                         } else{
+                            //检查是否已经有订单了
+                            if(poList && poList.length>0)
+                            {
+                                showTipMsg("已经下过采购订单了,不能编辑!", "error");
+                                return;
+                            }
                             $("#btnSetProductCanEdit").html("<i class='fa fa-save'></i>&nbsp;保存");
-                            loadProductsAfterClear(contractProductList);
                         }
                         isEdit = !isEdit;
 
                         if(isEdit){
-                            $("#btnSetProductCanEdit").html("<i class='fa fa-save'></i>&nbsp;保存");
                             loadProductsAfterClear(contractProductList);
                         }
                     });
@@ -471,7 +485,13 @@
 
                         addRow('#contractProductList', contractProductRowIdx, isEdit?contractProductTpl:contractProductViewTpl, data[i]);
 
+                        //子产品表body Selector
+                        var childTableBodySelector = '#contractProductList' + contractProductRowIdx + '_child';
                         if (data[i].childs) {
+                            //如果子产品数大于0, 显示子产品表
+                            if(data[i].childs.length > 0){
+                                $(childTableBodySelector).closest('td').show();
+                            }
                             for (var j = 0; j < data[i].childs.length; j++) {
                                 data[i].childs[j].unitName = "";
                                 for(var m = 0; m<unitList.length; m++){
@@ -481,8 +501,11 @@
                                         break;
                                     }
                                 }
-                                addChildRow('#contractProductList' + contractProductRowIdx + '_child', contractProductRowIdx, j, isEdit? contractProductChildTpl: contractProductChildViewTpl, data[i].childs[j]);
+                                addChildRow(childTableBodySelector, contractProductRowIdx, j, isEdit? contractProductChildTpl: contractProductChildViewTpl, data[i].childs[j]);
                             }
+                        } else{
+                            //如果子产品数等于于0, 隐藏子产品表
+                            $(childTableBodySelector).closest('td').hide();
                         }
 
                         contractProductRowIdx = contractProductRowIdx + 1;
@@ -538,6 +561,7 @@
 
                 function addChildRow(list, idx, child_idx, tpl, row) {
                     <c:if test="${contract.act.taskDefKey eq 'split_po'}">
+                    if(row)
                         row.json = JSON.stringify(row);
                     </c:if>
                     $(list).append(Mustache.render(tpl, {
@@ -562,11 +586,13 @@
                 function addNewChildRow(sender) {
                     var parentRow = $(sender).closest('tr');
                     var parentIdx = parentRow.data('idx');
-                    var childTable = $('#childProductList' + parentIdx + '_table');
+                    var childTable = $('#contractProductList' + parentIdx + '_childTable');
                     var childIdx = childTable.find('tr').length;
 
-                    var productTypeGroup = parentRow.find("input[id$='productTypeGroup']").val();
+                    //显示子产品表
+                    $('#contractProductList' + parentIdx + '_child').closest('td').show();
 
+                    var productTypeGroup = parentRow.find("input[id$='productTypeGroup']").val();
                     addChildRow('#contractProductList' + parentIdx + '_child', parentIdx, childIdx, contractProductChildTpl);
                 }
 
@@ -595,10 +621,7 @@
                         //检测是否设置产品类型
                         if(!data.childs){
                             if(!data.productType){
-                                if(parent.showTipMsg)
-                                    parent.showTipMsg("没有设置产品类型, 不能下单", "error");
-                                else
-                                    showTipMsg("没有设置产品类型, 不能下单", "error");
+                                showTipMsg("没有设置产品类型, 不能下单", "error");
                                 self.prop("checked","");
                                 return;
                             }
@@ -650,6 +673,15 @@
                     loadProducts(data);
                 }
 
+                //从服务器重新加载采购列表数据
+                function loadProductsFromServer(){
+                    $.getJSON("${ctx}/oa/contract/get?id=${contract.id}", function(result){
+                        contractProductList=result.data.contractProductList;
+                        loadProductsAfterClear(contractProductList);
+                        $("#btnSetProductCanEdit").html("<i class='fa fa-save'></i>&nbsp;编辑");;
+                    });
+                }
+
                 //当在拆分po阶段 ajax方式保存编辑的采购列表
                 function getSaveProducts(){
                     //得到每一行编辑的产品信息
@@ -671,7 +703,7 @@
                         product.productType.name=tr.find("#" + tdPref + "productType").find("option:selected").text();
                         return product;
                     }
-
+                    //检查数据
                     function checkData(tr, tdPref, type){
                         switch (type){
                             case 0:
@@ -760,13 +792,14 @@
                     <th>帐期</th>
                     <th>帐期点</th>
                     <th>帐期日利率</th>
+                    <th>操作</th>
                 </tr>
                 </thead>
                 <tbody id="poBody">
                 </tbody>
             </table>
             <script type="text/template" id="poViewTpl">//<!--
-						<tr role="row">
+						<tr role="row" data-id="{{row.id}}">
 							<td>
 							   {{row.no}}
 							</td>
@@ -785,11 +818,16 @@
 							<td>
 
 							</td>
+							<td>
+							    <c:if test="${contract.act.taskDefKey eq 'split_po'}">
+							        <a href="#" onclick="return confirmx('确认要删除该订单吗？', function(){deletePo('{{row.id}}');})" title="删除" class="zmdi zmdi-minus-square text-success" style="font-size:25px;"></a>
+							    </c:if>
+							</td>
 						</tr>
 						//-->
             </script>
             <script>
-
+                var poList = [] ;
                 $(function(){
                     loadPoList();
                 });
@@ -798,10 +836,26 @@
                     var poViewTpl = $("#poViewTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
                     $.getJSON("${ctx}/oa/purchaseOrder/poList/contract/${contract.id}",
                             function(data){
+                                poList = data;
                                 $.each(data, function(idx, po){
                                     addRow("#poBody", idx,poViewTpl,po );
                                 });
 
+                    });
+                }
+
+                function deletePo(id){
+                    var purchaseOrder = {
+                        id: id
+                    }
+                    $.get("${ctx}/oa/purchaseOrder/delete", purchaseOrder , function(){
+                        for(var i=0;i<poList.length;i++){
+                            if(poList[i].id == id){
+                                poList.splice(i, 1);
+                            }
+                        }
+                        $("#poBody tr[data-id='"+id+"']").remove();
+                        loadProductsFromServer();//从服务器加载采购产品, 因为要重新已下载数量;
                     });
                 }
             </script>
