@@ -258,7 +258,6 @@ public class ContractController extends BaseController {
 		return "redirect:" + Global.getAdminPath()+"/oa/contract?contractType="+ contract.getContractType() +"&repage";
 	}
 
-	@RequiresPermissions("oa:contract:edit")
 	@RequestMapping(value = "{contractId}/saveProduct")
 	@ResponseBody
 	public void saveProduct(@PathVariable String contractId,@RequestBody List<ContractProduct> contractProductList) throws Exception {

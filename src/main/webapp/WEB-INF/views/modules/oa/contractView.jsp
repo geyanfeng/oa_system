@@ -392,9 +392,9 @@
 									</c:forEach>
 								</select>
 							</td>
-							<shiro:hasPermission name="oa:contract:edit"><td class="text-center" width="10">
+							<td class="text-center" width="10">
 								{{#delBtn}}<a href="#" class="on-default remove-row" onclick="delRow(this, '#childProductList{{idx}}_{{child_idx}}')"  title="删除"><i class="fa fa-trash-o"></i></a>{{/delBtn}}
-							</td></shiro:hasPermission>
+							</td>
 						</tr>
 						//-->
             </script>

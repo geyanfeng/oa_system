@@ -14,7 +14,6 @@ import com.thinkgem.jeesite.modules.oa.entity.Supplier;
 import com.thinkgem.jeesite.modules.oa.service.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -103,7 +102,6 @@ public class PurchaseOrderController extends BaseController {
 		return "modules/oa/" + view;
 	}
 
-	@RequiresPermissions("oa:purchaseOrder:edit")
 	@RequestMapping(value = "save")
 	public String save(PurchaseOrder purchaseOrder, Model model, RedirectAttributes redirectAttributes) throws Exception {
 		if (!beanValidator(model, purchaseOrder)){
@@ -115,7 +113,6 @@ public class PurchaseOrderController extends BaseController {
 	}
 
 	@SuppressWarnings("Duplicates")
-	@RequiresPermissions("oa:purchaseOrder:edit")
 	@RequestMapping(value = "ajaxSave")
 	@ResponseBody
 	public Map<String, Object> ajaxSave(PurchaseOrder purchaseOrder, Model model, RedirectAttributes redirectAttributes) {
@@ -154,7 +151,6 @@ public class PurchaseOrderController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/oa/purchaseOrder";
 	}
 
-	@RequiresPermissions("oa:purchaseOrder:view")
 	@RequestMapping(value = "poList/contract/{contractId}")
 	@ResponseBody
 	public List<PurchaseOrder> getPoByContractId(@PathVariable String contractId)
