@@ -44,7 +44,11 @@
                                     showTipMsg(result.msg,"error");
                                 return;
                             }
-                            showTipMsg("保存成功","success");
+                            if(parent){
+                                    parent.showTipMsg("订单保存成功","success");
+                            } else
+                                showTipMsg("订单保存成功","success");
+
                             if(parent.loadProductsAfterClear){
                                 $.getJSON("${ctx}/oa/contract/get?id="+result.contractId, function(result){
                                     parent.loadProductsAfterClear(result.data.contractProductList);
@@ -179,7 +183,7 @@
         <script type="text/javascript">
             var poProductRowIdx = 0, poProductTpl = $("#poProductTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
             $(document).ready(function () {
-                var data = ${fns:toJson(contract.purchaseOrderProductList)};
+                var data = ${fns:toJson(purchaseOrder.purchaseOrderProductList)};
                 for (var i = 0; i < data.length; i++) {
                     addRow('#purchaseOrderProductList', poProductRowIdx, poProductTpl, data[i]);
                     poProductRowIdx = poProductRowIdx + 1;
@@ -322,23 +326,30 @@
     </script>
     <script>
         $(function(){
-            addNewInstallmentPayment();
-
+            <c:if test="${empty purchaseOrder.id}">
+                addNewInstallmentPayment();
+            </c:if>
+            <c:if test="${not empty purchaseOrder.id}">
+                var paymentDetails = JSON.parse(${fns:toJson(purchaseOrder.paymentDetail)});
+                for (var i = 0; i < paymentDetails.length; i++) {
+                    addNewInstallmentPayment(null, paymentDetails[i]);
+                }
+            </c:if>
             $("#btnSubmit").click(function () {
                 $("#paymentDetail").val(JSON.stringify(getPaymentDetail()));
             });
         });
 
-        function addNewInstallmentPayment(sender){
+        function addNewInstallmentPayment(sender, row){
             var tpl= $("#paymentTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
             var idx=1;
             if(sender) {
                 var self = $(sender);
                 var selfRow = self.closest('.row');
                 idx = parseInt($("#payment-body").data("idx"));
-                selfRow.after(Mustache.render(tpl, {idx: idx}));
+                selfRow.after(Mustache.render(tpl, {idx: idx, row: row}));
             } else{
-                $("#payment-body").append(Mustache.render(tpl, {idx: 1}));
+                $("#payment-body").append(Mustache.render(tpl, {idx: 1, row: row}));
             }
             idx = idx+1;
             $("#payment-body").data("idx",idx);

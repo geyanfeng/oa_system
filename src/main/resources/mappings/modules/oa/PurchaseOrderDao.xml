@@ -147,7 +147,7 @@
 		<include refid="purchaseOrderColumns"/>
 		FROM oa_po a
 		<include refid="purchaseOrderJoins"/>
-		WHERE a.proc_ins_id = #{procInsId}
+		WHERE a.proc_ins_id = #{procInsId} and a.del_flag = 0
 	</select>
 
 	<select id="getCountByNoPref" resultType="Integer">

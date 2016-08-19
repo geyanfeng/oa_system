@@ -88,6 +88,11 @@
             else
                 $("#panel_po" ).fadeOut();
         }
+
+        //打开采购下单的panel
+        function openPoPanel(){
+            $("#panel_po" ).fadeIn();
+        }
     </script>
 </c:if>
 
@@ -801,7 +806,7 @@
             <script type="text/template" id="poViewTpl">//<!--
 						<tr role="row" data-id="{{row.id}}">
 							<td>
-							   {{row.no}}
+							   <a href="${ctx}/oa/purchaseOrder/view?id={{row.id}}">{{row.no}}</a>
 							</td>
 							<td>
 								{{row.supplier.name}}
@@ -820,6 +825,7 @@
 							</td>
 							<td>
 							    <c:if test="${contract.act.taskDefKey eq 'split_po'}">
+							        <a href="#" onclick="editPo('{{row.id}}')" title="编辑" class="zmdi zmdi-edit text-success" style="font-size:25px;"></a>
 							        <a href="#" onclick="return confirmx('确认要删除该订单吗？', function(){deletePo('{{row.id}}');})" title="删除" class="zmdi zmdi-minus-square text-success" style="font-size:25px;"></a>
 							    </c:if>
 							</td>
@@ -857,6 +863,12 @@
                         $("#poBody tr[data-id='"+id+"']").remove();
                         loadProductsFromServer();//从服务器加载采购产品, 因为要重新已下载数量;
                     });
+                }
+
+                function editPo(id){
+                    var src = "${ctx}/oa/purchaseOrder/form?id="+ id +"&contract.id=${contract.id}&fromModal=1";
+                    $("#poFrame").attr("src", src);
+                    openPoPanel();
                 }
             </script>
         </div>
