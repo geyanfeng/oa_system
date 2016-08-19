@@ -52,20 +52,6 @@
                 $('#modal').modal({show: true, backdrop: 'static'});
             });
 
-            //更改发票类型时,显示或隐藏列
-            $('input[name=invoiceType]').change(function () {
-                var sVal = $('input[name=invoiceType]:checked ').val();
-                switch (sVal) {
-                    case "2":
-                        $("div[id^=field-invoice]").show();
-                        break;
-                    default:
-                        $("div[id^=field-invoice]").hide();
-                        break;
-                }
-            });
-            $('input[name=invoiceType]').trigger('change');
-
             //更改是否业绩抵扣
             $("#isDeduction1").change(function(){
                 if($(this).prop('checked'))
@@ -339,13 +325,14 @@
                                            element="span class='radio radio-success radio-inline'"/>
                     </div>
                 </div>
-                <div class="form-group clearfix" id="field-invoiceCustomerName">
+                <div class="form-group clearfix">
                     <label class="col-sm-3 control-label"><span class="help-inline"><font color="red">*</font> </span>发票客户名称：</label>
                     <div class="col-sm-7">
                         <form:input path="invoiceCustomerName" htmlEscape="false" maxlength="255"
                                     class="form-control input-sm required"/>
                     </div>
                 </div>
+
                 <div class="form-group clearfix" id="field-invoiceNo">
                     <label class="col-sm-3 control-label"><span class="help-inline"><font color="red">*</font> </span>纳税人识别码：</label>
                     <div class="col-sm-7">
@@ -384,6 +371,23 @@
             </div>
         </div>
     </div>
+    <script>
+        $(function(){
+            //更改发票类型时,显示或隐藏列
+            $('input[name=invoiceType]').change(function () {
+                var sVal = $('input[name=invoiceType]:checked ').val();
+                switch (sVal) {
+                    case "2":
+                        $("div[id^=field-invoice]").show();
+                        break;
+                    default:
+                        $("div[id^=field-invoice]").hide();
+                        break;
+                }
+            });
+            $('input[name=invoiceType]').trigger('change');
+        });
+    </script>
 
     <!--采购列表-->
     <div class="panel panel-default" id="card_products">
