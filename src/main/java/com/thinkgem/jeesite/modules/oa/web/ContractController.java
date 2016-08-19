@@ -145,6 +145,7 @@ public class ContractController extends BaseController {
 	@RequiresPermissions("oa:contract:view")
 	@RequestMapping(value = "view")
 	public String view(Contract contract, HttpServletRequest request, HttpServletResponse response, Model model) {
+		String view = "contractView";
 		model.addAttribute("contract", contract);
 		//商品类型
 		model.addAttribute("productTypeList", productTypeService.findList(new ProductType()));
@@ -163,12 +164,16 @@ public class ContractController extends BaseController {
 			else if ("modify".equals(taskDefKey)){
 				view = "testAuditForm";
 			}*/
+
+			if("saler_audit".equals(taskDefKey) || "cso_audit".equals(taskDefKey)){
+				view = "contractView_includeCost";
+			}
 			model.addAttribute("taskDefKey",taskDefKey);
 		}
 		//商品类型
 		model.addAttribute("productTypeList", productTypeService.findList(new ProductType()));
 
-		return "modules/oa/contractView";
+		return "modules/oa/"+view;
 	}
 
 	private void setContractAttachment(Contract contract){

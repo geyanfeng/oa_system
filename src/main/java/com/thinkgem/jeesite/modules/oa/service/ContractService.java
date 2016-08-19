@@ -50,7 +50,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
     @Autowired
     private ContractAttachmentDao contractAttachmentDao;
     @Autowired
-    private PurchaseOrderDao purchaseOrderDao;
+    private PurchaseOrderService purchaseOrderService;
 
     public Contract getByProcInsId(String procInsId) {
         return contractDao.getByProcInsId(procInsId);
@@ -80,7 +80,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 
     //得到产品的成本价和合同的成本价
     public void getCost(Contract contract){
-        List<PurchaseOrder> poList = purchaseOrderDao.getPoListByContractId(contract.getId());
+        List<PurchaseOrder> poList = purchaseOrderService.getPoListByContractId(contract.getId());
         for (ContractProduct product : contract.getContractProductList()){
             if(product.getChilds().size() > 0){
                 Double parentCost = 0.00;

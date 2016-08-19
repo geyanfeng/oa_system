@@ -1199,10 +1199,10 @@
                             <input id="btnCancel" class="btn btn-custom" type="submit" value="提交" onclick="$('#flag').val('submit_audit')"/>&nbsp;
                         </c:when>
 
-                        <c:otherwise>
+                        <c:when test="${not empty contract.act.taskDefKey}">
                             <input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
                             <input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
-                        </c:otherwise>
+                        </c:when>
                     </c:choose>
 
 

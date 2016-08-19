@@ -247,6 +247,11 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 	}
 
 	public List<PurchaseOrder> getPoListByContractId(String contractId) {
-		return purchaseOrderDao.getPoListByContractId(contractId);
+		List<PurchaseOrder> purchaseOrderList = purchaseOrderDao.getPoListByContractId(contractId);
+		for (PurchaseOrder purchaseOrder: purchaseOrderList){
+			purchaseOrder.setPurchaseOrderProductList(purchaseOrderProductDao.findList(new PurchaseOrderProduct(purchaseOrder)));
+			purchaseOrder.setPurchaseOrderAttachmentList(purchaseOrderAttachmentDao.findList(new PurchaseOrderAttachment(purchaseOrder)));
+		}
+		return purchaseOrderList;
 	}
 }
