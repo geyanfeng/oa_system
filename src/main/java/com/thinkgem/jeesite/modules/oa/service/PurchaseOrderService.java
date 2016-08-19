@@ -16,8 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -177,11 +175,16 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 		return purchaseOrderDao.getCountByNoPref(noPref);
 	}
 
-	//设置订单号
+	//设置订单号"订单编号为[合同编号]-PO[两位数编号]"
 	public void setNo(PurchaseOrder purchaseOrder){
 		if(StringUtils.isBlank(purchaseOrder.getId())) {
-			SimpleDateFormat dateFormater = new SimpleDateFormat("yyyyMMdd");
-			String noPref = String.format("%s", dateFormater.format(new Date()));
+			//得到合同编号
+			String contractNo = purchaseOrder.getContract().getNo();
+			if(isBlank(contractNo)){
+				Contract contract = contractDao.get(purchaseOrder.getContract().getId());
+				contractNo = contract.getNo();
+			}
+			String noPref = String.format("%s-PO", contractNo);
 			Integer count;
 			count = getCountByNoPref(noPref);
 			purchaseOrder.setNo(String.format("%s%d",noPref,count+1));
