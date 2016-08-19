@@ -48,6 +48,9 @@
                             if(parent.loadProductsAfterClear){
                                 $.getJSON("${ctx}/oa/contract/get?id="+result.contractId, function(result){
                                     parent.loadProductsAfterClear(result.data.contractProductList);
+                                    //关闭本窗体
+                                    if(parent.openOrClosePOPanel)
+                                        parent.openOrClosePOPanel();
                                     location.reload();
                                 });
                             }
