@@ -13,9 +13,8 @@ import com.thinkgem.jeesite.modules.act.utils.ActUtils;
 import com.thinkgem.jeesite.modules.oa.dao.ContractAttachmentDao;
 import com.thinkgem.jeesite.modules.oa.dao.ContractDao;
 import com.thinkgem.jeesite.modules.oa.dao.ContractProductDao;
-import com.thinkgem.jeesite.modules.oa.entity.Contract;
-import com.thinkgem.jeesite.modules.oa.entity.ContractAttachment;
-import com.thinkgem.jeesite.modules.oa.entity.ContractProduct;
+import com.thinkgem.jeesite.modules.oa.dao.PurchaseOrderDao;
+import com.thinkgem.jeesite.modules.oa.entity.*;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,6 +49,8 @@ public class ContractService extends CrudService<ContractDao, Contract> {
     private ContractProductDao contractProductDao;
     @Autowired
     private ContractAttachmentDao contractAttachmentDao;
+    @Autowired
+    private PurchaseOrderDao purchaseOrderDao;
 
     public Contract getByProcInsId(String procInsId) {
         return contractDao.getByProcInsId(procInsId);
@@ -72,7 +73,56 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             }
         }
         contract.setContractProductList(parentProductList);
+        //得到成本价
+        getCost(contract);
         return contract;
+    }
+
+    //得到产品的成本价和合同的成本价
+    public void getCost(Contract contract){
+        List<PurchaseOrder> poList = purchaseOrderDao.getPoListByContractId(contract.getId());
+        for (ContractProduct product : contract.getContractProductList()){
+            if(product.getChilds().size() > 0){
+                Double parentCost = 0.00;
+                for (ContractProduct childProduct: product.getChilds()){
+                    childProduct.setCost(getPOProductCost(poList, childProduct.getId()));
+                    parentCost = parentCost + childProduct.getCost();
+                }
+                product.setCost(parentCost);
+                contract.setCost(contract.getCost() + parentCost);
+            } else
+            {
+                Double productCost = getPOProductCost(poList, product.getId());
+                product.setCost(productCost);
+                contract.setCost(contract.getCost() + productCost);
+            }
+        }
+    }
+
+    //得到合同产品的成本
+    private Double getPOProductCost(List<PurchaseOrder> poList, String contractProductId){
+        List<PurchaseOrderProduct> poProducts = getPOProductByContractProductId(poList, contractProductId);
+        if(poProducts.size() > 0){
+            Double cost = 0.00;
+            for (PurchaseOrderProduct poProduct: poProducts){
+                cost = cost + poProduct.getAmount();
+            }
+           return cost;
+        }
+        return 0.00;
+    }
+
+    //根据合同产品id得到订单产品列表
+    private List<PurchaseOrderProduct> getPOProductByContractProductId(List<PurchaseOrder> poList, String contractProductId){
+        List<PurchaseOrderProduct> poProductList =  new ArrayList<PurchaseOrderProduct>();
+        for(PurchaseOrder po : poList){
+            for(PurchaseOrderProduct poProduct: po.getPurchaseOrderProductList()){
+                if(poProduct.getContractProductId().equals(contractProductId)){
+                    poProductList.add(poProduct);
+                }
+            }
+        }
+        return poProductList;
     }
 
     public List<Contract> findList(Contract contract) {

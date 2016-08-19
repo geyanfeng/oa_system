@@ -30,6 +30,7 @@ public class ContractProduct extends DataEntity<ContractProduct> {
 	private Integer hasSendNum; //已下单数
 	private ProductType productType; //商品类型
 	private List<ContractProduct> childs = Lists.newArrayList();		// 子表列表
+	private Double cost = 0.00 ;		//成本(从订单产品中获取)
 	
 	public ContractProduct() {
 		super();
@@ -145,4 +146,7 @@ public class ContractProduct extends DataEntity<ContractProduct> {
 	public void setChilds( List<ContractProduct> childs) {
 		this.childs = childs;
 	}
+
+	public Double getCost(){return cost;}
+	public void setCost(Double cost){this.cost = cost;}
 }
