@@ -208,7 +208,7 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 			Map<String, Object> vars = Maps.newHashMap();
 			vars.put("business_person", contract.getBusinessPerson().getName());
 			vars.put("artisan", contract.getArtisan().getName());
-			purchaseOrder.getAct().setComment("商务下单");
+			//purchaseOrder.getAct().setComment("商务下单");
 			actTaskService.startProcess(ActUtils.PD_PO_AUDIT[0], ActUtils.PD_PO_AUDIT[1], purchaseOrder.getId(), purchaseOrder.getNo(), vars);
 		} else {
 			Map<String, Object> vars = Maps.newHashMap();
@@ -220,7 +220,10 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 				vars.put("pass", pass ? "1" : "0");
 			}
 
-			if("verify_ship".equals(taskDefKey)){//确认发货
+			if("business_person_createbill".equals(taskDefKey)) {//商务下单
+				purchaseOrder.setStatus(DictUtils.getDictValue("已下单", "oa_po_status", ""));
+			}
+			else if("verify_ship".equals(taskDefKey)){//确认发货
 				purchaseOrder.setStatus(DictUtils.getDictValue("已发货","oa_po_status",""));
 			} else if("payment".equals(taskDefKey)){//付款
 				purchaseOrder.setStatus(DictUtils.getDictValue("已完成","oa_po_status",""));

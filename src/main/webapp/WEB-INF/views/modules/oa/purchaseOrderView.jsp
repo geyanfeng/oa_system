@@ -342,7 +342,8 @@
         <div class="col-sm-offset-4 col-sm-8">
             <c:if test="${not empty purchaseOrder.id}">
                 <c:choose>
-                    <c:when test="${ purchaseOrder.act.taskDefKey eq 'verify_ship' ||
+                    <c:when test="${  purchaseOrder.act.taskDefKey eq 'business_person_createbill'||
+                                            purchaseOrder.act.taskDefKey eq 'verify_ship' ||
                                             purchaseOrder.act.taskDefKey eq 'payment'}">
                         <input id="btnCancel" class="btn btn-custom" type="submit" value="提交"/>&nbsp;
                     </c:when>
