@@ -7,7 +7,7 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$("#btnNew").click(function () {
-				var frameSrc = "${ctx}/oa/contract/list?contractType=2&status=35&isSelect=true";
+				var frameSrc = "${ctx}/oa/contract/list?contractType=2&status=10&isSelect=true";
 				$('#modal iframe').attr("src", frameSrc);
 				$('#modal .modal-title').html('选择合同');
 				$('#modal').modal({show: true, backdrop: 'static'});
@@ -23,7 +23,7 @@
 		//关闭框架合同选择框,并设置相关的值
 		function closeSelectContractModal(selectedContract) {
 			$('#modal').modal('hide');
-			window.location = "${ctx}/oa/contract/view?id="+ selectedContract.id;
+			window.location = "${ctx}/oa/contract/view?po=true&id="+ selectedContract.id;
 		}
 	</script>
 </head>
@@ -128,7 +128,7 @@
 							${purchaseOrder.supplier.name}
 					</td>
 					<td>
-							${purchaseOrder.amount}
+							<fmt:formatNumber type="number" value="${purchaseOrder.amount}" maxFractionDigits="2"/>
 					</td>
 					<td>
 							${fns:getDictLabel(purchaseOrder.status, 'oa_po_status', '')}

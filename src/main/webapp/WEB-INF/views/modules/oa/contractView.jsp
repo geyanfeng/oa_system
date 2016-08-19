@@ -38,12 +38,31 @@
                    $('.navbar').css('top', parent.window.document.body.scrollTop);
                 });
             }
+            //清除modal中的内容
+            $('#modal').on('hidden.bs.modal', function(){
+                $(this).find('iframe').html("");
+                $(this).find('iframe').attr("src", "");
+            });
+
+
+            //新建订单通过参数newpo来控制,如:contract/view?newpo=true
+            if("${param.newpo}"!=""){
+                var frameSrc = "${ctx}/oa/contract/list?contractType=2&status=10&isSelect=true";
+                $('#modal iframe').attr("src", frameSrc);
+                $('#modal .modal-title').html('选择合同');
+                $('#modal').modal({show: true, backdrop: 'static'});
+            }
         });
+
+        function closeSelectContractModal(selectedContract){
+            $('#modal').modal('hide');
+            window.location = "${ctx}/oa/contract/view?po=true&id="+ selectedContract.id;
+        }
     </script>
 </head>
 <body data-spy="scroll" data-target="#navbar">
 
-<c:if test="${contract.act.taskDefKey eq 'split_po'}">
+<c:if test="${contract.act.taskDefKey eq 'split_po' || param.po ne ''}">
     <script src="${ctxStatic}/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
     <div class="col-sm-5 div_bill" id="panel_po" style="display: none">
         <div class="panel panel-default">
@@ -233,7 +252,7 @@
     <a class="anchor" name="panel-3"></a>
     <div class="panel panel-default" id="card_products">
         <div class="panel-heading">采购列表
-            <c:if test="${contract.act.taskDefKey eq 'split_po'}">
+            <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po ne ''}">
                 <span id="productMsg" style="display:none" class="label label-danger"></span>
             <div class="pull-right">
                 <a href="javascript:" class="btn btn-primary waves-effect waves-light m-b-5 btn-xs" id="btnSetProductCanEdit"><i class="zmdi zmdi-edit"></i>&nbsp;编辑</a>
@@ -273,7 +292,7 @@
 							</td>
 							<td>
 								<span>{{row.name}}</span>
-								<c:if test="${contract.act.taskDefKey eq 'split_po'}">
+								<c:if test="${contract.act.taskDefKey eq 'split_po' || param.po ne ''}">
                                     <select id="contractProductList{{idx}}_productType" name="contractProductList[{{idx}}].productType" data-value="{{row.productType.id}}" class="form-control input-block required input-sm" style="width: 40%;display: inline-block;">
                                         <c:forEach items="${productTypeList}" var="dict">
                                             <option value="${dict.id}">${dict.name}</option>
@@ -332,7 +351,7 @@
 								<input id="contractProductList{{idx}}_hasSendNum" name="contractProductList[{{idx}}].hasSendNum" type="hidden" value="{{row.hasSendNum}}"/>
 							</td>
 							<td>
-							    <c:if test="${contract.act.taskDefKey eq 'split_po'}">
+							    <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po ne ''}">
 							        <input type="checkbox" onchange="selectProduct(this, '{{row.json}}')">
                                 </c:if>
 								<span>{{row.name}}</span>
@@ -412,7 +431,7 @@
 								<input id="childProductList{{idx}}_{{child_idx}}_hasSendNum" name="contractProductList[{{idx}}].childs[{{child_idx}}].hasSendNum" type="hidden" value="{{row.hasSendNum}}"/>
 							</td>
 							<td>
-							    <c:if test="${contract.act.taskDefKey eq 'split_po'}">
+							    <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po ne ''}">
 							        <input type="checkbox" onchange="selectProduct(this, '{{row.json}}')">
                                 </c:if>
 								<span style="display:inline-block;width:100px;">{{row.name}}</span>
@@ -516,7 +535,7 @@
                         contractProductRowIdx = contractProductRowIdx + 1;
                     }
 
-                    <c:if test="${contract.act.taskDefKey eq 'split_po'}">
+                    <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po ne ''}">
                     //如果是拆分po,过滤已经下过的产品
                     for (var i = 0; i < data.length; i++) {
                         var existChildCount = 0;
@@ -542,7 +561,7 @@
                 }
 
                 function addRow(list, idx, tpl, row) {
-                    <c:if test="${contract.act.taskDefKey eq 'split_po'}">
+                    <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po ne ''}">
                         row.json = JSON.stringify(row);
                     </c:if>
                     $(list).append(Mustache.render(tpl, {
@@ -565,7 +584,7 @@
                 }
 
                 function addChildRow(list, idx, child_idx, tpl, row) {
-                    <c:if test="${contract.act.taskDefKey eq 'split_po'}">
+                    <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po ne ''}">
                     if(row)
                         row.json = JSON.stringify(row);
                     </c:if>
@@ -824,7 +843,7 @@
 
 							</td>
 							<td>
-							    <c:if test="${contract.act.taskDefKey eq 'split_po'}">
+							    <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po ne ''}">
 							        <a href="#" onclick="editPo('{{row.id}}')" title="编辑" class="zmdi zmdi-edit text-success" style="font-size:25px;"></a>
 							        <a href="#" onclick="return confirmx('确认要删除该订单吗？', function(){deletePo('{{row.id}}');})" title="删除" class="zmdi zmdi-minus-square text-success" style="font-size:25px;"></a>
 							    </c:if>
@@ -840,6 +859,7 @@
                 function loadPoList(){
                     $("#poBody").empty();
                     var poViewTpl = $("#poViewTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
+                    if("${contract.id}" == "") return;
                     $.getJSON("${ctx}/oa/purchaseOrder/poList/contract/${contract.id}",
                             function(data){
                                 poList = data;

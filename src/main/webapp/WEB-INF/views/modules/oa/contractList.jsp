@@ -20,6 +20,11 @@
                 }, {buttonsFocus: 1});
                 top.$('.jbox-body .jbox-icon').css('top', '55px');
             });
+
+            //如果是选择合同,隐藏合同状态
+            if("${param.isSelect}"!=""){
+                $("#div-status").hide();
+            }
         });
         function page(n, s) {
             $("#pageNo").val(n);
@@ -108,7 +113,7 @@
 
             </div>
 
-            <div class="form-group">
+            <div class="form-group"  id="div-status">
                 <label>合同状态：</label>
                 <form:select path="status" class="select2-container form-control input-sm" cssStyle="width:100px;">
                     <form:option value="" label=""/>
@@ -177,7 +182,7 @@
                             ${contract.name}
                     </td>
                     <td>
-                            ${contract.amount}
+                           <fmt:formatNumber type="number" value="${contract.amount}" maxFractionDigits="2"/>
                     </td>
                     <td>
                             ${fns:getDictLabel(contract.status, 'oa_contract_status', '')}
