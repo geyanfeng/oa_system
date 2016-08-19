@@ -149,7 +149,7 @@
                         <fmt:formatDate value="${contract.createDate}" pattern="yyyy-MM-dd"/>
                     </td>
 
-                    <td><a href="${ctx}/oa/contract/form?id=${contract.id}">
+                    <td><a href="${ctx}/oa/contract/view?id=${contract.id}">
                             ${contract.no}
                     </a></td>
                     <td>
