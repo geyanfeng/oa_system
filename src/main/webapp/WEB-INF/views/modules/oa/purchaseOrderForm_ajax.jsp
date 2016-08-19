@@ -403,13 +403,36 @@
         天
     </div>
     <div class="row">
-        收货方 :&nbsp;&nbsp;&nbsp;
-        <form:select path="companyName" class="form-control required input-sm" cssStyle="width:300px;">
+        地址类型 :
+        <form:select path="addressType" class="form-control required input-sm" cssStyle="width:300px;">
             <form:option value="" label=""/>
-            <form:options items="${fns:getDictList('oa_company_name')}" itemLabel="label"
+            <form:options items="${fns:getDictList('oa_po_address_type')}" itemLabel="label"
                           itemValue="value" htmlEscape="false"/>
         </form:select>
     </div>
+    <div class="row" id="div_address" style="display:none;">
+        地址&nbsp;&nbsp; :
+        <form:input path="address" htmlEscape="false" maxlength="255" class="form-control required input-sm" cssStyle="display:inline;width: 300px;"/>
+    </div>
+    <script>
+        $(function(){
+            $("#addressType").change(function(){
+                var sVal = $('#addressType').val();
+                switch (sVal){
+                    case "2":
+                            if(parent.getShipAddress)
+                            $("#address").val(parent.getShipAddress());
+                            $("#div_address").show();
+                        break;
+                    default:
+                         $("#address").val("");
+                        $("#div_address").hide();
+                        break;
+                }
+            });
+            $("#addressType").trigger("change");
+        });
+    </script>
 
     <hr>
 

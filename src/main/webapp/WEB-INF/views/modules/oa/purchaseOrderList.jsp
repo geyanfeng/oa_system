@@ -99,7 +99,8 @@
 				<th class="sort-column createDate">日期</th>
 				<th class="sort-column no">订单号</th>
 				<th class="sort-column contract.no">合同号</th>
-				<th class="sort-column company_name">公司抬头</th>
+				<th>收货类型</th>
+				<th class="sort-column address">地址</th>
 				<th class="sort-column a9.name">供应商</th>
 				<th class="sort-column amount">订单金额</th>
 				<th class="sort-column status">订单状态</th>
@@ -118,7 +119,10 @@
 					<td>${purchaseOrder.no}</td>
 					<td>${purchaseOrder.contract.no}</td>
 					<td>
-							${fns:getDictLabel(purchaseOrder.companyName, 'oa_company_name', '')}
+							${fns:getDictLabel(purchaseOrder.addressType, 'oa_po_address_type', '')}
+					</td>
+					<td>
+							${purchaseOrder.address}
 					</td>
 					<td>
 							${purchaseOrder.supplier.name}

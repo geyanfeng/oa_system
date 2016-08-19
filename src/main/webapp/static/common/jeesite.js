@@ -326,7 +326,10 @@ $.ajaxSetup({
                     break;
             }
             console.log(msg);
-            showMsg(msg, "error");
+           if(parent.showTipMsg)
+               parent.showTipMsg(msg, "error");
+            else
+               showTipMsg(msg,"error");
         }
     }
 });

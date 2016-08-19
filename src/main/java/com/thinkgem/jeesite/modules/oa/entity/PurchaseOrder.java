@@ -21,7 +21,8 @@ public class PurchaseOrder extends ActEntity<PurchaseOrder> {
 	private String procInsId;		// 流程实例ID
 	private String no;		// 订单号
 	private Contract contract;		// 合同
-	private String companyName;		// 公司抬头
+	private String addressType;		// 地址类型
+	private String address;		// 地址
 	private Supplier supplier;		// 供应商
 	private String paymentDetail;		// 付款信息
 	private Integer paymentPointnum;		// 帐期点数
@@ -83,14 +84,21 @@ public class PurchaseOrder extends ActEntity<PurchaseOrder> {
 	public void setContract(Contract contract) {
 		this.contract = contract;
 	}
-	
-	@Length(min=1, max=64, message="公司抬头长度必须介于 1 和 64 之间")
-	public String getCompanyName() {
-		return companyName;
+
+	public String getAddressType() {
+		return addressType;
 	}
 
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
+	public void setAddressType(String addressType) {
+		this.addressType = addressType;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	
 	public Supplier getSupplier() {

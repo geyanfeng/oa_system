@@ -33,9 +33,10 @@
 
         $(function(){
             if(parent.mainFrame){
-                $(parent.window).scroll( function(){
-                    $('.navbar').css('top', parent.window.document.body.scrollTop)
-                });
+                if(parent.window)
+                    $(parent.window).scroll( function(){
+                        $('.navbar').css('top', parent.window.document.body.scrollTop)
+                    });
             }
         });
     </script>

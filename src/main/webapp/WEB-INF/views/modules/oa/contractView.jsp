@@ -1057,6 +1057,11 @@
             </c:choose>
         </div>
     </div>
+    <script>
+        function getShipAddress(){
+            return "${contract.shipAddress}";
+        }
+    </script>
 
     <!--其它-->
     <a class="anchor" name="panel-6"></a>
