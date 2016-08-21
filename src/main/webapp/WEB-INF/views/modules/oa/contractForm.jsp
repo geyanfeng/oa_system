@@ -891,7 +891,7 @@
                 <div class="form-group">
                     <label class="control-label">销售奖金：</label>
 
-                    <form:input path="customerCost" htmlEscape="false" class="form-control  number input-sm"/>
+                    <form:input path="customerCost" htmlEscape="false" class="form-control required number input-sm"/>
 
                 </div>
                 <div class="form-group">

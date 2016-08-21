@@ -16,6 +16,10 @@ import com.thinkgem.jeesite.modules.oa.dao.ContractProductDao;
 import com.thinkgem.jeesite.modules.oa.dao.PurchaseOrderDao;
 import com.thinkgem.jeesite.modules.oa.entity.*;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+import org.activiti.engine.RuntimeService;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +47,8 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 
     @Autowired
     private ActTaskService actTaskService;
+    @Autowired
+    private RuntimeService runtimeService;
     @Autowired
     private ContractDao contractDao;
     @Autowired
@@ -135,6 +141,8 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 
     @Transactional(readOnly = false)
     public void save(Contract contract) {
+        if(contract.getStatus()==null)
+            contract.setStatus("0");
         super.save(contract);
 
         saveProducts(contract);
@@ -232,6 +240,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         super.delete(contract);
         contractAttachmentDao.delete(new ContractAttachment(contract));
         contractProductDao.delete(new ContractProduct(contract));
+        runtimeService.suspendProcessInstanceById(contract.getProcInsId());
     }
 
     public Contract getByName(String name) {
@@ -274,6 +283,8 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                 contract.setStatus(DictUtils.getDictValue("待审批","oa_contract_status",""));
                 saveProducts(contract);
             } else if("business_person_createbill".equals(taskDefKey)){//商务下单
+                if(!isFinishCreateBill(contract))
+                    throw new Exception("提交失败: 还有订单没有完成商务下单, 不能提交!");
                 contract.setStatus(DictUtils.getDictValue("已下单","oa_contract_status",""));
             } else if("verify_ship".equals(taskDefKey)){//确认发货
                 contract.setStatus(DictUtils.getDictValue("已发货","oa_contract_status",""));
@@ -293,8 +304,9 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                             contract.setStatus(DictUtils.getDictValue("已签约", "oa_contract_status", ""));
                         }
 
-                    } else if ("saler_audit".equals(taskDefKey)) {//总监审核
+                    } else if ("cso_audit".equals(taskDefKey)) {//总监审核
                         if (pass) {
+                            actTaskService.claim(contract.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
                             contract.setStatus(DictUtils.getDictValue("待下单", "oa_contract_status", ""));
                         } else {
                             contract.setStatus(DictUtils.getDictValue("待签约", "oa_contract_status", ""));
@@ -313,7 +325,6 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             contractDao.update(contract);
             actTaskService.complete(contract.getAct().getTaskId(), contract.getAct().getProcInsId(), contract.getAct().getComment(), vars);
         }
-
     }
 
     public Integer getCountByNoPref(String noPref) {
@@ -348,6 +359,16 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                         return false;
                 }
             }
+        }
+        return true;
+    }
+
+    //判断订单是否已经商务下单
+    private Boolean isFinishCreateBill(Contract contract){
+       List<PurchaseOrder> poList = purchaseOrderService.getPoListByContractId(contract.getId());
+        for(PurchaseOrder purchaseOrder:poList){
+            if(isBlank(purchaseOrder.getStatus()) || new Integer(purchaseOrder.getStatus())<40)
+                return false;
         }
         return true;
     }

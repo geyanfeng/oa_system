@@ -12,6 +12,9 @@ import com.thinkgem.jeesite.modules.act.utils.ActUtils;
 import com.thinkgem.jeesite.modules.oa.dao.*;
 import com.thinkgem.jeesite.modules.oa.entity.*;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
+import org.activiti.engine.RuntimeService;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +35,8 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 
 	@Autowired
 	private ActTaskService actTaskService;
+	@Autowired
+	private RuntimeService runtimeService;
 	@Autowired
 	private PurchaseOrderProductDao purchaseOrderProductDao;
 	@Autowired
@@ -72,7 +77,7 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 		if(purchaseOrder.getAmount()==null)
 			purchaseOrder.setAmount(0.00);
 		if(purchaseOrder.getStatus()==null)
-			purchaseOrder.setStatus("40");
+			purchaseOrder.setStatus("0");
 		super.save(purchaseOrder);
 
 		for (PurchaseOrderProduct purchaseOrderProduct : purchaseOrder.getPurchaseOrderProductList()) {
@@ -134,7 +139,6 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 
 		//启动流程审核
 		purchaseOrder.getAct().setFlag("submit_audit");
-		audit(purchaseOrder);
 	}
 
 	public void saveAttachments(PurchaseOrder purchaseOrder){
@@ -169,6 +173,7 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 			contractProductDao.update(contractProduct);
 		}
 		purchaseOrderProductDao.delete(new PurchaseOrderProduct(purchaseOrder));
+		runtimeService.suspendProcessInstanceById(purchaseOrder.getProcInsId());
 	}
 
 	public Integer getCountByNoPref(String noPref) {
@@ -201,9 +206,9 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 
 		if (isBlank(taskDefKey) && "submit_audit".equals(flag)) {
 			//更新订单状态
-			purchaseOrder.setStatus(DictUtils.getDictValue("已下单","oa_po_status",""));
+			/*purchaseOrder.setStatus(DictUtils.getDictValue("已下单","oa_po_status",""));
 			purchaseOrder.preUpdate();
-			purchaseOrderDao.update(purchaseOrder);
+			purchaseOrderDao.update(purchaseOrder);*/
 			// 设置流程变量
 			Map<String, Object> vars = Maps.newHashMap();
 			vars.put("business_person", contract.getBusinessPerson().getName());
@@ -242,6 +247,11 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 			purchaseOrder.preUpdate();
 			purchaseOrderDao.update(purchaseOrder);
 			actTaskService.complete(purchaseOrder.getAct().getTaskId(), purchaseOrder.getAct().getProcInsId(), purchaseOrder.getAct().getComment(), vars);
+
+			//自动合同的审核
+			if("business_person_createbill".equals(taskDefKey)) {//商务下单
+				autoFinishContractTask(40, contract, "business_person_createbill");
+			}
 		}
 
 	}
@@ -253,5 +263,21 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 			purchaseOrder.setPurchaseOrderAttachmentList(purchaseOrderAttachmentDao.findList(new PurchaseOrderAttachment(purchaseOrder)));
 		}
 		return purchaseOrderList;
+	}
+
+	//自动完成合同的状态
+	private void autoFinishContractTask(Integer poStatus, Contract contract, String taskDefKey){
+		List<PurchaseOrder> poList = getPoListByContractId(contract.getId());
+		for(PurchaseOrder po: poList){
+			if(isBlank(po.getStatus()) || new Integer(po.getStatus())< poStatus)
+				return;
+		}
+		ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(contract.getProcInsId())
+				.singleResult();
+		Task contractTask =actTaskService.getCurrentTaskInfo(processInstance);
+		/*Task contractTask = contract.getAct().getTask();*/
+		if(taskDefKey.equals(contractTask.getTaskDefinitionKey())){
+			actTaskService.complete(contractTask.getId(), contract.getAct().getProcInsId(),"", (Map<String, Object>)contract.getAct().getVars());
+		}
 	}
 }

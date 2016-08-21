@@ -35,7 +35,8 @@
             if(parent.mainFrame){
                 if(parent.window)
                     $(parent.window).scroll( function(){
-                        $('.navbar').css('top', parent.window.document.body.scrollTop)
+                        if(parent.window)
+                            $('.navbar').css('top', parent.window.document.body.scrollTop)
                     });
             }
         });
@@ -343,16 +344,16 @@
         <div class="col-sm-offset-4 col-sm-8">
             <c:if test="${not empty purchaseOrder.id}">
                 <c:choose>
-                    <c:when test="${  purchaseOrder.act.taskDefKey eq 'business_person_createbill'||
+                    <c:when test="${ empty purchaseOrder.act.procInsId ||
+                                            purchaseOrder.act.taskDefKey eq 'business_person_createbill'||
                                             purchaseOrder.act.taskDefKey eq 'verify_ship' ||
                                             purchaseOrder.act.taskDefKey eq 'payment'}">
-                        <input id="btnCancel" class="btn btn-custom" type="submit" value="提交"/>&nbsp;
+                        <input id="btnCancel" class="btn btn-custom" type="submit" value="提交" onclick="$('#flag').val('submit_audit')"/>&nbsp;
                     </c:when>
-
-                    <c:otherwise>
+                    <c:when test="${purchaseOrder.act.taskDefKey eq 'verify_receiving'}">
                         <input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
                         <input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
-                    </c:otherwise>
+                    </c:when>
                 </c:choose>
 
             </c:if>

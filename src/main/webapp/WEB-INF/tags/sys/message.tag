@@ -10,6 +10,10 @@
     <c:if test="${empty type}">
         <c:set var="ctype" value="${fn:indexOf(content,'失败') eq -1?'success':'error'}"/>
     </c:if>
+    <c:if test="${content eq 'null'}">
+        <c:set var="content" value="出错"/>
+        <c:set var="ctype" value="error"/>
+    </c:if>
     <%--<div id="messageBox" class="alert alert-${ctype} hide">
         <button data-dismiss="alert" class="close">×</button>
             ${content}</div>

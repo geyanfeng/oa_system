@@ -691,7 +691,7 @@ public class ActTaskService extends BaseService {
 	 * @param processInstance
 	 * @return
 	 */
-	private Task getCurrentTaskInfo(ProcessInstance processInstance) {
+	public Task getCurrentTaskInfo(ProcessInstance processInstance) {
 		Task currentTask = null;
 		try {
 			String activitiId = (String) PropertyUtils.getProperty(processInstance, "activityId");
@@ -726,5 +726,7 @@ public class ActTaskService extends BaseService {
 		activityInfo.put("x", activity.getX());
 		activityInfo.put("y", activity.getY());
 	}
+
+
 	
 }

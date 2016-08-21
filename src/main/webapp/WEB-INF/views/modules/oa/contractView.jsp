@@ -62,7 +62,7 @@
 </head>
 <body data-spy="scroll" data-target="#navbar">
 
-<c:if test="${contract.act.taskDefKey eq 'split_po' || param.po ne ''}">
+<c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true'}">
     <script src="${ctxStatic}/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
     <div class="col-sm-5 div_bill" id="panel_po" style="display: none">
         <div class="panel panel-default">
@@ -252,7 +252,7 @@
     <a class="anchor" name="panel-3"></a>
     <div class="panel panel-default" id="card_products">
         <div class="panel-heading">采购列表
-            <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po ne ''}">
+            <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true'}">
                 <span id="productMsg" style="display:none" class="label label-danger"></span>
             <div class="pull-right">
                 <a href="javascript:" class="btn btn-primary waves-effect waves-light m-b-5 btn-xs" id="btnSetProductCanEdit"><i class="zmdi zmdi-edit"></i>&nbsp;编辑</a>
@@ -292,7 +292,7 @@
 							</td>
 							<td>
 								<span>{{row.name}}</span>
-								<c:if test="${contract.act.taskDefKey eq 'split_po' || param.po ne ''}">
+								<c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true'}">
                                     <select id="contractProductList{{idx}}_productType" name="contractProductList[{{idx}}].productType" data-value="{{row.productType.id}}" class="form-control input-block required input-sm" style="width: 40%;display: inline-block;">
                                         <c:forEach items="${productTypeList}" var="dict">
                                             <option value="${dict.id}">${dict.name}</option>
@@ -337,21 +337,10 @@
             <script type="text/template" id="contractProductViewTpl">//<!--
 						<tr id="contractProductList{{idx}}" row="row" data-idx={{idx}} data-id="{{row.id}}">
 							<td class="hidden">
-								<input id="contractProductList{{idx}}_id" name="contractProductList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
-								<input id="contractProductList{{idx}}_sort" name="contractProductList[{{idx}}].sort" type="hidden" value="{{row.sort}}"/>
-								<input id="contractProductList{{idx}}_delFlag" name="contractProductList[{{idx}}].delFlag" type="hidden" value="0"/>
-								<input id="contractProductList{{idx}}_productType" name="contractProductList[{{idx}}].productType" type="hidden" value="{{row.productType.id}}"/>
 
-								<input id="contractProductList{{idx}}_name" name="contractProductList[{{idx}}].name" type="hidden" value="{{row.name}}"/>
-								<input id="contractProductList{{idx}}_price" name="contractProductList[{{idx}}].price" type="hidden" value="{{row.price}}"/>
-								<input id="contractProductList{{idx}}_num" name="contractProductList[{{idx}}].num" type="hidden" value="{{row.num}}"/>
-								<input id="contractProductList{{idx}}_unit" name="contractProductList[{{idx}}].unit" type="hidden" value="{{row.unit}}"/>
-								<input id="contractProductList{{idx}}_amount" name="contractProductList[{{idx}}].amount" type="hidden" value="{{row.amount}}"/>
-								<input id="contractProductList{{idx}}_remark" name="contractProductList[{{idx}}].remark" type="hidden" value="{{row.remark}}"/>
-								<input id="contractProductList{{idx}}_hasSendNum" name="contractProductList[{{idx}}].hasSendNum" type="hidden" value="{{row.hasSendNum}}"/>
 							</td>
 							<td>
-							    <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po ne ''}">
+							    <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true'}">
 							        <input type="checkbox" onchange="selectProduct(this, '{{row.json}}')">
                                 </c:if>
 								<span>{{row.name}}</span>
@@ -425,13 +414,9 @@
             <script type="text/template" id="contractProductChildViewTpl">//<!--
 						<tr id="childProductList{{idx}}_{{child_idx}}" row="row" data-id="{{row.id}}" data-parentid = "{{row.parentId}}">
 							<td class="hidden">
-								<input id="childProductList{{idx}}_{{child_idx}}_id" name="contractProductList[{{idx}}].childs[{{child_idx}}].id" type="hidden" value="{{row.id}}"/>
-								<input id="childProductList{{idx}}_{{child_idx}}_sort" name="contractProductList[{{idx}}].childs[{{child_idx}}].sort" type="hidden" value="{{row.sort}}"/>
-								<input id="childProductList{{idx}}_{{child_idx}}_delFlag" name="contractProductList[{{idx}}].childs[{{child_idx}}].delFlag" type="hidden" value="0"/>
-								<input id="childProductList{{idx}}_{{child_idx}}_hasSendNum" name="contractProductList[{{idx}}].childs[{{child_idx}}].hasSendNum" type="hidden" value="{{row.hasSendNum}}"/>
 							</td>
 							<td>
-							    <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po ne ''}">
+							    <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true'}">
 							        <input type="checkbox" onchange="selectProduct(this, '{{row.json}}')">
                                 </c:if>
 								<span style="display:inline-block;width:100px;">{{row.name}}</span>
@@ -535,7 +520,7 @@
                         contractProductRowIdx = contractProductRowIdx + 1;
                     }
 
-                    <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po ne ''}">
+                    <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true'}">
                     //如果是拆分po,过滤已经下过的产品
                     for (var i = 0; i < data.length; i++) {
                         var existChildCount = 0;
@@ -561,7 +546,7 @@
                 }
 
                 function addRow(list, idx, tpl, row) {
-                    <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po ne ''}">
+                    <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true'}">
                         row.json = JSON.stringify(row);
                     </c:if>
                     $(list).append(Mustache.render(tpl, {
@@ -584,7 +569,7 @@
                 }
 
                 function addChildRow(list, idx, child_idx, tpl, row) {
-                    <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po ne ''}">
+                    <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true'}">
                     if(row)
                         row.json = JSON.stringify(row);
                     </c:if>
@@ -843,7 +828,7 @@
                                 {{row.zqrll}}
 							</td>
 							<td>
-							    <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po ne ''}">
+							    <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true'}">
 							        <a href="#" onclick="editPo('{{row.id}}')" title="编辑" class="zmdi zmdi-edit text-success" style="font-size:25px;"></a>
 							        <a href="#" onclick="return confirmx('确认要删除该订单吗？', function(){deletePo('{{row.id}}');})" title="删除" class="zmdi zmdi-minus-square text-success" style="font-size:25px;"></a>
 							    </c:if>
