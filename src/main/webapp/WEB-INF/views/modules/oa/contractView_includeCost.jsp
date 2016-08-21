@@ -169,7 +169,7 @@
                                 break;
                             }
                         }
-                        data[i].ml = data[i].amount - data[i].cost;
+                        data[i].ml = data[i].amount - data[i].cost - (${contract.customerCost} * (data[i].amount / ${contract.cost}) * 1.1);
                         data[i].mll = data[i].ml / data[i].amount;
                         addRow('#contractProductList', contractProductRowIdx, contractProductViewTpl, data[i]);
 
@@ -219,13 +219,13 @@
 								{{row.amount}}
 							</td>
 							<td>
-
+                                {{row.zq}}
 							</td>
 							<td>
 								{{row.paymentPointnum}}
 							</td>
 							<td>
-
+                                {{row.zqrll}}
 							</td>
 						</tr>
 						//-->
@@ -242,6 +242,7 @@
                             function(data){
                                 poList = data;
                                 $.each(data, function(idx, po){
+                                    calcPoZq(po);
                                     addRow("#poBody", idx,poViewTpl,po );
                                 });
 

@@ -834,13 +834,13 @@
 								{{row.amount}}
 							</td>
 							<td>
-
+                                {{row.zq}}
 							</td>
 							<td>
 								{{row.paymentPointnum}}
 							</td>
 							<td>
-
+                                {{row.zqrll}}
 							</td>
 							<td>
 							    <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po ne ''}">
@@ -864,6 +864,7 @@
                             function(data){
                                 poList = data;
                                 $.each(data, function(idx, po){
+                                    calcPoZq(po);
                                     addRow("#poBody", idx,poViewTpl,po );
                                 });
 
