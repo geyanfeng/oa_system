@@ -85,7 +85,7 @@
 							<label class="col-md-2 control-label">邮箱:</label>
 							<div class="col-md-4">
 								<form:input path="email" htmlEscape="false" maxlength="50"
-									class="email form-control" />
+									class="email form-control required" />
 							</div>
 						</div>
 						<div class="form-group">

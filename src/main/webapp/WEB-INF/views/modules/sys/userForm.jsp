@@ -101,7 +101,8 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">邮箱:</label>
 			<div class="col-md-4">
-				<form:input path="email" htmlEscape="false" maxlength="100" class="form-control email"/>
+				<form:input path="email" htmlEscape="false" maxlength="100" class="form-control email required"/>
+				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="form-group">

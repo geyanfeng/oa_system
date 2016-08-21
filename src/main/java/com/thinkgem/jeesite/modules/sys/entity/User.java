@@ -160,6 +160,7 @@ public class User extends DataEntity<User> {
 	@Email(message="邮箱格式不正确")
 	@Length(min=0, max=200, message="邮箱长度必须介于 1 和 200 之间")
 	@ExcelField(title="邮箱", align=1, sort=50)
+	@NotNull(message="邮箱不能为空")
 	public String getEmail() {
 		return email;
 	}
