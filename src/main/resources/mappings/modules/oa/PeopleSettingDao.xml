@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.oa.dao.PeopleSettingDao">
+    
+	<sql id="peopleSettingColumns">
+		a.id AS "id",
+		u1.id AS "saler.id",
+		u1.name AS "saler.name",
+		a.business_person_id AS "businessPerson.id",
+		u2.name AS "businessPerson.name",
+		a.artisan_id AS "artisan.id",
+		u3.name AS "artisan.name",
+		a.remark AS "remark",
+		a.del_flag AS "delFlag",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate"
+	</sql>
+	
+	<sql id="peopleSettingJoins">
+		RIGHT JOIN sys_user u1 ON u1.id = a.saler_id
+		INNER JOIN sys_user_role ur on ur.user_id = u1.id
+		INNER JOIN sys_role r on r.id = ur.role_id and r.enname = 'saler'
+		LEFT JOIN sys_user u2 ON u2.id = a.business_person_id
+		LEFT JOIN sys_user u3 ON u3.id = a.artisan_id
+	</sql>
+    
+	<select id="get" resultType="PeopleSetting">
+		SELECT 
+			<include refid="peopleSettingColumns"/>
+		FROM oa_people_setting a
+		<include refid="peopleSettingJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="PeopleSetting">
+		SELECT 
+			<include refid="peopleSettingColumns"/>
+		FROM oa_people_setting a
+		<include refid="peopleSettingJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="PeopleSetting">
+		SELECT 
+			<include refid="peopleSettingColumns"/>
+		FROM oa_people_setting a
+		<include refid="peopleSettingJoins"/>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.saler_id DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO oa_people_setting(
+			id,
+			saler_id,
+			business_person_id,
+			artisan_id,
+			remark,
+			del_flag,
+			create_by,
+			create_date,
+			update_by,
+			update_date
+		) VALUES (
+			#{id},
+			#{saler.id},
+			#{businessPerson.id},
+			#{artisan.id},
+			#{remark},
+			#{delFlag},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE oa_people_setting SET 	
+			saler_id = #{saler.id},
+			business_person_id = #{businessPerson.id},
+			artisan_id = #{artisan.id},
+			remark = #{remark},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE oa_people_setting SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
