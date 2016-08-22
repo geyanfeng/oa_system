@@ -142,6 +142,7 @@
 							<a href="${ctx}/oa/purchaseOrder/delete?id=${purchaseOrder.id}"
 							   onclick="return confirmx('确认要删除该订单吗吗？', this.href)">删除</a>
 						</shiro:hasPermission>
+						<a href="#" onclick="supplierEvaluation(this)">供应商评价</a>
 					</td>
 
 				</tr>
@@ -168,5 +169,15 @@
 		</div>
 	</div>
 </div>
+  <script type="text/javascript">
+  //供应商评价
+  function supplierEvaluation(sender){
+      var frameSrc = "${ctx}/oa/supplierEvaluation/form?fromModal=1";
+      var modal = $('#modal');
+      modal.find('iframe').attr("src", frameSrc);
+      modal.find('.modal-title').html('供应商评价');
+      modal.modal({show: true, backdrop: 'static'});
+  }
+  </script>
 </body>
 </html>

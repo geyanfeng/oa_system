@@ -79,20 +79,20 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">合同：</label>
 			<div class="col-md-4">
-				<form:input path="contractId" htmlEscape="false" maxlength="64" class="form-control "/>
+				<form:input path="contract.name" htmlEscape="false" maxlength="64" class="form-control "/>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-md-2 control-label">公司抬头：</label>
 			<div class="col-md-4">
-				<form:input path="companyName" htmlEscape="false" maxlength="64" class="form-control required"/>
+				<form:input path="contract.companyName" htmlEscape="false" maxlength="64" class="form-control required"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-md-2 control-label">供应商：</label>
 			<div class="col-md-4">
-				<form:input path="supplier.id" htmlEscape="false" maxlength="64" class="form-control "/>
+				<form:input path="supplier.name" htmlEscape="false" maxlength="64" class="form-control "/>
 			</div>
 		</div>
 		<div class="form-group">
