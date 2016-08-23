@@ -16,7 +16,7 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 public class CommissionSetting extends DataEntity<CommissionSetting> {
 	
 	private static final long serialVersionUID = 1L;
-	private Dict key;		// 名称
+	private Dict fkey;		// 名称
 	private float avalue;		// 第一个值
 	private float bvalue;		// 第二个值
 	private Integer beginKey;
@@ -31,12 +31,12 @@ public class CommissionSetting extends DataEntity<CommissionSetting> {
 	}
 
 	@Length(min=1, max=4, message="名称长度必须介于 1 和 4 之间")
-	public Dict getKey() {
-		return key;
+	public Dict getFkey() {
+		return fkey;
 	}
 
-	public void setKey(Dict key) {
-		this.key = key;
+	public void setFkey(Dict fkey) {
+		this.fkey = fkey;
 	}
 	
 	public float getAvalue() {

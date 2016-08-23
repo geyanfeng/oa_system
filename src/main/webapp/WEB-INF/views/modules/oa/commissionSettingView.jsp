@@ -29,7 +29,7 @@
             <c:forEach items="${list1}" var="setting">
                 <div class="row">
                     <div class="col-sm-10">
-                            ${setting.key.label}
+                            ${setting.fkey.label}
                     </div>
                     <div class="col-sm-2">
                             ${empty setting.avalue? '0':setting.avalue}
@@ -50,7 +50,7 @@
             <c:forEach items="${list2}" var="setting">
                 <div class="row">
                     <div class="col-sm-8">
-                            ${setting.key.label}
+                            ${setting.fkey.label}
                     </div>
                     <div class="col-sm-2">
                             ${empty setting.avalue? '0':setting.avalue}
@@ -75,7 +75,7 @@
             <c:forEach items="${list3}" var="setting">
                 <div class="row">
                     <div class="col-sm-8">
-                            ${setting.key.label}
+                            ${setting.fkey.label}
                     </div>
                     <div class="col-sm-2">
                             ${empty setting.avalue? '0':setting.avalue}
@@ -100,7 +100,7 @@
             <c:forEach items="${list4}" var="setting">
                 <div class="row">
                     <div class="col-sm-8">
-                            ${setting.key.label}
+                            ${setting.fkey.label}
                     </div>
                     <div class="col-sm-2">
                             ${empty setting.avalue? '0':setting.avalue}
@@ -113,7 +113,7 @@
             <div class="row m-t-20">
                 <div class="col-sm-1 col-sm-offset-10">
                     <a id="btnEdit"
-                       href="${ctx}/oa/commissionSettingEdit/edit"
+                       href="${ctx}/oa/commissionSetting/edit"
                        class="btn btn-primary waves-effect waves-light input-sm" title="编辑"
                        data-content="新增">编辑&nbsp;<i
                             class="zmdi zmdi-edit"></i></a>

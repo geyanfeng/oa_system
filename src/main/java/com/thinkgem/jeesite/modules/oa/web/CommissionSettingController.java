@@ -43,19 +43,19 @@ public class CommissionSettingController extends BaseController {
     private void setModel(Model model){
         CommissionSetting filter1 = new CommissionSetting();
         filter1.setBeginKey(10);
-        filter1.setEndKey(100);
+        filter1.setEndKey(99);
         model.addAttribute("list1", commissionSettingDao.findAllList(filter1));
         CommissionSetting filter2 = new CommissionSetting();
         filter2.setBeginKey(100);
-        filter2.setEndKey(200);
+        filter2.setEndKey(199);
         model.addAttribute("list2", commissionSettingDao.findAllList(filter2));
         CommissionSetting filter3 = new CommissionSetting();
         filter3.setBeginKey(200);
-        filter3.setEndKey(300);
+        filter3.setEndKey(299);
         model.addAttribute("list3", commissionSettingDao.findAllList(filter3));
         CommissionSetting filter4 = new CommissionSetting();
         filter4.setBeginKey(300);
-        filter4.setEndKey(400);
+        filter4.setEndKey(399);
         model.addAttribute("list4", commissionSettingDao.findAllList(filter4));
     }
 

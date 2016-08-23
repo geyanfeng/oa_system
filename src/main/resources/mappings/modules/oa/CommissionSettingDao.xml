@@ -4,8 +4,8 @@
     
 	<sql id="commissionSettingColumns">
 		a.id AS "id",
-		t.value AS "key.value",
-		t.label AS "key.label",
+		t.value AS "fkey.value",
+		t.label AS "fkey.label",
 		a.avalue AS "avalue",
 		a.bvalue AS "bvalue",
 		a.del_flag AS "delFlag",
@@ -16,7 +16,7 @@
 	</sql>
 	
 	<sql id="commissionSettingJoins">
-		RIGHT JOIN sys_dict t on t.value  = a.KEY
+		RIGHT JOIN sys_dict t on t.value  = a.fkey
 	</sql>
 
 	<sql id="commissionSettingWhere">
@@ -77,7 +77,7 @@
 	<insert id="insert">
 		INSERT INTO oa_commission_setting(
 			id,
-			key,
+			fkey,
 			avalue,
 			bvalue,
 			del_flag,
@@ -87,7 +87,7 @@
 			update_date
 		) VALUES (
 			#{id},
-			#{key.value},
+			#{fkey.value},
 			#{avalue},
 			#{bvalue},
 			#{delFlag},
@@ -100,7 +100,7 @@
 	
 	<update id="update">
 		UPDATE oa_commission_setting SET 	
-			key = #{key.value},
+			fkey = #{fkey.value},
 			avalue = #{avalue},
 			bvalue = #{bvalue},
 			update_by = #{updateBy.id},

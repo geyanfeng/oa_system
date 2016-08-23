@@ -10,8 +10,30 @@
             text-align: center;
         }
     </style>
+
+    <script>
+        $(function(){
+            $("#inputForm").validate({
+                submitHandler: function (form) {
+                    loading('正在提交，请稍等...');
+                    form.submit();
+                },
+                errorContainer: "#messageBox",
+                errorPlacement: function (error, element) {
+                    $("#messageBox").text("输入有误，请先更正。");
+                    if (element.is(":checkbox") || element.is(":radio") || element.parent().is(".input-append")) {
+                        error.appendTo(element.parent().parent());
+                    } else {
+                        error.insertAfter(element);
+                    }
+                }
+            });
+        });
+    </script>
 </head>
 <body>
+<form:form id="inputForm" modelAttribute="setting" action="${ctx}/oa/commissionSetting/save" method="post" role="form">
+    <sys:message content="${message}"/>
 <div class="panel panel-default">
     <div class="panel-heading">佣金参数 -- 编辑</div>
     <div class="panel-body">
@@ -30,13 +52,13 @@
                 <div class="row">
                     <input name="CommissionSettings1[${settingIdx.index}].id" value="${setting.id}"
                            class="hidden">
-                    <input name="CommissionSettings1[${settingIdx.index}].key.value" value="${setting.key.value}"
+                    <input name="CommissionSettings1[${settingIdx.index}].fkey.value" value="${setting.fkey.value}"
                            class="hidden">
                     <div class="col-sm-10">
-                            ${setting.key.label}
+                            ${setting.fkey.label}
                     </div>
                     <div class="col-sm-2">
-                            <input name="CommissionSettings1[${settingIdx.index}].value" value="${empty setting.avalue? '0':setting.avalue}"  class="text">
+                            <input name="CommissionSettings1[${settingIdx.index}].avalue" value="${empty setting.avalue? '0':setting.avalue}"  class="text number required">
                     </div>
                 </div>
             </c:forEach>
@@ -55,13 +77,13 @@
                 <div class="row">
                     <input name="CommissionSettings2[${settingIdx.index}].id" value="${setting.id}"
                            class="hidden">
-                    <input name="CommissionSettings2[${settingIdx.index}].key.value" value="${setting.key.value}"
+                    <input name="CommissionSettings2[${settingIdx.index}].fkey.value" value="${setting.fkey.value}"
                            class="hidden">
                     <div class="col-sm-8">
-                            ${setting.key.label}
+                            ${setting.fkey.label}
                     </div>
                     <div class="col-sm-2">
-                            ${empty setting.avalue? '0':setting.avalue}
+                        <input name="CommissionSettings2[${settingIdx.index}].avalue" value="${empty setting.avalue? '0':setting.avalue}"  class="text number required">
                     </div>
                 </div>
             </c:forEach>
@@ -84,16 +106,16 @@
                 <div class="row">
                     <input name="CommissionSettings3[${settingIdx.index}].id" value="${setting.id}"
                            class="hidden">
-                    <input name="CommissionSettings3[${settingIdx.index}].key.value" value="${setting.key.value}"
+                    <input name="CommissionSettings3[${settingIdx.index}].fkey.value" value="${setting.fkey.value}"
                            class="hidden">
                     <div class="col-sm-8">
-                            ${setting.key.label}
+                            ${setting.fkey.label}
                     </div>
                     <div class="col-sm-2">
-                            ${empty setting.avalue? '0':setting.avalue}
+                        <input name="CommissionSettings3[${settingIdx.index}].avalue" value="${empty setting.avalue? '0':setting.avalue}"  class="text number required">
                     </div>
                     <div class="col-sm-2">
-                            ${empty setting.bvalue? '0':setting.bvalue}
+                        <input name="CommissionSettings3[${settingIdx.index}].bvalue" value="${empty setting.bvalue? '0':setting.bvalue}"  class="text number required">
                     </div>
                 </div>
             </c:forEach>
@@ -113,13 +135,13 @@
                 <div class="row">
                     <input name="CommissionSettings4[${settingIdx.index}].id" value="${setting.id}"
                            class="hidden">
-                    <input name="CommissionSettings4[${settingIdx.index}].key.value" value="${setting.key.value}"
+                    <input name="CommissionSettings4[${settingIdx.index}].fkey.value" value="${setting.fkey.value}"
                            class="hidden">
                     <div class="col-sm-8">
-                            ${setting.key.label}
+                            ${setting.fkey.label}
                     </div>
                     <div class="col-sm-2">
-                            ${empty setting.avalue? '0':setting.avalue}
+                        <input name="CommissionSettings4[${settingIdx.index}].avalue" value="${empty setting.avalue? '0':setting.avalue}"  class="text number required">
                     </div>
                 </div>
             </c:forEach>
@@ -142,5 +164,6 @@
         </div>
     </div>
 </div>
+</form:form>
 </body>
 </html>
