@@ -5,6 +5,7 @@ package com.thinkgem.jeesite.modules.oa.entity;
 
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 import com.thinkgem.jeesite.modules.sys.entity.Dict;
+import org.apache.fop.fo.flow.Float;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
@@ -18,7 +19,7 @@ public class CustomerEvalSetting extends DataEntity<CustomerEvalSetting> {
 	
 	private static final long serialVersionUID = 1L;
 	private Dict evalType;		// 客户评价参数类型
-	private Double value;		// 数值
+	private Float value;		// 数值
 	private String remark;		// 备注
 	
 	public CustomerEvalSetting() {
@@ -39,11 +40,11 @@ public class CustomerEvalSetting extends DataEntity<CustomerEvalSetting> {
 	}
 	
 	@NotNull(message="数值不能为空")
-	public Double getValue() {
+	public Float getValue() {
 		return value;
 	}
 
-	public void setValue(Double value) {
+	public void setValue(Float value) {
 		this.value = value;
 	}
 	

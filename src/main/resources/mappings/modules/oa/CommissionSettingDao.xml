@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.oa.dao.CommissionSettingDao">
+    
+	<sql id="commissionSettingColumns">
+		a.id AS "id",
+		t.value AS "key.value",
+		t.label AS "key.label",
+		a.avalue AS "avalue",
+		a.bvalue AS "bvalue",
+		a.del_flag AS "delFlag",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate"
+	</sql>
+	
+	<sql id="commissionSettingJoins">
+		RIGHT JOIN sys_dict t on t.value  = a.KEY
+	</sql>
+
+	<sql id="commissionSettingWhere">
+		AND t.type='oa_commission_key' and t.del_Flag = 0
+	</sql>
+    
+	<select id="get" resultType="CommissionSetting">
+		SELECT 
+			<include refid="commissionSettingColumns"/>
+		FROM oa_commission_setting a
+		<include refid="commissionSettingJoins"/>
+		WHERE a.id = #{id}
+		<include refid="commissionSettingWhere"/>
+	</select>
+	
+	<select id="findList" resultType="CommissionSetting">
+		SELECT 
+			<include refid="commissionSettingColumns"/>
+		FROM oa_commission_setting a
+		<include refid="commissionSettingJoins"/>
+		<where>
+			<include refid="commissionSettingWhere"/>
+			<if test="beginKey != null and endKey != null and beginKey != '' and endKey != ''">
+				And t.value  BETWEEN #{beginKey} AND #{endKey}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY t.value ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CommissionSetting">
+		SELECT 
+			<include refid="commissionSettingColumns"/>
+		FROM oa_commission_setting a
+		<include refid="commissionSettingJoins"/>
+		<where>
+			<include refid="commissionSettingWhere"/>
+			<if test="beginKey != null and endKey != null and beginKey != '' and endKey != ''">
+				And t.value  BETWEEN #{beginKey} AND #{endKey}
+			</if>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY t.value ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO oa_commission_setting(
+			id,
+			key,
+			avalue,
+			bvalue,
+			del_flag,
+			create_by,
+			create_date,
+			update_by,
+			update_date
+		) VALUES (
+			#{id},
+			#{key.value},
+			#{avalue},
+			#{bvalue},
+			#{delFlag},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE oa_commission_setting SET 	
+			key = #{key.value},
+			avalue = #{avalue},
+			bvalue = #{bvalue},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE oa_commission_setting SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
