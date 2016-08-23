@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.oa.dao.CustomerEvalSettingDao">
+    
+	<sql id="customerEvalSettingColumns">
+		a.id AS "id",
+		t.value AS "evalType.value",
+		t.label AS "evalType.label",
+		a.value AS "value",
+		a.remark AS "remark",
+		a.del_flag AS "delFlag",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate"
+	</sql>
+	
+	<sql id="customerEvalSettingJoins">
+		RIGHT JOIN sys_dict t on t.value  = a.eval_type
+	</sql>
+    
+	<select id="get" resultType="CustomerEvalSetting">
+		SELECT 
+			<include refid="customerEvalSettingColumns"/>
+		FROM oa_customer_eval_setting a
+		<include refid="customerEvalSettingJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CustomerEvalSetting">
+		SELECT 
+			<include refid="customerEvalSettingColumns"/>
+		FROM oa_customer_eval_setting a
+		<include refid="customerEvalSettingJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CustomerEvalSetting">
+		SELECT 
+			<include refid="customerEvalSettingColumns"/>
+		FROM oa_customer_eval_setting a
+		<include refid="customerEvalSettingJoins"/>
+		where t.type = 'oa_customer_eval_type'
+		ORDER BY t.value ASC
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO oa_customer_eval_setting(
+			id,
+			eval_type,
+			value,
+			remark,
+			del_flag,
+			create_by,
+			create_date,
+			update_by,
+			update_date
+		) VALUES (
+			#{id},
+			#{evalType.value},
+			#{value},
+			#{remark},
+			#{delFlag},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE oa_customer_eval_setting SET 	
+			eval_type = #{evalType.value},
+			value = #{value},
+			remark = #{remark},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE oa_customer_eval_setting SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
