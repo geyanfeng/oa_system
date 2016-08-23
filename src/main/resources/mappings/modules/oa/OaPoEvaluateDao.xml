@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.oa.dao.OaPoEvaluateDao">
+    
+	<sql id="oaPoEvaluateColumns">
+		a.id AS "id",
+		a.po_id AS "poId",
+		a.shipping_speed AS "shippingSpeed",
+		a.communication_efficiency AS "communicationEfficiency",
+		a.product_quality AS "productQuality",
+		a.service_attitude AS "serviceAttitude",
+		a.remark AS "remark",
+		a.del_flag AS "delFlag",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate"
+	</sql>
+	
+	<sql id="oaPoEvaluateJoins">
+	</sql>
+    
+	<select id="get" resultType="OaPoEvaluate">
+		SELECT 
+			<include refid="oaPoEvaluateColumns"/>
+		FROM oa_po_evaluate a
+		<include refid="oaPoEvaluateJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="OaPoEvaluate">
+		SELECT 
+			<include refid="oaPoEvaluateColumns"/>
+		FROM oa_po_evaluate a
+		<include refid="oaPoEvaluateJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="OaPoEvaluate">
+		SELECT 
+			<include refid="oaPoEvaluateColumns"/>
+		FROM oa_po_evaluate a
+		<include refid="oaPoEvaluateJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO oa_po_evaluate(
+			id,
+			po_id,
+			shipping_speed,
+			communication_efficiency,
+			product_quality,
+			service_attitude,
+			remark,
+			del_flag,
+			create_by,
+			create_date,
+			update_by,
+			update_date
+		) VALUES (
+			#{id},
+			#{poId},
+			#{shippingSpeed},
+			#{communicationEfficiency},
+			#{productQuality},
+			#{serviceAttitude},
+			#{remark},
+			#{delFlag},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE oa_po_evaluate SET 	
+			po_id = #{poId},
+			shipping_speed = #{shippingSpeed},
+			communication_efficiency = #{communicationEfficiency},
+			product_quality = #{productQuality},
+			service_attitude = #{serviceAttitude},
+			remark = #{remark},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE oa_po_evaluate SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
