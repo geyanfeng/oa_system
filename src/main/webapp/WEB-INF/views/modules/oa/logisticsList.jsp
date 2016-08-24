@@ -27,7 +27,11 @@
 		<sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();"/>
 		<ul class="ul-form">
 			<li><label>名称：</label>
-				<form:input path="name" htmlEscape="false" maxlength="100" class="input-medium form-control"/>
+				<form:select path="name" class="form-control input-medium" cssStyle="width:200px;">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('oa_ship_mode')}" itemLabel="label"
+								  itemValue="value" htmlEscape="false"/>
+				</form:select>
 			</li>
 			<li><label>费用：</label>
 				<form:input path="cost" htmlEscape="false" class="input-medium form-control"/>
@@ -50,7 +54,7 @@
 		<c:forEach items="${page.list}" var="logistics">
 			<tr>
 				<td><a href="${ctx}/oa/logistics/form?id=${logistics.id}">
-					${logistics.name}
+					${fns:getDictLabel(logistics.name,"oa_ship_mode" ,"" )}
 				</a></td>
 				<td>
 					${logistics.cost}

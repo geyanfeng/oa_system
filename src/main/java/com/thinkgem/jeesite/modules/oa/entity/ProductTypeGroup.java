@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.oa.entity;
 
+import org.apache.fop.fo.flow.Float;
 import org.hibernate.validator.constraints.Length;
 
 import com.thinkgem.jeesite.common.persistence.DataEntity;
@@ -18,6 +19,9 @@ public class ProductTypeGroup extends DataEntity<ProductTypeGroup> {
 	private String name;		// 名称
 	private Double royaltyRate;		// 提成
 	private String remark;		// 备注
+	private float avalue;
+	private float bvalue;
+	private float cvalue;
 	private Double beginRoyaltyRate;		// 开始 提成
 	private Double endRoyaltyRate;		// 结束 提成
 	
@@ -44,6 +48,30 @@ public class ProductTypeGroup extends DataEntity<ProductTypeGroup> {
 
 	public void setRoyaltyRate(Double royaltyRate) {
 		this.royaltyRate = royaltyRate;
+	}
+
+	public float getAvalue() {
+		return avalue;
+	}
+
+	public void setAvalue(float avalue) {
+		this.avalue = avalue;
+	}
+
+	public float getBvalue() {
+		return bvalue;
+	}
+
+	public void setBvalue(float bvalue) {
+		this.bvalue = bvalue;
+	}
+
+	public float getCvalue() {
+		return cvalue;
+	}
+
+	public void setCvalue(float cvalue) {
+		this.cvalue =cvalue;
 	}
 	
 	@Length(min=0, max=255, message="备注长度必须介于 0 和 255 之间")

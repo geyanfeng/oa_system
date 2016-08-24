@@ -44,6 +44,9 @@
 			<tr>
 				<th>名称</th>
 				<th>提成</th>
+				<th>税收点数TR</th>
+				<th>调整系数AC</th>
+				<th>激励系数EC</th>
 				<th>备注</th>
 				<th>更新时间</th>
 				<shiro:hasPermission name="oa:productTypeGroup:edit"><th>操作</th></shiro:hasPermission>
@@ -57,6 +60,15 @@
 				</a></td>
 				<td>
 					${productTypeGroup.royaltyRate}
+				</td>
+				<td>
+						${productTypeGroup.avalue}
+				</td>
+				<td>
+						${productTypeGroup.bvalue}
+				</td>
+				<td>
+						${productTypeGroup.cvalue}
 				</td>
 				<td>
 					${productTypeGroup.remark}

@@ -64,7 +64,7 @@
             </c:forEach>
 
             <!--税收点数TR与调整系数AC设置-->
-            <h4 class="text-custom">税收点数TR与调整系数AC设置</h4>
+           <%-- <h4 class="text-custom">税收点数TR与调整系数AC设置</h4>
             <div class="row">
                 <div class="col-sm-8">
                     产品组
@@ -118,7 +118,7 @@
                         <input name="CommissionSettings3[${settingIdx.index}].bvalue" value="${empty setting.bvalue? '0':setting.bvalue}"  class="text number required">
                     </div>
                 </div>
-            </c:forEach>
+            </c:forEach>--%>
 
 
             <!--账期点数PCC设置-->

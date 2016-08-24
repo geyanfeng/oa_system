@@ -36,7 +36,11 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">名称：</label>
 			<div class="col-md-4">
-				<form:input path="name" htmlEscape="false" maxlength="100" class="input-xlarge required form-control" />
+				<form:select path="name" class="form-control input-xlarge required">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('oa_ship_mode')}" itemLabel="label"
+								  itemValue="value" htmlEscape="false"/>
+				</form:select>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>

@@ -42,7 +42,25 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">提成：</label>
 			<div class="col-md-4">
-				<form:input path="royaltyRate" htmlEscape="false" class="form-control  number"/>
+				<form:input path="royaltyRate" htmlEscape="false" class="form-control  number required"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-md-2 control-label">税收点数TR：</label>
+			<div class="col-md-4">
+				<form:input path="avalue" htmlEscape="false" class="form-control  number required"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-md-2 control-label">调整系数AC：</label>
+			<div class="col-md-4">
+				<form:input path="bvalue" htmlEscape="false" class="form-control  number required"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-md-2 control-label">激励系数EC：</label>
+			<div class="col-md-4">
+				<form:input path="cvalue" htmlEscape="false" class="form-control  number required"/>
 			</div>
 		</div>
 		<div class="form-group">
