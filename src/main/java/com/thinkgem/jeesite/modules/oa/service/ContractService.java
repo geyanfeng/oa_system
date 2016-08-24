@@ -4,7 +4,6 @@
 package com.thinkgem.jeesite.modules.oa.service;
 
 import com.google.common.collect.Maps;
-import com.sun.mail.iap.BadCommandException;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.common.utils.StringUtils;
@@ -13,18 +12,13 @@ import com.thinkgem.jeesite.modules.act.utils.ActUtils;
 import com.thinkgem.jeesite.modules.oa.dao.ContractAttachmentDao;
 import com.thinkgem.jeesite.modules.oa.dao.ContractDao;
 import com.thinkgem.jeesite.modules.oa.dao.ContractProductDao;
-import com.thinkgem.jeesite.modules.oa.dao.PurchaseOrderDao;
 import com.thinkgem.jeesite.modules.oa.entity.*;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import org.activiti.engine.RuntimeService;
-import org.activiti.engine.runtime.ProcessInstance;
-import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -288,6 +282,8 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                 contract.setStatus(DictUtils.getDictValue("已下单","oa_contract_status",""));
             } else if("verify_ship".equals(taskDefKey)){//确认发货
                 contract.setStatus(DictUtils.getDictValue("已发货","oa_contract_status",""));
+            } if("can_invoice".equals(taskDefKey)){//商务确认开票
+                contract.setStatus(DictUtils.getDictValue("确认开票中","oa_contract_status",""));
             } else if("cw_kp".equals(taskDefKey)){//财务开票
                 contract.setStatus(DictUtils.getDictValue("已开票","oa_contract_status",""));
             } else if("verify_sk".equals(taskDefKey)){//确认收款
