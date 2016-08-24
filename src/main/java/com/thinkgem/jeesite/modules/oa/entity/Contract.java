@@ -58,6 +58,7 @@ public class Contract extends ActEntity<Contract> {
 	private Date endCreateDate;		// 结束 日期
 	private List<ContractAttachment> contractAttachmentList = Lists.newArrayList();		// 子表列表
 	private List<ContractProduct> contractProductList = Lists.newArrayList();		// 子表列表
+	private List<ContractFinance> contractFinanceList = Lists.newArrayList();		// 合同财务相关
 	private Double cost = 0.00;		//成本(从订单产品中获取)
 	
 	public Contract() {
@@ -398,6 +399,14 @@ public class Contract extends ActEntity<Contract> {
 
 	public void setContractProductList(List<ContractProduct> contractProductList) {
 		this.contractProductList = contractProductList;
+	}
+
+	public List<ContractFinance> getContractFinanceList() {
+		return contractFinanceList;
+	}
+
+	public void setContractFinanceList(List<ContractFinance> contractFinanceList) {
+		this.contractFinanceList = contractFinanceList;
 	}
 
 	//成本

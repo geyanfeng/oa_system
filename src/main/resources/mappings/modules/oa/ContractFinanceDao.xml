@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.oa.dao.ContractFinanceDao">
+    
+	<sql id="contractFinanceColumns">
+		a.id AS "id",
+		a.contract_id AS "contract.Id",
+		a.payment_cycle AS "paymentCycle",
+		a.billing_date AS "billingDate",
+		a.pay_method AS "payMethod",
+		a.plan_pay_date AS "planPayDate",
+		a.pay_date AS "payDate",
+		a.amount AS "amount",
+		a.status AS "status",
+		a.sort AS "sort",
+		a.remark AS "remark",
+		a.del_flag AS "delFlag",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate"
+	</sql>
+	
+	<sql id="contractFinanceJoins">
+		INNER JOIN oa_contract b ON b.id = a.contract_id
+	</sql>
+    
+	<select id="get" resultType="ContractFinance">
+		SELECT 
+			<include refid="contractFinanceColumns"/>
+		FROM oa_contract_finance a
+		<include refid="contractFinanceJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ContractFinance">
+		SELECT 
+			<include refid="contractFinanceColumns"/>
+		FROM oa_contract_finance a
+		<include refid="contractFinanceJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="contract != null and contract.id != null and contract.id != ''">
+				AND a.contract_id = #{contract.id}
+			</if>
+			<if test="status!= null and status!= ''">
+				AND a.status = #{status}
+			</if>
+			<if test="minStatus!= null and minStatus!= ''">
+				AND a.status >= #{minStatus}
+			</if>
+			<if test="maxStatus!= null and maxStatus!= ''">
+				AND a.maxStatus <= #{maxStatus}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.contract_id, a.sort ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ContractFinance">
+		SELECT 
+			<include refid="contractFinanceColumns"/>
+		FROM oa_contract_finance a
+		<include refid="contractFinanceJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO oa_contract_finance(
+			id,
+			contract_id,
+			payment_cycle,
+			billing_date,
+			pay_method,
+			plan_pay_date,
+			pay_date,
+			amount,
+			status,
+			sort,
+			remark,
+			del_flag,
+			create_by,
+			create_date,
+			update_by,
+			update_date
+		) VALUES (
+			#{id},
+			#{contract.id},
+			#{paymentCycle},
+			#{billingDate},
+			#{payMethod},
+			#{planPayDate},
+			#{payDate},
+			#{amount},
+			#{status},
+			#{sort},
+			#{remark},
+			#{delFlag},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE oa_contract_finance SET 	
+			contract_id = #{contract.id},
+			payment_cycle = #{paymentCycle},
+			billing_date = #{billingDate},
+			pay_method = #{payMethod},
+			plan_pay_date = #{planPayDate},
+			pay_date = #{payDate},
+			amount = #{amount},
+			status = #{status},
+			sort = #{sort},
+			remark = #{remark},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM oa_contract_finance
+		WHERE contract_id = #{contract.id}
+	</update>
+	
+</mapper>
