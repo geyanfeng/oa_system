@@ -10,6 +10,7 @@ import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.oa.dao.PeopleSettingDao;
 import com.thinkgem.jeesite.modules.oa.entity.*;
 import com.thinkgem.jeesite.modules.oa.service.ContractService;
 import com.thinkgem.jeesite.modules.oa.service.CustomerService;
@@ -17,6 +18,7 @@ import com.thinkgem.jeesite.modules.oa.service.ProductTypeGroupService;
 import com.thinkgem.jeesite.modules.oa.service.ProductTypeService;
 import com.thinkgem.jeesite.modules.sys.entity.Dict;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,6 +51,8 @@ public class ContractController extends BaseController {
 	private ProductTypeService productTypeService;
 	@Autowired
 	private ProductTypeGroupService productTypeGroupService;
+	@Autowired
+	private PeopleSettingDao peopleSettingDao;
 	
 	@ModelAttribute
 	public Contract get(@RequestParam(required=false) String id) {
@@ -121,6 +125,15 @@ public class ContractController extends BaseController {
 			contract.setPaymentCycle("2");//设置默认付款周期为分期付款
 		if (contract.getShipMode() == null)
 			contract.setShipMode("3");//设置默认发货方式为同城第三方物流
+
+		//如果为新建设置默认商务和技术
+		if(StringUtils.isBlank(contract.getId())){
+			PeopleSetting peopleSetting = peopleSettingDao.getBySalerId(UserUtils.getUser().getId());
+			if(peopleSetting!=null){
+				contract.setBusinessPerson(peopleSetting.getBusinessPerson());
+				contract.setArtisan(peopleSetting.getArtisan());
+			}
+		}
 
 		//获取所有客户
 		List<Customer> customerList = customerService.findList(new Customer());

@@ -33,6 +33,14 @@
 		<include refid="peopleSettingJoins"/>
 		WHERE a.id = #{id}
 	</select>
+
+	<select id="getBySalerId" resultType="PeopleSetting">
+		SELECT
+		<include refid="peopleSettingColumns"/>
+		FROM oa_people_setting a
+		<include refid="peopleSettingJoins"/>
+		WHERE a.saler_id = #{salerId}
+	</select>
 	
 	<select id="findList" resultType="PeopleSetting">
 		SELECT 

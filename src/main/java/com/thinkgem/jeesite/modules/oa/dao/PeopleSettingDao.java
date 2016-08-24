@@ -14,5 +14,5 @@ import com.thinkgem.jeesite.modules.oa.entity.PeopleSetting;
  */
 @MyBatisDao
 public interface PeopleSettingDao extends CrudDao<PeopleSetting> {
-	
+	public PeopleSetting getBySalerId(String salerId);
 }
