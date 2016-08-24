@@ -985,8 +985,8 @@
                                                                 value="保 存"/>&nbsp;
                 <c:if test="${contract.contractType ne '1' and not empty contract.id}">
                     <c:if test="${empty contract.act.procInsId}">
-                    <input id="btnCancel" class="btn btn-custom" type="submit" value="提交"
-                           onclick="$('#flag').val('submit_audit');"/>&nbsp;
+<%--                    <input id="btnSubmit1" class="btn btn-custom" type="submit" value="提交"
+                           onclick="$('#flag').val('submit_audit');"/>&nbsp;--%>
                     </c:if>
                  <%--   <c:if test="${not empty contract.act.taskId and contract.act.taskDefKey ne 'end' and contract.act.taskDefKey ne 'submit_audit'}">
                         <input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;

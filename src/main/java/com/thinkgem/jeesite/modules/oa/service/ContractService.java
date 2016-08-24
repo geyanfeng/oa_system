@@ -216,6 +216,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         }
     }
 
+    @Transactional(readOnly = false)
     public void saveAttachments(Contract contract){
         for (ContractAttachment contractAttachment : contract.getContractAttachmentList()) {
             if (contractAttachment.getId() == null) {
@@ -239,6 +240,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
     /*
     保存财务相关的数据
      */
+    @Transactional(readOnly = false)
     public void saveFinance(Contract contract){
         //删除数据
         contractFinanceDao.delete(new ContractFinance(contract));
@@ -258,7 +260,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         }*/
 
         Object payment = JsonMapper.getInstance().fromJson(paymentDetail, Object.class);
-        if(contract.getPaymentCycle() == "1"){//一次性付款
+        if(contract.getPaymentCycle().equals("1")){//一次性付款
             Map<String, Object> paymentObj=(Map<String, Object>)payment;
             ContractFinance contractFinance = new ContractFinance(contract);
             contractFinance.setPaymentCycle(contract.getPaymentCycle());
@@ -266,20 +268,20 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             contractFinance.setAmount((Double) paymentObj.get("payment_onetime_amount"));
             contractFinance.preInsert();
             contractFinanceDao.insert(contractFinance);
-        } else if(contract.getPaymentCycle() == "2"){//分期付款
+        } else if(contract.getPaymentCycle().equals("2")){//分期付款
             List<Map<String, Object>> paymentList=(List<Map<String, Object>>)payment;
             int sort = 1;
             for (Map<String, Object> paymentObj: paymentList){
                 ContractFinance contractFinance = new ContractFinance(contract);
                 contractFinance.setPaymentCycle(contract.getPaymentCycle());
                 contractFinance.setPayMethod(paymentObj.get("payment_installment_paymentMethod").toString());
-                contractFinance.setAmount((Double) paymentObj.get("payment_installment_amount"));
+                contractFinance.setAmount(Double.parseDouble(paymentObj.get("payment_installment_amount").toString()));
                 contractFinance.setSort(sort);
                 contractFinance.preInsert();
                 contractFinanceDao.insert(contractFinance);
                 sort++;
             }
-        }  else if(contract.getPaymentCycle() == "3" || contract.getPaymentCycle() == "4"){//月付或季付
+        }  else if(contract.getPaymentCycle().equals("3") || contract.getPaymentCycle().equals("4")){//月付或季付
             Map<String, Object> paymentObj=(Map<String, Object>)payment;
             Integer num = Integer.parseInt(paymentObj.get("payment_month_num").toString());
 
@@ -290,7 +292,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                 ContractFinance contractFinance = new ContractFinance(contract);
                 contractFinance.setPaymentCycle(contract.getPaymentCycle());
                 contractFinance.setPayMethod(paymentObj.get("payment_month_paymentMethod").toString());
-                contractFinance.setAmount((Double) paymentObj.get("payment_month_amount"));
+                contractFinance.setAmount(Double.parseDouble(paymentObj.get("payment_month_amount").toString()));
                 contractFinance.setSort(idx);
 
                 //设置预付款时间
@@ -333,13 +335,13 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 
         ContractFinance contractFinance = finances.get(0);
 
-        if(contract.getPaymentCycle() == "1") {//一次性付款
+        if(contract.getPaymentCycle().equals("1")) {//一次性付款
             Map<String, Object> paymentObj=(Map<String, Object>)payment;
             Integer payment_onetime_time  =Integer.parseInt(paymentObj.get("payment_onetime_time").toString());
             contractFinance.setBillingDate(cc.getTime());//设置开票日期
             cc.add(Calendar.DATE, payment_onetime_time);//设置预付款时间
             contractFinance.setPlanPayDate(cc.getTime());
-        } else if(contract.getPaymentCycle() == "2") {//分期付款
+        } else if(contract.getPaymentCycle().equals("2")) {//分期付款
             List<Map<String, Object>> paymentList=(List<Map<String, Object>>)payment;
             Integer sort = contractFinance.getSort();
             if(sort-1<0) return;
@@ -348,7 +350,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             contractFinance.setBillingDate(cc.getTime());//设置开票日期
             cc.add(Calendar.DATE, payment_installment_time);//设置预付款时间
             contractFinance.setPlanPayDate(cc.getTime());
-        } else  if(contract.getPaymentCycle() == "3" || contract.getPaymentCycle() == "4"){//月付或季付
+        } else  if(contract.getPaymentCycle().equals("3") || contract.getPaymentCycle().equals("4")){//月付或季付
             contractFinance.setBillingDate(cc.getTime());//设置开票日期
         }
         contractFinance.preUpdate();
