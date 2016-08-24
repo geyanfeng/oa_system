@@ -23,7 +23,8 @@
 		a.status AS "status",
 		a9.name AS "supplier.name",
 		a10.name AS "contract.name",
-		a10.no AS "contract.no"
+		a10.no AS "contract.no",
+		a10.status AS "contract.status"
 	</sql>
 	
 	<sql id="purchaseOrderJoins">

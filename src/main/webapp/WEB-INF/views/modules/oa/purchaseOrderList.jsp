@@ -138,9 +138,11 @@
 							<a href="${ctx}/oa/purchaseOrder/view?id=${purchaseOrder.id}">查看</a>
 						</shiro:hasPermission>
 						<shiro:hasPermission name="oa:purchaseOrder:edit">
-							<a href="${ctx}/oa/purchaseOrder/form?id=${purchaseOrder.id}">修改</a>
-							<a href="${ctx}/oa/purchaseOrder/delete?id=${purchaseOrder.id}"
-							   onclick="return confirmx('确认要删除该订单吗吗？', this.href)">删除</a>
+							<c:if test="${purchaseOrder.contract.status le '10'}">
+								<a href="${ctx}/oa/contract/view?id=${purchaseOrder.contract.id}&po=true&poid=${purchaseOrder.id}">修改</a>
+								<a href="${ctx}/oa/purchaseOrder/delete?id=${purchaseOrder.id}"
+								   onclick="return confirmx('确认要删除该订单吗吗？', this.href)">删除</a>
+							</c:if>
 						</shiro:hasPermission>
 						<a href="#" onclick="supplierEvaluation(this)">供应商评价</a>
 					</td>

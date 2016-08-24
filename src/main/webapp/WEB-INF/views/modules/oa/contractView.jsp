@@ -52,6 +52,11 @@
                 $('#modal .modal-title').html('选择合同');
                 $('#modal').modal({show: true, backdrop: 'static'});
             }
+
+            //编辑订单
+            if("${param.po}"!="" && "${param.poid}"!=""){
+                editPo("${param.poid}");
+            }
         });
 
         function closeSelectContractModal(selectedContract){
@@ -787,7 +792,6 @@
     </div>
 
     <!--订单列表-->
-    <!--todo: 帐期点数和帐期日利率没有计算-->
     <a class="anchor" name="panel-9"></a>
     <div class="panel panel-default">
         <div class="panel-heading">订单列表</div>

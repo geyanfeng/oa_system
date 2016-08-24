@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 
+import static org.codehaus.plexus.util.StringUtils.isNotBlank;
 import static org.jasig.cas.client.util.CommonUtils.isBlank;
 
 /**
@@ -173,7 +174,9 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 			contractProductDao.update(contractProduct);
 		}
 		purchaseOrderProductDao.delete(new PurchaseOrderProduct(purchaseOrder));
-		runtimeService.suspendProcessInstanceById(purchaseOrder.getProcInsId());
+		if(isNotBlank(purchaseOrder.getProcInsId())){
+			runtimeService.suspendProcessInstanceById(purchaseOrder.getProcInsId());
+		}
 	}
 
 	public Integer getCountByNoPref(String noPref) {
