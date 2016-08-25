@@ -50,7 +50,7 @@
 				AND a.status &gt;= #{minStatus}
 			</if>
 			<if test="maxStatus!= null and maxStatus!= ''">
-				AND a.maxStatus  &lt;= #{maxStatus}
+				AND a.status  &lt;= #{maxStatus}
 			</if>
 		</where>
 		<choose>

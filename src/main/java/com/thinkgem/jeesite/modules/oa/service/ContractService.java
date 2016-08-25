@@ -295,7 +295,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                 //设置预付款时间
                 Calendar cc = Calendar.getInstance();
                 int month = cc.get(Calendar.MONTH);
-                int sx = contract.getPaymentCycle() == "3"? 1: 3;//增加月数的系数
+                int sx = contract.getPaymentCycle().equals("3")? 1: 3;//增加月数的系数
                 int playMonth = payment_month_start + sx * (idx-1);
                 if(playMonth< month)
                 {
@@ -322,7 +322,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         String paymentDetail = StringEscapeUtils.unescapeHtml4(contract.getPaymentDetail());
         Object payment = JsonMapper.getInstance().fromJson(paymentDetail, Object.class);
 
-        ContractFinance filter = new ContractFinance(contract,0);
+        ContractFinance filter = new ContractFinance(contract,1);
         List<ContractFinance> finances = contractFinanceDao.findList(filter);
 
         if(finances.size()==0)
@@ -351,7 +351,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             contractFinance.setBillingDate(cc.getTime());//设置开票日期
         }
         //更新状态为已开票
-        contractFinance.setStatus(1);
+        contractFinance.setStatus(2);
         contractFinance.preUpdate();
         contractFinanceDao.update(contractFinance);
     }
@@ -364,9 +364,9 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         if(isBlank(contract.getPaymentDetail())){
             return;
         }
-        String paymentDetail = StringEscapeUtils.unescapeHtml4(contract.getPaymentDetail());
+        //String paymentDetail = StringEscapeUtils.unescapeHtml4(contract.getPaymentDetail());
 
-        ContractFinance filter = new ContractFinance(contract,1);//过滤已经开票数据
+        ContractFinance filter = new ContractFinance(contract,2);//过滤已经开票数据
         List<ContractFinance> finances = contractFinanceDao.findList(filter);
 
         if(finances.size()==0)
@@ -374,7 +374,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         ContractFinance contractFinance = finances.get(0);
 
         contractFinance.setPayDate(new Date());
-        contractFinance.setStatus(2);//更新状态为已付款
+        contractFinance.setStatus(3);//更新状态为已付款
 
         contractFinance.preUpdate();
         contractFinanceDao.update(contractFinance);
@@ -385,7 +385,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
      */
     public boolean checkSK(Contract contract){
         ContractFinance filter = new ContractFinance(contract);
-        filter.setMaxStatus(3);
+        filter.setMinStatus(4);
         List<ContractFinance> finances = contractFinanceDao.findList(filter);
         if(finances.size()>0)
             return false;
@@ -405,6 +405,9 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         return contractDao.getByName(name);
     }
 
+    /*
+    审批合同
+     */
     @Transactional(readOnly = false)
     public void audit(Contract contract) throws Exception {
         // 对不同环节的业务逻辑进行操作
@@ -431,7 +434,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                 pass = "yes".equals(contract.getAct().getFlag());
                 comment = (pass ? "[同意] " : "[驳回] ") + (isNotBlank(comment) ? comment : "");
                 contract.getAct().setComment(comment);
-                vars.put("pass", pass ? "1" : "0");
+                vars.put("pass", pass ? 1: 0);
             }
 
             //拆分po
@@ -449,15 +452,15 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             } if("can_invoice".equals(taskDefKey)){//商务确认开票
                 contract.setStatus(DictUtils.getDictValue("确认开票中","oa_contract_status",""));
             } else if("cw_kp".equals(taskDefKey)){//财务开票
+                actTaskService.claim(contract.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
                 updateFinanceKP(contract);
                 contract.setStatus(DictUtils.getDictValue("已开票","oa_contract_status",""));
             } else if("verify_sk".equals(taskDefKey)){//确认收款
+                actTaskService.claim(contract.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
                 updateFinanceSK(contract);
                 //检查是否已经全部收款
-                if(checkSK(contract))
-                {
-                    vars.put("finish_sk","1");
-                }
+                vars.put("pass",checkSK(contract)?1:0);
+
                 contract.setStatus(DictUtils.getDictValue("已收款","oa_contract_status",""));
             } else if("finish".equals(taskDefKey)){//商务确认合同完成
                 contract.setStatus(DictUtils.getDictValue("已完成","oa_contract_status",""));

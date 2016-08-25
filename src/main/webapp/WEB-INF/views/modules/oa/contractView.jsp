@@ -1205,7 +1205,8 @@
                                             contract.act.taskDefKey eq 'verify_ship' ||
                                             contract.act.taskDefKey eq 'cw_kp' ||
                                             contract.act.taskDefKey eq 'verify_sk' ||
-                                            contract.act.taskDefKey eq 'finish'}">
+                                            contract.act.taskDefKey eq 'finish' ||
+                                            contract.act.taskDefKey eq 'can_invoice'}">
                             <input id="btnCancel" class="btn btn-custom" type="submit" value="提交" onclick="$('#flag').val('submit_audit')"/>&nbsp;
                         </c:when>
 
