@@ -18,14 +18,11 @@ import com.thinkgem.jeesite.modules.oa.entity.*;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import org.activiti.engine.RuntimeService;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.apache.commons.lang3.StringEscapeUtils;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -353,6 +350,8 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         } else  if(contract.getPaymentCycle().equals("3") || contract.getPaymentCycle().equals("4")){//月付或季付
             contractFinance.setBillingDate(cc.getTime());//设置开票日期
         }
+        //更新状态为已开票
+        contractFinance.setStatus(1);
         contractFinance.preUpdate();
         contractFinanceDao.update(contractFinance);
     }
@@ -366,7 +365,6 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             return;
         }
         String paymentDetail = StringEscapeUtils.unescapeHtml4(contract.getPaymentDetail());
-        Object payment = JsonMapper.getInstance().fromJson(paymentDetail, Object.class);
 
         ContractFinance filter = new ContractFinance(contract,1);//过滤已经开票数据
         List<ContractFinance> finances = contractFinanceDao.findList(filter);
@@ -376,6 +374,8 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         ContractFinance contractFinance = finances.get(0);
 
         contractFinance.setPayDate(new Date());
+        contractFinance.setStatus(2);//更新状态为已付款
+
         contractFinance.preUpdate();
         contractFinanceDao.update(contractFinance);
     }
