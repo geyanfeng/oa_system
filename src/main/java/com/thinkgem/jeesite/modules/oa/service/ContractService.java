@@ -262,7 +262,9 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             ContractFinance contractFinance = new ContractFinance(contract);
             contractFinance.setPaymentCycle(contract.getPaymentCycle());
             contractFinance.setPayMethod(paymentObj.get("payment_onetime_paymentMethod").toString());
-            contractFinance.setAmount((Double) paymentObj.get("payment_onetime_amount"));
+            contractFinance.setAmount(Double.parseDouble(paymentObj.get("payment_onetime_amount").toString()));
+            contractFinance.setSort(1);
+            contractFinance.setStatus(1);
             contractFinance.preInsert();
             contractFinanceDao.insert(contractFinance);
         } else if(contract.getPaymentCycle().equals("2")){//分期付款
@@ -274,6 +276,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                 contractFinance.setPayMethod(paymentObj.get("payment_installment_paymentMethod").toString());
                 contractFinance.setAmount(Double.parseDouble(paymentObj.get("payment_installment_amount").toString()));
                 contractFinance.setSort(sort);
+                contractFinance.setStatus(1);
                 contractFinance.preInsert();
                 contractFinanceDao.insert(contractFinance);
                 sort++;
@@ -294,17 +297,18 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 
                 //设置预付款时间
                 Calendar cc = Calendar.getInstance();
-                int month = cc.get(Calendar.MONTH);
+                int month = cc.get(Calendar.MONTH) + 1;
                 int sx = contract.getPaymentCycle().equals("3")? 1: 3;//增加月数的系数
                 int playMonth = payment_month_start + sx * (idx-1);
                 if(playMonth< month)
                 {
                     cc.add(Calendar.YEAR,1);
                 }
-                cc.set(Calendar.MONTH, playMonth);//
+                cc.set(Calendar.MONTH, playMonth - 1);//
                 cc.set(Calendar.DAY_OF_MONTH, payment_month_day);
                 contractFinance.setPlanPayDate(cc.getTime());
 
+                contractFinance.setStatus(1);
                 contractFinance.preInsert();
                 contractFinanceDao.insert(contractFinance);
             }
@@ -372,8 +376,9 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         if(finances.size()==0)
             return;
         ContractFinance contractFinance = finances.get(0);
-
-        contractFinance.setPayDate(new Date());
+        Calendar cc = Calendar.getInstance();
+        cc.setTime(contract.getSkDate());
+        contractFinance.setPayDate(cc.getTime());
         contractFinance.setStatus(3);//更新状态为已付款
 
         contractFinance.preUpdate();
@@ -385,7 +390,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
      */
     public boolean checkSK(Contract contract){
         ContractFinance filter = new ContractFinance(contract);
-        filter.setMinStatus(4);
+        filter.setMaxStatus(2);//小于等于2没付款
         List<ContractFinance> finances = contractFinanceDao.findList(filter);
         if(finances.size()>0)
             return false;

@@ -10,6 +10,7 @@ import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.oa.dao.ContractFinanceDao;
 import com.thinkgem.jeesite.modules.oa.dao.PeopleSettingDao;
 import com.thinkgem.jeesite.modules.oa.entity.*;
 import com.thinkgem.jeesite.modules.oa.service.ContractService;
@@ -53,6 +54,8 @@ public class ContractController extends BaseController {
 	private ProductTypeGroupService productTypeGroupService;
 	@Autowired
 	private PeopleSettingDao peopleSettingDao;
+	@Autowired
+	private ContractFinanceDao contractFinanceDao;
 	
 	@ModelAttribute
 	public Contract get(@RequestParam(required=false) String id) {
@@ -180,7 +183,32 @@ public class ContractController extends BaseController {
 
 			if("saler_audit".equals(taskDefKey) || "cso_audit".equals(taskDefKey)){
 				view = "contractView_includeCost";
+			} else if("cw_kp".equals(taskDefKey)){
+				ContractFinance filter = new ContractFinance(contract,1);
+				List<ContractFinance> finances = contractFinanceDao.findList(filter);
+				if(finances.size()>0)
+					model.addAttribute("finance", finances.get(0));
+				view = "contractView_kp";
+			} else if("verify_sk".equals(taskDefKey)){
+				ContractFinance filter = new ContractFinance(contract,2);
+				List<ContractFinance> finances = contractFinanceDao.findList(filter);
+				if(finances.size()>0) {
+					ContractFinance finance = finances.get(0);
+					model.addAttribute("finance", finances.get(0));
+					//付款进程
+					if(contract.getContractFinanceList().size() == 1){
+						model.addAttribute("jc", "");
+					} else if(finance.getSort() == 1){
+						model.addAttribute("jc", "首款");
+					} else if(finance.getSort() == contract.getContractFinanceList().size()){
+						model.addAttribute("jc", "尾款");
+					} else{
+						model.addAttribute("jc", "第 "+ finance.getSort()+" 笔");
+					}
+				}
+				view = "contractView_sk";
 			}
+
 			model.addAttribute("taskDefKey",taskDefKey);
 		}
 		//商品类型

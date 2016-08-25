@@ -25,7 +25,7 @@ public class ContractFinance extends DataEntity<ContractFinance> {
 	private Date planPayDate;		// 预计付款时间
 	private Date payDate;		// 付款时间
 	private Double amount;		// 开票或收款金额
-	private Integer status = 0;		// 状态:0为没开票,没付款, 1为开票, 2为付款
+	private Integer status;		// 状态:1为没开票,1没付款, 2为开票, 3为付款
 	private Integer sort;		// 顺序
 	private String remark;		// 备注
 	private Integer maxStatus;
