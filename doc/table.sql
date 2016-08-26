@@ -57,8 +57,8 @@ CREATE TABLE `oa_quarter_sale_setting` (
   `year` int(4) unsigned NOT NULL,
   `quarter` smallint(1) unsigned NOT NULL,
   `sale_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '销售人员的ID',
-  `quarter_actual` decimal(12,2) COMMENT '本Q完成',
-  `quarter_target` decimal(12,2) COMMENT '本Q指标GPI',
+  `gp` decimal(12,2) COMMENT '本Q完成',
+  `gpi` decimal(12,2) COMMENT '本Q指标GPI',
   `update_date` datetime NOT NULL COMMENT '更新时间',
    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='销售人员的本Q指标';
