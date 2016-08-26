@@ -65,19 +65,23 @@ UPDATE oa_quarter_setting SET pcc_p1 =@pcc_p1,pcc_p2 =@pcc_p2,pcc_p3 =@pcc_p3,pc
 #物流费用（LC)
 #同城包裹快递
 set @lc_p1_key = 1;
-select cost into @lc_p1 from sys_dict d inner join oa_logistics l on d.`value` = l.`name` WHERE type = 'oa_ship_mode' and value = @lc_p1_key;
+select l.cost into @lc_p1 from sys_dict d inner join oa_logistics l on d.`value` = l.`name` WHERE type = 'oa_ship_mode' and value = @lc_p1_key;
 #异地包裹快递
 set @lc_p2_key = 2;
-select cost into @lc_p2 from sys_dict d inner join oa_logistics l on d.`value` = l.`name` WHERE type = 'oa_ship_mode' and value = @lc_p2_key;
+select l.cost into @lc_p2 from sys_dict d inner join oa_logistics l on d.`value` = l.`name` WHERE type = 'oa_ship_mode' and value = @lc_p2_key;
 #同城第三方物流
 set @lc_p3_key = 3;
-select cost into @lc_p3 from sys_dict d inner join oa_logistics l on d.`value` = l.`name` WHERE type = 'oa_ship_mode' and value = @lc_p3_key;
+select l.cost into @lc_p3 from sys_dict d inner join oa_logistics l on d.`value` = l.`name` WHERE type = 'oa_ship_mode' and value = @lc_p3_key;
 #异地第三方物流
 set @lc_p4_key = 4;
-select cost into @lc_p4 from sys_dict d inner join oa_logistics l on d.`value` = l.`name` WHERE type = 'oa_ship_mode' and value = @lc_p4_key;
+select l.cost into @lc_p4 from sys_dict d inner join oa_logistics l on d.`value` = l.`name` WHERE type = 'oa_ship_mode' and value = @lc_p4_key;
 #自有物流/无需物流
 set @lc_p5_key = 5;
-select cost into @lc_p5 from sys_dict d inner join oa_logistics l on d.`value` = l.`name` WHERE type = 'oa_ship_mode' and value = @lc_p5_key;
+select l.cost into @lc_p5 from sys_dict d inner join oa_logistics l on d.`value` = l.`name` WHERE type = 'oa_ship_mode' and value = @lc_p5_key;
 UPDATE oa_quarter_setting SET lc_p1 =@lc_p1,lc_p2 =@lc_p2,lc_p3 =@lc_p3,lc_p4 =@lc_p4,lc_p5 =@lc_p5 WHERE `year` = @year and `quarter` = @quarter;
-end
 
+#销售人员本Q指标，即GPI  提成系数（SCC)计算（毛利指标为GPI，实际完成毛利为GP）
+DELETE FROM oa_quarter_sale_setting WHERE `year` = @year and `quarter` = @quarter;
+INSERT INTO oa_quarter_sale_setting (`year`, `quarter`, `sale_id`, `gpi`, `update_date`) select @year, @quarter, saler_id, gpi, now() from oa_people_setting;
+
+end
