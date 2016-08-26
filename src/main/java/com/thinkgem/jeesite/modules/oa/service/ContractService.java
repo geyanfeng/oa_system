@@ -496,6 +496,8 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                 }
             }
 
+            saveAttachments(contract);//保存附件
+
             contract.preUpdate();
             contractDao.update(contract);
             actTaskService.complete(contract.getAct().getTaskId(), contract.getAct().getProcInsId(), contract.getAct().getComment(), vars);
