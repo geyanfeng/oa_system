@@ -296,7 +296,7 @@
         <span id="rll"></span>
     </div>
     <script type="text/template" id="paymentTpl">//<!--
-    <div class="row" style=" margin-left:-10px; margin-top:10px;" id="payment-installment_{{idx}}">
+    <div class="row" style=" margin-left:-10px; margin-top:10px;" id="payment-installment_{{idx}}" data-idx="{{idx}}">
         <div style="background: #f5f5f5;width:80%;float:left; padding: 10px;">
             <div>
             付款金额：
@@ -316,9 +316,9 @@
                                     </span>
                     </c:forEach>
             </div>
-            <div id="div-activeData_{{idx}}" style= "display:none">
-            生效日期:
-                    <input id="payment_installment_activeDate_{{idx}}" type="text" readonly="readonly" style="width: 150px;display:inline;"class="form-control Wdate input-sm required" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+            <div id="div-activeData_{{idx}}" style= "padding-top: 10px;display:none;">
+            生效日期:&nbsp;<input id="payment_installment_activeDate_{{idx}}" value="{{row.payment_installment_activeDate}}" type="text"
+            readonly="readonly" style="width: 150px;display:inline;"class="form-control Wdate input-sm required" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
             </div>
         </div>
         <div class="pull-right">
@@ -355,8 +355,33 @@
             } else{
                 $("#payment-body").append(Mustache.render(tpl, {idx: 1, row: row}));
             }
+
+            $("input[name='payment_installment_paymentMethod_"+ idx +"']").change(function () {
+                var index = $(this).closest('.row').data("idx");
+                var val = $(this).val();
+                if(this.checked && val == "3"){
+                    $("#div-activeData_"+index).show();
+                } else {
+                    $("#div-activeData_"+index).hide();
+                }
+            });
+
+            $("#payment-body .row[data-idx='"+idx+"']").find("input[type='checkbox'], input[type='radio']").each(function () {
+                var ss = $(this).attr("data-value").split(',');
+                for (var i = 0; i < ss.length; i++) {
+                    if ($(this).val() == ss[i]) {
+                        $(this).attr("checked", "checked");
+                    }
+                }
+            });
+
+            if(row && row.payment_installment_paymentMethod == "3"){
+                $("#div-activeData_"+ idx).show();
+            }
+
             idx = idx+1;
             $("#payment-body").data("idx",idx);
+
         }
 
         function deleteInstallmentPayment(sender){
@@ -387,11 +412,13 @@
             var paymentDetail =[];
             $(".row[id^='payment-installment']").each(function(index, item){
                 var row = $(item);
-                paymentDetail.push({
+                var detail = {
                     payment_installment_amount: row.find("input[id^='payment_installment_amount']").val(),
                     payment_installment_time :row.find("input[id^='payment_installment_time']").val(),
                     payment_installment_paymentMethod :row.find("input[id^='payment_installment_paymentMethod']:checked").val(),
-                });
+                    payment_installment_activeDate: row.find("input[id^='payment_installment_activeDate']").val()
+                };
+                paymentDetail.push(detail);
             });
             return paymentDetail;
         }
