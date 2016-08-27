@@ -316,6 +316,10 @@
                                     </span>
                     </c:forEach>
             </div>
+            <div id="div-activeData_{{idx}}" style= "display:none">
+            生效日期:
+                    <input id="payment_installment_activeDate_{{idx}}" type="text" readonly="readonly" style="width: 150px;display:inline;"class="form-control Wdate input-sm required" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+            </div>
         </div>
         <div class="pull-right">
             <a href="#" onclick="addNewInstallmentPayment(this)" title="增加新的分期付款" class="zmdi zmdi-plus-circle text-success" style="font-size:25px;"></a>
