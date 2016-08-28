@@ -29,6 +29,7 @@ CREATE TABLE `oa_commission` (
   `K_PCC` decimal(20,4) COMMENT '账期点数PCC',
   `K_COS` decimal(20,4) COMMENT '销售费用COS=销售额SV*税收点数TR+采购成本COG*账期点数PCC+物流费用LC',
   `K_NP` decimal(20,4) COMMENT '净利NP=毛利GP-销售费用COS',
+  `K_SCC` decimal(20,4) COMMENT '提成系数SCC',
   `K_SC` decimal(20,4) COMMENT '提成SC=净利NP*提成系数SCC*调整系数AC+(销售额SV-客户费用CC*1.1-销售额（SV)*税收点数TR)*激励系数EC',
   `GP` decimal(20,4) COMMENT '实际完成毛利为GP',
   `UPDATE_DATE` datetime NOT NULL COMMENT '更新时间',
