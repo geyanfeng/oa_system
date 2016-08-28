@@ -20,6 +20,7 @@ CREATE TABLE `oa_commission` (
   `K_SV` decimal(20,4) COMMENT '付款金额',
   `K_COG` decimal(20,4) COMMENT '采购成本',
   `K_CC` decimal(20,4) COMMENT '客户费用',
+  `K_GP` decimal(20,4) COMMENT '毛利GP=销售额SV-采购成本COG-客户费用CC*1.1',
   `K_LC` decimal(20,4) COMMENT '物流费用',
   `K_GPI` decimal(20,4) COMMENT '毛利指标为GPI,本Q指标',
   `K_TR` decimal(20,4) COMMENT '税收点数TR',
