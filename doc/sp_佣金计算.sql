@@ -1,7 +1,7 @@
 #获取季度佣金参数
 DROP PROCEDURE IF EXISTS calcuate_quarter_commission;
 
-create procedure calcuate_quarter_commission(IN paymentid varchar(64))
+create procedure calcuate_quarter_commission(IN paymentid varchar(64),IN currentyear int, In currentquarter int)
 begin
 /*
 contract_id			合同Id
@@ -14,9 +14,8 @@ PCCDAY							账期天数
 select cast(contract_id as char),amount,billing_date,pay_date,datediff(pay_date,billing_date) INTO @contract_id,@payment_amount,@billing_date,@pay_date,@PCCDAY from oa_contract_finance WHERE id= paymentid;
 set @PCCDAY = cast(@PCCDAY as signed integer);
 #佣金参数获取
-set @current_Date = CURRENT_DATE;
-set @year = year(@Current_Date);
-set @quarter = quarter(@Current_Date);
+set @year = currentyear;
+set @quarter = currentquarter;
 select tr_k1,tr_k2,tr_k3,tr_k4,tr_k5,ac_k1,ac_k2,ac_k3,ac_k4,ac_k5,ec_k1,ec_k2,ec_k3,ec_k4,ec_k5,scc_p1,scc_p2,scc_p3,scc_p4,scc_p5,pcc_p1,pcc_p2,pcc_p3,pcc_p4,pcc_p5,lc_p1,lc_p2,lc_p3,lc_p4,lc_p5 into @tr_k1,@tr_k2,@tr_k3,@tr_k4,@tr_k5,@ac_k1,@ac_k2,@ac_k3,@ac_k4,@ac_k5,@ec_k1,@ec_k2,@ec_k3,@ec_k4,@ec_k5,@scc_p1,@scc_p2,@scc_p3,@scc_p4,@scc_p5,@pcc_p1,@pcc_p2,@pcc_p3,@pcc_p4,@pcc_p5,@lc_p1,@lc_p2,@lc_p3,@lc_p4,@lc_p5 from oa_quarter_setting where year=@year and quarter = @quarter;
 
 #账期
@@ -40,14 +39,6 @@ select sum(amount) into @COG from oa_po where contract_id = @contract_id and del
 #毛利指标为GPI,即本Q指标
 select gpi into @GPI from oa_quarter_sale_setting WHERE `year` = @year and `quarter` = @quarter and sale_id = @SALER_ID;
 
-#佣金计算
-SELECT count(1) into @count FROM oa_commission WHERE `YEAR` = @year and `QUARTER` = @quarter and PAYMENT_ID = paymentid;
-IF @count > 0 THEN
-    UPDATE oa_commission SET update_date = now() WHERE `year` = @year and `quarter` = @quarter and PAYMENT_ID = paymentid;
-ELSE
-    INSERT INTO oa_commission (`YEAR`, `QUARTER`, PAYMENT_ID , UPDATE_DATE) VALUES (@year,@quarter,paymentid,now());
-END IF;
-
 #K1...K5,支付金额占销售额的百分比
 /*
 参与最后计算的,以K_开头
@@ -69,6 +60,7 @@ K_NAME		产品组名称
 K_SV			付款金额
 K_COG			采购成本
 K_CC      客户费用
+K_GP 			毛利GP=销售额SV-采购成本COG-客户费用CC*1.1
 K_LC			物流费用
 K_TR			税收点数TR
 K_AC			AC调整系数AC 如净利（NP)<0，则调整系数 AC=1
@@ -84,6 +76,11 @@ set @k3 = '35434dee2b684e7a866671d1d6c3ff27';
 set @k4 = 'ebdfbb35d52347b6bc1da200275b72a7';
 set @k5 = 'f91d39a4b25a4b9f8e9f510b35af784e';
 
+#佣金计算
+DELETE FROM oa_commission WHERE `YEAR` = @year and `QUARTER` = @quarter and PAYMENT_ID = paymentid;
+
+INSERT INTO oa_commission (YEAR, QUARTER, CONTRACT_ID, PAYMENT_ID, SV,COG,CC,LC,BILLING_DATE,PAY_DATE,
+PCCDAY,PAYMENT,RATE,K_SALER_ID,K_ID,K_NAME,K_SV,K_COG,K_CC,K_LC,K_GP,K_GPI,K_TR,K_AC,K_EC,K_PCC,UPDATE_DATE) 
 select  
 				@year as YEAR,
 				@quarter as QUARTER,
@@ -103,8 +100,9 @@ select
         pg.`name` as K_NAME, 
         ((sum(cp.amount)/@SV) * @payment_amount) as K_SV, 
         ((sum(cp.amount)/@SV) * (@payment_amount/@SV) * @COG) as K_COG, 
-        ((sum(cp.amount)/@SV) * (@payment_amount/@SV) * @CC) as K_CC, 
+        ((sum(cp.amount)/@SV) * (@payment_amount/@SV) * @CC) as K_CC,
         ((sum(cp.amount)/@SV) * (@payment_amount/@SV) * @LC) as K_LC,
+				(((sum(cp.amount)/@SV) * @payment_amount) - ((sum(cp.amount)/@SV) * (@payment_amount/@SV) * @COG) - ((sum(cp.amount)/@SV) * (@payment_amount/@SV) * @CC)*1.1) as K_GP,
 				@GPI as K_GPI, 
 				CASE pg.id
             WHEN @k1 THEN @tr_k1
@@ -135,7 +133,8 @@ select
             WHEN @PCCDAY >60 AND @PCCDAY <=75 THEN @pcc_p4
             WHEN @PCCDAY >75 AND @PCCDAY <=90 THEN @pcc_p5
 						ELSE (12 + 3*floor((@PCCDAY - 90)/15))
-				END AS K_PCC
+				END AS K_PCC,
+        now() as UPDATE_DATE
 				from oa_contract_product cp inner join oa_product_type pt on cp.product_type=pt.id 
 				INNER JOIN oa_product_type_group pg on pg.id=pt.type_group 
 				where cp.contract_id = @contract_id and cp.parent_id is NULL and cp.del_flag=0 group by pg.id;
@@ -145,4 +144,56 @@ K_GP			毛利GP=销售额SV-采购成本COG-客户费用CC*1.1
 K_COS			销售费用COS=销售额SV*税收点数TR+采购成本COG*账期点数PCC+物流费用LC
 K_NP			净利NP=毛利GP-销售费用COS
 */
+end
+
+DROP PROCEDURE IF EXISTS calcuate_saler_quarter_commission;
+
+create procedure calcuate_saler_quarter_commission(IN salerid varchar(64),IN currentyear int, In currentquarter int)
+begin
+
+declare paymentid varchar(64); 
+declare done int;  
+declare cur_finance CURSOR for select f.id
+	from oa_contract_finance f 
+	inner join oa_contract c on f.contract_id=c.id 
+	where c.create_by = salerid and year(f.pay_date) = currentyear and quarter(f.pay_date) = currentquarter and f.del_flag=0 and f.status=3;  
+declare continue handler FOR SQLSTATE '02000' SET done = 1; 
+open cur_finance;  
+repeat 
+    fetch cur_finance into paymentid;   
+    call calcuate_quarter_commission(paymentid,currentyear,currentquarter);
+until done end repeat;  
+close cur_finance;  
+select SUM(K_GP) INTO @GP from oa_commission where YEAR=currentyear AND `QUARTER` = currentquarter AND K_SALER_ID = salerid;
+
+select scc_p1,scc_p2,scc_p3,scc_p4,scc_p5 into @scc_p1,@scc_p2,@scc_p3,@scc_p4,@scc_p5 from oa_quarter_setting where year=@year and quarter = @quarter;
+
+UPDATE oa_commission set 
+GP = @GP,
+K_SCC = CASE
+            WHEN @GP <K_GPI*0.7 THEN @scc_p1
+            WHEN @GP >=K_GPI*0.7 AND @GP <K_GPI*1.0 THEN @scc_p2
+            WHEN @GP >=K_GPI*1.0 AND @GP <K_GPI*1.5 THEN @scc_p3
+					  WHEN @GP >=K_GPI*1.5 AND @GP <K_GPI*2.0 THEN @scc_p4
+						WHEN @GP >K_GPI*2.0 THEN @scc_p5
+END,
+K_COS = (K_SV*K_TR+K_COG*K_PCC+K_LC),
+K_NP = (K_GP - (K_SV*K_TR+K_COG*K_PCC+K_LC)), 
+K_EC = CASE
+    WHEN (K_GP - (K_SV*K_TR+K_COG*K_PCC+K_LC)) <0 THEN 1
+	  ELSE K_EC
+END,
+K_AC = CASE
+    WHEN (K_GP - (K_SV*K_TR+K_COG*K_PCC+K_LC)) <0 THEN 1
+	  ELSE K_AC
+END
+ where YEAR=currentyear AND `QUARTER` = currentquarter AND K_SALER_ID = salerid;
+
+update oa_commission 
+set K_SC = CASE
+            WHEN GP <K_GPI*0.7 THEN K_SCC
+            ELSE (K_SV-K_COG-K_CC-K_SV*K_TR+K_COG*K_PCC-K_LC)*K_SCC*K_EC
+END 
+where YEAR=currentyear AND `QUARTER` = currentquarter AND K_SALER_ID = salerid;
+
 end
