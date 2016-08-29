@@ -19,7 +19,7 @@ public class CustomerEvalSetting extends DataEntity<CustomerEvalSetting> {
 	
 	private static final long serialVersionUID = 1L;
 	private Dict evalType;		// 客户评价参数类型
-	private Float value;		// 数值
+	private float value;		// 数值
 	private String remark;		// 备注
 	
 	public CustomerEvalSetting() {
@@ -40,11 +40,11 @@ public class CustomerEvalSetting extends DataEntity<CustomerEvalSetting> {
 	}
 	
 	@NotNull(message="数值不能为空")
-	public Float getValue() {
+	public float getValue() {
 		return value;
 	}
 
-	public void setValue(Float value) {
+	public void setValue(float value) {
 		this.value = value;
 	}
 	

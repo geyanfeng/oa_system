@@ -31,6 +31,7 @@
 </head>
 <body>
 <form:form id="inputForm" modelAttribute="setting" action="${ctx}/oa/customerEvalSetting/save" method="post" role="form">
+  
     <div class="panel panel-default">
         <div class="panel-heading">客户评价参数 -- 编辑</div>
         <div class="panel-body">

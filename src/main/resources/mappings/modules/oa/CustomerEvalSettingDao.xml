@@ -51,7 +51,7 @@
 		FROM oa_customer_eval_setting a
 		<include refid="customerEvalSettingJoins"/>
 		where t.type = 'oa_customer_eval_type'
-		ORDER BY t.value ASC
+		ORDER BY -t.value DESC
 	</select>
 	
 	<insert id="insert">
