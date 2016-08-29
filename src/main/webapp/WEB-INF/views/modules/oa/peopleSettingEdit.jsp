@@ -24,6 +24,7 @@
                             <th>销售</th>
                             <th>商务</th>
                             <th>技术</th>
+                             <th>本Q指标</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -56,6 +57,9 @@
                                         </c:forEach>
                                     </select>
                                 </td>
+                                 <td>
+                      			   <input name="peopleSettingCollocations[${settingIdx.index}].gpi" value="${peopleSetting.gpi}"  class="text number required">
+                               </td>
                             </tr>
                         </c:forEach>
                         </tbody>
