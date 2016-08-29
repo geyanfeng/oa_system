@@ -4,12 +4,15 @@
 package com.thinkgem.jeesite.common.utils;
 
 import java.io.File;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import freemarker.cache.StringTemplateLoader;
+import freemarker.template.TemplateException;
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
@@ -183,6 +186,32 @@ public class SendMailUtil {
 		return htmlText;
 	}
 
+	public static String getText(String templateText, Object map){
+		Configuration cfg = new Configuration();
+		StringTemplateLoader stringLoader = new StringTemplateLoader();
+		stringLoader.putTemplate("myTemplate",templateText );
+
+		cfg.setTemplateLoader(stringLoader);
+
+		try {
+			Template template = cfg.getTemplate("myTemplate","utf-8");
+			StringWriter writer = new StringWriter();
+			try {
+				template.process(map, writer);
+				return writer.toString();
+			} catch (TemplateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
+
 	private static String getFilePath() {
 		String path = getAppPath(SendMailUtil.class);
 		path = path + File.separator + "mailtemplate" + File.separator;
@@ -285,8 +314,9 @@ public class SendMailUtil {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("subject", "测试标题");
 		map.put("content", "测试 内容");
-		String templatePath = "mailtemplate/test.ftl";
-		sendFtlMail("geyanfeng@hotmail.com", "合同要到时间了", templatePath, map);
+		System.out.println(getText("${subject} ${content}",map));
+		//String templatePath = "mailtemplate/test.ftl";
+		//sendFtlMail("geyanfeng@hotmail.com", "合同要到时间了", templatePath, map);
 
 		// System.out.println(getFileName("mailtemplate/test.ftl"));
 	}
