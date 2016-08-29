@@ -23,7 +23,7 @@
                     完成毛利GP情况
                 </div>
                 <div class="col-sm-2">
-                    参数
+                    参数(SC/SCC)
                 </div>
             </div>
             <c:forEach items="${list1}" var="setting">
@@ -107,7 +107,14 @@
                     </div>
                 </div>
             </c:forEach>
-
+ 			<div class="row">
+                    <div class="col-sm-8">
+                        	    账期PC > 90
+                    </div>
+                    <div class="col-sm-4">
+                            12+3*int[(PC-90)/15]
+                    </div>
+                </div>
 
 
             <div class="row m-t-20">
