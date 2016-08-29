@@ -13,7 +13,9 @@ declare continue handler FOR SQLSTATE '02000' SET done = 1;
 open cur_finance;  
 repeat 
     fetch cur_finance into paymentid;   
-    call calcuate_quarter_commission(paymentid,currentyear,currentquarter);
+    IF LENGTH(paymentid) >0 THEN
+       call calcuate_quarter_commission(paymentid,currentyear,currentquarter);
+    END IF;   
 until done end repeat;  
 close cur_finance;  
 select SUM(K_GP) INTO @GP from oa_commission where YEAR=currentyear AND `QUARTER` = currentquarter AND K_SALER_ID = salerid;
