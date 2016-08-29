@@ -3,6 +3,7 @@ DROP PROCEDURE IF EXISTS calcuate_allsalers_quarter_commission;
 
 create procedure calcuate_allsalers_quarter_commission()
 begin
+
 declare salerid varchar(64); 
 declare done int;  
 declare cur_saler CURSOR for select u.id
@@ -10,6 +11,7 @@ declare cur_saler CURSOR for select u.id
 	inner join sys_user u on p.saler_id =u.id 
 	where u.login_flag=1 and u.del_flag=0;  
 declare continue handler FOR SQLSTATE '02000' SET done = 1; 
+call quarter_setting();
 open cur_saler;  
 repeat 
     fetch cur_saler into salerid; 
