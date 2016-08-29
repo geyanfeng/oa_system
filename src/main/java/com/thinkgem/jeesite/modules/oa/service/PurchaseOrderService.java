@@ -280,8 +280,9 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 		ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(contract.getProcInsId())
 				.singleResult();
 		Task contractTask =actTaskService.getCurrentTaskInfo(processInstance);
+		if(contractTask == null) return ;
 		/*Task contractTask = contract.getAct().getTask();*/
-		if(taskDefKey.equals(contractTask.getTaskDefinitionKey())){
+		if(isNotBlank(contractTask.getTaskDefinitionKey()) && taskDefKey.equals(contractTask.getTaskDefinitionKey())){
 			actTaskService.complete(contractTask.getId(), contract.getAct().getProcInsId(),"", (Map<String, Object>)contract.getAct().getVars());
 		}
 	}
