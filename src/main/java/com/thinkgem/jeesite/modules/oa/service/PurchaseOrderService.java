@@ -12,6 +12,7 @@ import com.thinkgem.jeesite.modules.act.utils.ActUtils;
 import com.thinkgem.jeesite.modules.oa.dao.*;
 import com.thinkgem.jeesite.modules.oa.entity.*;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
@@ -234,6 +235,7 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 			else if("verify_ship".equals(taskDefKey)){//确认发货
 				purchaseOrder.setStatus(DictUtils.getDictValue("已发货","oa_po_status",""));
 			} else if("payment".equals(taskDefKey)){//付款
+				actTaskService.claim(purchaseOrder.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
 				purchaseOrder.setStatus(DictUtils.getDictValue("已完成","oa_po_status",""));
 			} else {
 				if (StringUtils.isNotBlank(flag)) {
