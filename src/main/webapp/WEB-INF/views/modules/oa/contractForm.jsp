@@ -17,7 +17,7 @@
             //增加定义付款金额验证规则
             $.validator.addMethod("validationPaymentAmount", function(value) {
                 return validationPaymentAmount();
-            }, "付款金额与合同金额不相等,合同金额为:"+ parseFloat($("#amount").val()));
+            }, "付款金额应该大于等于采购条目的总价:"+ parseFloat($("#amount").val()));
 
             $("#inputForm").validate({
                 rules: {
@@ -818,18 +818,18 @@
                     var paymentCycle = $("input[id^='paymentCycle']:checked").val();
                     switch(paymentCycle){
                         case "1":
-                            result = parseFloat($("#payment_onetime_amount").val()) == parseFloat($("#amount").val());
+                            result = parseFloat($("#payment_onetime_amount").val()) >= parseFloat($("#amount").val());
                             break;
                         case "2":
                              var sumAmount = 0.00;
                             $("input[id^='payment_installment_amount']").each(function(idx, item){
                                sumAmount = sumAmount + parseFloat($(item).val());
                             });
-                            result = sumAmount ==  parseFloat($("#amount").val());
+                            result = sumAmount >=  parseFloat($("#amount").val());
                             break;
                         case "3":
                         case "4":
-                            result = (parseFloat($("#payment_month_amount").val())* parseFloat($("#payment_month_num").val())) ==  parseFloat($("#amount").val());
+                            result = (parseFloat($("#payment_month_amount").val())* parseFloat($("#payment_month_num").val())) >=  parseFloat($("#amount").val());
                             break;
                     }
                     /*if(!result){
