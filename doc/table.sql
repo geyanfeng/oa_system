@@ -89,12 +89,12 @@ CREATE TABLE `oa_quarter_sale_setting` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='销售人员的本Q指标';
 
 DROP TABLE IF EXISTS `oa_customer_evaluate`;
-CREATE TABLE `oa_quarter_setting` (
+CREATE TABLE `oa_customer_evaluate` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `customer_id` varchar(64) NOT NULL COMMENT '客户ID',
   `customer_eval_type` varchar(100) NOT NULL COMMENT '客户评价参数类型',
-  `payment_id_id` varchar(64) COMMENT '支付ID',
-  `customer_id` varchar(64) COMMENT '客户ID',
+  `contract_id` varchar(64) COMMENT '合同ID',
+  `payment_id` varchar(64) COMMENT '支付ID',
   `plan_pay_date` datetime COMMENT '应付款时间',
   `pay_date` datetime COMMENT '实际付款时间',
   `point` decimal(10,1) NOT NULL COMMENT '点数',
