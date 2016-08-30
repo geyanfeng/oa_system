@@ -1,18 +1,19 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@ include file="/WEB-INF/views/include/taglib.jsp" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-    <title>合同管理</title>
-    <meta name="decorator" content="default"/>
-    <style>
-        #payment-collapse .row .form-group{
-            margin-left:20px;
-        }
-        .row.form-inline .form-group{
-            margin-left:20px;
-        }
-    </style>
-    <script type="text/javascript">
+<title>合同管理</title>
+<meta name="decorator" content="default" />
+<style>
+#payment-collapse .row .form-group {
+	margin-left: 20px;
+}
+
+.row.form-inline .form-group {
+	margin-left: 20px;
+}
+</style>
+<script type="text/javascript">
         $(document).ready(function () {
             //增加定义付款金额验证规则
             $.validator.addMethod("validationPaymentAmount", function(value) {
@@ -169,209 +170,270 @@
     </script>
 </head>
 <body>
-<%--<ul class="nav nav-tabs">
+	<%--<ul class="nav nav-tabs">
     <li><a href="${ctx}/oa/contract/">合同列表</a></li>
     <li class="active"><a href="${ctx}/oa/contract/form?id=${contract.id}">合同<shiro:hasPermission name="oa:contract:edit">${not empty contract.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="oa:contract:edit">查看</shiro:lacksPermission></a></li>
 </ul><br/>--%>
 
-<form:form id="inputForm" modelAttribute="contract" action="${ctx}/oa/contract/save" method="post" role="form">
-<form:hidden path="id"/>
-<form:hidden path="act.taskId"/>
-<form:hidden path="act.taskName"/>
-<form:hidden path="act.taskDefKey"/>
-<form:hidden path="act.procInsId"/>
-<form:hidden path="act.procDefId"/>
-<form:hidden id="flag" path="act.flag"/>
-<%--<input name="status" value="${empty contract.status?10:contract.status}" type="hidden"/>--%>
-<sys:message content="${message}"/>
-<div class="col-sm-12">
+	<form:form id="inputForm" modelAttribute="contract"
+		action="${ctx}/oa/contract/save" method="post" role="form">
+		<form:hidden path="id" />
+		<form:hidden path="act.taskId" />
+		<form:hidden path="act.taskName" />
+		<form:hidden path="act.taskDefKey" />
+		<form:hidden path="act.procInsId" />
+		<form:hidden path="act.procDefId" />
+		<form:hidden id="flag" path="act.flag" />
+		<%--<input name="status" value="${empty contract.status?10:contract.status}" type="hidden"/>--%>
+		<sys:message content="${message}" />
 
-    <!--合同信息-->
-    <div class="panel panel-default">
-        <div class="panel-heading">合同信息
-            <div class="pull-right">
-                <a data-toggle="collapse" href="#card-collapse" class="" aria-expanded="true"><i
-                        class="zmdi zmdi-minus"></i></a>
-            </div>
-        </div>
-        <div class="panel-body panel-collapse collapse in" id="card-collapse">
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="form-group clearfix">
-                        <label class="col-sm-3 control-label p-0"><span class="help-inline"><font color="red">*</font> </span>合同类型：</label>
-                        <div class="col-sm-7  p-0">
-                            <form:select path="contractType" class="form-control col-md-12 required input-sm"
-                                         onchange="changeContractType()">
-                                <form:option value="" label=""/>
-                                <form:options items="${fns:getDictList('oa_contract_type')}" itemLabel="label"
-                                              itemValue="value" htmlEscape="false"/>
-                            </form:select>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="form-group clearfix">
-                        <label class="col-sm-3 control-label p-0">客户名称：</label>
-                        <div class="col-sm-7 p-0">
-                            <form:select path="customer.id" class="form-control col-md-12 required input-sm"
-                                         id="customer"
-                                         onchange="changeCustomer(this)">
-                                <form:option value="" label=""/>
-                                <form:options items="${customerList}" itemLabel="name"
-                                              itemValue="id" htmlEscape="false"/>
-                            </form:select>
-                        </div>
-                        <a href="#" onclick="addCustomer(this)" title="新增客户" class="zmdi zmdi-plus-circle text-success" style="margin-left:10px;font-size:25px;"></a>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="form-group clearfix">
-                        <label class="col-sm-3 control-label p-0"><span class="help-inline"><font color="red">*</font> </span>我司抬头：</label>
-                        <div class="col-sm-7">
-                            <form:select path="companyName" class="form-control col-md-12 required input-sm">
-                                <form:option value="" label=""/>
-                                <form:options items="${fns:getDictList('oa_company_name')}" itemLabel="label"
-                                              itemValue="value" htmlEscape="false"/>
-                            </form:select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="form-group clearfix">
-                        <label class="col-sm-2 control-label  p-0"><span class="help-inline"><font color="red">*</font> </span>合同名称：</label>
-                        <div class="col-sm-6  p-0">
-                            <form:input path="name" htmlEscape="false" maxlength="255"
-                                        class="form-control required input-sm"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group clearfix">
-                        <label class="col-sm-2 control-label  p-0">父级合同：</label>
-                        <div class="col-sm-6  p-0">
-                            <div class="input-group">
-                                <input type="text" htmlEscape="false" maxlength="255"
-                                       class="form-control required input-sm" id="parentNo" disabled
-                                       value='${contract.parentName}${not empty contract.parentNo? "(":""}${contract.parentNo}${not empty contract.parentNo? ")":""}'/>
-                                <input type="hidden" name="parentId" id="parentId" value="${contract.parentId}"
-                                       class="hidden"/>
-								<span class="input-group-btn">
-									<a id="btnSelectParentContract" href="javascript:" class=" " style=""> <button
-                                            class="btn waves-effect waves-light btn-custom input-sm" type="button"><i
-                                            class="fa fa-search"></i></button></a>
-								</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="form-group clearfix">
-                        <label class="col-sm-3 control-label  p-0"><span class="help-inline"><font color="red">*</font> </span>商务人员：</label>
-                        <div class="col-sm-7  p-0">
-                            <sys:treeselect id="business_person" name="businessPerson.id"
-                                            value="${contract.businessPerson.id}" labelName="businessPerson.name"
-                                            labelValue="${contract.businessPerson.name}"
-                                            title="用户" url="/sys/office/treeData?type=3"
-                                            cssClass="form-control required input-sm" buttonIconCss="input-sm"
-                                            allowClear="true" notAllowSelectParent="true"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="form-group clearfix">
-                        <label class="col-sm-3 control-label  p-0"><span class="help-inline"><font color="red">*</font> </span>技术人员：</label>
-                        <div class="col-sm-7  p-0">
-                            <sys:treeselect id="artisan" name="artisan.id" value="${contract.artisan.id}"
-                                            labelName="artisan.name" labelValue="${contract.artisan.name}"
-                                            title="用户" url="/sys/office/treeData?type=3"
-                                            cssClass="form-control required input-sm" buttonIconCss="input-sm"
-                                            allowClear="true" notAllowSelectParent="true"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="form-group clearfix">
-                        <label class="col-sm-3 control-label p-0" for="no"><span class="help-inline"><font
-                                color="red">*</font> </span>合同号：</label>
-                        <div class="col-sm-7 p-0">
-                            <input id="no" name="no" value="${contract.no}" htmlEscape="false" maxlength="100"
-                                        class="form-control required input-sm" disabled/>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+		<!-- Page-Title -->
+		<div class="row">
+			<div class="col-sm-12">
+				<ul class="nav nav-pills nav-pills-custom display-xs-none">
+					<li role="presentation"><a href="#">合同信息</a></li>
+					<li role="presentation" class="active"><a href="#">开票信息</a></li>
+					<li role="presentation"><a href="#">采购列表</a></li>
+					<li role="presentation"><a href="#">付费信息</a></li>
+					<li role="presentation"><a href="#">其他信息</a></li>
+					<li role="presentation"><a href="#">附件</a></li>
+					<li role="presentation"><a href="#">备注</a></li>
+				</ul>
+			</div>
+		</div>
 
-    <!--开票信息-->
-    <div class="panel panel-default">
-        <div class="panel-heading">开票信息
-            <div class="pull-right">
-                <a data-toggle="collapse" href="#invoice-collapse" class="" aria-expanded="true"><i
-                        class="zmdi zmdi-minus"></i></a>
-            </div>
-        </div>
-        <div class="panel-body form-horizontal" id="invoice-collapse">
-            <div class="col-sm-6">
-                <div class="form-group clearfix">
-                    <label class="col-sm-3 control-label"><span class="help-inline"><font color="red">*</font> </span>发票类型：</label>
-                    <div class="col-sm-7">
-                        <form:radiobuttons path="invoiceType" items="${fns:getDictList('oa_invoice_type')}"
-                                           itemLabel="label" itemValue="value" htmlEscape="false" class=""
-                                           element="span class='radio radio-success radio-inline'"/>
-                    </div>
-                </div>
-                <div class="form-group clearfix">
-                    <label class="col-sm-3 control-label"><span class="help-inline"><font color="red">*</font> </span>发票客户名称：</label>
-                    <div class="col-sm-7">
-                        <form:input path="invoiceCustomerName" htmlEscape="false" maxlength="255"
-                                    class="form-control input-sm required"/>
-                    </div>
-                </div>
+		<div class="col-sm-12">
 
-                <div class="form-group clearfix" id="field-invoiceNo">
-                    <label class="col-sm-3 control-label"><span class="help-inline"><font color="red">*</font> </span>纳税人识别码：</label>
-                    <div class="col-sm-7">
-                        <form:input path="invoiceNo" htmlEscape="false" maxlength="255"
-                                    class="form-control input-sm required"/>
-                    </div>
-                </div>
-                <div class="form-group clearfix" id="field-invoiceBank">
-                    <label class="col-sm-3 control-label"><span class="help-inline"><font color="red">*</font> </span>开户行：</label>
-                    <div class="col-sm-7">
-                        <form:input path="invoiceBank" htmlEscape="false" maxlength="255"
-                                    class="form-control input-sm required"/>
-                    </div>
-                </div>
-                <div class="form-group clearfix" id="field-invoiceBankNo">
-                    <label class="col-sm-3 control-label"><span class="help-inline"><font color="red">*</font> </span>银行帐号：</label>
-                    <div class="col-sm-7">
-                        <form:input path="invoiceBankNo" htmlEscape="false" maxlength="255"
-                                    class="form-control input-sm required"/>
-                    </div>
-                </div>
-                <div class="form-group clearfix" id="field-invoiceAddress">
-                    <label class="col-sm-3 control-label"><span class="help-inline"><font color="red">*</font> </span>地址：</label>
-                    <div class="col-sm-7">
-                        <form:input path="invoiceAddress" htmlEscape="false" maxlength="1000"
-                                    class="form-control input-sm required"/>
-                    </div>
-                </div>
-                <div class="form-group clearfix" id="field-invoicePhone">
-                    <label class="col-sm-3 control-label"><span class="help-inline"><font color="red">*</font> </span>电话：</label>
-                    <div class="col-sm-7">
-                        <form:input path="invoicePhone" htmlEscape="false" maxlength="100"
-                                    class="form-control input-sm required"/>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
+			<!--合同信息-->
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						合同信息
+						<div class="pull-right">
+							<a data-toggle="collapse" href="#card-collapse" class=""
+								aria-expanded="true"><i class="zmdi zmdi-minus"></i></a>
+						</div>
+					</h3>
+				</div>
+				<div class="panel-body panel-collapse collapse in
+ id="card-collapse">
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group clearfix">
+								<label class="col-sm-3 control-label"><span
+									class="help-inline"><font color="red">*</font> </span>合同类型：</label>
+								<div class="col-sm-9">
+									<form:select path="contractType"
+										class="form-control col-md-12 required input-sm"
+										onchange="changeContractType()">
+										<form:option value="" label="" />
+										<form:options items="${fns:getDictList('oa_contract_type')}"
+											itemLabel="label" itemValue="value" htmlEscape="false" />
+									</form:select>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group clearfix">
+								<label class="col-sm-3 control-label">客户名称：</label>
+								<div class="col-sm-9">
+									<div class="input-group bootstrap-touchspin">
+										<form:select path="customer.id"
+											class="form-control col-md-12 required input-sm"
+											id="customer" onchange="changeCustomer(this)">
+											<form:option value="" label="" />
+											<form:options items="${customerList}" itemLabel="name"
+												itemValue="id" htmlEscape="false" />
+										</form:select>
+
+										<span class="input-group-btn"><a href="#"
+											onclick="addCustomer(this)" title="新增客户"
+											class="btn btn-sm btn-custom">+</a></span>
+									</div>
+
+								</div>
+
+							</div>
+						</div>
+
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group clearfix">
+								<label class="col-sm-3 control-label"><span
+									class="help-inline"><font color="red">*</font> </span>我司抬头：</label>
+								<div class="col-sm-9">
+									<form:select path="companyName"
+										class="form-control col-md-12 required input-sm">
+										<form:option value="" label="" />
+										<form:options items="${fns:getDictList('oa_company_name')}"
+											itemLabel="label" itemValue="value" htmlEscape="false" />
+									</form:select>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group clearfix">
+								<label class="col-sm-3 control-label"><span
+									class="help-inline"><font color="red">*</font> </span>合同名称：</label>
+								<div class="col-sm-9">
+									<form:input path="name" htmlEscape="false" maxlength="255"
+										class="form-control required input-sm" />
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group clearfix">
+								<label class="col-sm-3 control-label">父级合同：</label>
+								<div class="col-sm-9">
+									<div class="input-group">
+										<input type="text" htmlEscape="false" maxlength="255"
+											class="form-control required input-sm" id="parentNo" disabled
+											value='${contract.parentName}${not empty contract.parentNo? "(":""}${contract.parentNo}${not empty contract.parentNo? ")":""}' />
+										<input type="hidden" name="parentId" id="parentId"
+											value="${contract.parentId}" class="hidden" /> <span
+											class="input-group-btn"> <a
+											id="btnSelectParentContract" href="javascript:" class=" "
+											style="">
+												<button
+													class="btn waves-effect waves-light btn-custom input-sm"
+													type="button">
+													<i class="fa fa-search"></i>
+												</button>
+										</a>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group clearfix">
+								<label class="col-sm-3 control-label"><span
+									class="help-inline"><font color="red">*</font> </span>商务人员：</label>
+								<div class="col-sm-9">
+									<sys:treeselect id="business_person" name="businessPerson.id"
+										value="${contract.businessPerson.id}"
+										labelName="businessPerson.name"
+										labelValue="${contract.businessPerson.name}" title="用户"
+										url="/sys/office/treeData?type=3"
+										cssClass="form-control required input-sm"
+										buttonIconCss="input-sm" allowClear="true"
+										notAllowSelectParent="true" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group clearfix">
+								<label class="col-sm-3 control-label"><span
+									class="help-inline"><font color="red">*</font> </span>技术人员：</label>
+								<div class="col-sm-9">
+									<sys:treeselect id="artisan" name="artisan.id"
+										value="${contract.artisan.id}" labelName="artisan.name"
+										labelValue="${contract.artisan.name}" title="用户"
+										url="/sys/office/treeData?type=3"
+										cssClass="form-control required input-sm"
+										buttonIconCss="input-sm" allowClear="true"
+										notAllowSelectParent="true" />
+								</div>
+							</div>
+						</div>
+
+						<div class="col-sm-6">
+							<div class="form-group clearfix">
+								<label class="col-sm-3 control-label" for="no"><span
+									class="help-inline"><font color="red">*</font> </span>合同号：</label>
+								<div class="col-sm-9">
+									<input id="no" name="no" value="${contract.no}"
+										htmlEscape="false" maxlength="100"
+										class="form-control required input-sm" disabled />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!--开票信息-->
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						开票信息
+						<div class="pull-right">
+							<a data-toggle="collapse" href="#invoice-collapse" class=""
+								aria-expanded="true"><i class="zmdi zmdi-minus"></i></a>
+						</div>
+					</h3>
+				</div>
+				<div class="panel-body form-horizontal" id="invoice-collapse">
+					<div class="col-sm-10">
+						<div class="form-group clearfix">
+							<label class="col-sm-3 control-label"><span
+								class="help-inline"><font color="red">*</font> </span>发票类型：</label>
+							<div class="col-sm-9">
+								<form:radiobuttons path="invoiceType"
+									items="${fns:getDictList('oa_invoice_type')}" itemLabel="label"
+									itemValue="value" htmlEscape="false" class=""
+									element="span class='radio radio-custom radio-inline'" />
+							</div>
+						</div>
+						<div class="form-group clearfix">
+							<label class="col-sm-3 control-label"><span
+								class="help-inline"><font color="red">*</font> </span>发票客户名称：</label>
+							<div class="col-sm-9">
+								<form:input path="invoiceCustomerName" htmlEscape="false"
+									maxlength="255" class="form-control input-sm required" />
+							</div>
+						</div>
+
+						<div class="form-group clearfix" id="field-invoiceNo">
+							<label class="col-sm-3 control-label"><span
+								class="help-inline"><font color="red">*</font> </span>纳税人识别码：</label>
+							<div class="col-sm-9">
+								<form:input path="invoiceNo" htmlEscape="false" maxlength="255"
+									class="form-control input-sm required" />
+							</div>
+						</div>
+						<div class="form-group clearfix" id="field-invoiceBank">
+							<label class="col-sm-3 control-label"><span
+								class="help-inline"><font color="red">*</font> </span>开户行：</label>
+							<div class="col-sm-9">
+								<form:input path="invoiceBank" htmlEscape="false"
+									maxlength="255" class="form-control input-sm required" />
+							</div>
+						</div>
+						<div class="form-group clearfix" id="field-invoiceBankNo">
+							<label class="col-sm-3 control-label"><span
+								class="help-inline"><font color="red">*</font> </span>银行帐号：</label>
+							<div class="col-sm-9">
+								<form:input path="invoiceBankNo" htmlEscape="false"
+									maxlength="255" class="form-control input-sm required" />
+							</div>
+						</div>
+						<div class="form-group clearfix" id="field-invoiceAddress">
+							<label class="col-sm-3 control-label"><span
+								class="help-inline"><font color="red">*</font> </span>地址：</label>
+							<div class="col-sm-9">
+								<form:input path="invoiceAddress" htmlEscape="false"
+									maxlength="1000" class="form-control input-sm required" />
+							</div>
+						</div>
+						<div class="form-group clearfix" id="field-invoicePhone">
+							<label class="col-sm-3 control-label"><span
+								class="help-inline"><font color="red">*</font> </span>电话：</label>
+							<div class="col-sm-9">
+								<form:input path="invoicePhone" htmlEscape="false"
+									maxlength="100" class="form-control input-sm required" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<script>
         $(function(){
             //更改发票类型时,显示或隐藏列
             $('input[name=invoiceType]').change(function () {
@@ -389,38 +451,51 @@
         });
     </script>
 
-    <!--采购列表-->
-    <div class="panel panel-default" id="card_products">
-        <div class="panel-heading">采购列表</div>
-        <div class="panel-body panel-collapse collapse in" id="products-collapse">
-            <shiro:hasPermission name="oa:contract:edit">
-                <div class="pull-right">
-                    <a href="javascript:"
-                       onclick="addRow('#contractProductList', contractProductRowIdx, contractProductTpl);contractProductRowIdx = contractProductRowIdx + 1;"
-                       class="btn btn-primary waves-effect waves-light m-b-5">新增<i class="fa fa-plus"></i></a>
-                </div>
-            </shiro:hasPermission>
-            <div class="col-sm-12">
-                <table id="contentTable" class="table table-striped table-condensed">
-                    <thead>
-                    <tr role="row">
-                        <th class="hidden"></th>
-                        <th>名称</th>
-                        <th>价格</th>
-                        <th>数量</th>
-                        <th>单位</th>
-                        <th>金额</th>
-                        <th>备注</th>
-                        <shiro:hasPermission name="oa:contract:edit">
-                            <th width="10">&nbsp;</th>
-                        </shiro:hasPermission>
-                    </tr>
-                    </thead>
-                    <tbody id="contractProductList">
-                    </tbody>
+			<!--采购列表-->
+			<div class="panel panel-default" id="card_products">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						采购列表
+						<shiro:hasPermission name="oa:contract:edit">
+							<div class="pull-right">
+								<a href="javascript:" class="btn btn-sm btn-danger"
+									onclick="addRow('#contractProductList', contractProductRowIdx, contractProductTpl);contractProductRowIdx = contractProductRowIdx + 1;">
+									<i class="fa fa-plus"></i> 新增
+								</a>
+								<button class="btn btn-sm btn-info">
+									<i class="fa fa-upload"></i> 导入采购列表
+								</button>
+								<button class="btn btn-sm btn-primary">
+									<i class="fa fa-download"></i> 下载导入模版
+								</button>
+							</div>
+						</shiro:hasPermission>
+					</h3>
+				</div>
+				<div class="panel-body panel-collapse collapse in"
+					id="products-collapse">
+					<div class="col-sm-12">
+						<table id="contentTable"
+							class="table table-striped table-condensed">
+							<thead>
+								<tr role="row">
+									<th class="hidden"></th>
+									<th>名称</th>
+									<th>价格</th>
+									<th>数量</th>
+									<th>单位</th>
+									<th>金额</th>
+									<th>备注</th>
+									<shiro:hasPermission name="oa:contract:edit">
+										<th width="10">&nbsp;</th>
+									</shiro:hasPermission>
+								</tr>
+							</thead>
+							<tbody id="contractProductList">
+							</tbody>
 
-                </table>
-                <script type="text/template" id="contractProductTpl">//<!--
+						</table>
+						<script type="text/template" id="contractProductTpl">//<!--
 						<tr id="contractProductList{{idx}}" row="row" data-idx={{idx}}>
 							<td class="hidden">
 								<input id="contractProductList{{idx}}_id" name="contractProductList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
@@ -471,7 +546,7 @@
 						<tr>
 						//-->
                 </script>
-                <script type="text/template" id="contractProductChildTpl">//<!--
+						<script type="text/template" id="contractProductChildTpl">//<!--
 						<tr id="childProductList{{idx}}_{{child_idx}}" row="row">
 							<td class="hidden">
 								<input id="childProductList{{idx}}_{{child_idx}}_id" name="contractProductList[{{idx}}].childs[{{child_idx}}].id" type="hidden" value="{{row.id}}"/>
@@ -502,7 +577,7 @@
 						</tr>
 						//-->
                 </script>
-                <script type="text/javascript">
+						<script type="text/javascript">
                     var contractProductRowIdx = 0, contractProductTpl = $("#contractProductTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
                     var childRowIdx = 0, contractProductChildTpl = $("#contractProductChildTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
 
@@ -580,25 +655,32 @@
                         }
                     }
                 </script>
-            </div>
-        </div>
-    </div>
+					</div>
+				</div>
+			</div>
 
-    <!--付款信息-->
-    <div class="panel panel-default">
-        <div class="panel-heading">付款信息</div>
-        <div class="panel-body panel-collapse collapse in" id="payment-collapse">
-            <div class="row">
-                <div class="form-group">
-                    <label class="control-label">付款周期：</label>
-                    <form:radiobuttons path="paymentCycle" items="${fns:getDictList('oa_payment_cycle')}"
-                                       itemLabel="label" itemValue="value" htmlEscape="false" class=""
-                                       element="span class='radio radio-success radio-inline'"/>
-                    <form:hidden path="paymentDetail"></form:hidden>
-                </div>
-                <span id="paymentMsg" style="display:none" class="label label-danger pull-right"></span>
-            </div>
-            <script type="text/template" id="payment-onetime-tpl">//<!--
+			<!--付款信息-->
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">付款信息</h3>
+				</div>
+				<div class="panel-body form-horizontal"
+					id="payment-collapse">
+					<div class="col-sm-12">
+						<div class="form-group">
+							<label class="control-label col-sm-2">付款周期：</label>
+							<div class="col-sm-6">		
+							<form:radiobuttons path="paymentCycle"
+								items="${fns:getDictList('oa_payment_cycle')}" itemLabel="label"
+								itemValue="value" htmlEscape="false" class=""
+								element="span class='radio radio-custom radio-inline'" />
+							<form:hidden path="paymentDetail"></form:hidden>
+							</div>
+						</div>
+						<span id="paymentMsg" style="display: none"
+							class="label label-danger pull-right"></span>
+					</div>
+					<script type="text/template" id="payment-onetime-tpl">//<!--
                 <div class="row form-inline" id="payment-onetime">
                     <div class="form-group">
                         <label class="control-label">付款金额：</label>
@@ -625,7 +707,7 @@
                 </div>
                     //-->
             </script>
-            <script type="text/template" id="payment-installment-tpl">//<!--
+					<script type="text/template" id="payment-installment-tpl">//<!--
                 <div class="row form-inline" id="payment-installment_{{idx}}">
                     <div class="form-group">
                         <label class="control-label">付款金额：</label>
@@ -652,7 +734,7 @@
                 </div>
                 //-->
             </script>
-            <script type="text/template" id="payment-month-tpl">//<!--
+					<script type="text/template" id="payment-month-tpl">//<!--
                 <div class="row form-inline" id="payment-month">
                     <div class="form-group">
                         <label class="control-label">付款金额：</label>
@@ -687,10 +769,8 @@
                 </div>
                  //-->
             </script>
-            <div id="payment-body" data-idx="1">
-
-            </div>
-            <script type="text/javascript">
+					<div id="payment-body" data-idx="1"></div>
+					<script type="text/javascript">
                 $(document).ready(function () {
 
                     $("#btnSubmit").click(function () {
@@ -818,7 +898,7 @@
                     var paymentCycle = $("input[id^='paymentCycle']:checked").val();
                     switch(paymentCycle){
                         case "1":
-                            result = parseFloat($("#payment_onetime_amount").val()) >= parseFloat($("#amount").val());
+                        	result = parseFloat($("#payment_onetime_amount").val()) >= parseFloat($("#amount").val());
                             break;
                         case "2":
                              var sumAmount = 0.00;
@@ -829,7 +909,7 @@
                             break;
                         case "3":
                         case "4":
-                            result = (parseFloat($("#payment_month_amount").val())* parseFloat($("#payment_month_num").val())) >=  parseFloat($("#amount").val());
+                        	result = (parseFloat($("#payment_month_amount").val())* parseFloat($("#payment_month_num").val())) >=  parseFloat($("#amount").val());
                             break;
                     }
                     /*if(!result){
@@ -842,180 +922,201 @@
                     return result;
                 }
             </script>
-        </div>
-    </div>
+				</div>
+			</div>
 
-    <!--物流信息-->
-    <div class="panel panel-default">
-        <div class="panel-heading">物流信息</div>
-        <div class="panel-body panel-collapse collapse in" id="ship-collapse">
-            <div class="row">
-                <div class="form-group">
-                    <label class="control-label">发货方式：</label>
-                    <form:radiobuttons path="shipMode" items="${fns:getDictList('oa_ship_mode')}"
-                                       itemLabel="label" itemValue="value" htmlEscape="false" class=""
-                                       element="span class='radio radio-success radio-inline'"/>
+			<!--物流信息-->
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">物流信息</h3>
+				</div>
+				<div class="panel-body form-horizontal"
+					id="ship-collapse">
 
-                </div>
-            </div>
-            <div class="row form-inline">
-                <div class="form-group">
-                    <label class="control-label">收货地址：</label>
-                    <form:input path="shipAddress" htmlEscape="false" class="form-control  input-sm" size="60"/>
-                </div>
-                <div class="form-group">
-                    <label class="control-label">收货人：</label>
-                    <form:input path="shipReceiver" htmlEscape="false" class="form-control  input-sm"/>
-                </div>
-                <div class="form-group">
-                    <label class="control-label">联系电话：</label>
-                    <form:input path="shipPhone" htmlEscape="false" class="form-control  input-sm phone"/>
-                </div>
+					<div class="col-sm-12">
+						<div class="form-group">
+							<label class="control-label col-sm-2">发货方式：</label>
+							<div class="col-sm-9">
+								<form:radiobuttons path="shipMode"
+									items="${fns:getDictList('oa_ship_mode')}" itemLabel="label"
+									itemValue="value" htmlEscape="false" class=""
+									element="span class='radio radio-custom radio-inline'" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-sm-2">收货地址：</label>
+							<div class="col-sm-6">
+								<form:input path="shipAddress" htmlEscape="false"
+									class="form-control  input-sm" size="60" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-sm-2">收货人：</label>
+							<div class="col-sm-3">
+								<form:input path="shipReceiver" htmlEscape="false"
+									class="form-control  input-sm" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-sm-2">联系电话：</label>
+							<div class="col-sm-3">
+								<form:input path="shipPhone" htmlEscape="false"
+									class="form-control  input-sm phone" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-sm-2">快递单号：</label>
+							<div class="col-sm-3">
+								<form:input path="shipEms" htmlEscape="false"
+									class="form-control  input-sm" size="60" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
-            </div>
-            <div class="row form-inline" style="margin-top:10px;">
-                <div class="form-group">
-                    <label class="control-label">快递单号：</label>
-                    <form:input path="shipEms" htmlEscape="false" class="form-control  input-sm" size="60"/>
-                </div>
-            </div>
+			<!--其它-->
+			<div class="panel panel-default" id="card_other">
+				<div class="panel-heading">
+					<h3 class="panel-title">其它</h3>
+				</div>
+				<div class="panel-body">
+					<div class="row form-inline">
+						<div class="form-group">
+							<label class="control-label">销售奖金：</label>
 
-        </div>
-    </div>
+							<form:input path="customerCost" htmlEscape="false"
+								class="form-control required number input-sm" />
 
-    <!--其它-->
-    <div class="panel panel-default" id="card_other">
-        <div class="panel-heading">其它</div>
-        <div class="panel-body">
-            <div class="row form-inline">
-                <div class="form-group">
-                    <label class="control-label">销售奖金：</label>
+						</div>
+						<div class="form-group">
+							<label class="control-label" for="isDeduction">是否业绩抵扣</label>
+							<form:checkbox path="isDeduction" name="isDeduction" />
+						</div>
+						<div class="form-group" id="discount-group">
+							<label class="control-label">抵扣金额：</label>
+							<form:input path="discount" htmlEscape="false"
+								class="form-control  number input-sm" />
+						</div>
+					</div>
+				</div>
+			</div>
 
-                    <form:input path="customerCost" htmlEscape="false" class="form-control required number input-sm"/>
+			<!--附件-->
+			<div class="panel panel-default" id="card_attachemnts">
+				<div class="panel-heading">
+					<h3 class="panel-title">附件</h3>
+				</div>
+				<div class="panel-body">
+					<table id="attchmentTable"
+						class="table table-striped table-condensed">
+						<thead>
+							<tr role="row">
+								<th class="hidden"></th>
+								<th>附件类型</th>
+								<th>文件名</th>
+								<th>创建时间</th>
+							</tr>
+						</thead>
+						<tbody id="attchmentList">
+							<c:forEach items="${contract.contractAttachmentList}"
+								var="attachment" varStatus="status">
+								<tr row="row">
+									<td class="hidden"><input
+										id="contractAttachmentList${status.index}_id"
+										name="contractAttachmentList[${status.index}].id"
+										type="hidden" value="${attachment.id}" /></td>
+									<td>${fns:getDictLabel(attachment.type, 'oa_contract_attachment_type', '')}
+										<a href="#" title="上传文档" class="zmdi zmdi-upload pull-right"
+										onclick="files${status.index}FinderOpen();"></a> <input
+										id="contractAttachmentList${status.index}_type"
+										name="contractAttachmentList[${status.index}].type"
+										type="hidden" value="${attachment.type}" />
+									</td>
+									<td><form:hidden id="files${status.index}"
+											path="contractAttachmentList[${status.index}].files"
+											htmlEscape="false" maxlength="2000" class="form-control" />
+										<sys:myckfinder input="files${status.index}" type="files"
+											uploadPath="/oa/contract" selectMultiple="true" /></td>
+									<td><fmt:formatDate value="${attachment.updateDate}"
+											pattern="yyyy-MM-dd" /></td>
+								</tr>
 
-                </div>
-                <div class="form-group">
-                    <label class="control-label" for="isDeduction">是否业绩抵扣</label>
-                    <form:checkbox path="isDeduction" name="isDeduction"/>
-                </div>
-                <div class="form-group" id="discount-group">
-                    <label class="control-label">抵扣金额：</label>
-                    <form:input path="discount" htmlEscape="false" class="form-control  number input-sm"/>
-                </div>
-            </div>
-        </div>
-    </div>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
+			</div>
 
-    <!--附件-->
-    <div class="panel panel-default" id="card_attachemnts">
-        <div class="panel-heading">附件</div>
-        <div class="panel-body">
-            <table id="attchmentTable" class="table table-striped table-condensed">
-                <thead>
-                <tr role="row">
-                    <th class="hidden"></th>
-                    <th>附件类型</th>
-                    <th>文件名</th>
-                    <th>创建时间</th>
-                </tr>
-                </thead>
-                <tbody id="attchmentList">
-                <c:forEach items="${contract.contractAttachmentList}" var="attachment" varStatus="status">
-                    <tr row="row">
-                        <td class="hidden">
-                            <input id="contractAttachmentList${status.index}_id"
-                                   name="contractAttachmentList[${status.index}].id" type="hidden"
-                                   value="${attachment.id}"/>
-                        </td>
-                        <td>
-                                ${fns:getDictLabel(attachment.type, 'oa_contract_attachment_type', '')}
-                            <a href="#" title="上传文档" class="zmdi zmdi-upload pull-right"
-                               onclick="files${status.index}FinderOpen();"></a>
-                            <input id="contractAttachmentList${status.index}_type"
-                                   name="contractAttachmentList[${status.index}].type" type="hidden"
-                                   value="${attachment.type}"/>
-                        </td>
-                        <td>
-                            <form:hidden id="files${status.index}"
-                                         path="contractAttachmentList[${status.index}].files" htmlEscape="false"
-                                         maxlength="2000" class="form-control"/>
-                            <sys:myckfinder input="files${status.index}" type="files" uploadPath="/oa/contract"
-                                            selectMultiple="true"/>
-                        </td>
-                        <td>
-                            <fmt:formatDate value="${attachment.updateDate}" pattern="yyyy-MM-dd"/>
-                        </td>
-                    </tr>
+			<!--备注-->
+			<div class="panel panel-default" id="card_other">
+				<div class="panel-heading">备注</div>
+				<div class="panel-body">
+					<div class="form-group clearfix">
+						<div class="col-sm-12">
+							<form:textarea path="remark" htmlEscape="false" maxlength="255"
+								class="form-control" />
+						</div>
+					</div>
+				</div>
+			</div>
 
-                </c:forEach>
-                </tbody>
-            </table>
-        </div>
-    </div>
+			<div class="form-group clearfix hidden">
+				<label class="col-sm-3 control-label">合同金额：</label>
+				<div class="col-sm-7">
+					<form:input path="amount" htmlEscape="false"
+						class="form-control  number input-sm" />
+				</div>
+			</div>
 
-    <!--备注-->
-    <div class="panel panel-default" id="card_other">
-        <div class="panel-heading">备注</div>
-        <div class="panel-body">
-            <div class="form-group clearfix">
-                <div class="col-sm-12">
-                    <form:textarea path="remark" htmlEscape="false" maxlength="255"
-                                   class="form-control"/>
-                </div>
-            </div>
-        </div>
-    </div>
+			<c:if
+				test="${not empty contract.id and not empty contract.act.procInsId}">
+				<act:histoicFlow procInsId="${contract.act.procInsId}" />
+			</c:if>
+			<div class="form-group">
+				<div class="col-sm-offset-5 col-sm-8">
 
-    <div class="form-group clearfix hidden">
-        <label class="col-sm-3 control-label">合同金额：</label>
-        <div class="col-sm-7">
-            <form:input path="amount" htmlEscape="false" class="form-control  number input-sm"/>
-        </div>
-    </div>
-
-    <c:if test="${not empty contract.id and not empty contract.act.procInsId}">
-        <act:histoicFlow procInsId="${contract.act.procInsId}"/>
-    </c:if>
-    <div class="form-group">
-        <div class="col-sm-offset-4 col-sm-8">
-
-            <shiro:hasPermission name="oa:contract:edit"><input id="btnSubmit"
-                                                                class="btn btn-primary waves-effect waves-light"
-                                                                type="submit"
-                                                                value="保 存"/>&nbsp;
-                <c:if test="${contract.contractType ne '1' and not empty contract.id}">
-                    <c:if test="${empty contract.act.procInsId}">
-<%--                    <input id="btnSubmit1" class="btn btn-custom" type="submit" value="提交"
-                           onclick="$('#flag').val('submit_audit');"/>&nbsp;--%>
+					<shiro:hasPermission name="oa:contract:edit">
+						<input id="btnSubmit"
+							class="btn btn-info" type="submit"
+							value="保 存" />&nbsp;
+                <c:if
+							test="${contract.contractType ne '1' and not empty contract.id}">
+							<c:if test="${empty contract.act.procInsId}">
+								<input id="btnCancel" class="btn btn-info" type="submit"
+									value="提交" onclick="$('#flag').val('submit_audit');" />&nbsp;
                     </c:if>
-                 <%--   <c:if test="${not empty contract.act.taskId and contract.act.taskDefKey ne 'end' and contract.act.taskDefKey ne 'submit_audit'}">
+							<%--   <c:if test="${not empty contract.act.taskId and contract.act.taskDefKey ne 'end' and contract.act.taskDefKey ne 'submit_audit'}">
                         <input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
                         <input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
                     </c:if>--%>
-                </c:if>
-            </shiro:hasPermission>
+						</c:if>
+					</shiro:hasPermission>
 
-            <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
-        </div>
-    </div>
-    </form:form>
+					<input id="btnCancel" class="btn" type="button" value="返 回"
+						onclick="history.go(-1)" />
+				</div>
+			</div>
+	</form:form>
 
-    <%--选择框架合同的modal--%>
-    <div id="modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-         aria-hidden="true" style="display: none;">
-        <div class="modal-dialog modal-full">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title"></h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <iframe width="100%" height="500" frameborder="0"></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	<%--选择框架合同的modal--%>
+	<div id="modal" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true"
+		style="display: none;">
+		<div class="modal-dialog modal-full">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h4 class="modal-title"></h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<iframe width="100%" height="500" frameborder="0"></iframe>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
