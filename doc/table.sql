@@ -15,7 +15,7 @@ CREATE TABLE `oa_commission` (
   `PAYMENT` decimal(20,4) COMMENT '支付金额(所有产品组)',
   `RATE` decimal(20,10) COMMENT '产品组占比支付百分比',
   `K_SALER_ID` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin COMMENT ' 销售人员ID',
-  `K_ID` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin COMMENT ' 销售人员ID',
+  `K_ID` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin COMMENT ' 产品组ID',
   `K_NAME` varchar(255) COMMENT ' 产品组名称',
   `K_SV` decimal(20,4) COMMENT '付款金额',
   `K_COG` decimal(20,4) COMMENT '采购成本',
