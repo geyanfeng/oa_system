@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  * Created by Anthony on 2016/8/30.
  */
 @Controller
-@RequestMapping(value = "${adminPath}/oa/settingIdx")
+@RequestMapping(value = "${adminPath}/oa/alertSetting")
 public class AlertSettingController extends BaseController {
     @Autowired
     private AlertSettingDao alertSettingDao;

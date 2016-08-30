@@ -15,15 +15,15 @@ public class AlertSetting extends DataEntity<AlertSetting> {
 	
 	private static final long serialVersionUID = 1L;
 	private String node;		// 提醒节点
-	private Integer issaler;		// 提醒对象:销售
-	private Integer isbusinesser;		// 提醒对象:商务
-	private Integer istech;		// 提醒对象:技术
-	private Integer iscso;		// 提醒对象:销售总监
-	private Integer iscw;		// 提醒对象:财务
-	private Integer ismsg;		// 提醒方式: 站内通知
-	private Integer isemail;		// 提醒方式: 邮件通知
-	private Integer iscalendar;		// 提醒方式: 日历提醒
-	private Integer duration;		// 持续时间: 0: 提醒一次，1: 直到确认
+	private Integer isSaler=0;		// 提醒对象:销售
+	private Integer isBusinesser=0;		// 提醒对象:商务
+	private Integer isTech=0;		// 提醒对象:技术
+	private Integer isCso=0;		// 提醒对象:销售总监
+	private Integer isCw=0;		// 提醒对象:财务
+	private Integer isMsg=0;		// 提醒方式: 站内通知
+	private Integer isEmail=0;		// 提醒方式: 邮件通知
+	private Integer isCalendar=0;		// 提醒方式: 日历提醒
+	private Integer duration=0;		// 持续时间: 0: 提醒一次，1: 直到确认
 	private String title;		// 标题模版
 	private String content;		// 内容模版
 	private String remark;		// 备注
@@ -45,68 +45,68 @@ public class AlertSetting extends DataEntity<AlertSetting> {
 		this.node = node;
 	}
 	
-	public Integer getIssaler() {
-		return issaler;
+	public Integer getIsSaler() {
+		return isSaler;
 	}
 
-	public void setIssaler(Integer issaler) {
-		this.issaler = issaler;
+	public void setIsSaler(Integer isSaler) {
+		this.isSaler = isSaler;
+	}
+
+	public Integer getIsBusinesser() {
+		return isBusinesser;
+	}
+
+	public void setIsBusinesser(Integer isBusinesser) {
+		this.isBusinesser = isBusinesser;
 	}
 	
-	public Integer getIsbusinesser() {
-		return isbusinesser;
+	public Integer getIsTech() {
+		return isTech;
 	}
 
-	public void setIsbusinesser(Integer isbusinesser) {
-		this.isbusinesser = isbusinesser;
+	public void setIsTech(Integer isTech) {
+		this.isTech = isTech;
 	}
 	
-	public Integer getIstech() {
-		return istech;
+	public Integer getIsCso() {
+		return isCso;
 	}
 
-	public void setIstech(Integer istech) {
-		this.istech = istech;
+	public void setIsCso(Integer isCso) {
+		this.isCso = isCso;
 	}
 	
-	public Integer getIscso() {
-		return iscso;
+	public Integer getIsCw() {
+		return isCw;
 	}
 
-	public void setIscso(Integer iscso) {
-		this.iscso = iscso;
+	public void setIsCw(Integer isCw) {
+		this.isCw = isCw;
 	}
 	
-	public Integer getIscw() {
-		return iscw;
+	public Integer getIsMsg() {
+		return isMsg;
 	}
 
-	public void setIscw(Integer iscw) {
-		this.iscw = iscw;
+	public void setIsMsg(Integer isMsg) {
+		this.isMsg = isMsg;
 	}
 	
-	public Integer getIsmsg() {
-		return ismsg;
+	public Integer getIsEmail() {
+		return isEmail;
 	}
 
-	public void setIsmsg(Integer ismsg) {
-		this.ismsg = ismsg;
+	public void setIsEmail(Integer isEmail) {
+		this.isEmail = isEmail;
 	}
 	
-	public Integer getIsemail() {
-		return isemail;
+	public Integer getIsCalendar() {
+		return isCalendar;
 	}
 
-	public void setIsemail(Integer isemail) {
-		this.isemail = isemail;
-	}
-	
-	public Integer getIscalendar() {
-		return iscalendar;
-	}
-
-	public void setIscalendar(Integer iscalendar) {
-		this.iscalendar = iscalendar;
+	public void setIsCalendar(Integer isCalendar) {
+		this.isCalendar = isCalendar;
 	}
 	
 	public Integer getDuration() {
