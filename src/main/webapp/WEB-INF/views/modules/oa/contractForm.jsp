@@ -722,15 +722,16 @@
                     <div class="form-group">
                         <label class="control-label">付款方式：</label>
                         <c:forEach items="${fns:getDictList('oa_payment_method')}" var="dict" varStatus="s">
-                            <span class="radio radio-success radio-inline" style="padding-left:2px">
+                            <span class="radio radio-success radio-inline" style="padding-left:2px;">
                                 <input id="payment_installment_paymentMethod_{{idx}}_${s.index+1}" name="payment_installment_paymentMethod_{{idx}}" type="radio"
                                        value="${dict.value}" data-value="{{row.payment_installment_paymentMethod}}" checked>
                                 <label for="payment_installment_paymentMethod_{{idx}}_${s.index+1}">${dict.label}</label>
                             </span>
                         </c:forEach>
+  				   		<a href="#" onclick="addNewInstallmentPayment(this)" title="增加新的分期付款" class="zmdi zmdi-plus-circle text-custom" style="font-size:25px;"></a>
+                   		<a href="#" onclick="deleteInstallmentPayment(this)" title="删除" class="zmdi zmdi-minus-square text-custom" style="font-size:25px;"></a>
                     </div>
-                    <a href="#" onclick="addNewInstallmentPayment(this)" title="增加新的分期付款" class="zmdi zmdi-plus-circle text-success" style="font-size:25px;"></a>
-                    <a href="#" onclick="deleteInstallmentPayment(this)" title="删除" class="zmdi zmdi-minus-square text-success" style="font-size:25px;"></a>
+                 
                 </div>
                 //-->
             </script>
