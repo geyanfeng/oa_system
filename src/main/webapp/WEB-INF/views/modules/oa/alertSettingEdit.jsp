@@ -9,6 +9,9 @@
             margin-top: 10px;
             text-align: center;
         }
+        .checkbox{
+            padding-left:5px;
+        }
     </style>
 
     <script>
