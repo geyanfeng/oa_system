@@ -66,5 +66,10 @@ select c.customer_id,
  on f.contract_id = c.id 
  where f.del_flag=0 and f.status=3 and f.id not in(select payment_id from oa_customer_evaluate where payment_id is not null); 
 
+#更新客户评价值
+update oa_customer a inner join 
+(select sum(point) as point,customer_id from oa_customer_evaluate group by customer_id) b 
+set a.evaluate = b.point where a.id = b.customer_id;
+
 #select e.eval_type,e.`value`,d.label from oa_customer_eval_setting e inner join sys_dict d on e.eval_type = d.value where d.type = 'oa_customer_eval_type' order by -eval_type desc;
 end
