@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.oa.dao.AlertSettingDao">
+    
+	<sql id="alertSettingColumns">
+		a.id AS "id",
+		t.value AS "node",
+		a.issaler AS "issaler",
+		a.isbusinesser AS "isbusinesser",
+		a.istech AS "istech",
+		a.iscso AS "iscso",
+		a.iscw AS "iscw",
+		a.ismsg AS "ismsg",
+		a.isemail AS "isemail",
+		a.iscalendar AS "iscalendar",
+		a.duration AS "duration",
+		a.title AS "title",
+		a.content AS "content",
+		a.remark AS "remark",
+		a.del_flag AS "delFlag",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate"
+	</sql>
+	
+	<sql id="alertSettingJoins">
+		RIGHT JOIN sys_dict t on t.value  = a.node
+	</sql>
+
+	<sql id="alertSettingWhere">
+		t.type='oa_alert_node' and t.del_Flag = 0
+	</sql>
+
+	<select id="get" resultType="AlertSetting">
+		SELECT 
+			<include refid="alertSettingColumns"/>
+		FROM oa_alert_setting a
+		<include refid="alertSettingJoins"/>
+		WHERE a.id = #{id}
+		<include refid="alertSettingWhere"/>
+	</select>
+	
+	<select id="findList" resultType="AlertSetting">
+		SELECT 
+			<include refid="alertSettingColumns"/>
+		FROM oa_alert_setting a
+		<include refid="alertSettingJoins"/>
+		<where>
+			<include refid="alertSettingWhere"/>
+			<if test="title != null and title != ''">
+				AND a.title LIKE 
+					<if test="dbName == 'oracle'">'%'||#{title}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{title}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{title},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY t.sort ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="AlertSetting">
+		SELECT 
+			<include refid="alertSettingColumns"/>
+		FROM oa_alert_setting a
+		<include refid="alertSettingJoins"/>
+		<where>
+			<include refid="alertSettingWhere"/>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY t.sort ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO oa_alert_setting(
+			id,
+			node,
+			issaler,
+			isbusinesser,
+			istech,
+			iscso,
+			iscw,
+			ismsg,
+			isemail,
+			iscalendar,
+			duration,
+			title,
+			content,
+			remark,
+			del_flag,
+			create_by,
+			create_date,
+			update_by,
+			update_date
+		) VALUES (
+			#{id},
+			#{node},
+			#{issaler},
+			#{isbusinesser},
+			#{istech},
+			#{iscso},
+			#{iscw},
+			#{ismsg},
+			#{isemail},
+			#{iscalendar},
+			#{duration},
+			#{title},
+			#{content},
+			#{remark},
+			#{delFlag},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE oa_alert_setting SET 	
+			node = #{node},
+			issaler = #{issaler},
+			isbusinesser = #{isbusinesser},
+			istech = #{istech},
+			iscso = #{iscso},
+			iscw = #{iscw},
+			ismsg = #{ismsg},
+			isemail = #{isemail},
+			iscalendar = #{iscalendar},
+			duration = #{duration},
+			title = #{title},
+			content = #{content},
+			remark = #{remark},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE oa_alert_setting SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
