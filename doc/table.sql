@@ -102,15 +102,20 @@ CREATE TABLE `oa_customer_evaluate` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='客户评价';
 
-DROP TABLE IF EXISTS `oa_supplier_evaluate`;
-CREATE TABLE `oa_supplier_evaluate` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `supplier_id` varchar(64) NOT NULL COMMENT '供应商ID',
-  `shipping_speed` decimal(2,1) NOT NULL COMMENT '发货速度',
-  `communication_efficiency` decimal(2,1) NOT NULL COMMENT '沟通效率',
-  `product_quality` decimal(2,1) NOT NULL COMMENT '产品质量',
-  `service_attitude` decimal(2,1) NOT NULL COMMENT '服务态度',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '创建人ID',
+DROP TABLE IF EXISTS `oa_po_evaluate`;
+CREATE TABLE `oa_po_evaluate` (
+  `id` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '编号',
+  `po_id` varchar(64) NOT NULL COMMENT '订单ID',
+  `shipping_speed` decimal(2,1) NOT NULL DEFAULT '0.0' COMMENT '发货速度',
+  `communication_efficiency` decimal(2,1) NOT NULL DEFAULT '0.0' COMMENT '沟通效率',
+  `product_quality` decimal(2,1) NOT NULL DEFAULT '0.0' COMMENT '产品质量',
+  `service_attitude` decimal(2,1) NOT NULL DEFAULT '0.0' COMMENT '服务态度',
+  `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '备注',
+  `del_flag` char(1) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '0' COMMENT '删除标识',
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '创建者',
   `create_date` datetime NOT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`)
+  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '更新者',
+  `update_date` datetime NOT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `oa_po_attchment_del_flag` (`del_flag`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='供应商评价';
