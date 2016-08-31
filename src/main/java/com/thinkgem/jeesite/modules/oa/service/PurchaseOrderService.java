@@ -74,6 +74,8 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 		Integer sort = 1;
 		Double amount = 0.00;
 
+		boolean isNew = purchaseOrder.getIsNewRecord();
+
 		//设置订单号
 		setNo(purchaseOrder);
 		if(purchaseOrder.getAmount()==null)
@@ -140,7 +142,10 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 		super.save(purchaseOrder);
 
 		//启动流程审核
-		purchaseOrder.getAct().setFlag("submit_audit");
+		if(isNew) {
+			purchaseOrder.getAct().setFlag("submit_audit");
+			audit(purchaseOrder);
+		}
 	}
 
 	public void saveAttachments(PurchaseOrder purchaseOrder){
@@ -283,6 +288,9 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 		if(contractTask == null) return ;
 		/*Task contractTask = contract.getAct().getTask();*/
 		if(isNotBlank(contractTask.getTaskDefinitionKey()) && taskDefKey.equals(contractTask.getTaskDefinitionKey())){
+			contract.setStatus(DictUtils.getDictValue("已下单","oa_contract_status",""));
+			contract.preUpdate();
+			contractDao.update(contract);
 			actTaskService.complete(contractTask.getId(), contract.getAct().getProcInsId(),"", (Map<String, Object>)contract.getAct().getVars());
 		}
 	}

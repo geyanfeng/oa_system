@@ -111,23 +111,6 @@
         <act:histoicFlow procInsId="${contract.act.procInsId}"/>
     </c:if>
 
-    <!--您的意见和建议-->
-    <c:if test="${contract.act.taskDefKey eq 'saler_audit' ||
-                    contract.act.taskDefKey eq 'artisan_audit' ||
-                    contract.act.taskDefKey eq 'cso_audit' ||
-                    contract.act.taskDefKey eq 'verify_receiving'}">
-    <div class="panel panel-default" id="comment_other">
-        <div class="panel-heading">您的意见和建议</div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-sm-12">
-                    <form:textarea path="act.comment" class="required form-control" rows="5"/>
-                </div>
-            </div>
-        </div>
-    </div>
-    </c:if>
-
 
     <div class="form-group">
         <div class="col-sm-offset-4 col-sm-8">

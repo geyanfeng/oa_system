@@ -14,7 +14,7 @@
 <body>
 <div class="row">
 <div class="card-box col-sm-5" id="card_contract_audit">
-    <h4 class="header-title m-t-0 m-b-30">合同待办</h4>
+    <h4 class="header-title m-t-0 m-b-30">合同订单待办</h4>
     <table class="table m-0">
         <thead>
         <tr>
@@ -46,7 +46,7 @@
 </div>
 
 <div class="card-box col-sm-5" id="card_po_audit">
-        <h4 class="header-title m-t-0 m-b-30">订单待办</h4>
+        <h4 class="header-title m-t-0 m-b-30">采购订单待办</h4>
         <table class="table m-0">
             <thead>
             <tr>

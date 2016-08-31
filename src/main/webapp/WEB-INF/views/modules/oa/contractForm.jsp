@@ -18,7 +18,7 @@
             //增加定义付款金额验证规则
             $.validator.addMethod("validationPaymentAmount", function(value) {
                 return validationPaymentAmount();
-            }, "付款金额应该大于等于采购条目的总价:"+ parseFloat($("#amount").val()));
+            }, "付款金额应该大于等于采购条目的总价:"+ $("#amount").val());
 
             $("#inputForm").validate({
                 rules: {
@@ -111,6 +111,7 @@
                     amount += ($(priceFields[i]).val() * $(numFields[i]).val())
                 }
                 $("#amount").val(amount);
+				$("#span-display-amount").html("采购条目的总价: " + amount);
             }
         }
 
@@ -215,8 +216,7 @@
 						</div>
 					</h3>
 				</div>
-				<div class="panel-body panel-collapse collapse in
- id="card-collapse">
+				<div class="panel-body panel-collapse collapse in" id="card-collapse">
 					<div class="row">
 						<div class="col-sm-6">
 							<div class="form-group clearfix">
@@ -459,7 +459,7 @@
 						<shiro:hasPermission name="oa:contract:edit">
 							<div class="pull-right">
 								<a href="javascript:" class="btn btn-sm btn-danger"
-									onclick="addRow('#contractProductList', contractProductRowIdx, contractProductTpl);contractProductRowIdx = contractProductRowIdx + 1;">
+								   onclick="addRow('#contractProductList', contractProductRowIdx, contractProductTpl);contractProductRowIdx = contractProductRowIdx + 1;">
 									<i class="fa fa-plus"></i> 新增
 								</a>
 								<button class="btn btn-sm btn-info">
@@ -657,6 +657,9 @@
                 </script>
 					</div>
 				</div>
+				<div class="panel-footer">
+						<span class="text-custom" id="span-display-amount">采购条目的总价: ${contract.amount}</span>
+				</div>
 			</div>
 
 			<!--付款信息-->
@@ -774,7 +777,7 @@
 					<script type="text/javascript">
                 $(document).ready(function () {
 
-                    $("#btnSubmit").click(function () {
+                    $("#btnSubmit, #btnStartAudit").click(function () {
                         $("#paymentDetail").val(JSON.stringify(getPaymentDetail()));
                     });
                     //付款周期
@@ -1076,21 +1079,16 @@
 			</c:if>
 			<div class="form-group">
 				<div class="col-sm-offset-5 col-sm-8">
-
 					<shiro:hasPermission name="oa:contract:edit">
 						<input id="btnSubmit"
 							class="btn btn-info" type="submit"
 							value="保 存" />&nbsp;
-                <c:if
-							test="${contract.contractType ne '1' and not empty contract.id}">
-							<c:if test="${empty contract.act.procInsId}">
-								<input id="btnCancel" class="btn btn-info" type="submit"
-									value="提交" onclick="$('#flag').val('submit_audit');" />&nbsp;
-                    </c:if>
-							<%--   <c:if test="${not empty contract.act.taskId and contract.act.taskDefKey ne 'end' and contract.act.taskDefKey ne 'submit_audit'}">
-                        <input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
-                        <input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
-                    </c:if>--%>
+					</shiro:hasPermission>
+
+					<shiro:hasPermission name="oa:contract:audit">
+						<c:if	test="${contract.contractType ne '1' and not empty contract.id and empty contract.act.procInsId}">
+							<input id="btnStartAudit" class="btn btn-info" type="submit"
+								   value="开始审批" onclick="$('#flag').val('submit_audit');" />&nbsp;
 						</c:if>
 					</shiro:hasPermission>
 

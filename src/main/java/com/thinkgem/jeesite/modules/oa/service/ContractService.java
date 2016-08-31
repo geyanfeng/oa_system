@@ -7,6 +7,7 @@ import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
+import com.thinkgem.jeesite.common.utils.Encodes;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.act.service.ActTaskService;
 import com.thinkgem.jeesite.modules.act.utils.ActUtils;
@@ -18,7 +19,6 @@ import com.thinkgem.jeesite.modules.oa.entity.*;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import org.activiti.engine.RuntimeService;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static org.apache.commons.lang3.StringEscapeUtils.unescapeHtml4;
 import static org.codehaus.plexus.util.StringUtils.isBlank;
 import static org.codehaus.plexus.util.StringUtils.isNotBlank;
 
@@ -245,7 +246,10 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         if(isBlank(contract.getPaymentDetail())){
             return;
         }
-        String paymentDetail = StringEscapeUtils.unescapeHtml4(contract.getPaymentDetail());
+        //解码
+        String paymentDetail = Encodes.unescapeHtml(contract.getPaymentDetail());
+        if(paymentDetail.contains("&quot;"))
+            paymentDetail = Encodes.unescapeHtml(paymentDetail);
 
 /*
         try {
@@ -323,7 +327,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         if(isBlank(contract.getPaymentDetail())){
             return;
         }
-        String paymentDetail = StringEscapeUtils.unescapeHtml4(contract.getPaymentDetail());
+        String paymentDetail = unescapeHtml4(contract.getPaymentDetail());
         Object payment = JsonMapper.getInstance().fromJson(paymentDetail, Object.class);
 
         ContractFinance filter = new ContractFinance(contract,1);

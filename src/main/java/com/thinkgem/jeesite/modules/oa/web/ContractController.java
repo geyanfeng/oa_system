@@ -233,7 +233,7 @@ public class ContractController extends BaseController {
 
 	@RequiresPermissions("oa:contract:edit")
 	@RequestMapping(value = "save")
-	public String save(Contract contract, Model model, RedirectAttributes redirectAttributes) {
+	public String save(HttpServletRequest request, Contract contract, Model model, RedirectAttributes redirectAttributes) {
 
 		if (!beanValidator(model, contract)){
 			return form(contract, null, model);
@@ -242,13 +242,18 @@ public class ContractController extends BaseController {
 		contractService.setContractNo(contract);
 
 		contractService.save(contract);
-		addMessage(redirectAttributes, "保存合同成功");
-		return "redirect:"+Global.getAdminPath()+"/oa/contract/?contractType="+contract.getContractType()+"&repage";
+		//执行审批
+		if(!contract.getContractType().equals("1") && isNotBlank(contract.getAct().getFlag()) || isNotBlank(contract.getAct().getTaskDefKey())){
+			return audit(request, contract, redirectAttributes);
+		} else {
+			addMessage(redirectAttributes, "保存合同成功");
+			return "redirect:" + Global.getAdminPath() + "/oa/contract/?contractType=" + contract.getContractType() + "&repage";
+		}
 	}
 
 	@RequiresPermissions("oa:contract:audit")
 	@RequestMapping(value = "audit")
-	public String audit(Contract contract, Model model, RedirectAttributes redirectAttributes) {
+	public String audit(HttpServletRequest request, Contract contract, RedirectAttributes redirectAttributes) {
 		if(!contract.getContractType().equals("1") && isNotBlank(contract.getAct().getFlag()) || isNotBlank(contract.getAct().getTaskDefKey()))
 		{
 			try {
@@ -257,7 +262,9 @@ public class ContractController extends BaseController {
 			}
 			catch(Exception e){
 				addMessage(redirectAttributes, e.getMessage());
+				return "redirect:" + request.getHeader("referer");
 			}
+
 			return "redirect:" + adminPath + "/act/task/todo/";
 		}
 		return "redirect:"+Global.getAdminPath()+"/oa/contract/?contractType="+contract.getContractType()+"&repage";

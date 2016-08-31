@@ -57,6 +57,32 @@
             if("${param.po}"!="" && "${param.poid}"!=""){
                 editPo("${param.poid}");
             }
+
+            $.validator.addMethod("val-comment", function(value) {
+                return !($('#flag').val() === "no" && value==="");
+            }, "请输入驳回信息");
+            //表单验证
+            $("#inputForm").validate({
+                rules: {
+                    "act.comment":  "val-comment"
+                },
+                submitHandler: function (form) {
+                    loading('正在提交，请稍等...');
+                    form.submit();
+                },
+                errorContainer: "#messageBox",
+                errorPlacement: function (error, element) {
+                    $("#messageBox").text("输入有误，请先更正。");
+                    if(element.prop("id")== 'act.comment'){
+                        error.appendTo(element.closest(".panel").find(".panel-heading"));
+                    }
+                    else if (element.is(":checkbox") || element.is(":radio") || element.parent().is(".input-append")) {
+                        error.appendTo(element.parent().parent());
+                    } else {
+                        error.insertAfter(element);
+                    }
+                }
+            });
         });
 
         function closeSelectContractModal(selectedContract){
@@ -1196,7 +1222,44 @@
 
     <div class="form-group">
         <div class="col-sm-offset-4 col-sm-8">
+
                 <c:if test="${contract.contractType ne '1' and not empty contract.id}">
+                    <c:set var="submitText" value="提交"/>
+                    <c:if test="${empty contract.act.procInsId}">
+                        <c:set var="submitText" value="开始审批"/>
+                    </c:if>
+
+                    <c:if test="${contract.act.taskDefKey eq 'split_po'}">
+                        <c:set var="submitText" value="确认拆分"/>
+                    </c:if>
+
+                    <c:if test="${contract.act.taskDefKey eq 'contract_edit'}">
+                        <c:set var="submitText" value="确认修改"/>
+                    </c:if>
+
+                    <c:if test="${contract.act.taskDefKey eq 'business_person_createbill'}">
+                        <c:set var="submitText" value="确认下单"/>
+                    </c:if>
+
+                    <c:if test="${contract.act.taskDefKey eq 'verify_ship'}">
+                        <c:set var="submitText" value="确认发货"/>
+                    </c:if>
+
+                    <c:if test="${contract.act.taskDefKey eq 'cw_kp'}">
+                        <c:set var="submitText" value="确认开票"/>
+                    </c:if>
+
+                    <c:if test="${contract.act.taskDefKey eq 'verify_sk'}">
+                        <c:set var="submitText" value="确认收款"/>
+                    </c:if>
+
+                    <c:if test="${contract.act.taskDefKey eq 'finish'}">
+                        <c:set var="submitText" value="确认合同完成"/>
+                    </c:if>
+
+                    <c:if test="${contract.act.taskDefKey eq 'can_invoice'}">
+                        <c:set var="submitText" value="确认可以开票"/>
+                    </c:if>
                     <c:choose>
                         <c:when test="${empty contract.act.procInsId ||
                                             contract.act.taskDefKey eq 'split_po' ||
@@ -1207,7 +1270,7 @@
                                             contract.act.taskDefKey eq 'verify_sk' ||
                                             contract.act.taskDefKey eq 'finish' ||
                                             contract.act.taskDefKey eq 'can_invoice'}">
-                            <input id="btnCancel" class="btn btn-custom" type="submit" value="提交" onclick="$('#flag').val('submit_audit')"/>&nbsp;
+                            <input id="btnSubmit" class="btn btn-custom" type="submit" value="${submitText}" onclick="$('#flag').val('submit_audit')"/>&nbsp;
                         </c:when>
 
                         <c:when test="${not empty contract.act.taskDefKey}">

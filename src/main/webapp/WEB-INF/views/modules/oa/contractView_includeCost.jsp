@@ -26,6 +26,36 @@
             visibility: hidden;
         }
     </style>
+    <script>
+        $(function(){
+            $.validator.addMethod("val-comment", function(value) {
+                return !($('#flag').val() === "no" && value==="");
+            }, "请输入驳回信息");
+
+            //表单验证
+            $("#inputForm").validate({
+                rules: {
+                    "act.comment":  "val-comment"
+                },
+                submitHandler: function (form) {
+                    loading('正在提交，请稍等...');
+                    form.submit();
+                },
+                errorContainer: "#messageBox",
+                errorPlacement: function (error, element) {
+                    $("#messageBox").text("输入有误，请先更正。");
+                    if(element.prop("id")== 'act.comment'){
+                        error.appendTo(element.closest(".panel").find(".panel-heading"));
+                    }
+                    else if (element.is(":checkbox") || element.is(":radio") || element.parent().is(".input-append")) {
+                        error.appendTo(element.parent().parent());
+                    } else {
+                        error.insertAfter(element);
+                    }
+                }
+            });
+        });
+    </script>
 </head>
 <body data-spy="scroll" data-target="#navbar">
 
@@ -188,7 +218,6 @@
     </div>
 
     <!--订单列表-->
-    <!--todo: 帐期点数和帐期日利率没有计算-->
     <a class="anchor" name="panel-9"></a>
     <div class="panel panel-default">
         <div class="panel-heading">订单列表</div>
@@ -268,7 +297,7 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-sm-12">
-                        <form:textarea path="act.comment" class="required form-control" rows="5"/>
+                        <form:textarea path="act.comment" class="form-control" rows="5"/>
                     </div>
                 </div>
             </div>
@@ -288,25 +317,9 @@
 
     <div class="form-group">
         <div class="col-sm-offset-4 col-sm-8">
-                <c:if test="${contract.contractType ne '1' and not empty contract.id}">
-                    <c:choose>
-                        <c:when test="${empty contract.act.procInsId ||
-                                            contract.act.taskDefKey eq 'split_po' ||
-                                            contract.act.taskDefKey eq 'contract_edit' ||
-                                            contract.act.taskDefKey eq 'business_person_createbill' ||
-                                            contract.act.taskDefKey eq 'verify_ship' ||
-                                            contract.act.taskDefKey eq 'cw_kp' ||
-                                            contract.act.taskDefKey eq 'verify_sk' ||
-                                            contract.act.taskDefKey eq 'finish'}">
-                            <input id="btnCancel" class="btn btn-custom" type="submit" value="提交" onclick="$('#flag').val('submit_audit')"/>&nbsp;
-                        </c:when>
-
-                        <c:when test="${not empty contract.act.taskDefKey}">
+                <c:if test="${contract.contractType ne '1' and not empty contract.id and not empty contract.act.taskDefKey}">
                             <input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
                             <input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
-                        </c:when>
-                    </c:choose>
-
                 </c:if>
 
             <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>

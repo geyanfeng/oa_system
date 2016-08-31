@@ -104,3 +104,8 @@
   border-radius: 4px;
 	
 }
+
+label.label-required:before {
+  content: ' *';
+  color: red;
+}
