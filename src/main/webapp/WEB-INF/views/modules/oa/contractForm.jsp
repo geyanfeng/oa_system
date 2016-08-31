@@ -192,8 +192,8 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<ul class="nav nav-pills nav-pills-custom display-xs-none">
-					<li role="presentation"><a href="#">合同信息</a></li>
-					<li role="presentation" class="active"><a href="#">开票信息</a></li>
+					<li role="presentation" class="active"><a href="#">合同信息</a></li>
+					<li role="presentation"><a href="#">开票信息</a></li>
 					<li role="presentation"><a href="#">采购列表</a></li>
 					<li role="presentation"><a href="#">付费信息</a></li>
 					<li role="presentation"><a href="#">其他信息</a></li>
@@ -733,8 +733,10 @@
                                 <label for="payment_installment_paymentMethod_{{idx}}_${s.index+1}">${dict.label}</label>
                             </span>
                         </c:forEach>
+                        <span  style="vertical-align: bottom;">
   				   		<a href="#" onclick="addNewInstallmentPayment(this)" title="增加新的分期付款" class="zmdi zmdi-plus-circle text-custom" style="font-size:25px;"></a>
                    		<a href="#" onclick="deleteInstallmentPayment(this)" title="删除" class="zmdi zmdi-minus-square text-custom" style="font-size:25px;"></a>
+						</span>
                     </div>
                  
                 </div>

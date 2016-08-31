@@ -11,15 +11,16 @@
 		<!-- Top Bar Start -->
 		<DIV class="topbar">
 			<!-- LOGO -->
-			<DIV class="topbar-left">
-				<DIV class="text-center">
-					<A class="logo"
-						href="#"><I
-						class="zmdi zmdi-toys icon-c-logo"></I></SPAN></SPAN>
-						<!--<span><img src="assets/images/logo.png" alt="logo" style="height: 20px;"></span>-->
-					</A>
-				</DIV>
-			</DIV>
+			 <!-- LOGO -->
+                <div class="topbar-left">
+                    <div class="text-center">
+                        <a href="index.html" class="logo">
+                           <span><img src="${ctxStatic}/images/logo.png" alt="logo" style="height: 26px;"></span>
+                            <i class="zmdi zmdi-toys icon-c-logo"></i><span>精鲲协同系统</span>
+                          
+                        </a>
+                    </div>
+                </div>
 			<!-- Button mobile view to collapse sidebar menu -->
 			<%--<div class="topbar-left">
 				<div class="text-center">
@@ -30,9 +31,7 @@
 				</div>
 			</div>--%>
 			<DIV class="navbar navbar-default" role="navigation">
-				<div class="navbar-header">
-					<a class="navbar-brand" href="${ctx}?login">首页</a>
-				</div>
+				
 				<DIV class="container">
 					<DIV>
 						<DIV class="pull-left">
@@ -66,7 +65,7 @@
 							<LI class="dropdown user-box"><A
 								class="dropdown-toggle waves-effect waves-light profile "
 								aria-expanded="true"
-								href="http://coderthemes.com/flacto_1.1/layout_2_green/"
+								href="#"
 								data-toggle="dropdown"><IMG class="img-circle user-img"
 									alt="user-img"
 									src=""${ctxStatic}/flacto/images/avatar-10.jpg">
@@ -92,13 +91,22 @@
 		<!-- ========== Left Sidebar Start ========== -->
 
 		<DIV class="left side-menu">
+		<div class="text-center">
+                    
+                    <div class="user-thumb m-t-20">
+                        <img src="${not empty fns:getUser().photo ? fns:getUser().photo : 'static/images/tx.jpg'}" style="width:55px;height:55px;" class="img-responsive img-circle img-thumbnail"
+                             alt="thumbnail">
+                    </div>
+                    <h5 class="text-uppercase font-bold m-b-0" style="color:white;">Hi, ${fns:getUser().name}</h5>
+                </div>
 			<DIV class="sidebar-inner slimscrollleft">
 				<!--- Divider -->
-				<DIV id="sidebar-menu">
+				<DIV id="sidebar-menu" style="padding-top:10px;">
+				
 					<UL>
 					
 					    <c:set var="firstMenu" value="true"/>
-					    <LI class="text-muted menu-title">导航</LI>
+					   
 						<c:forEach items="${fns:getMenuList()}" var="menu" varStatus="idxStatus">
 							<c:if test="${menu.parent.id eq '1'&&menu.isShow eq '1'}">
 								<li class="has_sub ${not empty firstMenu && firstMenu ? ' active' : ''}">
