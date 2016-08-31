@@ -14,7 +14,7 @@
 			 <!-- LOGO -->
                 <div class="topbar-left">
                     <div class="text-center">
-                        <a href="index.html" class="logo">
+                        <a href="${ctx}" class="logo">
                            <span><img src="${ctxStatic}/images/logo.png" alt="logo" style="height: 26px;"></span>
                             <i class="zmdi zmdi-toys icon-c-logo"></i><span>精鲲协同系统</span>
                           

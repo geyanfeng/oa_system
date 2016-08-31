@@ -9,6 +9,7 @@
 		a.contact AS "contact",
 		a.phone AS "phone",
 		a.remark AS "remark",
+		a.evaluate AS "evaluate",
 		a.used_flag AS "usedFlag",
 		a.del_flag AS "delFlag",
 		a.create_by AS "createBy.id",

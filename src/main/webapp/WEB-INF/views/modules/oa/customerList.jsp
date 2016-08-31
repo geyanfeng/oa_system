@@ -54,6 +54,7 @@
 				<th>联系人</th>
 				<th>电话</th>
 				<th>备注</th>
+				<th class="sort-column evaluate">评价分数</th>
 				<th class="sort-column usedFlag">状态</th>
 				<th>更新时间</th>
 				<shiro:hasPermission name="oa:customer:edit"><th>操作</th></shiro:hasPermission>
@@ -76,6 +77,9 @@
 				</td>
 				<td>
 					${customer.remark}
+				</td>
+				<td>
+					${customer.evaluate}
 				</td>
 				<td>
 					${fns:getDictLabel(customer.usedFlag, 'oa_customer_status', '')}

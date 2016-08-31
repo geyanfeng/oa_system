@@ -20,6 +20,7 @@ public class Customer extends DataEntity<Customer> {
 	private String contact;		// 联系人
 	private String phone;		// 电话
 	private String remark;		// 备注
+	private float evaluate;		// 客户评价分数
 	private String usedFlag;		// 状态
 	
 	public Customer() {
@@ -82,6 +83,14 @@ public class Customer extends DataEntity<Customer> {
 
 	public void setUsedFlag(String usedFlag) {
 		this.usedFlag = usedFlag;
+	}
+	
+	public float getEvaluate() {
+		return evaluate;
+	}
+
+	public void setEvaluate(float evaluate) {
+		this.evaluate = evaluate;
 	}
 
 	@Override
