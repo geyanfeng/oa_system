@@ -167,6 +167,10 @@ public class ContractController extends BaseController {
 		model.addAttribute("productTypeList", productTypeService.findList(new ProductType()));
 		//获取附件
 		setContractAttachment(contract);
+		//获取所有客户
+		List<Customer> customerList = customerService.findList(new Customer());
+		model.addAttribute("customerList", customerList);
+
 		// 查看审批申请单
 		if (isNotBlank(contract.getId())) {//.getAct().getProcInsId())){
 			// 环节编号
@@ -180,16 +184,19 @@ public class ContractController extends BaseController {
 			else if ("modify".equals(taskDefKey)){
 				view = "testAuditForm";
 			}*/
-
-			if("saler_audit".equals(taskDefKey) || "cso_audit".equals(taskDefKey)){
+			//合同修改
+			if("contract_edit".equals(taskDefKey)){
+				view = "contractForm";
+			}
+			else if("saler_audit".equals(taskDefKey) || "cso_audit".equals(taskDefKey)){//销售审核和总监审核
 				view = "contractView_includeCost";
-			} else if("cw_kp".equals(taskDefKey)){
+			} else if("cw_kp".equals(taskDefKey)){//财务开票
 				ContractFinance filter = new ContractFinance(contract,1);
 				List<ContractFinance> finances = contractFinanceDao.findList(filter);
 				if(finances.size()>0)
 					model.addAttribute("finance", finances.get(0));
 				view = "contractView_kp";
-			} else if("verify_sk".equals(taskDefKey)){
+			} else if("verify_sk".equals(taskDefKey)){//财务收款
 				ContractFinance filter = new ContractFinance(contract,2);
 				List<ContractFinance> finances = contractFinanceDao.findList(filter);
 				if(finances.size()>0) {
