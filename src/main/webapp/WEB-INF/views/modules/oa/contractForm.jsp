@@ -246,7 +246,7 @@
 												itemValue="id" htmlEscape="false" />
 										</form:select>
 
-										<span class="input-group-btn"><a href="#"
+										<span class="input-group-btn" style="vertical-align:top;"><a href="#"
 											onclick="addCustomer(this)" title="新增客户"
 											class="btn btn-sm btn-custom">+</a></span>
 									</div>
@@ -298,11 +298,13 @@
 											class="input-group-btn"> <a
 											id="btnSelectParentContract" href="javascript:" class=" "
 											style="">
+											<span class="input-group-btn" style="vertical-align:top;">
 												<button
 													class="btn waves-effect waves-light btn-custom input-sm"
 													type="button">
 													<i class="fa fa-search"></i>
 												</button>
+												</span>
 										</a>
 										</span>
 									</div>
