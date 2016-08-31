@@ -6,6 +6,7 @@ package com.thinkgem.jeesite.modules.oa.web;
 import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.service.BaseService;
 import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
@@ -88,6 +89,7 @@ public class ContractController extends BaseController {
 	@RequestMapping(value = {"list", ""})
 	public String list(Contract contract, @RequestParam(value="isSelect", required=false) Boolean isSelect, HttpServletRequest request, HttpServletResponse response, Model model) {
 		String view="contractList";
+		BaseService.dataScopeFilter(contract, "dsf", "","id=a.create_by");//过滤数据授权
 		Page<Contract> page = contractService.findPage(new Page<Contract>(request, response), contract); 
 		model.addAttribute("page", page);
 		model.addAttribute("isSelect", isSelect);//是否为框架合同选择列表
