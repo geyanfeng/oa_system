@@ -33,6 +33,7 @@ public class PurchaseOrder extends ActEntity<PurchaseOrder> {
 	private Date endCreateDate;		// 结束 日期
 	private List<PurchaseOrderProduct> purchaseOrderProductList = Lists.newArrayList();		// 子表列表
 	private List<PurchaseOrderAttachment> purchaseOrderAttachmentList = Lists.newArrayList();		// 子表列表
+	private List<PurchaseOrderFinance> purchaseOrderFinanceList = Lists.newArrayList();
 	
 	public PurchaseOrder() {
 		super();
@@ -163,5 +164,10 @@ public class PurchaseOrder extends ActEntity<PurchaseOrder> {
 
 	public void setPurchaseOrderAttachmentList(List<PurchaseOrderAttachment> purchaseOrderAttachmentList) {
 		this.purchaseOrderAttachmentList = purchaseOrderAttachmentList;
+	}
+
+	public List<PurchaseOrderFinance> getPurchaseOrderFinanceList(){return purchaseOrderFinanceList;}
+	public void setPurchaseOrderFinanceList(List<PurchaseOrderFinance> purchaseOrderFinanceList){
+		this.purchaseOrderFinanceList = purchaseOrderFinanceList;
 	}
 }

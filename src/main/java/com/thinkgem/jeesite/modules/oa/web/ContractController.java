@@ -14,10 +14,7 @@ import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.oa.dao.ContractFinanceDao;
 import com.thinkgem.jeesite.modules.oa.dao.PeopleSettingDao;
 import com.thinkgem.jeesite.modules.oa.entity.*;
-import com.thinkgem.jeesite.modules.oa.service.ContractService;
-import com.thinkgem.jeesite.modules.oa.service.CustomerService;
-import com.thinkgem.jeesite.modules.oa.service.ProductTypeGroupService;
-import com.thinkgem.jeesite.modules.oa.service.ProductTypeService;
+import com.thinkgem.jeesite.modules.oa.service.*;
 import com.thinkgem.jeesite.modules.sys.entity.Dict;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
@@ -57,6 +54,8 @@ public class ContractController extends BaseController {
 	private PeopleSettingDao peopleSettingDao;
 	@Autowired
 	private ContractFinanceDao contractFinanceDao;
+	@Autowired
+	private PurchaseOrderService purchaseOrderService;
 	
 	@ModelAttribute
 	public Contract get(@RequestParam(required=false) String id) {
@@ -192,13 +191,15 @@ public class ContractController extends BaseController {
 			}
 			else if("saler_audit".equals(taskDefKey) || "cso_audit".equals(taskDefKey)){//销售审核和总监审核
 				view = "contractView_includeCost";
-			} else if("cw_kp".equals(taskDefKey)){//财务开票
+			}
+			else if("cw_kp".equals(taskDefKey)){//财务开票
 				ContractFinance filter = new ContractFinance(contract,1);
 				List<ContractFinance> finances = contractFinanceDao.findList(filter);
 				if(finances.size()>0)
 					model.addAttribute("finance", finances.get(0));
 				view = "contractView_kp";
-			} else if("verify_sk".equals(taskDefKey)){//财务收款
+			}
+			else if("verify_sk".equals(taskDefKey)){//财务收款
 				ContractFinance filter = new ContractFinance(contract,2);
 				List<ContractFinance> finances = contractFinanceDao.findList(filter);
 				if(finances.size()>0) {
@@ -216,6 +217,10 @@ public class ContractController extends BaseController {
 					}
 				}
 				view = "contractView_sk";
+			} else if("cfo_audit".equals(taskDefKey)){//财务总监审批
+				List<PurchaseOrder> purchaseOrderList = purchaseOrderService.getPoListByContractId(contract.getId());
+				model.addAttribute("purchaseOrderList",purchaseOrderList);
+				view = "contractView_cfo";
 			}
 
 			model.addAttribute("taskDefKey",taskDefKey);

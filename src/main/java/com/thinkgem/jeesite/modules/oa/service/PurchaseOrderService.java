@@ -4,8 +4,10 @@
 package com.thinkgem.jeesite.modules.oa.service;
 
 import com.google.common.collect.Maps;
+import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
+import com.thinkgem.jeesite.common.utils.Encodes;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.act.service.ActTaskService;
 import com.thinkgem.jeesite.modules.act.utils.ActUtils;
@@ -49,6 +51,8 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 	private ContractDao contractDao;
 	@Autowired
 	private PurchaseOrderAttachmentDao purchaseOrderAttachmentDao;
+	@Autowired
+	private PurchaseOrderFinanceDao purchaseOrderFinanceDao;
 
 	public PurchaseOrder getByProcInsId(String procInsId) {
 		return purchaseOrderDao.getByProcInsId(procInsId);
@@ -58,6 +62,7 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 		PurchaseOrder purchaseOrder = super.get(id);
 		purchaseOrder.setPurchaseOrderProductList(purchaseOrderProductDao.findList(new PurchaseOrderProduct(purchaseOrder)));
 		purchaseOrder.setPurchaseOrderAttachmentList(purchaseOrderAttachmentDao.findList(new PurchaseOrderAttachment(purchaseOrder)));
+		purchaseOrder.setPurchaseOrderFinanceList(purchaseOrderFinanceDao.findList(new PurchaseOrderFinance(purchaseOrder)));
 		return purchaseOrder;
 	}
 	
@@ -138,6 +143,8 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 
 		//保存附件
 		saveAttachments(purchaseOrder);
+		//保存财务数据
+		saveFinance(purchaseOrder);
 		//更新订单
 		super.save(purchaseOrder);
 
@@ -165,6 +172,39 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 			} else {
 				purchaseOrderAttachmentDao.delete(purchaseOrderAttachment);
 			}
+		}
+	}
+
+	/*
+保存财务相关的数据
+ */
+	@Transactional(readOnly = false)
+	public void saveFinance(PurchaseOrder purchaseOrder) {
+		//删除数据
+		purchaseOrderFinanceDao.delete(new PurchaseOrderFinance(purchaseOrder));
+		//如果收款数据为空, 不增加新的付款数据
+		if (isBlank(purchaseOrder.getPaymentDetail())) {
+			return;
+		}
+		//解码
+		String paymentDetail = Encodes.unescapeHtml(purchaseOrder.getPaymentDetail());
+		if (paymentDetail.contains("&quot;"))
+			paymentDetail = Encodes.unescapeHtml(paymentDetail);
+
+		Object payment = JsonMapper.getInstance().fromJson(paymentDetail, Object.class);
+
+		List<Map<String, Object>> paymentList = (List<Map<String, Object>>) payment;
+		int sort = 1;
+		for (Map<String, Object> paymentObj : paymentList) {
+			PurchaseOrderFinance purchaseOrderFinance = new PurchaseOrderFinance(purchaseOrder);
+			purchaseOrderFinance.setPayMethod(paymentObj.get("payment_installment_paymentMethod").toString());
+			purchaseOrderFinance.setZq(Float.parseFloat(paymentObj.get("payment_installment_time").toString()));
+			purchaseOrderFinance.setAmount(Double.parseDouble(paymentObj.get("payment_installment_amount").toString()));
+			purchaseOrderFinance.setSort(sort);
+			purchaseOrderFinance.setStatus(1);
+			purchaseOrderFinance.preInsert();
+			purchaseOrderFinanceDao.insert(purchaseOrderFinance);
+			sort++;
 		}
 	}
 	
@@ -271,6 +311,7 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 		for (PurchaseOrder purchaseOrder: purchaseOrderList){
 			purchaseOrder.setPurchaseOrderProductList(purchaseOrderProductDao.findList(new PurchaseOrderProduct(purchaseOrder)));
 			purchaseOrder.setPurchaseOrderAttachmentList(purchaseOrderAttachmentDao.findList(new PurchaseOrderAttachment(purchaseOrder)));
+			purchaseOrder.setPurchaseOrderFinanceList(purchaseOrderFinanceDao.findList(new PurchaseOrderFinance(purchaseOrder)));
 		}
 		return purchaseOrderList;
 	}

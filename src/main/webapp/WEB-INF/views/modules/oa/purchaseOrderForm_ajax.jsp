@@ -347,13 +347,15 @@
         function addNewInstallmentPayment(sender, row){
             var tpl= $("#paymentTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
             var idx=1;
+            if($("#payment-body").data("idx")){
+                idx = parseInt($("#payment-body").data("idx"));
+            }
             if(sender) {
                 var self = $(sender);
                 var selfRow = self.closest('.row');
-                idx = parseInt($("#payment-body").data("idx"));
                 selfRow.after(Mustache.render(tpl, {idx: idx, row: row}));
             } else{
-                $("#payment-body").append(Mustache.render(tpl, {idx: 1, row: row}));
+                $("#payment-body").append(Mustache.render(tpl, {idx: idx, row: row}));
             }
 
             $("input[name='payment_installment_paymentMethod_"+ idx +"']").change(function () {

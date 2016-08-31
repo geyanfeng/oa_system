@@ -1202,7 +1202,7 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-sm-12">
-                        <form:textarea path="act.comment" class="required form-control" rows="5"/>
+                        <form:textarea path="act.comment" class="form-control" rows="5"/>
                     </div>
                 </div>
             </div>
