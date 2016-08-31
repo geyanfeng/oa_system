@@ -101,3 +101,16 @@ CREATE TABLE `oa_customer_evaluate` (
   `create_date` datetime NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='客户评价';
+
+DROP TABLE IF EXISTS `oa_supplier_evaluate`;
+CREATE TABLE `oa_supplier_evaluate` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `supplier_id` varchar(64) NOT NULL COMMENT '供应商ID',
+  `shipping_speed` decimal(2,1) NOT NULL COMMENT '发货速度',
+  `communication_efficiency` decimal(2,1) NOT NULL COMMENT '沟通效率',
+  `product_quality` decimal(2,1) NOT NULL COMMENT '产品质量',
+  `service_attitude` decimal(2,1) NOT NULL COMMENT '服务态度',
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '创建人ID',
+  `create_date` datetime NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='供应商评价';
