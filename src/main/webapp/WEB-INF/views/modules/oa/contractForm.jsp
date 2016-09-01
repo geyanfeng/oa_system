@@ -1006,6 +1006,10 @@
 							<form:input path="discount" htmlEscape="false"
 								class="form-control  number input-sm" />
 						</div>
+						<div class="form-group">
+							<label class="control-label">业绩分成比例：</label>
+							<form:input path="performancePercentage" htmlEscape="false" class="form-control  number input-sm"/>%
+						</div>
 					</div>
 				</div>
 			</div>

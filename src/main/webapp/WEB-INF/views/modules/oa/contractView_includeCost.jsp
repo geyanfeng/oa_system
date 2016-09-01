@@ -98,8 +98,11 @@
                 <div class="col-sm-6">
                     我司抬头：${fns:getDictLabel(contract.companyName, 'oa_company_name',"")}
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-3">
                     销售人员：${contract.createBy.name}
+                </div>
+                <div class="col-sm-3">
+                    业绩分成比例：${contract.performancePercentage}%
                 </div>
             </div>
             <div class="row">

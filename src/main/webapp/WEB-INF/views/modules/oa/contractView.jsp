@@ -1117,12 +1117,12 @@
                 <div class="col-sm-3">
                     业绩分成比例：${contract.performancePercentage}%
                 </div>
-                <c:if test="${contract.act.taskDefKey eq 'cso_audit'}">
+   <%--             <c:if test="${contract.act.taskDefKey eq 'cso_audit'}">
                     <div class="form-group">
                         <label class="control-label">业绩分成比例：</label>
                         <form:input path="performancePercentage" htmlEscape="false" class="form-control  number input-sm"/>%
                     </div>
-                </c:if>
+                </c:if>--%>
             </div>
         </div>
     </div>
