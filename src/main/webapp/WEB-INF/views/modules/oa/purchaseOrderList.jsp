@@ -174,7 +174,7 @@
   <script type="text/javascript">
   //供应商评价
   function supplierEvaluation(sender){
-      var frameSrc = "${ctx}/oa/supplierEvaluation/form?fromModal=1";
+      var frameSrc = "${ctx}/oa/oaPoEvaluate/form?fromModal=1";
       var modal = $('#modal');
       modal.find('iframe').attr("src", frameSrc);
       modal.find('.modal-title').html('供应商评价');

@@ -54,12 +54,13 @@ public class OaPoEvaluateController extends BaseController {
 		return "modules/oa/oaPoEvaluateList";
 	}
 
+	@RequestMapping(value = "form")
 	public String form(OaPoEvaluate oaPoEvaluate, Model model) {
 		model.addAttribute("oaPoEvaluate", oaPoEvaluate);
 		return "modules/oa/oaPoEvaluateForm";
 	}
 
-	
+	@RequestMapping(value = "save")
 	public String save(OaPoEvaluate oaPoEvaluate, Model model, RedirectAttributes redirectAttributes) {
 		if (!beanValidator(model, oaPoEvaluate)){
 			return form(oaPoEvaluate, model);
