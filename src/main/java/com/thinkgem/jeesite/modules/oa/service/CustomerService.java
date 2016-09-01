@@ -3,16 +3,15 @@
  */
 package com.thinkgem.jeesite.modules.oa.service;
 
-import java.util.List;
-
+import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.service.CrudService;
+import com.thinkgem.jeesite.modules.oa.dao.CustomerDao;
+import com.thinkgem.jeesite.modules.oa.entity.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.service.CrudService;
-import com.thinkgem.jeesite.modules.oa.entity.Customer;
-import com.thinkgem.jeesite.modules.oa.dao.CustomerDao;
+import java.util.List;
 
 /**
  * 客户信息Service

@@ -450,7 +450,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             if("split_po".equals(taskDefKey)){
                 if(!isFinishSplitPO(contract))
                     throw new Exception("提交失败: 还没有完成拆分po, 不能提交!");
-                contract.setStatus(DictUtils.getDictValue("待审批","oa_contract_status",""));
+                contract.setStatus(DictUtils.getDictValue("待审批(销售)","oa_contract_status",""));
                 saveProducts(contract);
             } else if("business_person_createbill".equals(taskDefKey)){//商务下单
                 if(!isFinishCreateBill(contract))
@@ -475,22 +475,39 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                 contract.setStatus(DictUtils.getDictValue("已完成","oa_contract_status",""));
             } else {
                 if (isNotBlank(flag)) {
-                    //销售审核和技术审核
-                    if ("saler_audit".equals(taskDefKey) || "artisan_audit".equals(taskDefKey)) {
+                    //销售审核
+                    if ("saler_audit".equals(taskDefKey)) {
                         if (pass) {
-                            contract.setStatus(DictUtils.getDictValue("待审批", "oa_contract_status", ""));
+                            contract.setStatus(DictUtils.getDictValue("待审批(技术)", "oa_contract_status", ""));
                         } else {
                             contract.setStatus(DictUtils.getDictValue("已签约", "oa_contract_status", ""));
                         }
 
-                    } else if ("cso_audit".equals(taskDefKey)) {//总监审核
+                    }
+                    else if("artisan_audit".equals(taskDefKey)){//技术审核
+                        if (pass) {
+                            contract.setStatus(DictUtils.getDictValue("待审批(销售总监)", "oa_contract_status", ""));
+                        } else {
+                            contract.setStatus(DictUtils.getDictValue("已签约", "oa_contract_status", ""));
+                        }
+                    }
+                     else if ("cso_audit".equals(taskDefKey)) {//销售总监审核
+                        if (pass) {
+                            actTaskService.claim(contract.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
+                            contract.setStatus(DictUtils.getDictValue("待审批(财务总监)", "oa_contract_status", ""));
+                        } else {
+                            contract.setStatus(DictUtils.getDictValue("待签约", "oa_contract_status", ""));
+                        }
+                    }
+                    else if ("cfo_audit".equals(taskDefKey)) {//财务总监审核
                         if (pass) {
                             actTaskService.claim(contract.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
                             contract.setStatus(DictUtils.getDictValue("待下单", "oa_contract_status", ""));
                         } else {
                             contract.setStatus(DictUtils.getDictValue("待签约", "oa_contract_status", ""));
                         }
-                    } else if ("verify_receiving".equals(taskDefKey)) {//收货验收
+                    }
+                    else if ("verify_receiving".equals(taskDefKey)) {//收货验收
                         if (pass) {
                             contract.setStatus(DictUtils.getDictValue("已验收", "oa_contract_status", ""));
                         } else {
