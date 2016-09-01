@@ -155,6 +155,22 @@
 		WHERE a.name = #{name} and a.del_flag = 0
 	</select>
 
+	<select id="getCustomerByAddress" resultType="Customer">
+		SELECT
+		<include refid="customerColumns"/>
+		FROM oa_customer a
+		<include refid="customerJoins"/>
+		WHERE a.address = #{address} and a.del_flag = 0
+	</select>
+
+	<select id="getCustomerByPhone" resultType="Customer">
+		SELECT
+		<include refid="customerColumns"/>
+		FROM oa_customer a
+		<include refid="customerJoins"/>
+		WHERE a.phone = #{phone} and a.del_flag = 0
+	</select>
+
 	<update id="changeUsedFlag">
 		UPDATE oa_customer SET
 		used_flag = (case used_flag when 1 then 0 else 1 END)

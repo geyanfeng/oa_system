@@ -10,10 +10,14 @@
 			//$("#name").focus();
 			$("#inputForm").validate({
 				rules: {
-					name: {remote: "${ctx}/oa/customer/checkName?oldName=" + encodeURIComponent('${customer.name}')}
+					name: {remote: "${ctx}/oa/customer/checkName?oldName=" + encodeURIComponent('${customer.name}')},
+					address: {remote: "${ctx}/oa/customer/checkAddress?oldAddress=" + encodeURIComponent('${customer.address}')},
+					phone: {remote: "${ctx}/oa/customer/checkPhone?oldPhone=" + encodeURIComponent('${customer.phone}')}
 				},
 				messages: {
-					name: {remote: "客户名称已存在"}
+					name: {remote: "客户名称已存在"},
+					address: {remote: "客户地址已存在"},
+					phone: {remote: "客户联系方式已存在"}
 				},
 				<c:if test="${empty fromModal}">
 					submitHandler: function(form){

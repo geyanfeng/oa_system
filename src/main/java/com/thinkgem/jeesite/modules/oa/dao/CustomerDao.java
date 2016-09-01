@@ -17,4 +17,8 @@ public interface CustomerDao extends CrudDao<Customer> {
 	public Customer getCustomerByName(String name);
 
 	public void changeUsedFlag(Customer customer);
+
+	public Customer getCustomerByAddress(String address);
+
+	public Customer getCustomerByPhone(String phone);
 }

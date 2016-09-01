@@ -55,4 +55,12 @@ public class CustomerService extends CrudService<CustomerDao, Customer> {
 	public void changeUsedFlag(Customer customer) {
 		customerDao.changeUsedFlag(customer);
 	}
+
+	public Customer getCustomerByAddress(String address) {
+		return customerDao.getCustomerByAddress(address);
+	}
+
+	public Customer getCustomerByPhone(String phone) {
+		return customerDao.getCustomerByPhone(phone);
+	}
 }

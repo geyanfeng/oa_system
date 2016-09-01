@@ -3,11 +3,14 @@
  */
 package com.thinkgem.jeesite.modules.oa.web;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.thinkgem.jeesite.common.config.Global;
+import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.oa.entity.Customer;
+import com.thinkgem.jeesite.modules.oa.service.CustomerService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,17 +21,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.thinkgem.jeesite.common.config.Global;
-import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.common.utils.StringUtils;
-import com.thinkgem.jeesite.modules.oa.entity.Customer;
-import com.thinkgem.jeesite.modules.oa.service.CustomerService;
-
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
-import static org.codehaus.plexus.util.StringUtils.isBlank;
 import static org.codehaus.plexus.util.StringUtils.isNotBlank;
 
 /**
@@ -112,12 +109,33 @@ public class CustomerController extends BaseController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequiresPermissions("oa:customer:edit")
 	@RequestMapping(value = "checkName")
 	public String checkName(String oldName, String name) {
 		if (name !=null && name.equals(oldName)) {
 			return "true";
 		} else if (name !=null && customerService.getCustomerByName(name) == null) {
+			return "true";
+		}
+		return "false";
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "checkAddress")
+	public String checkAddress(String oldAddress, String address) {
+		if (address !=null && address.equals(oldAddress)) {
+			return "true";
+		} else if (oldAddress !=null && customerService.getCustomerByAddress(address) == null) {
+			return "true";
+		}
+		return "false";
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "checkPhone")
+	public String checkPhone(String oldPhone, String phone) {
+		if (phone !=null && phone.equals(oldPhone)) {
+			return "true";
+		} else if (phone !=null && customerService.getCustomerByPhone(phone) == null) {
 			return "true";
 		}
 		return "false";
