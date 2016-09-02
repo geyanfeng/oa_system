@@ -13,7 +13,7 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="card-box">
-					<div id="total" style="height: 320px;" class="flot-chart"></div>
+					<div id="total" style="height: 600px;width:600px;margin:0 auto;" class="flot-chart"></div>
 				</div>
 			</div>
 		</div>
@@ -23,17 +23,6 @@
 			option = {
 				tooltip : {
 					formatter : "{a} <br/>{c} {b}"
-				},
-				toolbox : {
-					show : true,
-					feature : {
-						restore : {
-							show : true
-						},
-						saveAsImage : {
-							show : true
-						}
-					}
 				},
 				series : [ {
 					name : '速度',
@@ -74,7 +63,7 @@
 					},
 					data : [ {
 						value : 40,
-						name : 'km/h'
+						name : '本季度'
 					} ]
 				}, {
 					name : '转速',
@@ -238,11 +227,12 @@
 					title : {
 						text : '来单情况'
 					},
+					color:['#57c5a5','#dedede'],
 					tooltip : {
 						trigger : 'axis'
 					},
 					legend : {
-						data : [ '邮件营销', '联盟广告', '视频广告' ]
+						data : [ '实际', '预测' ]
 					},
 					grid : {
 						left : '3%',
@@ -253,13 +243,13 @@
 					xAxis : [ {
 						type : 'category',
 						boundaryGap : false,
-						data : [ '周一', '周二', '周三', '周四', '周五', '周六', '周日' ]
+						data : [ '0', '1', '2', '3', '4', '5', '6' ]
 					} ],
 					yAxis : [ {
 						type : 'value'
 					} ],
 					series : [ {
-						name : '邮件营销',
+						name : '实际',
 						type : 'line',
 						stack : '总量',
 						areaStyle : {
@@ -267,22 +257,14 @@
 						},
 						data : [ 120, 132, 101, 134, 90, 230, 210 ]
 					}, {
-						name : '联盟广告',
+						name : '预测',
 						type : 'line',
 						stack : '总量',
 						areaStyle : {
 							normal : {}
 						},
 						data : [ 220, 182, 191, 234, 290, 330, 310 ]
-					}, {
-						name : '视频广告',
-						type : 'line',
-						stack : '总量',
-						areaStyle : {
-							normal : {}
-						},
-						data : [ 150, 232, 201, 154, 190, 330, 410 ]
-					} ]
+					}]
 				};
 				website_stats.setOption(option);
 			</script>
@@ -310,32 +292,27 @@
 					trigger : 'item',
 					formatter : "{a} <br/>{b} : {c} ({d}%)"
 				},
+				color:['#57c5a5','#79d1b7','#9adcc9'],
 				legend : {
 					orient : 'vertical',
 					left : 'right',
-					data : [ '直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎' ]
+					data : [ '已签约', '已验收', '已完成' ]
 				},
 				series : [ {
-					name : '访问来源',
+					name : '当季度合同状态',
 					type : 'pie',
 					radius : '55%',
 					center : [ '50%', '60%' ],
 					data : [ {
 						value : 335,
-						name : '直接访问'
+						name : '已签约'
 					}, {
 						value : 310,
-						name : '邮件营销'
+						name : '已验收'
 					}, {
 						value : 234,
-						name : '联盟广告'
-					}, {
-						value : 135,
-						name : '视频广告'
-					}, {
-						value : 1548,
-						name : '搜索引擎'
-					} ],
+						name : '已完成'
+					}],
 					itemStyle : {
 						emphasis : {
 							shadowBlur : 10,
@@ -365,6 +342,7 @@
 					title : {
 						text : '应收实收情况'
 					},
+					color:['#45b0e2','#57c5a5'],
 					tooltip : {
 						trigger : 'axis',
 						axisPointer : {
@@ -386,16 +364,16 @@
 					},
 					yAxis : {
 						type : 'category',
-						data : [ '巴西', '印尼', '美国', '印度', '中国', '世界人口(万)' ]
+						data : [ '上期', '本期', ]
 					},
 					series : [ {
-						name : '2011年',
+						name : '应收',
 						type : 'bar',
-						data : [ 18203, 23489, 29034, 104970, 131744, 630230 ]
+						data : [ 18203, 23489]
 					}, {
-						name : '2012年',
+						name : '实收',
 						type : 'bar',
-						data : [ 19325, 23438, 31000, 121594, 134141, 681807 ]
+						data : [ 19325, 23438]
 					} ]
 				};
 				income_stats.setOption(option);
@@ -424,10 +402,11 @@
 				legend : {
 					orient : 'vertical',
 					x : 'right',
-					data : [ '直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎' ]
+					data : [ 'K1', 'K2', 'K3', 'K4', 'K5' ]
 				},
+				color : ['#4eb194','#57c5a5','#79d1b7','#9adcc9','#caede3'],
 				series : [ {
-					name : '访问来源',
+					name : '当季度合同状态',
 					type : 'pie',
 					radius : [ '50%', '70%' ],
 					avoidLabelOverlap : false,
@@ -451,19 +430,19 @@
 					},
 					data : [ {
 						value : 335,
-						name : '直接访问'
+						name : 'K1'
 					}, {
 						value : 310,
-						name : '邮件营销'
+						name : 'K2'
 					}, {
 						value : 234,
-						name : '联盟广告'
+						name : 'K3'
 					}, {
 						value : 135,
-						name : '视频广告'
+						name : 'K4'
 					}, {
 						value : 1548,
-						name : '搜索引擎'
+						name : 'K5'
 					} ]
 				} ]
 			};
