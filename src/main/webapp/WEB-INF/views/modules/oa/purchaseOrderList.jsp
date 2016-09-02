@@ -144,7 +144,9 @@
 								   onclick="return confirmx('确认要删除该订单吗吗？', this.href)">删除</a>
 							</c:if>
 						</shiro:hasPermission>
-						<a href="#" onclick="supplierEvaluation(this)">供应商评价</a>
+						<c:if test="${purchaseOrder.evaluateFlag eq '0'}">
+						<a href="#" onclick="supplierEvaluation('${purchaseOrder.id}')">供应商评价</a>
+						</c:if>
 					</td>
 
 				</tr>
@@ -173,13 +175,18 @@
 </div>
   <script type="text/javascript">
   //供应商评价
-  function supplierEvaluation(sender){
-      var frameSrc = "${ctx}/oa/oaPoEvaluate/form?fromModal=1";
+  function supplierEvaluation(id){
+      var frameSrc = "${ctx}/oa/oaPoEvaluate/form?poid=" + id;
       var modal = $('#modal');
       modal.find('iframe').attr("src", frameSrc);
       modal.find('.modal-title').html('供应商评价');
       modal.modal({show: true, backdrop: 'static'});
   }
+   //关闭框架合同选择框,并设置相关的值
+	function closeSupplierEvaluatioModal() {
+		$('#modal').modal('hide');
+		window.location.reload();
+	}
   </script>
 </body>
 </html>
