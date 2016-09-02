@@ -13,10 +13,10 @@
 			<!-- LOGO -->
 			 <!-- LOGO -->
                 <div class="topbar-left">
-                    <div class="text-center">
+                    <div class="text-center"  style="padding-top:10px;height:40px;">
                         <a href="${ctx}" class="logo">
-                           <span><img src="${ctxStatic}/images/logo.png" alt="logo" style="height: 26px;"></span>
-                            <i class="zmdi zmdi-toys icon-c-logo"></i><span>精鲲协同系统</span>
+                           <span><img src="${ctxStatic}/images/logo.png" alt="logo" style="height: 26px;vertical-align:0px;"></span>
+                            <i class="zmdi zmdi-toys icon-c-logo"></i><span>Born to be pround</span>
                           
                         </a>
                     </div>
@@ -53,7 +53,7 @@
 								<DIV class="notification-box">
 									<UL class="list-inline m-b-0">
 										<LI><A class=""
-											href="javascript:void(0);"><i class="ti-email" style="font-size:20px;line-height:60px;"></I> </A>
+											href="javascript:void(0);"><i class="zmdi zmdi-email"></I> </A>
 											<DIV class="noti-dot">
 												<SPAN class="dot"></SPAN> <SPAN class="pulse"></SPAN>
 											</DIV></LI>
@@ -77,7 +77,7 @@
 								<DIV class="notification-box">
 									<UL class="list-inline m-b-0">
 										<LI><A class=""
-											href="javascript:void(0);"><i class="fa fa-hourglass-o" style="font-size:20px;line-height:60px;"></I> </A>
+											href="javascript:void(0);"><i class="zmdi zmdi-hourglass-outline"></I> </A>
 											<DIV class="noti-dot">
 												<SPAN class="dot"></SPAN> <SPAN class="pulse"></SPAN>
 											</DIV></LI>

@@ -22,11 +22,8 @@ File: Menu
 }
 .logo {
   color: #ffffff !important;
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: .05em;
+  font-size: 12px;
   line-height: 60px;
-  text-transform: uppercase;
 }
 .logo h1 {
   height: 50px;
