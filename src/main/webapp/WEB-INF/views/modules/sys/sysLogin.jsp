@@ -10,11 +10,11 @@
       .header{height:80px;padding-top:20px;} .alert{position:relative;width:300px;margin:0 auto;*padding-bottom:0px;}
       label.error{background:none;width:270px;font-weight:normal;color:inherit;margin:0;}
       #messageBox {color:rgb(240, 165, 164);border-color: rgb(240, 165, 164); padding: 5px; text-align: center;}
-	  body{background-image: url("${ctxStatic}/images/login-bg.jpg");}
+	  body{background-image: url("${ctxStatic}/images/login-bg.jpg");background-size:cover;}
 			html, body{
 				height:100%;
 			}
-		.wrapper-page{background:rgba(255,255,255,.2);width:420px;padding:10px 20px;margin:0 auto;}
+		.wrapper-page{background:rgba(255,255,255,.15);width:420px;padding:10px 20px;margin:0 auto;}
 		.card-box{padding:0;}
 		.panel-body{padding:0;}
 		.form-group{border-bottom:1px solid #dedede;}
@@ -78,7 +78,7 @@
 								placeholder="密码">
 						</DIV>
 					</DIV>
-					<DIV class="form-group" style="border:none;">
+					<DIV class="form-group" style="display:none;">
 						<DIV class="col-xs-12">
 							<DIV class="checkbox checkbox-custom">
 								<INPUT id="checkbox-signup" type="checkbox" id="rememberMe" name="rememberMe" ${rememberMe ? 'checked' : ''}> <LABEL
@@ -86,16 +86,17 @@
 							</DIV>
 						</DIV>
 					</DIV>
-					<c:if test="${isValidateCodeLogin}">
-					<DIV class="form-group ">
+					
+					<DIV class="form-group" style="border:none;">
 						<DIV class="col-xs-12">
 							<div class="validateCode">
+							<i class="fa fa-shield"></i>
 			                 <label for="validateCode">验证码</label>
 			                   <sys:validateCode name="validateCode" inputCssStyle="margin-bottom:0;display:inline;"/>
 		                     </div>
 						</DIV>
 					</DIV>
-					</c:if>
+					
 					
 				
 				
@@ -106,7 +107,7 @@
 			
 		</DIV>
 		<BUTTON
-								class="btn btn-success btn-block"
+								class="btn btn-custom btn-block"
 								type="submit">Login</BUTTON>
 		</FORM>
 		<!-- end card-box -->
