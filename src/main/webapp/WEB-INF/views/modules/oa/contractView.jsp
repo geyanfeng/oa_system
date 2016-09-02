@@ -267,7 +267,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-4">
-                    我司抬头：${contract.companyName}
+                    我司抬头：${fns:getDictLabel(contract.companyName,"oa_company_name","")}
                 </div>
                 <div class="col-sm-4">
                     地址：${contract.invoiceAddress}
