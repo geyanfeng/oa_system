@@ -625,8 +625,8 @@ a.editable-click:hover {
 }
 .logo-alt-box .logo {
   float: none;
-  color: #435966 !important;
-  font-size: 24px;
+  color: #fff !important;
+  font-size: 18px;
   letter-spacing: .06em;
   line-height: 46px;
 }

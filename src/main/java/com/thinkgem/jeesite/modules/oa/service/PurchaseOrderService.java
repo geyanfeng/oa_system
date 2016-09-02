@@ -221,7 +221,7 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 		}
 		purchaseOrderProductDao.delete(new PurchaseOrderProduct(purchaseOrder));
 		if(isNotBlank(purchaseOrder.getProcInsId())){
-			runtimeService.suspendProcessInstanceById(purchaseOrder.getProcInsId());
+			runtimeService.deleteProcessInstance(purchaseOrder.getProcInsId(),"");
 		}
 	}
 
