@@ -17,6 +17,7 @@
 		a.create_by AS "createBy.id",
 		a.sort AS "sort",
 		a.product_type AS "productType.id",
+		a.service_flag AS "serviceFlag",
  		c.name AS "productType.name",
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
@@ -93,6 +94,7 @@
 			amount,
 			remark,
 			product_type,
+			service_flag,
 			del_flag,
 			create_by,
 			sort,
@@ -110,6 +112,7 @@
 			#{amount},
 			#{remark},
 			#{productType.id},
+			#{serviceFlag},
 			#{delFlag},
 			#{createBy.id},
 			#{sort},
@@ -132,6 +135,7 @@
 			has_send_num = #{hasSendNum},
 			sort = #{sort},
 			product_type = #{productType.id},
+			service_flag = #{serviceFlag},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate}
 		WHERE id = #{id}
