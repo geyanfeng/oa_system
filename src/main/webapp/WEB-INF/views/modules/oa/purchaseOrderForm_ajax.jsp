@@ -164,14 +164,14 @@
 								{{row.name}}
 							</td>
 							<td>
-								<input id="purchaseOrderProductList{{idx}}_num" name="purchaseOrderProductList[{{idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="form-control number input-block required input-sm" onchange="updatePriceAmount(this);" style="display:inline-block"/>
+								<input id="purchaseOrderProductList{{idx}}_num" name="purchaseOrderProductList[{{idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="form-control number input-block required input-sm" onchange="updateSumAmount(this);" style="display:inline-block"/>
 							</td>
 							<td>
 							    {{row.unitName}}
 								<input id="purchaseOrderProductList{{idx}}_unit" name="purchaseOrderProductList[{{idx}}].unit" type="hidden" value="{{row.unitId}}"/>
 							</td>
 							<td>
-								<input id="purchaseOrderProductList{{idx}}_price" name="purchaseOrderProductList[{{idx}}].price" type="text" value="{{row.price}}" class="form-control number input-block required input-sm" onchange="updatePriceAmount(this);" style="display:inline-block"/>
+								<input id="purchaseOrderProductList{{idx}}_price" name="purchaseOrderProductList[{{idx}}].price" type="text" value="{{row.price}}" class="form-control number input-block required input-sm" onchange="updateSumAmount(this);" style="display:inline-block"/>
 							</td>
 							<td>元</td>
 							<shiro:hasPermission name="oa:contract:edit"><td class="text-center" width="10">
@@ -182,6 +182,7 @@
         </script>
         <script type="text/javascript">
             var poProductRowIdx = 0, poProductTpl = $("#poProductTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
+            var sumAmount = ${not empty purchaseOrder.amount? purchaseOrder.amount: 0 };
             $(document).ready(function () {
                 var data = ${fns:toJson(purchaseOrder.purchaseOrderProductList)};
                 for (var i = 0; i < data.length; i++) {
@@ -261,7 +262,14 @@
                 deleteRow.remove();
             }
 
-            function updatePriceAmount(){}
+            //更新总金额
+            function updateSumAmount(sender){
+                var row = $(sender).closest('tr');
+                var price = row.find("input[id$='_price']").val();
+                var num = row.find("input[id$='_num']").val();
+                if(price && num)
+                    sumAmount = sumAmount + price * num;
+            }
         </script>
     </div>
 
@@ -299,12 +307,12 @@
     <div class="row" style=" margin-left:-10px; margin-top:10px;" id="payment-installment_{{idx}}" data-idx="{{idx}}">
         <div style="background: #f5f5f5;width:80%;float:left; padding: 10px;">
             <div>
-            付款金额：
-                    <input type="text" class="form-control required number input-sm" id="payment_installment_amount_{{idx}}"
-                           value="{{row.payment_installment_amount}}" style="display: inline;width:100px;"/>
-            账期：
-                    <input id="payment_installment_time_{{idx}}" type="text" class="form-control required number input-sm"
-                           value="{{row.payment_installment_time}}" style="display: inline;width:100px;" onchange="updateRll()"/>
+            金额：<input type="text" class="form-control required number input-sm" id="payment_installment_amount_{{idx}}" onchange="updatePayment(this);"
+                           value="{{row.payment_installment_amount}}" style="display: inline;width:90px;"/>
+            比例：<input type="text" class="form-control required number input-sm" id="payment_installment_bl_{{idx}}" onchange="updatePayment(this);"
+                           value="{{row.payment_installment_bl}}" style="display: inline;width:70px;"/>
+            账期：<input id="payment_installment_time_{{idx}}" type="text" class="form-control required number input-sm"
+                           value="{{row.payment_installment_time}}" style="display: inline;width:50px;" onchange="updateRll()"/>
             </div>
             <div style="padding-top: 10px;">
                 <span style="margin-right:17px;">付款方式：</span>
@@ -416,6 +424,7 @@
                 var row = $(item);
                 var detail = {
                     payment_installment_amount: row.find("input[id^='payment_installment_amount']").val(),
+                    payment_installment_bl: row.find("input[id^='payment_installment_bl']").val(),
                     payment_installment_time :row.find("input[id^='payment_installment_time']").val(),
                     payment_installment_paymentMethod :row.find("input[id^='payment_installment_paymentMethod']:checked").val(),
                     payment_installment_activeDate: row.find("input[id^='payment_installment_activeDate']").val()
@@ -423,6 +432,18 @@
                 paymentDetail.push(detail);
             });
             return paymentDetail;
+        }
+
+        function updatePayment(sender){
+            var row = $(sender).closest('.row');
+            var amountField = row.find("input[id^='payment_installment_amount']");
+            var blField = row.find("input[id^='payment_installment_bl']")
+
+            if($(sender).prop("id").indexOf("payment_installment_amount")>=0){
+                blField.val(((parseFloat(amountField.val())/sumAmount) * 100).toFixed(2));
+            } else{
+                amountField.val(sumAmount * ((parseFloat(blField.val()))/100));
+            }
         }
     </script>
 
