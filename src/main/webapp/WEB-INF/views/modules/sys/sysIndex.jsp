@@ -141,7 +141,7 @@
 								<li class="has_sub ${not empty firstMenu && firstMenu ? ' active' : ''}">
 									<c:if test="${empty menu.href}">
 									    <A class="waves-effect ${not empty firstMenu && firstMenu ? ' active' : ''}"
-							href="javascript:void(0);"><I class="icon-${not empty menu.icon ? menu.icon : 'zmdi-view-dashboard'} ti-share"></I><SPAN>${menu.name}</SPAN></A>
+							href="javascript:void(0);"><I class="zmdi zmdi-${not empty menu.icon ? menu.icon : 'view-dashboard'} ti-share"></I><SPAN>${menu.name}</SPAN></A>
 									</c:if>
 										   <UL>
 							<c:forEach items="${menuList}" var="menu2">

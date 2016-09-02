@@ -3,16 +3,16 @@
 <%@ attribute name="id" type="java.lang.String" required="true" description="编号"%>
 <%@ attribute name="name" type="java.lang.String" required="true" description="输入框名称"%>
 <%@ attribute name="value" type="java.lang.String" required="true" description="输入框值"%>
-<i id="${id}Icon" class="icon-${not empty value?value:' hide'}"></i>&nbsp;<label id="${id}IconLabel">${not empty value?value:'无'}</label>&nbsp;
+<i id="${id}Icon" class="zmdi zmdi-${not empty value?value:' hide'}"></i>&nbsp;<label id="${id}IconLabel">${not empty value?value:'无'}</label>&nbsp;
 <input id="${id}" name="${name}" type="hidden" value="${value}"/><a id="${id}Button" href="javascript:" class="btn">选择</a>&nbsp;&nbsp;
 <script type="text/javascript">
 	$("#${id}Button").click(function(){
 		top.$.jBox.open("iframe:${ctx}/tag/iconselect?value="+$("#${id}").val(), "选择图标", 700, $(top.document).height()-180, {
             buttons:{"确定":"ok", "清除":"clear", "关闭":true}, submit:function(v, h, f){
                 if (v=="ok"){
-                	var icon = h.find("iframe")[0].contentWindow.$("#icon").val();
-                	icon = $.trim(icon).substr(5);
-                	$("#${id}Icon").attr("class", "icon-"+icon);
+                	var icon = $.trim(h.find("iframe")[0].contentWindow.$("#icon").val());
+                	
+                	$("#${id}Icon").attr("class", "zmdi zmdi-"+icon);
 	                $("#${id}IconLabel").text(icon);
 	                $("#${id}").val(icon);
                 }else if (v=="clear"){
