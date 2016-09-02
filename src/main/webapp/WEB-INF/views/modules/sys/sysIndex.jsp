@@ -50,6 +50,17 @@
 						</FORM>--%>
 						<UL class="nav navbar-nav navbar-right pull-right">
 							<LI>
+								<DIV class="notification-box">
+									<UL class="list-inline m-b-0">
+										<LI><A class=""
+											href="javascript:void(0);"><i class="ti-email" style="font-size:20px;line-height:60px;"></I> </A>
+											<DIV class="noti-dot">
+												<SPAN class="dot"></SPAN> <SPAN class="pulse"></SPAN>
+											</DIV></LI>
+									</UL>
+								</DIV>				
+							</LI>
+							<LI>
 								<!-- Notification -->
 								<DIV class="notification-box">
 									<UL class="list-inline m-b-0">
@@ -62,7 +73,25 @@
 									</UL>
 								</DIV> <!-- End Notification bar -->
 							</LI>
-							<LI class="dropdown user-box"><A
+							<LI>
+								<DIV class="notification-box">
+									<UL class="list-inline m-b-0">
+										<LI><A class=""
+											href="javascript:void(0);"><i class="fa fa-hourglass-o" style="font-size:20px;line-height:60px;"></I> </A>
+											<DIV class="noti-dot">
+												<SPAN class="dot"></SPAN> <SPAN class="pulse"></SPAN>
+											</DIV></LI>
+									</UL>
+								</DIV>				
+							</LI>
+							
+							
+							<LI>
+								<A href="${ctx}/logout" title="退出登录"><i class="zmdi zmdi-power" style="font-size:24px;line-height:60px;"></i></A>
+											
+							</LI>
+                          	
+							<%--<LI class="dropdown user-box"><A
 								class="dropdown-toggle waves-effect waves-light profile "
 								aria-expanded="true"
 								href="#"
@@ -80,7 +109,7 @@
 											class="ti-settings m-r-5"></I>修改密码</A></LI>
 									<LI><A href="${ctx}/logout" title="退出登录"><I
 											class="ti-power-off m-r-5"></I> 退出</A></LI>
-								</UL></LI>
+								</UL></LI>--%>
 						</UL>
 					</DIV>
 					<!--/.nav-collapse -->
@@ -94,8 +123,8 @@
 		<div class="text-center">
                     
                     <div class="user-thumb m-t-20">
-                        <img src="${not empty fns:getUser().photo ? fns:getUser().photo : 'static/images/tx.jpg'}" style="width:65px;height:65px;padding:1px;" class="img-responsive img-circle img-thumbnail"
-                             alt="thumbnail">
+                        <A href="${ctx}/sys/user/info" target="mainFrame"><img src="${not empty fns:getUser().photo ? fns:getUser().photo : 'static/images/tx.jpg'}" style="width:65px;height:65px;padding:1px;" class="img-responsive img-circle img-thumbnail"
+                             alt="thumbnail"></A>
                     </div>
                     <h5 class="text-uppercase font-bold m-b-0" style="color:white;">Hi, ${fns:getUser().name}</h5>
                 </div>
