@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.oa.web;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -107,20 +108,17 @@ public class OaPoEvaluateController extends BaseController {
 				if (purchaseOrder == null) {
 					msg = "订单不存在";
 				} else {
-					Contract contract = purchaseOrder.getContract();
+					Contract contract = contractService.get(purchaseOrder
+							.getContract().getId());
 					if (contract == null) {
 						msg = "合同不存在";
 					} else {
 						if (contract.getBusinessPerson() == null) {
 							msg = "商务人员不存在";
 						} else {
-							if (contract.getBusinessPerson().getId() != UserUtils
-									.getUser().getId()) {
-								msg = "只有合同指定的商务人员才能评价";
-							} else {
-								OaPoEvaluate ev = oaPoEvaluateService
-										.get(oaPoEvaluate);
-								if (ev == null) {
+							if (UserUtils.getUser().getId().equals(contract.getBusinessPerson().getId())) {
+								List<OaPoEvaluate> ev = oaPoEvaluateService.findList(oaPoEvaluate);
+								if (ev.size() == 0) {
 									msg = "保存数据失败";
 									oaPoEvaluateService.save(oaPoEvaluate);
 									purchaseOrder.setEvaluateFlag("1");
@@ -130,7 +128,9 @@ public class OaPoEvaluateController extends BaseController {
 									map.put("data", oaPoEvaluate);
 								} else {
 									msg = "订单只能评价一次";
-								}
+								}							
+							} else {
+								msg = "只有合同指定的商务人员才能评价";
 							}
 						}
 					}

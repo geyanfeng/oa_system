@@ -144,7 +144,9 @@
 								   onclick="return confirmx('确认要删除该订单吗吗？', this.href)">删除</a>
 							</c:if>
 						</shiro:hasPermission>
+						<c:if test="${purchaseOrder.evaluateFlag eq '0'}">
 						<a href="#" onclick="supplierEvaluation('${purchaseOrder.id}')">供应商评价</a>
+						</c:if>
 					</td>
 
 				</tr>
