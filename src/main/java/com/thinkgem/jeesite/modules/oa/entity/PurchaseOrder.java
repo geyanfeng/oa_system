@@ -5,6 +5,7 @@ package com.thinkgem.jeesite.modules.oa.entity;
 
 import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.common.persistence.ActEntity;
+
 import org.hibernate.validator.constraints.Length;
 
 import java.util.Date;
@@ -31,6 +32,7 @@ public class PurchaseOrder extends ActEntity<PurchaseOrder> {
 	private String status;		// 订单状态
 	private Date beginCreateDate;		// 开始 日期
 	private Date endCreateDate;		// 结束 日期
+	protected String evaluateFlag; 	// 评价标记（0：未评价；1：已评价）
 	private List<PurchaseOrderProduct> purchaseOrderProductList = Lists.newArrayList();		// 子表列表
 	private List<PurchaseOrderAttachment> purchaseOrderAttachmentList = Lists.newArrayList();		// 子表列表
 	private List<PurchaseOrderFinance> purchaseOrderFinanceList = Lists.newArrayList();
@@ -43,6 +45,15 @@ public class PurchaseOrder extends ActEntity<PurchaseOrder> {
 		super(id);
 	}
 
+	@Length(min=1, max=1)
+	public String getEvaluateFlag() {
+		return evaluateFlag;
+	}
+
+	public void setEvaluateFlag(String evaluateFlag) {
+		this.evaluateFlag = evaluateFlag;
+	}
+	
 	public String getStatus() {
 		return status;
 	}

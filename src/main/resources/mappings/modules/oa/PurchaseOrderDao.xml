@@ -21,6 +21,7 @@
 		a.update_date AS "updateDate",
 		a.amount AS "amount",
 		a.status AS "status",
+		a.evaluate_flag AS "evaluateFlag",
 		a9.name AS "supplier.name",
 		a10.name AS "contract.name",
 		a10.no AS "contract.no",
@@ -136,7 +137,8 @@
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
 			amount = #{amount},
-			status = #{status}
+			status = #{status},
+			evaluate_flag =  #{evaluateFlag}
 		WHERE id = #{id}
 	</update>
 	
