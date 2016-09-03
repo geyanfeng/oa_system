@@ -267,7 +267,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-4">
-                    我司抬头：${contract.companyName}
+                    我司抬头：${fns:getDictLabel(contract.companyName,"oa_company_name","")}
                 </div>
                 <div class="col-sm-4">
                     地址：${contract.invoiceAddress}
@@ -320,16 +320,18 @@
 								<input id="contractProductList{{idx}}_amount" name="contractProductList[{{idx}}].amount" type="hidden" value="{{row.amount}}"/>
 								<input id="contractProductList{{idx}}_remark" name="contractProductList[{{idx}}].remark" type="hidden" value="{{row.remark}}"/>
 								<input id="contractProductList{{idx}}_hasSendNum" name="contractProductList[{{idx}}].hasSendNum" type="hidden" value="{{row.hasSendNum}}"/>
+								<input id="contractProductList{{idx}}_serviceFlag" name="contractProductList[{{idx}}].serviceFlag"  type="hidden" value="{{row.serviceFlag}}"/>
 							</td>
 							<td>
 								<span>{{row.name}}</span>
 								<c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true'}">
-                                    <select id="contractProductList{{idx}}_productType" name="contractProductList[{{idx}}].productType" data-value="{{row.productType.id}}" class="form-control input-block required input-sm" style="width: 40%;display: inline-block;">
+                                    <select id="contractProductList{{idx}}_productType" name="contractProductList[{{idx}}].productType" data-value="{{row.productType.id}}" class="form-control input-block required input-sm" style="width: 40%;display: inline-block;" onchange="checkService(this);">
                                         <c:forEach items="${productTypeList}" var="dict">
                                             <option value="${dict.id}">${dict.name}</option>
                                         </c:forEach>
                                     </select>
 							        <a href="javascript:" class="fa fa-plus" onclick="addNewChildRow(this)"></a>
+							        <span style="{{serviceSpanStyle}}" id="contractProductList{{idx}}_serviceFlag_span"><input type="checkbox" value=1 {{serviceChecked}} onclick="selectServiceFlag(this);"/>是否为服务</span>
                                 </c:if>
 							</td>
 							<td>
@@ -376,6 +378,7 @@
                                 </c:if>
 								<span>{{row.name}}</span>
 								 <span style="margin-left:50px;">{{row.productType.name}}</span>
+                                <span style="margin-left:50px;">{{isServiceText}}</span>
 							</td>
 							<td>
 								{{row.price}}
@@ -581,7 +584,13 @@
                         row.json = JSON.stringify(row);
                     </c:if>
                     $(list).append(Mustache.render(tpl, {
-                        idx: idx, delBtn: true, row: row, unitList:unitList
+                        idx: idx, delBtn: true, row: row, unitList:unitList, isServiceText: function(){
+                            return row.serviceFlag == 1? "服务":"";
+                        }, serviceChecked: function(){
+                            return row.serviceFlag == 1? "checked":"";
+                        },serviceSpanStyle: function(){
+                            return row.serviceFlag == 1? "":"display:none";
+                        }
                     }));
                     $(list + idx).find("select").each(function () {
                         $(this).val($(this).attr("data-value"));
@@ -737,7 +746,8 @@
                             unit: tr.find("#" + tdPref + "unit").val(),
                             amount: tr.find("#" + tdPref + "amount").val(),
                             remark: tr.find("#" + tdPref + "remark").val(),
-                            hasSendNum: tr.find("#" + tdPref + "hasSendNum").val()
+                            hasSendNum: tr.find("#" + tdPref + "hasSendNum").val(),
+                            serviceFlag: tr.find("#" + tdPref + "serviceFlag").val()
                         };
                         product.productType.id=tr.find("#" + tdPref + "productType").val();
                         product.productType.name=tr.find("#" + tdPref + "productType").find("option:selected").text();
@@ -812,6 +822,22 @@
                 {
                     var reg = /[1-9]\d*/;
                     return reg.test(a);
+                }
+
+                //检查是否为服务
+                function checkService(sender){
+                    var self= $(sender);
+                    var selectedText = self.find("option:selected").text();
+                    if(selectedText.indexOf("自有服务")>=0){
+                        self.closest('tr').find("[id$='serviceFlag_span']").show();
+                    } else{
+                        self.closest('tr').find("[id$='serviceFlag_span']").hide();
+                    }
+                }
+
+                function selectServiceFlag(sender){
+                    var self= $(sender);
+                    self.closest('tr').find("input[name$='.serviceFlag']").val(self.is(':checked')?1:0);
                 }
             </script>
         </div>
