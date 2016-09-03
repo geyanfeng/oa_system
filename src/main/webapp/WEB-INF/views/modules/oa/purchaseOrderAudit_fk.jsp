@@ -112,6 +112,7 @@
                 </div>
             </div>
             <div class="row">
+                <!--供应商却少银行帐号设置-->
                 <div class="col-sm-6">
                     帐户名称：
                 </div>
