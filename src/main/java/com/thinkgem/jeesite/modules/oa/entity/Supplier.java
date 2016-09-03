@@ -4,19 +4,24 @@
 package com.thinkgem.jeesite.modules.oa.entity;
 
 import org.hibernate.validator.constraints.Length;
+import javax.validation.constraints.NotNull;
 
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 
 /**
  * 供应商信息Entity
  * @author anthony
- * @version 2016-07-25
+ * @version 2016-09-03
  */
 public class Supplier extends DataEntity<Supplier> {
 	
 	private static final long serialVersionUID = 1L;
 	private String name;		// 名称
 	private String remark;		// 备注
+	private Double shippingSpeed;		// shipping_speed
+	private Double communicationEfficiency;		// communication_efficiency
+	private Double productQuality;		// product_quality
+	private Double serviceAttitude;		// service_attitude
 	
 	public Supplier() {
 		super();
@@ -42,6 +47,42 @@ public class Supplier extends DataEntity<Supplier> {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+	
+	@NotNull(message="shipping_speed不能为空")
+	public Double getShippingSpeed() {
+		return shippingSpeed;
+	}
+
+	public void setShippingSpeed(Double shippingSpeed) {
+		this.shippingSpeed = shippingSpeed;
+	}
+	
+	@NotNull(message="communication_efficiency不能为空")
+	public Double getCommunicationEfficiency() {
+		return communicationEfficiency;
+	}
+
+	public void setCommunicationEfficiency(Double communicationEfficiency) {
+		this.communicationEfficiency = communicationEfficiency;
+	}
+	
+	@NotNull(message="product_quality不能为空")
+	public Double getProductQuality() {
+		return productQuality;
+	}
+
+	public void setProductQuality(Double productQuality) {
+		this.productQuality = productQuality;
+	}
+	
+	@NotNull(message="service_attitude不能为空")
+	public Double getServiceAttitude() {
+		return serviceAttitude;
+	}
+
+	public void setServiceAttitude(Double serviceAttitude) {
+		this.serviceAttitude = serviceAttitude;
 	}
 	
 }
