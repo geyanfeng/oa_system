@@ -92,6 +92,9 @@ public class ContractController extends BaseController {
 		Page<Contract> page = contractService.findPage(new Page<Contract>(request, response), contract); 
 		model.addAttribute("page", page);
 		model.addAttribute("isSelect", isSelect);//是否为框架合同选择列表
+		//获取所有客户
+		List<Customer> customerList = customerService.findList(new Customer());
+		model.addAttribute("customerList", customerList);
 		if(contract.getContractType().equals("1"))
 			view = "contractList_kj";
 		return "modules/oa/"+view;
