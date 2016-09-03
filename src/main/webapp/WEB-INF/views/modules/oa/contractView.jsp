@@ -6,11 +6,14 @@
     <meta name="decorator" content="default"/>
     <style>
         .panel-body .row{
-            padding-top: 10px;
+            padding: 10px;
+            margin:0;
         }
         .panel-body .row:not(:last-child){
-            border-bottom: 1px solid;
-            padding-bottom: 10px;
+            border-bottom: 1px solid #dcdcdc;
+        }
+        .panel .panel-body {
+        	padding:0;
         }
         .productChildTable>tbody>tr>td{
             border: 1px solid transparent !important;
@@ -24,6 +27,12 @@
             position: relative;
             top: -150px;
             visibility: hidden;
+        }
+        .table tr th:nth-child(2),.table tr td:nth-child(2){
+        	padding-left:20px;
+        }
+        .table{
+        	margin-bottom:0;
         }
     </style>
     <script>
@@ -172,7 +181,7 @@
 </div>
 
 <div class="col-sm-12">
-
+	<div class="container">
     <div class="row m-b-20" style="margin-top: 80px !important;">
         <div class="col-sm-3">
             合同编号：${contract.no}
@@ -184,7 +193,7 @@
             合同状态: <span class="btn-warning waves-effect waves-light btn-sm">${fns:getDictLabel(contract.status, "oa_contract_status","" )}</span>
         </div>
     </div>
-
+	</div>
     <!--合同信息-->
     <a class="anchor" name="panel-1"></a>
     <div class="panel panel-default" id="panel-baseInfo">
@@ -851,6 +860,7 @@
             <table id="poTable" class="table table-striped table-condensed table-hover">
                 <thead>
                 <tr role="row">
+                	<th class="hidden"></th>
                     <th>订单编号</th>
                     <th>供应商</th>
                     <th>金额</th>
@@ -865,6 +875,7 @@
             </table>
             <script type="text/template" id="poViewTpl">//<!--
 						<tr role="row" data-id="{{row.id}}">
+							<td class="hidden"></td>
 							<td>
 							   <a href="${ctx}/oa/purchaseOrder/view?id={{row.id}}">{{row.no}}</a>
 							</td>
@@ -1085,7 +1096,7 @@
                         </div>
 
                     </div>
-                    <div class="row form-inline" style="margin-top:10px;">
+                    <div class="row form-inline">
                         <div class="form-group">
                             <label class="control-label">快递单号：</label>
                             <form:input path="shipEms" htmlEscape="false" class="form-control  input-sm" size="60"/>
@@ -1110,7 +1121,7 @@
                         </div>
 
                     </div>
-                    <div class="row" style="margin-top:10px;">
+                    <div class="row">
                         <div class="col-sm-6">
                             快递单号：${contract.shipEms}
                         </div>
@@ -1177,7 +1188,7 @@
                         </td>
                         <td>
                                 ${fns:getDictLabel(attachment.type, 'oa_contract_attachment_type', '')}
-                            <a href="#" title="上传文档" class="zmdi zmdi-upload pull-right"
+                            <a href="#" title="上传文档" class="fa fa-cloud-upload text-custom" style="margin-left:10px;font-size:18px;"
                                onclick="files${status.index}FinderOpen();"></a>
                             <input id="contractAttachmentList${status.index}_type"
                                    name="contractAttachmentList[${status.index}].type" type="hidden"
@@ -1247,8 +1258,8 @@
     </div>
 
     <div class="form-group">
-        <div class="col-sm-offset-4 col-sm-8">
-
+        <div class="text-center">
+				<input id="btnCancel" class="btn btn-inverse" type="button" value="返 回" onclick="history.go(-1)"/>
                 <c:if test="${contract.contractType ne '1' and not empty contract.id}">
                     <c:set var="submitText" value="提交"/>
                     <c:if test="${empty contract.act.procInsId}">
@@ -1311,12 +1322,12 @@
                                onclick="$('#flag').val('submit_audit')"/>&nbsp;
                     </c:if>
                     <c:if test="${not empty contract.act.taskId and contract.act.taskDefKey ne 'end' and contract.act.taskDefKey ne 'submit_audit'}">
-                        <input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
-                        <input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
+                        <input id="btnSubmit" class="btn btn-custom" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
+                        <input id="btnSubmit" class="btn btn-info" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
                     </c:if>--%>
                 </c:if>
 
-            <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+            
         </div>
     </div>
     </form:form>

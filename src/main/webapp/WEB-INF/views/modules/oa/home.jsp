@@ -13,7 +13,9 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="card-box">
-					<div id="total" style="height: 600px;width:600px;margin:0 auto;" class="flot-chart"></div>
+					<div id="total"
+						style="height: 500px; width: 600px; margin: 0 auto;"
+						class="flot-chart"></div>
 				</div>
 			</div>
 		</div>
@@ -227,7 +229,7 @@
 					title : {
 						text : '来单情况'
 					},
-					color:['#57c5a5','#dedede'],
+					color : [ '#57c5a5', '#dedede' ],
 					tooltip : {
 						trigger : 'axis'
 					},
@@ -264,7 +266,7 @@
 							normal : {}
 						},
 						data : [ 220, 182, 191, 234, 290, 330, 310 ]
-					}]
+					} ]
 				};
 				website_stats.setOption(option);
 			</script>
@@ -292,7 +294,7 @@
 					trigger : 'item',
 					formatter : "{a} <br/>{b} : {c} ({d}%)"
 				},
-				color:['#57c5a5','#79d1b7','#9adcc9'],
+				color : [ '#57c5a5', '#79d1b7', '#9adcc9' ],
 				legend : {
 					orient : 'vertical',
 					left : 'right',
@@ -312,7 +314,7 @@
 					}, {
 						value : 234,
 						name : '已完成'
-					}],
+					} ],
 					itemStyle : {
 						emphasis : {
 							shadowBlur : 10,
@@ -342,7 +344,7 @@
 					title : {
 						text : '应收实收情况'
 					},
-					color:['#45b0e2','#57c5a5'],
+					color : [ '#45b0e2', '#57c5a5' ],
 					tooltip : {
 						trigger : 'axis',
 						axisPointer : {
@@ -369,11 +371,11 @@
 					series : [ {
 						name : '应收',
 						type : 'bar',
-						data : [ 18203, 23489]
+						data : [ 18203, 23489 ]
 					}, {
 						name : '实收',
 						type : 'bar',
-						data : [ 19325, 23438]
+						data : [ 19325, 23438 ]
 					} ]
 				};
 				income_stats.setOption(option);
@@ -404,7 +406,7 @@
 					x : 'right',
 					data : [ 'K1', 'K2', 'K3', 'K4', 'K5' ]
 				},
-				color : ['#4eb194','#57c5a5','#79d1b7','#9adcc9','#caede3'],
+				color : [ '#4eb194', '#57c5a5', '#79d1b7', '#9adcc9', '#caede3' ],
 				series : [ {
 					name : '当季度合同状态',
 					type : 'pie',
@@ -451,13 +453,54 @@
 		</script>
 
 		<div class="row">
+			<div class="col-sm-4">
+				<div class="card-box" style="height:200px;">				
+					<div class="m-t-0">收款情况</div>
+					<div class="text-center m-t-30">			
+							<h2 class="text-custom">应收1000,000</h2>
+							<ul class="list-unstyled">
+							<li>已收：10000</li>
+							<li>未收：100</li>
+							<li>逾期：<span class="text-danger">100</span></li>
+							</ul>		
+					</div>
+				</div>
+			</div>
+			<!-- end col -->
+			
+			<div class="col-sm-4">
+				<div class="card-box" style="height:200px;">				
+					<div class="m-t-0">付款情况</div>
+					<div class="text-center m-t-30">			
+							<h2 class="text-custom">应付1000,000</h2>
+							<ul class="list-unstyled">
+							<li>已付：10000</li>
+							<li>未付：100</li>
+							</ul>		
+					</div>
+				</div>
+			</div>
+			<!-- end col -->
+			
+			<div class="col-sm-4">
+				<div class="card-box" style="height:200px;">				
+					<div class="m-t-0">待开发票金额</div>
+					<div class="text-center m-t-30">			
+							<h2 class="text-custom">待开票1000,000</h2>	
+					</div>
+				</div>
+			</div>
+			<!-- end col -->
+		</div>
+
+		<div class="row">
 			<div class="col-sm-6">
 				<div class="card-box" id="card_contract_audit">
 					<h4 class="header-title m-t-0 m-b-30">合同订单待办</h4>
 					<table class="table m-0">
 						<thead>
 							<tr>
-								<th width="5%">#</th>
+								<th width="20%">合同ID</th>
 								<th>项目名称</th>
 								<th width="15%">类别</th>
 
@@ -475,9 +518,7 @@
 									<td><a
 										href="${ctx}/act/task/form?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}">${fns:abbr(not empty vars.map.title ? vars.map.title : task.id, 60)}</a>
 									</td>
-									<td><a class="btn btn-primary btn-sm" target="_blank"
-										href="${ctx}/act/task/trace/photo/${task.processDefinitionId}/${task.executionId}">${task.name}</a>
-									</td>
+									<td><span class="label label-danger">${task.name}</span></td>
 								</tr>
 							</c:forEach>
 
@@ -491,7 +532,7 @@
 					<table class="table m-0">
 						<thead>
 							<tr>
-								<th width="5%">#</th>
+								<th width="20%">合同ID</th>
 								<th>项目名称</th>
 								<th width="15%">类别</th>
 
@@ -508,9 +549,7 @@
 									<td><a
 										href="${ctx}/act/task/form?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}">${fns:abbr(not empty vars.map.title ? vars.map.title : task.id, 60)}</a>
 									</td>
-									<td><a class="btn btn-primary btn-sm" target="_blank"
-										href="${pageContext.request.contextPath}/act/rest/diagram-viewer?processDefinitionId=${task.processDefinitionId}&processInstanceId=${task.processInstanceId}">${task.name}</a>
-									</td>
+									<td><span class="label label-danger">${task.name}</span></td>
 								</tr>
 							</c:forEach>
 

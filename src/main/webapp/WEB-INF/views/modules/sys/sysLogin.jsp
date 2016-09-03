@@ -47,21 +47,17 @@
 <body>
 	<!--[if lte IE 6]><br/><div class='alert alert-block' style="text-align:left;padding-bottom:10px;"><a class="close" data-dismiss="alert">x</a><h4>温馨提示：</h4><p>你使用的浏览器版本过低。为了获得更好的浏览体验，我们强烈建议您 <a href="http://browsehappy.com" target="_blank">升级</a> 到最新版本的IE浏览器，或者使用较新版本的 Chrome、Firefox、Safari 等。</p></div><![endif]-->
 	<div class="header">
-		<div id="messageBox" class="alert alert-error ${empty message ? 'hide' : ''}"><button data-dismiss="alert" class="close">×</button>
+		<div id="messageBox" class="alert alert-danger alert-error ${empty message ? 'hide' : ''}"><button data-dismiss="alert" class="close">×</button>
 			<label id="loginError" class="error">${message}</label>
 		</div>
-	</div>
-		
+	</div>	
 	<DIV class="wrapper-page">
 		<DIV class="text-center logo-alt-box">
 			<div><img src="${ctxStatic}/images/login-logo.png" /></div>
 		<div class="logo" style="padding-top:10px;">${fns:getConfig('productName')}</div>
-
-		<%--<H5 class="text-muted m-t-0">计算机信息系统</H5>--%>
 	</DIV>
 		<FORM id="loginForm" class="m-b-30" action="${ctx}/login" method="post">
-		<DIV class="m-t-30 card-box">
-			
+		<DIV class="m-t-20 card-box">			
 			<DIV class="panel-body form-horizontal m-t-10">
 				
 					<DIV class="form-group ">
@@ -78,15 +74,15 @@
 								placeholder="密码">
 						</DIV>
 					</DIV>
-					<DIV class="form-group" style="display:none;">
+					<DIV class="form-group" style="border:none;">
 						<DIV class="col-xs-12">
 							<DIV class="checkbox checkbox-custom">
 								<INPUT id="checkbox-signup" type="checkbox" id="rememberMe" name="rememberMe" ${rememberMe ? 'checked' : ''}> <LABEL
 									for="checkbox-signup"> 记住我（公共场所慎用） </LABEL>
 							</DIV>
 						</DIV>
-					</DIV>
-					
+					</DIV>				
+					<c:if test="${isValidateCodeLogin}">
 					<DIV class="form-group" style="border:none;">
 						<DIV class="col-xs-12">
 							<div class="validateCode">
@@ -96,19 +92,10 @@
 		                     </div>
 						</DIV>
 					</DIV>
-					
-					
-				
-				
-			</DIV>
-
-							
-
-			
+					</c:if>	
+			</DIV>	
 		</DIV>
-		<BUTTON
-								class="btn btn-custom btn-block"
-								type="submit">Login</BUTTON>
+		<BUTTON class="btn btn-custom btn-block" type="submit">Login</BUTTON>
 		</FORM>
 		<!-- end card-box -->
 	</DIV>
