@@ -30,8 +30,27 @@
     <script src="${ctxStatic}/assets/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js" type="text/javascript"></script>
     <script src="${ctxStatic}/assets/js/jquery.form.js"></script>
     <script type="text/javascript">
+       function changeSupplier() { 
+    	   var selectedOpt = $("#supplier").find("option:selected");
+    	   if(selectedOpt.attr("shippingSpeed") == "0.0") {
+    		   $("#shippingSpeed").html("未评价");
+        	   $("#communicationEfficiency").html("未评价");
+        	   $("#productQuality").html("未评价");
+        	   $("#serviceAttitude").html("未评价"); 
+    	   }
+    	   else{
+    		   $("#shippingSpeed").html(selectedOpt.attr("shippingSpeed"));
+        	   $("#communicationEfficiency").html(selectedOpt.attr("communicationEfficiency"));
+        	   $("#productQuality").html(selectedOpt.attr("productQuality"));
+        	   $("#serviceAttitude").html(selectedOpt.attr("serviceAttitude"));  	   
+    	   }
+    	
+       } 
+       
+        
         $(document).ready(function() {
             //$("#name").focus();
+            changeSupplier();
             $("#inputForm").validate({
                 submitHandler: function(form){
                     /*loading('正在提交，请稍等...');
@@ -278,14 +297,16 @@
     <!--供应商-->
     <div class="row">
             供应商：
-            <form:select path="supplier.id" class="form-control required input-sm" id="supplier" cssStyle="width:280px;">
+            <form:select path="supplier.id" class="form-control required input-sm supplier" id="supplier" cssStyle="width:280px;" onchange="changeSupplier();">
                 <form:option value="" label=""/>
-                <form:options items="${supplierList}" itemLabel="name"
-                              itemValue="id" htmlEscape="false"/>
+              
+                <c:forEach var="supplier" items="${supplierList}" varStatus="status">  
+                 <option value="${supplier.id}" shippingSpeed="${supplier.shippingSpeed}"  communicationEfficiency="${supplier.communicationEfficiency}"  productQuality="${supplier.productQuality}"  serviceAttitude="${supplier.serviceAttitude}">${supplier.name}</option>  
+               </c:forEach>              
             </form:select>
            <a href="#" onclick="addSupplier(this)" title="新增供应商" class="zmdi zmdi-plus-circle text-success" style="margin-left:10px;font-size:25px;"></a>
             <div class="row">
-            <span>发货  <span id="shipping_speed" style="color:red;">4.8</span>&nbsp;&nbsp;沟通  <span id="communication_efficiency" style="color:red;">未评价</span> &nbsp;&nbsp;质量  <span id="product_quality" style="color:red;">4.8</span> &nbsp;&nbsp;态度 <span id="service_attitude" style="color:red;"></span></span>
+            <span>发货  <span id="shippingSpeed" style="color:red;">未评价</span>&nbsp;&nbsp;沟通  <span id="communicationEfficiency" style="color:red;">未评价</span> &nbsp;&nbsp;质量  <span id="productQuality" style="color:red;">未评价</span> &nbsp;&nbsp;态度 <span id="serviceAttitude" style="color:red;">未评价</span></span>
              </div>
            
     </div>
