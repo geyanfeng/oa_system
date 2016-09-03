@@ -91,7 +91,7 @@
                     客户名称：${contract.customer.name}
                 </div>
                 <div class="col-sm-6">
-                    客户评分：
+                    客户评分：${contract.customer.evaluate}
                 </div>
             </div>
             <div class="row">
