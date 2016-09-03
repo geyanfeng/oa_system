@@ -467,7 +467,7 @@
             if($(sender).prop("id").indexOf("payment_installment_amount")>=0){
                 blField.val(((parseFloat(amountField.val())/sumAmount) * 100).toFixed(2));
             } else{
-                amountField.val(sumAmount * ((parseFloat(blField.val()))/100));
+                amountField.val((sumAmount * ((parseFloat(blField.val()))/100)).toFixed(2));
             }
         }
     </script>

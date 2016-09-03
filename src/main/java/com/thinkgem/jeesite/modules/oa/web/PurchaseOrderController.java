@@ -8,8 +8,10 @@ import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.oa.dao.PurchaseOrderFinanceDao;
 import com.thinkgem.jeesite.modules.oa.entity.ProductType;
 import com.thinkgem.jeesite.modules.oa.entity.PurchaseOrder;
+import com.thinkgem.jeesite.modules.oa.entity.PurchaseOrderFinance;
 import com.thinkgem.jeesite.modules.oa.entity.Supplier;
 import com.thinkgem.jeesite.modules.oa.service.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -45,6 +47,8 @@ public class PurchaseOrderController extends BaseController {
 	private ProductTypeGroupService productTypeGroupService;
 	@Autowired
 	private ContractService contractService;
+	@Autowired
+	private PurchaseOrderFinanceDao purchaseOrderFinanceDao;
 	
 	@ModelAttribute
 	public PurchaseOrder get(@RequestParam(required=false) String id) {
@@ -99,6 +103,33 @@ public class PurchaseOrderController extends BaseController {
 		//得到合同全部信息
 		purchaseOrder.setContract(contractService.get(purchaseOrder.getContract().getId()));
 		model.addAttribute("purchaseOrder", purchaseOrder);
+
+		// 查看审批申请单
+		if (isNotBlank(purchaseOrder.getId()) && isNotBlank(purchaseOrder.getProcInsId())) {
+			// 环节编号
+			String taskDefKey = purchaseOrder.getAct().getTaskDefKey();
+
+			//财务总监确认可付款
+			if("cfo_confirm_payment_1".equals(taskDefKey) || "cfo_confirm_payment_2".equals(taskDefKey) || "cfo_confirm_payment_3".equals(taskDefKey)){
+
+				view = "purchaseOrderAudit_cfo";
+			}
+
+			//财务确认付款
+			if("payment_first".equals(taskDefKey) || "payment_all".equals(taskDefKey) || "payment_first".equals(taskDefKey)){
+				view = "purchaseOrderAudit_fk";
+			}
+
+			//得到第一笔付款数据
+			if("cfo_confirm_payment_1".equals(taskDefKey) || "cfo_confirm_payment_2".equals(taskDefKey) || "cfo_confirm_payment_3".equals(taskDefKey) ||
+					"payment_first".equals(taskDefKey) || "payment_all".equals(taskDefKey) || "payment_first".equals(taskDefKey)){
+				PurchaseOrderFinance filter = new PurchaseOrderFinance(purchaseOrder,1);
+				List<PurchaseOrderFinance> finances = purchaseOrderFinanceDao.findList(filter);
+				if(finances.size()>0)
+					model.addAttribute("finance", finances.get(0));
+			}
+		}
+
 		return "modules/oa/" + view;
 	}
 

@@ -32,10 +32,11 @@ public class PurchaseOrder extends ActEntity<PurchaseOrder> {
 	private String status;		// 订单状态
 	private Date beginCreateDate;		// 开始 日期
 	private Date endCreateDate;		// 结束 日期
-	protected String evaluateFlag; 	// 评价标记（0：未评价；1：已评价）
+	protected String evaluateFlag = "0"; 	// 评价标记（0：未评价；1：已评价）
 	private List<PurchaseOrderProduct> purchaseOrderProductList = Lists.newArrayList();		// 子表列表
 	private List<PurchaseOrderAttachment> purchaseOrderAttachmentList = Lists.newArrayList();		// 子表列表
 	private List<PurchaseOrderFinance> purchaseOrderFinanceList = Lists.newArrayList();
+	private Date fkDate;				//付款日期
 	
 	public PurchaseOrder() {
 		super();
@@ -181,4 +182,7 @@ public class PurchaseOrder extends ActEntity<PurchaseOrder> {
 	public void setPurchaseOrderFinanceList(List<PurchaseOrderFinance> purchaseOrderFinanceList){
 		this.purchaseOrderFinanceList = purchaseOrderFinanceList;
 	}
+
+	public Date getFkDate(){return fkDate;}
+	public void setFkDate(Date fkDate){this.fkDate = fkDate;}
 }

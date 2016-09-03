@@ -57,7 +57,7 @@
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
-				ORDER BY a.sort ASC
+				ORDER BY a.po_id, a.sort ASC
 			</otherwise>
 		</choose>
 	</select>

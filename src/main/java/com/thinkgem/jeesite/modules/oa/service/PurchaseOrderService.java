@@ -22,8 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.codehaus.plexus.util.StringUtils.isNotBlank;
 import static org.jasig.cas.client.util.CommonUtils.isBlank;
@@ -245,6 +244,37 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 		}
 	}
 
+	/*
+	财务付款确认后更新财务付款数据
+	 */
+	public void updateFinancePayment(PurchaseOrder purchaseOrder){
+		PurchaseOrderFinance filter = new PurchaseOrderFinance(purchaseOrder,1);//过滤还没有付款的数据
+		List<PurchaseOrderFinance> finances = purchaseOrderFinanceDao.findList(filter);
+
+		if(finances.size()==0)
+			return;
+		PurchaseOrderFinance poFinance = finances.get(0);
+		Calendar cc = Calendar.getInstance();
+
+		poFinance.setPayDate(purchaseOrder.getFkDate());
+		poFinance.setStatus(2);//更新状态为已付款
+
+		poFinance.preUpdate();
+		purchaseOrderFinanceDao.update(poFinance);
+	}
+
+	/*
+    检查是否都付款
+     */
+	public boolean checkSK(PurchaseOrder purchaseOrder){
+		PurchaseOrderFinance filter = new PurchaseOrderFinance(purchaseOrder, 1);
+		List<PurchaseOrderFinance> finances = purchaseOrderFinanceDao.findList(filter);
+		if(finances.size()>0)
+			return false;
+		else
+			return true;
+	}
+
 	@Transactional(readOnly = false)
 	public void audit(PurchaseOrder purchaseOrder) {
 		// 对不同环节的业务逻辑进行操作
@@ -254,14 +284,15 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 		Contract contract = contractDao.get(purchaseOrder.getContract().getId());
 
 		if (isBlank(taskDefKey) && "submit_audit".equals(flag)) {
-			//更新订单状态
-			/*purchaseOrder.setStatus(DictUtils.getDictValue("已下单","oa_po_status",""));
-			purchaseOrder.preUpdate();
-			purchaseOrderDao.update(purchaseOrder);*/
 			// 设置流程变量
 			Map<String, Object> vars = Maps.newHashMap();
-			vars.put("business_person", contract.getBusinessPerson().getName());
-			vars.put("artisan", contract.getArtisan().getName());
+			vars.put("business_person", contract.getBusinessPerson().getName());//商务人员
+			vars.put("artisan", contract.getArtisan().getName());//技术人员
+			vars.put("payment_num", purchaseOrder.getPurchaseOrderFinanceList().size());//支付次数
+			if(purchaseOrder.getPurchaseOrderFinanceList().size() == 1){
+				vars.put("zq", purchaseOrder.getPurchaseOrderFinanceList().get(0).getZq());//如果为一次付款,写入帐期数
+
+			}
 			//purchaseOrder.getAct().setComment("商务下单");
 			actTaskService.startProcess(ActUtils.PD_PO_AUDIT[0], ActUtils.PD_PO_AUDIT[1], purchaseOrder.getId(), purchaseOrder.getNo(), vars);
 		} else {
@@ -274,17 +305,26 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 				vars.put("pass", pass ? "1" : "0");
 			}
 
+			//自动执行签收
+			String[] autoQSTask = {"cfo_confirm_payment_1","cfo_confirm_payment_2", "cfo_confirm_payment_3", "payment_first", "payment_all", "payment"};
+			if( Arrays.asList(autoQSTask).contains(taskDefKey)){
+				actTaskService.claim(purchaseOrder.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
+			}
+
 			if("business_person_createbill".equals(taskDefKey)) {//商务下单
 				purchaseOrder.setStatus(DictUtils.getDictValue("已下单", "oa_po_status", ""));
 			}
-			else if("verify_ship".equals(taskDefKey)){//确认发货
+			else if("verify_ship_1".equals(taskDefKey) || "verify_ship_2".equals(taskDefKey)){//确认发货
 				purchaseOrder.setStatus(DictUtils.getDictValue("已发货","oa_po_status",""));
-			} else if("payment".equals(taskDefKey)){//付款
-				actTaskService.claim(purchaseOrder.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
+			} else if("payment_first".equals(taskDefKey) || "payment_all".equals(taskDefKey) || "payment".equals(taskDefKey)){//付款
 				purchaseOrder.setStatus(DictUtils.getDictValue("已完成","oa_po_status",""));
+				updateFinancePayment(purchaseOrder);//更新财务付款数据
+				if("payment".equals(taskDefKey)){
+					vars.put("finishPayment",checkSK(purchaseOrder)?1:0 );//检查是否已经全部付款并将变量写入到流程中
+				}
 			} else {
 				if (StringUtils.isNotBlank(flag)) {
-					if ("verify_receiving".equals(taskDefKey)) {//收货验收
+					if ("verify_receiving_1".equals(taskDefKey) || "verify_receiving_2".equals(taskDefKey)) {//收货验收
 						if (pass) {
 							purchaseOrder.setStatus(DictUtils.getDictValue("已验收", "oa_po_status", ""));
 						} else {
