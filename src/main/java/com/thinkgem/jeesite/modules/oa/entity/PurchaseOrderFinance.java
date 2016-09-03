@@ -19,8 +19,9 @@ public class PurchaseOrderFinance extends DataEntity<PurchaseOrderFinance> {
 	
 	private static final long serialVersionUID = 1L;
 	private PurchaseOrder purchaseOrder;		// 采购订单Id
+	private Integer payCondition;		//付款条件,0为预付,1为应付
 	private String payMethod;		// 收款方式
-	private float zq = 0;				//帐期
+	private Integer zq = 0;				//帐期
 	private Date planPayDate;		// 预计付款时间
 	private Date payDate;		// 付款时间
 	private Double amount;		// 开票或收款金额
@@ -66,11 +67,11 @@ public class PurchaseOrderFinance extends DataEntity<PurchaseOrderFinance> {
 		this.payMethod = payMethod;
 	}
 
-	public float getZq() {
+	public Integer getZq() {
 		return zq;
 	}
 
-	public void setZq(float zq) {
+	public void setZq(Integer zq) {
 		this.zq = zq;
 	}
 	
@@ -143,5 +144,7 @@ public class PurchaseOrderFinance extends DataEntity<PurchaseOrderFinance> {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	
+
+	public Integer getPayCondition(){return payCondition;}
+	public void setPayCondition(Integer payCondition){this.payCondition = payCondition;}
 }

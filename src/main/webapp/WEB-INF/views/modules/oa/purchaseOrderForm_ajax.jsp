@@ -353,6 +353,13 @@
             生效日期:&nbsp;<input id="payment_installment_activeDate_{{idx}}" value="{{row.payment_installment_activeDate}}" type="text"
             readonly="readonly" style="width: 150px;display:inline;"class="form-control Wdate input-sm required" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
             </div>
+            <div style="padding-top: 10px;">
+            付款条件：
+                <select id="payment_installment_condition_{{idx}}" data-value="{{row.payment_installment_condition}}" class="form-control input-block required input-sm"  style="width: 100px;display: inline;">
+                    <option value="0">预付</option>
+                    <option value="1">应付</option>
+                </select>
+            </div>
         </div>
         <div class="pull-right">
             <a href="#" onclick="addNewInstallmentPayment(this)" title="增加新的分期付款" class="zmdi zmdi-plus-circle text-success" style="font-size:25px;"></a>
@@ -400,6 +407,13 @@
                     $("#div-activeData_"+index).hide();
                 }
             });
+            $("#payment-body .row[data-idx='"+idx+"']").find("select").each(function () {
+                if($(this).attr("data-value"))
+                    $(this).val($(this).attr("data-value"));
+                else
+                    $(this).val(0);
+            });
+
 
             $("#payment-body .row[data-idx='"+idx+"']").find("input[type='checkbox'], input[type='radio']").each(function () {
                 var ss = $(this).attr("data-value").split(',');
@@ -452,7 +466,8 @@
                     payment_installment_bl: row.find("input[id^='payment_installment_bl']").val(),
                     payment_installment_time :row.find("input[id^='payment_installment_time']").val(),
                     payment_installment_paymentMethod :row.find("input[id^='payment_installment_paymentMethod']:checked").val(),
-                    payment_installment_activeDate: row.find("input[id^='payment_installment_activeDate']").val()
+                    payment_installment_activeDate: row.find("input[id^='payment_installment_activeDate']").val(),
+                    payment_installment_condition: row.find("select[id^='payment_installment_condition'] option:selected").val()
                 };
                 paymentDetail.push(detail);
             });

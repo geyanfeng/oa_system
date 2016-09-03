@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.oa.service;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.persistence.Page;
@@ -16,6 +17,7 @@ import com.thinkgem.jeesite.modules.oa.entity.*;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import org.activiti.engine.RuntimeService;
+import org.activiti.engine.impl.transformer.IntegerToLong;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -194,17 +196,21 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 
 		List<Map<String, Object>> paymentList = (List<Map<String, Object>>) payment;
 		int sort = 1;
+		List<PurchaseOrderFinance> financeList = Lists.newArrayList();
 		for (Map<String, Object> paymentObj : paymentList) {
 			PurchaseOrderFinance purchaseOrderFinance = new PurchaseOrderFinance(purchaseOrder);
 			purchaseOrderFinance.setPayMethod(paymentObj.get("payment_installment_paymentMethod").toString());
-			purchaseOrderFinance.setZq(Float.parseFloat(paymentObj.get("payment_installment_time").toString()));
+			purchaseOrderFinance.setZq(Integer.parseInt(paymentObj.get("payment_installment_time").toString()));
 			purchaseOrderFinance.setAmount(Double.parseDouble(paymentObj.get("payment_installment_amount").toString()));
+			purchaseOrderFinance.setPayCondition(Integer.parseInt(paymentObj.get("payment_installment_condition").toString()));
 			purchaseOrderFinance.setSort(sort);
 			purchaseOrderFinance.setStatus(1);
 			purchaseOrderFinance.preInsert();
 			purchaseOrderFinanceDao.insert(purchaseOrderFinance);
+			financeList.add(purchaseOrderFinance);
 			sort++;
 		}
+		purchaseOrder.setPurchaseOrderFinanceList(financeList);
 	}
 	
 	@Transactional(readOnly = false)
@@ -245,9 +251,9 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 	}
 
 	/*
-	财务付款确认后更新财务付款数据
+	技术验收后更新预付款日期
 	 */
-	public void updateFinancePayment(PurchaseOrder purchaseOrder){
+	private void updatePlanPayDate(PurchaseOrder purchaseOrder) {
 		PurchaseOrderFinance filter = new PurchaseOrderFinance(purchaseOrder,1);//过滤还没有付款的数据
 		List<PurchaseOrderFinance> finances = purchaseOrderFinanceDao.findList(filter);
 
@@ -255,6 +261,22 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 			return;
 		PurchaseOrderFinance poFinance = finances.get(0);
 		Calendar cc = Calendar.getInstance();
+		cc.add(Calendar.DATE, poFinance.getZq());
+		poFinance.setPlanPayDate(cc.getTime());
+		poFinance.preUpdate();
+		purchaseOrderFinanceDao.update(poFinance);
+	}
+
+	/*
+	财务付款确认后更新财务付款数据
+	 */
+	private void updateFinancePayment(PurchaseOrder purchaseOrder){
+		PurchaseOrderFinance filter = new PurchaseOrderFinance(purchaseOrder,1);//过滤还没有付款的数据
+		List<PurchaseOrderFinance> finances = purchaseOrderFinanceDao.findList(filter);
+
+		if(finances.size()==0)
+			return;
+		PurchaseOrderFinance poFinance = finances.get(0);
 
 		poFinance.setPayDate(purchaseOrder.getFkDate());
 		poFinance.setStatus(2);//更新状态为已付款
@@ -266,7 +288,7 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 	/*
     检查是否都付款
      */
-	public boolean checkSK(PurchaseOrder purchaseOrder){
+	private boolean checkSK(PurchaseOrder purchaseOrder){
 		PurchaseOrderFinance filter = new PurchaseOrderFinance(purchaseOrder, 1);
 		List<PurchaseOrderFinance> finances = purchaseOrderFinanceDao.findList(filter);
 		if(finances.size()>0)
@@ -291,7 +313,6 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 			vars.put("payment_num", purchaseOrder.getPurchaseOrderFinanceList().size());//支付次数
 			if(purchaseOrder.getPurchaseOrderFinanceList().size() == 1){
 				vars.put("zq", purchaseOrder.getPurchaseOrderFinanceList().get(0).getZq());//如果为一次付款,写入帐期数
-
 			}
 			//purchaseOrder.getAct().setComment("商务下单");
 			actTaskService.startProcess(ActUtils.PD_PO_AUDIT[0], ActUtils.PD_PO_AUDIT[1], purchaseOrder.getId(), purchaseOrder.getNo(), vars);
@@ -316,6 +337,8 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 			}
 			else if("verify_ship_1".equals(taskDefKey) || "verify_ship_2".equals(taskDefKey)){//确认发货
 				purchaseOrder.setStatus(DictUtils.getDictValue("已发货","oa_po_status",""));
+				if("verify_ship_1".equals(taskDefKey))
+					updatePlanPayDate(purchaseOrder);//更新预付款时间
 			} else if("payment_first".equals(taskDefKey) || "payment_all".equals(taskDefKey) || "payment".equals(taskDefKey)){//付款
 				purchaseOrder.setStatus(DictUtils.getDictValue("已完成","oa_po_status",""));
 				updateFinancePayment(purchaseOrder);//更新财务付款数据

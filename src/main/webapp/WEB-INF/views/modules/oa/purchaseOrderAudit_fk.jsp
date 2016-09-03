@@ -137,7 +137,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-6">
-                    应付日期：2016年9月3日<!--todo:预付-->
+                    应付日期：<fmt:formatDate value="${finance.planPayDate}" pattern="yyyy-MM-dd"/>
                 </div>
                 <div class="col-sm-6">
                     <%

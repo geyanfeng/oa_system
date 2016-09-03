@@ -103,14 +103,14 @@
                     帐期：<fmt:formatNumber type="number" value="${finance.zq}" maxFractionDigits="0"/>天
                 </div>
                 <div class="col-sm-2">
-                    应付日期：2016年9月3日<!--todo:预付-->
+                    应付日期：<fmt:formatDate value="${finance.planPayDate}" pattern="yyyy-MM-dd"/>
                 </div>
                 <div class="col-sm-2">
                     付款方式：<font
                         <c:if test="${finance.payMethod eq 3}">color="red"</c:if>> ${fns:getDictLabel(finance.payMethod,"oa_payment_method","")}</font>
                 </div>
                 <div class="col-sm-2">
-                    付款条件：预付<!--todo:预付-->
+                    付款条件：<c:if test="${finance.payCondition eq 0}">预付</c:if><c:if test="${finance.payCondition eq 1}">应付</c:if>
                 </div>
 
             </div>
