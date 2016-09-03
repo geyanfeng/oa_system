@@ -25,7 +25,7 @@
 			<include refid="oaPoEvaluateColumns"/>
 		FROM oa_po_evaluate a
 		<include refid="oaPoEvaluateJoins"/>
-		WHERE a.id = #{id}
+		WHERE a.po_id = #{id}
 	</select>
 	
 	<select id="findList" resultType="OaPoEvaluate">
