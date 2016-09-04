@@ -136,8 +136,7 @@ public class OaPoEvaluateController extends BaseController {
 										purchaseOrderService
 												.save(purchaseOrder);
 										
-										//call_sp();
-
+						
 										status = 1;
 										msg = "保存供应商评价成功";
 										map.put("data", oaPoEvaluate);

@@ -22,6 +22,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.shiro.authc.AuthenticationException;
+import org.mybatis.spring.SqlSessionFactoryBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -242,25 +243,4 @@ public abstract class BaseController {
 			// }
 		});
 	}
-
-	public void call_sp() throws IOException {
-		String resource = "mybatis.cfg.xml";
-		Reader reader = Resources.getResourceAsReader(resource);
-		SqlSessionFactory ssf = new SqlSessionFactoryBuilder().build(reader);
-
-		SqlSession session = ssf.openSession();
-
-		try {
-			Map<String, String> param = new HashMap<String, String>();
-			param.put("supplierid", "1b1fa8822fb54c479704f9716eb15041");
-			String returnValue = (String) session.selectOne(
-					"CommonDao.calcuate_supplier_evaluate", param);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-	}
-
 }
