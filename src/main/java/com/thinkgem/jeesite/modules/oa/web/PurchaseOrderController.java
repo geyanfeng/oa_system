@@ -6,6 +6,7 @@ package com.thinkgem.jeesite.modules.oa.web;
 import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.utils.Encodes;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.oa.dao.PurchaseOrderFinanceDao;
@@ -26,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
+import static org.codehaus.plexus.util.StringUtils.isBlank;
 import static org.codehaus.plexus.util.StringUtils.isNotBlank;
 
 /**
@@ -93,7 +95,7 @@ public class PurchaseOrderController extends BaseController {
 
 	@RequiresPermissions("oa:purchaseOrder:view")
 	@RequestMapping(value = "view")
-	public String view(PurchaseOrder purchaseOrder, Model model) {
+	public String view(PurchaseOrder purchaseOrder, Model model, HttpServletRequest request) {
 		String view = "purchaseOrderView";
 		//获取所有供应商
 		List<Supplier> supplierList = supplierService.findList(new Supplier());
@@ -129,7 +131,8 @@ public class PurchaseOrderController extends BaseController {
 					model.addAttribute("finance", finances.get(0));
 			}
 		}
-
+		//源url地址
+		model.addAttribute("sUrl", Encodes.urlEncode(request.getHeader("referer")));
 		return "modules/oa/" + view;
 	}
 
@@ -172,12 +175,20 @@ public class PurchaseOrderController extends BaseController {
 
 	@RequiresPermissions("oa:purchaseOrder:edit")
 	@RequestMapping(value = "audit")
-	public String audit(PurchaseOrder purchaseOrder, Model model, RedirectAttributes redirectAttributes) {
+	public String audit(HttpServletRequest request, PurchaseOrder purchaseOrder, Model model, RedirectAttributes redirectAttributes,@RequestParam(value="sUrl", required=false) String sUrl) {
 		if(isNotBlank(purchaseOrder.getAct().getFlag()) || isNotBlank(purchaseOrder.getAct().getTaskDefKey()))
 		{
-			purchaseOrderService.audit(purchaseOrder);
-			addMessage(redirectAttributes, "成功提交审批");
-			return "redirect:" + adminPath + "/act/task/todo/";
+			try {
+				purchaseOrderService.audit(purchaseOrder);//审核
+				addMessage(redirectAttributes, "订单成功审批");
+			}catch(Exception e){
+				addMessage(redirectAttributes, e.getMessage());
+				return "redirect:" + request.getHeader("referer");
+			}
+			if(isNotBlank(sUrl))
+				return "redirect:" + Encodes.urlDecode(sUrl);
+			else
+				return "redirect:" + adminPath + "/act/task/todo/";
 		}
 		return "redirect:"+Global.getAdminPath()+"/oa/purchaseOrder";
 	}

@@ -44,7 +44,7 @@
 </head>
 <body data-spy="scroll" data-target="#navbar">
 
-<form:form id="inputForm" modelAttribute="purchaseOrder" action="${ctx}/oa/purchaseOrder/audit" method="post" role="form">
+<form:form id="inputForm" modelAttribute="purchaseOrder" action="${ctx}/oa/purchaseOrder/audit?sUrl=${sUrl}" method="post" role="form">
 <form:hidden path="id"/>
 <form:hidden path="act.taskId"/>
 <form:hidden path="act.taskName"/>
