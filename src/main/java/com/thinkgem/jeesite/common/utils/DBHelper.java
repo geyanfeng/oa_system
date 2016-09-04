@@ -1,11 +1,13 @@
 package com.thinkgem.jeesite.common.utils;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 
 public class DBHelper {
 	private static Connection connection = null;
@@ -38,8 +40,15 @@ public class DBHelper {
 
 	}
 
-	public static void executeSP(){
-		
+	public static void executeSP(String supplierid) throws Exception {
+		String sql = "{CALL calcuate_supplier_evaluate(?)}"; //调用存储过程 
+		CallableStatement cstm = getConnection().prepareCall(sql); //实例化对象cstm 
+		cstm.setString(1, supplierid);
+		//cstm.setInt(1, 122); 
+		//cstm.registerOutParameter(3, Types.INTEGER); // 设置返回值类型 
+		cstm.execute();
+		cstm.close(); 
+		connection.close(); 		
 	}
 	/**
 	 * 

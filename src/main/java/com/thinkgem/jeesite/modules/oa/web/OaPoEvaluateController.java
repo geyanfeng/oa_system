@@ -28,6 +28,7 @@ import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.common.utils.DBHelper;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.oa.entity.Contract;
 import com.thinkgem.jeesite.modules.oa.entity.OaPoEvaluate;
@@ -136,7 +137,7 @@ public class OaPoEvaluateController extends BaseController {
 										purchaseOrderService
 												.save(purchaseOrder);
 										
-						
+						                DBHelper.executeSP(purchaseOrder.getSupplier().getId());
 										status = 1;
 										msg = "保存供应商评价成功";
 										map.put("data", oaPoEvaluate);
