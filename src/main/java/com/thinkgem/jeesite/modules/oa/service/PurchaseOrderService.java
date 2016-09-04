@@ -16,6 +16,7 @@ import com.thinkgem.jeesite.modules.oa.dao.*;
 import com.thinkgem.jeesite.modules.oa.entity.*;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.impl.transformer.IntegerToLong;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -73,6 +74,11 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 	
 	public Page<PurchaseOrder> findPage(Page<PurchaseOrder> page, PurchaseOrder purchaseOrder) {
 		return super.findPage(page, purchaseOrder);
+	}
+	
+	@Transactional(readOnly = false)
+	public void common_save(PurchaseOrder purchaseOrder) {
+		super.save(purchaseOrder);
 	}
 	
 	@Transactional(readOnly = false)

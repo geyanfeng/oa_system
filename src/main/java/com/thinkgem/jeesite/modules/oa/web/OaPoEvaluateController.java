@@ -135,7 +135,7 @@ public class OaPoEvaluateController extends BaseController {
 										oaPoEvaluateService.save(oaPoEvaluate);
 										purchaseOrder.setEvaluateFlag("1");
 										purchaseOrderService
-												.save(purchaseOrder);
+												.common_save(purchaseOrder);
 										
 						                DBHelper.executeSP(purchaseOrder.getSupplier().getId());
 										status = 1;
