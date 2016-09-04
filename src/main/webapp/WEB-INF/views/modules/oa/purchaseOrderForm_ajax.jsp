@@ -30,22 +30,23 @@
     <script src="${ctxStatic}/assets/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js" type="text/javascript"></script>
     <script src="${ctxStatic}/assets/js/jquery.form.js"></script>
     <script type="text/javascript">
-       function changeSupplier() { 
-    	   var selectedOpt = $("#supplier").find("option:selected");
-    	   if(selectedOpt.attr("shippingSpeed") == "0.0") {
-    		   $("#shippingSpeed").html("未评价");
-        	   $("#communicationEfficiency").html("未评价");
-        	   $("#productQuality").html("未评价");
-        	   $("#serviceAttitude").html("未评价"); 
-    	   }
-    	   else{
-    		   $("#shippingSpeed").html(selectedOpt.attr("shippingSpeed"));
-        	   $("#communicationEfficiency").html(selectedOpt.attr("communicationEfficiency"));
-        	   $("#productQuality").html(selectedOpt.attr("productQuality"));
-        	   $("#serviceAttitude").html(selectedOpt.attr("serviceAttitude"));  	   
-    	   }
-    	
-       } 
+    function changeSupplier() { 
+ 	   var selectedValue = $("#supplier").find("option:selected").val();
+ 	   selectedOpt = $("#"+selectedValue);
+ 	   if(selectedOpt.attr("shippingSpeed") == "0.0") {
+ 		   $("#shippingSpeed").html("未评价");
+     	   $("#communicationEfficiency").html("未评价");
+     	   $("#productQuality").html("未评价");
+     	   $("#serviceAttitude").html("未评价"); 
+ 	   }
+ 	   else{
+ 		   $("#shippingSpeed").html(selectedOpt.attr("shippingSpeed"));
+     	   $("#communicationEfficiency").html(selectedOpt.attr("communicationEfficiency"));
+     	   $("#productQuality").html(selectedOpt.attr("productQuality"));
+     	   $("#serviceAttitude").html(selectedOpt.attr("serviceAttitude"));  	   
+ 	   }
+ 	
+    } 
        
         
         $(document).ready(function() {
@@ -296,14 +297,20 @@
 
     <!--供应商-->
     <div class="row">
+          <!--供应商-->
+    <div class="row">
             供应商：
-            <form:select path="supplier.id" class="form-control required input-sm supplier" id="supplier" cssStyle="width:280px;" onchange="changeSupplier();">
+            <form:hidden path="supplier.id"/>
+            <form:select path="supplier.id" class="form-control required input-sm" id="supplier" cssStyle="width:280px;" onchange="changeSupplier();">
                 <form:option value="" label=""/>
-              
-                <c:forEach var="supplier" items="${supplierList}" varStatus="status">  
-                 <option value="${supplier.id}" shippingSpeed="${supplier.shippingSpeed}"  communicationEfficiency="${supplier.communicationEfficiency}"  productQuality="${supplier.productQuality}"  serviceAttitude="${supplier.serviceAttitude}">${supplier.name}</option>  
-               </c:forEach>              
+               
+               <form:options items="${supplierList}" itemLabel="name"
+                              itemValue="id" htmlEscape="false"/>
+                           
             </form:select>
+            <c:forEach var="supplierItem" items="${supplierList}" varStatus="status">  
+                 <input id="${supplierItem.id}" type="hidden" shippingSpeed="${supplierItem.shippingSpeed}"  communicationEfficiency="${supplierItem.communicationEfficiency}"  productQuality="${supplierItem.productQuality}"  serviceAttitude="${supplierItem.serviceAttitude}">
+              </c:forEach>  
            <a href="#" onclick="addSupplier(this)" title="新增供应商" class="zmdi zmdi-plus-circle text-success" style="margin-left:10px;font-size:25px;"></a>
             <div class="row">
             <span>发货  <span id="shippingSpeed" style="color:red;">未评价</span>&nbsp;&nbsp;沟通  <span id="communicationEfficiency" style="color:red;">未评价</span> &nbsp;&nbsp;质量  <span id="productQuality" style="color:red;">未评价</span> &nbsp;&nbsp;态度 <span id="serviceAttitude" style="color:red;">未评价</span></span>
