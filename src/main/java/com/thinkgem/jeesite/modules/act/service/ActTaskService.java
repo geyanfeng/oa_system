@@ -23,6 +23,7 @@ import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.history.HistoricTaskInstanceQuery;
 import org.activiti.engine.impl.RepositoryServiceImpl;
+import org.activiti.engine.impl.TaskServiceImpl;
 import org.activiti.engine.impl.bpmn.behavior.UserTaskActivityBehavior;
 import org.activiti.engine.impl.bpmn.diagram.ProcessDiagramGenerator;
 import org.activiti.engine.impl.context.Context;
@@ -728,5 +729,11 @@ public class ActTaskService extends BaseService {
 	}
 
 
-	
+	/*
+	任意跳转
+	 */
+	public void Jump(String executionId, String activityId){
+		TaskServiceImpl taskServiceImpl=(TaskServiceImpl)taskService;
+		taskServiceImpl.getCommandExecutor().execute(new JumpTaskCmd(executionId, activityId));
+	}
 }
