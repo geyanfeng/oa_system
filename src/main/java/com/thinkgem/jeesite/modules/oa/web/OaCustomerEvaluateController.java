@@ -3,6 +3,8 @@
  */
 package com.thinkgem.jeesite.modules.oa.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,7 +21,9 @@ import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.modules.oa.entity.Customer;
 import com.thinkgem.jeesite.modules.oa.entity.OaCustomerEvaluate;
+import com.thinkgem.jeesite.modules.oa.service.CustomerService;
 import com.thinkgem.jeesite.modules.oa.service.OaCustomerEvaluateService;
 
 /**
@@ -33,7 +37,8 @@ public class OaCustomerEvaluateController extends BaseController {
 
 	@Autowired
 	private OaCustomerEvaluateService oaCustomerEvaluateService;
-	
+	@Autowired
+	private CustomerService customerService;
 	@ModelAttribute
 	public OaCustomerEvaluate get(@RequestParam(required=false) String id) {
 		OaCustomerEvaluate entity = null;
@@ -51,6 +56,9 @@ public class OaCustomerEvaluateController extends BaseController {
 	public String list(OaCustomerEvaluate oaCustomerEvaluate, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<OaCustomerEvaluate> page = oaCustomerEvaluateService.findPage(new Page<OaCustomerEvaluate>(request, response), oaCustomerEvaluate); 
 		model.addAttribute("page", page);
+		//获取所有客户
+		List<Customer> customerList = customerService.findList(new Customer());
+		model.addAttribute("customerList", customerList);
 		return "modules/oa/oaCustomerEvaluateList";
 	}
 

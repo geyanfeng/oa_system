@@ -17,10 +17,11 @@
 	</script>
 </head>
 <body>
-	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/oa/oaPoEvaluate/">供应商评价列表</a></li>
+	<div class="panel panel-default">
+	<div class="panel-heading">供应商评价列表
 		
-	</ul>
+	</div>
+	<div class="panel-body">
 	<form:form id="searchForm" modelAttribute="oaPoEvaluate" action="${ctx}/oa/oaPoEvaluate/" method="post" class="breadcrumb form-search form-inline">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
@@ -72,5 +73,7 @@
 		</tbody>
 	</table>
 	${page}
+	</div>
+	</div>
 </body>
 </html>

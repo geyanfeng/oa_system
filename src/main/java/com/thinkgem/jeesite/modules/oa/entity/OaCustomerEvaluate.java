@@ -4,11 +4,14 @@
 package com.thinkgem.jeesite.modules.oa.entity;
 
 import com.thinkgem.jeesite.modules.oa.entity.Customer;
-import javax.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.Length;
-import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
+
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 
 /**
@@ -26,6 +29,7 @@ public class OaCustomerEvaluate extends DataEntity<OaCustomerEvaluate> {
 	private Date planPayDate;		// 应付款时间
 	private Date payDate;		// 实际付款时间
 	private Double point;		// 点数
+	private Contract contract;		// 合同
 	
 	public OaCustomerEvaluate() {
 		super();
@@ -35,6 +39,14 @@ public class OaCustomerEvaluate extends DataEntity<OaCustomerEvaluate> {
 		super(id);
 	}
 
+	public Contract getContract() {
+		return contract;
+	}
+
+	public void setContract(Contract contract) {
+		this.contract = contract;
+	}
+	
 	@NotNull(message="客户ID不能为空")
 	public Customer getCustomer() {
 		return customer;

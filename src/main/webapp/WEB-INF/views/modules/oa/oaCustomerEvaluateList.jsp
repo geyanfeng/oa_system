@@ -17,36 +17,54 @@
 	</script>
 </head>
 <body>
-	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/oa/oaCustomerEvaluate/">客户评价列表</a></li>
-		<shiro:hasPermission name="oa:oaCustomerEvaluate:edit"><li><a href="${ctx}/oa/oaCustomerEvaluate/form">客户评价添加</a></li></shiro:hasPermission>
-	</ul>
+	
+		<div class="panel panel-default">
+	<div class="panel-heading">客户评价列表
+		
+	</div>
+	<div class="panel-body">
 	<form:form id="searchForm" modelAttribute="oaCustomerEvaluate" action="${ctx}/oa/oaCustomerEvaluate/" method="post" class="breadcrumb form-search form-inline">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
-		<ul class="ul-form">
-			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
-			<li class="clearfix"></li>
-		</ul>
+		  <div class="form-group">
+                <label>客户：</label>
+                <form:select path="customer.id"  class="input-small input-sm" id="customer" cssStyle="width: 150px">
+                    <form:option value="" label="" />
+                    <form:options items="${customerList}" itemLabel="name"
+                                  itemValue="id" htmlEscape="false" />
+                </form:select>
+            </div>
+		<button id="btnSubmit" class="btn btn-primary input-sm" type="submit" value="查询">
+				查询<i class="fa fa-search"></i>
+			</button>
 	</form:form>
 	<sys:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<shiro:hasPermission name="oa:oaCustomerEvaluate:edit"><th>操作</th></shiro:hasPermission>
+				<th>客户 </th>
+				<th>客户评价类型</th>
+				<th>合同</th>
+				<th>应付款时间</th>
+				<th>实付款时间</th>
+				<th>客户评价</th>				
 			</tr>
 		</thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="oaCustomerEvaluate">
 			<tr>
-				<shiro:hasPermission name="oa:oaCustomerEvaluate:edit"><td>
-    				<a href="${ctx}/oa/oaCustomerEvaluate/form?id=${oaCustomerEvaluate.id}">修改</a>
-					<a href="${ctx}/oa/oaCustomerEvaluate/delete?id=${oaCustomerEvaluate.id}" onclick="return confirmx('确认要删除该客户评价吗？', this.href)">删除</a>
-				</td></shiro:hasPermission>
+				 <td>${oaCustomerEvaluate.customer.name}</td>
+				 <td>${oaCustomerEvaluate.contract.name}</td>
+				 <td>${oaCustomerEvaluate.customerEvalType}</td>
+				 <td><fmt:formatDate value="${oaCustomerEvaluate.planPayDate}" pattern="yyyy-MM-dd"/></td>
+				 <td><fmt:formatDate value="${oaCustomerEvaluate.payDate}" pattern="yyyy-MM-dd"/></td>
+				 <td>${oaCustomerEvaluate.point}</td>
 			</tr>
 		</c:forEach>
 		</tbody>
 	</table>
-	<div class="pagination">${page}</div>
+	${page}
+	</div>
+	</div>
 </body>
 </html>

@@ -5,18 +5,22 @@
 	<sql id="oaCustomerEvaluateColumns">
 		a.id AS "id",
 		a.customer_id AS "customer.id",
-		a.customer_eval_type AS "customerEvalType",
 		a.contract_id AS "contractId",
 		a.payment_id AS "paymentId",
 		a.plan_pay_date AS "planPayDate",
 		a.pay_date AS "payDate",
 		a.point AS "point",
 		a.create_date AS "createDate",
-		a2.name AS "customer.name"
+		a2.name AS "customer.name",
+		a3.name AS "contract.name",
+		a5.label AS "customerEvalType"
 	</sql>
 	
 	<sql id="oaCustomerEvaluateJoins">
 		LEFT JOIN oa_customer a2 ON a2.id = a.customer_id
+		LEFT JOIN oa_contract a3 ON a3.id = a.contract_id
+		LEFT JOIN oa_customer_eval_setting a4 ON a4.eval_type = a.customer_eval_type
+		LEFT JOIN sys_dict a5 ON a5.value = a4.eval_type
 	</sql>
     
 	<select id="get" resultType="OaCustomerEvaluate">
@@ -33,13 +37,17 @@
 		FROM oa_customer_evaluate a
 		<include refid="oaCustomerEvaluateJoins"/>
 		<where>
-			
+			a5.type = 'oa_customer_eval_type'
+			<if test="customer != null and customer.id != null and customer.id != ''">
+				AND a.customer_id = #{customer.id}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
+			 ORDER BY a.id DESC
 			</otherwise>
 		</choose>
 	</select>
@@ -50,13 +58,14 @@
 		FROM oa_customer_evaluate a
 		<include refid="oaCustomerEvaluateJoins"/>
 		<where>
-			
+			a5.type = 'oa_customer_eval_type'
 		</where>		
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
+			    ORDER BY a.id DESC
 			</otherwise>
 		</choose>
 	</select>
