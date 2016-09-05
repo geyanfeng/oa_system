@@ -347,4 +347,9 @@ public class ContractController extends BaseController {
 		contract.setContractProductList(contractProductList);
 		contractService.saveProducts(contract);
 	}
+
+	@RequestMapping(value = "{contractId}/jump")
+	public void jump(@PathVariable String contractId){
+		contractService.jump(contractId);
+	}
 }

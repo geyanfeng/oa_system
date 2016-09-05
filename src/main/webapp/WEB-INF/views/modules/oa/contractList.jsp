@@ -39,6 +39,10 @@
             if (parent.closeSelectContractModal)
                 parent.closeSelectContractModal(selectedContract);
         }
+
+        function jump(contractId) {
+            $.post("${ctx}/oa/contract/"+contractId+"/jump");
+        }
     </script>
 </head>
 <body>
@@ -226,6 +230,7 @@
                                 <a href="#" onclick="selectContract(this);">选择</a>
                             </c:if>
                             </shiro:hasPermission>
+                            <a href="#" onclick="jump('${contract.id}');">test</a>
                         </td>
 
                 </tr>

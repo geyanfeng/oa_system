@@ -19,6 +19,8 @@ import com.thinkgem.jeesite.modules.oa.entity.*;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import org.activiti.engine.RuntimeService;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -569,5 +571,14 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                 return false;
         }
         return true;
+    }
+
+    @Transactional(readOnly = false)
+    public void jump(String contractId){
+        Contract contract = get(contractId);
+        ProcessInstance processInstance = actTaskService.getProcIns(contract.getProcInsId());
+        Task task = actTaskService.getCurrentTaskInfo(processInstance);
+        String actId = "cfo_recall_audit";
+        actTaskService.Jump(task.getExecutionId(), actId);
     }
 }
