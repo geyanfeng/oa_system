@@ -37,6 +37,7 @@ import com.thinkgem.jeesite.modules.oa.entity.Supplier;
 import com.thinkgem.jeesite.modules.oa.service.ContractService;
 import com.thinkgem.jeesite.modules.oa.service.OaPoEvaluateService;
 import com.thinkgem.jeesite.modules.oa.service.PurchaseOrderService;
+import com.thinkgem.jeesite.modules.oa.service.SupplierService;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 /**
@@ -55,6 +56,9 @@ public class OaPoEvaluateController extends BaseController {
 	private PurchaseOrderService purchaseOrderService;
 	@Autowired
 	private ContractService contractService;
+	
+	@Autowired
+	private SupplierService supplierService;
 
 	@ModelAttribute
 	public OaPoEvaluate get(@RequestParam(required = false) String id) {
@@ -75,6 +79,9 @@ public class OaPoEvaluateController extends BaseController {
 		Page<OaPoEvaluate> page = oaPoEvaluateService.findPage(
 				new Page<OaPoEvaluate>(request, response), oaPoEvaluate);
 		model.addAttribute("page", page);
+		//获取所有供应商
+		List<Supplier> supplierList = supplierService.findList(new Supplier());
+		model.addAttribute("supplierList", supplierList);
 		return "modules/oa/oaPoEvaluateList";
 	}
 
