@@ -358,7 +358,7 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 
 			//自动合同的审核
 			if("business_person_createbill".equals(taskDefKey)) {//商务下单
-				autoFinishContractTask(40, contract, "business_person_createbill");
+				autoFinishContractTask(20, contract, "business_person_createbill");
 			}
 		}
 	}

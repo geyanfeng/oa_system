@@ -567,7 +567,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
     private Boolean isFinishCreateBill(Contract contract){
        List<PurchaseOrder> poList = purchaseOrderService.getPoListByContractId(contract.getId());
         for(PurchaseOrder purchaseOrder:poList){
-            if(isBlank(purchaseOrder.getStatus()) || new Integer(purchaseOrder.getStatus())<40)
+            if(isBlank(purchaseOrder.getStatus()) || new Integer(purchaseOrder.getStatus())<20)
                 return false;
         }
         return true;
