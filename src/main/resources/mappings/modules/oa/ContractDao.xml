@@ -6,6 +6,7 @@
 		a.id AS "id",
 		a.proc_ins_id,
 		a.parent_id AS "parentId",
+		a.copy_from AS "copyFrom",
 		a.no AS "no",
 		a.name AS "name",
 		a.amount AS "amount",
@@ -35,6 +36,9 @@
 		a.ship_phone AS "shipPhone",
 		a.ship_ems AS "shipEms",
 		a.remark AS "remark",
+		a.cancel_flag AS "cancelFlag",
+		a.cancel_reason AS "cancelReason",
+		a.cancel_date AS "cancelDate",
 		a.del_flag AS "delFlag",
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
@@ -128,6 +132,7 @@
 	<insert id="insert">
 		INSERT INTO oa_contract(
 			id,
+			copy_from,
 			parent_id,
 			no,
 			name,
@@ -158,6 +163,7 @@
 			ship_phone,
 			ship_ems,
 			remark,
+			cancel_flag,
 			del_flag,
 			create_by,
 			create_date,
@@ -165,6 +171,7 @@
 			update_date
 		) VALUES (
 			#{id},
+			#{copyFrom},
 			#{parentId},
 			#{no},
 			#{name},
@@ -195,6 +202,7 @@
 			#{shipPhone},
 			#{shipEms},
 			#{remark},
+			#{cancelFlag},
 			#{delFlag},
 			#{createBy.id},
 			#{createDate},
@@ -245,6 +253,32 @@
 		WHERE id = #{id}
 	</update>
 
+	<update id="cancelContract">
+		UPDATE oa_contract SET
+		cancel_flag = 1, cancel_reason = #{cancelReason}, cancel_date=#{cancelDate}
+		WHERE id = #{id}
+
+		UPDATE oa_contract_product SET
+		cancel_flag = 1
+		WHERE contract_id = #{id}
+
+		UPDATE oa_contract_finance SET
+		cancel_flag = 1
+		WHERE contract_id = #{id}
+
+		UPDATE oa_po SET
+		cancel_flag = 1, cancel_reason = #{cancelReason}, cancel_date=#{cancelDate}
+		WHERE contract_id = #{id}
+
+		UPDATE oa_po_product SET
+		cancel_flag = 1
+		WHERE po_id in (select a.id from oa_po a, oa_contract b where b.id = a.contract_id and b.id =#{id} )
+
+		UPDATE oa_po_finance SET
+		cancel_flag = 1
+		WHERE po_id in (select a.id from oa_po a, oa_contract b where b.id = a.contract_id and b.id =#{id} )
+	</update>
+
 	<select id="getByName" resultType="Contract">
 		SELECT
 		<include refid="contractColumns"/>
@@ -258,6 +292,5 @@
 		SELECT count(1)
 		FROM oa_contract a
 		where a.no like concat(#{noPref},'%')
-
 	</select>
 </mapper>

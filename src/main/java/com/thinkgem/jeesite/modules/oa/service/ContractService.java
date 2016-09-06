@@ -581,4 +581,44 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         String actId = "cfo_recall_audit";
         actTaskService.Jump(task.getExecutionId(), actId);
     }
+
+    /*
+    撤销合同
+     */
+    @Transactional(readOnly = false)
+    public void cancelContract(String contractId, Map<String, Object> content) {
+        Contract contract = get(contractId);
+        List<PurchaseOrder> poList = purchaseOrderService.getPoListByContractId(contractId);
+        String cancelReason = "";
+        Boolean isCopy = false;
+
+        if(content.get("cancelReason")!=null)
+            cancelReason = content.get("cancelReason").toString();
+
+        if(content.get("isCopy")!=null)
+            isCopy =content.get("isCopy").toString().equalsIgnoreCase("true")?true:false;
+
+        if(isNotBlank(contract.getProcInsId()))
+            runtimeService.deleteProcessInstance(contract.getProcInsId(),"撤销合同, 原因:" + cancelReason);
+
+        for(PurchaseOrder po : poList){
+            if(isNotBlank(po.getProcInsId()))
+                runtimeService.deleteProcessInstance(po.getProcInsId(),"撤销合同, 原因:" + cancelReason);
+        }
+
+        //deep clone
+        try {
+            Contract copiedContract = (Contract) contract.deepCopy();
+            copiedContract.setProcInsId(null);
+            copiedContract.setIsNewRecord(true);
+            copiedContract.setCopyFrom(contractId);
+            save(copiedContract);
+        }
+        catch(Exception e) {
+
+        }
+
+
+        contractDao.cancelContract(contractId, cancelReason, new Date());
+    }
 }

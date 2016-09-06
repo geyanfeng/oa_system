@@ -3,13 +3,6 @@
  */
 package com.thinkgem.jeesite.common.persistence;
 
-import java.io.Serializable;
-import java.util.Map;
-
-import javax.xml.bind.annotation.XmlTransient;
-
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.config.Global;
@@ -18,6 +11,11 @@ import com.thinkgem.jeesite.common.supcan.annotation.treelist.cols.SupCol;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+
+import javax.xml.bind.annotation.XmlTransient;
+import java.io.*;
+import java.util.Map;
 
 /**
  * Entity支持类
@@ -175,7 +173,28 @@ public abstract class BaseEntity<T> implements Serializable {
     public String toString() {
         return ReflectionToStringBuilder.toString(this);
     }
-    
+
+
+	/*
+	深度克隆
+	 */
+	public Object deepCopy() throws Exception
+	{
+		// 将该对象序列化成流,因为写在流里的是对象的一个拷贝，而原对象仍然存在于JVM里面。所以利用这个特性可以实现对象的深拷贝
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
+		ObjectOutputStream oos = new ObjectOutputStream(bos);
+
+		oos.writeObject(this);
+
+		// 将流序列化成对象
+		ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+
+		ObjectInputStream ois = new ObjectInputStream(bis);
+
+		return ois.readObject();
+	}
+
 	/**
 	 * 删除标记（0：正常；1：删除；2：审核；）
 	 */

@@ -26,6 +26,7 @@ public class PurchaseOrderProduct extends DataEntity<PurchaseOrderProduct> {
 	private Double amount;		// 金额
 	private String remark;		// 备注
 	private Integer sort;		// 排序
+	private Integer cancelFlag=0;		//撤销标志: 0为没有撤销, 1为撤销
 	
 	public PurchaseOrderProduct() {
 		super();
@@ -124,5 +125,7 @@ public class PurchaseOrderProduct extends DataEntity<PurchaseOrderProduct> {
 	public void setSort(Integer sort) {
 		this.sort = sort;
 	}
-	
+
+	public Integer getCancelFlag(){return cancelFlag;}
+	public void setCancelFlag(Integer cancelFlag){this.cancelFlag = cancelFlag;}
 }

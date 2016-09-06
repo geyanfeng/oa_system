@@ -348,8 +348,22 @@ public class ContractController extends BaseController {
 		contractService.saveProducts(contract);
 	}
 
+	/*
 	@RequestMapping(value = "{contractId}/jump")
 	public void jump(@PathVariable String contractId){
 		contractService.jump(contractId);
+	}*/
+
+	/*
+	撤销合同
+	 */
+	@RequestMapping(value = "{contractId}/cancel")
+	public String cancelContract(@PathVariable String contractId, @RequestBody Map<String, Object> content){
+		try{
+			contractService.cancelContract(contractId, content);
+			return "成功撤销合同!";
+		}catch(Exception e){
+			return "撤销合同失败!";
+		}
 	}
 }

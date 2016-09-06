@@ -7,6 +7,8 @@ import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.oa.entity.Contract;
 
+import java.util.Date;
+
 /**
  * 各种合同DAO接口
  * @author anthony
@@ -20,4 +22,6 @@ public interface ContractDao extends CrudDao<Contract> {
     Contract getByProcInsId(String procInsId);
 
     Integer getCountByNoPref(String noPref);
+
+    void cancelContract(String id, String cancelReason, Date cancelDate);
 }
