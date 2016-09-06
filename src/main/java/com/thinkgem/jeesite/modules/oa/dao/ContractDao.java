@@ -23,5 +23,5 @@ public interface ContractDao extends CrudDao<Contract> {
 
     Integer getCountByNoPref(String noPref);
 
-    void cancelContract(String id, String cancelReason, Date cancelDate);
+    void cancelContract(Contract contract);
 }

@@ -358,6 +358,7 @@ public class ContractController extends BaseController {
 	撤销合同
 	 */
 	@RequestMapping(value = "{contractId}/cancel")
+	@RequiresPermissions("oa:contract:cancel")
 	public String cancelContract(@PathVariable String contractId, @RequestBody Map<String, Object> content){
 		try{
 			contractService.cancelContract(contractId, content);

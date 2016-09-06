@@ -37,6 +37,7 @@
 		a.ship_ems AS "shipEms",
 		a.remark AS "remark",
 		a.cancel_flag AS "cancelFlag",
+		a.cancel_type AS "cancelType",
 		a.cancel_reason AS "cancelReason",
 		a.cancel_date AS "cancelDate",
 		a.del_flag AS "delFlag",
@@ -254,29 +255,20 @@
 	</update>
 
 	<update id="cancelContract">
-		UPDATE oa_contract SET
-		cancel_flag = 1, cancel_reason = #{cancelReason}, cancel_date=#{cancelDate}
-		WHERE id = #{id}
-
-		UPDATE oa_contract_product SET
-		cancel_flag = 1
-		WHERE contract_id = #{id}
-
-		UPDATE oa_contract_finance SET
-		cancel_flag = 1
-		WHERE contract_id = #{id}
-
-		UPDATE oa_po SET
-		cancel_flag = 1, cancel_reason = #{cancelReason}, cancel_date=#{cancelDate}
-		WHERE contract_id = #{id}
-
-		UPDATE oa_po_product SET
-		cancel_flag = 1
-		WHERE po_id in (select a.id from oa_po a, oa_contract b where b.id = a.contract_id and b.id =#{id} )
-
-		UPDATE oa_po_finance SET
-		cancel_flag = 1
-		WHERE po_id in (select a.id from oa_po a, oa_contract b where b.id = a.contract_id and b.id =#{id} )
+		update oa_contract a1, oa_contract_product a2, oa_contract_finance a3, oa_po b1, oa_po_product b2, oa_po_finance b3
+		set
+		 a1.cancel_flag = 1,a1.cancel_reason = #{cancelReason}, a1.cancel_date=#{cancelDate}, a1.cancel_type = #{cancelType},
+		 a2.cancel_flag = 1,
+		 a3.cancel_flag = 1,
+		 b1.cancel_flag = 1,b1.cancel_reason = #{cancelReason}, b1.cancel_date=#{cancelDate},
+		 b2.cancel_flag = 1,
+		 b3.cancel_flag = 1
+		 where a1.id = #{id}
+		 and a1.id = a2.contract_id
+		 and  a1.id = a3.contract_id
+		 and b1.contract_id = a1.id
+		 and b2.po_id = b1.id
+		 and b3.po_id = b1.id
 	</update>
 
 	<select id="getByName" resultType="Contract">
