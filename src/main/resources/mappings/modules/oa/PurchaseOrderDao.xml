@@ -149,7 +149,7 @@
 	
 	<update id="delete">
 		UPDATE oa_po SET 
-			del_flag = #{DEL_FLAG_DELETE}
+			del_flag = #{DEL_FLAG_DELETE}, proc_ins_id = NULL
 		WHERE id = #{id}
 	</update>
 

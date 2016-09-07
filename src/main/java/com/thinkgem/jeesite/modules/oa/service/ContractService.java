@@ -8,7 +8,6 @@ import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.common.utils.Encodes;
-import com.thinkgem.jeesite.common.utils.IdGen;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.act.service.ActTaskService;
 import com.thinkgem.jeesite.modules.act.utils.ActUtils;
@@ -407,10 +406,12 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 
     @Transactional(readOnly = false)
     public void delete(Contract contract) {
-        super.delete(contract);
+        if (isNotBlank(contract.getProcInsId()))
+            runtimeService.deleteProcessInstance(contract.getProcInsId(), "删除合同");
+
         contractAttachmentDao.delete(new ContractAttachment(contract));
         contractProductDao.delete(new ContractProduct(contract));
-        runtimeService.suspendProcessInstanceById(contract.getProcInsId());
+        super.delete(contract);
     }
 
     public Contract getByName(String name) {
@@ -613,21 +614,29 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             }
         }
         catch (Exception e) {
-
+            System.out.println(e);
         }
 
         //deep clone
         if(isCopy) {
             try {
                 Contract copiedContract = (Contract) contract.deepCopy();
-                copiedContract.setId(IdGen.uuid());
-                copiedContract.setProcInsId(null);
-                copiedContract.setIsNewRecord(true);
+                copiedContract.setId("");
+                copiedContract.setIsNewRecord(false);
                 copiedContract.setCopyFrom(contractId);
+                copiedContract.setStatus("0");
                 setContractNo(copiedContract);
+                for (ContractProduct product : copiedContract.getContractProductList()){
+                    product.setId("");
+                    product.setIsNewRecord(false);
+                }
+                for (ContractAttachment attachment: copiedContract.getContractAttachmentList()){
+                    attachment.setId("");
+                    attachment.setIsNewRecord(false);
+                }
                 save(copiedContract);
             } catch (Exception e) {
-
+                System.out.println(e);
             }
         }
 

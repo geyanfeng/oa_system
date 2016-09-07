@@ -250,25 +250,12 @@
 	
 	<update id="delete">
 		UPDATE oa_contract SET 
-			del_flag = #{DEL_FLAG_DELETE}
+			del_flag = #{DEL_FLAG_DELETE}, proc_ins_id = NULL
 		WHERE id = #{id}
 	</update>
 
 	<update id="cancelContract">
-		update oa_contract a1, oa_contract_product a2, oa_contract_finance a3, oa_po b1, oa_po_product b2, oa_po_finance b3
-		set
-		 a1.cancel_flag = 1,a1.cancel_reason = #{cancelReason}, a1.cancel_date=#{cancelDate}, a1.cancel_type = #{cancelType},
-		 a2.cancel_flag = 1,
-		 a3.cancel_flag = 1,
-		 b1.cancel_flag = 1,b1.cancel_reason = #{cancelReason}, b1.cancel_date=#{cancelDate},
-		 b2.cancel_flag = 1,
-		 b3.cancel_flag = 1
-		 where a1.id = #{id}
-		 and a1.id = a2.contract_id
-		 and  a1.id = a3.contract_id
-		 and b1.contract_id = a1.id
-		 and b2.po_id = b1.id
-		 and b3.po_id = b1.id
+		call sp_cancel_contract(#{id},#{cancelReason}, #{cancelDate},#{cancelType})
 	</update>
 
 	<select id="getByName" resultType="Contract">
