@@ -104,6 +104,7 @@
 				<th class="sort-column a9.name">供应商</th>
 				<th class="sort-column amount">订单金额</th>
 				<th class="sort-column status">订单状态</th>
+				<th class="sort-column status">撤销?</th>
 				<%-- <th>更新时间</th>--%>
 				<shiro:hasPermission name="oa:purchaseOrder:edit">
 					<th>操作</th>
@@ -133,6 +134,7 @@
 					<td>
 							${fns:getDictLabel(purchaseOrder.status, 'oa_po_status', '')}
 					</td>
+					<td><c:if test="${purchaseOrder.cancelFlag eq 1}"><i class="zmdi zmdi-check"></i></c:if> </td>
 					<td>
 						<shiro:hasPermission name="oa:purchaseOrder:view">
 							<a href="${ctx}/oa/purchaseOrder/view?id=${purchaseOrder.id}">查看</a>

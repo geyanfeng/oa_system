@@ -23,6 +23,7 @@ import org.activiti.editor.language.json.converter.BpmnJsonConverter;
 import org.activiti.engine.ActivitiException;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.repository.ProcessDefinitionQuery;
@@ -55,6 +56,8 @@ public class ActProcessService extends BaseService {
 	@Autowired
 	private RuntimeService runtimeService;
 
+	@Autowired
+	private TaskService taskService;
 	/**
 	 * 流程定义列表
 	 */
@@ -302,7 +305,11 @@ public class ActProcessService extends BaseService {
 	 */
 	@Transactional(readOnly = false)
 	public void deleteProcIns(String procInsId, String deleteReason) {
-		runtimeService.deleteProcessInstance(procInsId, deleteReason);
+		if(isExistProcIns(procInsId))
+			runtimeService.deleteProcessInstance(procInsId, deleteReason);
 	}
-	
+
+	public boolean isExistProcIns(String procInsId){
+		return taskService.createTaskQuery().processInstanceId(procInsId).active().singleResult() !=null;
+	}
 }

@@ -9,6 +9,7 @@ import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.common.utils.Encodes;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.modules.act.service.ActProcessService;
 import com.thinkgem.jeesite.modules.act.service.ActTaskService;
 import com.thinkgem.jeesite.modules.act.utils.ActUtils;
 import com.thinkgem.jeesite.modules.oa.dao.ContractAttachmentDao;
@@ -18,7 +19,6 @@ import com.thinkgem.jeesite.modules.oa.dao.ContractProductDao;
 import com.thinkgem.jeesite.modules.oa.entity.*;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
-import org.activiti.engine.RuntimeService;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +45,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
     @Autowired
     private ActTaskService actTaskService;
     @Autowired
-    private RuntimeService runtimeService;
+    private ActProcessService actProcessService;
     @Autowired
     private ContractDao contractDao;
     @Autowired
@@ -407,7 +407,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
     @Transactional(readOnly = false)
     public void delete(Contract contract) {
         if (isNotBlank(contract.getProcInsId()))
-            runtimeService.deleteProcessInstance(contract.getProcInsId(), "删除合同");
+            actProcessService.deleteProcIns(contract.getProcInsId(), "删除合同");
 
         contractAttachmentDao.delete(new ContractAttachment(contract));
         contractProductDao.delete(new ContractProduct(contract));
@@ -606,11 +606,11 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 
         try {
             if (isNotBlank(contract.getProcInsId()))
-                runtimeService.deleteProcessInstance(contract.getProcInsId(), "撤销合同, 类型:" + DictUtils.getDictLabel(cancelType, "oa_contract_cancel_type", "") + " 原因:" + cancelReason);
+                actProcessService.deleteProcIns(contract.getProcInsId(), "撤销合同, 类型:" + DictUtils.getDictLabel(cancelType, "oa_contract_cancel_type", "") + " 原因:" + cancelReason);
 
             for (PurchaseOrder po : poList) {
                 if (isNotBlank(po.getProcInsId()))
-                    runtimeService.deleteProcessInstance(po.getProcInsId(), "撤销合同, 类型:" + DictUtils.getDictLabel(cancelType, "oa_contract_cancel_type", "") + "原因:" + cancelReason);
+                    actProcessService.deleteProcIns(po.getProcInsId(), "撤销合同, 类型:" + DictUtils.getDictLabel(cancelType, "oa_contract_cancel_type", "") + "原因:" + cancelReason);
             }
         }
         catch (Exception e) {
