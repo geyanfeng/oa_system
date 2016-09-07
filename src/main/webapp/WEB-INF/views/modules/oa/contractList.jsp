@@ -79,8 +79,9 @@
 		<li class="active"><a href="${ctx}/oa/contract/">合同列表</a></li>
 		<shiro:hasPermission name="oa:contract:edit"><li><a href="${ctx}/oa/contract/form">合同添加</a></li></shiro:hasPermission>
 	</ul>--%>
-<div class="panel panel-default">
+<div class="panel panel-default">					
     <div class="panel-heading">
+    	<h3 class="panel-title">
         <c:choose>
             <c:when test="${contract.contractType eq '1'}">框架合同</c:when>
             <c:when test="${contract.contractType eq '2'}">客户合同</c:when>
@@ -89,20 +90,21 @@
         <div class="pull-right">
             <c:if test="${empty isSelect}">
                 <shiro:hasPermission name="oa:contract:edit">
-                    <a id="btnExport" class="btn btn-primary waves-effect waves-light input-sm" type="button"
+                    <a id="btnExport" class="btn btn-custom input-sm" type="button"
                        title="导出">
                         导出&nbsp;<i
                             class="fa fa-download"></i></a>
                     </a>
                     <a id="btnNew"
                        href="${ctx}/oa/contract/form?contractType=${contract.contractType}"
-                       class="btn btn-primary waves-effect waves-light input-sm" title="新增"
+                       class="btn btn-info input-sm" title="新增"
                        data-content="新增">新增&nbsp;<i
                             class="fa fa-plus"></i></a>
                 </shiro:hasPermission>
             </c:if>
 
         </div>
+        </h3>
     </div>
 
     <div class="panel-body">
