@@ -66,6 +66,11 @@ select c.customer_id,
  on f.contract_id = c.id 
  where f.del_flag=0 and f.status=3 and f.id not in(select payment_id from oa_customer_evaluate where payment_id is not null); 
 
+#客户撤销合同扣除点数
+insert into oa_customer_evaluate(customer_id,customer_eval_type,contract_id,point,create_date)
+select customer_id, @eval_type7, id, -@eval_point7, now()
+from oa_contract where del_flag= 0 and cancel_flag = 1 and id not in (select contract_id from oa_customer_evaluate where contract_id is not null and customer_eval_type = @eval_type7);
+
 #更新客户评价值
 update oa_customer a inner join 
 (select sum(point) as point,customer_id from oa_customer_evaluate group by customer_id) b 
