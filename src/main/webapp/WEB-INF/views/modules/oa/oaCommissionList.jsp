@@ -25,7 +25,16 @@
 	<form:form id="searchForm" modelAttribute="oaCommission" action="${ctx}/oa/oaCommission/" method="post" class="breadcrumb form-search form-inline">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
-		
+		 <div class="form-group">
+                <label>销售：</label>
+
+                <sys:treeselect id="saler" name="saler.id" value="${oaCommission.saler.id}"
+                                labelName="saler.name" labelValue="${oaCommission.saler.name}"
+                                title="用户" url="/sys/office/treeData?type=3"
+                                cssClass="input-small input-sm"
+                                allowClear="true" notAllowSelectParent="true" buttonIconCss="input-sm"/>
+
+            </div>
 			<button id="btnSubmit" class="btn btn-primary input-sm" type="submit" value="查询">
 				查询<i class="fa fa-search"></i>
 			</button>

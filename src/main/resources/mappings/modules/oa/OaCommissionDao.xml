@@ -3,35 +3,8 @@
 <mapper namespace="com.thinkgem.jeesite.modules.oa.dao.OaCommissionDao">
     
 	<sql id="oaCommissionColumns">
-		a.id AS "id",
 		a.year AS "year",
 		a.quarter AS "quarter",
-		a.contract_id AS "contractId",
-		a.payment_id AS "paymentId",
-		a.sv AS "sv",
-		a.cog AS "cog",
-		a.cc AS "cc",
-		a.lc AS "lc",
-		a.billing_date AS "billingDate",
-		a.pay_date AS "payDate",
-		a.pccday AS "pccday",
-		a.payment AS "payment",
-		a.rate AS "rate",
-		a.k_saler_id AS "kSalerId",
-		a.k_id AS "kId",
-		a.k_name AS "kName",
-		a.k_sv AS "kSv",
-		a.k_cog AS "kCog",
-		a.k_cc AS "kCc",
-		a.k_lc AS "kLc",
-		a.k_gpi AS "kGpi",
-		a.k_tr AS "kTr",
-		a.k_ac AS "kAc",
-		a.k_ec AS "kEc",
-		a.k_pcc AS "kPcc",
-		a.k_cos AS "kCos",
-		a.k_scc AS "kScc",
-		a.gp AS "gp",
 		a.k_gp AS "kGp",
 		a.k_np AS "kNp",
 		a.k_tr_v AS "kTrV",
@@ -43,6 +16,7 @@
 		a2.no AS "contract.no",
 		a2.name AS "contract.name",
 		a3.sort AS "finance.sort",
+		a4.id AS "saler.id",
 		a4.name AS "saler.name"
 	</sql>
 	
@@ -66,7 +40,9 @@
 		FROM oa_commission a
 		<include refid="oaCommissionJoins"/>
 		<where>
-			
+			<if test="saler != null and saler.id != null and saler.id != ''">
+				AND a4.id = #{saler.id}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -96,133 +72,5 @@
 		</choose>
 	</select>
 	
-	<insert id="insert">
-		INSERT INTO oa_commission(
-			id,
-			year,
-			quarter,
-			contract_id,
-			payment_id,
-			sv,
-			cog,
-			cc,
-			lc,
-			billing_date,
-			pay_date,
-			pccday,
-			payment,
-			rate,
-			k_saler_id,
-			k_id,
-			k_name,
-			k_sv,
-			k_cog,
-			k_cc,
-			k_lc,
-			k_gpi,
-			k_tr,
-			k_ac,
-			k_ec,
-			k_pcc,
-			k_cos,
-			k_scc,
-			gp,
-			k_gp,
-			k_np,
-			k_tr_v,
-			k_pcc_v,
-			k_jz_v,
-			k_yj_v,
-			k_ew_v,
-			k_sc,
-			update_date
-		) VALUES (
-			#{id},
-			#{year},
-			#{quarter},
-			#{contractId},
-			#{paymentId},
-			#{sv},
-			#{cog},
-			#{cc},
-			#{lc},
-			#{billingDate},
-			#{payDate},
-			#{pccday},
-			#{payment},
-			#{rate},
-			#{kSalerId},
-			#{kId},
-			#{kName},
-			#{kSv},
-			#{kCog},
-			#{kCc},
-			#{kLc},
-			#{kGpi},
-			#{kTr},
-			#{kAc},
-			#{kEc},
-			#{kPcc},
-			#{kCos},
-			#{kScc},
-			#{gp},
-			#{kGp},
-			#{kNp},
-			#{kTrV},
-			#{kPccV},
-			#{kJzV},
-			#{kYjV},
-			#{kEwV},
-			#{kSc},
-			#{updateDate}
-		)
-	</insert>
-	
-	<update id="update">
-		UPDATE oa_commission SET 	
-			year = #{year},
-			quarter = #{quarter},
-			contract_id = #{contractId},
-			payment_id = #{paymentId},
-			sv = #{sv},
-			cog = #{cog},
-			cc = #{cc},
-			lc = #{lc},
-			billing_date = #{billingDate},
-			pay_date = #{payDate},
-			pccday = #{pccday},
-			payment = #{payment},
-			rate = #{rate},
-			k_saler_id = #{kSalerId},
-			k_id = #{kId},
-			k_name = #{kName},
-			k_sv = #{kSv},
-			k_cog = #{kCog},
-			k_cc = #{kCc},
-			k_lc = #{kLc},
-			k_gpi = #{kGpi},
-			k_tr = #{kTr},
-			k_ac = #{kAc},
-			k_ec = #{kEc},
-			k_pcc = #{kPcc},
-			k_cos = #{kCos},
-			k_scc = #{kScc},
-			gp = #{gp},
-			k_gp = #{kGp},
-			k_np = #{kNp},
-			k_tr_v = #{kTrV},
-			k_pcc_v = #{kPccV},
-			k_jz_v = #{kJzV},
-			k_yj_v = #{kYjV},
-			k_ew_v = #{kEwV},
-			k_sc = #{kSc},
-			update_date = #{updateDate}
-		WHERE id = #{id}
-	</update>
-	
-	<update id="delete">
-		DELETE FROM oa_commission
-		WHERE id = #{id}
-	</update>
 	
 </mapper>
