@@ -58,18 +58,18 @@
 			    <td>${oaCommission.year}</td>
 			    <td>${oaCommission.quarter}</td>
 			    <td>${oaCommission.saler.name}</td>
-			    <td>${oaCommission.contract.no}-S${oaCommission.finance.sort}</td>
+			    <td>${oaCommission.contract.no}-S${oaCommission.contractFinance.sort}</td>
 			    <td>${oaCommission.contract.no}</td>
 			    <td>${oaCommission.contract.name}</td>
 			    <td></td>
-			    <td>${oaCommission.kGp}</td>
-			    <td>${oaCommission.kNp}</td>
-			    <td>${oaCommission.kTrV}</td>
-			    <td>${oaCommission.kPccV}</td>
-			    <td>${oaCommission.kJzV}</td>
-			    <td>${oaCommission.kYjV}</td>
-			    <td>${oaCommission.kEwV}</td>
-			    <td>${oaCommission.kSc}</td>
+			    <td>${oaCommission.KGp}</td>
+			    <td>${oaCommission.KNp}</td>
+				<td>${oaCommission.KTrV}</td>
+				<td>${oaCommission.KPccV}</td>
+				<td>${oaCommission.KJzV}</td>
+				<td>${oaCommission.KYjV}</td>
+				<td>${oaCommission.KEwV}</td>
+				<td>${oaCommission.KSc}</td>
 				
 			</tr>
 		</c:forEach>
