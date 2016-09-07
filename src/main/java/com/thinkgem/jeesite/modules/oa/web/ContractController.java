@@ -359,12 +359,12 @@ public class ContractController extends BaseController {
 	 */
 	@RequestMapping(value = "{contractId}/cancel")
 	@RequiresPermissions("oa:contract:cancel")
-	public String cancelContract(@PathVariable String contractId, @RequestBody Map<String, Object> content){
+	public String cancelContract(@PathVariable String contractId, @RequestBody Map<String, Object> content,HttpServletResponse response){
 		try{
 			contractService.cancelContract(contractId, content);
-			return "成功撤销合同!";
+			return renderString(response, "成功撤销合同!");
 		}catch(Exception e){
-			return "撤销合同失败!";
+			return renderString(response, "撤销合同失败!");
 		}
 	}
 }

@@ -5,6 +5,7 @@ package com.thinkgem.jeesite.common.persistence;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Maps;
+import com.opensymphony.module.sitemesh.util.FastByteArrayOutputStream;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.supcan.annotation.treelist.SupTreeList;
 import com.thinkgem.jeesite.common.supcan.annotation.treelist.cols.SupCol;
@@ -14,7 +15,10 @@ import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import javax.xml.bind.annotation.XmlTransient;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -181,7 +185,7 @@ public abstract class BaseEntity<T> implements Serializable {
 	public Object deepCopy() throws Exception
 	{
 		// 将该对象序列化成流,因为写在流里的是对象的一个拷贝，而原对象仍然存在于JVM里面。所以利用这个特性可以实现对象的深拷贝
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		FastByteArrayOutputStream bos = new FastByteArrayOutputStream ();
 
 		ObjectOutputStream oos = new ObjectOutputStream(bos);
 

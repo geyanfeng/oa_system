@@ -10,22 +10,23 @@ import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.common.utils.Encodes;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.modules.act.service.ActProcessService;
 import com.thinkgem.jeesite.modules.act.service.ActTaskService;
 import com.thinkgem.jeesite.modules.act.utils.ActUtils;
 import com.thinkgem.jeesite.modules.oa.dao.*;
 import com.thinkgem.jeesite.modules.oa.entity.*;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
-
-import org.activiti.engine.RuntimeService;
-import org.activiti.engine.impl.transformer.IntegerToLong;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
 
 import static org.codehaus.plexus.util.StringUtils.isNotBlank;
 import static org.jasig.cas.client.util.CommonUtils.isBlank;
@@ -42,7 +43,7 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 	@Autowired
 	private ActTaskService actTaskService;
 	@Autowired
-	private RuntimeService runtimeService;
+	private ActProcessService actProcessService;
 	@Autowired
 	private PurchaseOrderProductDao purchaseOrderProductDao;
 	@Autowired
@@ -221,7 +222,9 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 	
 	@Transactional(readOnly = false)
 	public void delete(PurchaseOrder purchaseOrder) {
-		super.delete(purchaseOrder);
+		if(isNotBlank(purchaseOrder.getProcInsId())){
+			actProcessService.deleteProcIns(purchaseOrder.getProcInsId(),"删除");
+		}
 		for(PurchaseOrderProduct purchaseOrderProduct : purchaseOrder.getPurchaseOrderProductList()){
 			//得到合同产品
 			ContractProduct contractProduct = contractProductDao.get(purchaseOrderProduct.getContractProductId());
@@ -231,9 +234,7 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 			contractProductDao.update(contractProduct);
 		}
 		purchaseOrderProductDao.delete(new PurchaseOrderProduct(purchaseOrder));
-		if(isNotBlank(purchaseOrder.getProcInsId())){
-			runtimeService.deleteProcessInstance(purchaseOrder.getProcInsId(),"");
-		}
+		super.delete(purchaseOrder);
 	}
 
 	public Integer getCountByNoPref(String noPref) {
@@ -423,8 +424,8 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 			if(isBlank(po.getStatus()) || new Integer(po.getStatus())< poStatus)
 				return;
 		}
-		ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(contract.getProcInsId())
-				.singleResult();
+		ProcessInstance processInstance = actTaskService.getProcIns(contract.getProcInsId());
+		if(processInstance==null)return;
 		Task contractTask =actTaskService.getCurrentTaskInfo(processInstance);
 		if(contractTask == null) return ;
 		/*Task contractTask = contract.getAct().getTask();*/

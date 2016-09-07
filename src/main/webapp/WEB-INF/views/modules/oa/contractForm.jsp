@@ -189,16 +189,19 @@
 		<sys:message content="${message}" />
 
 		<!-- Page-Title -->
-		<div class="row">
-			<div class="col-sm-12">
-				<ul class="nav nav-pills nav-pills-custom display-xs-none">
-					<li role="presentation" class="active"><a href="#">合同信息</a></li>
-					<li role="presentation"><a href="#">开票信息</a></li>
-					<li role="presentation"><a href="#">采购列表</a></li>
-					<li role="presentation"><a href="#">付费信息</a></li>
-					<li role="presentation"><a href="#">其他信息</a></li>
-					<li role="presentation"><a href="#">附件</a></li>
-					<li role="presentation"><a href="#">备注</a></li>
+		<div class="navbar navbar-default navbar-fixed-top  navbar-static"
+			role="navigation" id="navbar">
+			<div class="collapse navbar-collapse bs-js-navbar-scrollspy">
+				<ul class="nav navbar-nav">
+					<li><a href="#panel-1">合同信息</a></li>
+					<li><a href="#panel-2">开票信息</a></li>
+					<li><a href="#panel-3">采购列表</a></li>
+					<li><a href="#panel-9">订单列表</a></li>
+					<li><a href="#panel-4">付款信息</a></li>
+					<li><a href="#panel-5">物流信息</a></li>
+					<li><a href="#panel-6">其它信息</a></li>
+					<li><a href="#panel-7">附件</a></li>
+					<li><a href="#panel-8">操作信息</a></li>
 				</ul>
 			</div>
 		</div>
@@ -216,7 +219,8 @@
 						</div>
 					</h3>
 				</div>
-				<div class="panel-body panel-collapse collapse in" id="card-collapse">
+				<div class="panel-body panel-collapse collapse in"
+					id="card-collapse">
 					<div class="row">
 						<div class="col-sm-6">
 							<div class="form-group clearfix">
@@ -246,8 +250,8 @@
 												itemValue="id" htmlEscape="false" />
 										</form:select>
 
-										<span class="input-group-btn" style="vertical-align:top;"><a href="#"
-											onclick="addCustomer(this)" title="新增客户"
+										<span class="input-group-btn" style="vertical-align: top;"><a
+											href="#" onclick="addCustomer(this)" title="新增客户"
 											class="btn btn-sm btn-custom">+</a></span>
 									</div>
 
@@ -297,14 +301,14 @@
 											value="${contract.parentId}" class="hidden" /> <span
 											class="input-group-btn"> <a
 											id="btnSelectParentContract" href="javascript:" class=" "
-											style="">
-											<span class="input-group-btn" style="vertical-align:top;">
-												<button
-													class="btn waves-effect waves-light btn-custom input-sm"
-													type="button">
-													<i class="fa fa-search"></i>
-												</button>
-												</span>
+											style=""> <span class="input-group-btn"
+												style="vertical-align: top;">
+													<button
+														class="btn waves-effect waves-light btn-custom input-sm"
+														type="button">
+														<i class="fa fa-search"></i>
+													</button>
+											</span>
 										</a>
 										</span>
 									</div>
@@ -461,7 +465,7 @@
 						<shiro:hasPermission name="oa:contract:edit">
 							<div class="pull-right">
 								<a href="javascript:" class="btn btn-sm btn-danger"
-								   onclick="addRow('#contractProductList', contractProductRowIdx, contractProductTpl);contractProductRowIdx = contractProductRowIdx + 1;">
+									onclick="addRow('#contractProductList', contractProductRowIdx, contractProductTpl);contractProductRowIdx = contractProductRowIdx + 1;">
 									<i class="fa fa-plus"></i> 新增
 								</a>
 								<button class="btn btn-sm btn-info">
@@ -660,7 +664,8 @@
 					</div>
 				</div>
 				<div class="panel-footer">
-						<span class="text-custom" id="span-display-amount">采购条目的总价: ${contract.amount}</span>
+					<span class="text-custom" id="span-display-amount">采购条目的总价:
+						${contract.amount}</span>
 				</div>
 			</div>
 
@@ -669,17 +674,16 @@
 				<div class="panel-heading">
 					<h3 class="panel-title">付款信息</h3>
 				</div>
-				<div class="panel-body form-horizontal"
-					id="payment-collapse">
+				<div class="panel-body form-horizontal" id="payment-collapse">
 					<div class="col-sm-12">
 						<div class="form-group">
 							<label class="control-label col-sm-2">付款周期：</label>
-							<div class="col-sm-6">		
-							<form:radiobuttons path="paymentCycle"
-								items="${fns:getDictList('oa_payment_cycle')}" itemLabel="label"
-								itemValue="value" htmlEscape="false" class=""
-								element="span class='radio radio-custom radio-inline'" />
-							<form:hidden path="paymentDetail"></form:hidden>
+							<div class="col-sm-6">
+								<form:radiobuttons path="paymentCycle"
+									items="${fns:getDictList('oa_payment_cycle')}"
+									itemLabel="label" itemValue="value" htmlEscape="false" class=""
+									element="span class='radio radio-custom radio-inline'" />
+								<form:hidden path="paymentDetail"></form:hidden>
 							</div>
 						</div>
 						<span id="paymentMsg" style="display: none"
@@ -938,8 +942,7 @@
 				<div class="panel-heading">
 					<h3 class="panel-title">物流信息</h3>
 				</div>
-				<div class="panel-body form-horizontal"
-					id="ship-collapse">
+				<div class="panel-body form-horizontal" id="ship-collapse">
 
 					<div class="col-sm-12">
 						<div class="form-group">
@@ -1008,7 +1011,9 @@
 						</div>
 						<div class="form-group">
 							<label class="control-label">业绩分成比例：</label>
-							<form:input path="performancePercentage" htmlEscape="false" class="form-control  number input-sm"/>%
+							<form:input path="performancePercentage" htmlEscape="false"
+								class="form-control  number input-sm" />
+							%
 						</div>
 					</div>
 				</div>
@@ -1088,15 +1093,15 @@
 			<div class="form-group">
 				<div class="col-sm-offset-5 col-sm-8">
 					<shiro:hasPermission name="oa:contract:edit">
-						<input id="btnSubmit"
-							class="btn btn-info" type="submit"
+						<input id="btnSubmit" class="btn btn-info" type="submit"
 							value="保 存" />&nbsp;
 					</shiro:hasPermission>
 
 					<shiro:hasPermission name="oa:contract:audit">
-						<c:if	test="${contract.contractType ne '1' and not empty contract.id and empty contract.act.procInsId}">
+						<c:if
+							test="${contract.contractType ne '1' and not empty contract.id and empty contract.act.procInsId}">
 							<input id="btnStartAudit" class="btn btn-info" type="submit"
-								   value="开始审批" onclick="$('#flag').val('submit_audit');" />&nbsp;
+								value="开始审批" onclick="$('#flag').val('submit_audit');" />&nbsp;
 						</c:if>
 					</shiro:hasPermission>
 
