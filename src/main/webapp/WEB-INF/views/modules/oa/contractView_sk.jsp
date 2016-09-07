@@ -56,7 +56,7 @@
 <body data-spy="scroll" data-target="#navbar">
 
 
-<form:form id="inputForm" modelAttribute="contract" action="${ctx}/oa/contract/audit" method="post" role="form">
+<form:form id="inputForm" modelAttribute="contract" action="${ctx}/oa/contract/audit?sUrl=${sUrl}" method="post" role="form">
 <form:hidden path="id"/>
 <form:hidden path="act.taskId"/>
 <form:hidden path="act.taskName"/>

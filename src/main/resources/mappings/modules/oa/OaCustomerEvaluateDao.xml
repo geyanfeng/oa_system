@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.oa.dao.OaCustomerEvaluateDao">
+    
+	<sql id="oaCustomerEvaluateColumns">
+		a.id AS "id",
+		a.customer_id AS "customer.id",
+		a.contract_id AS "contractId",
+		a.payment_id AS "paymentId",
+		a.plan_pay_date AS "planPayDate",
+		a.pay_date AS "payDate",
+		a.point AS "point",
+		a.create_date AS "createDate",
+		a2.name AS "customer.name",
+		a3.name AS "contract.name",
+		a5.label AS "customerEvalType"
+	</sql>
+	
+	<sql id="oaCustomerEvaluateJoins">
+		LEFT JOIN oa_customer a2 ON a2.id = a.customer_id
+		LEFT JOIN oa_contract a3 ON a3.id = a.contract_id
+		LEFT JOIN oa_customer_eval_setting a4 ON a4.eval_type = a.customer_eval_type
+		LEFT JOIN sys_dict a5 ON a5.value = a4.eval_type
+	</sql>
+    
+	<select id="get" resultType="OaCustomerEvaluate">
+		SELECT 
+			<include refid="oaCustomerEvaluateColumns"/>
+		FROM oa_customer_evaluate a
+		<include refid="oaCustomerEvaluateJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="OaCustomerEvaluate">
+		SELECT 
+			<include refid="oaCustomerEvaluateColumns"/>
+		FROM oa_customer_evaluate a
+		<include refid="oaCustomerEvaluateJoins"/>
+		<where>
+			a5.type = 'oa_customer_eval_type'
+			<if test="customer != null and customer.id != null and customer.id != ''">
+				AND a.customer_id = #{customer.id}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			 ORDER BY a.id DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="OaCustomerEvaluate">
+		SELECT 
+			<include refid="oaCustomerEvaluateColumns"/>
+		FROM oa_customer_evaluate a
+		<include refid="oaCustomerEvaluateJoins"/>
+		<where>
+			a5.type = 'oa_customer_eval_type'
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			    ORDER BY a.id DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO oa_customer_evaluate(
+			id,
+			customer_id,
+			customer_eval_type,
+			contract_id,
+			payment_id,
+			plan_pay_date,
+			pay_date,
+			point,
+			create_date
+		) VALUES (
+			#{id},
+			#{customer.id},
+			#{customerEvalType},
+			#{contractId},
+			#{paymentId},
+			#{planPayDate},
+			#{payDate},
+			#{point},
+			#{createDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE oa_customer_evaluate SET 	
+			customer_id = #{customer.id},
+			customer_eval_type = #{customerEvalType},
+			contract_id = #{contractId},
+			payment_id = #{paymentId},
+			plan_pay_date = #{planPayDate},
+			pay_date = #{payDate},
+			point = #{point}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM oa_customer_evaluate
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

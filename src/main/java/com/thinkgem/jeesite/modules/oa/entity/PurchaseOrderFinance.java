@@ -3,12 +3,12 @@
  */
 package com.thinkgem.jeesite.modules.oa.entity;
 
-import org.hibernate.validator.constraints.Length;
-import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import javax.validation.constraints.NotNull;
-
 import com.thinkgem.jeesite.common.persistence.DataEntity;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 /**
  * 采购订单财务相关Entity
@@ -30,6 +30,7 @@ public class PurchaseOrderFinance extends DataEntity<PurchaseOrderFinance> {
 	private String remark;		// 备注
 	private Integer maxStatus;
 	private Integer minStatus;
+	private Integer cancelFlag=0;		//撤销标志: 0为没有撤销, 1为撤销
 	
 	public PurchaseOrderFinance() {
 		super();
@@ -147,4 +148,7 @@ public class PurchaseOrderFinance extends DataEntity<PurchaseOrderFinance> {
 
 	public Integer getPayCondition(){return payCondition;}
 	public void setPayCondition(Integer payCondition){this.payCondition = payCondition;}
+
+	public Integer getCancelFlag(){return cancelFlag;}
+	public void setCancelFlag(Integer cancelFlag){this.cancelFlag = cancelFlag;}
 }

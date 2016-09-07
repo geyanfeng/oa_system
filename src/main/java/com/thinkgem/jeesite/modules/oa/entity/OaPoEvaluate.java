@@ -4,6 +4,7 @@
 package com.thinkgem.jeesite.modules.oa.entity;
 
 import org.hibernate.validator.constraints.Length;
+
 import javax.validation.constraints.NotNull;
 
 import com.thinkgem.jeesite.common.persistence.DataEntity;
@@ -17,6 +18,8 @@ public class OaPoEvaluate extends DataEntity<OaPoEvaluate> {
 	
 	private static final long serialVersionUID = 1L;
 	private String poId;		// 订单ID
+	private PurchaseOrder purchaseOrder;		// 订单
+	private Supplier supplier;		// 供应商
 	private Double shippingSpeed;		// 发货速度
 	private Double communicationEfficiency;		// 沟通效率
 	private Double productQuality;		// 产品质量
@@ -31,6 +34,22 @@ public class OaPoEvaluate extends DataEntity<OaPoEvaluate> {
 		super(id);
 	}
 
+	public Supplier getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
+	
+	public PurchaseOrder getPurchaseOrder() {
+		return purchaseOrder;
+	}
+
+	public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
+		this.purchaseOrder = purchaseOrder;
+	}
+	
 	@Length(min=1, max=64, message="订单ID长度必须介于 1 和 64 之间")
 	public String getPoId() {
 		return poId;

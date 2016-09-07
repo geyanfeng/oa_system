@@ -32,6 +32,7 @@ public class ContractProduct extends DataEntity<ContractProduct> {
 	private List<ContractProduct> childs = Lists.newArrayList();		// 子表列表
 	private Double cost = 0.00 ;		//成本(从订单产品中获取)
 	private Integer serviceFlag = 0; //是否为服务,0不是服务,1为服务
+	private Integer cancelFlag=0;		//撤销标志: 0为没有撤销, 1为撤销
 	
 	public ContractProduct() {
 		super();
@@ -153,4 +154,6 @@ public class ContractProduct extends DataEntity<ContractProduct> {
 
 	public Integer getServiceFlag(){return serviceFlag;}
 	public void setServiceFlag(Integer serviceFlag){this.serviceFlag = serviceFlag;}
+	public Integer getCancelFlag(){return cancelFlag;}
+	public void setCancelFlag(Integer cancelFlag){this.cancelFlag = cancelFlag;}
 }

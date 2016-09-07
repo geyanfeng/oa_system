@@ -14,10 +14,17 @@
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
-		a.update_date AS "updateDate"
+		a.update_date AS "updateDate",
+		a2.name AS "supplier.name",
+		a1.no AS "purchaseOrder.no",
+		a1.id AS "purchaseOrder.id",
+		a3.name AS "updateBy.name"
 	</sql>
 	
 	<sql id="oaPoEvaluateJoins">
+	   LEFT JOIN oa_po a1 ON a1.id = a.po_id
+       LEFT JOIN oa_supplier a2 ON a2.id = a1.supplier_id
+       LEFT JOIN sys_user a3 ON a3.id = a.update_by
 	</sql>
     
 	<select id="get" resultType="OaPoEvaluate">
@@ -35,6 +42,9 @@
 		<include refid="oaPoEvaluateJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="supplier != null and supplier.id != null and supplier.id != ''">
+				AND a1.supplier_id = #{supplier.id}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

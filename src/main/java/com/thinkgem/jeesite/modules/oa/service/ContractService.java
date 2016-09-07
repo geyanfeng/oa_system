@@ -8,6 +8,7 @@ import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.common.utils.Encodes;
+import com.thinkgem.jeesite.common.utils.IdGen;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.act.service.ActTaskService;
 import com.thinkgem.jeesite.modules.act.utils.ActUtils;
@@ -19,6 +20,8 @@ import com.thinkgem.jeesite.modules.oa.entity.*;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import org.activiti.engine.RuntimeService;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -565,9 +568,74 @@ public class ContractService extends CrudService<ContractDao, Contract> {
     private Boolean isFinishCreateBill(Contract contract){
        List<PurchaseOrder> poList = purchaseOrderService.getPoListByContractId(contract.getId());
         for(PurchaseOrder purchaseOrder:poList){
-            if(isBlank(purchaseOrder.getStatus()) || new Integer(purchaseOrder.getStatus())<40)
+            if(isBlank(purchaseOrder.getStatus()) || new Integer(purchaseOrder.getStatus())<20)
                 return false;
         }
         return true;
+    }
+
+    @Transactional(readOnly = false)
+    public void jump(String contractId){
+        Contract contract = get(contractId);
+        ProcessInstance processInstance = actTaskService.getProcIns(contract.getProcInsId());
+        Task task = actTaskService.getCurrentTaskInfo(processInstance);
+        String actId = "cfo_recall_audit";
+        actTaskService.Jump(task.getExecutionId(), actId);
+    }
+
+    /*
+    撤销合同
+     */
+    @Transactional(readOnly = false)
+    public void cancelContract(String contractId, Map<String, Object> content) {
+        Contract contract = get(contractId);
+        List<PurchaseOrder> poList = purchaseOrderService.getPoListByContractId(contractId);
+        String cancelReason = "";
+        Boolean isCopy = false;
+        String cancelType = "10";
+
+        if(content.get("cancelReason")!=null)
+            cancelReason = content.get("cancelReason").toString();
+
+        if(content.get("isCopy")!=null)
+            isCopy =content.get("isCopy").toString().equalsIgnoreCase("true")?true:false;
+
+        if(content.get("cancelType")!=null)
+            cancelType =content.get("cancelType").toString();
+
+        try {
+            if (isNotBlank(contract.getProcInsId()))
+                runtimeService.deleteProcessInstance(contract.getProcInsId(), "撤销合同, 类型:" + DictUtils.getDictLabel(cancelType, "oa_contract_cancel_type", "") + " 原因:" + cancelReason);
+
+            for (PurchaseOrder po : poList) {
+                if (isNotBlank(po.getProcInsId()))
+                    runtimeService.deleteProcessInstance(po.getProcInsId(), "撤销合同, 类型:" + DictUtils.getDictLabel(cancelType, "oa_contract_cancel_type", "") + "原因:" + cancelReason);
+            }
+        }
+        catch (Exception e) {
+
+        }
+
+        //deep clone
+        if(isCopy) {
+            try {
+                Contract copiedContract = (Contract) contract.deepCopy();
+                copiedContract.setId(IdGen.uuid());
+                copiedContract.setProcInsId(null);
+                copiedContract.setIsNewRecord(true);
+                copiedContract.setCopyFrom(contractId);
+                setContractNo(copiedContract);
+                save(copiedContract);
+            } catch (Exception e) {
+
+            }
+        }
+
+        Contract cancelContract = new Contract();
+        cancelContract.setId(contractId);
+        cancelContract.setCancelType(cancelType);
+        cancelContract.setCancelReason(cancelReason);
+        cancelContract.setCancelDate(new Date());
+        contractDao.cancelContract(cancelContract);
     }
 }

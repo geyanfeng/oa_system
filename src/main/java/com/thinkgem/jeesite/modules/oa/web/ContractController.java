@@ -8,6 +8,7 @@ import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.BaseService;
 import com.thinkgem.jeesite.common.utils.DateUtils;
+import com.thinkgem.jeesite.common.utils.Encodes;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.web.BaseController;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static org.codehaus.plexus.util.StringUtils.isBlank;
 import static org.codehaus.plexus.util.StringUtils.isNotBlank;
 
 /**
@@ -227,7 +229,8 @@ public class ContractController extends BaseController {
 		}
 		//商品类型
 		model.addAttribute("productTypeList", productTypeService.findList(new ProductType()));
-
+		//源url地址
+		model.addAttribute("sUrl", Encodes.urlEncode(request.getHeader("referer")));
 		return "modules/oa/"+view;
 	}
 
@@ -258,7 +261,7 @@ public class ContractController extends BaseController {
 		contractService.save(contract);
 		//执行审批
 		if(!contract.getContractType().equals("1") && isNotBlank(contract.getAct().getFlag()) || isNotBlank(contract.getAct().getTaskDefKey())){
-			return audit(request, contract, redirectAttributes);
+			return audit(request, contract, redirectAttributes, null);
 		} else {
 			addMessage(redirectAttributes, "保存合同成功");
 			return "redirect:" + Global.getAdminPath() + "/oa/contract/?contractType=" + contract.getContractType() + "&repage";
@@ -267,19 +270,21 @@ public class ContractController extends BaseController {
 
 	@RequiresPermissions("oa:contract:audit")
 	@RequestMapping(value = "audit")
-	public String audit(HttpServletRequest request, Contract contract, RedirectAttributes redirectAttributes) {
+	public String audit(HttpServletRequest request, Contract contract, RedirectAttributes redirectAttributes,@RequestParam(value="sUrl", required=false) String sUrl) {
 		if(!contract.getContractType().equals("1") && isNotBlank(contract.getAct().getFlag()) || isNotBlank(contract.getAct().getTaskDefKey()))
 		{
 			try {
 				contractService.audit(contract);
-				addMessage(redirectAttributes, "成功提交审批");
+				addMessage(redirectAttributes, "合同成功审批");
 			}
 			catch(Exception e){
 				addMessage(redirectAttributes, e.getMessage());
 				return "redirect:" + request.getHeader("referer");
 			}
-
-			return "redirect:" + adminPath + "/act/task/todo/";
+			if(isBlank(sUrl))
+				return "redirect:" + adminPath + "/act/task/todo/";
+			else
+				return "redirect:" + Encodes.urlDecode(sUrl);
 		}
 		return "redirect:"+Global.getAdminPath()+"/oa/contract/?contractType="+contract.getContractType()+"&repage";
 	}
@@ -341,5 +346,25 @@ public class ContractController extends BaseController {
 		}
 		contract.setContractProductList(contractProductList);
 		contractService.saveProducts(contract);
+	}
+
+	/*
+	@RequestMapping(value = "{contractId}/jump")
+	public void jump(@PathVariable String contractId){
+		contractService.jump(contractId);
+	}*/
+
+	/*
+	撤销合同
+	 */
+	@RequestMapping(value = "{contractId}/cancel")
+	@RequiresPermissions("oa:contract:cancel")
+	public String cancelContract(@PathVariable String contractId, @RequestBody Map<String, Object> content){
+		try{
+			contractService.cancelContract(contractId, content);
+			return "成功撤销合同!";
+		}catch(Exception e){
+			return "撤销合同失败!";
+		}
 	}
 }

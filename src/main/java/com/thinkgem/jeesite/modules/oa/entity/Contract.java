@@ -23,6 +23,7 @@ public class Contract extends ActEntity<Contract> {
 	
 	private static final long serialVersionUID = 1L;
 	private String parentId;		// 父级id
+	private String copyFrom;		//复制的合同id
 	private String parentNo;		// 父级no
 	private String parentName;		// 父级name
 	private String no;		// 合同号
@@ -61,6 +62,10 @@ public class Contract extends ActEntity<Contract> {
 	private List<ContractFinance> contractFinanceList = Lists.newArrayList();		// 合同财务相关
 	private Double cost = 0.00;		//成本(从订单产品中获取)
 	private Date skDate;				//收款日期
+	private Integer cancelFlag=0;		//撤销标志: 0为没有撤销, 1为撤销
+	private String cancelReason;		//撤销原因
+	private Date cancelDate;			//撤销时间
+	private String cancelType;			//撤销类型:oa_contract_cancel_type
 	
 	public Contract() {
 		super();
@@ -416,4 +421,19 @@ public class Contract extends ActEntity<Contract> {
 
 	public Date getSkDate(){return skDate;}
 	public void setSkDate(Date skDate){this.skDate = skDate;}
+
+	public Integer getCancelFlag(){return cancelFlag;}
+	public void setCancelFlag(Integer cancelFlag){this.cancelFlag = cancelFlag;}
+
+	public String getCancelReason(){return cancelReason;}
+	public void setCancelReason(String cancelReason){this.cancelReason = cancelReason;}
+
+	public Date getCancelDate(){return cancelDate;}
+	public void setCancelDate(Date cancelDate){this.cancelDate = cancelDate;}
+
+	public String getCopyFrom(){return copyFrom;}
+	public void setCopyFrom(String copyFrom){this.copyFrom = copyFrom;}
+
+	public String getCancelType(){return cancelType;}
+	public void setCancelType(String cancelType){this.cancelType = cancelType;}
 }

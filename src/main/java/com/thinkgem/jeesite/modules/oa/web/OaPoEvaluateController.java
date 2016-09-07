@@ -28,6 +28,7 @@ import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.common.utils.DBHelper;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.oa.entity.Contract;
 import com.thinkgem.jeesite.modules.oa.entity.OaPoEvaluate;
@@ -36,6 +37,7 @@ import com.thinkgem.jeesite.modules.oa.entity.Supplier;
 import com.thinkgem.jeesite.modules.oa.service.ContractService;
 import com.thinkgem.jeesite.modules.oa.service.OaPoEvaluateService;
 import com.thinkgem.jeesite.modules.oa.service.PurchaseOrderService;
+import com.thinkgem.jeesite.modules.oa.service.SupplierService;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 /**
@@ -54,6 +56,9 @@ public class OaPoEvaluateController extends BaseController {
 	private PurchaseOrderService purchaseOrderService;
 	@Autowired
 	private ContractService contractService;
+	
+	@Autowired
+	private SupplierService supplierService;
 
 	@ModelAttribute
 	public OaPoEvaluate get(@RequestParam(required = false) String id) {
@@ -74,6 +79,9 @@ public class OaPoEvaluateController extends BaseController {
 		Page<OaPoEvaluate> page = oaPoEvaluateService.findPage(
 				new Page<OaPoEvaluate>(request, response), oaPoEvaluate);
 		model.addAttribute("page", page);
+		//获取所有供应商
+		List<Supplier> supplierList = supplierService.findList(new Supplier());
+		model.addAttribute("supplierList", supplierList);
 		return "modules/oa/oaPoEvaluateList";
 	}
 
@@ -134,9 +142,9 @@ public class OaPoEvaluateController extends BaseController {
 										oaPoEvaluateService.save(oaPoEvaluate);
 										purchaseOrder.setEvaluateFlag("1");
 										purchaseOrderService
-												.save(purchaseOrder);
+												.common_save(purchaseOrder);
 										
-						
+						                DBHelper.executeSP(purchaseOrder.getSupplier().getId());
 										status = 1;
 										msg = "保存供应商评价成功";
 										map.put("data", oaPoEvaluate);

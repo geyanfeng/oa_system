@@ -40,6 +40,10 @@
 		<thead>
 			<tr>
 				<th>名称</th>
+				<th>发货速度</th>
+				<th>沟通效率</th>
+				<th>产品质量</th>
+				<th>服务态度</th>
 				<th>备注</th>
 				<th>更新时间</th>
 				<shiro:hasPermission name="oa:supplier:edit"><th>操作</th></shiro:hasPermission>
@@ -51,6 +55,46 @@
 				<td><a href="${ctx}/oa/supplier/form?id=${supplier.id}">
 					${supplier.name}
 				</a></td>
+				<td>
+				<c:choose>
+				  <c:when test="${supplier.shippingSpeed eq 0}">
+				     未评价
+				  </c:when>
+				  <c:otherwise>
+				   ${supplier.shippingSpeed}
+                  </c:otherwise>
+                  </c:choose>
+				</td>
+				<td>
+					<c:choose>
+				  <c:when test="${supplier.communicationEfficiency eq 0}">
+				     未评价
+				  </c:when>
+				  <c:otherwise>
+				   ${supplier.communicationEfficiency}
+                  </c:otherwise>
+                  </c:choose>
+				</td>
+				<td>
+					<c:choose>
+				  <c:when test="${supplier.productQuality eq 0}">
+				     未评价
+				  </c:when>
+				  <c:otherwise>
+				   ${supplier.productQuality}
+                  </c:otherwise>
+                  </c:choose>
+				</td>
+				<td>
+					<c:choose>
+				  <c:when test="${supplier.serviceAttitude eq 0}">
+				     未评价
+				  </c:when>
+				  <c:otherwise>
+				   ${supplier.serviceAttitude}
+                  </c:otherwise>
+                  </c:choose>
+				</td>
 				<td>
 					${supplier.remark}
 				</td>

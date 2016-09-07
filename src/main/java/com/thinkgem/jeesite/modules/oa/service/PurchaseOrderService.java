@@ -16,6 +16,7 @@ import com.thinkgem.jeesite.modules.oa.dao.*;
 import com.thinkgem.jeesite.modules.oa.entity.*;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.impl.transformer.IntegerToLong;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -73,6 +74,11 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 	
 	public Page<PurchaseOrder> findPage(Page<PurchaseOrder> page, PurchaseOrder purchaseOrder) {
 		return super.findPage(page, purchaseOrder);
+	}
+	
+	@Transactional(readOnly = false)
+	public void common_save(PurchaseOrder purchaseOrder) {
+		super.save(purchaseOrder);
 	}
 	
 	@Transactional(readOnly = false)
@@ -316,6 +322,7 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 			}
 			//purchaseOrder.getAct().setComment("商务下单");
 			actTaskService.startProcess(ActUtils.PD_PO_AUDIT[0], ActUtils.PD_PO_AUDIT[1], purchaseOrder.getId(), purchaseOrder.getNo(), vars);
+			purchaseOrder.setStatus(DictUtils.getDictValue("待下单", "oa_po_status", ""));
 		} else {
 			Map<String, Object> vars = Maps.newHashMap();
 			String comment = purchaseOrder.getAct().getComment();
@@ -332,30 +339,18 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 				actTaskService.claim(purchaseOrder.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
 			}
 
-			if("business_person_createbill".equals(taskDefKey)) {//商务下单
-				purchaseOrder.setStatus(DictUtils.getDictValue("已下单", "oa_po_status", ""));
-			}
-			else if("verify_ship_1".equals(taskDefKey) || "verify_ship_2".equals(taskDefKey)){//确认发货
-				purchaseOrder.setStatus(DictUtils.getDictValue("已发货","oa_po_status",""));
-				if("verify_ship_1".equals(taskDefKey))
-					updatePlanPayDate(purchaseOrder);//更新预付款时间
-			} else if("payment_first".equals(taskDefKey) || "payment_all".equals(taskDefKey) || "payment".equals(taskDefKey)){//付款
-				purchaseOrder.setStatus(DictUtils.getDictValue("已完成","oa_po_status",""));
+			if("payment_first".equals(taskDefKey) || "payment_all".equals(taskDefKey) || "payment".equals(taskDefKey)){//付款
 				updateFinancePayment(purchaseOrder);//更新财务付款数据
 				if("payment".equals(taskDefKey)){
-					vars.put("finishPayment",checkSK(purchaseOrder)?1:0 );//检查是否已经全部付款并将变量写入到流程中
+					vars.put("finishPayment",checkSK(purchaseOrder)? 1:0 );//检查是否已经全部付款并将变量写入到流程中
 				}
-			} else {
-				if (StringUtils.isNotBlank(flag)) {
-					if ("verify_receiving_1".equals(taskDefKey) || "verify_receiving_2".equals(taskDefKey)) {//收货验收
-						if (pass) {
-							purchaseOrder.setStatus(DictUtils.getDictValue("已验收", "oa_po_status", ""));
-						} else {
-							purchaseOrder.setStatus(DictUtils.getDictValue("已发货", "oa_po_status", ""));
-						}
-					}
-				}
+
+			} else if("verify_ship_1".equals(taskDefKey) || "verify_ship_2".equals(taskDefKey)){//确认发货
+				if("verify_ship_1".equals(taskDefKey))
+					updatePlanPayDate(purchaseOrder);//更新预付款时间
 			}
+
+			updatePoStatus(purchaseOrder, taskDefKey, pass);//更新订单状态
 
 			purchaseOrder.preUpdate();
 			purchaseOrderDao.update(purchaseOrder);
@@ -363,10 +358,52 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 
 			//自动合同的审核
 			if("business_person_createbill".equals(taskDefKey)) {//商务下单
-				autoFinishContractTask(40, contract, "business_person_createbill");
+				autoFinishContractTask(20, contract, "business_person_createbill");
 			}
 		}
+	}
 
+	/*
+	修改订单状态
+	 */
+	private void updatePoStatus(PurchaseOrder purchaseOrder, String taskDefKey, boolean pass){
+		if("business_person_createbill".equals(taskDefKey)) {//商务下单
+			if(purchaseOrder.getPurchaseOrderFinanceList().size() == 1){//一次付款
+				if(purchaseOrder.getPurchaseOrderFinanceList().get(0).getZq()<=0)//0帐期
+					purchaseOrder.setStatus(DictUtils.getDictValue("已下单待审核", "oa_po_status", ""));
+				else
+					purchaseOrder.setStatus(DictUtils.getDictValue("已下单待发货", "oa_po_status", ""));
+			}
+			else//多次付款
+				purchaseOrder.setStatus(DictUtils.getDictValue("已下单待审核", "oa_po_status", ""));
+		}
+		else if("cfo_confirm_payment_1".equals(taskDefKey) || "cfo_confirm_payment_2".equals(taskDefKey) || "cfo_confirm_payment_2".equals(taskDefKey)){//财务总监确认可付款
+			purchaseOrder.setStatus(DictUtils.getDictValue("已审核待付款","oa_po_status",""));
+		}
+		else if("payment_first".equals(taskDefKey) || "payment_all".equals(taskDefKey) || "payment".equals(taskDefKey)){//付款
+			if("payment_first".equals(taskDefKey) || "payment_all".equals(taskDefKey)){
+				purchaseOrder.setStatus(DictUtils.getDictValue("已付款待发货","oa_po_status",""));
+			} else{//payment
+				if(checkSK(purchaseOrder)){
+					purchaseOrder.setStatus(DictUtils.getDictValue("已付款已完成","oa_po_status",""));
+				} else{
+					purchaseOrder.setStatus(DictUtils.getDictValue("已付款待审核","oa_po_status",""));
+				}
+			}
+		} else if("verify_ship_1".equals(taskDefKey) || "verify_ship_2".equals(taskDefKey)){//商务确认发货
+			purchaseOrder.setStatus(DictUtils.getDictValue("已发货待验收","oa_po_status",""));
+		}
+		else if("verify_ship_1".equals(taskDefKey) || "verify_ship_2".equals(taskDefKey)){//技术确认验收
+			if(!pass){
+				purchaseOrder.setStatus(DictUtils.getDictValue("已付款待发货","oa_po_status",""));
+			} else{
+				if("verify_ship_1".equals(taskDefKey)){
+					purchaseOrder.setStatus(DictUtils.getDictValue("已验收待审核","oa_po_status",""));
+				} else{
+					purchaseOrder.setStatus(DictUtils.getDictValue("已验收已完成","oa_po_status",""));
+				}
+			}
+		}
 	}
 
 	public List<PurchaseOrder> getPoListByContractId(String contractId) {

@@ -37,6 +37,9 @@ public class PurchaseOrder extends ActEntity<PurchaseOrder> {
 	private List<PurchaseOrderAttachment> purchaseOrderAttachmentList = Lists.newArrayList();		// 子表列表
 	private List<PurchaseOrderFinance> purchaseOrderFinanceList = Lists.newArrayList();
 	private Date fkDate;				//付款日期
+	private Integer cancelFlag=0;		//撤销标志: 0为没有撤销, 1为撤销
+	private String cancelReason;		//撤销原因
+	private Date cancelDate;			//撤销时间
 	
 	public PurchaseOrder() {
 		super();
@@ -185,4 +188,13 @@ public class PurchaseOrder extends ActEntity<PurchaseOrder> {
 
 	public Date getFkDate(){return fkDate;}
 	public void setFkDate(Date fkDate){this.fkDate = fkDate;}
+
+	public Integer getCancelFlag(){return cancelFlag;}
+	public void setCancelFlag(Integer cancelFlag){this.cancelFlag = cancelFlag;}
+
+	public String getCancelReason(){return cancelReason;}
+	public void setCancelReason(String cancelReason){this.cancelReason = cancelReason;}
+
+	public Date getCancelDate(){return cancelDate;}
+	public void setCancelDate(Date cancelDate){this.cancelDate = cancelDate;}
 }
