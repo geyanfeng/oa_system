@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>佣金统计管理</title>
+	<title>合同提成计算</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -17,40 +17,52 @@
 	</script>
 </head>
 <body>
-	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/oa/oaCommission/">佣金统计列表</a></li>
-		<shiro:hasPermission name="oa:oaCommission:edit"><li><a href="${ctx}/oa/oaCommission/form">佣金统计添加</a></li></shiro:hasPermission>
-	</ul>
+	<div class="panel panel-default">
+	<div class="panel-heading">合同提成计算列表
+		
+	</div>
+	<div class="panel-body">
 	<form:form id="searchForm" modelAttribute="oaCommission" action="${ctx}/oa/oaCommission/" method="post" class="breadcrumb form-search form-inline">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
-		<ul class="ul-form">
-			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
-			<li class="clearfix"></li>
-		</ul>
+		
+			<button id="btnSubmit" class="btn btn-primary input-sm" type="submit" value="查询">
+				查询<i class="fa fa-search"></i>
+			</button>
 	</form:form>
 	<sys:message content="${message}"/>
-	<table id="contentTable" class="table table-striped table-bordered table-condensed">
+	<table id="contentTable" class="table table-striped table-condensed table-hover">
 		<thead>
 			<tr>
-				<th>更新时间</th>
-				<shiro:hasPermission name="oa:oaCommission:edit"><th>操作</th></shiro:hasPermission>
+				<th>年</th>
+			    <th>季度</th>
+			    <th>销售员</th>
+				<th>收款流水 </th>
+				<th>合同ID</th>
+				<th>项目名称</th>
+				<th>款项进度</th>
+				<th>本期毛利</th>
+				<th>本期净利</th>
+				<th>税收成本</th>
+				<th>账期成本</th>
+				<th>净值</th>
+				<th>业绩提成</th>
+				<th>额外佣金</th>
+				<th>合计</th>
+				
 			</tr>
 		</thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="oaCommission">
 			<tr>
-				<td><a href="${ctx}/oa/oaCommission/form?id=${oaCommission.id}">
-					<fmt:formatDate value="${oaCommission.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
-				</a></td>
-				<shiro:hasPermission name="oa:oaCommission:edit"><td>
-    				<a href="${ctx}/oa/oaCommission/form?id=${oaCommission.id}">修改</a>
-					<a href="${ctx}/oa/oaCommission/delete?id=${oaCommission.id}" onclick="return confirmx('确认要删除该佣金统计吗？', this.href)">删除</a>
-				</td></shiro:hasPermission>
+			   <td>123</td>
+				
 			</tr>
 		</c:forEach>
 		</tbody>
 	</table>
-	<div class="pagination">${page}</div>
+	${page}
+	</div>
+	</div>
 </body>
 </html>
