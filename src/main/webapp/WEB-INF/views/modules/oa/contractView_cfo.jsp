@@ -127,8 +127,8 @@
                     <c:forEach items="${po.purchaseOrderFinanceList}" var="finance" varStatus="bStatus">
                         <tr>
                             <td>第${bStatus.count}笔: <fmt:formatNumber type="number" value="${(finance.amount / po.amount) * 100}" maxFractionDigits="2"/>%</td>
-                            <td>付款金额: ${finance.amount}</td>
-                            <td>帐期: ${finance.zq}天</td>
+                            <td>付款金额: <fmt:formatNumber type="number" value="${finance.amount}" maxFractionDigits="2"/></td>
+                            <td>帐期: <fmt:formatNumber type="number" value="${finance.zq}" maxFractionDigits="0"/>天</td>
                             <td>帐期点数: ${po.paymentPointnum}%</td>
                             <td>付款方式: <font <c:if test="${finance.payMethod eq 3}">color="red"</c:if>> ${fns:getDictLabel(finance.payMethod,"oa_payment_method","")}</font></td>
                         </tr>

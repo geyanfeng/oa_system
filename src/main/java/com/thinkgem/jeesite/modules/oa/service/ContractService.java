@@ -382,7 +382,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         ContractFinance contractFinance = finances.get(0);
         Calendar cc = Calendar.getInstance();
         cc.setTime(contract.getSkDate());
-        contractFinance.setPayDate(cc.getTime());
+        contractFinance.setPayDate(contract.getSkDate());
         contractFinance.setStatus(3);//更新状态为已付款
 
         contractFinance.preUpdate();

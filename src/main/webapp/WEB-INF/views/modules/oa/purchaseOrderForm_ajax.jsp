@@ -30,8 +30,28 @@
     <script src="${ctxStatic}/assets/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js" type="text/javascript"></script>
     <script src="${ctxStatic}/assets/js/jquery.form.js"></script>
     <script type="text/javascript">
+    function changeSupplier() { 
+ 	   var selectedValue = $("#supplier").find("option:selected").val();
+ 	   selectedOpt = $("#"+selectedValue);
+ 	   if(selectedOpt.attr("shippingSpeed") == "0.0") {
+ 		   $("#shippingSpeed").html("未评价");
+     	   $("#communicationEfficiency").html("未评价");
+     	   $("#productQuality").html("未评价");
+     	   $("#serviceAttitude").html("未评价"); 
+ 	   }
+ 	   else{
+ 		   $("#shippingSpeed").html(selectedOpt.attr("shippingSpeed"));
+     	   $("#communicationEfficiency").html(selectedOpt.attr("communicationEfficiency"));
+     	   $("#productQuality").html(selectedOpt.attr("productQuality"));
+     	   $("#serviceAttitude").html(selectedOpt.attr("serviceAttitude"));  	   
+ 	   }
+ 	
+    } 
+       
+        
         $(document).ready(function() {
             //$("#name").focus();
+            changeSupplier();
             $("#inputForm").validate({
                 submitHandler: function(form){
                     /*loading('正在提交，请稍等...');
@@ -277,13 +297,25 @@
 
     <!--供应商-->
     <div class="row">
+          <!--供应商-->
+    <div class="row">
             供应商：
-            <form:select path="supplier.id" class="form-control required input-sm" id="supplier" cssStyle="width:300px;">
+            <form:hidden path="supplier.id"/>
+            <form:select path="supplier.id" class="form-control required input-sm" id="supplier" cssStyle="width:280px;" onchange="changeSupplier();">
                 <form:option value="" label=""/>
-                <form:options items="${supplierList}" itemLabel="name"
+               
+               <form:options items="${supplierList}" itemLabel="name"
                               itemValue="id" htmlEscape="false"/>
+                           
             </form:select>
-            <a href="#" onclick="addSupplier(this)" title="新增供应商" class="zmdi zmdi-plus-circle text-success" style="margin-left:10px;font-size:25px;"></a>
+            <c:forEach var="supplierItem" items="${supplierList}" varStatus="status">  
+                 <input id="${supplierItem.id}" type="hidden" shippingSpeed="${supplierItem.shippingSpeed}"  communicationEfficiency="${supplierItem.communicationEfficiency}"  productQuality="${supplierItem.productQuality}"  serviceAttitude="${supplierItem.serviceAttitude}">
+              </c:forEach>  
+           <a href="#" onclick="addSupplier(this)" title="新增供应商" class="zmdi zmdi-plus-circle text-success" style="margin-left:10px;font-size:25px;"></a>
+            <div class="row">
+            <span>发货  <span id="shippingSpeed" style="color:red;">未评价</span>&nbsp;&nbsp;沟通  <span id="communicationEfficiency" style="color:red;">未评价</span> &nbsp;&nbsp;质量  <span id="productQuality" style="color:red;">未评价</span> &nbsp;&nbsp;态度 <span id="serviceAttitude" style="color:red;">未评价</span></span>
+             </div>
+           
     </div>
 
     <hr>
@@ -327,6 +359,13 @@
             <div id="div-activeData_{{idx}}" style= "padding-top: 10px;display:none;">
             生效日期:&nbsp;<input id="payment_installment_activeDate_{{idx}}" value="{{row.payment_installment_activeDate}}" type="text"
             readonly="readonly" style="width: 150px;display:inline;"class="form-control Wdate input-sm required" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+            </div>
+            <div style="padding-top: 10px;">
+            付款条件：
+                <select id="payment_installment_condition_{{idx}}" data-value="{{row.payment_installment_condition}}" class="form-control input-block required input-sm"  style="width: 100px;display: inline;">
+                    <option value="0">预付</option>
+                    <option value="1">应付</option>
+                </select>
             </div>
         </div>
         <div class="pull-right">
@@ -375,6 +414,13 @@
                     $("#div-activeData_"+index).hide();
                 }
             });
+            $("#payment-body .row[data-idx='"+idx+"']").find("select").each(function () {
+                if($(this).attr("data-value"))
+                    $(this).val($(this).attr("data-value"));
+                else
+                    $(this).val(0);
+            });
+
 
             $("#payment-body .row[data-idx='"+idx+"']").find("input[type='checkbox'], input[type='radio']").each(function () {
                 var ss = $(this).attr("data-value").split(',');
@@ -427,7 +473,8 @@
                     payment_installment_bl: row.find("input[id^='payment_installment_bl']").val(),
                     payment_installment_time :row.find("input[id^='payment_installment_time']").val(),
                     payment_installment_paymentMethod :row.find("input[id^='payment_installment_paymentMethod']:checked").val(),
-                    payment_installment_activeDate: row.find("input[id^='payment_installment_activeDate']").val()
+                    payment_installment_activeDate: row.find("input[id^='payment_installment_activeDate']").val(),
+                    payment_installment_condition: row.find("select[id^='payment_installment_condition'] option:selected").val()
                 };
                 paymentDetail.push(detail);
             });
@@ -442,7 +489,7 @@
             if($(sender).prop("id").indexOf("payment_installment_amount")>=0){
                 blField.val(((parseFloat(amountField.val())/sumAmount) * 100).toFixed(2));
             } else{
-                amountField.val(sumAmount * ((parseFloat(blField.val()))/100));
+                amountField.val((sumAmount * ((parseFloat(blField.val()))/100)).toFixed(2));
             }
         }
     </script>

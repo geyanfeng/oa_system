@@ -5,6 +5,7 @@
 	<sql id="purchaseOrderFinanceColumns">
 		a.id AS "id",
 		a.po_id AS "purchaseOrder.id",
+		a.pay_condition AS "payCondition",
 		a.pay_method AS "payMethod",
 		a.zq AS "zq",
 		a.plan_pay_date AS "planPayDate",
@@ -57,7 +58,7 @@
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
-				ORDER BY a.sort ASC
+				ORDER BY a.po_id, a.sort ASC
 			</otherwise>
 		</choose>
 	</select>
@@ -84,6 +85,7 @@
 		INSERT INTO oa_po_finance(
 			id,
 			po_id,
+			pay_condition,
 			pay_method,
 			zq,
 			plan_pay_date,
@@ -100,6 +102,7 @@
 		) VALUES (
 			#{id},
 			#{purchaseOrder.id},
+			#{payCondition},
 			#{payMethod},
 			#{zq},
 			#{planPayDate},
@@ -119,6 +122,7 @@
 	<update id="update">
 		UPDATE oa_po_finance SET 	
 			po_id = #{purchaseOrder.id},
+			pay_condition = #{payCondition},
 			pay_method = #{payMethod},
 			zq = #{zq},
 			plan_pay_date = #{planPayDate},

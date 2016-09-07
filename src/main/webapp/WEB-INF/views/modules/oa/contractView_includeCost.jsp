@@ -72,7 +72,6 @@
 
 <div class="col-sm-12">
     <!--合同信息-->
-    <a class="anchor" name="panel-1"></a>
     <div class="panel panel-default">
         <div class="panel-heading">合同信息
         </div>
@@ -91,7 +90,7 @@
                     客户名称：${contract.customer.name}
                 </div>
                 <div class="col-sm-6">
-                    客户评分：
+                    客户评分：${contract.customer.evaluate}
                 </div>
             </div>
             <div class="row">
@@ -137,7 +136,6 @@
     </div>
 
     <!--采购列表-->
-    <a class="anchor" name="panel-3"></a>
     <div class="panel panel-default" id="card_products">
         <div class="panel-heading">采购列表 </div>
         <div class="panel-body" id="products-collapse">
@@ -221,7 +219,6 @@
     </div>
 
     <!--订单列表-->
-    <a class="anchor" name="panel-9"></a>
     <div class="panel panel-default">
         <div class="panel-heading">订单列表</div>
         <div class="panel-body">
@@ -232,7 +229,7 @@
                     <th>供应商</th>
                     <th>金额</th>
                     <th>帐期</th>
-                    <th>帐期点</th>
+                    <th>帐期点数</th>
                     <th>帐期日利率</th>
                 </tr>
                 </thead>
@@ -284,8 +281,6 @@
         </div>
     </div>
 
-
-    <a class="anchor" name="panel-8"></a>
     <c:if test="${not empty contract.id and not empty contract.act.procInsId}">
         <act:histoicFlow procInsId="${contract.act.procInsId}"/>
     </c:if>

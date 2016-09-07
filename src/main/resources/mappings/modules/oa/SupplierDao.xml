@@ -10,7 +10,11 @@
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
-		a.update_date AS "updateDate"
+		a.update_date AS "updateDate",
+		a.shipping_speed AS "shippingSpeed",
+		a.communication_efficiency AS "communicationEfficiency",
+		a.product_quality AS "productQuality",
+		a.service_attitude AS "serviceAttitude"
 	</sql>
 	
 	<sql id="supplierJoins">
@@ -81,7 +85,11 @@
 			create_by,
 			create_date,
 			update_by,
-			update_date
+			update_date,
+			shipping_speed,
+			communication_efficiency,
+			product_quality,
+			service_attitude
 		) VALUES (
 			#{id},
 			#{name},
@@ -90,7 +98,11 @@
 			#{createBy.id},
 			#{createDate},
 			#{updateBy.id},
-			#{updateDate}
+			#{updateDate},
+			#{shippingSpeed},
+			#{communicationEfficiency},
+			#{productQuality},
+			#{serviceAttitude}
 		)
 	</insert>
 	
@@ -99,7 +111,11 @@
 			name = #{name},
 			remark = #{remark},
 			update_by = #{updateBy.id},
-			update_date = #{updateDate}
+			update_date = #{updateDate},
+			shipping_speed = #{shippingSpeed},
+			communication_efficiency = #{communicationEfficiency},
+			product_quality = #{productQuality},
+			service_attitude = #{serviceAttitude}
 		WHERE id = #{id}
 	</update>
 	

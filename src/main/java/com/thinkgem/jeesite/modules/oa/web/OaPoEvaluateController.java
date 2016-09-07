@@ -3,12 +3,17 @@
  */
 package com.thinkgem.jeesite.modules.oa.web;
 
+import java.io.Reader;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -108,32 +113,45 @@ public class OaPoEvaluateController extends BaseController {
 				if (purchaseOrder == null) {
 					msg = "订单不存在";
 				} else {
-					Contract contract = contractService.get(purchaseOrder
-							.getContract().getId());
-					if (contract == null) {
-						msg = "合同不存在";
-					} else {
-						if (contract.getBusinessPerson() == null) {
-							msg = "商务人员不存在";
+					if ("70".equals(purchaseOrder.getStatus())
+							|| "100".equals(purchaseOrder.getStatus())) {
+						Contract contract = contractService.get(purchaseOrder
+								.getContract().getId());
+						if (contract == null) {
+							msg = "合同不存在";
 						} else {
-							if (UserUtils.getUser().getId().equals(contract.getBusinessPerson().getId())) {
-								List<OaPoEvaluate> ev = oaPoEvaluateService.findList(oaPoEvaluate);
-								if (ev.size() == 0) {
-									msg = "保存数据失败";
-									oaPoEvaluateService.save(oaPoEvaluate);
-									purchaseOrder.setEvaluateFlag("1");
-									purchaseOrderService.save(purchaseOrder);
-									status = 1;
-									msg = "保存供应商评价成功";
-									map.put("data", oaPoEvaluate);
-								} else {
-									msg = "订单只能评价一次";
-								}							
+							if (contract.getBusinessPerson() == null) {
+								msg = "商务人员不存在";
 							} else {
-								msg = "只有合同指定的商务人员才能评价";
+								if (UserUtils
+										.getUser()
+										.getId()
+										.equals(contract.getBusinessPerson()
+												.getId())) {
+									OaPoEvaluate ev = oaPoEvaluateService.get(oaPoEvaluate.getPoId());
+									if (ev == null) {
+										msg = "保存数据失败";
+										oaPoEvaluateService.save(oaPoEvaluate);
+										purchaseOrder.setEvaluateFlag("1");
+										purchaseOrderService
+												.save(purchaseOrder);
+										
+						
+										status = 1;
+										msg = "保存供应商评价成功";
+										map.put("data", oaPoEvaluate);
+									} else {
+										msg = "订单只能评价一次";
+									}
+								} else {
+									msg = "只有合同指定的商务人员才能评价";
+								}
 							}
 						}
+					} else {
+						msg = "订单收货验收之后，才能进行评价";
 					}
+
 				}
 
 			}

@@ -342,34 +342,46 @@
 
     <div class="form-group">
         <div class="col-sm-offset-4 col-sm-8">
-            <c:if test="${not empty purchaseOrder.id}">
-                <c:set var="submitText" value="提交"/>
+            <c:if test="${not empty purchaseOrder.act.taskDefKey || empty purchaseOrder.act.procInsId}">
+                <c:set var="submitText" value="提交审批"/>
 
                 <c:if test="${purchaseOrder.act.taskDefKey eq 'business_person_createbill'}">
                     <c:set var="submitText" value="确认下单"/>
                 </c:if>
 
-                <c:if test="${purchaseOrder.act.taskDefKey eq 'verify_ship'}">
-                    <c:set var="submitText" value="确认发货"/>
+                <c:if test="${purchaseOrder.act.taskDefKey eq 'cfo_confirm_payment_1' || purchaseOrder.act.taskDefKey eq 'cfo_confirm_payment_2' || purchaseOrder.act.taskDefKey eq 'cfo_confirm_payment_3'}">
+                    <c:set var="submitText" value="财务总监确认可付款"/>
+                </c:if>
+
+                <c:if test="${purchaseOrder.act.taskDefKey eq 'payment_first'}">
+                    <c:set var="submitText" value="财务付首款"/>
+                </c:if>
+
+                <c:if test="${purchaseOrder.act.taskDefKey eq 'payment_all'}">
+                    <c:set var="submitText" value="财务付全款"/>
                 </c:if>
 
                 <c:if test="${purchaseOrder.act.taskDefKey eq 'payment'}">
                     <c:set var="submitText" value="确认付款"/>
                 </c:if>
 
+                <c:if test="${purchaseOrder.act.taskDefKey eq 'verify_ship_1' || purchaseOrder.act.taskDefKey eq 'verify_ship_2'}">
+                    <c:set var="submitText" value="商务确认发货"/>
+                </c:if>
+
+                <c:if test="${purchaseOrder.act.taskDefKey eq 'verify_receiving_1' || purchaseOrder.act.taskDefKey eq 'verify_receiving_2'}">
+                    <c:set var="submitText" value="技术确认验收"/>
+                </c:if>
+
                 <c:choose>
-                    <c:when test="${ empty purchaseOrder.act.procInsId ||
-                                            purchaseOrder.act.taskDefKey eq 'business_person_createbill'||
-                                            purchaseOrder.act.taskDefKey eq 'verify_ship' ||
-                                            purchaseOrder.act.taskDefKey eq 'payment'}">
-                        <input id="btnCancel" class="btn btn-custom" type="submit" value="${submitText}" onclick="$('#flag').val('submit_audit')"/>&nbsp;
-                    </c:when>
-                    <c:when test="${purchaseOrder.act.taskDefKey eq 'verify_receiving'}">
+                    <c:when test="${purchaseOrder.act.taskDefKey eq 'verify_receiving_1' || purchaseOrder.act.taskDefKey eq 'verify_receiving_2'}">
                         <input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
                         <input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
                     </c:when>
+                    <c:otherwise>
+                        <input id="btnSubmit" class="btn btn-custom" type="submit" value="${submitText}" onclick="$('#flag').val('submit_audit')"/>&nbsp;
+                    </c:otherwise>
                 </c:choose>
-
             </c:if>
 
             <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>

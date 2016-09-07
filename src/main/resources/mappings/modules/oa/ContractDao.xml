@@ -43,6 +43,7 @@
 		p.no AS "parentNo",
 		p.name AS "parentName",
 		a9.name AS "customer.name",
+		a9.evaluate AS "customer.evaluate",
 		u15.name AS "businessPerson.name",
 		u16.name AS "artisan.name",
 		u32.name AS "createBy.name"

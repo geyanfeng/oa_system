@@ -101,10 +101,15 @@
             <div class="form-group">
                 <label>客户：</label>
 
-                <sys:treeselect id="customer" name="customer.id" value="${contract.customer.id}"
+                <%--<sys:treeselect id="customer" name="customer.id" value="${contract.customer.id}"
                                 labelName="customer.name" labelValue="${contract.customer.name}"
                                 title="客户" url="/oa/customer/treeData" cssClass="input-small input-sm"
-                                allowClear="true" notAllowSelectParent="true" buttonIconCss="input-sm"/>
+                                allowClear="true" notAllowSelectParent="true" buttonIconCss="input-sm"/>--%>
+                <form:select path="customer.id"  class="input-small input-sm" id="customer" cssStyle="width: 150px">
+                    <form:option value="" label="" />
+                    <form:options items="${customerList}" itemLabel="name"
+                                  itemValue="id" htmlEscape="false" />
+                </form:select>
 
             </div>
 

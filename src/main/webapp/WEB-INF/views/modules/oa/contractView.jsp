@@ -223,7 +223,7 @@
                     客户名称：${contract.customer.name}
                 </div>
                 <div class="col-sm-6">
-                    客户评分：
+                    客户评分：${contract.customer.evaluate}
                 </div>
             </div>
             <div class="row">
@@ -865,7 +865,7 @@
                     <th>供应商</th>
                     <th>金额</th>
                     <th>帐期</th>
-                    <th>帐期点</th>
+                    <th>帐期点数</th>
                     <th>帐期日利率</th>
                     <th>操作</th>
                 </tr>
