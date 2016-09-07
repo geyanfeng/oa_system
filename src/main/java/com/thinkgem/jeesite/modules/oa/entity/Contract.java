@@ -65,6 +65,7 @@ public class Contract extends ActEntity<Contract> {
 	private Integer cancelFlag=0;		//撤销标志: 0为没有撤销, 1为撤销
 	private String cancelReason;		//撤销原因
 	private Date cancelDate;			//撤销时间
+	private String cancelType;			//撤销类型:oa_contract_cancel_type
 	
 	public Contract() {
 		super();
@@ -432,4 +433,7 @@ public class Contract extends ActEntity<Contract> {
 
 	public String getCopyFrom(){return copyFrom;}
 	public void setCopyFrom(String copyFrom){this.copyFrom = copyFrom;}
+
+	public String getCancelType(){return cancelType;}
+	public void setCancelType(String cancelType){this.cancelType = cancelType;}
 }
