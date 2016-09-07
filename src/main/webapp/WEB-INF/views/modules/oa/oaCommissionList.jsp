@@ -55,7 +55,21 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="oaCommission">
 			<tr>
-			   <td>123</td>
+			    <td>${oaCommission.year}</td>
+			    <td>${oaCommission.quarter}</td>
+			    <td>${oaCommission.saler.name}</td>
+			    <td>${oaCommission.contract.no}-S${oaCommission.finance.sort}</td>
+			    <td>${oaCommission.contract.no}</td>
+			    <td>${oaCommission.contract.name}</td>
+			    <td></td>
+			    <td>${oaCommission.kGp}</td>
+			    <td>${oaCommission.kNp}</td>
+			    <td>${oaCommission.kTrV}</td>
+			    <td>${oaCommission.kPccV}</td>
+			    <td>${oaCommission.kJzV}</td>
+			    <td>${oaCommission.kYjV}</td>
+			    <td>${oaCommission.kEwV}</td>
+			    <td>${oaCommission.kSc}</td>
 				
 			</tr>
 		</c:forEach>

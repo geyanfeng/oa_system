@@ -40,10 +40,16 @@
 		a.k_yj_v AS "kYjV",
 		a.k_ew_v AS "kEwV",
 		a.k_sc AS "kSc",
-		a.update_date AS "updateDate"
+		a2.no AS "contract.no",
+		a2.name AS "contract.name",
+		a3.sort AS "finance.sort",
+		a4.name AS "saler.name"
 	</sql>
 	
 	<sql id="oaCommissionJoins">
+	  LEFT JOIN oa_contract a2 ON a2.id = a.contract_id
+	  LEFT JOIN oa_contract_finance a3 ON a3.id = a.payment_id
+	  LEFT JOIN sys_user a4 ON a4.id = a.k_saler_id
 	</sql>
     
 	<select id="get" resultType="OaCommission">

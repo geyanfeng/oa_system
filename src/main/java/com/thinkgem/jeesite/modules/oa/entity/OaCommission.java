@@ -4,11 +4,14 @@
 package com.thinkgem.jeesite.modules.oa.entity;
 
 import javax.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.Length;
-import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
+import org.hibernate.validator.constraints.Length;
+
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
+import com.thinkgem.jeesite.modules.sys.entity.User;
 
 /**
  * 佣金统计Entity
@@ -54,6 +57,9 @@ public class OaCommission extends DataEntity<OaCommission> {
 	private Double kYjV;		// 业绩提成
 	private Double kEwV;		// 额外佣金
 	private Double kSc;		// 合计
+	private User saler;		// 销售人员
+	private Contract contract;		// 合同
+	private ContractFinance finance;
 	
 	public OaCommission() {
 		super();
@@ -63,6 +69,30 @@ public class OaCommission extends DataEntity<OaCommission> {
 		super(id);
 	}
 
+	public User getSaler() {
+		return saler;
+	}
+
+	public void setSaler(User saler) {
+		this.saler = saler;
+	}
+	
+	public ContractFinance getContractFinance() {
+		return finance;
+	}
+
+	public void setContractFinance(ContractFinance finance) {
+		this.finance = finance;
+	}
+	
+	public Contract getContract() {
+		return contract;
+	}
+
+	public void setContract(Contract contract) {
+		this.contract = contract;
+	}
+	
 	@NotNull(message="年不能为空")
 	public Integer getYear() {
 		return year;
