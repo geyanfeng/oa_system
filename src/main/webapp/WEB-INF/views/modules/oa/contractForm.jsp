@@ -378,7 +378,7 @@
 				<div class="panel-body form-horizontal" id="invoice-collapse">
 					<div class="col-sm-10">
 						<div class="form-group clearfix">
-							<label class="col-sm-3 control-label"><span
+							<label class="col-sm-2 control-label"><span
 								class="help-inline"><font color="red">*</font> </span>发票类型：</label>
 							<div class="col-sm-9">
 								<form:radiobuttons path="invoiceType"
@@ -388,50 +388,50 @@
 							</div>
 						</div>
 						<div class="form-group clearfix">
-							<label class="col-sm-3 control-label"><span
+							<label class="col-sm-2 control-label"><span
 								class="help-inline"><font color="red">*</font> </span>发票客户名称：</label>
-							<div class="col-sm-9">
+							<div class="col-sm-6">
 								<form:input path="invoiceCustomerName" htmlEscape="false"
 									maxlength="255" class="form-control input-sm required" />
 							</div>
 						</div>
 
 						<div class="form-group clearfix" id="field-invoiceNo">
-							<label class="col-sm-3 control-label"><span
+							<label class="col-sm-2 control-label"><span
 								class="help-inline"><font color="red">*</font> </span>纳税人识别码：</label>
-							<div class="col-sm-9">
+							<div class="col-sm-6">
 								<form:input path="invoiceNo" htmlEscape="false" maxlength="255"
 									class="form-control input-sm required" />
 							</div>
 						</div>
 						<div class="form-group clearfix" id="field-invoiceBank">
-							<label class="col-sm-3 control-label"><span
+							<label class="col-sm-2 control-label"><span
 								class="help-inline"><font color="red">*</font> </span>开户行：</label>
-							<div class="col-sm-9">
+							<div class="col-sm-6">
 								<form:input path="invoiceBank" htmlEscape="false"
 									maxlength="255" class="form-control input-sm required" />
 							</div>
 						</div>
 						<div class="form-group clearfix" id="field-invoiceBankNo">
-							<label class="col-sm-3 control-label"><span
+							<label class="col-sm-2 control-label"><span
 								class="help-inline"><font color="red">*</font> </span>银行帐号：</label>
-							<div class="col-sm-9">
+							<div class="col-sm-6">
 								<form:input path="invoiceBankNo" htmlEscape="false"
 									maxlength="255" class="form-control input-sm required" />
 							</div>
 						</div>
 						<div class="form-group clearfix" id="field-invoiceAddress">
-							<label class="col-sm-3 control-label"><span
+							<label class="col-sm-2 control-label"><span
 								class="help-inline"><font color="red">*</font> </span>地址：</label>
-							<div class="col-sm-9">
+							<div class="col-sm-6">
 								<form:input path="invoiceAddress" htmlEscape="false"
 									maxlength="1000" class="form-control input-sm required" />
 							</div>
 						</div>
 						<div class="form-group clearfix" id="field-invoicePhone">
-							<label class="col-sm-3 control-label"><span
+							<label class="col-sm-2 control-label"><span
 								class="help-inline"><font color="red">*</font> </span>电话：</label>
-							<div class="col-sm-9">
+							<div class="col-sm-6">
 								<form:input path="invoicePhone" htmlEscape="false"
 									maxlength="100" class="form-control input-sm required" />
 							</div>
@@ -1024,13 +1024,13 @@
 				<div class="panel-heading">
 					<h3 class="panel-title">附件</h3>
 				</div>
-				<div class="panel-body">
+				<div class="panel-body" style="padding:0;">
 					<table id="attchmentTable"
 						class="table table-striped table-condensed">
 						<thead>
 							<tr role="row">
 								<th class="hidden"></th>
-								<th>附件类型</th>
+								<th style="padding-left:20px;">附件类型</th>
 								<th>文件名</th>
 								<th>创建时间</th>
 							</tr>
@@ -1043,8 +1043,8 @@
 										id="contractAttachmentList${status.index}_id"
 										name="contractAttachmentList[${status.index}].id"
 										type="hidden" value="${attachment.id}" /></td>
-									<td>${fns:getDictLabel(attachment.type, 'oa_contract_attachment_type', '')}
-										<a href="#" title="上传文档" class="zmdi zmdi-upload pull-right"
+									<td style="padding-left:20px;">${fns:getDictLabel(attachment.type, 'oa_contract_attachment_type', '')}
+										<a href="#" title="上传文档" class="fa fa-cloud-upload text-custom" style="margin-left:10px;font-size:18px;"
 										onclick="files${status.index}FinderOpen();"></a> <input
 										id="contractAttachmentList${status.index}_type"
 										name="contractAttachmentList[${status.index}].type"
