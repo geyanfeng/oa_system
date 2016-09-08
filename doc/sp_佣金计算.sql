@@ -11,7 +11,7 @@ pay_date  			支付时间
 PCCDAY							账期天数
 */
 
-select cast(contract_id as char),amount,billing_date,pay_date,datediff(pay_date,billing_date) INTO @contract_id,@payment_amount,@billing_date,@pay_date,@PCCDAY from oa_contract_finance WHERE id= paymentid;
+select cast(contract_id as char),amount,billing_date,pay_date,datediff(pay_date,billing_date),sort INTO @contract_id,@payment_amount,@billing_date,@pay_date,@PCCDAY,@sort from oa_contract_finance WHERE id= paymentid;
 set @PCCDAY = cast(@PCCDAY as signed integer);
 #佣金参数获取
 set @year = currentyear;
@@ -76,11 +76,22 @@ set @k3 = '35434dee2b684e7a866671d1d6c3ff27';
 set @k4 = 'ebdfbb35d52347b6bc1da200275b72a7';
 set @k5 = 'f91d39a4b25a4b9f8e9f510b35af784e';
 
+#款项进度 款项进度 0全款 ,1..n 第几笔,-1尾款
+select COUNT(*) INTO @payment_times from oa_contract_finance where del_flag=0 and cancel_flag = 0 and contract_id = @contract_id;
+IF @payment_times = 1 THEN
+  SET @payment_schedule = 0;   
+ELSEIF @sort = @payment_times THEN
+  SET @payment_schedule = -1;
+ELSE
+	SET @payment_schedule = @sort;
+END IF;
+
+
 #佣金计算
 DELETE FROM oa_commission WHERE `YEAR` = @year and `QUARTER` = @quarter and PAYMENT_ID = paymentid;
 
 INSERT INTO oa_commission (YEAR, QUARTER, CONTRACT_ID, PAYMENT_ID, SV,COG,CC,LC,BILLING_DATE,PAY_DATE,
-PCCDAY,PAYMENT,RATE,K_SALER_ID,K_ID,K_NAME,K_SV,K_COG,K_CC,K_LC,K_GP,K_GPI,K_TR,K_AC,K_EC,K_PCC,UPDATE_DATE) 
+PCCDAY,PAYMENT,RATE,K_SALER_ID,K_ID,K_NAME,K_SV,K_COG,K_CC,K_LC,K_GP,K_GPI,K_TR,K_AC,K_EC,K_PCC,UPDATE_DATE,PAYMENT_SCHEDULE) 
 select  
 				@year as YEAR,
 				@quarter as QUARTER,
@@ -127,14 +138,15 @@ select
 				END AS K_EC,
 				CASE
             WHEN @PCCDAY <0 THEN 0
-            WHEN @PCCDAY <=30 THEN @pcc_p1
-            WHEN @PCCDAY >30 AND @PCCDAY <=45 THEN @pcc_p2
-            WHEN @PCCDAY >45 AND @PCCDAY <=60 THEN @pcc_p3
-            WHEN @PCCDAY >60 AND @PCCDAY <=75 THEN @pcc_p4
-            WHEN @PCCDAY >75 AND @PCCDAY <=90 THEN @pcc_p5
-						ELSE (12 + 3*floor((@PCCDAY - 90)/15))
+            WHEN @PCCDAY <=30 THEN @pcc_p1 * 0.01
+            WHEN @PCCDAY >30 AND @PCCDAY <=45 THEN @pcc_p2 * 0.01
+            WHEN @PCCDAY >45 AND @PCCDAY <=60 THEN @pcc_p3 * 0.01
+            WHEN @PCCDAY >60 AND @PCCDAY <=75 THEN @pcc_p4 * 0.01
+            WHEN @PCCDAY >75 AND @PCCDAY <=90 THEN @pcc_p5 * 0.01
+						ELSE (12 + 3*floor((@PCCDAY - 90)/15)) * 0.01
 				END AS K_PCC,
-        now() as UPDATE_DATE
+        now() as UPDATE_DATE,
+				@payment_schedule
 				from oa_contract_product cp inner join oa_product_type pt on cp.product_type=pt.id 
 				INNER JOIN oa_product_type_group pg on pg.id=pt.type_group 
 				where cp.contract_id = @contract_id and cp.parent_id is NULL and cp.del_flag=0 group by pg.id;
@@ -145,4 +157,3 @@ K_COS			销售费用COS=销售额SV*税收点数TR+采购成本COG*账期点数P
 K_NP			净利NP=毛利GP-销售费用COS
 */
 end
-
