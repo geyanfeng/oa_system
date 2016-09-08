@@ -60,6 +60,7 @@ public class OaCommission extends DataEntity<OaCommission> {
 	private User saler;		// 销售人员
 	private Contract contract;		// 合同
 	private ContractFinance finance;
+	private Integer paymentSchedule;		// 款项进度
 	
 	public OaCommission() {
 		super();
@@ -69,6 +70,14 @@ public class OaCommission extends DataEntity<OaCommission> {
 		super(id);
 	}
 
+	public Integer getPaymentSchedule() {
+		return paymentSchedule;
+	}
+
+	public void setPaymentSchedule(Integer paymentSchedule) {
+		this.paymentSchedule = paymentSchedule;
+	}
+	
 	public User getSaler() {
 		return saler;
 	}

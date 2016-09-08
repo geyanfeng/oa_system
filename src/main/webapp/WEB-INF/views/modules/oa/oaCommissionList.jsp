@@ -70,7 +70,14 @@
 			    <td>${oaCommission.contract.no}-S${oaCommission.contractFinance.sort}</td>
 			    <td>${oaCommission.contract.no}</td>
 			    <td>${oaCommission.contract.name}</td>
-			    <td></td>
+			    <td>
+			     <c:choose>
+                  <c:when test="${oaCommission.paymentSchedule eq '0'}">全款</c:when>
+                  <c:when test="${oaCommission.paymentSchedule eq '-1'}">尾款</c:when>
+                  <c:when test="${oaCommission.paymentSchedule eq '1'}">首款</c:when>
+                  <c:otherwise>第${oaCommission.paymentSchedule}笔款</c:otherwise>
+                 </c:choose>
+			    </td>
 			    <td>${oaCommission.KGp}</td>
 			    <td>${oaCommission.KNp}</td>
 				<td>${oaCommission.KTrV}</td>

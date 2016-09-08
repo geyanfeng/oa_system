@@ -13,6 +13,7 @@
 		a.k_yj_v AS "kYjV",
 		a.k_ew_v AS "kEwV",
 		a.k_sc AS "kSc",
+		a.payment_schedule as "paymentSchedule",
 		a2.no AS "contract.no",
 		a2.name AS "contract.name",
 		a3.sort AS "finance.sort",
