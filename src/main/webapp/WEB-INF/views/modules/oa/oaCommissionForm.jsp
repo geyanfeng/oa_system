@@ -232,12 +232,7 @@
 				<form:input path="kPccV" htmlEscape="false" class="form-control  number"/>
 			</div>
 		</div>
-		<div class="form-group">
-			<label class="col-md-2 control-label">净值：</label>
-			<div class="col-md-4">
-				<form:input path="kJzV" htmlEscape="false" class="form-control  number"/>
-			</div>
-		</div>
+
 		<div class="form-group">
 			<label class="col-md-2 control-label">业绩提成：</label>
 			<div class="col-md-4">
