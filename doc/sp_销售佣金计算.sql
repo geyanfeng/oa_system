@@ -67,16 +67,7 @@ set K_SC = CASE
             ELSE K_NP*K_SCC*K_AC + (K_SV - K_CC*1.1 - K_SV*K_TR)*K_EC
 END,
 K_TR_V = K_SV * K_TR,
-K_PCC_V = 
-    CASE K_ID
-        WHEN @k5 THEN K_SV * K_PCC
-				ELSE K_COG * K_PCC
-	 	END,
-K_JZ_V = 
-   CASE K_ID
-        WHEN @k5 THEN K_GP - K_SV * K_TR - K_SV * K_PCC
-				ELSE K_GP - K_SV * K_TR - K_COG * K_PCC
-	 	END,
+K_PCC_V = K_COG * K_PCC,
 K_YJ_V = CASE
             WHEN GP <K_GPI*0.7 THEN K_SCC
             ELSE K_NP*K_SCC*K_AC
