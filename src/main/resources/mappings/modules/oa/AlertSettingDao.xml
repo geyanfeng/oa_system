@@ -40,6 +40,16 @@
 		WHERE a.id = #{id}
 		<include refid="alertSettingWhere"/>
 	</select>
+
+	<select id="getByNode" resultType="AlertSetting">
+		SELECT
+		<include refid="alertSettingColumns"/>
+		FROM oa_alert_setting a
+		<include refid="alertSettingJoins"/>
+		WHERE
+		<include refid="alertSettingWhere"/>
+		and a.node = #{node}
+	</select>
 	
 	<select id="findList" resultType="AlertSetting">
 		SELECT 

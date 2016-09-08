@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.oa.dao.AlertDao">
+    
+	<sql id="alertColumns">
+		a.id AS "id",
+		a.node AS "node",
+		a.owner_id AS "ownerId",
+		a.title AS "title",
+		a.content AS "content",
+		a.is_read AS "isRead",
+		a.del_flag AS "delFlag",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate"
+	</sql>
+	
+	<sql id="alertJoins">
+	</sql>
+    
+	<select id="get" resultType="Alert">
+		SELECT 
+			<include refid="alertColumns"/>
+		FROM oa_alert a
+		<include refid="alertJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Alert">
+		SELECT 
+			<include refid="alertColumns"/>
+		FROM oa_alert a
+		<include refid="alertJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="ownerId != null and ownerId != ''">
+				AND a.owner_id = #{owner_id}
+			</if>
+			<if test="isRead != null and isRead != ''">
+				AND a.isRead = #{isRead}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Alert">
+		SELECT 
+			<include refid="alertColumns"/>
+		FROM oa_alert a
+		<include refid="alertJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="ownerId != null and ownerId != ''">
+				AND a.owner_id = #{owner_id}
+			</if>
+			<if test="isRead != null and isRead != ''">
+				AND a.isRead = #{isRead}
+			</if>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO oa_alert(
+			id,
+			node,
+			owner_id,
+			title,
+			content,
+			is_read,
+			del_flag,
+			create_by,
+			create_date,
+			update_by,
+			update_date
+		) VALUES (
+			#{id},
+			#{node},
+			#{ownerId},
+			#{title},
+			#{content},
+			#{isRead},
+			#{delFlag},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE oa_alert SET
+			node= #{node},
+			owner_id = #{ownerId},
+			title = #{title},
+			content = #{content},
+			is_read = #{isRead},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE oa_alert SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

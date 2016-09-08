@@ -278,6 +278,8 @@
 		var frameResizer = $('#mainFrame').iFrameResize([{log: true, minHeight:700, scrolling:true }]);
 		var mainFrame = document.getElementById("mainFrame");
 		//$(mainFrame).height($(window).height()-190);
+
+		var resizefunc = [];
 	</script>
 </BODY>
 </html>

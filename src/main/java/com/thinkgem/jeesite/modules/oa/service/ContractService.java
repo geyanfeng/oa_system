@@ -56,6 +56,8 @@ public class ContractService extends CrudService<ContractDao, Contract> {
     private ContractFinanceDao contractFinanceDao;
     @Autowired
     private PurchaseOrderService purchaseOrderService;
+    @Autowired
+    private AlertService alertService;
 
     public Contract getByProcInsId(String procInsId) {
         return contractDao.getByProcInsId(procInsId);
@@ -527,6 +529,11 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             contractDao.update(contract);
             actTaskService.complete(contract.getAct().getTaskId(), contract.getAct().getProcInsId(), contract.getAct().getComment(), vars);
         }
+        //消息处理
+        String node = taskDefKey;
+        if(StringUtils.isBlank(node) && "submit_audit".equals(flag))
+            node = "submit_audit";
+        alertService.alertContract(node, contract);
     }
 
     public Integer getCountByNoPref(String noPref) {

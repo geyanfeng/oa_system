@@ -12,6 +12,10 @@
         .checkbox{
             padding-left:5px;
         }
+        textarea{
+            height: 100%;
+            width: 100%;
+        }
     </style>
 
     <script>
@@ -91,10 +95,10 @@
                         </select>
                     </div>
                     <div class="col-sm-2">
-                        <textarea id="title[${settingIdx.index}]" name="alertSettingList[${settingIdx.index}].title">${setting.title}</textarea>
+                        <textarea id="title[${settingIdx.index}]" name="alertSettingList[${settingIdx.index}].title" rows="5">${setting.title}</textarea>
                     </div>
                     <div class="col-sm-2">
-                        <textarea id="content[${settingIdx.index}]" name="alertSettingList[${settingIdx.index}].content">${setting.content}</textarea>
+                        <textarea id="content[${settingIdx.index}]" name="alertSettingList[${settingIdx.index}].content" rows="5">${setting.content}</textarea>
                     </div>
                 </div>
             </c:forEach>
