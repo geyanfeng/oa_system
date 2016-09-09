@@ -241,7 +241,7 @@
                         </td>--%>
 
 							<td><shiro:hasPermission name="oa:contract:edit">
-									<c:if test="${empty isSelect and contract.cancelFlag eq 0}">
+									<c:if test="${empty isSelect and contract.cancelFlag eq 0 and contract.status eq '0'}">
 										<a href="${ctx}/oa/contract/form?id=${contract.id}" title="修改"><i
 											class="fa fa-pencil"></i></a>
 										<a href="${ctx}/oa/contract/delete?id=${contract.id}"

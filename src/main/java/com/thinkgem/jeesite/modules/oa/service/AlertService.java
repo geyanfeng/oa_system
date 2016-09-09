@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,22 +87,22 @@ public class AlertService extends CrudService<AlertDao, Alert> {
         //是否向销售发送消息
         if (setting.getIsSaler() == 1 && contract.getCreateBy() != null && StringUtils.isNotBlank(contract.getCreateBy().getId())) {
             User user = userDao.get(contract.getCreateBy().getId());
-            if (user != null) {
+            if (user != null && !receiverMap.containsKey(user.getId())) {
                 receiverMap.put(user.getId(), user.getEmail());
             }
         }
         //是否向商务发送消息
         if (setting.getIsBusinesser() == 1 && contract.getBusinessPerson() != null && StringUtils.isNotBlank(contract.getBusinessPerson().getId())) {
             User user = userDao.get(contract.getBusinessPerson().getId());
-            if (user != null) {
+            if (user != null && !receiverMap.containsKey(user.getId())) {
                 receiverMap.put(user.getId(), user.getEmail());
             }
         }
 
-        //是否向商务发送消息
+        //是否向技术发送消息
         if (setting.getIsTech() == 1 && contract.getArtisan() != null && StringUtils.isNotBlank(contract.getArtisan().getId())) {
             User user = userDao.get(contract.getArtisan().getId());
-            if (user != null) {
+            if (user != null && !receiverMap.containsKey(user.getId())) {
                 receiverMap.put(user.getId(), user.getEmail());
             }
         }
@@ -113,7 +112,8 @@ public class AlertService extends CrudService<AlertDao, Alert> {
             List<User> userList = userDao.findUserByRoleEnName("cso");
             if (userList != null) {
                 for (User user : userList) {
-                    receiverMap.put(user.getId(), user.getEmail());
+                    if(!receiverMap.containsKey(user.getId()))
+                        receiverMap.put(user.getId(), user.getEmail());
                 }
             }
         }
@@ -122,7 +122,8 @@ public class AlertService extends CrudService<AlertDao, Alert> {
             List<User> userList = userDao.findUserByRoleEnName("cw");
             if (userList != null) {
                 for (User user : userList) {
-                    receiverMap.put(user.getId(), user.getEmail());
+                    if(!receiverMap.containsKey(user.getId()))
+                        receiverMap.put(user.getId(), user.getEmail());
                 }
             }
         }
