@@ -21,9 +21,9 @@ File: Core
 /* =============
    Common
 ============= */
+*{font-family:"微软雅黑";}
 body {
   background: #f5f5f5;
-  font-family: arial;
   margin: 0;
   padding-bottom: 60px;
   overflow-x: hidden;
@@ -127,7 +127,6 @@ a:focus {
   margin-bottom: 0px;
   margin-top: 0px;
   line-height: 42px;
-  font-family: 'Karla', sans-serif;
 }
 .page-header {
   border-bottom: 1px solid #DBDDDE;
@@ -137,7 +136,6 @@ a:focus {
   font-weight: 600;
   line-height: 16px;
   margin-bottom: 8px;
-  font-family: 'Karla', sans-serif;
 }
 .wrapper {
   margin-top: 62px;

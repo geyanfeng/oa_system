@@ -28,47 +28,54 @@
 	</script>
 </head>
 <body>
-<div class="panel panel-default">
-	<div class="panel-heading">订单列表
+<h2 style="padding-left:20px; font-weight: normal;font-size:18px;">
+订单列表
 		<div class="pull-right">
 			<c:if test="${empty isSelect}">
 				<shiro:hasPermission name="oa:contract:edit">
-					<a id="btnNew" href="#" class="btn btn-primary waves-effect waves-light input-sm" title="新增">新增&nbsp;<i
+					<a id="btnNew" href="#" class="btn btn-primary" title="新增">新增&nbsp;<i
 							class="fa fa-plus"></i></a>
 				</shiro:hasPermission>
 			</c:if>
 
 		</div>
-	</div>
+</h2>
+<div class="panel panel-default">
+
 	<div class="panel-body">
 		<form:form id="searchForm" modelAttribute="purchaseOrder" action="${ctx}/oa/purchaseOrder/" method="post" class="breadcrumb form-search form-inline">
 			<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 			<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 			<sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();"/>
 
-			<div class="form-group">
+			<div class="form-group m-r-10">
 				<label>日期：</label>
-
+<div class="input-group">
 				<input name="beginCreateDate" type="text" readonly="readonly"
-					   maxlength="20"
-					   class="form-control Wdate input-sm"
+					   maxlength="20" size="10"
+					   class="form-control"
 					   value="<fmt:formatDate value="${purchaseOrder.beginCreateDate}" pattern="yyyy-MM-dd"/>"
 					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+					   <span class="input-group-addon bg-custom b-0 text-white"><i
+							class="ti-calendar"></i></span>
+</div>
+<div class="input-group">
 
-				-
 
 				<input name="endCreateDate" type="text" readonly="readonly"
-					   maxlength="20"
-					   class="form-control Wdate input-sm"
+					   maxlength="20"  size="10"
+					   class="form-control"
 					   value="<fmt:formatDate value="${purchaseOrder.endCreateDate}" pattern="yyyy-MM-dd"/>"
 					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
-
+					   <span class="input-group-addon bg-custom b-0 text-white"><i
+							class="ti-calendar"></i></span>
+</div>
 			</div>
 
-			<div class="form-group">
+			<div class="form-group m-r-10">
 				<label>供应商：</label>
 
-				<form:select path="supplier.id" class="select2-container form-control input-sm" id="supplier" cssStyle="width:200px;">
+				<form:select path="supplier.id" class="select2-container form-control" id="supplier" cssStyle="width:200px;">
 					<form:option value="" label=""/>
 					<form:options items="${supplierList}" itemLabel="name"
 								  itemValue="id" htmlEscape="false"/>
@@ -76,9 +83,9 @@
 
 			</div>
 
-			<div class="form-group">
+			<div class="form-group m-r-10">
 				<label>订单状态：</label>
-				<form:select path="status" class="select2-container form-control input-sm" cssStyle="width:100px;">
+				<form:select path="status" class="select2-container form-control" cssStyle="width:100px;">
 					<form:option value="" label=""/>
 					<form:options items="${fns:getDictList('oa_po_status')}"
 								  itemLabel="label"
@@ -88,7 +95,7 @@
 			</div>
 
 
-			<button id="btnSubmit" class="btn btn-primary input-sm" type="submit" value="查询">
+			<button id="btnSubmit" class="btn btn-custom" type="submit" value="查询">
 				查询<i class="fa fa-search"></i>
 			</button>
 		</form:form>
@@ -99,12 +106,10 @@
 				<th class="sort-column createDate">日期</th>
 				<th class="sort-column no">订单号</th>
 				<th class="sort-column contract.no">合同号</th>
-				<th>收货类型</th>
-				<th class="sort-column address">地址</th>
 				<th class="sort-column a9.name">供应商</th>
 				<th class="sort-column amount">订单金额</th>
 				<th class="sort-column status">订单状态</th>
-				<th class="sort-column status">撤销?</th>
+				<th class="sort-column status">撤销</th>
 				<%-- <th>更新时间</th>--%>
 				<shiro:hasPermission name="oa:purchaseOrder:edit">
 					<th>操作</th>
@@ -117,14 +122,12 @@
 					<td>
 						<fmt:formatDate value="${purchaseOrder.createDate}" pattern="yyyy-MM-dd"/>
 					</td>
-					<td>${purchaseOrder.no}</td>
+					<td>
+
+							<a href="${ctx}/oa/purchaseOrder/view?id=${purchaseOrder.id}">${purchaseOrder.no}</a>
+
+					</td>
 					<td>${purchaseOrder.contract.no}</td>
-					<td>
-							${fns:getDictLabel(purchaseOrder.addressType, 'oa_po_address_type', '')}
-					</td>
-					<td>
-							${purchaseOrder.address}
-					</td>
 					<td>
 							${purchaseOrder.supplier.name}
 					</td>
@@ -136,18 +139,19 @@
 					</td>
 					<td><c:if test="${purchaseOrder.cancelFlag eq 1}"><i class="zmdi zmdi-check"></i></c:if> </td>
 					<td>
-						<shiro:hasPermission name="oa:purchaseOrder:view">
-							<a href="${ctx}/oa/purchaseOrder/view?id=${purchaseOrder.id}">查看</a>
-						</shiro:hasPermission>
+						
 						<shiro:hasPermission name="oa:purchaseOrder:edit">
 							<c:if test="${purchaseOrder.contract.status le '10'}">
-								<a href="${ctx}/oa/contract/view?id=${purchaseOrder.contract.id}&po=true&poid=${purchaseOrder.id}">修改</a>
+								<a href="${ctx}/oa/contract/view?id=${purchaseOrder.contract.id}&po=true&poid=${purchaseOrder.id}" title="修改"><i
+								class="fa fa-pencil"></i></a>
 								<a href="${ctx}/oa/purchaseOrder/delete?id=${purchaseOrder.id}"
-								   onclick="return confirmx('确认要删除该订单吗吗？', this.href)">删除</a>
+								   onclick="return confirmx('确认要删除该订单吗吗？', this.href)" title="删除"><i
+								class="fa fa-trash"></i></a>
 							</c:if>
 						</shiro:hasPermission>
 						<c:if test="${purchaseOrder.evaluateFlag eq '0'}">
-						<a href="#" onclick="supplierEvaluation('${purchaseOrder.id}')">供应商评价</a>
+						<a href="#" onclick="supplierEvaluation('${purchaseOrder.id}')" title="供应商评价"><i
+								class="zmdi zmdi-flower-alt"></i></a>
 						</c:if>
 					</td>
 

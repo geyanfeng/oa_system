@@ -43,7 +43,7 @@
 </script>
 </head>
 <body>
-	<h2 style="padding: 0px 20px; font-weight: normal;font-size:18px;">
+	<h2 style="padding-left:20px; font-weight: normal;font-size:18px;">
 				<c:choose>
 					<c:when test="${contract.contractType eq '1'}">框架合同</c:when>
 					<c:when test="${contract.contractType eq '2'}">客户合同</c:when>
@@ -126,9 +126,11 @@
 							class="ti-calendar"></i></span>
 					</div>
 				</div>
+				<div class="form-group">
 				<button id="btnSubmit" class="btn btn-custom" type="submit"
 					value="查询">
-					筛&nbsp;&nbsp;&nbsp;&nbsp;选</button>
+					筛&nbsp;&nbsp;选</button>
+				</div>
 			</form:form>
 			<sys:message content="${message}" />
 			<table id="contentTable"
