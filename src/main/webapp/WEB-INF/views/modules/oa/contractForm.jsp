@@ -952,7 +952,7 @@ th,td{text-align:left;}
 				<div class="panel-body form-horizontal" id="ship-collapse">
 
 					<div class="col-sm-12">
-						<div class="form-group">
+					<%--	<div class="form-group">
 							<label class="control-label col-sm-2">发货方式：</label>
 							<div class="col-sm-9">
 								<form:radiobuttons path="shipMode"
@@ -960,7 +960,7 @@ th,td{text-align:left;}
 									itemValue="value" htmlEscape="false" class=""
 									element="span class='radio radio-custom radio-inline'" />
 							</div>
-						</div>
+						</div>--%>
 						<div class="form-group">
 							<label class="control-label col-sm-2">收货地址：</label>
 							<div class="col-sm-6">
@@ -982,13 +982,13 @@ th,td{text-align:left;}
 									class="form-control   phone" />
 							</div>
 						</div>
-						<div class="form-group">
+					<%--	<div class="form-group">
 							<label class="control-label col-sm-2">快递单号：</label>
 							<div class="col-sm-3">
 								<form:input path="shipEms" htmlEscape="false"
 									class="form-control  " size="60" />
 							</div>
-						</div>
+						</div>--%>
 					</div>
 				</div>
 			</div>
