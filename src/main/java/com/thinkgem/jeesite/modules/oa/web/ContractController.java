@@ -124,8 +124,8 @@ public class ContractController extends BaseController {
 			contract.setPaymentCycle(originalContract.getPaymentCycle());
 			contract.setPaymentDetail(originalContract.getPaymentDetail());
 		}
-		if (contract.getContractType() == null)
-			contract.setContractType("2"); //设置默认合同类型为客户合同
+		/*if (contract.getContractType() == null)
+			contract.setContractType("2"); //设置默认合同类型为客户合同*/
 		if (contract.getCompanyName() == null)
 			contract.setCompanyName("1"); //设置默认我司抬头为上海精鲲
 		if (contract.getInvoiceType() == null)
@@ -158,7 +158,7 @@ public class ContractController extends BaseController {
 		model.addAttribute("contract", contract);
 
 		//如果是框架性合同显示不同的界面
-		if(contract.getContractType().equals("1"))
+		if(isNotBlank(contract.getContractType()) && contract.getContractType().equals("1"))
 			view ="contractForm_kj";
 
 		return "modules/oa/" + view;

@@ -175,12 +175,18 @@ th,td{text-align:left;}
 								<label class="col-sm-3 control-label">合同类型 <span
 									class="help-inline"><font color="red">*</font> </span></label>
 								<div class="col-sm-9">
-									<form:select path="contractType" class="form-control required"
-										onchange="changeContractType()">
-										<form:option value="" label="" />
-										<form:options items="${fns:getDictList('oa_contract_type')}"
-											itemLabel="label" itemValue="value" htmlEscape="false" />
-									</form:select>
+									<c:if test="${empty param.contractType}">
+										<form:select path="contractType" class="form-control required"
+											onchange="changeContractType()">
+											<form:option value="" label="" />
+											<form:options items="${fns:getDictList('oa_contract_type')}"
+												itemLabel="label" itemValue="value" htmlEscape="false" />
+										</form:select>
+									</c:if>
+									<c:if test="${not empty param.contractType}">
+										<form:hidden path="contractType"></form:hidden>
+										<span>${fns:getDictLabel(contract.contractType,"oa_contract_type" ,"" )}</span>
+									</c:if>
 								</div>
 							</div>
 						</div>
