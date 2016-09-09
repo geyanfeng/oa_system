@@ -208,7 +208,7 @@
 	<!-- 根据OfficeId获取用户（树查询用户时用） -->
 	<select id="findUserByRoleEnName" resultType="User" useCache="true">
 		SELECT
-		a.id, a.name, a.login_name
+		a.id, a.name, a.login_name, a.email
 		FROM sys_user a
 		INNER JOIN sys_user_role ur on ur.user_id = a.id
 		INNER JOIN sys_role r on r.id = ur.role_id and r.enname = #{roleEnName}

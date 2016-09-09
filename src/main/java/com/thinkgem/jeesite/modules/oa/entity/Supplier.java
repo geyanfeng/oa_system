@@ -18,10 +18,10 @@ public class Supplier extends DataEntity<Supplier> {
 	private static final long serialVersionUID = 1L;
 	private String name;		// 名称
 	private String remark;		// 备注
-	private Double shippingSpeed;		// shipping_speed
-	private Double communicationEfficiency;		// communication_efficiency
-	private Double productQuality;		// product_quality
-	private Double serviceAttitude;		// service_attitude
+	private Double shippingSpeed = Double.valueOf("0.0");		// shipping_speed
+	private Double communicationEfficiency = Double.valueOf("0.0");		// communication_efficiency
+	private Double productQuality= Double.valueOf("0.0");		// product_quality
+	private Double serviceAttitude= Double.valueOf("0.0");		// service_attitude
 	
 	public Supplier() {
 		super();

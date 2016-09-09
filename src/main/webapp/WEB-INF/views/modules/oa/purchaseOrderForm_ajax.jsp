@@ -33,7 +33,7 @@
     function changeSupplier() { 
  	   var selectedValue = $("#supplier").find("option:selected").val();
  	   selectedOpt = $("#"+selectedValue);
- 	   if(selectedOpt.attr("shippingSpeed") == "0.0") {
+ 	   if(selectedOpt.attr("shippingSpeed") == null || selectedOpt.attr("shippingSpeed") == "0.0") {
  		   $("#shippingSpeed").html("未评价");
      	   $("#communicationEfficiency").html("未评价");
      	   $("#productQuality").html("未评价");
@@ -300,7 +300,7 @@
           <!--供应商-->
     <div class="row">
             供应商：
-            <form:hidden path="supplier.id"/>
+            
             <form:select path="supplier.id" class="form-control required input-sm" id="supplier" cssStyle="width:280px;" onchange="changeSupplier();">
                 <form:option value="" label=""/>
                
