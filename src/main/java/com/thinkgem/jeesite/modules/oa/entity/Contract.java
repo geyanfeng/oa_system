@@ -43,7 +43,7 @@ public class Contract extends ActEntity<Contract> {
 	private Double performancePercentage;   //业绩提成比例
 	private Date expiryDate;		// 有效期
 	private String invoiceType;		// 发票类型
-	private String invoiceCustomerName;		// 发票客户名称
+	private String invoiceCustomerName;		// 发票抬头
 	private String invoiceNo;		// 发票税务登记号
 	private String invoiceBank;		// 开户行
 	private String invoiceBankNo;		// 银行帐号
@@ -268,7 +268,7 @@ public class Contract extends ActEntity<Contract> {
 		this.invoiceType = invoiceType;
 	}
 	
-	@Length(min=0, max=255, message="发票客户名称长度必须介于 0 和 255 之间")
+	@Length(min=0, max=255, message="发票抬头长度必须介于 0 和 255 之间")
 	public String getInvoiceCustomerName() {
 		return invoiceCustomerName;
 	}

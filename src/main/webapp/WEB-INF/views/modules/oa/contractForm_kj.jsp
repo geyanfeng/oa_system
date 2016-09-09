@@ -269,7 +269,7 @@ th,td{text-align:left;}
 							</div>
 						</div>
 						<div class="form-group clearfix" id="field-invoiceCustomerName">
-							<label class="col-sm-3 control-label">发票客户名称 <span
+							<label class="col-sm-3 control-label">发票抬头<span
 								class="help-inline"><font color="red">*</font> </span></label>
 							<div class="col-sm-6">
 								<form:input path="invoiceCustomerName" htmlEscape="false"
