@@ -33,7 +33,7 @@
     function changeSupplier() { 
  	   var selectedValue = $("#supplier").find("option:selected").val();
  	   selectedOpt = $("#"+selectedValue);
- 	   if(selectedOpt.attr("shippingSpeed") == "0.0") {
+ 	   if(selectedOpt.attr("shippingSpeed") == null || selectedOpt.attr("shippingSpeed") == "0.0") {
  		   $("#shippingSpeed").html("未评价");
      	   $("#communicationEfficiency").html("未评价");
      	   $("#productQuality").html("未评价");
