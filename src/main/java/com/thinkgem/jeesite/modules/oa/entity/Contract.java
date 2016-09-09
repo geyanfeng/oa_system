@@ -37,7 +37,7 @@ public class Contract extends ActEntity<Contract> {
 	private String paymentDetail;		// 付款明细
 	private User businessPerson;		// 商务人员
 	private User artisan;		// 技术人员
-	private Double customerCost;		// 客户费用
+	private Double customerCost =0.00;		// 客户费用
 	private Boolean isDeduction;		// 是否业绩抵扣
 	private Double discount;		// 抵扣金额
 	private Double performancePercentage;   //业绩提成比例
