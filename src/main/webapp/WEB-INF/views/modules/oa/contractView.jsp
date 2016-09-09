@@ -174,7 +174,7 @@
             <li><a href="#panel-9">订单列表</a></li>
             <li><a href="#panel-4">付款信息</a></li>
             <li><a href="#panel-5">物流信息</a></li>
-            <li><a href="#panel-6">其它信息</a></li>
+            <li id="li-other"><a href="#panel-6">其它信息</a></li>
             <li><a href="#panel-7">附件</a></li>
             <li><a href="#panel-8">操作信息</a></li>
         </ul>
@@ -1140,32 +1140,50 @@
     </script>
 
     <!--其它-->
-    <a class="anchor" name="panel-6"></a>
-    <div class="panel panel-default" id="card_other">
-        <div class="panel-heading"><h3 class="panel-title">其它</h3></div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-sm-3">
-                    销售奖金：${contract.customerCost}
-                </div>
-                <div class="col-sm-3">
-                    是否抵扣：${contract.isDeduction? "是":"否"}
-                </div>
-                <div class="col-sm-3">
-                    抵扣金额：${contract.discount}
-                </div>
-                <div class="col-sm-3">
-                    业绩分成比例：${contract.performancePercentage}%
-                </div>
-   <%--             <c:if test="${contract.act.taskDefKey eq 'cso_audit'}">
-                    <div class="form-group">
-                        <label class="control-label">业绩分成比例：</label>
-                        <form:input path="performancePercentage" htmlEscape="false" class="form-control  number input-sm"/>%
+    <div id="div-other">
+        <a class="anchor" name="panel-6"></a>
+        <div class="panel panel-default">
+            <div class="panel-heading"><h3 class="panel-title">其它</h3></div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        销售奖金：${contract.customerCost}
                     </div>
-                </c:if>--%>
+                    <div class="col-sm-3">
+                        是否抵扣：${contract.isDeduction? "是":"否"}
+                    </div>
+                    <div class="col-sm-3">
+                        抵扣金额：${contract.discount}
+                    </div>
+                    <div class="col-sm-3">
+                        业绩分成比例：${contract.performancePercentage}%
+                    </div>
+       <%--             <c:if test="${contract.act.taskDefKey eq 'cso_audit'}">
+                        <div class="form-group">
+                            <label class="control-label">业绩分成比例：</label>
+                            <form:input path="performancePercentage" htmlEscape="false" class="form-control  number input-sm"/>%
+                        </div>
+                    </c:if>--%>
+                </div>
             </div>
         </div>
     </div>
+    <script>
+        var isShowOtherInfo  = false;
+
+        <c:if test="${fns:getUser().id eq contract.createBy.id}">
+            isShowOtherInfo = true;
+        </c:if>
+        <shiro:hasAnyRoles name="cfo,cso">
+            isShowOtherInfo = true;
+        </shiro:hasAnyRoles>
+
+        if(isShowOtherInfo){
+            $("#li-other,#div-other").show();
+        } else {
+            $("#li-other,#div-other").hide();
+        }
+    </script>
 
     <!--附件-->
     <a class="anchor" name="panel-7"></a>
