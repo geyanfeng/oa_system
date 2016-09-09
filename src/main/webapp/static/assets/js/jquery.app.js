@@ -25,8 +25,10 @@
       
       if($("#wrapper").hasClass("enlarged")) {
         $(".left ul").removeAttr("style");
+		$("#J_name").hide();
       } else {
         $(".subdrop").siblings("ul:first").show();
+		$("#J_name").show();
       }
       
       toggle_slimscroll(".slimscrollleft");

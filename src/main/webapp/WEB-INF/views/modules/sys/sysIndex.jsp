@@ -85,23 +85,15 @@
 								</DIV>				
 							</LI>
 							
-							
-							<LI>
-								<A href="${ctx}/logout" title="退出登录"><i class="zmdi zmdi-power" style="font-size:24px;line-height:60px;"></i></A>
-											
-							</LI>
+						
                           	
-							<%--<LI class="dropdown user-box"><A
-								class="dropdown-toggle waves-effect waves-light profile "
+							<LI class="dropdown user-box"><A
+								class="dropdown-toggle profile "
 								aria-expanded="true"
 								href="#"
-								data-toggle="dropdown"><IMG class="img-circle user-img"
-									alt="user-img"
-									src=""${ctxStatic}/flacto/images/avatar-10.jpg">
+								data-toggle="dropdown"><i class="fa fa-user" style="font-size:24px;line-height:60px;"></i>
 
-									<DIV class="user-status away">
-										<I class="zmdi zmdi-dot-circle"></I>
-									</DIV></A>
+								</A>
 								<UL class="dropdown-menu">
 									<LI><A href="${ctx}/sys/user/info" target="mainFrame"><I
 											class="ti-user m-r-5"></I>个人信息</A></LI>
@@ -109,7 +101,7 @@
 											class="ti-settings m-r-5"></I>修改密码</A></LI>
 									<LI><A href="${ctx}/logout" title="退出登录"><I
 											class="ti-power-off m-r-5"></I> 退出</A></LI>
-								</UL></LI>--%>
+								</UL></LI>
 						</UL>
 					</DIV>
 					<!--/.nav-collapse -->
@@ -126,7 +118,7 @@
                         <A href="${ctx}/sys/user/info" target="mainFrame"><img src="${not empty fns:getUser().photo ? fns:getUser().photo : 'static/images/tx.jpg'}" style="width:65px;height:65px;padding:1px;" class="img-responsive img-circle img-thumbnail"
                              alt="thumbnail"></A>
                     </div>
-                    <h5 class="text-uppercase font-bold m-b-0" style="color:white;">Hi, ${fns:getUser().name}</h5>
+                    <h5 class="text-uppercase font-bold m-b-0" id="J_name" style="color:white;">Hi<span>, ${fns:getUser().name}</span></h5>
                 </div>
 			<DIV class="sidebar-inner slimscrollleft">
 				<!--- Divider -->
