@@ -351,7 +351,7 @@
                 <c:forEach items="${fns:getDictList('oa_payment_method')}" var="dict" varStatus="s">
                                     <span class="radio radio-success radio-inline" style="padding-left:2px">
                                         <input id="payment_installment_paymentMethod_{{idx}}_${s.index+1}" name="payment_installment_paymentMethod_{{idx}}" type="radio"
-                                               value="${dict.value}" data-value="{{row.payment_installment_paymentMethod}}" ${s.index eq 0? "checked":""}>
+                                               value="${dict.value}" data-value="{{row.payment_installment_paymentMethod}}" ${s.index eq 1? "checked":""}>
                                         <label for="payment_installment_paymentMethod_{{idx}}_${s.index+1}">${dict.label}</label>
                                     </span>
                     </c:forEach>
@@ -364,7 +364,7 @@
             付款条件：
                 <select id="payment_installment_condition_{{idx}}" data-value="{{row.payment_installment_condition}}" class="form-control input-block required input-sm"  style="width: 100px;display: inline;">
                     <option value="0">预付</option>
-                    <option value="1">应付</option>
+                    <option value="1">后付</option>
                 </select>
             </div>
         </div>
@@ -504,7 +504,7 @@
         天
     </div>
     <div class="row">
-        地址类型 :
+        收货方 :
         <form:select path="addressType" class="form-control required input-sm" cssStyle="width:300px;">
             <form:option value="" label=""/>
             <form:options items="${fns:getDictList('oa_po_address_type')}" itemLabel="label"

@@ -19,7 +19,7 @@ public class PurchaseOrderFinance extends DataEntity<PurchaseOrderFinance> {
 	
 	private static final long serialVersionUID = 1L;
 	private PurchaseOrder purchaseOrder;		// 采购订单Id
-	private Integer payCondition;		//付款条件,0为预付,1为应付
+	private Integer payCondition;		//付款条件,0为预付,1为后付
 	private String payMethod;		// 收款方式
 	private Integer zq = 0;				//帐期
 	private Date planPayDate;		// 预计付款时间

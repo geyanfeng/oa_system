@@ -110,7 +110,7 @@
                         <c:if test="${finance.payMethod eq 3}">color="red"</c:if>> ${fns:getDictLabel(finance.payMethod,"oa_payment_method","")}</font>
                 </div>
                 <div class="col-sm-2">
-                    付款条件：<c:if test="${finance.payCondition eq 0}">预付</c:if><c:if test="${finance.payCondition eq 1}">应付</c:if>
+                    付款条件：<c:if test="${finance.payCondition eq 0}">预付</c:if><c:if test="${finance.payCondition eq 1}">后付</c:if>
                 </div>
 
             </div>
