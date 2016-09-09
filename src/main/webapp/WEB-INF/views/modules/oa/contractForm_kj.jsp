@@ -251,11 +251,11 @@ th,td{text-align:left;}
 					</h3>
 				</div>
 				<div class="panel-body form-horizontal" id="invoice-collapse">
-					<div class="col-sm-6">
+					<div class="col-sm-9">
 						<div class="form-group clearfix">
 							<label class="col-sm-3 control-label"><span
 								class="help-inline"><font color="red">*</font> </span>发票类型：</label>
-							<div class="col-sm-7">
+							<div class="col-sm-9">
 								<form:radiobuttons path="invoiceType"
 									items="${fns:getDictList('oa_invoice_type')}" itemLabel="label"
 									itemValue="value" htmlEscape="false" class=""
@@ -265,7 +265,7 @@ th,td{text-align:left;}
 						<div class="form-group clearfix" id="field-invoiceCustomerName">
 							<label class="col-sm-3 control-label"><span
 								class="help-inline"><font color="red">*</font> </span>发票客户名称：</label>
-							<div class="col-sm-7">
+							<div class="col-sm-6">
 								<form:input path="invoiceCustomerName" htmlEscape="false"
 									maxlength="255" class="form-control required" />
 							</div>
@@ -273,7 +273,7 @@ th,td{text-align:left;}
 						<div class="form-group clearfix" id="field-invoiceNo">
 							<label class="col-sm-3 control-label"><span
 								class="help-inline"><font color="red">*</font> </span>发票税务登记号：</label>
-							<div class="col-sm-7">
+							<div class="col-sm-6">
 								<form:input path="invoiceNo" htmlEscape="false" maxlength="255"
 									class="form-control required" />
 							</div>
@@ -281,7 +281,7 @@ th,td{text-align:left;}
 						<div class="form-group clearfix" id="field-invoiceBank">
 							<label class="col-sm-3 control-label"><span
 								class="help-inline"><font color="red">*</font> </span>开户行：</label>
-							<div class="col-sm-7">
+							<div class="col-sm-6">
 								<form:input path="invoiceBank" htmlEscape="false"
 									maxlength="255" class="form-control required" />
 							</div>
@@ -289,7 +289,7 @@ th,td{text-align:left;}
 						<div class="form-group clearfix" id="field-invoiceBankNo">
 							<label class="col-sm-3 control-label"><span
 								class="help-inline"><font color="red">*</font> </span>银行帐号：</label>
-							<div class="col-sm-7">
+							<div class="col-sm-6">
 								<form:input path="invoiceBankNo" htmlEscape="false"
 									maxlength="255" class="form-control required" />
 							</div>
@@ -297,7 +297,7 @@ th,td{text-align:left;}
 						<div class="form-group clearfix" id="field-invoiceAddress">
 							<label class="col-sm-3 control-label"><span
 								class="help-inline"><font color="red">*</font> </span>地址：</label>
-							<div class="col-sm-7">
+							<div class="col-sm-6">
 								<form:input path="invoiceAddress" htmlEscape="false"
 									maxlength="1000" class="form-control required" />
 							</div>
@@ -305,7 +305,7 @@ th,td{text-align:left;}
 						<div class="form-group clearfix" id="field-invoicePhone">
 							<label class="col-sm-3 control-label"><span
 								class="help-inline"><font color="red">*</font> </span>电话：</label>
-							<div class="col-sm-7">
+							<div class="col-sm-6">
 								<form:input path="invoicePhone" htmlEscape="false"
 									maxlength="100" class="form-control required" />
 							</div>
