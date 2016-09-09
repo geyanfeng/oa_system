@@ -1074,7 +1074,7 @@
         <div class="panel-heading"><h3 class="panel-title">物流信息</h3></div>
         <div class="panel-body panel-collapse collapse in" id="ship-collapse">
             <c:choose>
-                <c:when test="${contract.act.taskDefKey eq 'verify_ship'}">
+                <c:when test="${contract.act.taskDefKey eq 'verify_ship' or contract.act.taskDefKey eq 'split_po'}">
                     <div class="row">
                         <div class="form-group">
                             <label class="control-label">发货方式：</label>
