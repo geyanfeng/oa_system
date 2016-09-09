@@ -66,20 +66,18 @@ th,td{text-align:left;}
 						//changeContractType();//如果从合同列表中新合同时, 初始化时加载合同类型
 
 						//更改发票类型时,显示或隐藏列
-						$('input[name=invoiceType]').change(
-								function() {
-									var sVal = $(
-											'input[name=invoiceType]:checked ')
-											.val();
-									switch (sVal) {
-									case "2":
-										$("div[id^=field-invoice]").show();
-										break;
-									default:
-										$("div[id^=field-invoice]").hide();
-										break;
-									}
-								});
+						//更改发票类型时,显示或隐藏列
+						$('input[name=invoiceType]').change(function () {
+							var sVal = $('input[name=invoiceType]:checked ').val();
+							switch (sVal) {
+								case "2":
+									$("div[id^=field-invoice]").show();
+									break;
+								default:
+									$("div[id^=field-invoice]").hide();
+									break;
+							}
+						});
 						$('input[name=invoiceType]').trigger('change');
 
 						//清除modal中的内容
@@ -268,7 +266,7 @@ th,td{text-align:left;}
 									element="span class='radio radio-custom radio-inline'" />
 							</div>
 						</div>
-						<div class="form-group clearfix" id="field-invoiceCustomerName">
+						<div class="form-group clearfix">
 							<label class="col-sm-3 control-label">发票抬头<span
 								class="help-inline"><font color="red">*</font> </span></label>
 							<div class="col-sm-6">
