@@ -115,7 +115,7 @@
 		<div class="text-center">
                     
                     <div class="user-thumb m-t-20">
-                        <A href="${ctx}/sys/user/info" target="mainFrame"><img src="${not empty fns:getUser().photo ? fns:getUser().photo : 'static/images/tx.jpg'}" style="width:65px;height:65px;padding:1px;" class="img-responsive img-circle img-thumbnail"
+                        <A href="${ctx}"><img src="${not empty fns:getUser().photo ? fns:getUser().photo : 'static/images/tx.jpg'}" style="width:65px;height:65px;padding:1px;" class="img-responsive img-circle img-thumbnail"
                              alt="thumbnail"></A>
                     </div>
                     <h5 class="text-uppercase font-bold m-b-0" id="J_name" style="color:white;">Hi<span>, ${fns:getUser().name}</span></h5>
