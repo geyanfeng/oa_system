@@ -24,10 +24,11 @@
 <%@ attribute name="dataMsgRequired" type="java.lang.String" required="false" description=""%>
 <%@ attribute name="buttonIconCss" type="java.lang.String" required="false" description=""%>
 <div class="input-group">
-	<input id="${id}Id" name="${name}" class="${cssClass}" type="hidden" value="${value}"/>
+	
 	<input id="${id}Name" name="${labelName}" ${allowInput?'':'readonly="readonly"'} type="text" value="${labelValue}" data-msg-required="${dataMsgRequired}"
-		class="${cssClass} form-control " style="${cssStyle}"/><span class="input-group-btn"  style="vertical-align:top;">
-                                                       <a id="${id}Button" href="javascript:" class="${disabled} ${hideBtn ? 'hide' : ''}" style="${smallBtn?'padding:4px 2px;':''}"> <button class="btn waves-effect waves-light btn-custom ${buttonIconCss}" type="button"><i class="fa fa-search"></i></button></a>
+		class="${cssClass} form-control " style="${cssStyle}"/>
+		<input id="${id}Id" name="${name}" class="${cssClass}" type="hidden" value="${value}"/><span class="input-group-btn">
+                                                       <a id="${id}Button" href="javascript:" class="${disabled} ${hideBtn ? 'hide' : ''} btn btn-custom ${buttonIconCss}" style="${smallBtn?'padding:4px 2px;':''}"><i class="fa fa-search"></i></a>
                                                         </span>
 </div>
 <script type="text/javascript">

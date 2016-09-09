@@ -30,9 +30,13 @@
 
 
 .form-horizontal {margin:0 10px;} .form-horizontal .control-group {margin-bottom:8px;}
-.form-horizontal .control-label {padding-top:3px;} .form-horizontal .controls {text-align:left;overflow-x:auto;overflow-y:hidden;}
+.form-horizontal .controls {text-align:left;overflow-x:auto;overflow-y:hidden;}
 .form-horizontal .controls label.error {background-position:0 2px;}
-
+.form-inline .radio-inline,.form-inline .checkbox{
+    margin-bottom: 0;
+    margin-top: 0;
+    padding-top: 0px;
+}
 .form-horizontal .table-form{width:100%;border-color:#dddddd;}
 .form-horizontal .table-form, .form-horizontal .table-form td{border:1px solid #ddd;background-color:#fdfdfd;padding:4px;} 
 .form-horizontal .table-form td.tit{background:#fafafa;text-align:center;padding-right:8px;white-space:nowrap;}

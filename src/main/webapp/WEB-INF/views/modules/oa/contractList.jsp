@@ -201,7 +201,6 @@
 						<th class="sort-column name">合同名称</th>
 						<th class="sort-column amount">合同金额</th>
 						<th class="sort-column status">合同状态</th>
-						<th class="sort-column status">撤销</th>
 						<th class="sort-column u32.name">销售</th>
 						<th class="sort-column u15.name">商务人员</th>
 						<th class="sort-column u16.name">技术人员</th>
@@ -225,11 +224,8 @@
 							<td>${contract.name}</td>
 							<td><fmt:formatNumber type="number"
 									value="${contract.amount}" maxFractionDigits="2" /></td>
-							<td>${fns:getDictLabel(contract.status, 'oa_contract_status', '')}
+							<td><c:if test="${contract.cancelFlag eq 1}"><del class="text-danger"></c:if>${fns:getDictLabel(contract.status, 'oa_contract_status', '')}<c:if test="${contract.cancelFlag eq 1}"></del></c:if>
 							</td>
-							<td><c:if test="${contract.cancelFlag eq 1}">
-									<i class="zmdi zmdi-check"></i>
-								</c:if></td>
 							<td>${contract.createBy.name}</td>
 
 							<td>${contract.businessPerson.name}</td>

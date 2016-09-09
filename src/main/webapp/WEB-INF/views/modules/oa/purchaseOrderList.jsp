@@ -33,8 +33,8 @@
 		<div class="pull-right">
 			<c:if test="${empty isSelect}">
 				<shiro:hasPermission name="oa:contract:edit">
-					<a id="btnNew" href="#" class="btn btn-primary" title="新增">新增&nbsp;<i
-							class="fa fa-plus"></i></a>
+					<a id="btnNew" href="#" class="btn btn-primary" title="新增"><i
+							class="fa fa-plus m-r-5"></i>新增订单</a>
 				</shiro:hasPermission>
 			</c:if>
 
@@ -85,7 +85,7 @@
 
 			<div class="form-group m-r-10">
 				<label>订单状态：</label>
-				<form:select path="status" class="select2-container form-control" cssStyle="width:100px;">
+				<form:select path="status" class="select2-container form-control" cssStyle="width:150px;">
 					<form:option value="" label=""/>
 					<form:options items="${fns:getDictList('oa_po_status')}"
 								  itemLabel="label"
@@ -109,7 +109,6 @@
 				<th class="sort-column a9.name">供应商</th>
 				<th class="sort-column amount">订单金额</th>
 				<th class="sort-column status">订单状态</th>
-				<th class="sort-column status">撤销</th>
 				<%-- <th>更新时间</th>--%>
 				<shiro:hasPermission name="oa:purchaseOrder:edit">
 					<th>操作</th>
@@ -135,17 +134,16 @@
 							<fmt:formatNumber type="number" value="${purchaseOrder.amount}" maxFractionDigits="2"/>
 					</td>
 					<td>
-							${fns:getDictLabel(purchaseOrder.status, 'oa_po_status', '')}
+							<c:if test="${purchaseOrder.cancelFlag eq 1}"><del class="text-danger"></c:if>${fns:getDictLabel(purchaseOrder.status, 'oa_po_status', '')}<c:if test="${purchaseOrder.cancelFlag eq 1}"></del></c:if>
 					</td>
-					<td><c:if test="${purchaseOrder.cancelFlag eq 1}"><i class="zmdi zmdi-check"></i></c:if> </td>
 					<td>
 						
 						<shiro:hasPermission name="oa:purchaseOrder:edit">
 							<c:if test="${purchaseOrder.contract.status le '10'}">
-								<a href="${ctx}/oa/contract/view?id=${purchaseOrder.contract.id}&po=true&poid=${purchaseOrder.id}" title="修改"><i
+								<a href="${ctx}/oa/contract/view?id=${purchaseOrder.contract.id}&po=true&poid=${purchaseOrder.id}" class="m-r-5" title="修改"><i
 								class="fa fa-pencil"></i></a>
 								<a href="${ctx}/oa/purchaseOrder/delete?id=${purchaseOrder.id}"
-								   onclick="return confirmx('确认要删除该订单吗吗？', this.href)" title="删除"><i
+								   onclick="return confirmx('确认要删除该订单吗吗？', this.href)" class="m-r-5" title="删除"><i
 								class="fa fa-trash"></i></a>
 							</c:if>
 						</shiro:hasPermission>

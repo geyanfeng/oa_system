@@ -12,6 +12,11 @@
 .row.form-inline .form-group {
 	margin-left: 20px;
 }
+th,td{text-align:left;}
+.table{margin-bottom:0px;}
+.table tr th:nth-child(2),.table tr td:nth-child(2){
+        	padding-left:20px;
+        }
 </style>
 <script type="text/javascript">
         $(document).ready(function () {
@@ -177,7 +182,7 @@
 </ul><br/>--%>
 
 	<form:form id="inputForm" modelAttribute="contract"
-		action="${ctx}/oa/contract/save" method="post" role="form">
+		action="${ctx}/oa/contract/save" method="post" role="form" class="form-horizontal">
 		<form:hidden path="id" />
 		<form:hidden path="act.taskId" />
 		<form:hidden path="act.taskName" />
@@ -188,25 +193,26 @@
 		<%--<input name="status" value="${empty contract.status?10:contract.status}" type="hidden"/>--%>
 		<sys:message content="${message}" />
 
-		<!-- Page-Title -->
-		<div class="navbar navbar-default navbar-fixed-top  navbar-static"
-			role="navigation" id="navbar">
-			<div class="collapse navbar-collapse bs-js-navbar-scrollspy">
-				<ul class="nav navbar-nav">
-					<li><a href="#panel-1">合同信息</a></li>
-					<li><a href="#panel-2">开票信息</a></li>
-					<li><a href="#panel-3">采购列表</a></li>
-					<li><a href="#panel-9">订单列表</a></li>
-					<li><a href="#panel-4">付款信息</a></li>
-					<li><a href="#panel-5">物流信息</a></li>
-					<li><a href="#panel-6">其它信息</a></li>
-					<li><a href="#panel-7">附件</a></li>
-					<li><a href="#panel-8">操作信息</a></li>
-				</ul>
-			</div>
-		</div>
+		
 
 		<div class="col-sm-12">
+			<!-- Page-Title -->
+			<div class="navbar navbar-default navbar-fixed-top  navbar-static"
+				role="navigation" id="navbar">
+				<div class="collapse navbar-collapse bs-js-navbar-scrollspy">
+					<ul class="nav navbar-nav">
+						<li><a href="#panel-1">合同信息</a></li>
+						<li><a href="#panel-2">开票信息</a></li>
+						<li><a href="#panel-3">采购列表</a></li>
+						<li><a href="#panel-9">订单列表</a></li>
+						<li><a href="#panel-4">付款信息</a></li>
+						<li><a href="#panel-5">物流信息</a></li>
+						<li><a href="#panel-6">其它信息</a></li>
+						<li><a href="#panel-7">附件</a></li>
+						<li><a href="#panel-8">操作信息</a></li>
+					</ul>
+				</div>
+			</div>
 
 			<!--合同信息-->
 			<div class="panel panel-default">
@@ -228,7 +234,7 @@
 									class="help-inline"><font color="red">*</font> </span>合同类型：</label>
 								<div class="col-sm-9">
 									<form:select path="contractType"
-										class="form-control col-md-12 required input-sm"
+										class="form-control col-md-12 required"
 										onchange="changeContractType()">
 										<form:option value="" label="" />
 										<form:options items="${fns:getDictList('oa_contract_type')}"
@@ -243,7 +249,7 @@
 								<div class="col-sm-9">
 									<div class="input-group bootstrap-touchspin">
 										<form:select path="customer.id"
-											class="form-control col-md-12 required input-sm"
+											class="form-control col-md-12 required"
 											id="customer" onchange="changeCustomer(this)">
 											<form:option value="" label="" />
 											<form:options items="${customerList}" itemLabel="name"
@@ -252,7 +258,7 @@
 
 										<span class="input-group-btn" style="vertical-align: top;"><a
 											href="#" onclick="addCustomer(this)" title="新增客户"
-											class="btn btn-sm btn-custom">+</a></span>
+											class="btn btn-custom">+</a></span>
 									</div>
 
 								</div>
@@ -268,7 +274,7 @@
 									class="help-inline"><font color="red">*</font> </span>我司抬头：</label>
 								<div class="col-sm-9">
 									<form:select path="companyName"
-										class="form-control col-md-12 required input-sm">
+										class="form-control col-md-12 required">
 										<form:option value="" label="" />
 										<form:options items="${fns:getDictList('oa_company_name')}"
 											itemLabel="label" itemValue="value" htmlEscape="false" />
@@ -282,7 +288,7 @@
 									class="help-inline"><font color="red">*</font> </span>合同名称：</label>
 								<div class="col-sm-9">
 									<form:input path="name" htmlEscape="false" maxlength="255"
-										class="form-control required input-sm" />
+										class="form-control required" />
 								</div>
 							</div>
 						</div>
@@ -295,20 +301,14 @@
 								<div class="col-sm-9">
 									<div class="input-group">
 										<input type="text" htmlEscape="false" maxlength="255"
-											class="form-control required input-sm" id="parentNo" disabled
+											class="form-control required" id="parentNo" disabled
 											value='${contract.parentName}${not empty contract.parentNo? "(":""}${contract.parentNo}${not empty contract.parentNo? ")":""}' />
 										<input type="hidden" name="parentId" id="parentId"
 											value="${contract.parentId}" class="hidden" /> <span
 											class="input-group-btn"> <a
-											id="btnSelectParentContract" href="javascript:" class=" "
-											style=""> <span class="input-group-btn"
-												style="vertical-align: top;">
-													<button
-														class="btn waves-effect waves-light btn-custom input-sm"
-														type="button">
-														<i class="fa fa-search"></i>
-													</button>
-											</span>
+											id="btnSelectParentContract" href="javascript:" class="btn btn-custom"
+											style=""> <i class="fa fa-search"></i>
+													
 										</a>
 										</span>
 									</div>
@@ -325,8 +325,8 @@
 										labelName="businessPerson.name"
 										labelValue="${contract.businessPerson.name}" title="用户"
 										url="/sys/office/treeData?type=3"
-										cssClass="form-control required input-sm"
-										buttonIconCss="input-sm" allowClear="true"
+										cssClass="form-control required"
+										buttonIconCss="" allowClear="true"
 										notAllowSelectParent="true" />
 								</div>
 							</div>
@@ -342,8 +342,8 @@
 										value="${contract.artisan.id}" labelName="artisan.name"
 										labelValue="${contract.artisan.name}" title="用户"
 										url="/sys/office/treeData?type=3"
-										cssClass="form-control required input-sm"
-										buttonIconCss="input-sm" allowClear="true"
+										cssClass="form-control required"
+										buttonIconCss="" allowClear="true"
 										notAllowSelectParent="true" />
 								</div>
 							</div>
@@ -356,7 +356,7 @@
 								<div class="col-sm-9">
 									<input id="no" name="no" value="${contract.no}"
 										htmlEscape="false" maxlength="100"
-										class="form-control required input-sm" disabled />
+										class="form-control required" disabled />
 								</div>
 							</div>
 						</div>
@@ -375,10 +375,10 @@
 						</div>
 					</h3>
 				</div>
-				<div class="panel-body form-horizontal" id="invoice-collapse">
-					<div class="col-sm-10">
-						<div class="form-group clearfix">
-							<label class="col-sm-2 control-label"><span
+				<div class="panel-body collapse in" id="invoice-collapse">
+					<div class="col-sm-9">
+						<div class="form-group">
+							<label class="col-sm-3 control-label"><span
 								class="help-inline"><font color="red">*</font> </span>发票类型：</label>
 							<div class="col-sm-9">
 								<form:radiobuttons path="invoiceType"
@@ -388,52 +388,52 @@
 							</div>
 						</div>
 						<div class="form-group clearfix">
-							<label class="col-sm-2 control-label"><span
+							<label class="col-sm-3 control-label"><span
 								class="help-inline"><font color="red">*</font> </span>发票客户名称：</label>
 							<div class="col-sm-6">
 								<form:input path="invoiceCustomerName" htmlEscape="false"
-									maxlength="255" class="form-control input-sm required" />
+									maxlength="255" class="form-control  required" />
 							</div>
 						</div>
 
 						<div class="form-group clearfix" id="field-invoiceNo">
-							<label class="col-sm-2 control-label"><span
+							<label class="col-sm-3 control-label"><span
 								class="help-inline"><font color="red">*</font> </span>纳税人识别码：</label>
 							<div class="col-sm-6">
 								<form:input path="invoiceNo" htmlEscape="false" maxlength="255"
-									class="form-control input-sm required" />
+									class="form-control  required" />
 							</div>
 						</div>
 						<div class="form-group clearfix" id="field-invoiceBank">
-							<label class="col-sm-2 control-label"><span
+							<label class="col-sm-3 control-label"><span
 								class="help-inline"><font color="red">*</font> </span>开户行：</label>
 							<div class="col-sm-6">
 								<form:input path="invoiceBank" htmlEscape="false"
-									maxlength="255" class="form-control input-sm required" />
+									maxlength="255" class="form-control  required" />
 							</div>
 						</div>
 						<div class="form-group clearfix" id="field-invoiceBankNo">
-							<label class="col-sm-2 control-label"><span
+							<label class="col-sm-3 control-label"><span
 								class="help-inline"><font color="red">*</font> </span>银行帐号：</label>
 							<div class="col-sm-6">
 								<form:input path="invoiceBankNo" htmlEscape="false"
-									maxlength="255" class="form-control input-sm required" />
+									maxlength="255" class="form-control  required" />
 							</div>
 						</div>
 						<div class="form-group clearfix" id="field-invoiceAddress">
-							<label class="col-sm-2 control-label"><span
+							<label class="col-sm-3 control-label"><span
 								class="help-inline"><font color="red">*</font> </span>地址：</label>
 							<div class="col-sm-6">
 								<form:input path="invoiceAddress" htmlEscape="false"
-									maxlength="1000" class="form-control input-sm required" />
+									maxlength="1000" class="form-control  required" />
 							</div>
 						</div>
 						<div class="form-group clearfix" id="field-invoicePhone">
-							<label class="col-sm-2 control-label"><span
+							<label class="col-sm-3 control-label"><span
 								class="help-inline"><font color="red">*</font> </span>电话：</label>
 							<div class="col-sm-6">
 								<form:input path="invoicePhone" htmlEscape="false"
-									maxlength="100" class="form-control input-sm required" />
+									maxlength="100" class="form-control  required" />
 							</div>
 						</div>
 					</div>
@@ -464,14 +464,14 @@
 						采购列表
 						<shiro:hasPermission name="oa:contract:edit">
 							<div class="pull-right">
-								<a href="javascript:" class="btn btn-sm btn-danger"
+								<a href="javascript:" class="btn btn-danger"
 									onclick="addRow('#contractProductList', contractProductRowIdx, contractProductTpl);contractProductRowIdx = contractProductRowIdx + 1;">
 									<i class="fa fa-plus"></i> 新增
 								</a>
-								<button class="btn btn-sm btn-info">
+								<button class="btn btn-info">
 									<i class="fa fa-upload"></i> 导入采购列表
 								</button>
-								<button class="btn btn-sm btn-primary">
+								<button class="btn btn-primary">
 									<i class="fa fa-download"></i> 下载导入模版
 								</button>
 							</div>
@@ -479,8 +479,8 @@
 					</h3>
 				</div>
 				<div class="panel-body panel-collapse collapse in"
-					id="products-collapse">
-					<div class="col-sm-12">
+					id="products-collapse" style="padding:20px 0;">
+					<div class="">
 						<table id="contentTable"
 							class="table table-striped table-condensed">
 							<thead>
@@ -509,9 +509,9 @@
 								<input id="contractProductList{{idx}}_delFlag" name="contractProductList[{{idx}}].delFlag" type="hidden" value="0"/>
 							</td>
 							<td>
-								<input id="contractProductList{{idx}}_name" name="contractProductList[{{idx}}].name" type="text" value="{{row.name}}" maxlength="100" class="form-control required input-sm"  style="display: inline-block;"/>
+								<input id="contractProductList{{idx}}_name" name="contractProductList[{{idx}}].name" type="text" value="{{row.name}}" maxlength="100" class="form-control required "  style="display: inline-block;"/>
 								<c:if test="${contract.act.taskDefKey eq 'split_po'}">
-                                    <select id="contractProductList{{idx}}_productType" name="contractProductList[{{idx}}].productType" data-value="{{row.productType.id}}" class="form-control input-block required input-sm" style="width: 40%;display: inline-block;">
+                                    <select id="contractProductList{{idx}}_productType" name="contractProductList[{{idx}}].productType" data-value="{{row.productType.id}}" class="form-control input-block required " style="width: 40%;display: inline-block;">
                                         <c:forEach items="${productTypeList}" var="dict">
                                             <option value="${dict.id}">${dict.name}</option>
                                         </c:forEach>
@@ -520,23 +520,23 @@
                                 </c:if>
 							</td>
 							<td>
-								<input id="contractProductList{{idx}}_price" name="contractProductList[{{idx}}].price" type="text" value="{{row.price}}" class="form-control number input-block required input-sm" onchange="updatePriceAmount(this);"/>
+								<input id="contractProductList{{idx}}_price" name="contractProductList[{{idx}}].price" type="text" value="{{row.price}}" class="form-control number input-block required " onchange="updatePriceAmount(this);"/>
 							</td>
 							<td>
-								<input id="contractProductList{{idx}}_num" name="contractProductList[{{idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="form-control number input-block required input-sm" onchange="updatePriceAmount(this);"//>
+								<input id="contractProductList{{idx}}_num" name="contractProductList[{{idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="form-control number input-block required " onchange="updatePriceAmount(this);"//>
 							</td>
 							<td>
-								<select id="contractProductList{{idx}}_unit" name="contractProductList[{{idx}}].unit" data-value="{{row.unit}}" class="form-control input-block required input-sm">
+								<select id="contractProductList{{idx}}_unit" name="contractProductList[{{idx}}].unit" data-value="{{row.unit}}" class="form-control input-block required ">
 									<c:forEach items="${fns:getDictList('oa_unit')}" var="dict">
 										<option value="${dict.value}">${dict.label}</option>
 									</c:forEach>
 								</select>
 							</td>
 							<td>
-								<input id="contractProductList{{idx}}_amount" name="contractProductList[{{idx}}].amount" type="text" value="{{row.amount}}" class="form-control input-block input-sm" readonly style="background-color: #e8e8e8 !important;"/>
+								<input id="contractProductList{{idx}}_amount" name="contractProductList[{{idx}}].amount" type="text" value="{{row.amount}}" class="form-control input-block " readonly style="background-color: #e8e8e8 !important;"/>
 							</td>
 							<td>
-								<input id="contractProductList{{idx}}_remark" name="contractProductList[{{idx}}].remark" type="text" value="{{row.remark}}" maxlength="255" class="form-control input-block input-sm"/>
+								<input id="contractProductList{{idx}}_remark" name="contractProductList[{{idx}}].remark" type="text" value="{{row.remark}}" maxlength="255" class="form-control input-block "/>
 							</td>
 							<shiro:hasPermission name="oa:contract:edit"><td class="text-center" width="10">
 								{{#delBtn}}<a href="#" class="on-default remove-row" onclick="delRow(this, '#contractProductList{{idx}}')"  title="删除"><i class="fa fa-trash-o"></i></a>{{/delBtn}}
@@ -560,18 +560,18 @@
 								<input id="childProductList{{idx}}_{{child_idx}}_delFlag" name="contractProductList[{{idx}}].childs[{{child_idx}}].delFlag" type="hidden" value="0"/>
 							</td>
 							<td>
-								<input id="childProductList{{idx}}_{{child_idx}}_name" name="contractProductList[{{idx}}].childs[{{child_idx}}].name" type="text" value="{{row.name}}" maxlength="100" class="form-control required input-sm"  style="width: 50%;display: inline-block;"/>
-								<select id="childProductList{{idx}}_{{child_idx}}_productType" name="contractProductList[{{idx}}].childs[{{child_idx}}].productType" data-value="{{row.productType.id}}" class="form-control input-block required input-sm"  style="width: 40%;display: inline-block;">
+								<input id="childProductList{{idx}}_{{child_idx}}_name" name="contractProductList[{{idx}}].childs[{{child_idx}}].name" type="text" value="{{row.name}}" maxlength="100" class="form-control required "  style="width: 50%;display: inline-block;"/>
+								<select id="childProductList{{idx}}_{{child_idx}}_productType" name="contractProductList[{{idx}}].childs[{{child_idx}}].productType" data-value="{{row.productType.id}}" class="form-control input-block required "  style="width: 40%;display: inline-block;">
 										<c:forEach items="${productTypeList}" var="dict">
 										<option value="${dict.id}">${dict.name}</option>
 									</c:forEach>
 								</select>
 							</td>
 							<td>
-								<input id="cchildProductList{{idx}}_{{child_idx}}_num" name="contractProductList[{{idx}}].childs[{{child_idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="form-control number input-block required input-sm" onchange="updatePriceAmount(this);"//>
+								<input id="cchildProductList{{idx}}_{{child_idx}}_num" name="contractProductList[{{idx}}].childs[{{child_idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="form-control number input-block required " onchange="updatePriceAmount(this);"//>
 							</td>
 							<td>
-								<select id="childProductList{{idx}}_{{child_idx}}_unit" name="contractProductList[{{idx}}].childs[{{child_idx}}].unit" data-value="{{row.unit}}" class="form-control input-block required input-sm">
+								<select id="childProductList{{idx}}_{{child_idx}}_unit" name="contractProductList[{{idx}}].childs[{{child_idx}}].unit" data-value="{{row.unit}}" class="form-control input-block required ">
 									<c:forEach items="${fns:getDictList('oa_unit')}" var="dict">
 										<option value="${dict.value}">${dict.label}</option>
 									</c:forEach>
@@ -663,9 +663,9 @@
                 </script>
 					</div>
 				</div>
-				<div class="panel-footer">
-					<span class="text-custom" id="span-display-amount">采购条目的总价:
-						${contract.amount}</span>
+				<div class="panel-footer text-right" style="background:#fff;">
+					<strong id="span-display-amount">采购总金额:
+						${contract.amount}</strong>
 				</div>
 			</div>
 
@@ -675,16 +675,15 @@
 					<h3 class="panel-title">付款信息</h3>
 				</div>
 				<div class="panel-body form-horizontal" id="payment-collapse">
-					<div class="col-sm-12">
+					<div class="row clearfix">
 						<div class="form-group">
-							<label class="control-label col-sm-2">付款周期：</label>
-							<div class="col-sm-6">
+							<label class="control-label">付款周期：</label>
 								<form:radiobuttons path="paymentCycle"
 									items="${fns:getDictList('oa_payment_cycle')}"
 									itemLabel="label" itemValue="value" htmlEscape="false" class=""
 									element="span class='radio radio-custom radio-inline'" />
 								<form:hidden path="paymentDetail"></form:hidden>
-							</div>
+
 						</div>
 						<span id="paymentMsg" style="display: none"
 							class="label label-danger pull-right"></span>
@@ -692,13 +691,13 @@
 					<script type="text/template" id="payment-onetime-tpl">//<!--
                 <div class="row form-inline" id="payment-onetime">
                     <div class="form-group">
-                        <label class="control-label">付款金额：</label>
-                        <input type="text" class="form-control  number input-sm required" id="payment_onetime_amount" value="{{row.payment_onetime_amount}}"/>
+                        <label>付款金额：</label>
+                        <input type="text" class="form-control  number  required" id="payment_onetime_amount" value="{{row.payment_onetime_amount}}"/>
                     </div>
                     <div class="form-group">
-                        <label class="control-label">付款方式：</label>
+                        <label>付款方式：</label>
                         <c:forEach items="${fns:getDictList('oa_payment_method')}" var="dict" varStatus="s">
-                            <span class="radio radio-success radio-inline" style="padding-left:2px">
+                            <span class="radio radio-custom radio-inline" style="padding-left:2px">
                                 <input id="payment_onetime_paymentMethod${s.index+1}" name="payment_onetime_paymentMethod" type="radio"
                                        value="${dict.value}" data-value="{{row.payment_onetime_paymentMethod}}"  checked>
                                 <label for="payment_onetime_paymentMethod${s.index+1}">${dict.label}</label>
@@ -706,40 +705,40 @@
                         </c:forEach>
                     </div>
                     <div class="form-group">
-                        <label class="control-label">账期：</label>
-                        <input id="payment_onetime_time" type="text" class="form-control number input-sm required" value="{{row.payment_onetime_time}}"/>
+                        <label>账期：</label>
+                        <input id="payment_onetime_time" type="text" class="form-control number  required" value="{{row.payment_onetime_time}}"/>
                     </div>
                     <div class="form-group">
-                        <label class="control-label">账期点数：</label>
-                        <input id="payment_onetime_pointnum" type="text" class="form-control number input-sm required" value="{{row.payment_onetime_pointnum}}"/>
+                        <label>账期点数：</label>
+                        <input id="payment_onetime_pointnum" type="text" class="form-control number  required" value="{{row.payment_onetime_pointnum}}"/>
                     </div>
                 </div>
                     //-->
             </script>
 					<script type="text/template" id="payment-installment-tpl">//<!--
-                <div class="row form-inline" id="payment-installment_{{idx}}">
+                <div class="row form-inline" id="payment-installment_{{idx}}" style="margin-bottom:10px;">
                     <div class="form-group">
-                        <label class="control-label">付款金额：</label>
-                        <input type="text" class="form-control required number input-sm" id="payment_installment_amount_{{idx}}"
+                        <label>付款金额：</label>
+                        <input type="text" class="form-control required number " id="payment_installment_amount_{{idx}}"
                         value="{{row.payment_installment_amount}}"/>
                     </div>
                     <div class="form-group">
-                        <label class="control-label">账期：</label>
-                        <input id="payment_installment_time_{{idx}}" type="text" class="form-control number input-sm required"
+                        <label>账期：</label>
+                        <input id="payment_installment_time_{{idx}}" type="text" class="form-control number  required"
                         value="{{row.payment_installment_time}}"/>
                     </div>
                     <div class="form-group">
-                        <label class="control-label">付款方式：</label>
+                        <label>付款方式：</label>
                         <c:forEach items="${fns:getDictList('oa_payment_method')}" var="dict" varStatus="s">
-                            <span class="radio radio-success radio-inline" style="padding-left:2px;">
+                            <span class="radio radio-custom radio-inline" style="padding-left:2px;">
                                 <input id="payment_installment_paymentMethod_{{idx}}_${s.index+1}" name="payment_installment_paymentMethod_{{idx}}" type="radio"
                                        value="${dict.value}" data-value="{{row.payment_installment_paymentMethod}}" checked>
                                 <label for="payment_installment_paymentMethod_{{idx}}_${s.index+1}">${dict.label}</label>
                             </span>
                         </c:forEach>
-                        <span  style="vertical-align: bottom;">
-  				   		<a href="#" onclick="addNewInstallmentPayment(this)" title="增加新的分期付款" class="zmdi zmdi-plus-circle text-custom" style="font-size:25px;"></a>
-                   		<a href="#" onclick="deleteInstallmentPayment(this)" title="删除" class="zmdi zmdi-minus-square text-custom" style="font-size:25px;"></a>
+                        <span  style="margin-left:20px;">
+  				   		<a href="#" onclick="addNewInstallmentPayment(this)" title="增加新的分期付款" class="zmdi zmdi-plus-circle text-custom" style="font-size:24px;"></a>
+                   		<a href="#" onclick="deleteInstallmentPayment(this)" title="删除" class="zmdi zmdi-minus-circle text-custom" style="font-size:24px;"></a>
 						</span>
                     </div>
                  
@@ -749,14 +748,14 @@
 					<script type="text/template" id="payment-month-tpl">//<!--
                 <div class="row form-inline" id="payment-month">
                     <div class="form-group">
-                        <label class="control-label">付款金额：</label>
-                        <input type="text" class="form-control  number input-sm required" id="payment_month_amount" size="10"
+                        <label>付款金额：</label>
+                        <input type="text" class="form-control  number  required" id="payment_month_amount" size="10"
                         value="{{row.payment_month_amount}}"/>
                     </div>
                     <div class="form-group">
-                        <label class="control-label">付款方式：</label>
+                        <label>付款方式：</label>
                         <c:forEach items="${fns:getDictList('oa_payment_method')}" var="dict" varStatus="s">
-                            <span class="radio radio-success radio-inline" style="padding-left:2px">
+                            <span class="radio radio-custom radio-inline" style="padding-left:2px">
                                 <input id="payment_month_paymentMethod${s.index+1}" name="payment_month_paymentMethod" type="radio"
                                        value="${dict.value}" data-value="{{row.payment_month_paymentMethod}}" checked>
                                 <label for="payment_month_paymentMethod${s.index+1}">${dict.label}</label>
@@ -764,18 +763,19 @@
                         </c:forEach>
                     </div>
                     <div class="form-group">
-                        <label class="control-label">{{type}}数：</label>
-                        <input id="payment_month_num" type="text" class="form-control number input-sm required" size="10"
-                        value="{{row.payment_month_num}}"/>个{{type}}
+                        <label>{{type}}数：</label>
+						<div class="input-group">
+                        <input id="payment_month_num" type="text" class="form-control number  required" size="10"
+                        value="{{row.payment_month_num}}"/><span class="input-group-addon bootstrap-touchspin-postfix">{{type}}</span></div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label">付款日：</label>
-                        <input id="payment_month_day" type="text" class="form-control number input-sm required" size="10"
+                        <label>付款日：</label>
+                        <input id="payment_month_day" type="text" class="form-control number  required" size="10"
                         value="{{row.payment_month_day}}"/>
                     </div>
                     <div class="form-group">
-                        <label class="control-label">起始月：</label>
-                        <input id="payment_month_start" type="text" class="form-control number input-sm required" size="10"
+                        <label>起始月：</label>
+                        <input id="payment_month_start" type="text" class="form-control number  required" size="10"
                         value="{{row.payment_month_start}}"/>
                     </div>
                 </div>
@@ -958,28 +958,28 @@
 							<label class="control-label col-sm-2">收货地址：</label>
 							<div class="col-sm-6">
 								<form:input path="shipAddress" htmlEscape="false"
-									class="form-control  input-sm" size="60" />
+									class="form-control  " size="60" />
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="control-label col-sm-2">收货人：</label>
 							<div class="col-sm-3">
 								<form:input path="shipReceiver" htmlEscape="false"
-									class="form-control  input-sm" />
+									class="form-control  " />
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="control-label col-sm-2">联系电话：</label>
 							<div class="col-sm-3">
 								<form:input path="shipPhone" htmlEscape="false"
-									class="form-control  input-sm phone" />
+									class="form-control   phone" />
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="control-label col-sm-2">快递单号：</label>
 							<div class="col-sm-3">
 								<form:input path="shipEms" htmlEscape="false"
-									class="form-control  input-sm" size="60" />
+									class="form-control  " size="60" />
 							</div>
 						</div>
 					</div>
@@ -994,26 +994,31 @@
 				<div class="panel-body">
 					<div class="row form-inline">
 						<div class="form-group">
-							<label class="control-label">销售奖金：</label>
+							<label>销售奖金：</label>
 
 							<form:input path="customerCost" htmlEscape="false"
-								class="form-control required number input-sm" />
+								class="form-control required number " />
 
 						</div>
+
 						<div class="form-group">
-							<label class="control-label" for="isDeduction">是否业绩抵扣</label>
-							<form:checkbox path="isDeduction" name="isDeduction" />
+						<div class="checkbox checkbox-custom checkbox-circle">
+							<input type="checkbox" value="true" name="isDeduction" id="isDeduction1">
+							<label for="isDeduction">是否业绩抵扣</label>
+							<input type="hidden" value="on" name="_isDeduction">
+							</div>
 						</div>
+						
 						<div class="form-group" id="discount-group">
-							<label class="control-label">抵扣金额：</label>
+							<label>抵扣金额：</label>
 							<form:input path="discount" htmlEscape="false"
-								class="form-control  number input-sm" />
+								class="form-control  number " />
 						</div>
 						<div class="form-group">
-							<label class="control-label">业绩分成比例：</label>
-							<form:input path="performancePercentage" htmlEscape="false"
-								class="form-control  number input-sm" />
-							%
+							<label>业绩分成比例：</label>
+							<div class="input-group">
+							<input type="text" value="" class="form-control  number " name="performancePercentage" id="performancePercentage" style="width:50px;">
+							<span class="input-group-addon bootstrap-touchspin-postfix">%</span></div>
 						</div>
 					</div>
 				</div>
@@ -1031,8 +1036,8 @@
 							<tr role="row">
 								<th class="hidden"></th>
 								<th style="padding-left:20px;">附件类型</th>
-								<th>文件名</th>
-								<th>创建时间</th>
+								<th style="padding-left:30px;">文件名</th>
+								<th style="text-align:center;">创建时间</th>
 							</tr>
 						</thead>
 						<tbody id="attchmentList">
@@ -1067,7 +1072,8 @@
 
 			<!--备注-->
 			<div class="panel panel-default" id="card_other">
-				<div class="panel-heading">备注</div>
+				<div class="panel-heading">
+				<h3 class="panel-title">备注</h3></div>
 				<div class="panel-body">
 					<div class="form-group clearfix">
 						<div class="col-sm-12">
@@ -1082,7 +1088,7 @@
 				<label class="col-sm-3 control-label">合同金额：</label>
 				<div class="col-sm-7">
 					<form:input path="amount" htmlEscape="false"
-						class="form-control  number input-sm" />
+						class="form-control  number " />
 				</div>
 			</div>
 
@@ -1091,7 +1097,10 @@
 				<act:histoicFlow procInsId="${contract.act.procInsId}" />
 			</c:if>
 			<div class="form-group">
-				<div class="col-sm-offset-5 col-sm-8">
+				<div class="text-center">
+					<input id="btnCancel" class="btn btn-inverse" type="button" value="返 回"
+						onclick="history.go(-1)" />
+				
 					<shiro:hasPermission name="oa:contract:edit">
 						<input id="btnSubmit" class="btn btn-info" type="submit"
 							value="保 存" />&nbsp;
@@ -1100,13 +1109,12 @@
 					<shiro:hasPermission name="oa:contract:audit">
 						<c:if
 							test="${contract.contractType ne '1' and not empty contract.id and empty contract.act.procInsId}">
-							<input id="btnStartAudit" class="btn btn-info" type="submit"
+							<input id="btnStartAudit" class="btn btn-custom" type="submit"
 								value="开始审批" onclick="$('#flag').val('submit_audit');" />&nbsp;
 						</c:if>
 					</shiro:hasPermission>
 
-					<input id="btnCancel" class="btn" type="button" value="返 回"
-						onclick="history.go(-1)" />
+					
 				</div>
 			</div>
 	</form:form>
