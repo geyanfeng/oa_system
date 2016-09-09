@@ -129,7 +129,7 @@ public class ContractController extends BaseController {
 		if (contract.getCompanyName() == null)
 			contract.setCompanyName("1"); //设置默认我司抬头为上海精鲲
 		if (contract.getInvoiceType() == null)
-			contract.setInvoiceType("1"); //设置默认发票类型为增值税普票
+			contract.setInvoiceType("2"); //设置默认发票类型为增值税普票
 		if (contract.getPaymentCycle() == null)
 			contract.setPaymentCycle("2");//设置默认付款周期为分期付款
 		if (contract.getShipMode() == null)
