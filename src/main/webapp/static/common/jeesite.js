@@ -311,6 +311,34 @@ function abbr(name, maxLength){
  return nameSub;  
 }
 
+//打开模态框
+function openModalFromUrl(title, url, isFullModal){
+    var fatherBody = $(window.top.document.body);
+   /* var id = 'pages';
+    var dialog = $('#' + id);
+    if (dialog.length == 0) {
+        dialog = $('<div class="modal fade" role="dialog" id="' + id + '"/>');
+        dialog.appendTo(fatherBody);
+    }
+    dialog.load(url, function() {
+        dialog.modal();
+    });*/
+    var modal = fatherBody.find("#commonModal");
+    modal.find('iframe').attr("src", url);
+    modal.find('.modal-title').html(title);
+    if(isFullModal){
+        modal.find(".modal-dialog").addClass("modal-full");
+    } else {
+        modal.find(".modal-dialog").removeClass("modal-full");
+    }
+    modal.modal({show: true, backdrop: 'static'});
+}
+
+function getModal(){
+    var fatherBody = $(window.top.document.body);
+    return fatherBody.find("#commonModal");
+}
+
 //配置ajax
 $.ajaxSetup({
     'error':function (xhr, status, err) {

@@ -251,6 +251,25 @@
 			</DIV>
 		</DIV>
 		<!-- /Right-bar -->
+
+		<div id="commonModal" class="modal fade" tabindex="-1" role="dialog"
+			 aria-labelledby="myModalLabel" aria-hidden="true"
+			 style="display: none;">
+			<div class="modal-dialog modal-full">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+								aria-hidden="true">×</button>
+						<h4 class="modal-title"></h4>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<iframe width="100%" height="500" frameborder="0"></iframe>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</DIV>
 	<!-- END wrapper -->
 	  <script src="${ctxStatic}/assets/js/detect.js"></script>
@@ -272,6 +291,12 @@
 		//$(mainFrame).height($(window).height()-190);
 
 		var resizefunc = [];
+
+		//清除modal中的内容
+		$('#commonModal').on('hidden.bs.modal', function(){
+			$(this).find('iframe').html("");
+			$(this).find('iframe').attr("src", "");
+		});
 	</script>
 </BODY>
 </html>

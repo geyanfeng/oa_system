@@ -134,17 +134,18 @@
         //增加供应商
         function addSupplier(sender){
             var frameSrc = "${ctx}/oa/supplier/form?fromModal=1";
-            if(!parent.getModal)return;
+          /*  if(!parent.getModal)return;
             var modal = parent.getModal();
             modal.find('iframe').attr("src", frameSrc);
             modal.find('.modal-title').html('增加供应商');
-            modal.modal({show: true, backdrop: 'static'});
+            modal.modal({show: true, backdrop: 'static'});*/
+
+            openModalFromUrl("增加供应商",frameSrc);
         }
 
         //关闭增加
         function closeSupplierModal(supplier){
-            if(!parent.getModal)return;
-            var modal = parent.getModal();
+            var modal = getModal();
             modal.modal('hide');
             $.get('${ctx}/oa/supplier/data',function(data){
                 $('#supplier').children().remove();
