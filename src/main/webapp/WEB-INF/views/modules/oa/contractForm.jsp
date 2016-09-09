@@ -23,7 +23,7 @@ th,td{text-align:left;}
             //增加定义付款金额验证规则
             $.validator.addMethod("validationPaymentAmount", function(value) {
                 return validationPaymentAmount();
-            }, "付款金额应该大于等于采购条目的总价:"+ $("#amount").val());
+            }, "付款金额应该大于等于采购总金额:"+ $("#amount").val());
 
             $("#inputForm").validate({
                 rules: {
@@ -116,7 +116,7 @@ th,td{text-align:left;}
                     amount += ($(priceFields[i]).val() * $(numFields[i]).val())
                 }
                 $("#amount").val(amount);
-				$("#span-display-amount").html("采购条目的总价: " + amount);
+				$("#span-display-amount").html("采购总金额: " + amount);
             }
         }
 
