@@ -196,7 +196,6 @@
 					<tr>
 						<th class="sort-column createDate">日期</th>
 						<th class="sort-column no">合同号</th>
-						<th class="sort-column companyName">公司抬头</th>
 						<th class="sort-column a9.name">客户</th>
 						<th class="sort-column name">合同名称</th>
 						<th class="sort-column amount">合同金额</th>
@@ -218,7 +217,6 @@
 
 							<td><a href="${ctx}/oa/contract/view?id=${contract.id}">
 									${contract.no} </a></td>
-							<td>${fns:getDictLabel(contract.companyName, 'oa_company_name', '')}
 							</td>
 							<td>${contract.customer.name}</td>
 							<td>${contract.name}</td>
