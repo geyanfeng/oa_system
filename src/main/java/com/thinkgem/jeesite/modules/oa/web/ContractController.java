@@ -91,6 +91,9 @@ public class ContractController extends BaseController {
 	public String list(Contract contract, @RequestParam(value="isSelect", required=false) Boolean isSelect, HttpServletRequest request, HttpServletResponse response, Model model) {
 		String view="contractList";
 		BaseService.dataScopeFilter(contract, "dsf", "","id=a.create_by");//过滤数据授权
+		//获取所有客户
+		List<Customer> customerList = customerService.findList(new Customer());
+		model.addAttribute("customerList", customerList);
 		Page<Contract> page = contractService.findPage(new Page<Contract>(request, response), contract); 
 		model.addAttribute("page", page);
 		model.addAttribute("isSelect", isSelect);//是否为框架合同选择列表
