@@ -1,7 +1,14 @@
 /**
- * 
+ *
  */
 package com.thinkgem.jeesite.common.utils;
+
+import freemarker.cache.StringTemplateLoader;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import org.apache.commons.mail.HtmlEmail;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import java.io.File;
 import java.io.StringWriter;
@@ -11,25 +18,17 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import freemarker.cache.StringTemplateLoader;
-import freemarker.template.TemplateException;
-import org.apache.commons.mail.HtmlEmail;
-import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
-
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-
 /**
  * 发送电子邮件
  */
 public class SendMailUtil {
 
 	// private static final String smtphost = "192.168.1.70";
-	private static final String from = "13812558411@163.com";
-	private static final String fromName = "Anthony";
+	private static final String from = "sys@jingkunsystem.com";
+	private static final String fromName = "协同系统消息提醒";
 	private static final String charSet = "utf-8";
-	private static final String username = "13812558411";
-	private static final String password = "20021983gyf";
+	private static final String username = "sys@jingkunsystem.com";
+	private static final String password = "Password#1";
 
 	private static Map<String, String> hostMap = new HashMap<String, String>();
 	static {
@@ -40,6 +39,7 @@ public class SendMailUtil {
 
 		// 163
 		hostMap.put("smtp.163", "smtp.163.com");
+		hostMap.put("smtp.jingkunsystem", "smtp.qiye.163.com");
 
 		// sina
 		hostMap.put("smtp.sina", "smtp.sina.com.cn");
@@ -91,7 +91,7 @@ public class SendMailUtil {
 
 	/**
 	 * 发送模板邮件
-	 * 
+	 *
 	 * @param toMailAddr
 	 *            收信人地址
 	 * @param subject
@@ -102,7 +102,7 @@ public class SendMailUtil {
 	 *            模板map
 	 */
 	public static void sendFtlMail(String toMailAddr, String subject,
-			String templatePath, Map<String, Object> map) {
+								   String templatePath, Map<String, Object> map) {
 		Template template = null;
 		Configuration freeMarkerConfig = null;
 		HtmlEmail hemail = new HtmlEmail();
@@ -135,7 +135,7 @@ public class SendMailUtil {
 
 	/**
 	 * 发送普通邮件
-	 * 
+	 *
 	 * @param toMailAddr
 	 *            收信人地址
 	 * @param subject
@@ -144,7 +144,7 @@ public class SendMailUtil {
 	 *            发送email信息
 	 */
 	public static void sendCommonMail(String toMailAddr, String subject,
-			String message) {
+									  String message) {
 		HtmlEmail hemail = new HtmlEmail();
 		try {
 			hemail.setHostName(getHost(from));
@@ -165,7 +165,7 @@ public class SendMailUtil {
 	}
 
 	public static String getHtmlText(String templatePath,
-			Object map) {
+									 Object map) {
 		Template template = null;
 		String htmlText = "";
 		try {
@@ -226,7 +226,7 @@ public class SendMailUtil {
 		return path.substring(path.lastIndexOf("/") + 1);
 	}
 
-//	@SuppressWarnings("unchecked")
+	//	@SuppressWarnings("unchecked")
 	public static String getAppPath(Class<?> cls) {
 		// 检查用户传入的参数是否为空
 		if (cls == null)
@@ -273,11 +273,11 @@ public class SendMailUtil {
 		// 如果类文件被打包到JAR等文件中时，去掉对应的JAR等打包文件名
 		if (realPath.endsWith("!"))
 			realPath = realPath.substring(0, realPath.lastIndexOf("/"));
-		/*------------------------------------------------------------ 
-		 ClassLoader的getResource方法使用了utf-8对路径信息进行了编码，当路径 
-		  中存在中文和空格时，他会对这些字符进行转换，这样，得到的往往不是我们想要 
-		  的真实路径，在此，调用了URLDecoder的decode方法进行解码，以便得到原始的 
-		  中文及空格路径 
+		/*------------------------------------------------------------
+		 ClassLoader的getResource方法使用了utf-8对路径信息进行了编码，当路径
+		  中存在中文和空格时，他会对这些字符进行转换，这样，得到的往往不是我们想要
+		  的真实路径，在此，调用了URLDecoder的decode方法进行解码，以便得到原始的
+		  中文及空格路径
 		-------------------------------------------------------------*/
 		try {
 			realPath = java.net.URLDecoder.decode(realPath, "utf-8");
@@ -296,27 +296,27 @@ public class SendMailUtil {
 	//
 
 	public static void main(String[] args) {
-		// HtmlEmail hemail = new HtmlEmail();
-		// try {
-		// hemail.setHostName("smtp.exmail.qq.com");
-		// hemail.setCharset("utf-8");
-		// hemail.addTo("fly.1206@qq.com");
-		// hemail.setFrom("zhoujunfeng@et-bank.com", "周俊峰");
-		// hemail.setAuthentication("zhoujunfeng@et-bank.com", "31415926@aa");
-		// hemail.setSubject("sendemail test!");
-		// hemail.setMsg("<a href=\"http://www.google.cn\">谷歌</a><br/>");
-		// hemail.send();
-		// System.out.println("email send true!");
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// System.out.println("email send error!");
-		// }
+	/*	 HtmlEmail hemail = new HtmlEmail();
+		 try {
+		 hemail.setHostName("smtp.exmail.qq.com");
+		 hemail.setCharset("utf-8");
+		 hemail.addTo("fly.1206@qq.com");
+		 hemail.setFrom("zhoujunfeng@et-bank.com", "周俊峰");
+		 hemail.setAuthentication("zhoujunfeng@et-bank.com", "31415926@aa");
+		 hemail.setSubject("sendemail test!");
+		 hemail.setMsg("<a href=\"http://www.google.cn\">谷歌</a><br/>");
+		 hemail.send();
+		 System.out.println("email send true!");
+		 } catch (Exception e) {
+		 e.printStackTrace();
+		 System.out.println("email send error!");
+		 }*/
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("subject", "测试标题");
 		map.put("content", "测试 内容");
 		System.out.println(getText("${subject} ${content}",map));
-		//String templatePath = "mailtemplate/test.ftl";
-		//sendFtlMail("geyanfeng@hotmail.com", "合同要到时间了", templatePath, map);
+		String templatePath = "mailtemplate/test.ftl";
+		sendFtlMail("geyanfeng@hotmail.com", "合同要到时间了", templatePath, map);
 
 		// System.out.println(getFileName("mailtemplate/test.ftl"));
 	}

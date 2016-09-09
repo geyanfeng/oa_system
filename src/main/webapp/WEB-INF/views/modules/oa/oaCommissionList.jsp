@@ -45,16 +45,14 @@
 			<tr>
 				<th>年</th>
 			    <th>季度</th>
-			    <th>销售员</th>
-				<th>收款流水 </th>
-				<th>合同ID</th>
-				<th>项目名称</th>
-				<th>款项进度</th>
+			    <th>销售</th>
+				<th>合同编号</th>
+				<th align="center">项目名称</th>
+				<th>款项</th>
 				<th>本期毛利</th>
-				<th>本期净利</th>
 				<th>税收成本</th>
 				<th>账期成本</th>
-				<th>净值</th>
+				<th>本期净利</th>
 				<th>业绩提成</th>
 				<th>额外佣金</th>
 				<th>合计</th>
@@ -67,9 +65,8 @@
 			    <td>${oaCommission.year}</td>
 			    <td>${oaCommission.quarter}</td>
 			    <td>${oaCommission.saler.name}</td>
-			    <td>${oaCommission.contract.no}-S${oaCommission.contractFinance.sort}</td>
-			    <td>${oaCommission.contract.no}</td>
-			    <td>${oaCommission.contract.name}</td>
+			    <td><a href="${ctx}/oa/contract/view?id=${oaCommission.contract.id}">${oaCommission.contract.no}</a></td>
+			    <td align="center"><a href="${ctx}/oa/contract/view?id=${oaCommission.contract.id}">${oaCommission.contract.name}</a></td>
 			    <td>
 			     <c:choose>
                   <c:when test="${oaCommission.paymentSchedule eq '0'}">全款</c:when>
@@ -78,11 +75,10 @@
                   <c:otherwise>第${oaCommission.paymentSchedule}笔款</c:otherwise>
                  </c:choose>
 			    </td>
-			    <td>${oaCommission.KGp}</td>
-			    <td>${oaCommission.KNp}</td>
+			    <td>${oaCommission.KGp}</td>			  
 				<td>${oaCommission.KTrV}</td>
 				<td>${oaCommission.KPccV}</td>
-				<td>${oaCommission.KJzV}</td>
+				<td>${oaCommission.KNp}</td>
 				<td>${oaCommission.KYjV}</td>
 				<td>${oaCommission.KEwV}</td>
 				<td>${oaCommission.KSc}</td>

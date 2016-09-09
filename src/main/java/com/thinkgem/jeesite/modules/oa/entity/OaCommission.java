@@ -53,7 +53,6 @@ public class OaCommission extends DataEntity<OaCommission> {
 	private Double kNp;		// 本期净利
 	private Double kTrV;		// 税收成本
 	private Double kPccV;		// 账期成本
-	private Double kJzV;		// 净值
 	private Double kYjV;		// 业绩提成
 	private Double kEwV;		// 额外佣金
 	private Double kSc;		// 合计
@@ -365,14 +364,6 @@ public class OaCommission extends DataEntity<OaCommission> {
 
 	public void setKPccV(Double kPccV) {
 		this.kPccV = kPccV;
-	}
-	
-	public Double getKJzV() {
-		return kJzV;
-	}
-
-	public void setKJzV(Double kJzV) {
-		this.kJzV = kJzV;
 	}
 	
 	public Double getKYjV() {
