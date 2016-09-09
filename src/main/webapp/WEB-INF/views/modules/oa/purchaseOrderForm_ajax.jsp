@@ -300,7 +300,7 @@
           <!--供应商-->
     <div class="row">
             供应商：
-            <form:hidden path="supplier.id"/>
+            
             <form:select path="supplier.id" class="form-control required input-sm" id="supplier" cssStyle="width:280px;" onchange="changeSupplier();">
                 <form:option value="" label=""/>
                
