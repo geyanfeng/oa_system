@@ -244,7 +244,8 @@
 									</c:if>
 								</shiro:hasPermission> <shiro:hasPermission name="oa:contract:view">
 									<c:if test="${not empty isSelect}">
-										<a href="#" onclick="selectContract(this);">选择</a>
+										<a href="#" onclick="selectContract(this);" title="选择"><i
+											class="fa fa-check"></i></a>
 									</c:if>
 								</shiro:hasPermission> <c:if test="${contract.cancelFlag eq 0}">
 									<shiro:hasPermission name="oa:contract:cancel">

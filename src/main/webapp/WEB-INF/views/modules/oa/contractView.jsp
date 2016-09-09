@@ -34,6 +34,7 @@
         .table{
         	margin-bottom:0;
         }
+        th,td{text-align:left;}
     </style>
     <script>
         function getModal(){
@@ -190,18 +191,19 @@
             合同名称：${contract.name}
         </div>
         <div class="pull-right">
-            合同状态: <span class="btn-warning waves-effect waves-light btn-sm">${fns:getDictLabel(contract.status, "oa_contract_status","" )}</span>
+            合同状态: <span class="label label-warning" style="font-size:16px;color:#000;">${fns:getDictLabel(contract.status, "oa_contract_status","" )}</span>
         </div>
     </div>
 	</div>
     <!--合同信息-->
     <a class="anchor" name="panel-1"></a>
     <div class="panel panel-default" id="panel-baseInfo">
-        <div class="panel-heading">合同信息
+        <div class="panel-heading"><h3 class="panel-title">合同信息
             <div class="pull-right">
                 <a data-toggle="collapse" href="#card-collapse" class="" aria-expanded="true"><i
                         class="zmdi zmdi-minus"></i></a>
             </div>
+            </h3>
         </div>
         <div class="panel-body panel-collapse collapse in" id="card-collapse">
             <div class="row">
@@ -246,11 +248,11 @@
     <!--开票信息-->
     <a class="anchor" name="panel-2"></a>
     <div class="panel panel-default" id="panel-invoice">
-        <div class="panel-heading">开票信息
+        <div class="panel-heading"><h3 class="panel-title">开票信息
             <div class="pull-right">
                 <a data-toggle="collapse" href="#invoice-collapse" class="" aria-expanded="true"><i
                         class="zmdi zmdi-minus"></i></a>
-            </div>
+            </div></h3>
         </div>
         <div class="panel-body" id="invoice-collapse">
             <div class="row">
@@ -291,7 +293,7 @@
     <!--采购列表-->
     <a class="anchor" name="panel-3"></a>
     <div class="panel panel-default" id="card_products">
-        <div class="panel-heading">采购列表
+        <div class="panel-heading"><h3 class="panel-title">采购列表
             <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true'}">
                 <span id="productMsg" style="display:none" class="label label-danger"></span>
             <div class="pull-right">
@@ -299,6 +301,7 @@
                 <a href="javascript:" class="btn btn-primary waves-effect waves-light m-b-5 btn-xs" onclick="$('#panel_po').show()"><i class="fa fa-folder-open-o"></i>&nbsp;打开下单</a>
             </div>
             </c:if>
+            </h3>
         </div>
         <div class="panel-body panel-collapse collapse in" id="products-collapse">
             <table id="contentTable" class="table table-condensed">
@@ -855,7 +858,7 @@
     <!--订单列表-->
     <a class="anchor" name="panel-9"></a>
     <div class="panel panel-default">
-        <div class="panel-heading">订单列表</div>
+        <div class="panel-heading"><h3 class="panel-title">订单列表</h3></div>
         <div class="panel-body">
             <table id="poTable" class="table table-striped table-condensed table-hover">
                 <thead>
@@ -950,7 +953,7 @@
     <!--付款信息-->
     <a class="anchor" name="panel-4"></a>
     <div class="panel panel-default" id="panel-payment">
-        <div class="panel-heading">付款信息</div>
+        <div class="panel-heading"><h3 class="panel-title">付款信息</h3></div>
         <div class="panel-body panel-collapse collapse in" id="payment-collapse">
             <div class="row">
                 <div class="col-sm-12">
@@ -1068,7 +1071,7 @@
     <!--物流信息-->
     <a class="anchor" name="panel-5"></a>
     <div class="panel panel-default">
-        <div class="panel-heading">物流信息</div>
+        <div class="panel-heading"><h3 class="panel-title">物流信息</h3></div>
         <div class="panel-body panel-collapse collapse in" id="ship-collapse">
             <c:choose>
                 <c:when test="${contract.act.taskDefKey eq 'verify_ship'}">
@@ -1139,7 +1142,7 @@
     <!--其它-->
     <a class="anchor" name="panel-6"></a>
     <div class="panel panel-default" id="card_other">
-        <div class="panel-heading">其它</div>
+        <div class="panel-heading"><h3 class="panel-title">其它</h3></div>
         <div class="panel-body">
             <div class="row">
                 <div class="col-sm-3">
@@ -1167,15 +1170,15 @@
     <!--附件-->
     <a class="anchor" name="panel-7"></a>
     <div class="panel panel-default" id="card_attachemnts">
-        <div class="panel-heading">附件</div>
+        <div class="panel-heading"><h3 class="panel-title">附件</h3></div>
         <div class="panel-body">
             <table id="attchmentTable" class="table table-striped table-condensed">
                 <thead>
                 <tr role="row">
                     <th class="hidden"></th>
-                    <th>附件类型</th>
-                    <th>文件名</th>
-                    <th>创建时间</th>
+                    <th style="padding-left:20px;">附件类型</th>
+					<th style="padding-left:30px;">文件名</th>
+					<th style="text-align:center;">创建时间</th>
                 </tr>
                 </thead>
                 <tbody id="attchmentList">
@@ -1214,7 +1217,7 @@
 
     <!--备注-->
     <div class="panel panel-default" id="card_other">
-        <div class="panel-heading">备注</div>
+        <div class="panel-heading"><h3 class="panel-title">备注</h3></div>
         <div class="panel-body">
             <div class="row">
                 <div class="col-sm-12">
@@ -1235,7 +1238,7 @@
                     contract.act.taskDefKey eq 'cso_audit' ||
                     contract.act.taskDefKey eq 'verify_receiving'}">
         <div class="panel panel-default" id="comment_other">
-            <div class="panel-heading">您的意见和建议</div>
+            <div class="panel-heading"><h3 class="panel-title">您的意见和建议</h3></div>
             <div class="panel-body">
                 <div class="row">
                     <div class="col-sm-12">

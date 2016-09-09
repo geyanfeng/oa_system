@@ -175,10 +175,12 @@
 										<a href="${ctx}/oa/contract/delete?id=${contract.id}"
 											onclick="return confirmx('确认要删除该合同吗？', this.href)" title="删除"><i
 								class="fa fa-trash"></i></a>
-										<a href="${ctx}/oa/contract/form?originalId=${contract.id}">生成</a>
+										<a href="${ctx}/oa/contract/form?originalId=${contract.id}" title="生成"><i
+								class="fa fa-file-text"></i></a>
 									</c:if>
 								</shiro:hasPermission> <c:if test="${not empty isSelect}">
-									<a href="#" onClick="selectContract(this);">选择</a>
+									<a href="#" onClick="selectContract(this);" title="选择"><i
+											class="fa fa-check"></i></a>
 								</c:if></td>
 						</tr>
 					</c:forEach>
