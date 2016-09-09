@@ -40,6 +40,8 @@
 		<thead>
 			<tr>
 				<th>名称</th>
+				<th>联系人</th>
+				<th>联系电话</th>
 				<th>发货速度</th>
 				<th>沟通效率</th>
 				<th>产品质量</th>
@@ -55,6 +57,8 @@
 				<td><a href="${ctx}/oa/supplier/form?id=${supplier.id}">
 					${supplier.name}
 				</a></td>
+				<td>${supplier.contact}</td>
+				<td>${supplier.phone}</td>
 				<td>
 				<c:choose>
 				  <c:when test="${supplier.shippingSpeed eq 0}">

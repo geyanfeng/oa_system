@@ -112,12 +112,11 @@
                 </div>
             </div>
             <div class="row">
-                <!--供应商却少银行帐号设置-->
                 <div class="col-sm-6">
-                    帐户名称：
+                    帐户名称：${purchaseOrder.supplier.blankAccountName}
                 </div>
-                <div class="col-sm-3">开户行：</div>
-                <div class="col-sm-3">帐号：</div>
+                <div class="col-sm-3">开户行：${purchaseOrder.supplier.blankName}</div>
+                <div class="col-sm-3">帐号：${purchaseOrder.supplier.blankAccountNo}</div>
             </div>
             <div class="row">
                 <div class="col-sm-3">
