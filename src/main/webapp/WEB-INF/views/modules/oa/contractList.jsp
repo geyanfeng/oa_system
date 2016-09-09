@@ -248,7 +248,7 @@
 											class="fa fa-check"></i></a>
 									</c:if>
 								</shiro:hasPermission>
-								<c:if test="${contract.cancelFlag eq 0 and contract.status ne '0'}">
+								<c:if test="${contract.cancelFlag eq 0 and contract.status ne '0' and contract.status ne '100'}">
 									<shiro:hasPermission name="oa:contract:cancel">
 										<a href="#" onclick="cancelContract('${contract.id}');"
 											title="撤销"><i class="fa fa-reply"></i></a>
