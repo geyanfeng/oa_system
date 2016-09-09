@@ -1333,7 +1333,7 @@
 
                         <c:when test="${not empty contract.act.taskDefKey}">
                             <input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
-                            <input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
+                            <input id="btnUnAudit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
                         </c:when>
                     </c:choose>
 

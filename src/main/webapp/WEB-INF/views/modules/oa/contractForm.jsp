@@ -1011,7 +1011,7 @@ th,td{text-align:left;}
 						<div class="form-group">
 						<div class="checkbox checkbox-custom checkbox-circle">
 							<input type="checkbox" value="true" name="isDeduction" id="isDeduction1">
-							<label for="isDeduction">是否业绩抵扣</label>
+							<label for="isDeduction1">是否业绩抵扣</label>
 							<input type="hidden" value="on" name="_isDeduction">
 							</div>
 						</div>
@@ -1115,7 +1115,7 @@ th,td{text-align:left;}
 
 					<shiro:hasPermission name="oa:contract:audit">
 						<c:if
-							test="${contract.contractType ne '1' and not empty contract.id and empty contract.act.procInsId}">
+							test="${contract.contractType ne '1' and empty contract.act.procInsId}">
 							<input id="btnStartAudit" class="btn btn-custom" type="submit"
 								value="开始审批" onclick="$('#flag').val('submit_audit');" />&nbsp;
 						</c:if>
