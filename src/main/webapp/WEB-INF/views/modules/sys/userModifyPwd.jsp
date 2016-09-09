@@ -89,7 +89,7 @@
 								<div class="form-group m-b-0">
 									<div class="col-sm-offset-3 col-sm-9">
 										<button id="btnSubmit" type="submit"
-											class="btn btn-success waves-effect waves-light m-l-10 btn-md">保
+											class="btn btn-custom m-l-10 btn-md">保
 											存</button>
 									</div>
 								</div>

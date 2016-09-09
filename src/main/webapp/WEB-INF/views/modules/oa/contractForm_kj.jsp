@@ -172,8 +172,8 @@ th,td{text-align:left;}
 					<div class="row">
 						<div class="col-sm-6">
 							<div class="form-group">
-								<label class="col-sm-3 control-label"><span
-									class="help-inline"><font color="red">*</font> </span>合同类型：</label>
+								<label class="col-sm-3 control-label">合同类型 <span
+									class="help-inline"><font color="red">*</font> </span></label>
 								<div class="col-sm-9">
 									<form:select path="contractType" class="form-control required"
 										onchange="changeContractType()">
@@ -186,8 +186,8 @@ th,td{text-align:left;}
 						</div>
 						<div class="col-sm-6">
 							<div class="form-group ">
-								<label class="col-sm-3 control-label"><span
-									class="help-inline"><font color="red">*</font> </span>客&nbsp;&nbsp;户：</label>
+								<label class="col-sm-3 control-label">客&nbsp;&nbsp;户 <span
+									class="help-inline"><font color="red">*</font> </span></label>
 								<div class="col-sm-9">
 									<div class="input-group bootstrap-touchspin">
 										<form:select path="customer.id"
@@ -208,8 +208,8 @@ th,td{text-align:left;}
 					<div class="row">
 						<div class="col-sm-6">
 							<div class="form-group ">
-								<label class="col-sm-3 control-label"><span
-									class="help-inline"><font color="red">*</font> </span>我司抬头：</label>
+								<label class="col-sm-3 control-label">我司抬头 <span
+									class="help-inline"><font color="red">*</font> </span></label>
 								<div class="col-sm-9">
 									<form:select path="companyName" class="form-control required">
 										<form:option value="" label="" />
@@ -221,8 +221,8 @@ th,td{text-align:left;}
 						</div>
 						<div class="col-sm-6">
 							<div class="form-group ">
-								<label class="col-sm-3 control-label"><span
-									class="help-inline"><font color="red">*</font> </span>有效期：</label>
+								<label class="col-sm-3 control-label">有效期  <span
+									class="help-inline"><font color="red">*</font> </span></label>
 								<div class="col-sm-9">
 									<div class="input-group bootstrap-touchspin">
 										<input name="expiryDate" type="text" readonly="readonly"
@@ -253,8 +253,8 @@ th,td{text-align:left;}
 				<div class="panel-body form-horizontal" id="invoice-collapse">
 					<div class="col-sm-9">
 						<div class="form-group clearfix">
-							<label class="col-sm-3 control-label"><span
-								class="help-inline"><font color="red">*</font> </span>发票类型：</label>
+							<label class="col-sm-3 control-label">发票类型 <span
+								class="help-inline"><font color="red">*</font> </span></label>
 							<div class="col-sm-9">
 								<form:radiobuttons path="invoiceType"
 									items="${fns:getDictList('oa_invoice_type')}" itemLabel="label"
@@ -263,48 +263,48 @@ th,td{text-align:left;}
 							</div>
 						</div>
 						<div class="form-group clearfix" id="field-invoiceCustomerName">
-							<label class="col-sm-3 control-label"><span
-								class="help-inline"><font color="red">*</font> </span>发票客户名称：</label>
+							<label class="col-sm-3 control-label">发票客户名称 <span
+								class="help-inline"><font color="red">*</font> </span></label>
 							<div class="col-sm-6">
 								<form:input path="invoiceCustomerName" htmlEscape="false"
 									maxlength="255" class="form-control required" />
 							</div>
 						</div>
 						<div class="form-group clearfix" id="field-invoiceNo">
-							<label class="col-sm-3 control-label"><span
-								class="help-inline"><font color="red">*</font> </span>发票税务登记号：</label>
+							<label class="col-sm-3 control-label">发票税务登记号 <span
+								class="help-inline"><font color="red">*</font> </span></label>
 							<div class="col-sm-6">
 								<form:input path="invoiceNo" htmlEscape="false" maxlength="255"
 									class="form-control required" />
 							</div>
 						</div>
 						<div class="form-group clearfix" id="field-invoiceBank">
-							<label class="col-sm-3 control-label"><span
-								class="help-inline"><font color="red">*</font> </span>开户行：</label>
+							<label class="col-sm-3 control-label">开户行 <span
+								class="help-inline"><font color="red">*</font> </span></label>
 							<div class="col-sm-6">
 								<form:input path="invoiceBank" htmlEscape="false"
 									maxlength="255" class="form-control required" />
 							</div>
 						</div>
 						<div class="form-group clearfix" id="field-invoiceBankNo">
-							<label class="col-sm-3 control-label"><span
-								class="help-inline"><font color="red">*</font> </span>银行帐号：</label>
+							<label class="col-sm-3 control-label">银行帐号 <span
+								class="help-inline"><font color="red">*</font> </span></label>
 							<div class="col-sm-6">
 								<form:input path="invoiceBankNo" htmlEscape="false"
 									maxlength="255" class="form-control required" />
 							</div>
 						</div>
 						<div class="form-group clearfix" id="field-invoiceAddress">
-							<label class="col-sm-3 control-label"><span
-								class="help-inline"><font color="red">*</font> </span>地址：</label>
+							<label class="col-sm-3 control-label">地址 <span
+								class="help-inline"><font color="red">*</font> </span></label>
 							<div class="col-sm-6">
 								<form:input path="invoiceAddress" htmlEscape="false"
 									maxlength="1000" class="form-control required" />
 							</div>
 						</div>
 						<div class="form-group clearfix" id="field-invoicePhone">
-							<label class="col-sm-3 control-label"><span
-								class="help-inline"><font color="red">*</font> </span>电话：</label>
+							<label class="col-sm-3 control-label">电话 <span
+								class="help-inline"><font color="red">*</font> </span></label>
 							<div class="col-sm-6">
 								<form:input path="invoicePhone" htmlEscape="false"
 									maxlength="100" class="form-control required" />
