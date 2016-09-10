@@ -192,66 +192,14 @@
 		<DIV class="side-bar right-bar">
 			<A class="right-bar-toggle" href="javascript:void(0);"><I
 				class="zmdi zmdi-close-circle-o"></I> </A>
-			<H4>Notifications</H4>
+			<H4>消息提醒</H4>
 			<DIV class="notification-list nicescroll">
-				<UL class="list-group list-no-border user-list">
-					<LI class="list-group-item"><A class="user-list-item"
-						href="http://coderthemes.com/flacto_1.1/layout_2_green/index.html#">
-							<DIV class="avatar">
-								<IMG alt=""
-									src="Flacto%20-%20Responsive%20Admin%20Dashboard%20Template_files/avatar-2.jpg">
-							</DIV>
-							<DIV class="user-desc">
-								<SPAN class="name">Michael Zenaty</SPAN><SPAN class="desc">There
-									are new settings available</SPAN><SPAN class="time">2 hours ago</SPAN>
-							</DIV>
-					</A></LI>
-					<LI class="list-group-item"><A class="user-list-item"
-						href="http://coderthemes.com/flacto_1.1/layout_2_green/index.html#">
-							<DIV class="icon">
-								<I class="zmdi zmdi-account"></I>
-							</DIV>
-							<DIV class="user-desc">
-								<SPAN class="name">New Signup</SPAN><SPAN class="desc">There
-									are new settings available</SPAN><SPAN class="time">5 hours ago</SPAN>
-							</DIV>
-					</A></LI>
-					<LI class="list-group-item"><A class="user-list-item"
-						href="http://coderthemes.com/flacto_1.1/layout_2_green/index.html#">
-							<DIV class="icon">
-								<I class="zmdi zmdi-comment"></I>
-							</DIV>
-							<DIV class="user-desc">
-								<SPAN class="name">New Message received</SPAN><SPAN class="desc">There
-									are new settings available</SPAN><SPAN class="time">1 day ago</SPAN>
-							</DIV>
-					</A></LI>
-					<LI class="list-group-item"><A class="user-list-item"
-						href="http://coderthemes.com/flacto_1.1/layout_2_green/index.html#">
-							<DIV class="avatar">
-								<IMG alt=""
-									src="Flacto%20-%20Responsive%20Admin%20Dashboard%20Template_files/avatar-3.jpg">
-							</DIV>
-							<DIV class="user-desc">
-								<SPAN class="name">James Anderson</SPAN><SPAN class="desc">There
-									are new settings available</SPAN><SPAN class="time">2 days ago</SPAN>
-							</DIV>
-					</A></LI>
-					<LI class="list-group-item active"><A class="user-list-item"
-						href="http://coderthemes.com/flacto_1.1/layout_2_green/index.html#">
-							<DIV class="icon">
-								<I class="zmdi zmdi-settings"></I>
-							</DIV>
-							<DIV class="user-desc">
-								<SPAN class="name">Settings</SPAN><SPAN class="desc">There
-									are new settings available</SPAN><SPAN class="time">1 day ago</SPAN>
-							</DIV>
-					</A></LI>
+				<UL class="list-group list-no-border user-list" id="ul-alert">
 				</UL>
+				<div style="float: right;margin-right: 20px;"><a href="#" title="删除全部" onclick="deleteAlert(this,'');" style="font-size:25px"><i class="zmdi zmdi-delete"></i></a></div>
 			</DIV>
 		</DIV>
 		<!-- /Right-bar -->
-
 		<div id="commonModal" class="modal fade" tabindex="-1" role="dialog"
 			 aria-labelledby="myModalLabel" aria-hidden="true"
 			 style="display: none;">
@@ -280,17 +228,57 @@
         <script src="${ctxStatic}/assets/js/wow.min.js"></script>
         <script src="${ctxStatic}/assets/js/jquery.nicescroll.js"></script>
         <script src="${ctxStatic}/assets/js/jquery.scrollTo.min.js"></script>
-        
+
   <!-- App js -->
         <script src="${ctxStatic}/assets/js/jquery.core.js"></script>
         <script src="${ctxStatic}/assets/js/jquery.app.js"></script>
 	<script src="${ctxStatic}/assets/js/iframeResizer.min.js" type="text/javascript"></script>
+	<script type="text/template" id="alertTpl">//<!--
+		{{#alertList}}
+		<LI class="list-group-item user-list-item"">
+				<DIV class="avatar">
+					<i class="zmdi zmdi-comment" style="font-size:20px"></i>
+				</DIV>
+				<DIV class="user-desc">
+					<SPAN class="name" title="{{title}}">{{title}}</SPAN>
+					<SPAN class="desc">{{content}}</SPAN>
+					<SPAN class="time">{{createDate}}</SPAN>
+					<a href="#" title="删除" onclick="deleteAlert(this,'{{id}}');"><i class="zmdi zmdi-minus-circle-outline" style="float: right;font-size: 18px;"></i></a>
+				</DIV>
+		</LI>
+		{{/alertList}}
+	//-->
+	</script>
 	<script type="text/javascript">
 		var frameResizer = $('#mainFrame').iFrameResize([{log: true, minHeight:700, scrolling:true }]);
 		var mainFrame = document.getElementById("mainFrame");
 		//$(mainFrame).height($(window).height()-190);
 
 		var resizefunc = [];
+
+		var alertTpl = $("#alertTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
+		function getAlertInfo(){
+			$.getJSON("${ctx}/oa/alert", function(alertList){
+				$("#ul-alert").empty();
+				$("#ul-alert").append(Mustache.render(alertTpl, {alertList:alertList}));
+			});
+		}
+
+		function deleteAlert(sender,id){
+			var self = $(sender);
+
+			$.post("${ctx}/oa/alert/delete?id="+id,{}, function(){
+				if(id==""){
+					$("#ul-alert").empty();
+				} else {
+					self.closest('li').remove();
+				}
+			});
+		}
+
+		getAlertInfo();
+
+		window.setInterval(getAlertInfo,30000);
 	</script>
 </BODY>
 </html>

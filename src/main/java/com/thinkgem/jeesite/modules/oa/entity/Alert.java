@@ -16,6 +16,8 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 public class Alert extends DataEntity<Alert> {
 	
 	private static final long serialVersionUID = 1L;
+	private Integer alertType;		//提醒类型: 0为合同提醒, 1为订单提醒
+	private String targetId;		//目标id: 合同id或订单id
 	private String node;			//节点
 	private String ownerId;		// 接收人_id
 	private String title;		// 标题
@@ -68,5 +70,11 @@ public class Alert extends DataEntity<Alert> {
 	public void setIsRead(Integer isRead) {
 		this.isRead = isRead;
 	}
+
+	public Integer getAlertType(){return alertType;}
+	public void setAlertType(Integer alertType){this.alertType = alertType;}
+
+	public String getTargetId(){return targetId;}
+	public void setTargetId(String targetId){this.targetId = targetId;}
 	
 }

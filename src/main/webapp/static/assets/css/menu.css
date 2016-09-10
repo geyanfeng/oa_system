@@ -88,7 +88,7 @@ File: Menu
   color: #828282;
 }
 .notification-list {
-  max-height: 230px;
+  /*max-height: 230px;*/
 }
 .notification-list em {
   width: 34px;
@@ -608,7 +608,7 @@ body.fixed-left .side-menu.left {
 /* Right sidebar */
 .side-bar.right-bar {
   float: right !important;
-  right: -266px;
+  right: -376px;
   top: 0px;
 }
 .side-bar {
@@ -621,7 +621,7 @@ body.fixed-left .side-menu.left {
   height: 100%;
   position: fixed;
   transition: all 200ms ease-out;
-  width: 240px;
+  width: 350px;
 }
 .right-bar {
   background: #ffffff !important;
@@ -690,8 +690,8 @@ body.fixed-left .side-menu.left {
 }
 .user-list .user-list-item .user-desc span.desc {
   color: #9a9da0;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+/*  text-overflow: ellipsis;
+  white-space: nowrap;*/
   display: block;
   width: 100%;
   overflow: hidden;

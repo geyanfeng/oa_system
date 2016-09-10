@@ -59,6 +59,8 @@ public class AlertService extends CrudService<AlertDao, Alert> {
         if (setting.getIsMsg() == 1) {
             for (String key : receiverMap.keySet()) {
                 Alert alert = new Alert();
+                alert.setAlertType(0);
+                alert.setTargetId(contract.getId());
                 alert.setNode(node);
                 alert.setOwnerId(key);
                 alert.setTitle(title);

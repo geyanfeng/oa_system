@@ -4,6 +4,8 @@
     
 	<sql id="alertColumns">
 		a.id AS "id",
+		a.alert_type AS "alertType",
+		a.target_id AS "targetId",
 		a.node AS "node",
 		a.owner_id AS "ownerId",
 		a.title AS "title",
@@ -35,7 +37,7 @@
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="ownerId != null and ownerId != ''">
-				AND a.owner_id = #{owner_id}
+				AND a.owner_id = #{ownerId}
 			</if>
 			<if test="isRead != null and isRead != ''">
 				AND a.isRead = #{isRead}
@@ -59,7 +61,7 @@
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="ownerId != null and ownerId != ''">
-				AND a.owner_id = #{owner_id}
+				AND a.owner_id = #{ownerId}
 			</if>
 			<if test="isRead != null and isRead != ''">
 				AND a.isRead = #{isRead}
@@ -78,6 +80,8 @@
 	<insert id="insert">
 		INSERT INTO oa_alert(
 			id,
+			alert_type,
+			target_id,
 			node,
 			owner_id,
 			title,
@@ -90,6 +94,8 @@
 			update_date
 		) VALUES (
 			#{id},
+			#{alertType},
+			#{targetId},
 			#{node},
 			#{ownerId},
 			#{title},
@@ -118,7 +124,13 @@
 	<update id="delete">
 		UPDATE oa_alert SET 
 			del_flag = #{DEL_FLAG_DELETE}
-		WHERE id = #{id}
+		WHERE
+			<if test="ownerId != null and ownerId != ''">
+			owner_id = #{ownerId}
+			</if>
+			<if test="id != null and id != ''">
+				id = #{id}
+			</if>
 	</update>
 	
 </mapper>
