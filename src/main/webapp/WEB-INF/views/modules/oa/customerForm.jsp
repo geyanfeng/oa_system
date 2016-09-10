@@ -40,15 +40,16 @@
 				$("#inputForm").ajaxForm({success:function(result){
 					var status= result.status;
 					if(status!="1") return;
-					if(parent.closeCustomerModal)
-						parent.closeCustomerModal(result.data);
+					var frameWin =  parent.window.frames["mainFrame"].contentWindow;
+					if(frameWin.closeCustomerModal)
+						frameWin.closeCustomerModal(result.data);
 				}});
 			</c:if>
 		});
 	</script>
 </head>
 <body>
-<h2 style="padding-left: 20px; font-weight: normal; font-size: 18px;">客户管理--编辑</h2>
+<c:if test="${empty fromModal}"><h2 style="padding-left: 20px; font-weight: normal; font-size: 18px;">客户管理--编辑</h2></c:if>
 <div class="panel panel-default">
 		<div class="panel-body">
 	<form:form id="inputForm" modelAttribute="customer" action="${ctx}/oa/customer/${not empty fromModal?'ajaxSave':'save'}" method="post" class="form-horizontal">

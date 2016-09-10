@@ -12,39 +12,26 @@
 </style>
 <script type="text/javascript">
 	$(document).ready(
-			function() {
+			function () {
 				$("#btnExport").click(
-						function() {
-							top.$.jBox.confirm("确认要导出合同列表吗？", "系统提示", function(
-									v, h, f) {
+						function () {
+							top.$.jBox.confirm("确认要导出合同列表吗？", "系统提示", function (v, h, f) {
 								if (v == "ok") {
 									$("#searchForm").attr("action",
 											"${ctx}/oa/contract/export");
 									$("#searchForm").submit();
 								}
 							}, {
-								buttonsFocus : 1
+								buttonsFocus: 1
 							});
 							top.$('.jbox-body .jbox-icon').css('top', '55px');
 						});
-
-				//如果是选择合同,隐藏合同状态
-				if ("${param.isSelect}" != "") {
-					$("#div-status").hide();
-				}
 			});
 	function page(n, s) {
 		$("#pageNo").val(n);
 		$("#pageSize").val(s);
 		$("#searchForm").submit();
 		return false;
-	}
-
-	function selectContract(sender) {
-		var self = $(sender);
-		var selectedContract = self.closest('tr').data('json');
-		if (parent.closeSelectContractModal)
-			parent.closeSelectContractModal(selectedContract);
 	}
 
 	//撤销合同
@@ -241,11 +228,6 @@
 										<a href="${ctx}/oa/contract/delete?id=${contract.id}"
 											onclick="return confirmx('确认要删除该合同吗？', this.href)" title="删除"><i
 											class="fa fa-trash"></i></a>
-									</c:if>
-								</shiro:hasPermission> <shiro:hasPermission name="oa:contract:view">
-									<c:if test="${not empty isSelect}">
-										<a href="#" onclick="selectContract(this);" title="选择"><i
-											class="fa fa-check"></i></a>
 									</c:if>
 								</shiro:hasPermission>
 								<c:if test="${contract.cancelFlag eq 0 and contract.status ne '0' and contract.status ne '100'}">

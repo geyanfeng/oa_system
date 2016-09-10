@@ -334,9 +334,16 @@ function openModalFromUrl(title, url, isFullModal){
     modal.modal({show: true, backdrop: 'static'});
 }
 
-function getModal(){
+function getCommonModal(){
     var fatherBody = $(window.top.document.body);
     return fatherBody.find("#commonModal");
+}
+
+function setCommonHideHandler(){
+    getCommonModal().on('hidden.bs.modal', function(){
+        $(this).find('iframe').html("");
+        $(this).find('iframe').attr("src", "");
+    });
 }
 
 //配置ajax

@@ -80,11 +80,7 @@ th,td{text-align:left;}
 						});
 						$('input[name=invoiceType]').trigger('change');
 
-						//清除modal中的内容
-						$('#modal').on('hidden.bs.modal', function() {
-							$(this).find('iframe').html("");
-							$(this).find('iframe').attr("src", "");
-						});
+						setCommonHideHandler();
 					});
 
 	function changeContractType() {
@@ -111,27 +107,20 @@ th,td{text-align:left;}
 
 	//增加客户
 	function addCustomer(sender) {
-		var frameSrc = "${ctx}/oa/customer/form?fromModal=1";
-		$('#modal iframe').attr("src", frameSrc);
-		$('#modal .modal-title').html('增加客户');
-		$('#modal').modal({
-			show : true,
-			backdrop : 'static'
-		});
+		openModalFromUrl("新增客户", "${ctx}/oa/customer/form?fromModal=1", false);
 	}
 
 	//关闭增加
-	function closeCustomerModal() {
-		$('#modal').modal('hide');
-		$.get('${ctx}/oa/customer/treeData', function(data) {
+	function closeCustomerModal(customer){
+		getCommonModal().modal('hide');
+		$.get('${ctx}/oa/customer/treeData',function(data){
 			$('#customer').children().remove();
-			$("#customer").append(
-					"<option value='' selected='selected'></option>");
-			$.each(data, function(idx, item) {
-				$("#customer").append(
-						"<option value='"+item.id+"'>" + item.name
-								+ "</option>");
+			$("#customer").append("<option value='' selected='selected'></option>");
+			$.each(data,function(idx, item){
+				$("#customer").append("<option value='"+item.id+"'>"+item.name+"</option>");
 			});
+			if(customer && customer.id)
+				$('#customer').val(customer.id).trigger("change");
 		});
 	}
 </script>
@@ -391,24 +380,5 @@ th,td{text-align:left;}
 			</div>
 		</div>
 	</form:form>
-
-	<div id="modal" class="modal fade" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" aria-hidden="true"
-		style="display: none;">
-		<div class="modal-dialog modal-full">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">×</button>
-					<h4 class="modal-title"></h4>
-				</div>
-				<div class="modal-body">
-					<div class="row">
-						<iframe width="100%" height="500" frameborder="0"></iframe>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 </body>
 </html>

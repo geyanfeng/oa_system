@@ -11,6 +11,7 @@ import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
 
+import java.lang.reflect.Array;
 import java.util.Date;
 import java.util.List;
 
@@ -66,6 +67,8 @@ public class Contract extends ActEntity<Contract> {
 	private String cancelReason;		//撤销原因
 	private Date cancelDate;			//撤销时间
 	private String cancelType;			//撤销类型:oa_contract_cancel_type
+	private String[] searchTypeArray =new String[]{};		//查找合同的类型数组
+	private String searchName;			//搜索的合同名称
 	
 	public Contract() {
 		super();
@@ -436,4 +439,10 @@ public class Contract extends ActEntity<Contract> {
 
 	public String getCancelType(){return cancelType;}
 	public void setCancelType(String cancelType){this.cancelType = cancelType;}
+
+	public String[] getSearchTypeArray(){return searchTypeArray;}
+	public void setSearchTypeArray(String[] searchTypeArray){this.searchTypeArray = searchTypeArray;}
+
+	public String getSearchName(){return searchName;}
+	public void setSearchName(String searchName){this.searchName = searchName;}
 }

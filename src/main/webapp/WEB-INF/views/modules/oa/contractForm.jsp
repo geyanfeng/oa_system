@@ -52,14 +52,14 @@ th,td{text-align:left;}
             //changeContractType();//如果从合同列表中新合同时, 初始化时加载合同类型
 
             $("#btnSelectParentContract").click(function () {
-                var frameSrc = "${ctx}/oa/contract/list?contractType=1&isSelect=true";
-                $('#modal iframe').attr("src", frameSrc);
-                $('#modal .modal-title').html('选择框架合同');
-                $('#modal').modal({show: true, backdrop: 'static'});
+                var frameSrc = "${ctx}/oa/contract/contractSelectList?targetType=2";
+				if($("#contractType").val() == "3")
+					frameSrc = "${ctx}/oa/contract/contractSelectList?targetType=3";
+				openModalFromUrl($("#contractType").val() == "3"?"选择框架合同和客户合同":"选择框架合同",frameSrc , true );
             });
 
             //更改是否业绩抵扣
-            $("#isDeduction1").change(function(){
+            $("#isDeduction").change(function(){
                 if($(this).prop('checked'))
                     $("#discount-group").show();
                 else {
@@ -67,13 +67,9 @@ th,td{text-align:left;}
                     $("#discount-group").hide();
                 }
             });
-            $("#isDeduction1").trigger('change');
+            $("#isDeduction").trigger('change');
 
-            //清除modal中的内容
-            $('#modal').on('hidden.bs.modal', function(){
-                $(this).find('iframe').html("");
-                $(this).find('iframe').attr("src", "");
-            });
+			setCommonHideHandler();
         });
 
         function changeContractType() {
@@ -122,14 +118,17 @@ th,td{text-align:left;}
 
         //关闭框架合同选择框,并设置相关的值
         function closeSelectContractModal(selectedContract) {
-            $('#modal').modal('hide');
+			getCommonModal().modal('hide');
             setSelectedContract(selectedContract);
         }
 
         //选中框架合同后,设置相关值
         function setSelectedContract(contract) {
             $("#parentId").val(contract.id);
-            $("#parentNo").val(contract.name + "(" + contract.no + ")");
+			if(contract.name)
+            	$("#parentNo").val(contract.name + "(" + contract.no + ")");
+			else
+				$("#parentNo").val(contract.no);
             $('#customer').val(contract.customer.id).trigger("change");
             $("input[name=invoiceType][value=" + contract.invoiceType + "]").attr("checked", true);
             $("#invoiceCustomerName").val(contract.invoiceCustomerName);
@@ -154,15 +153,12 @@ th,td{text-align:left;}
 
         //增加客户
         function addCustomer(sender){
-            var frameSrc = "${ctx}/oa/customer/form?fromModal=1";
-            $('#modal iframe').attr("src", frameSrc);
-            $('#modal .modal-title').html('增加客户');
-            $('#modal').modal({show: true, backdrop: 'static'});
+			openModalFromUrl("新增客户", "${ctx}/oa/customer/form?fromModal=1", false);
         }
 
         //关闭增加
         function closeCustomerModal(customer){
-            $('#modal').modal('hide');
+            getCommonModal().modal('hide');
             $.get('${ctx}/oa/customer/treeData',function(data){
                 $('#customer').children().remove();
                 $("#customer").append("<option value='' selected='selected'></option>");
@@ -1010,8 +1006,8 @@ th,td{text-align:left;}
 
 						<div class="form-group">
 						<div class="checkbox checkbox-custom checkbox-circle">
-							<input type="checkbox" value="true" name="isDeduction" id="isDeduction1">
-							<label for="isDeduction1">是否业绩抵扣</label>
+							<input type="checkbox" value="true" name="isDeduction" id="isDeduction">
+							<label for="isDeduction">是否业绩抵扣</label>
 							<input type="hidden" value="on" name="_isDeduction">
 							</div>
 						</div>
@@ -1125,25 +1121,5 @@ th,td{text-align:left;}
 				</div>
 			</div>
 	</form:form>
-
-	<%--选择框架合同的modal--%>
-	<div id="modal" class="modal fade" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" aria-hidden="true"
-		style="display: none;">
-		<div class="modal-dialog modal-full">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">×</button>
-					<h4 class="modal-title"></h4>
-				</div>
-				<div class="modal-body">
-					<div class="row">
-						<iframe width="100%" height="500" frameborder="0"></iframe>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 </body>
 </html>

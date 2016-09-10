@@ -145,7 +145,7 @@
 
         //关闭增加
         function closeSupplierModal(supplier){
-            var modal = getModal();
+            var modal = getCommonModal();
             modal.modal('hide');
             $.get('${ctx}/oa/supplier/data',function(data){
                 $('#supplier').children().remove();

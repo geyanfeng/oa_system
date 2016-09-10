@@ -33,13 +33,6 @@
 		$("#searchForm").submit();
 		return false;
 	}
-
-	function selectContract(sender) {
-		var self = $(sender);
-		var selectedContract = self.closest('tr').data('json');
-		if (parent.closeSelectContractModal)
-			parent.closeSelectContractModal(selectedContract);
-	}
 </script>
 </head>
 <body>
@@ -178,10 +171,7 @@
 										<a href="${ctx}/oa/contract/form?originalId=${contract.id}" title="生成"><i
 								class="fa fa-file-text"></i></a>
 									</c:if>
-								</shiro:hasPermission> <c:if test="${not empty isSelect}">
-									<a href="#" onClick="selectContract(this);" title="选择"><i
-											class="fa fa-check"></i></a>
-								</c:if></td>
+								</shiro:hasPermission> </td>
 						</tr>
 					</c:forEach>
 				</tbody>

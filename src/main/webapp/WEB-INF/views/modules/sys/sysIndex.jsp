@@ -291,12 +291,6 @@
 		//$(mainFrame).height($(window).height()-190);
 
 		var resizefunc = [];
-
-		//清除modal中的内容
-		$('#commonModal').on('hidden.bs.modal', function(){
-			$(this).find('iframe').html("");
-			$(this).find('iframe').attr("src", "");
-		});
 	</script>
 </BODY>
 </html>

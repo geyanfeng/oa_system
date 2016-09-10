@@ -100,6 +100,15 @@
 			<if test="beginCreateDate != null and endCreateDate != null and beginCreateDate != '' and endCreateDate != ''">
 				AND a.create_date BETWEEN #{beginCreateDate} AND #{endCreateDate}
 			</if>
+			<if test="searchTypeArray != null and searchTypeArray.length!=0">
+				AND a.contract_type in
+				<foreach item="item" index="index" collection="searchTypeArray" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="searchName != null and searchName != ''">
+				AND a.name like concat('%',#{searchName},'%')
+			</if>
 			${sqlMap.dsf}
 		</where>
 		<choose>
