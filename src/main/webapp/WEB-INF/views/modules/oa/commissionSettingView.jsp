@@ -116,7 +116,18 @@
                     </div>
                 </div>
 
+      <h4 class="text-custom">资金成本参数</h4>
 
+            <c:forEach items="${list2}" var="setting">
+                <div class="row">
+                    <div class="col-sm-8">
+                            ${setting.fkey.label}
+                    </div>
+                    <div class="col-sm-2">
+                            ${empty setting.avalue? '0':setting.avalue}
+                    </div>
+                </div>
+            </c:forEach>
             <div class="row m-t-20 center">
                     <a id="btnEdit"
                        href="${ctx}/oa/commissionSetting/edit"

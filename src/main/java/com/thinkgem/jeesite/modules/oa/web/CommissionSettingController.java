@@ -45,7 +45,7 @@ public class CommissionSettingController extends BaseController {
         filter1.setBeginKey(10);
         filter1.setEndKey(99);
         model.addAttribute("list1", commissionSettingDao.findAllList(filter1));
-        CommissionSetting filter2 = new CommissionSetting();
+       //CommissionSetting filter2 = new CommissionSetting();
       /*  filter2.setBeginKey(100);
         filter2.setEndKey(199);
         model.addAttribute("list2", commissionSettingDao.findAllList(filter2));
@@ -55,16 +55,22 @@ public class CommissionSettingController extends BaseController {
         model.addAttribute("list3", commissionSettingDao.findAllList(filter3));*/
         CommissionSetting filter4 = new CommissionSetting();
         filter4.setBeginKey(300);
-        filter4.setEndKey(399);
+        filter4.setEndKey(349);
         model.addAttribute("list4", commissionSettingDao.findAllList(filter4));
+        
+        CommissionSetting filter2 = new CommissionSetting();
+        filter2.setBeginKey(350);
+        filter2.setEndKey(359);
+        List<CommissionSetting> a = commissionSettingDao.findAllList(filter2);
+        model.addAttribute("list2", a);
     }
 
     @RequiresPermissions("oa:commissionSetting:edit")
     @RequestMapping(value = "save")
     public String save(CommissionSettingColl commissionSettings, HttpServletRequest request, HttpServletResponse response, Model model, RedirectAttributes redirectAttributes) {
         saveCommissionSetting(commissionSettings.getCommissionSettings1());
-       /* saveCommissionSetting(commissionSettings.getCommissionSettings2());
-        saveCommissionSetting(commissionSettings.getCommissionSettings3());*/
+        saveCommissionSetting(commissionSettings.getCommissionSettings2());
+        //saveCommissionSetting(commissionSettings.getCommissionSettings3());
         saveCommissionSetting(commissionSettings.getCommissionSettings4());
 
         addMessage(redirectAttributes, "保存佣金参数成功");

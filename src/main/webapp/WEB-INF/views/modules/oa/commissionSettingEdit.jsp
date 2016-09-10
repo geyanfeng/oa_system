@@ -15,7 +15,7 @@
         $(function(){
             $("#inputForm").validate({
                 submitHandler: function (form) {
-                    loading('正在提交，请稍等...');
+                    //loading('正在提交，请稍等...');
                     form.submit();
                 },
                 errorContainer: "#messageBox",
@@ -146,7 +146,22 @@
                 </div>
             </c:forEach>
 
+<h4 class="text-custom">资金成本参数</h4>
 
+            <c:forEach items="${list2}" var="setting" varStatus="settingIdx">
+                <div class="row">
+                    <input name="CommissionSettings2[${settingIdx.index}].id" value="${setting.id}"
+                           class="hidden">
+                    <input name="CommissionSettings2[${settingIdx.index}].fkey.value" value="${setting.fkey.value}"
+                           class="hidden">
+                    <div class="col-sm-8">
+                            ${setting.fkey.label}
+                    </div>
+                    <div class="col-sm-2">
+                        <input name="CommissionSettings2[${settingIdx.index}].avalue" value="${empty setting.avalue? '0':setting.avalue}"  class="text number required">
+                    </div>
+                </div>
+            </c:forEach>
 
             <div class="row m-t-20">
                 <div class="col-sm-2 col-sm-offset-7">
