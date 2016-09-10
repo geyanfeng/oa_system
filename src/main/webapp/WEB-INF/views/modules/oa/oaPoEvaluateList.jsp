@@ -18,7 +18,7 @@
 </head>
 <body>
 	<div class="panel panel-default">
-	<div class="panel-heading">供应商评价列表
+	<div class="panel-heading"><h3 class="panel-title">供应商评价列表</h3>
 		
 	</div>
 	<div class="panel-body">
@@ -28,16 +28,18 @@
 		<div class="form-group">
 				<label>供应商：</label>
 
-				<form:select path="supplier.id" class="select2-container form-control input-sm" id="supplier" cssStyle="width:200px;">
+				<form:select path="supplier.id" class="select2-container form-control" id="supplier" cssStyle="width:200px;">
 					<form:option value="" label=""/>
 					<form:options items="${supplierList}" itemLabel="name"
 								  itemValue="id" htmlEscape="false"/>
 				</form:select>
 
 			</div>
-			<button id="btnSubmit" class="btn btn-primary input-sm" type="submit" value="查询">
-				查询<i class="fa fa-search"></i>
+			<div class="form-group">
+		<button id="btnSubmit" class="btn btn-custom" type="submit" value="查询">
+				查&nbsp;&nbsp;询
 			</button>
+			</div>
 	</form:form>
 	<sys:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-condensed table-hover">

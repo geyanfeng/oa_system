@@ -13,7 +13,7 @@
 </head>
 <body>
 <div class="panel panel-default">
-    <div class="panel-heading">佣金参数 -- 查看</div>
+    <div class="panel-heading"><h3 class="panel-title">佣金参数 -- 查看</h3></div>
     <div class="panel-body">
         <div class="col-sm-6">
             <!--提成系数SCC设置-->
@@ -117,15 +117,12 @@
                 </div>
 
 
-            <div class="row m-t-20">
-                <div class="col-sm-1 col-sm-offset-10">
+            <div class="row m-t-20 center">
                     <a id="btnEdit"
                        href="${ctx}/oa/commissionSetting/edit"
-                       class="btn btn-primary waves-effect waves-light input-sm" title="编辑"
-                       data-content="新增">编辑&nbsp;<i
-                            class="zmdi zmdi-edit"></i></a>
+                       class="btn btn-custom" title="编辑"
+                       data-content="新增">编辑</a>
                 </div>
-            </div>
         </div>
     </div>
 </div>

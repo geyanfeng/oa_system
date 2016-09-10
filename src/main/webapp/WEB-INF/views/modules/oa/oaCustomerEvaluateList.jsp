@@ -19,27 +19,29 @@
 <body>
 	
 		<div class="panel panel-default">
-	<div class="panel-heading">客户评价列表
+	<div class="panel-heading"><h3 class="panel-title">客户评价列表</h3>
 		
 	</div>
 	<div class="panel-body">
 	<form:form id="searchForm" modelAttribute="oaCustomerEvaluate" action="${ctx}/oa/oaCustomerEvaluate/" method="post" class="breadcrumb form-search form-inline">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
-		  <div class="form-group">
+		  <div class="form-group m-r-10">
                 <label>客户：</label>
-                <form:select path="customer.id"  class="input-small input-sm" id="customer" cssStyle="width: 150px">
+                <form:select path="customer.id"  class="input-small form-control" id="customer" cssStyle="width: 150px">
                     <form:option value="" label="" />
                     <form:options items="${customerList}" itemLabel="name"
                                   itemValue="id" htmlEscape="false" />
                 </form:select>
             </div>
-		<button id="btnSubmit" class="btn btn-primary input-sm" type="submit" value="查询">
-				查询<i class="fa fa-search"></i>
+            <div class="form-group">
+		<button id="btnSubmit" class="btn btn-custom" type="submit" value="查询">
+				查&nbsp;&nbsp;询
 			</button>
+			</div>
 	</form:form>
 	<sys:message content="${message}"/>
-	<table id="contentTable" class="table table-striped table-bordered table-condensed">
+	<table id="contentTable" class="table table-striped table-condensed table-hover">
 		<thead>
 			<tr>
 				<th>客户 </th>

@@ -28,37 +28,39 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/oa/productType/form?id=${productType.id}">商品类型<shiro:hasPermission name="oa:productType:edit">${not empty productType.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="oa:productType:edit">查看</shiro:lacksPermission></a></li>
-	</ul><br/>
+	</ul>
+<div class="tab-content">
 	<form:form id="inputForm" modelAttribute="productType" action="${ctx}/oa/productType/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		
 		<div class="form-group">
-			<label class="col-md-2 control-label">商品类型组：</label>
+			<label class="col-md-2 control-label">商品类型组 <span class="help-inline"><font color="red">*</font> </span></label>
 			<div class="col-md-4">
 				<form:select path="typeGroup.id" class="form-control col-md-12 required">
 					<form:option value="" label=""/>
 					<form:options items="${productTypeGroup_list}" itemLabel="name" itemValue="id" htmlEscape="false"/>
 				</form:select>
-				<span class="help-inline"><font color="red">*</font> </span>
+				
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-md-2 control-label">名称：</label>
+			<label class="col-md-2 control-label">名称 <span class="help-inline"><font color="red">*</font> </span></label>
 			<div class="col-md-4">
 				<form:input path="name" htmlEscape="false" maxlength="100" class="form-control required"/>
-				<span class="help-inline"><font color="red">*</font> </span>
+				
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-md-2 control-label">备注：</label>
+			<label class="col-md-2 control-label">备注</label>
 			<div class="col-md-4">
 				<form:input path="remark" htmlEscape="false" maxlength="255" class="form-control "/>
 			</div>
 		</div>
-		<div class="form-actions">
-			<shiro:hasPermission name="oa:productType:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
-			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+		<div class="form-actions text-center">
+			<shiro:hasPermission name="oa:productType:edit"><input id="btnSubmit" class="btn btn-custom" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
+			<input id="btnCancel" class="btn btn-inverse" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
+	</div>
 </body>
 </html>

@@ -68,8 +68,8 @@
                 </c:forEach></tbody>
             </table>
             <shiro:hasPermission name="sys:menu:edit">
-                <div class="form-actions pagination-left">
-                    <input id="btnSubmit" class="btn btn-primary" type="button" value="保存排序" onclick="updateSort();"/>
+                <div class="form-actions text-right">
+                    <input id="btnSubmit" class="btn btn-custom" type="button" value="保存排序" onclick="updateSort();"/>
                 </div>
             </shiro:hasPermission>
         </form>

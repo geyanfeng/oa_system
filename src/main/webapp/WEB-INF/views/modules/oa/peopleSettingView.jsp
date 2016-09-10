@@ -12,11 +12,11 @@
 </head>
 <body>
 <div class="panel panel-default">
-    <div class="panel-heading">人员参数 -- 查看</div>
+    <div class="panel-heading"><h3 class="panel-title">人员参数 -- 查看</h3></div>
     <div class="panel-body">
         <div class="row">
-            <div class="col-sm-8 col-sm-offset-2">
-                <table id="contentTable" class="table">
+
+                <table id="contentTable" class="table table-striped m-0">
                     <thead>
                     <tr>
                         <th>销售</th>
@@ -45,18 +45,17 @@
                     </c:forEach>
                     </tbody>
                 </table>
-            </div>
+
         </div>
 
-        <div class="row">
-            <div class="col-sm-1 col-sm-offset-9">
+        <div class="row text-center">
+
                 <a id="btnEdit"
                    href="${ctx}/oa/peoplesetting/edit"
-                   class="btn btn-primary waves-effect waves-light input-sm" title="编辑"
-                   data-content="新增">编辑&nbsp;<i
-                        class="zmdi zmdi-edit"></i></a>
+                   class="btn btn-custom" title="编辑"
+                   data-content="新增">编辑</a>
             </div>
-        </div>
+
     </div>
 </div>
 </body>
