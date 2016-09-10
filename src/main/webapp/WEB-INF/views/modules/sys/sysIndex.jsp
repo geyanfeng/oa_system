@@ -65,7 +65,7 @@
 								<DIV class="notification-box">
 									<UL class="list-inline m-b-0">
 										<LI><A class="right-bar-toggle"
-											href="#" target="mainFrame" title="提醒"><I
+											href="javascript:void(0);" title="提醒"><I
 												class="zmdi zmdi-notifications-none"></I> </A>
 											<DIV class="noti-dot">
 												<SPAN class="dot"></SPAN> <SPAN class="pulse"></SPAN>
