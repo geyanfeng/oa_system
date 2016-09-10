@@ -53,7 +53,7 @@
 								<DIV class="notification-box">
 									<UL class="list-inline m-b-0">
 										<LI><A class=""
-											href="javascript:void(0);"><i class="zmdi zmdi-email"></I> </A>
+											href="${ctx}/oa/oaNotify/self" target="mainFrame" title="站内信息"><i class="zmdi zmdi-email"></I> </A>
 											<DIV class="noti-dot">
 												<SPAN class="dot"></SPAN> <SPAN class="pulse"></SPAN>
 											</DIV></LI>
@@ -65,7 +65,7 @@
 								<DIV class="notification-box">
 									<UL class="list-inline m-b-0">
 										<LI><A class="right-bar-toggle"
-											href="javascript:void(0);"><I
+											href="#" target="mainFrame" title="提醒"><I
 												class="zmdi zmdi-notifications-none"></I> </A>
 											<DIV class="noti-dot">
 												<SPAN class="dot"></SPAN> <SPAN class="pulse"></SPAN>
@@ -77,7 +77,7 @@
 								<DIV class="notification-box">
 									<UL class="list-inline m-b-0">
 										<LI><A class=""
-											href="javascript:void(0);"><i class="zmdi zmdi-hourglass-outline"></I> </A>
+											href="${ctx}/act/task/todo/" target="mainFrame" title="待办事项"><i class="zmdi zmdi-hourglass-outline"></I> </A>
 											<DIV class="noti-dot">
 												<SPAN class="dot"></SPAN> <SPAN class="pulse"></SPAN>
 											</DIV></LI>
@@ -115,7 +115,7 @@
 		<div class="text-center">
                     
                     <div class="user-thumb m-t-20">
-                        <A href="${ctx}"><img src="${not empty fns:getUser().photo ? fns:getUser().photo : 'static/images/tx.jpg'}" style="width:65px;height:65px;padding:1px;" class="img-responsive img-circle img-thumbnail"
+                        <A href="${ctx}/sys/user/info" target="mainFrame"><img src="${not empty fns:getUser().photo ? fns:getUser().photo : 'static/images/tx.jpg'}" style="width:65px;height:65px;padding:1px;" class="img-responsive img-circle img-thumbnail"
                              alt="thumbnail"></A>
                     </div>
                     <h5 class="text-uppercase font-bold m-b-0" id="J_name" style="color:white;">Hi<span>, ${fns:getUser().name}</span></h5>
