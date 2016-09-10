@@ -8,8 +8,8 @@
 		<style type="text/css">
       .hide {display:none !important;}
       .header{height:80px;padding-top:20px;} .alert{position:relative;width:300px;margin:0 auto;*padding-bottom:0px;}
-      label.error{background:none;width:270px;font-weight:normal;color:inherit;margin:0;}
-      #messageBox {color:rgb(240, 165, 164);border-color: rgb(240, 165, 164); padding: 5px; text-align: center;}
+      label.error{background:none;width:270px;font-weight:normal;color:red;margin:0;}
+      #messageBox {border-color:white;background-color: white; padding: 5px; text-align: center;}
 	  body{background-image: url("${ctxStatic}/images/login-bg.jpg");background-size:cover;}
 			html, body{
 				height:100%;

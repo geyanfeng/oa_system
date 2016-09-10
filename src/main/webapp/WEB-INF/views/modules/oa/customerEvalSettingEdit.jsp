@@ -13,7 +13,7 @@
         $(function(){
             $("#inputForm").validate({
                 submitHandler: function (form) {
-                    loading('正在提交，请稍等...');
+                    //loading('正在提交，请稍等...');
                     form.submit();
                 },
                 errorContainer: "#messageBox",
