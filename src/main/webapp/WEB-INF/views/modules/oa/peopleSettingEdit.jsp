@@ -11,12 +11,10 @@
 </style>
 </head>
 <body>
+	<h2 style="padding-left:20px; font-weight: normal;font-size:18px;">人员参数 -- 编辑</h2>
 	<form:form id="inputForm" modelAttribute="setting"
 		action="${ctx}/oa/peoplesetting/save" method="post" role="form">
 		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3 class="panel-title">人员参数 -- 编辑</h3>
-			</div>
 			<div class="panel-body">
 				<div class="row">
 
@@ -69,7 +67,7 @@
 					</table>
 				</div>
 
-
+				<br/>
 				<div class="row text-center">
 
 					<button id="btnEdit" type="submit"

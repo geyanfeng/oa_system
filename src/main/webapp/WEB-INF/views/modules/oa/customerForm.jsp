@@ -48,58 +48,59 @@
 	</script>
 </head>
 <body>
-<%--	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/oa/customer/">客户列表</a></li>
-		<li class="active"><a href="${ctx}/oa/customer/form?id=${customer.id}">客户<shiro:hasPermission name="oa:customer:edit">${not empty customer.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="oa:customer:edit">查看</shiro:lacksPermission></a></li>
-	</ul><br/>--%>
+<h2 style="padding-left: 20px; font-weight: normal; font-size: 18px;">客户管理--编辑</h2>
+<div class="panel panel-default">
+		<div class="panel-body">
 	<form:form id="inputForm" modelAttribute="customer" action="${ctx}/oa/customer/${not empty fromModal?'ajaxSave':'save'}" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		
 		<div class="form-group">
-			<label class="col-md-2 control-label">名称：</label>
+			<label class="col-md-2 control-label">名称 <span class="help-inline"><font color="red">*</font> </span></label>
 			<div class="col-md-4">
 				<form:input path="name" htmlEscape="false" maxlength="100" class="input-xlarge required form-control" />
-				<span class="help-inline"><font color="red">*</font> </span>
+				
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-md-2 control-label">地址：</label>
+			<label class="col-md-2 control-label">地址 </label>
 			<div class="col-md-4">
 				<form:input path="address" htmlEscape="false" maxlength="255" class="input-xlarge form-control "/>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-md-2 control-label">联系人：</label>
+			<label class="col-md-2 control-label">联系人 </label>
 			<div class="col-md-4">
 				<form:input path="contact" htmlEscape="false" maxlength="100" class="input-xlarge form-control "/>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-md-2 control-label">电话：</label>
+			<label class="col-md-2 control-label">电话 </label>
 			<div class="col-md-4">
 				<form:input path="phone" htmlEscape="false" maxlength="100" class="input-xlarge form-control "/>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-md-2 control-label">状态</label>
+			<label class="col-md-2 control-label">状态 <span class="help-inline"><font color="red">*</font> </span></label>
 				<div class="col-md-4">
 					<form:radiobuttons path="usedFlag" items="${fns:getDictList('oa_customer_status')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required"/>
-					<span class="help-inline"><font color="red">*</font> </span>
+					
 				</div>
 		</div>
 
 		<div class="form-group">
-			<label class="col-md-2 control-label">备注：</label>
+			<label class="col-md-2 control-label">备注 </label>
 			<div class="col-md-4">
 				<form:textarea path="remark" htmlEscape="false" rows="4" maxlength="255" class="input-xxlarge form-control " />
 			</div>
 		</div>
-		<div class="form-actions">
-			<shiro:hasPermission name="oa:customer:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
+		<div class="form-actions text-center">
+			<shiro:hasPermission name="oa:customer:edit"><input id="btnSubmit" class="btn btn-custom" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
 			<c:if test="${empty fromModal}">
-			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+			<input id="btnCancel" class="btn btn-inverse" type="button" value="返 回" onclick="history.go(-1)"/>
 			</c:if>
 		</div>
 	</form:form>
+	</div>
+	</div>
 </body>
 </html>

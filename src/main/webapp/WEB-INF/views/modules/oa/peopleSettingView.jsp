@@ -11,8 +11,8 @@
     </style>
 </head>
 <body>
+<h2 style="padding-left:20px; font-weight: normal;font-size:18px;">人员参数 -- 查看</h2>
 <div class="panel panel-default">
-    <div class="panel-heading"><h3 class="panel-title">人员参数 -- 查看</h3></div>
     <div class="panel-body">
         <div class="row">
 
@@ -47,9 +47,8 @@
                 </table>
 
         </div>
-
+		<br/>
         <div class="row text-center">
-
                 <a id="btnEdit"
                    href="${ctx}/oa/peoplesetting/edit"
                    class="btn btn-custom" title="编辑"

@@ -17,10 +17,8 @@
 	</script>
 </head>
 <body>
+<h2 style="padding-left:20px; font-weight: normal;font-size:18px;">供应商评价列表</h2>
 	<div class="panel panel-default">
-	<div class="panel-heading"><h3 class="panel-title">供应商评价列表</h3>
-		
-	</div>
 	<div class="panel-body">
 	<form:form id="searchForm" modelAttribute="oaPoEvaluate" action="${ctx}/oa/oaPoEvaluate/" method="post" class="breadcrumb form-search form-inline">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>

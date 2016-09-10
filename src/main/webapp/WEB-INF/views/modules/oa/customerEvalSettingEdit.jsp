@@ -30,46 +30,35 @@
     </script>
 </head>
 <body>
+<h2 style="padding-left: 20px; font-weight: normal; font-size: 18px;">客户评价参数 -- 编辑</h2>
 <form:form id="inputForm" modelAttribute="setting" action="${ctx}/oa/customerEvalSetting/save" method="post" role="form">
   
     <div class="panel panel-default">
-        <div class="panel-heading">客户评价参数 -- 编辑</div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-sm-4 col-sm-offset-2">
-                    <c:forEach items="${list}" var="setting" varStatus="settingIdx">
-                        <input name="CustomerEvalSettings[${settingIdx.index}].id" value="${setting.id}"
+        <div class="panel-body" style="padding:0;">
+        <table class="table table-striped table-condensed m-b-0">
+					<c:forEach items="${list}" var="setting" varStatus="settingIdx">
+						<tr>
+							<td><input name="CustomerEvalSettings[${settingIdx.index}].id" value="${setting.id}"
                                class="hidden">
                         <input name="CustomerEvalSettings[${settingIdx.index}].evalType.value" value="${setting.evalType.value}"
                                class="hidden">
-                        <div class="row m-t-10">
-                            <div class="col-sm-10">
-                                    ${setting.evalType.label}
-                            </div>
-                            <div class="col-sm-2">
-                                <input name="CustomerEvalSettings[${settingIdx.index}].value" value="${empty setting.value? '0':setting.value}"
-                                       class="text number required">
-                            </div>
-                        </div>
-                    </c:forEach>
-                </div>
-            </div>
-
-            <div class="row m-t-20">
-                <div class="col-sm-1 col-sm-offset-5">
-                    <button id="btnEdit" type="submit" class="btn btn-primary waves-effect waves-light input-sm"
-                            title="保存" data-content="保存">保存&nbsp;<i class="fa fa-save"></i></button>
-                </div>
-                <div class="col-sm-1">
-                    <a id="btnReturn"
-                       href="#" onclick="history.go(-1)"
-                       class="btn btn-primary waves-effect waves-light input-sm" title="返回"
-                       data-content="返回">返回&nbsp;<i
-                            class="ti-back-left"></i></a>
-                </div>
-            </div>
+                                    ${setting.evalType.label}</td>
+							<td><input name="CustomerEvalSettings[${settingIdx.index}].value" value="${empty setting.value? '0':setting.value}"
+                                       class="text number required"></td>
+						</tr>
+					</c:forEach>
+				</table>      
         </div>
     </div>
+    <div class="row m-t-20 text-center">
+                    <button id="btnEdit" type="submit" class="btn btn-custom"
+                            title="保存" data-content="保存">保存</button>
+                    <a id="btnReturn"
+                       href="#" onclick="history.go(-1)"
+                       class="btn btn-inverse" title="返回"
+                       data-content="返回">返回</a>
+
+            </div>
 </form:form>
 </body>
 </html>
