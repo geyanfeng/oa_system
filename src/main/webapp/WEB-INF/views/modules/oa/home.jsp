@@ -14,7 +14,7 @@
 			<div class="col-sm-12">
 				<div class="card-box">
 					<div id="total"
-						style="height: 500px; width: 600px; margin: 0 auto;"
+						style="height: 460px;"
 						class="flot-chart"></div>
 				</div>
 			</div>
@@ -23,6 +23,9 @@
 		<script type="text/javascript">
 			var total = echarts.init(document.getElementById('total'));
 			option = {
+				title : {
+					text: '仪表盘'
+				},
 				tooltip : {
 					formatter : "{a} <br/>{c} {b}"
 				},
@@ -33,7 +36,7 @@
 					min : 0,
 					max : 220,
 					splitNumber : 11,
-					radius : '50%',
+					radius : '85%',
 					axisLine : { // 坐标轴线
 						lineStyle : { // 属性lineStyle控制线条样式
 							width : 10
@@ -71,7 +74,7 @@
 					name : '转速',
 					type : 'gauge',
 					center : [ '20%', '55%' ], // 默认全局居中
-					radius : '35%',
+					radius : '55%',
 					min : 0,
 					max : 7,
 					endAngle : 45,
@@ -112,7 +115,7 @@
 					name : '油表',
 					type : 'gauge',
 					center : [ '77%', '50%' ], // 默认全局居中
-					radius : '25%',
+					radius : '55%',
 					min : 0,
 					max : 2,
 					startAngle : 135,
