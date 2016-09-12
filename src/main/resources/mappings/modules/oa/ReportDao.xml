@@ -14,7 +14,7 @@
     
     <select id="reportSupplierStatistics" parameterType="java.util.Map"  resultMap="resultMap" statementType="CALLABLE" >  
       {call report_supplier_statistics(
-     	 #{supplierId,jdbcType=VARCHAR,mode=IN}
+     	 #{pageNo,jdbcType=INTEGER,mode=IN},#{pageSize,jdbcType=INTEGER,mode=IN},#{sqlCondition,jdbcType=VARCHAR,mode=IN},#{orderBy,jdbcType=VARCHAR,mode=IN}
        )
       }
     </select>  	
