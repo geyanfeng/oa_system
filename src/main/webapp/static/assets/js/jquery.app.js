@@ -170,11 +170,42 @@ function($) {
 
       // right side-bar toggle
       $('.right-bar-toggle').on('click', function(e){
-
+          var alertTpl = $("#alertTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
+          $.getJSON(ctx + "/oa/alert", function(alertList){
+              $("#ul-alert").empty();
+              $("#ul-alert").append(Mustache.render(alertTpl, {alertList:alertList}));
+          });
           $('#wrapper').toggleClass('right-bar-enabled');
-      }); 
+      });
 
-      
+        $('.right-bar-notify').on('click', function(e){
+            $('#wrapper').toggleClass('right-bar-enabled');
+        });
+        $('.right-bar-todo').on('click', function(e){
+            var alertTpl = $("#todoTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
+            $.getJSON(ctx + "/act/task/todoJson", function(list){
+                var todoList=[];
+                $.each(list, function(index, item){
+                    var todo ={};
+                    todo.taskCreateDate = item.taskCreateDate;
+                    todo.href = ctx + "/act/task/form?taskId=" + item.taskId + "&taskName="+ encodeURI(item.taskName) +"&taskDefKey="+ item.taskDefKey +"&procInsId=" + item.procInsId + "&procDefId=" + item.procDefId+ "&status=todo";
+                    if(item.procDefKey=="contract_audit"){
+                        todo.contract_name = item.vars.map.title ? item.vars.map.title : item.taskId;
+                        todo.no =  item.vars.map.contract_no ? item.vars.map.contract_no : todo.contract_name;
+                        todo.taskName = item.taskName;
+                    } else{
+                        todo.no =  item.vars.map.title ?  item.vars.map.title : item.taskId;
+                        todo.contract_name = item.vars.map.contract_name ? item.vars.map.contract_name : todo.no;
+                        todo.taskName = item.taskName;
+                    }
+                    todoList.push(todo);
+                });
+                $("#ul-alert").empty();
+                $("#ul-alert").append(Mustache.render(alertTpl, {todoList:todoList}));
+            });
+            $('#wrapper').toggleClass('right-bar-enabled');
+        });
+
     },
     //initilizing 
     App.prototype.init = function() {
@@ -305,6 +336,18 @@ var wow = new WOW(
   }
 );
 wow.init();
+
+function deleteAlert(sender,id){
+    var self = $(sender);
+
+    $.post("${ctx}/oa/alert/delete?id="+id,{}, function(){
+        if(id==""){
+            $("#ul-alert").empty();
+        } else {
+            self.closest('li').remove();
+        }
+    });
+}
 
 
 

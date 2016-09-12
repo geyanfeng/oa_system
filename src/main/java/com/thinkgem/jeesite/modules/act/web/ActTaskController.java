@@ -53,6 +53,12 @@ public class ActTaskController extends BaseController {
 		}
 		return "modules/act/actTaskTodoList";
 	}
+
+	@ResponseBody
+	@RequestMapping(value =  {"todoJson", ""})
+	public List<Act> todoListJson() {
+		return actTaskService.todoList(new Act());
+	}
 	
 	/**
 	 * 获取已办任务

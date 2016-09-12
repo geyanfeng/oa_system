@@ -439,6 +439,8 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             Map<String, Object> vars = Maps.newHashMap();
             vars.put("business_person", contract.getBusinessPerson().getName());
             vars.put("artisan", contract.getArtisan().getName());
+            vars.put("contract_no", contract.getNo());
+            vars.put("contract_name", contract.getName());
             //dao.insert(contract);
             contract.getAct().setComment("提交审批");
             actTaskService.startProcess(ActUtils.PD_CONTRAT_AUDIT[0], ActUtils.PD_CONTRAT_AUDIT[1], contract.getId(), contract.getName(), vars);
