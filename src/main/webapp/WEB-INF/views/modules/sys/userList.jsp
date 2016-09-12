@@ -30,6 +30,9 @@
             return false;
         }
     </script>
+    <style>
+    .form-inline .form-group{margin-bottom:10px;}
+    </style>
 </head>
 <body>
 <div id="importBox" class="hide">
@@ -54,7 +57,7 @@
             <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
             <sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();"/>
 
-            <div class="form-group">
+            <div class="form-group m-r-10">
                 <label>归属公司：</label>
 
                 <sys:treeselect id="company" name="company.id" value="${user.company.id}"
@@ -63,14 +66,14 @@
                                 allowClear="true"/>
 
             </div>
-            <div class="form-group">
+            <div class="form-group m-r-10">
                 <label>登录名：</label>
                 <form:input path="loginName" htmlEscape="false" maxlength="50"
                             class="input-medium form-control"/>
             </div>
 
 
-            <div class="form-group">
+            <div class="form-group m-r-10">
                 <label>归属部门：</label>
                 <sys:treeselect id="office" name="office.id"
                                 value="${user.office.id}"
@@ -83,18 +86,19 @@
 
             </div>
 
-            <div class="form-group">
+            <div class="form-group m-r-10">
                 <label>姓&nbsp;&nbsp;名：</label>
                 <form:input path="name"
                             htmlEscape="false"
                             maxlength="50"
                             class="input-medium form-control"/>
             </div>
-            <input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"
+            <div class="form-group m-r-10">
+            <input id="btnSubmit" class="btn btn-custom" type="submit" value="查询"
                    onclick="return page();"/>
-            <input id="btnExport" class="btn btn-primary" type="button" value="导出"/>
-            <input id="btnImport" class="btn btn-primary" type="button" value="导入"/>
-
+            <input id="btnExport" class="btn btn-custom" type="button" value="导出"/>
+            <input id="btnImport" class="btn btn-custom" type="button" value="导入"/>
+			</div>
         </form:form>
         <sys:message content="${message}"/>
         <table id="contentTable" class="table table-striped m-0">
@@ -123,9 +127,11 @@
                                         <td>${user.roleNames}</td> --%>
                     <shiro:hasPermission name="sys:user:edit">
                         <td>
-                            <a href="${ctx}/sys/user/form?id=${user.id}">修改</a>
+                            <a href="${ctx}/sys/user/form?id=${user.id}" class="m-r-5" title="修改"><i
+											class="fa fa-pencil"></i></a>
                             <a href="${ctx}/sys/user/delete?id=${user.id}"
-                               onclick="return confirmx('确认要删除该用户吗？', this.href)">删除</a>
+                               onclick="return confirmx('确认要删除该用户吗？', this.href)"title="删除"><i
+											class="fa fa-trash"></i></a>
                         </td>
                     </shiro:hasPermission>
                 </tr>
