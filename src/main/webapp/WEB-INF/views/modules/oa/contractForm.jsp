@@ -260,7 +260,7 @@ th,td{text-align:left;}
 										</form:select>
 
 										<span class="input-group-btn"><a
-											href="#" onclick="addCustomer(this)" title="新增客户"
+											href="javascript:void(0);" onclick="addCustomer(this)" title="新增客户"
 											class="btn btn-custom">+</a></span>
 									</div>
 
@@ -542,7 +542,7 @@ th,td{text-align:left;}
 								<input id="contractProductList{{idx}}_remark" name="contractProductList[{{idx}}].remark" type="text" value="{{row.remark}}" maxlength="255" class="form-control input-block "/>
 							</td>
 							<shiro:hasPermission name="oa:contract:edit"><td class="text-center" width="10">
-								{{#delBtn}}<a href="#" class="on-default remove-row" onclick="delRow(this, '#contractProductList{{idx}}')"  title="删除"><i class="fa fa-trash-o"></i></a>{{/delBtn}}
+								{{#delBtn}}<a href="javascript:void(0);" class="on-default remove-row" onclick="delRow(this, '#contractProductList{{idx}}')"  title="删除"><i class="fa fa-trash-o"></i></a>{{/delBtn}}
 							</td></shiro:hasPermission>
 						</tr>
 						<tr>
@@ -581,7 +581,7 @@ th,td{text-align:left;}
 								</select>
 							</td>
 							<shiro:hasPermission name="oa:contract:edit"><td class="text-center" width="10">
-								{{#delBtn}}<a href="#" class="on-default remove-row" onclick="delRow(this, '#childProductList{{idx}}_{{child_idx}}')"  title="删除"><i class="fa fa-trash-o"></i></a>{{/delBtn}}
+								{{#delBtn}}<a href="javascript:void(0);" class="on-default remove-row" onclick="delRow(this, '#childProductList{{idx}}_{{child_idx}}')"  title="删除"><i class="fa fa-trash-o"></i></a>{{/delBtn}}
 							</td></shiro:hasPermission>
 						</tr>
 						//-->
@@ -740,8 +740,8 @@ th,td{text-align:left;}
                             </span>
                         </c:forEach>
                         <span  style="margin-left:20px;">
-  				   		<a href="#" onclick="addNewInstallmentPayment(this)" title="增加新的分期付款" class="zmdi zmdi-plus-circle text-custom" style="font-size:24px;"></a>
-                   		<a href="#" onclick="deleteInstallmentPayment(this)" title="删除" class="zmdi zmdi-minus-circle text-custom" style="font-size:24px;"></a>
+  				   		<a href="javascript:void(0);" onclick="addNewInstallmentPayment(this)" title="增加新的分期付款" class="zmdi zmdi-plus-circle text-custom" style="font-size:24px;"></a>
+                   		<a href="javascript:void(0);" onclick="deleteInstallmentPayment(this)" title="删除" class="zmdi zmdi-minus-circle text-custom" style="font-size:24px;"></a>
 						</span>
                     </div>
                  
@@ -1052,7 +1052,7 @@ th,td{text-align:left;}
 										name="contractAttachmentList[${status.index}].id"
 										type="hidden" value="${attachment.id}" /></td>
 									<td>${fns:getDictLabel(attachment.type, 'oa_contract_attachment_type', '')}
-										<a href="#" title="上传文档" class="fa fa-cloud-upload text-custom" style="margin-left:10px;font-size:18px;"
+										<a href="javascript:void(0);" title="上传文档" class="fa fa-cloud-upload text-custom" style="margin-left:10px;font-size:18px;"
 										onclick="files${status.index}FinderOpen();"></a> <input
 										id="contractAttachmentList${status.index}_type"
 										name="contractAttachmentList[${status.index}].type"

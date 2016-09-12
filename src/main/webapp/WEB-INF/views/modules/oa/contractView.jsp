@@ -109,7 +109,7 @@
         <div class="panel panel-default">
             <div class="panel-heading" style="text-align: center;">采购下单
                 <div class="pull-right">
-                    <a href="#" onclick="openOrClosePOPanel()"><i class="glyphicon glyphicon-remove"></i></a>
+                    <a href="javascript:void(0);" onclick="openOrClosePOPanel()"><i class="glyphicon glyphicon-remove"></i></a>
                 </div>
             </div>
             <div class="panel-body" style="padding:0;">
@@ -452,7 +452,7 @@
 								</select>
 							</td>
 							<td class="text-center" width="10">
-								{{#delBtn}}<a href="#" class="on-default remove-row" onclick="delRow(this, '#childProductList{{idx}}_{{child_idx}}')"  title="删除"><i class="fa fa-trash-o"></i></a>{{/delBtn}}
+								{{#delBtn}}<a href="javascript:void(0);" class="on-default remove-row" onclick="delRow(this, '#childProductList{{idx}}_{{child_idx}}')"  title="删除"><i class="fa fa-trash-o"></i></a>{{/delBtn}}
 							</td>
 						</tr>
 						//-->
@@ -899,8 +899,8 @@
 							</td>
 							<td>
 							    <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true'}">
-							        <a href="#" onclick="editPo('{{row.id}}')" title="编辑" class="zmdi zmdi-edit text-success" style="font-size:25px;"></a>
-							        <a href="#" onclick="return confirmx('确认要删除该订单吗？', function(){deletePo('{{row.id}}');})" title="删除" class="zmdi zmdi-minus-square text-success" style="font-size:25px;"></a>
+							        <a href="javascript:void(0);" onclick="editPo('{{row.id}}')" title="编辑" class="zmdi zmdi-edit text-success" style="font-size:25px;"></a>
+							        <a href="javascript:void(0);" onclick="return confirmx('确认要删除该订单吗？', function(){deletePo('{{row.id}}');})" title="删除" class="zmdi zmdi-minus-square text-success" style="font-size:25px;"></a>
 							    </c:if>
 							</td>
 						</tr>
@@ -1209,7 +1209,7 @@
                         </td>
                         <td>
                                 ${fns:getDictLabel(attachment.type, 'oa_contract_attachment_type', '')}
-                            <a href="#" title="上传文档" class="fa fa-cloud-upload text-custom" style="margin-left:10px;font-size:18px;"
+                            <a href="javascript:void(0);" title="上传文档" class="fa fa-cloud-upload text-custom" style="margin-left:10px;font-size:18px;"
                                onclick="files${status.index}FinderOpen();"></a>
                             <input id="contractAttachmentList${status.index}_type"
                                    name="contractAttachmentList[${status.index}].type" type="hidden"
