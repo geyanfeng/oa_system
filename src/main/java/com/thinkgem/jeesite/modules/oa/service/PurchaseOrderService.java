@@ -156,11 +156,11 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 		//更新订单
 		super.save(purchaseOrder);
 
-		//启动流程审核
+	/*	//启动流程审核
 		if(isNew) {
 			purchaseOrder.getAct().setFlag("submit_audit");
 			audit(purchaseOrder);
-		}
+		}*/
 	}
 
 	public void saveAttachments(PurchaseOrder purchaseOrder){
