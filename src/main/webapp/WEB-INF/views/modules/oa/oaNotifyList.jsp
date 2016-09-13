@@ -26,23 +26,23 @@
 	<form:form id="searchForm" modelAttribute="oaNotify" action="${ctx}/oa/oaNotify/${oaNotify.self?'self':''}" method="post" class="breadcrumb form-search form-inline">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
-		<ul class="ul-form">
-			<li><label class="col-md-2 control-label">标题：</label>
+		<div class="form-group m-r-10">
+			<label>标题：</label>
 				<form:input path="title" htmlEscape="false" maxlength="200" class="input-medium form-control"/>
-			</li>
-			<li><label class="col-md-2 control-label">类型：</label>
+			</div>
+			<div class="form-group m-r-10"><label>类型：</label>
 				<form:select path="type" class="input-medium form-control">
 					<form:option value="" label=""/>
 					<form:options items="${fns:getDictList('oa_notify_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
-			</li>
-			<c:if test="${!requestScope.oaNotify.self}"><li><label class="col-md-2 control-label">状态：</label>
+			</div>
+			
+			<c:if test="${!requestScope.oaNotify.self}"><div class="form-group m-r-10"><label>状态：</label>
 				
 				<form:radiobuttons path="status" items="${fns:getDictList('oa_notify_status')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
-			</li></c:if>
-			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
-			<li class="clearfix"></li>
-		</ul>
+			</div></c:if>
+			<div class="form-group m-r-10"><input id="btnSubmit" class="btn btn-custom" type="submit" value="查询"/></div>
+
 	</form:form>
 	<br>
 	<sys:message content="${message}"/>

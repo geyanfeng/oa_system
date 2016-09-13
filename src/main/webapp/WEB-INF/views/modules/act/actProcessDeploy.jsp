@@ -51,9 +51,9 @@
 				<span class="help-inline">支持文件格式：zip、bar、bpmn、bpmn20.xml</span>
 			</div>
 		</div>
-		<div class="form-actions">
-			<input id="btnSubmit" class="btn btn-primary" type="submit" value="提 交"/>
-			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+		<div class="form-actions text-center">
+			<input id="btnSubmit" class="btn btn-custom" type="submit" value="提 交"/>
+			<input id="btnCancel" class="btn btn-inverse" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form>
 	</div></div>
