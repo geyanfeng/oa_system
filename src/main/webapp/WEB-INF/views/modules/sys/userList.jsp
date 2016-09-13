@@ -130,7 +130,7 @@
                             <a href="${ctx}/sys/user/form?id=${user.id}" class="m-r-5" title="修改"><i
 											class="fa fa-pencil"></i></a>
                             <a href="${ctx}/sys/user/delete?id=${user.id}"
-                               onclick="return confirmx('确认要删除该用户吗？', this.href)"title="删除"><i
+                               onclick="return confirmx('确认要删除该用户吗？', this.href)" title="删除"><i
 											class="fa fa-trash"></i></a>
                         </td>
                     </shiro:hasPermission>

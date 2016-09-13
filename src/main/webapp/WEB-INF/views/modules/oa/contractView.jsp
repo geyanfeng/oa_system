@@ -297,8 +297,8 @@
             <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true'}">
                 <span id="productMsg" style="display:none" class="label label-danger"></span>
             <div class="pull-right">
-                <a href="javascript:" class="btn btn-primary waves-effect waves-light m-b-5 btn-xs" id="btnSetProductCanEdit"><i class="zmdi zmdi-edit"></i>&nbsp;编辑</a>
-                <a href="javascript:" class="btn btn-primary waves-effect waves-light m-b-5 btn-xs" onclick="$('#panel_po').show()"><i class="fa fa-folder-open-o"></i>&nbsp;打开下单</a>
+                <a href="javascript:" class="btn btn-custom" id="btnSetProductCanEdit"><i class="zmdi zmdi-edit"></i>&nbsp;编辑</a>
+                <a href="javascript:" class="btn btn-primary" onclick="$('#panel_po').show()"><i class="fa fa-folder-open-o"></i>&nbsp;打开下单</a>
             </div>
             </c:if>
             </h3>
@@ -1333,7 +1333,7 @@
 
                         <c:when test="${not empty contract.act.taskDefKey}">
                             <input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
-                            <input id="btnUnAudit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
+                            <input id="btnUnAudit" class="btn btn-info" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
                         </c:when>
                     </c:choose>
 

@@ -4,7 +4,7 @@
 <%@ attribute name="startAct" type="java.lang.String" required="false" description="开始活动节点名称"%>
 <%@ attribute name="endAct" type="java.lang.String" required="false" description="结束活动节点名称"%>
 <div class="panel panel-default" id="panel-audit">
-	<div class="panel-heading">操作信息</div>
+	<div class="panel-heading"><h3 class="panel-title">操作信息</h3></div>
 	<div class="panel-body" id="histoicFlowList">
 		正在加载流转信息...
 	</div>

@@ -1,32 +1,58 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@ include file="/WEB-INF/views/include/taglib.jsp" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-    <title>查看合同</title>
-    <meta name="decorator" content="default"/>
-    <style>
-        .panel-body .row{
-            padding-top: 10px;
-        }
-        .panel-body .row:not(:last-child){
-            border-bottom: 1px solid;
-            padding-bottom: 10px;
-        }
-        .productChildTable>tbody>tr>td{
-            border: 1px solid transparent !important;
-        }
-        .div_bill {position: absolute; right: 10px;top: 100px;z-index:1040;}
-        html,body{
-            background: #FFF;
-        }
-        a.anchor {
-            display: block;
-            position: relative;
-            top: -150px;
-            visibility: hidden;
-        }
-    </style>
-    <script>
+<title>查看合同</title>
+<meta name="decorator" content="default" />
+<style>
+.panel-body .row {
+	padding: 10px;
+	margin: 0;
+}
+
+.panel-body .row:not (:last-child ){
+	border-bottom: 1px solid #dcdcdc;
+}
+
+.panel .panel-body {
+	padding: 0;
+}
+
+.productChildTable>tbody>tr>td {
+	border: 1px solid transparent !important;
+}
+
+.div_bill {
+	position: absolute;
+	right: 10px;
+	top: 100px;
+	z-index: 1040;
+}
+
+html, body {
+	background: #FFF;
+}
+
+a.anchor {
+	display: block;
+	position: relative;
+	top: -150px;
+	visibility: hidden;
+}
+
+.table tr th:nth-child(2), .table tr td:nth-child(2) {
+	padding-left: 20px;
+}
+
+.table {
+	margin-bottom: 0;
+}
+
+th, td {
+	text-align: left;
+}
+</style>
+<script>
         $(function(){
             $.validator.addMethod("val-comment", function(value) {
                 return !($('#flag').val() === "no" && value==="");
@@ -60,102 +86,111 @@
 <body data-spy="scroll" data-target="#navbar">
 
 
-<form:form id="inputForm" modelAttribute="contract" action="${ctx}/oa/contract/audit?sUrl=${sUrl}" method="post" role="form">
-<form:hidden path="id"/>
-<form:hidden path="act.taskId"/>
-<form:hidden path="act.taskName"/>
-<form:hidden path="act.taskDefKey"/>
-<form:hidden path="act.procInsId"/>
-<form:hidden path="act.procDefId"/>
-<form:hidden id="flag" path="act.flag"/>
-<sys:message content="${message}"/>
+	<form:form id="inputForm" modelAttribute="contract"
+		action="${ctx}/oa/contract/audit?sUrl=${sUrl}" method="post"
+		role="form">
+		<form:hidden path="id" />
+		<form:hidden path="act.taskId" />
+		<form:hidden path="act.taskName" />
+		<form:hidden path="act.taskDefKey" />
+		<form:hidden path="act.procInsId" />
+		<form:hidden path="act.procDefId" />
+		<form:hidden id="flag" path="act.flag" />
+		<sys:message content="${message}" />
 
-<div class="col-sm-12">
-    <!--合同信息-->
-    <div class="panel panel-default">
-        <div class="panel-heading">合同信息
-        </div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-sm-6">
-                    合同编号：<a href="${ctx}/oa/contract/view?id=${contract.id}">${contract.no}</a>
-                </div>
-                <div class="col-sm-6">
-                    合同名称：${contract.name}
-                </div>
+		<div class="col-sm-12">
+			<!--合同信息-->
+			<div class="panel panel-default m-t-10">
+				<div class="panel-heading">
+					<h3 class="panel-title">合同信息</h3>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-sm-6">
+							合同编号：<a href="${ctx}/oa/contract/view?id=${contract.id}">${contract.no}</a>
+						</div>
+						<div class="col-sm-6">合同名称：${contract.name}</div>
 
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    客户名称：${contract.customer.name}
-                </div>
-                <div class="col-sm-6">
-                    客户评分：${contract.customer.evaluate}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    我司抬头：${fns:getDictLabel(contract.companyName, 'oa_company_name',"")}
-                </div>
-                <div class="col-sm-3">
-                    销售人员：${contract.createBy.name}
-                </div>
-                <div class="col-sm-3">
-                    业绩分成比例：${contract.performancePercentage}%
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-3">
-                    合同类别：${fns: getDictLabel(contract.contractType,"oa_contract_type","")}
-                </div>
-                <div class="col-sm-3">
-                    合同金额：<fmt:formatNumber type="number" value="${contract.amount}" maxFractionDigits="2"/>
-                </div>
-                <div class="col-sm-3">
-                    采购成本：<fmt:formatNumber type="number" value="${contract.cost}" maxFractionDigits="2"/>
-                </div>
-                <div class="col-sm-3">
-                    帐期：
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-3">
-                    进销差价：<fmt:formatNumber type="number" value="${contract.amount - contract.cost}" maxFractionDigits="2"/>
-                </div>
-                <div class="col-sm-3">
-                    销售奖金：<fmt:formatNumber type="number" value="${contract.customerCost}" maxFractionDigits="2"/>
-                </div>
-                <div class="col-sm-3">
-                    毛利：<fmt:formatNumber type="number" value="${contract.amount - contract.cost - contract.customerCost * 1.1}" maxFractionDigits="2"/>
-                </div>
-                <div class="col-sm-3">
-                    毛利率：<fmt:formatNumber type="number" value="${(contract.amount - contract.cost - contract.customerCost * 1.1)/contract.amount}" maxFractionDigits="2"/>
-                </div>
-            </div>
-        </div>
-    </div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">客户名称：${contract.customer.name}</div>
+						<div class="col-sm-6">客户评分：${contract.customer.evaluate}</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							我司抬头：${fns:getDictLabel(contract.companyName, 'oa_company_name',"")}
+						</div>
+						<div class="col-sm-3">销售人员：${contract.createBy.name}</div>
+						<div class="col-sm-3">
+							业绩分成比例：${contract.performancePercentage}%</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3">合同类别：${fns: getDictLabel(contract.contractType,"oa_contract_type","")}
+						</div>
+						<div class="col-sm-3">
+							合同金额：
+							<fmt:formatNumber type="number" value="${contract.amount}"
+								maxFractionDigits="2" />
+						</div>
+						<div class="col-sm-3">
+							采购成本：
+							<fmt:formatNumber type="number" value="${contract.cost}"
+								maxFractionDigits="2" />
+						</div>
+						<div class="col-sm-3">帐期：</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3">
+							进销差价：
+							<fmt:formatNumber type="number"
+								value="${contract.amount - contract.cost}" maxFractionDigits="2" />
+						</div>
+						<div class="col-sm-3">
+							销售奖金：
+							<fmt:formatNumber type="number" value="${contract.customerCost}"
+								maxFractionDigits="2" />
+						</div>
+						<div class="col-sm-3">
+							毛利：
+							<fmt:formatNumber type="number"
+								value="${contract.amount - contract.cost - contract.customerCost * 1.1}"
+								maxFractionDigits="2" />
+						</div>
+						<div class="col-sm-3">
+							毛利率：
+							<fmt:formatNumber type="number"
+								value="${(contract.amount - contract.cost - contract.customerCost * 1.1)/contract.amount}"
+								maxFractionDigits="2" />
+						</div>
+					</div>
+				</div>
+			</div>
 
-    <!--采购列表-->
-    <div class="panel panel-default" id="card_products">
-        <div class="panel-heading">采购列表 </div>
-        <div class="panel-body" id="products-collapse">
-            <table id="contentTable" class="table table-condensed">
-                <thead>
-                <tr role="row">
-                    <th>采购条目</th>
-                    <th>采购数量</th>
-                    <th>产品组</th>
-                    <th>合同价</th>
-                    <th>采购成本</th>
-                    <th>毛利</th>
-                    <th>毛利率</th>
-                </tr>
-                </thead>
-                <tbody id="contractProductList">
-                </tbody>
-            </table>
-            <script type="text/template" id="contractProductViewTpl">//<!--
+			<!--采购列表-->
+			<div class="panel panel-default" id="card_products">
+				<div class="panel-heading">
+					<h3 class="panel-title">采购列表</h3>
+				</div>
+				<div class="panel-body" id="products-collapse">
+					<table id="contentTable" class="table table-condensed">
+						<thead>
+							<tr role="row">
+								<th class="hidden"></th>
+								<th>采购条目</th>
+								<th>采购数量</th>
+								<th>产品组</th>
+								<th>合同价</th>
+								<th>采购成本</th>
+								<th>毛利</th>
+								<th>毛利率</th>
+							</tr>
+						</thead>
+						<tbody id="contractProductList">
+						</tbody>
+					</table>
+					<script type="text/template" id="contractProductViewTpl">//<!--
 						<tr id="contractProductList{{idx}}" row="row" data-idx={{idx}} data-id="{{row.id}}">
+							<td class="hidden"></td>
 							<td>
 								<span>{{row.name}}</span>
 							</td>
@@ -180,7 +215,7 @@
 						</tr>
 						//-->
             </script>
-            <script type="text/javascript">
+					<script type="text/javascript">
                 var contractProductRowIdx = 0, contractProductViewTpl = $("#contractProductViewTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "")
                 var unitList = ${fns:getDictListJson('oa_unit')};
                 var productTypeList = ${fns:toJson(productTypeList)};
@@ -215,29 +250,34 @@
                 }
 
             </script>
-        </div>
-    </div>
+				</div>
+			</div>
 
-    <!--订单列表-->
-    <div class="panel panel-default">
-        <div class="panel-heading">订单列表</div>
-        <div class="panel-body">
-            <table id="poTable" class="table table-striped table-condensed table-hover">
-                <thead>
-                <tr role="row">
-                    <th>订单编号</th>
-                    <th>供应商</th>
-                    <th>金额</th>
-                    <th>帐期</th>
-                    <th>帐期点数</th>
-                    <th>帐期日利率</th>
-                </tr>
-                </thead>
-                <tbody id="poBody">
-                </tbody>
-            </table>
-            <script type="text/template" id="poViewTpl">//<!--
+			<!--订单列表-->
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">订单列表</h3>
+				</div>
+				<div class="panel-body">
+					<table id="poTable"
+						class="table table-striped table-condensed table-hover">
+						<thead>
+							<tr role="row">
+								<th class="hidden"></th>
+								<th>订单编号</th>
+								<th>供应商</th>
+								<th>金额</th>
+								<th>帐期</th>
+								<th>帐期点数</th>
+								<th>帐期日利率</th>
+							</tr>
+						</thead>
+						<tbody id="poBody">
+						</tbody>
+					</table>
+					<script type="text/template" id="poViewTpl">//<!--
 						<tr role="row" data-id="{{row.id}}">
+							<td class="hidden"></td>
 							<td>
 							   <a href="${ctx}/oa/purchaseOrder/view?id={{row.id}}">{{row.no}}</a>
 							</td>
@@ -259,7 +299,7 @@
 						</tr>
 						//-->
             </script>
-            <script>
+					<script>
                 var poList = [] ;
                 $(function(){
                     loadPoList();
@@ -278,51 +318,59 @@
                     });
                 }
             </script>
-        </div>
-    </div>
+				</div>
+			</div>
 
-    <c:if test="${not empty contract.id and not empty contract.act.procInsId}">
-        <act:histoicFlow procInsId="${contract.act.procInsId}"/>
-    </c:if>
+			<c:if
+				test="${not empty contract.id and not empty contract.act.procInsId}">
+				<act:histoicFlow procInsId="${contract.act.procInsId}" />
+			</c:if>
 
-    <!--您的意见和建议-->
-    <c:if test="${contract.act.taskDefKey eq 'saler_audit' ||
+			<!--您的意见和建议-->
+			<c:if
+				test="${contract.act.taskDefKey eq 'saler_audit' ||
                     contract.act.taskDefKey eq 'artisan_audit' ||
                     contract.act.taskDefKey eq 'cso_audit' ||
                     contract.act.taskDefKey eq 'verify_receiving'}">
-        <div class="panel panel-default" id="comment_other">
-            <div class="panel-heading">您的意见和建议</div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <form:textarea path="act.comment" class="form-control" rows="5"/>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </c:if>
+				<div class="panel panel-default" id="comment_other">
+					<div class="panel-heading">
+						<h3 class="panel-title">您的意见和建议</h3>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-sm-12">
+								<form:textarea path="act.comment" class="form-control" rows="5" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</c:if>
 
-    <div class="form-group clearfix hidden">
-        <label class="col-sm-3 control-label">合同状态：</label>
-        <div class="col-sm-7">
-            <form:select path="status" class="form-control col-md-12 input-sm">
-                <form:option value="" label=""/>
-                <form:options items="${fns:getDictList('oa_contract_status')}" itemLabel="label" itemValue="value"
-                              htmlEscape="false"/>
-            </form:select>
-        </div>
-    </div>
+			<div class="form-group clearfix hidden">
+				<label class="col-sm-3 control-label">合同状态：</label>
+				<div class="col-sm-7">
+					<form:select path="status" class="form-control col-md-12 input-sm">
+						<form:option value="" label="" />
+						<form:options items="${fns:getDictList('oa_contract_status')}"
+							itemLabel="label" itemValue="value" htmlEscape="false" />
+					</form:select>
+				</div>
+			</div>
 
-    <div class="form-group">
-        <div class="col-sm-offset-4 col-sm-8">
-                <c:if test="${contract.contractType ne '1' and not empty contract.id and not empty contract.act.taskDefKey}">
-                            <input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
-                            <input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
+			<div class="form-group">
+				<div class="text-center">
+					<input id="btnCancel" class="btn btn-inverse" type="button"
+						value="返 回" onclick="history.go(-1)" />
+					<c:if
+						test="${contract.contractType ne '1' and not empty contract.id and not empty contract.act.taskDefKey}">
+						<input id="btnSubmit" class="btn btn-info" type="submit"
+							value="驳 回" onclick="$('#flag').val('no')" />&nbsp;
+                		<input id="btnSubmit" class="btn btn-primary"
+							type="submit" value="同 意" onclick="$('#flag').val('yes')" />&nbsp;
                 </c:if>
-
-            <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
-        </div>
-    </div>
-    </form:form>
+				</div>
+			</div>
+		</div>
+	</form:form>
 </body>
 </html>
