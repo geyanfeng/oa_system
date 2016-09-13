@@ -24,13 +24,13 @@
 			var total = echarts.init(document.getElementById('total'));
 			option = {
 				title : {
-					text: '仪表盘'
+					text: '业绩完成情况'
 				},
 				tooltip : {
-					formatter : "{a} <br/>{c} {b}"
+					formatter : "{a} <br/>{c}"
 				},
 				series : [ {
-					name : '速度',
+					name : '本季度',
 					type : 'gauge',
 					z : 3,
 					min : 0,
@@ -67,11 +67,11 @@
 						}
 					},
 					data : [ {
-						value : 40,
+						value : 4000,
 						name : '本季度'
 					} ]
 				}, {
-					name : '转速',
+					name : '本季度预测',
 					type : 'gauge',
 					center : [ '20%', '55%' ], // 默认全局居中
 					radius : '55%',
@@ -109,12 +109,12 @@
 					},
 					data : [ {
 						value : 1.5,
-						name : 'x1000 r/min'
+						name : '本季度预测'
 					} ]
 				}, {
-					name : '油表',
+					name : '年度完成度',
 					type : 'gauge',
-					center : [ '77%', '50%' ], // 默认全局居中
+					center : [ '79%', '50%' ], // 默认全局居中
 					radius : '55%',
 					min : 0,
 					max : 2,
@@ -137,11 +137,11 @@
 						formatter : function(v) {
 							switch (v + '') {
 							case '0':
-								return 'E';
+								return '0';
 							case '1':
-								return 'Gas';
+								return '年度完成30%';
 							case '2':
-								return 'F';
+								return '100%';
 							}
 						}
 					},
@@ -165,10 +165,10 @@
 						name : 'gas'
 					} ]
 				}, {
-					name : '水表',
+					name : '年度预测',
 					type : 'gauge',
-					center : [ '77%', '50%' ], // 默认全局居中
-					radius : '25%',
+					center : [ '79%', '50%' ], // 默认全局居中
+					radius : '55%',
 					min : 0,
 					max : 2,
 					startAngle : 315,
@@ -186,11 +186,11 @@
 						formatter : function(v) {
 							switch (v + '') {
 							case '0':
-								return 'H';
+								return '0';
 							case '1':
-								return 'Water';
+								return '年度预测50%';
 							case '2':
-								return 'C';
+								return '100%';
 							}
 						}
 					},
@@ -210,8 +210,8 @@
 						show : false
 					},
 					data : [ {
-						value : 0.5,
-						name : 'gas'
+						value : 0.8,
+						name : '年度预测'
 					} ]
 				} ]
 			};
