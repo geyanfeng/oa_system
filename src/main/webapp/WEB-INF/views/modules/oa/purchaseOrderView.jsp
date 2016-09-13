@@ -6,11 +6,14 @@
     <meta name="decorator" content="default"/>
     <style>
         .panel-body .row{
-            padding-top: 10px;
+            padding: 10px;
+            margin:0;
         }
         .panel-body .row:not(:last-child){
-            border-bottom: 1px solid;
-            padding-bottom: 10px;
+            border-bottom: 1px solid #dcdcdc;
+        }
+        .panel .panel-body {
+        	padding:0;
         }
         table[id^='childProductList']>tbody>tr>td{
             border: 1px solid transparent !important;
@@ -25,6 +28,13 @@
             top: -150px;
             visibility: hidden;
         }
+        .table tr th:nth-child(2),.table tr td:nth-child(2){
+        	padding-left:20px;
+        }
+        .table{
+        	margin-bottom:0;
+        }
+        th,td{text-align:left;}
     </style>
     <script>
         function getModal(){
@@ -68,23 +78,25 @@
 </div>
 
 <div class="col-sm-12">
+	<div class="container">
     <div class="row m-b-20" style="margin-top: 80px !important;">
-        <div class="pull-left" style="margin-left: 10px;">
+        <div class="col-sm-3">
             订单编号 ：${purchaseOrder.no}
         </div>
         <div class="pull-right">
-            订单状态: <span class="btn-warning waves-effect waves-light btn-sm">${fns:getDictLabel(purchaseOrder.status, "oa_po_status","" )}</span>
+            订单状态: <span class="label label-warning" style="font-size:16px;color:#000;">${fns:getDictLabel(purchaseOrder.status, "oa_po_status","" )}</span>
         </div>
     </div>
-
+	</div>
     <!--合同信息-->
     <a class="anchor" name="panel-1"></a>
     <div class="panel panel-default">
-        <div class="panel-heading">合同信息
+        <div class="panel-heading"><h3 class="panel-title">合同信息
             <div class="pull-right">
                 <a data-toggle="collapse" href="#card-collapse" class="" aria-expanded="true"><i
                         class="zmdi zmdi-minus"></i></a>
             </div>
+            </h3>
         </div>
         <div class="panel-body panel-collapse collapse in" id="card-collapse">
             <div class="row">
@@ -130,7 +142,7 @@
     <%--todo:供应商信息不完善 --%>
     <a class="anchor" name="panel-2"></a>
     <div class="panel panel-default">
-        <div class="panel-heading">供应商信息 </div>
+        <div class="panel-heading"><h3 class="panel-title">供应商信息 </h3></div>
         <div class="panel-body">
             <div class="row">
                 <div class="col-sm-6">
@@ -161,11 +173,12 @@
     <!--采购列表-->
     <a class="anchor" name="panel-3"></a>
     <div class="panel panel-default">
-        <div class="panel-heading">采购列表</div>
+        <div class="panel-heading"><h3 class="panel-title">采购列表</h3></div>
         <div class="panel-body">
             <table id="contentTable" class="table table-condensed">
                 <thead>
                 <tr role="row">
+                	<th class="hidden"></th>
                     <th>采购条目</th>
                     <th>产品组类别</th>
                     <th>单价</th>
@@ -177,6 +190,7 @@
                 <tbody>
                 <c:forEach items="${purchaseOrder.purchaseOrderProductList}" var="product" varStatus="status">
                 <tr>
+                	<td class="hidden"></td>
                     <td>${product.name}</td>
                     <td>${product.productType.name}</td>
                     <td>${product.price}</td>
@@ -194,7 +208,7 @@
     <%--todo: 付款期限--%>
     <a class="anchor" name="panel-4"></a>
     <div class="panel panel-default">
-        <div class="panel-heading">付款信息</div>
+        <div class="panel-heading"><h3 class="panel-title">付款信息</h3></div>
         <div class="panel-body">
             <script type="text/template" id="payment-installment-tpl">//<!--
                 <div class="row" id="payment-installment_{{idx}}">
@@ -250,7 +264,7 @@
     <!--发货信息-->
     <a class="anchor" name="panel-5"></a>
     <div class="panel panel-default">
-        <div class="panel-heading">发货信息</div>
+        <div class="panel-heading"><h3 class="panel-title">发货信息</h3></div>
         <div class="panel-body">
             <div class="row"><%--todo: 发货信息--%>
                 <div class="col-sm-6">发货地址：</div>
@@ -263,7 +277,7 @@
     <!--附件-->
     <a class="anchor" name="panel-6"></a>
     <div class="panel panel-default">
-        <div class="panel-heading">附件</div>
+        <div class="panel-heading"><h3 class="panel-title">附件</h3></div>
         <div class="panel-body">
             <table id="attchmentTable" class="table table-striped table-condensed">
                 <thead>
@@ -310,7 +324,7 @@
 
     <!--备注-->
     <div class="panel panel-default" id="card_other">
-        <div class="panel-heading">备注</div>
+        <div class="panel-heading"><h3 class="panel-title">备注</h3></div>
         <div class="panel-body">
             <div class="row">
                 <div class="col-sm-12">
@@ -328,7 +342,7 @@
     <c:if test="${purchaseOrder.act.taskDefKey eq 'verify_receiving'}">
     <!--您的意见和建议-->
     <div class="panel panel-default" id="comment_other">
-        <div class="panel-heading">您的意见和建议</div>
+        <div class="panel-heading"><h3 class="panel-title">您的意见和建议</h3></div>
         <div class="panel-body">
             <div class="row">
                 <div class="col-sm-12">
@@ -341,7 +355,7 @@
 
 
     <div class="form-group">
-        <div class="col-sm-offset-4 col-sm-8">
+        <div class="text-center">
             <c:if test="${not empty purchaseOrder.act.taskDefKey || empty purchaseOrder.act.procInsId}">
                 <c:set var="submitText" value="提交审批"/>
 
@@ -375,8 +389,8 @@
 
                 <c:choose>
                     <c:when test="${purchaseOrder.act.taskDefKey eq 'verify_receiving_1' || purchaseOrder.act.taskDefKey eq 'verify_receiving_2'}">
-                        <input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
-                        <input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
+                        <input id="btnSubmit" class="btn btn-custom" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
+                        <input id="btnSubmit" class="btn btn-info" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
                     </c:when>
                     <c:otherwise>
                         <input id="btnSubmit" class="btn btn-custom" type="submit" value="${submitText}" onclick="$('#flag').val('submit_audit')"/>&nbsp;
@@ -384,7 +398,7 @@
                 </c:choose>
             </c:if>
 
-            <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+            <input id="btnCancel" class="btn btn-inverse" type="button" value="返 回" onclick="history.go(-1)"/>
         </div>
     </div>
     </form:form>

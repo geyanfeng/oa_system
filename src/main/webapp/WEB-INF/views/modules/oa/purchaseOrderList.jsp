@@ -96,8 +96,7 @@
 
 
 			<button id="btnSubmit" class="btn btn-custom" type="submit" value="查询">
-				查询<i class="fa fa-search"></i>
-			</button>
+				查询</button>
 		</form:form>
 		<sys:message content="${message}"/>
 		<table id="contentTable" class="table table-striped table-condensed table-hover">

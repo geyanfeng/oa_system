@@ -1,9 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <table class="table table-striped table-condensed table-hover">
-	<tr><th>执行环节</th><th>执行人</th><th>开始时间</th><th>结束时间</th><th>提交意见</th><th>任务历时</th></tr>
+	<tr><th class="hidden"></th><th>执行环节</th><th>执行人</th><th>开始时间</th><th>结束时间</th><th>提交意见</th><th>任务历时</th></tr>
 	<c:forEach items="${histoicFlowList}" var="act">
 		<tr>
+			<td class="hidden"></td>
 			<td>${act.histIns.activityName}</td>
 			<td>${act.assigneeName}</td>
 			<td><fmt:formatDate value="${act.histIns.startTime}" type="both"/></td>

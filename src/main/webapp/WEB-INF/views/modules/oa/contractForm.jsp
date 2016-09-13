@@ -17,6 +17,7 @@ th,td{text-align:left;}
 .table tr th:nth-child(2),.table tr td:nth-child(2){
         	padding-left:20px;
         }
+.table > tbody > tr > td{vertical-align:middle;}
 </style>
 <script type="text/javascript">
         $(document).ready(function () {
@@ -496,7 +497,7 @@ th,td{text-align:left;}
 									<th>金额</th>
 									<th>备注</th>
 									<shiro:hasPermission name="oa:contract:edit">
-										<th width="10">&nbsp;</th>
+										<th width="15">&nbsp;</th>
 									</shiro:hasPermission>
 								</tr>
 							</thead>
@@ -526,7 +527,7 @@ th,td{text-align:left;}
 								<input id="contractProductList{{idx}}_price" name="contractProductList[{{idx}}].price" type="text" value="{{row.price}}" class="form-control number input-block required " onchange="updatePriceAmount(this);"/>
 							</td>
 							<td>
-								<input id="contractProductList{{idx}}_num" name="contractProductList[{{idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="form-control number input-block required " onchange="updatePriceAmount(this);"//>
+								<input id="contractProductList{{idx}}_num" name="contractProductList[{{idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="form-control number input-block required " onchange="updatePriceAmount(this);" size="10"/>
 							</td>
 							<td>
 								<select id="contractProductList{{idx}}_unit" name="contractProductList[{{idx}}].unit" data-value="{{row.unit}}" class="form-control input-block required ">
@@ -541,8 +542,8 @@ th,td{text-align:left;}
 							<td>
 								<input id="contractProductList{{idx}}_remark" name="contractProductList[{{idx}}].remark" type="text" value="{{row.remark}}" maxlength="255" class="form-control input-block "/>
 							</td>
-							<shiro:hasPermission name="oa:contract:edit"><td class="text-center" width="10">
-								{{#delBtn}}<a href="javascript:void(0);" class="on-default remove-row" onclick="delRow(this, '#contractProductList{{idx}}')"  title="删除"><i class="fa fa-trash-o"></i></a>{{/delBtn}}
+							<shiro:hasPermission name="oa:contract:edit"><td class="text-center">
+								{{#delBtn}}<a href="javascript:void(0);" class="on-default remove-row" onclick="delRow(this, '#contractProductList{{idx}}')"  title="删除" style="font-size:18px;"><i class="fa fa-trash-o"></i></a>{{/delBtn}}
 							</td></shiro:hasPermission>
 						</tr>
 						<tr>
@@ -571,7 +572,7 @@ th,td{text-align:left;}
 								</select>
 							</td>
 							<td>
-								<input id="cchildProductList{{idx}}_{{child_idx}}_num" name="contractProductList[{{idx}}].childs[{{child_idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="form-control number input-block required " onchange="updatePriceAmount(this);"//>
+								<input id="cchildProductList{{idx}}_{{child_idx}}_num" name="contractProductList[{{idx}}].childs[{{child_idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="form-control number input-block required " onchange="updatePriceAmount(this);" size="10"/>
 							</td>
 							<td>
 								<select id="childProductList{{idx}}_{{child_idx}}_unit" name="contractProductList[{{idx}}].childs[{{child_idx}}].unit" data-value="{{row.unit}}" class="form-control input-block required ">
@@ -580,7 +581,7 @@ th,td{text-align:left;}
 									</c:forEach>
 								</select>
 							</td>
-							<shiro:hasPermission name="oa:contract:edit"><td class="text-center" width="10">
+							<shiro:hasPermission name="oa:contract:edit"><td class="text-center">
 								{{#delBtn}}<a href="javascript:void(0);" class="on-default remove-row" onclick="delRow(this, '#childProductList{{idx}}_{{child_idx}}')"  title="删除"><i class="fa fa-trash-o"></i></a>{{/delBtn}}
 							</td></shiro:hasPermission>
 						</tr>

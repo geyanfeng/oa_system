@@ -47,50 +47,53 @@
 			</c:if>
 		});
 	</script>
+	<style>
+		body{padding:0;}
+	</style>
 </head>
 <body>
 <c:if test="${empty fromModal}"><h2 style="padding-left: 20px; font-weight: normal; font-size: 18px;">客户管理--编辑</h2></c:if>
-<div class="panel panel-default">
+<div class="panel panel-default" style="margin:0;">
 		<div class="panel-body">
 	<form:form id="inputForm" modelAttribute="customer" action="${ctx}/oa/customer/${not empty fromModal?'ajaxSave':'save'}" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		
 		<div class="form-group">
-			<label class="col-md-2 control-label">名称 <span class="help-inline"><font color="red">*</font> </span></label>
-			<div class="col-md-4">
+			<label class="col-sm-2 control-label">名称 <span class="help-inline"><font color="red">*</font> </span></label>
+			<div class="col-sm-4">
 				<form:input path="name" htmlEscape="false" maxlength="100" class="input-xlarge required form-control" />
 				
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-md-2 control-label">地址 </label>
-			<div class="col-md-4">
+			<label class="col-sm-2 control-label">地址 </label>
+			<div class="col-sm-4">
 				<form:input path="address" htmlEscape="false" maxlength="255" class="input-xlarge form-control "/>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-md-2 control-label">联系人 </label>
-			<div class="col-md-4">
+			<label class="col-sm-2 control-label">联系人 </label>
+			<div class="col-sm-4">
 				<form:input path="contact" htmlEscape="false" maxlength="100" class="input-xlarge form-control "/>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-md-2 control-label">电话 </label>
-			<div class="col-md-4">
+			<label class="col-sm-2 control-label">电话 </label>
+			<div class="col-sm-4">
 				<form:input path="phone" htmlEscape="false" maxlength="100" class="input-xlarge form-control "/>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-md-2 control-label">状态 <span class="help-inline"><font color="red">*</font> </span></label>
-				<div class="col-md-4">
+			<label class="col-sm-2 control-label">状态 <span class="help-inline"><font color="red">*</font> </span></label>
+				<div class="col-sm-4">
 					<form:radiobuttons path="usedFlag" items="${fns:getDictList('oa_customer_status')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required"/>
 					
 				</div>
 		</div>
 
 		<div class="form-group">
-			<label class="col-md-2 control-label">备注 </label>
-			<div class="col-md-4">
+			<label class="col-sm-2 control-label">备注 </label>
+			<div class="col-sm-4">
 				<form:textarea path="remark" htmlEscape="false" rows="4" maxlength="255" class="input-xxlarge form-control " />
 			</div>
 		</div>
