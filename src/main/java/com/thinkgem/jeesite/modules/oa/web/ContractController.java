@@ -3,14 +3,17 @@
  */
 package com.thinkgem.jeesite.modules.oa.web;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.config.Global;
+import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.BaseService;
 import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.Encodes;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
+import com.thinkgem.jeesite.common.utils.excel.ImportExcel;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.oa.dao.ContractFinanceDao;
 import com.thinkgem.jeesite.modules.oa.dao.PeopleSettingDao;
@@ -24,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -397,5 +401,35 @@ public class ContractController extends BaseController {
 		}catch(Exception e){
 			return renderString(response, "撤销合同失败!");
 		}
+	}
+
+	@RequestMapping(value = "import/productTemplate")
+	public void importFileTemplate(HttpServletResponse response, RedirectAttributes redirectAttributes) {
+		try {
+			String fileName = "采购列表数据导入模板.xlsx";
+			List<ContractProduct> list = Lists.newArrayList();
+			new ExportExcel("采购列表", ContractProduct.class, 2).setDataList(list).write(response, fileName).dispose();
+		} catch (Exception e) {
+			addMessage(redirectAttributes, "导入模板下载失败！失败信息："+e.getMessage());
+		}
+	}
+
+	/**
+	 * 导入采购列表数据
+	 * @param file
+	 * @param redirectAttributes
+     * @return
+     */
+	@RequestMapping(value = "importProduct")
+	@ResponseBody
+	public String importProduct(MultipartFile file, RedirectAttributes redirectAttributes){
+		try {
+			ImportExcel ei = new ImportExcel(file, 1, 0);
+			return  JsonMapper.toJsonString(ei.getDataList(ContractProduct.class));
+		}
+		catch (Exception e) {
+			addMessage(redirectAttributes, "导入采购列表失败！失败信息："+e.getMessage());
+		}
+		return null;
 	}
 }
