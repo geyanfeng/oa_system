@@ -40,13 +40,17 @@
 	<div class="tab-content">
 				<div class="tab-pane fade in active">
 	<form id="searchForm" action="${ctx}/act/process/" method="post" class="breadcrumb form-search form-inline">
+		<div class="form-group m-r-10">
 		<select id="category" name="category" class="input-medium form-control">
 			<option value="">全部分类</option>
 			<c:forEach items="${fns:getDictList('act_category')}" var="dict">
 				<option value="${dict.value}" ${dict.value==category?'selected':''}>${dict.label}</option>
 			</c:forEach>
 		</select>
-		&nbsp;<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
+		</div>
+		<div class="form-group m-r-10">
+			<input id="btnSubmit" class="btn btn-custom" type="submit" value="查询"/>
+		</div>
 	</form>
 	<sys:message content="${message}"/>
 	<table class="table table-striped m-0">
