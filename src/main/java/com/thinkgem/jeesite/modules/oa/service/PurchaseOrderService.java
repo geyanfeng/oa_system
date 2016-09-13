@@ -156,11 +156,11 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 		//更新订单
 		super.save(purchaseOrder);
 
-		//启动流程审核
+	/*	//启动流程审核
 		if(isNew) {
 			purchaseOrder.getAct().setFlag("submit_audit");
 			audit(purchaseOrder);
-		}
+		}*/
 	}
 
 	public void saveAttachments(PurchaseOrder purchaseOrder){
@@ -318,6 +318,9 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 			vars.put("business_person", contract.getBusinessPerson().getName());//商务人员
 			vars.put("artisan", contract.getArtisan().getName());//技术人员
 			vars.put("payment_num", purchaseOrder.getPurchaseOrderFinanceList().size());//支付次数
+			vars.put("contract_no", contract.getNo());
+			vars.put("contract_name", contract.getName());
+			vars.put("po_no", purchaseOrder.getNo());
 			if(purchaseOrder.getPurchaseOrderFinanceList().size() == 1){
 				vars.put("zq", purchaseOrder.getPurchaseOrderFinanceList().get(0).getZq());//如果为一次付款,写入帐期数
 			}

@@ -439,6 +439,8 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             Map<String, Object> vars = Maps.newHashMap();
             vars.put("business_person", contract.getBusinessPerson().getName());
             vars.put("artisan", contract.getArtisan().getName());
+            vars.put("contract_no", contract.getNo());
+            vars.put("contract_name", contract.getName());
             //dao.insert(contract);
             contract.getAct().setComment("提交审批");
             actTaskService.startProcess(ActUtils.PD_CONTRAT_AUDIT[0], ActUtils.PD_CONTRAT_AUDIT[1], contract.getId(), contract.getName(), vars);
@@ -509,6 +511,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                         if (pass) {
                             actTaskService.claim(contract.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
                             contract.setStatus(DictUtils.getDictValue("待下单", "oa_contract_status", ""));
+                            autoStartPOFlow(contract);//自动启动合同相关的所有订单流程
                         } else {
                             contract.setStatus(DictUtils.getDictValue("待签约", "oa_contract_status", ""));
                         }
@@ -570,6 +573,18 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             }
         }
         return true;
+    }
+
+    /**
+     * 自动启动合同相关的所有订单流程
+     * @param contract
+     */
+    private void autoStartPOFlow(Contract contract){
+        List<PurchaseOrder> poList = purchaseOrderService.getPoListByContractId(contract.getId());
+        for(PurchaseOrder purchaseOrder:poList){
+            purchaseOrder.getAct().setFlag("submit_audit");
+            purchaseOrderService.audit(purchaseOrder);
+        }
     }
 
     //判断订单是否已经商务下单

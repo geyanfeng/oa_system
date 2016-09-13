@@ -196,7 +196,7 @@
 							</td>
 							<td>元</td>
 							<shiro:hasPermission name="oa:contract:edit"><td class="text-center" width="10">
-								{{#delBtn}}<a href="#" class="on-default remove-row" onclick="delRow(this, '#purchaseOrderProductList{{idx}}', '{{row.contractProductId}}')"  title="删除"><i class="fa fa-trash-o"></i></a>{{/delBtn}}
+								{{#delBtn}}<a href="javascript:void(0);" class="on-default remove-row" onclick="delRow(this, '#purchaseOrderProductList{{idx}}', '{{row.contractProductId}}')"  title="删除"><i class="fa fa-trash-o"></i></a>{{/delBtn}}
 							</td></shiro:hasPermission>
 						</tr>
 						//-->
@@ -312,7 +312,7 @@
             <c:forEach var="supplierItem" items="${supplierList}" varStatus="status">  
                  <input id="${supplierItem.id}" type="hidden" shippingSpeed="${supplierItem.shippingSpeed}"  communicationEfficiency="${supplierItem.communicationEfficiency}"  productQuality="${supplierItem.productQuality}"  serviceAttitude="${supplierItem.serviceAttitude}">
               </c:forEach>  
-           <a href="#" onclick="addSupplier(this)" title="新增供应商" class="zmdi zmdi-plus-circle text-success" style="margin-left:10px;font-size:25px;"></a>
+           <a href="javascript:void(0);" onclick="addSupplier(this)" title="新增供应商" class="zmdi zmdi-plus-circle text-success" style="margin-left:10px;font-size:25px;"></a>
             <div class="row">
             <span>发货  <span id="shippingSpeed" style="color:red;">未评价</span>&nbsp;&nbsp;沟通  <span id="communicationEfficiency" style="color:red;">未评价</span> &nbsp;&nbsp;质量  <span id="productQuality" style="color:red;">未评价</span> &nbsp;&nbsp;态度 <span id="serviceAttitude" style="color:red;">未评价</span></span>
              </div>
@@ -370,8 +370,8 @@
             </div>
         </div>
         <div class="pull-right">
-            <a href="#" onclick="addNewInstallmentPayment(this)" title="增加新的分期付款" class="zmdi zmdi-plus-circle text-success" style="font-size:25px;"></a>
-            <a href="#" onclick="deleteInstallmentPayment(this)" title="删除" class="zmdi zmdi-minus-square text-success" style="font-size:25px;"></a>
+            <a href="javascript:void(0);" onclick="addNewInstallmentPayment(this)" title="增加新的分期付款" class="zmdi zmdi-plus-circle text-success" style="font-size:25px;"></a>
+            <a href="javascript:void(0);" onclick="deleteInstallmentPayment(this)" title="删除" class="zmdi zmdi-minus-square text-success" style="font-size:25px;"></a>
         </div>
     </div>
     //-->

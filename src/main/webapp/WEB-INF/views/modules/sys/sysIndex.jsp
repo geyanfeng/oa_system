@@ -52,8 +52,8 @@
 							<LI>
 								<DIV class="notification-box">
 									<UL class="list-inline m-b-0">
-										<LI><A class=""
-											href="${ctx}/oa/oaNotify/self" target="mainFrame" title="站内信息"><i class="zmdi zmdi-email"></I> </A>
+										<LI><A class="right-bar-notify"
+											href="javascript:void(0);" target="mainFrame" title="站内信息"><i class="zmdi zmdi-email"></I> </A>
 											<DIV class="noti-dot">
 												<SPAN class="dot"></SPAN> <SPAN class="pulse"></SPAN>
 											</DIV></LI>
@@ -76,8 +76,8 @@
 							<LI>
 								<DIV class="notification-box">
 									<UL class="list-inline m-b-0">
-										<LI><A class=""
-											href="${ctx}/act/task/todo/" target="mainFrame" title="待办事项"><i class="zmdi zmdi-hourglass-outline"></I> </A>
+										<LI><A class="right-bar-todo"
+											href="javascript:void(0);" target="mainFrame" title="待办事项"><i class="zmdi zmdi-hourglass-outline"></I> </A>
 											<DIV class="noti-dot">
 												<SPAN class="dot"></SPAN> <SPAN class="pulse"></SPAN>
 											</DIV></LI>
@@ -236,7 +236,7 @@
 	<script src="${ctxStatic}/assets/js/iframeResizer.min.js" type="text/javascript"></script>
 	<script type="text/template" id="alertTpl">//<!--
 		{{#alertList}}
-		<LI class="list-group-item user-list-item"">
+		<LI class="list-group-item user-list-item">
 				<DIV class="avatar">
 					<i class="zmdi zmdi-comment" style="font-size:20px"></i>
 				</DIV>
@@ -250,36 +250,29 @@
 		{{/alertList}}
 	//-->
 	</script>
+	<script type="text/template" id="todoTpl">//<!--
+		{{#todoList}}
+		<LI class="list-group-item">
+		<a href="{{href}}" class="user-list-item" target="mainFrame">
+				<DIV class="avatar">
+					<i class="zmdi zmdi-comment" style="font-size:20px"></i>
+				</DIV>
+				<DIV class="user-desc">
+					<SPAN class="name" title="{{no}}">{{no}}</SPAN>
+					<SPAN class="desc">{{contract_name}}  -> {{taskName}}</SPAN>
+					<SPAN class="time">{{taskCreateDate}}</SPAN>
+				</DIV>
+		</LI>
+		{{/todoList}}
+	//-->
+	</script>
 	<script type="text/javascript">
 		var frameResizer = $('#mainFrame').iFrameResize([{log: true, minHeight:700, scrolling:true }]);
 		var mainFrame = document.getElementById("mainFrame");
 		//$(mainFrame).height($(window).height()-190);
 
 		var resizefunc = [];
-
-		var alertTpl = $("#alertTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
-		function getAlertInfo(){
-			$.getJSON("${ctx}/oa/alert", function(alertList){
-				$("#ul-alert").empty();
-				$("#ul-alert").append(Mustache.render(alertTpl, {alertList:alertList}));
-			});
-		}
-
-		function deleteAlert(sender,id){
-			var self = $(sender);
-
-			$.post("${ctx}/oa/alert/delete?id="+id,{}, function(){
-				if(id==""){
-					$("#ul-alert").empty();
-				} else {
-					self.closest('li').remove();
-				}
-			});
-		}
-
-		getAlertInfo();
-
-		window.setInterval(getAlertInfo,30000);
+		var ctx = "${ctx}";
 	</script>
 </BODY>
 </html>

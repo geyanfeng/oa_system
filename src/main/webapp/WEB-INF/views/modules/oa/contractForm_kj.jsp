@@ -190,7 +190,7 @@ th,td{text-align:left;}
 											<form:options items="${customerList}" itemLabel="name"
 												itemValue="id" htmlEscape="false" />
 										</form:select>
-										<span class="input-group-btn"> <a href="#"
+										<span class="input-group-btn"> <a href="javascript:void(0);"
 											onclick="addCustomer(this)" title="新增客户"
 											class="btn btn-custom">+</a></span>
 									</div>
@@ -331,7 +331,7 @@ th,td{text-align:left;}
 										name="contractAttachmentList[${status.index}].id"
 										type="hidden" value="${attachment.id}" /></td>
 									<td>${fns:getDictLabel(attachment.type, 'oa_contract_attachment_type', '')}
-										<a href="#" title="上传文档" class="fa fa-cloud-upload text-custom" style="margin-left:10px;font-size:18px;"
+										<a href="javascript:void(0);" title="上传文档" class="fa fa-cloud-upload text-custom" style="margin-left:10px;font-size:18px;"
 										onclick="files${status.index}FinderOpen();"></a> <input
 										id="contractAttachmentList${status.index}_type"
 										name="contractAttachmentList[${status.index}].type"
