@@ -4,6 +4,7 @@ CREATE TABLE `oa_commission` (
   `YEAR` int(4) unsigned NOT NULL COMMENT '年',
   `QUARTER` smallint(1) unsigned NOT NULL COMMENT '季度',
   `CONTRACT_ID` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin COMMENT '合同ID',
+  `CUSTOMER_ID` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '客户ID',
   `PAYMENT_ID` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '支付ID',
   `SV` decimal(20,4) COMMENT '合同金额',
   `COG` decimal(20,4) COMMENT '合同采购成本',
