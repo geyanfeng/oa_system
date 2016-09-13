@@ -20,8 +20,7 @@
 	<h2 style="padding-left: 20px; font-weight: normal; font-size: 18px;">${title}</h2>
 	<div class="panel panel-default">
 		<div class="panel-body">
-			<form:form id="searchForm" modelAttribute="searchParams"
-				action="${ctx}/report/" method="post"
+			<form:form id="searchForm" modelAttribute="searchParams" method="post"
 				class="breadcrumb form-search form-inline">
 				<input id="pageNo" name="pageNo" type="hidden"
 					value="${page.pageNo}" />
@@ -49,7 +48,10 @@
 							class="ti-calendar"></i></span>
 					</div>
 				</div>
-				<div class="form-group m-r-10">
+				
+			   <c:choose>
+					<c:when test="${reportType eq '1'}">
+					<div class="form-group m-r-10">
 				<label>供应商：</label>
 
 				<form:select path="supplierId" class="select2-container form-control" id="supplierId" cssStyle="width:200px;">
@@ -57,8 +59,20 @@
 					<form:options items="${supplierList}" itemLabel="name"
 								  itemValue="id" htmlEscape="false"/>
 				</form:select>
+			   </div>
+					</c:when>
+					<c:when test="${reportType eq '2'}">
+					<div class="form-group m-r-10">
+				<label>客户：</label>
 
-			</div>
+				<form:select path="customerId" class="select2-container form-control" id="customerId" cssStyle="width:200px;">
+					<form:option value="" label=""/>
+					<form:options items="${customerList}" itemLabel="name"
+								  itemValue="id" htmlEscape="false"/>
+				</form:select>
+			   </div>
+					</c:when>
+				</c:choose>
 				<div class="form-group m-r-10">
 				<button id="btnSubmit" class="btn btn-custom" type="submit"
 					value="查询">查&nbsp;&nbsp;询</button>
