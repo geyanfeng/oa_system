@@ -89,6 +89,30 @@ $(function(){
 				</table>
 			</div>
 		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">资金成本参数</h3>
+			</div>
+			<div class="panel-body" style="padding: 0;">
+				<table class="table table-striped table-condensed">
+					
+					<c:forEach items="${list2}" var="setting" varStatus="settingIdx">
+						<tr>
+							<td  width="50%"><input
+								name="CommissionSettings2[${settingIdx.index}].id"
+								value="${setting.id}" class="hidden"> <input
+								name="CommissionSettings2[${settingIdx.index}].fkey.value"
+								value="${setting.fkey.value}" class="hidden">
+								${setting.fkey.label}</td>
+							<td><input
+								name="CommissionSettings2[${settingIdx.index}].avalue"
+								value="${empty setting.avalue? '0':setting.avalue}"
+								class="text number required"></td>
+						</tr>
+					</c:forEach>
+				</table>
+			</div>
+		</div>
 		<div class="row m-t-20 text-center">
 
 			<button id="btnEdit" type="submit"

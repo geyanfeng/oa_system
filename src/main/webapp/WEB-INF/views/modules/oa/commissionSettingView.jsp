@@ -59,6 +59,23 @@
 		</div>
 	</div>
 
+<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">资金成本参数</h3>
+		</div>
+		<div class="panel-body" style="padding: 0;">
+			<table class="table table-striped table-condensed">
+				
+				<c:forEach items="${list2}" var="setting">
+					<tr>
+						<td  width="50%">${setting.fkey.label}</td>
+						<td>${empty setting.avalue? '0':setting.avalue}</td>
+					</tr>
+				</c:forEach>
+			</table>
+		</div>
+	</div>
+	
 
 	<div class="row m-t-20 center">
 		<a id="btnEdit" href="${ctx}/oa/commissionSetting/edit"
