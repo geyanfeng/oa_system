@@ -171,40 +171,12 @@ th,td{text-align:left;}
                     $('#customer').val(customer.id).trigger("change");
             });
         }
-
-		//导入excel
-		function importProducts(){
-			top.$.jBox($("#importBox").html(), {
-				title: "导入采购列表", buttons: {"关闭": true},
-				bottomText: "导入文件不能超过5M，仅允许导入“xls”或“xlsx”格式文件！"
-			});
-		}
-		$(document).ready(function(){
-			$("#importForm").validate({
-				submitHandler: function(form){
-					$('#importForm').ajaxSubmit({success:completeLoadProducts, dataType:'json'});
-				}});
-			/*$('#importForm').submit(function() {
-				// 提交表单
-				$(this).ajaxSubmit({success:completeLoadProducts, dataType:'json'});
-				// 为了防止普通浏览器进行表单提交和产生页面导航（防止页面刷新？）返回false
-				return false;
-			});*/
-			//$("#importForm").ajaxForm();
-			function completeLoadProducts(result){
-				for (var i = 0; i < result.length; i++) {
-					addRow('#contractProductList', contractProductRowIdx, contractProductTpl, result[i]);
-				}
-			}
-		});
     </script>
 </head>
 <body>
 	<div id="importBox" class="hide">
-		<form id="importForm" action="${ctx}/oa/contract/importProduct" method="post" enctype="multipart/form-data"
-			  class="form-search" style="padding-left:20px;text-align:center;" onsubmit="loading('正在导入，请稍等...');"><br/>
-			<input id="uploadFile" name="file" type="file" style="width:330px"/><br/><br/>　　
-			<input id="btnImportSubmit" class="btn btn-primary" type="submit" value="   导    入   "/>
+		<form id="importForm" action="${ctx}/oa/contract/importProduct" method="post" enctype="multipart/form-data">
+			<input id="uploadFile" name="file" type="file" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/><br/><br/>　　
 		</form>
 	</div>
 
@@ -704,6 +676,23 @@ th,td{text-align:left;}
                             $(obj).parent().parent().removeClass("error");
                         }
                     }
+
+					//导入excel
+					function importProducts(){
+						$("#uploadFile").trigger("click");
+					}
+					$(document).ready(function(){
+						$("#uploadFile").change(function(){
+							$('#importForm').trigger("submit");
+						});
+						$("#importForm").ajaxForm({success:completeLoadProducts, dataType:'json'});
+						function completeLoadProducts(result){
+							for (var i = 0; i < result.length; i++) {
+								addRow('#contractProductList', contractProductRowIdx, contractProductTpl, result[i]);
+							}
+							$("#uploadFile").val("");
+						}
+					});
 
                 </script>
 					</div>

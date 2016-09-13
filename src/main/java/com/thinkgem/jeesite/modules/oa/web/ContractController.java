@@ -417,18 +417,18 @@ public class ContractController extends BaseController {
 	/**
 	 * 导入采购列表数据
 	 * @param file
-	 * @param redirectAttributes
+	 * @param response
      * @return
      */
 	@RequestMapping(value = "importProduct")
 	@ResponseBody
-	public String importProduct(MultipartFile file, RedirectAttributes redirectAttributes){
+	public List<ContractProduct> importProduct(MultipartFile file, HttpServletResponse response){
 		try {
 			ImportExcel ei = new ImportExcel(file, 1, 0);
-			return  JsonMapper.toJsonString(ei.getDataList(ContractProduct.class));
+			return  ei.getDataList(ContractProduct.class);
 		}
 		catch (Exception e) {
-			addMessage(redirectAttributes, "导入采购列表失败！失败信息："+e.getMessage());
+			renderString(response, "导入出错!");
 		}
 		return null;
 	}
