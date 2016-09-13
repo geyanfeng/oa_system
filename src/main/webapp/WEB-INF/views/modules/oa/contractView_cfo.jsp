@@ -6,11 +6,14 @@
     <meta name="decorator" content="default"/>
     <style>
         .panel-body .row{
-            padding-top: 10px;
+            padding: 10px;
+            margin:0;
         }
         .panel-body .row:not(:last-child){
-            border-bottom: 1px solid;
-            padding-bottom: 10px;
+            border-bottom: 1px solid #dcdcdc;
+        }
+        .panel .panel-body {
+        	padding:0;
         }
         .productChildTable>tbody>tr>td{
             border: 1px solid transparent !important;
@@ -25,6 +28,13 @@
             top: -150px;
             visibility: hidden;
         }
+        .table tr th:nth-child(2),.table tr td:nth-child(2){
+        	padding-left:20px;
+        }
+        .table{
+        	margin-bottom:0;
+        }
+        th,td{text-align:left;}
     </style>
     <script>
         $(function(){
@@ -73,7 +83,7 @@
 <div class="col-sm-12">
     <!--合同信息-->
     <div class="panel panel-default">
-        <div class="panel-heading">合同信息
+        <div class="panel-heading"><h3 class="panel-title">合同信息</h3>
         </div>
         <div class="panel-body">
             <div class="row">
@@ -107,7 +117,7 @@
     </div>
 
     <div class="panel panel-default">
-        <div class="panel-heading">付款信息
+        <div class="panel-heading"><h3 class="panel-title">付款信息</h3>
         </div>
         <div class="panel-body">
             <c:forEach items="${purchaseOrderList}" var="po" varStatus="aStatus">
@@ -126,6 +136,7 @@
                     <tbody>
                     <c:forEach items="${po.purchaseOrderFinanceList}" var="finance" varStatus="bStatus">
                         <tr>
+                        	<td class="hidden"></td>
                             <td>第${bStatus.count}笔: <fmt:formatNumber type="number" value="${(finance.amount / po.amount) * 100}" maxFractionDigits="2"/>%</td>
                             <td>付款金额: <fmt:formatNumber type="number" value="${finance.amount}" maxFractionDigits="2"/></td>
                             <td>帐期: <fmt:formatNumber type="number" value="${finance.zq}" maxFractionDigits="0"/>天</td>
@@ -148,7 +159,7 @@
     <!--您的意见和建议-->
     <c:if test="${contract.act.taskDefKey eq 'cfo_audit'}">
     <div class="panel panel-default" id="comment_other">
-        <div class="panel-heading">您的意见和建议</div>
+        <div class="panel-heading"><h3 class="panel-title">您的意见和建议</h3></div>
         <div class="panel-body">
             <div class="row">
                 <div class="col-sm-12">
@@ -160,13 +171,13 @@
     </c:if>
 
     <div class="form-group">
-        <div class="col-sm-offset-4 col-sm-8">
+        <div class="text-center">
             <c:if test="${contract.contractType ne '1' and not empty contract.id and not empty contract.act.taskDefKey}">
-                <input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
-                <input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
+                <input id="btnSubmit" class="btn btn-custom" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
+                <input id="btnSubmit" class="btn btn-info" type="submit" value="驳回" onclick="$('#flag').val('no')"/>&nbsp;
             </c:if>
 
-            <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+            <input id="btnCancel" class="btn btn-inverse" type="button" value="返 回" onclick="history.go(-1)"/>
         </div>
     </div>
     </form:form>

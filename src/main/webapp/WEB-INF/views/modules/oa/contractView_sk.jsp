@@ -8,11 +8,14 @@
     <meta name="decorator" content="default"/>
     <style>
         .panel-body .row{
-            padding-top: 10px;
+            padding: 10px;
+            margin:0;
         }
         .panel-body .row:not(:last-child){
-            border-bottom: 1px solid;
-            padding-bottom: 10px;
+            border-bottom: 1px solid #dcdcdc;
+        }
+        .panel .panel-body {
+        	padding:0;
         }
         .productChildTable>tbody>tr>td{
             border: 1px solid transparent !important;
@@ -27,6 +30,13 @@
             top: -150px;
             visibility: hidden;
         }
+        .table tr th:nth-child(2),.table tr td:nth-child(2){
+        	padding-left:20px;
+        }
+        .table{
+        	margin-bottom:0;
+        }
+        th,td{text-align:left;}
     </style>
     <script>
         $(function(){
@@ -72,6 +82,7 @@
 %>
 <div class="col-sm-12">
     <!--合同头-->
+    <div class="container">
     <div class="row m-b-20" style="margin-top: 80px !important;">
         <div class="col-sm-3">
             合同编号：<a href="${ctx}/oa/contract/view?id=${contract.id}">${contract.no}</a>
@@ -80,12 +91,13 @@
             合同名称：${contract.name}
         </div>
         <div class="pull-right">
-            我司抬头: <span class="btn-warning waves-effect waves-light btn-sm">${fns:getDictLabel(contract.companyName, "oa_company_name","" )}</span>
+            我司抬头: <span class="label label-warning" style="font-size:16px;color:#000;">${fns:getDictLabel(contract.companyName, "oa_company_name","" )}</span>
         </div>
+    </div>
     </div>
     <!--合同信息-->
     <div class="panel panel-default">
-        <div class="panel-heading">合同信息
+        <div class="panel-heading"><h3 class="panel-title">合同信息</h3>
         </div>
         <div class="panel-body">
             <div class="row">
@@ -117,7 +129,7 @@
 
     <!--备注-->
     <div class="panel panel-default" id="card_other">
-        <div class="panel-heading">备注</div>
+        <div class="panel-heading"><h3 class="panel-title">备注</h3></div>
         <div class="panel-body">
             <div class="row">
                 <div class="col-sm-12">
@@ -132,10 +144,10 @@
     </c:if>
 
     <div class="form-group">
-        <div class="col-sm-offset-4 col-sm-8">
+        <div class="text-center">
             <input id="btnSubmit" class="btn btn-custom" type="submit" value="确认开票"/>&nbsp;
 
-            <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+            <input id="btnCancel" class="btn btn-inverse" type="button" value="返 回" onclick="history.go(-1)"/>
         </div>
     </div>
     </form:form>
