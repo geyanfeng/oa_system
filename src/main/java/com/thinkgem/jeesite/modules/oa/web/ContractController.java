@@ -94,6 +94,8 @@ public class ContractController extends BaseController {
 		//获取所有客户
 		List<Customer> customerList = customerService.findList(new Customer());
 		model.addAttribute("customerList", customerList);
+		//获取销售人员
+		model.addAttribute("salerList", UserUtils.getUsersByRoleEnName("saler"));
 		Page<Contract> page = contractService.findPage(new Page<Contract>(request, response), contract); 
 		model.addAttribute("page", page);
 		if(contract.getContractType().equals("1"))
@@ -104,10 +106,12 @@ public class ContractController extends BaseController {
 	//@RequiresPermissions("oa:contract:view")
 	@RequestMapping(value = {"contractSelectList"})
 	public String selectList(Contract contract,@RequestParam(value="targetType", required=false) String targetType,  HttpServletRequest request, HttpServletResponse response, Model model) {
+		BaseService.dataScopeFilter(contract, "dsf", "","id=a.create_by");//过滤数据授权
 		//获取所有客户
 		List<Customer> customerList = customerService.findList(new Customer());
 		model.addAttribute("customerList", customerList);
-		BaseService.dataScopeFilter(contract, "dsf", "","id=a.create_by");//过滤数据授权
+		//获取销售人员
+		model.addAttribute("salerList", UserUtils.getUsersByRoleEnName("saler"));
 		//要么搜索contractType, 要么搜索typeArray
 		if("2".equals(targetType)){
 			contract.setContractType("1");
@@ -175,6 +179,11 @@ public class ContractController extends BaseController {
 		contractService.setContractNo(contract);
 
 		model.addAttribute("contract", contract);
+
+		//获取商务人员
+		model.addAttribute("businessPeopleList", UserUtils.getUsersByRoleEnName("businesser"));
+		//获取技术人员
+		model.addAttribute("artisanList", UserUtils.getUsersByRoleEnName("tech"));
 
 		//如果是框架性合同显示不同的界面
 		if(isNotBlank(contract.getContractType()) && contract.getContractType().equals("1"))

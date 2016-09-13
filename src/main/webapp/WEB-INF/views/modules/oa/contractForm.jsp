@@ -324,14 +324,20 @@ th,td{text-align:left;}
 								<label class="col-sm-3 control-label">商务人员 <span
 									class="help-inline"><font color="red">*</font> </span></label>
 								<div class="col-sm-9">
-									<sys:treeselect id="business_person" name="businessPerson.id"
+									<%--<sys:treeselect id="business_person" name="businessPerson.id"
 										value="${contract.businessPerson.id}"
 										labelName="businessPerson.name"
 										labelValue="${contract.businessPerson.name}" title="用户"
 										url="/sys/office/treeData?type=3"
 										cssClass="form-control required"
 										buttonIconCss="" allowClear="true"
-										notAllowSelectParent="true" />
+										notAllowSelectParent="true" />--%>
+										<form:select path="businessPerson.id" id="business_person"
+													 class="form-control col-md-12 required">
+											<form:option value="" label="" />
+											<form:options items="${businessPeopleList}"
+														  itemLabel="name" itemValue="id" htmlEscape="false" />
+										</form:select>
 								</div>
 							</div>
 						</div>
@@ -342,13 +348,19 @@ th,td{text-align:left;}
 								<label class="col-sm-3 control-label">技术人员 <span
 									class="help-inline"><font color="red">*</font> </span></label>
 								<div class="col-sm-9">
-									<sys:treeselect id="artisan" name="artisan.id"
+									<%--<sys:treeselect id="artisan" name="artisan.id"
 										value="${contract.artisan.id}" labelName="artisan.name"
 										labelValue="${contract.artisan.name}" title="用户"
 										url="/sys/office/treeData?type=3"
 										cssClass="form-control required"
 										buttonIconCss="" allowClear="true"
-										notAllowSelectParent="true" />
+										notAllowSelectParent="true" />--%>
+										<form:select path="artisan.id" id="artisan"
+													 class="form-control col-md-12 required">
+											<form:option value="" label="" />
+											<form:options items="${artisanList}"
+														  itemLabel="name" itemValue="id" htmlEscape="false" />
+										</form:select>
 								</div>
 							</div>
 						</div>

@@ -90,12 +90,12 @@
 				</div>
 				<div class="form-group m-r-10">
 					<label>销售：</label>
-					<sys:treeselect id="createBy" name="createBy.id"
-						value="${contract.createBy.id}" labelName="createBy.name"
-						labelValue="${contract.createBy.name}" title="用户"
-						url="/sys/office/treeData?type=3" cssClass="input-small"
-						allowClear="true" notAllowSelectParent="true"
-						buttonIconCss="" />
+					<form:select path="createBy.id" class="input-small" id="createBy"
+								 cssStyle="width: 150px">
+						<form:option value="" label="" />
+						<form:options items="${salerList}" itemLabel="name"
+									  itemValue="id" htmlEscape="false" />
+					</form:select>
 
 				</div>
 				<div class="form-group m-r-10">
