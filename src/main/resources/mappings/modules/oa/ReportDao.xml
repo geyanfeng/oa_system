@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thinkgem.jeesite.modules.oa.dao.ReportDao">
     
-	<resultMap type="java.util.HashMap" id="resultMap">
+	<resultMap type="java.util.LinkedHashMap" id="resultMap">
+	  <result column="recordCount" property="recordCount" javaType="java.lang.Long" jdbcType="BIGINT"/>
       <result column="supplierId" property="supplierId" javaType="java.lang.String" jdbcType="VARCHAR"/>
       <result column="name" property="name" javaType="java.lang.String" jdbcType="VARCHAR"/>
       <result column="evaluateValue" property="evaluateValue" javaType="java.lang.Double" jdbcType="DECIMAL"/>
@@ -12,7 +13,7 @@
       <result column="totalAmount" property="totalAmount" javaType="java.lang.Double" jdbcType="DECIMAL"/>
     </resultMap>
     
-    <select id="reportSupplierStatistics" parameterType="java.util.Map"  resultMap="resultMap" statementType="CALLABLE" >  
+    <select id="reportSupplierStatistics" parameterType="java.util.LinkedHashMap"  resultMap="resultMap" statementType="CALLABLE" >  
       {call report_supplier_statistics(
      	 #{pageNo,jdbcType=INTEGER,mode=IN},#{pageSize,jdbcType=INTEGER,mode=IN},#{sqlCondition,jdbcType=VARCHAR,mode=IN},#{orderBy,jdbcType=VARCHAR,mode=IN}
        )

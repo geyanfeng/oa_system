@@ -3,9 +3,11 @@
  */
 package com.thinkgem.jeesite.modules.oa.web;
 
-import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,21 +49,36 @@ public class ReportController extends BaseController {
 		List<Supplier> supplierList = supplierService.findList(new Supplier());
 		model.addAttribute("supplierList", supplierList);
 		Page page = new Page(request, response);
-		page.setPageSize(1);
 		String sqlCondition = "";
 		if (!StringUtils.isBlank(searchParams.getSupplierId())) {
 			sqlCondition += "  and supplier_id='"
 					+ searchParams.getSupplierId() + "'";
 		}
-		Map queryMap = new HashMap();
+		if(searchParams.getStartTime() != null){
+			sqlCondition += " and pay_date>='"
+					+ new java.text.SimpleDateFormat("yyyy-MM-dd").format(searchParams.getStartTime()) + "'";
+		}
+		if(searchParams.getEndTime() != null){
+			sqlCondition += " and pay_date<='"
+					+ new java.text.SimpleDateFormat("yyyy-MM-dd").format(searchParams.getEndTime()) + "'";
+		}
+		Map queryMap = new LinkedHashMap();
 		queryMap.put("pageNo", page.getPageNo());
-		queryMap.put("pageSize", 1);
+		queryMap.put("pageSize", page.getPageSize());
 		queryMap.put("sqlCondition", sqlCondition);
 		queryMap.put("orderBy", "");
 		List<Map> list = reportDao.reportSupplierStatistics(queryMap);
 		if (list.size() > 0) {
-
-			page.setCount(2);
+			Set set = list.get(0).entrySet();
+			Iterator i = set.iterator();
+			while(i.hasNext()) {
+				Map.Entry me = (Map.Entry)i.next();
+				if(me.getKey().toString().equals("recordCount")){
+					page.setCount(Long.parseLong(me.getValue().toString()));
+					break;
+				}
+			}
+			//page.setCount(list.get(0).values().g);
 		} else {
 			page.setCount(0);
 		}
@@ -71,7 +88,7 @@ public class ReportController extends BaseController {
 
 		// return JSONArray.fromObject(listIis2).toString();
 		model.addAttribute("title", "付款统计报表");
-		Map headers = new HashMap();
+		Map headers = new LinkedHashMap();
 		headers.put("name", "供应商名称");
 		headers.put("evaluateValue", "评分");
 		headers.put("finishedCount", "订单数(已完)");
