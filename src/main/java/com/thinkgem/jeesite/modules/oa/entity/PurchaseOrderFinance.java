@@ -22,6 +22,7 @@ public class PurchaseOrderFinance extends DataEntity<PurchaseOrderFinance> {
 	private Integer payCondition;		//付款条件,0为预付,1为后付
 	private String payMethod;		// 收款方式
 	private Integer zq = 0;				//帐期
+	private Date activeDate;			//生效日期
 	private Date planPayDate;		// 预计付款时间
 	private Date payDate;		// 付款时间
 	private Double amount;		// 开票或收款金额
@@ -75,7 +76,11 @@ public class PurchaseOrderFinance extends DataEntity<PurchaseOrderFinance> {
 	public void setZq(Integer zq) {
 		this.zq = zq;
 	}
-	
+
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	public Date getActiveDate(){return activeDate;}
+	public void setActiveDate(Date activeDate){this.activeDate = activeDate;}
+
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date getPlanPayDate() {
 		return planPayDate;

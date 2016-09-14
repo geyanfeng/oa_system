@@ -3,12 +3,9 @@
  */
 package com.thinkgem.jeesite.modules.oa.service;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
-import com.thinkgem.jeesite.common.utils.Encodes;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.act.service.ActProcessService;
 import com.thinkgem.jeesite.modules.act.service.ActTaskService;
@@ -188,36 +185,32 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
  */
 	@Transactional(readOnly = false)
 	public void saveFinance(PurchaseOrder purchaseOrder) {
-		//删除数据
-		purchaseOrderFinanceDao.delete(new PurchaseOrderFinance(purchaseOrder));
-		//如果收款数据为空, 不增加新的付款数据
-		if (isBlank(purchaseOrder.getPaymentDetail())) {
-			return;
-		}
-		//解码
-		String paymentDetail = Encodes.unescapeHtml(purchaseOrder.getPaymentDetail());
-		if (paymentDetail.contains("&quot;"))
-			paymentDetail = Encodes.unescapeHtml(paymentDetail);
+		Integer sort = 1;
+		for (PurchaseOrderFinance purchaseOrderFinance : purchaseOrder.getPurchaseOrderFinanceList()) {
+		    if (purchaseOrderFinance.getId() == null) {
+				continue;
+			}
 
-		Object payment = JsonMapper.getInstance().fromJson(paymentDetail, Object.class);
-
-		List<Map<String, Object>> paymentList = (List<Map<String, Object>>) payment;
-		int sort = 1;
-		List<PurchaseOrderFinance> financeList = Lists.newArrayList();
-		for (Map<String, Object> paymentObj : paymentList) {
-			PurchaseOrderFinance purchaseOrderFinance = new PurchaseOrderFinance(purchaseOrder);
-			purchaseOrderFinance.setPayMethod(paymentObj.get("payment_installment_paymentMethod").toString());
-			purchaseOrderFinance.setZq(Integer.parseInt(paymentObj.get("payment_installment_time").toString()));
-			purchaseOrderFinance.setAmount(Double.parseDouble(paymentObj.get("payment_installment_amount").toString()));
-			purchaseOrderFinance.setPayCondition(Integer.parseInt(paymentObj.get("payment_installment_condition").toString()));
 			purchaseOrderFinance.setSort(sort);
-			purchaseOrderFinance.setStatus(1);
-			purchaseOrderFinance.preInsert();
-			purchaseOrderFinanceDao.insert(purchaseOrderFinance);
-			financeList.add(purchaseOrderFinance);
 			sort++;
+			if(purchaseOrderFinance.getPurchaseOrder() == null)
+				purchaseOrderFinance.setPurchaseOrder(purchaseOrder);
+			if(purchaseOrderFinance.getStatus() == null)
+				purchaseOrderFinance.setStatus(1);
+
+			if (ContractAttachment.DEL_FLAG_NORMAL.equals(purchaseOrderFinance.getDelFlag())) {
+				if (StringUtils.isBlank(purchaseOrderFinance.getId())) {
+					purchaseOrderFinance.setPurchaseOrder(purchaseOrder);
+					purchaseOrderFinance.preInsert();
+					purchaseOrderFinanceDao.insert(purchaseOrderFinance);
+				} else {
+					purchaseOrderFinance.preUpdate();
+					purchaseOrderFinanceDao.update(purchaseOrderFinance);
+				}
+			} else {
+				purchaseOrderFinanceDao.delete(purchaseOrderFinance);
+			}
 		}
-		purchaseOrder.setPurchaseOrderFinanceList(financeList);
 	}
 	
 	@Transactional(readOnly = false)

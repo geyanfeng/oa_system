@@ -3,7 +3,8 @@
 <html>
 <head>
 <title>合同管理</title>
-<meta name="decorator" content="default" />
+	<meta name="decorator" content="default" />
+	<script src="${ctxStatic}/assets/js/jquery.form.js"></script>
 <style>
 #payment-collapse .row .form-group {
 	margin-left: 20px;
@@ -173,10 +174,11 @@ th,td{text-align:left;}
     </script>
 </head>
 <body>
-	<%--<ul class="nav nav-tabs">
-    <li><a href="${ctx}/oa/contract/">合同列表</a></li>
-    <li class="active"><a href="${ctx}/oa/contract/form?id=${contract.id}">合同<shiro:hasPermission name="oa:contract:edit">${not empty contract.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="oa:contract:edit">查看</shiro:lacksPermission></a></li>
-</ul><br/>--%>
+	<div id="importBox" class="hide">
+		<form id="importForm" action="${ctx}/oa/contract/importProduct" method="post" enctype="multipart/form-data">
+			<input id="uploadFile" name="file" type="file" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/><br/><br/>　　
+		</form>
+	</div>
 
 	<form:form id="inputForm" modelAttribute="contract"
 		action="${ctx}/oa/contract/save" method="post" role="form" class="form-horizontal">
@@ -189,8 +191,6 @@ th,td{text-align:left;}
 		<form:hidden id="flag" path="act.flag" />
 		<%--<input name="status" value="${empty contract.status?10:contract.status}" type="hidden"/>--%>
 		<sys:message content="${message}" />
-
-		
 
 		<div class="col-sm-12">
 			<!-- Page-Title -->
@@ -480,16 +480,16 @@ th,td{text-align:left;}
 						采购列表
 						<shiro:hasPermission name="oa:contract:edit">
 							<div class="pull-right">
-								<a href="javascript:" class="btn btn-danger"
+								<a href="javascript:void(0);" class="btn btn-danger"
 									onclick="addRow('#contractProductList', contractProductRowIdx, contractProductTpl);contractProductRowIdx = contractProductRowIdx + 1;">
 									<i class="fa fa-plus"></i> 新增
 								</a>
-								<button class="btn btn-info">
+								<a class="btn btn-info" onclick="importProducts();">
 									<i class="fa fa-upload"></i> 导入采购列表
-								</button>
-								<button class="btn btn-primary">
+								</a>
+								<a class="btn btn-primary" href="${ctx}/oa/contract/import/productTemplate">
 									<i class="fa fa-download"></i> 下载导入模版
-								</button>
+								</a>
 							</div>
 						</shiro:hasPermission>
 					</h3>
@@ -676,6 +676,24 @@ th,td{text-align:left;}
                             $(obj).parent().parent().removeClass("error");
                         }
                     }
+
+					//导入excel
+					function importProducts(){
+						$("#uploadFile").trigger("click");
+					}
+					$(document).ready(function(){
+						$("#uploadFile").change(function(){
+							$('#importForm').trigger("submit");
+						});
+						$("#importForm").ajaxForm({success:completeLoadProducts, dataType:'json'});
+						function completeLoadProducts(result){
+							for (var i = 0; i < result.length; i++) {
+								addRow('#contractProductList', contractProductRowIdx, contractProductTpl, result[i]);
+							}
+							$("#uploadFile").val("");
+						}
+					});
+
                 </script>
 					</div>
 				</div>

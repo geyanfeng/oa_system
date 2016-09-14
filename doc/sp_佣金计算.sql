@@ -31,7 +31,8 @@ select amount, customer_cost,create_by,
             WHEN '3' THEN @lc_p3
             WHEN '4' THEN @lc_p4
             WHEN '5' THEN @lc_p5
-         END into @SV,@CC,@SALER_ID,@LC from oa_contract where id=@contract_id and del_flag=0;
+         END,
+         customer_id into @SV,@CC,@SALER_ID,@LC,@CUSTOME_ID from oa_contract where id=@contract_id and del_flag=0;
 
 #采购总成本COG
 select sum(amount) into @COG from oa_po where contract_id = @contract_id and del_flag=0;
@@ -90,12 +91,13 @@ END IF;
 #佣金计算
 DELETE FROM oa_commission WHERE `YEAR` = @year and `QUARTER` = @quarter and PAYMENT_ID = paymentid;
 
-INSERT INTO oa_commission (YEAR, QUARTER, CONTRACT_ID, PAYMENT_ID, SV,COG,CC,LC,BILLING_DATE,PAY_DATE,
+INSERT INTO oa_commission (YEAR, QUARTER, CONTRACT_ID, CUSTOMER_ID, PAYMENT_ID, SV,COG,CC,LC,BILLING_DATE,PAY_DATE,
 PCCDAY,PAYMENT,RATE,K_SALER_ID,K_ID,K_NAME,K_SV,K_COG,K_CC,K_LC,K_GP,K_GPI,K_TR,K_AC,K_EC,K_PCC,UPDATE_DATE,PAYMENT_SCHEDULE) 
 select  
 				@year as YEAR,
 				@quarter as QUARTER,
 				@contract_id as CONTRACT_ID,
+        @CUSTOME_ID as CUSTOMER_ID,
 				paymentid as PAYMENT_ID,
 				@SV as SV,
 				@COG as COG,

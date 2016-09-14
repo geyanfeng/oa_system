@@ -1,12 +1,12 @@
 //得到订单的帐期
 function calcPoZq(po){
-    var paymentDetails = JSON.parse(po.paymentDetail);
+    var paymentDetails = po.purchaseOrderFinanceList;
     var count = 0, sumTime = 0;
     $.each(paymentDetails, function(idx, paymentDetail){
         //帐期不等于0的,才参加计算
-        if(paymentDetail.payment_installment_time != 0){
+        if(paymentDetail.zq != 0){
             count++;
-            sumTime+= parseFloat(paymentDetail.payment_installment_time);
+            sumTime+= parseFloat(paymentDetail.zq);
         }
     });
     if(sumTime!=0 || count!=0){

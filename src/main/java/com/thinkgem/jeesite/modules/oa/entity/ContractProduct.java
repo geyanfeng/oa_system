@@ -5,6 +5,7 @@ package com.thinkgem.jeesite.modules.oa.entity;
 
 import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
+import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
@@ -65,6 +66,7 @@ public class ContractProduct extends DataEntity<ContractProduct> {
 	}
 	
 	@Length(min=1, max=100, message="名称长度必须介于 1 和 100 之间")
+	@ExcelField(title="名称", align=2, sort=10)
 	public String getName() {
 		return name;
 	}
@@ -72,7 +74,8 @@ public class ContractProduct extends DataEntity<ContractProduct> {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
+	@ExcelField(title="价格", align=2, sort=20)
 	public Double getPrice() {
 		return price;
 	}
@@ -82,6 +85,7 @@ public class ContractProduct extends DataEntity<ContractProduct> {
 	}
 	
 	@Length(min=0, max=10, message="数量长度必须介于 0 和 10 之间")
+	@ExcelField(title="数量", align=2, sort=30)
 	public Integer getNum() {
 		return num;
 	}
@@ -91,6 +95,7 @@ public class ContractProduct extends DataEntity<ContractProduct> {
 	}
 
 	@Length(min=0, max=2, message="单位长度必须介于 0 和 2 之间")
+	@ExcelField(title="单位", align=2, sort=40, dictType="oa_unit")
 	public String getUnit() {
 		return unit;
 	}
@@ -98,7 +103,8 @@ public class ContractProduct extends DataEntity<ContractProduct> {
 	public void setUnit(String unit) {
 		this.unit = unit;
 	}
-	
+
+	@ExcelField(title="金额", align=2, sort=60)
 	public Double getAmount() {
 		return amount;
 	}
@@ -108,6 +114,7 @@ public class ContractProduct extends DataEntity<ContractProduct> {
 	}
 	
 	@Length(min=0, max=255, message="备注长度必须介于 0 和 255 之间")
+	@ExcelField(title="备注", align=2, sort=70)
 	public String getRemark() {
 		return remark;
 	}
