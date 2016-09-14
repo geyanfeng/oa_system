@@ -1,0 +1,32 @@
+/*
+
+alter VIEW `oa_view_achievement` AS 
+select f.`YEAR` as year,f.`QUARTER` as quarter,f.k_gp,f.CONTRACT_ID as contract_id, c.customer_id,s.sale_id as saler_id,s.gpi from oa_commission f 
+inner join oa_contract c on f.CONTRACT_ID=c.id 
+left join oa_quarter_sale_setting s on s.sale_id = f.K_SALER_ID and s.`year`=f.`YEAR` and s.`quarter` = f.`QUARTER`;
+
+
+where f.year= 2016 and f.`QUARTER` in (3) 
+and f.K_SALER_ID in ('16') 
+and f.CUSTOMER_ID in ('5afa65abd21849b79ae6eca5a78a3277');
+*/
+DROP PROCEDURE IF EXISTS report_achievement_statistics;
+
+create procedure report_achievement_statistics(
+IN sqlCondition VARCHAR(500),  
+IN orderBy VARCHAR(100)
+)
+begin
+ 
+
+SET @STMT := CONCAT("select a.year,a.quarter,a.gp,c.gpi from 
+(select year,quarter,sum(k_gp) as gp from oa_view_achievement where 1=1 ", sqlCondition,"GROUP BY year,quarter) a
+INNER JOIN 
+(select b.year, b.quarter,sum(gpi) as gpi from 
+(select year,quarter,saler_id,gpi from oa_view_achievement where 1=1 ", sqlCondition," GROUP BY year,quarter,saler_id) b group by b.year,b.quarter) c 
+on a.year=c.year and a.`quarter`= c.`quarter`",
+" ", orderBy);
+PREPARE STMT FROM @STMT; 
+EXECUTE STMT;  
+end
+
