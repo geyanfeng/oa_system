@@ -31,11 +31,11 @@ public class ContractRecallApprove extends ActEntity<ContractRecallApprove> {
 	}
 
 	@Length(min=1, max=64, message="合同id长度必须介于 1 和 64 之间")
-	public Contract getContractId() {
+	public Contract getContract() {
 		return contract;
 	}
 
-	public void setContractId(Contract contract) {
+	public void setContract(Contract contract) {
 		this.contract = contract;
 	}
 

@@ -21,9 +21,9 @@
 
 	<select id="getByProcInsId" resultType="ContractRecallApprove">
 		SELECT
-		<include refid="contractColumns"/>
+		<include refid="contractRecallApproveColumns"/>
 		FROM oa_contract_recall_approve a
-		<include refid="contractJoins"/>
+		<include refid="contractRecallApproveJoins"/>
 		WHERE a.proc_ins_id = #{procInsId} AND a.del_flag = 0
 	</select>
     
