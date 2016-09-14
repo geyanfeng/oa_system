@@ -403,6 +403,20 @@ public class ContractController extends BaseController {
 		}
 	}
 
+	/*
+撤回合同
+ */
+	@RequestMapping(value = "{contractId}/recallApprove")
+	@RequiresPermissions("oa:contract:cancel")
+	public String recallApprove(@PathVariable String contractId, ContractRecallApprove recallApprove,HttpServletResponse response){
+		try{
+			contractService.recallApprove(contractId, recallApprove);
+			return renderString(response, "成功撤回合同!");
+		}catch(Exception e){
+			return renderString(response, "撤回合同失败!");
+		}
+	}
+
 	@RequestMapping(value = "import/productTemplate")
 	public void importFileTemplate(HttpServletResponse response, RedirectAttributes redirectAttributes) {
 		try {

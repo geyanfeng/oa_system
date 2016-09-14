@@ -12,10 +12,7 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.act.service.ActProcessService;
 import com.thinkgem.jeesite.modules.act.service.ActTaskService;
 import com.thinkgem.jeesite.modules.act.utils.ActUtils;
-import com.thinkgem.jeesite.modules.oa.dao.ContractAttachmentDao;
-import com.thinkgem.jeesite.modules.oa.dao.ContractDao;
-import com.thinkgem.jeesite.modules.oa.dao.ContractFinanceDao;
-import com.thinkgem.jeesite.modules.oa.dao.ContractProductDao;
+import com.thinkgem.jeesite.modules.oa.dao.*;
 import com.thinkgem.jeesite.modules.oa.entity.*;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
@@ -55,6 +52,8 @@ public class ContractService extends CrudService<ContractDao, Contract> {
     @Autowired
     private ContractFinanceDao contractFinanceDao;
     @Autowired
+    private ContractRecallApproveDao recallApproveDao;
+    @Autowired
     private PurchaseOrderService purchaseOrderService;
     @Autowired
     private AlertService alertService;
@@ -67,6 +66,8 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         Contract contract = super.get(id);
         contract.setContractAttachmentList(contractAttachmentDao.findList(new ContractAttachment(contract)));
         contract.setContractFinanceList(contractFinanceDao.findList(new ContractFinance(contract)));
+        contract.setRecallApproveList(recallApproveDao.findList(new ContractRecallApprove(contract)));
+
         List<ContractProduct> productList = contractProductDao.findList(new ContractProduct(contract));
         List<ContractProduct> parentProductList = new ArrayList<ContractProduct>();
         for (ContractProduct product : productList) {
@@ -668,5 +669,14 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         cancelContract.setCancelReason(cancelReason);
         cancelContract.setCancelDate(new Date());
         contractDao.cancelContract(cancelContract);
+    }
+
+    /**
+     * 撤回合同
+     * @param contractId
+     * @param recallApprove
+     */
+    public void recallApprove(String contractId, ContractRecallApprove recallApprove) {
+
     }
 }

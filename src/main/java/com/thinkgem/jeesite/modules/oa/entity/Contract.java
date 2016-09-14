@@ -11,7 +11,6 @@ import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
 
-import java.lang.reflect.Array;
 import java.util.Date;
 import java.util.List;
 
@@ -61,6 +60,7 @@ public class Contract extends ActEntity<Contract> {
 	private List<ContractAttachment> contractAttachmentList = Lists.newArrayList();		// 子表列表
 	private List<ContractProduct> contractProductList = Lists.newArrayList();		// 子表列表
 	private List<ContractFinance> contractFinanceList = Lists.newArrayList();		// 合同财务相关
+	private List<ContractRecallApprove> recallApproveList = Lists.newArrayList();		// 撤回列表
 	private Double cost = 0.00;		//成本(从订单产品中获取)
 	private Date skDate;				//收款日期
 	private Integer cancelFlag=0;		//撤销标志: 0为没有撤销, 1为撤销
@@ -417,6 +417,9 @@ public class Contract extends ActEntity<Contract> {
 	public void setContractFinanceList(List<ContractFinance> contractFinanceList) {
 		this.contractFinanceList = contractFinanceList;
 	}
+
+	public List<ContractRecallApprove> getRecallApproveList(){return recallApproveList;}
+	public void setRecallApproveList(List<ContractRecallApprove> recallApproveList){this.recallApproveList = recallApproveList;}
 
 	//成本
 	public Double getCost(){return cost;}

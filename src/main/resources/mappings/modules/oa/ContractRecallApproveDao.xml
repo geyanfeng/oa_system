@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.oa.dao.ContractRecallApproveDao">
+    
+	<sql id="contractRecallApproveColumns">
+		a.id AS "id",
+		a.contract_id AS "contract.id",
+		a.proc_ins_id AS "procInsId",
+		a.type AS "type",
+		a.remark AS "remark",
+		a.del_flag AS "delFlag",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate"
+	</sql>
+	
+	<sql id="contractRecallApproveJoins">
+		LEFT JOIN oa_contract b ON b.id = a.contract_id
+	</sql>
+
+	<select id="getByProcInsId" resultType="ContractRecallApprove">
+		SELECT
+		<include refid="contractColumns"/>
+		FROM oa_contract_recall_approve a
+		<include refid="contractJoins"/>
+		WHERE a.proc_ins_id = #{procInsId} AND a.del_flag = 0
+	</select>
+    
+	<select id="get" resultType="ContractRecallApprove">
+		SELECT 
+			<include refid="contractRecallApproveColumns"/>
+		FROM oa_contract_recall_approve a
+		<include refid="contractRecallApproveJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ContractRecallApprove">
+		SELECT 
+			<include refid="contractRecallApproveColumns"/>
+		FROM oa_contract_recall_approve a
+		<include refid="contractRecallApproveJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="contract != null and contract.id != null and contract.id != ''">
+				AND a.contract_id = #{contract.id}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ContractRecallApprove">
+		SELECT 
+			<include refid="contractRecallApproveColumns"/>
+		FROM oa_contract_recall_approve a
+		<include refid="contractRecallApproveJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="contract != null and contract.id != null and contract.id != ''">
+				AND a.contract_id = #{contract.id}
+			</if>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO oa_contract_recall_approve(
+			id,
+			contract_id,
+			proc_ins_id,
+			type,
+			remark,
+			del_flag,
+			create_by,
+			create_date,
+			update_by,
+			update_date
+		) VALUES (
+			#{id},
+			#{contract.id},
+			#{procInsId},
+			#{type},
+			#{remark},
+			#{delFlag},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE oa_contract_recall_approve SET 	
+			contract_id = #{contract.id},
+			proc_ins_id = #{procInsId},
+			type = #{type},
+			remark = #{remark},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE oa_contract_recall_approve SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
