@@ -6,7 +6,6 @@ package com.thinkgem.jeesite.modules.oa.web;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.config.Global;
-import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.BaseService;
 import com.thinkgem.jeesite.common.utils.DateUtils;
@@ -265,7 +264,8 @@ public class ContractController extends BaseController {
 		//商品类型
 		model.addAttribute("productTypeList", productTypeService.findList(new ProductType()));
 		//源url地址
-		model.addAttribute("sUrl", Encodes.urlEncode(request.getHeader("referer")));
+		if(isNotBlank(request.getHeader("referer")))
+			model.addAttribute("sUrl", Encodes.urlEncode(request.getHeader("referer")));
 		return "modules/oa/"+view;
 	}
 

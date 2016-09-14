@@ -81,8 +81,6 @@
                             if(parent.loadPoList)
                                     parent.loadPoList();
 
-                        }, beforeSubmit: function () {
-                            $("#paymentDetail").val(JSON.stringify(getPaymentDetail()));
                         }});
                 },
                 errorContainer: "#messageBox",
@@ -298,8 +296,6 @@
 
     <!--供应商-->
     <div class="row">
-          <!--供应商-->
-    <div class="row">
             供应商：
             
             <form:select path="supplier.id" class="form-control required input-sm" id="supplier" cssStyle="width:280px;" onchange="changeSupplier();">
@@ -324,8 +320,7 @@
     <!--付款信息-->
     <!--todo: 检查付款总金额等于产品总金额之和-->
     <h4>付款信息</h4>
-    <form:hidden path="paymentDetail"/>
-    <div id="payment-body" data-idx="1"></div>
+    <div id="payment-body" data-idx="0"></div>
 
     <div class="row">
      帐期点数:&nbsp;
@@ -337,33 +332,36 @@
         <span id="rll"></span>
     </div>
     <script type="text/template" id="paymentTpl">//<!--
-    <div class="row" style=" margin-left:-10px; margin-top:10px;" id="payment-installment_{{idx}}" data-idx="{{idx}}">
+    <div class="row" style=" margin-left:-10px; margin-top:10px;" id="purchaseOrderFinanceList{{idx}}" data-idx="{{idx}}">
+        <input id="purchaseOrderFinanceList{{idx}}_id" name="purchaseOrderFinanceList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
+        <input id="purchaseOrderFinanceList{{idx}}_sort" name="purchaseOrderFinanceList[{{idx}}].sort" type="hidden" value="{{row.sort}}"/>
+	    <input id="purchaseOrderFinanceList{{idx}}_delFlag" name="purchaseOrderFinanceList[{{idx}}].delFlag" type="hidden" value="0"/>
         <div style="background: #f5f5f5;width:80%;float:left; padding: 10px;">
             <div>
-            金额：<input type="text" class="form-control required number input-sm" id="payment_installment_amount_{{idx}}" onchange="updatePayment(this);"
-                           value="{{row.payment_installment_amount}}" style="display: inline;width:90px;"/>
-            比例：<input type="text" class="form-control required number input-sm" id="payment_installment_bl_{{idx}}" onchange="updatePayment(this);"
-                           value="{{row.payment_installment_bl}}" style="display: inline;width:70px;"/>
-            账期：<input id="payment_installment_time_{{idx}}" type="text" class="form-control required number input-sm"
-                           value="{{row.payment_installment_time}}" style="display: inline;width:50px;" onchange="updateRll()"/>
+            金额：<input type="text" class="form-control required number input-sm" id="purchaseOrderFinanceList{{idx}}_amount" name="purchaseOrderFinanceList[{{idx}}].amount"
+                        onchange="updatePayment(this);" value="{{row.amount}}" style="display: inline;width:90px;"/>
+            比例：<input type="text" class="form-control required number input-sm" id="purchaseOrderFinanceList{{idx}}_bl" onchange="updatePayment(this);"
+                           value="{{row.bl}}" style="display: inline;width:70px;"/>
+            账期：<input id="purchaseOrderFinanceList{{idx}}_zq" name="purchaseOrderFinanceList[{{idx}}].zq" type="text" class="form-control required number input-sm"
+                           value="{{row.zq}}" style="display: inline;width:50px;" onchange="updateRll()"/>
             </div>
             <div style="padding-top: 10px;">
                 <span style="margin-right:17px;">付款方式：</span>
                 <c:forEach items="${fns:getDictList('oa_payment_method')}" var="dict" varStatus="s">
                                     <span class="radio radio-success radio-inline" style="padding-left:2px">
-                                        <input id="payment_installment_paymentMethod_{{idx}}_${s.index+1}" name="payment_installment_paymentMethod_{{idx}}" type="radio"
-                                               value="${dict.value}" data-value="{{row.payment_installment_paymentMethod}}" ${s.index eq 1? "checked":""}>
-                                        <label for="payment_installment_paymentMethod_{{idx}}_${s.index+1}">${dict.label}</label>
+                                        <input id="purchaseOrderFinanceList{{idx}}_payMethod_${s.index+1}" name="purchaseOrderFinanceList[{{idx}}].payMethod" type="radio"
+                                               value="${dict.value}" data-value="{{row.payMethod}}" ${s.index eq 1? "checked":""}>
+                                        <label for="purchaseOrderFinanceList{{idx}}_payMethod_${s.index+1}">${dict.label}</label>
                                     </span>
                     </c:forEach>
             </div>
             <div id="div-activeData_{{idx}}" style= "padding-top: 10px;display:none;">
-            生效日期:&nbsp;<input id="payment_installment_activeDate_{{idx}}" value="{{row.payment_installment_activeDate}}" type="text"
+            生效日期:&nbsp;<input id="purchaseOrderFinanceList{{idx}}_activeDate" name="purchaseOrderFinanceList[{{idx}}].activeDate" value="{{row.activeDate}}" type="text"
             readonly="readonly" style="width: 150px;display:inline;"class="form-control Wdate input-sm required" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
             </div>
             <div style="padding-top: 10px;">
             付款条件：
-                <select id="payment_installment_condition_{{idx}}" data-value="{{row.payment_installment_condition}}" class="form-control input-block required input-sm"  style="width: 100px;display: inline;">
+                <select id="purchaseOrderFinanceList{{idx}}_payCondition" name="purchaseOrderFinanceList[{{idx}}].payCondition" data-value="{{row.payCondition}}" class="form-control input-block required input-sm"  style="width: 100px;display: inline;">
                     <option value="0">预付</option>
                     <option value="1">后付</option>
                 </select>
@@ -382,19 +380,19 @@
                 addNewInstallmentPayment();
             </c:if>
             <c:if test="${not empty purchaseOrder.id}">
-                var paymentDetails = JSON.parse(${fns:toJson(purchaseOrder.paymentDetail)});
+                var paymentDetails = ${fns:toJson(purchaseOrder.purchaseOrderFinanceList)};
                 for (var i = 0; i < paymentDetails.length; i++) {
                     addNewInstallmentPayment(null, paymentDetails[i]);
                 }
             </c:if>
-            $("#btnSubmit").click(function () {
-                $("#paymentDetail").val(JSON.stringify(getPaymentDetail()));
-            });
         });
 
         function addNewInstallmentPayment(sender, row){
+            //更新比率
+            if(row && row.amount)
+                row.bl = ((parseFloat(row.amount)/sumAmount) * 100).toFixed(2);
             var tpl= $("#paymentTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
-            var idx=1;
+            var idx = 0;
             if($("#payment-body").data("idx")){
                 idx = parseInt($("#payment-body").data("idx"));
             }
@@ -406,7 +404,7 @@
                 $("#payment-body").append(Mustache.render(tpl, {idx: idx, row: row}));
             }
 
-            $("input[name='payment_installment_paymentMethod_"+ idx +"']").change(function () {
+            $("input[name='purchaseOrderFinanceList["+ idx +"].payMethod']").change(function () {
                 var index = $(this).closest('.row').data("idx");
                 var val = $(this).val();
                 if(this.checked && val == "3"){
@@ -432,7 +430,7 @@
                 }
             });
 
-            if(row && row.payment_installment_paymentMethod == "3"){
+            if(row && row.payMethod == "3"){
                 $("#div-activeData_"+ idx).show();
             }
 
@@ -444,15 +442,21 @@
         function deleteInstallmentPayment(sender){
             var self = $(sender);
             var rowCount = $("#payment-body .row").length;
-            if(rowCount>1)
-                self.closest('.row').remove();
+            if(rowCount>1){
+                var row = self.closest('.row');
+                var id = row.find("input[id$='"+ row.prop("id") +"_id']").val();
+                if(id && id.length>0)
+                    row.hide();
+                else
+                    row.remove();
+            }
         }
 
         function updateRll(){
             var rll = 0 ;
             var paymentPointNum = $('#paymentPointnum').val();
             if(!paymentPointNum || paymentPointNum.length==0) return;
-            var timeFields = $("input[id^='payment_installment_time']");
+            var timeFields = $("#payment-body").find("input[id$='_zq']");
             if(timeFields.length > 0 ){
                 $.each(timeFields, function (idx,item) {
                    var time = $(item).val();
@@ -465,29 +469,14 @@
             $("#rll").html(rll.toFixed(2));
         }
 
-        function getPaymentDetail() {
-            var paymentDetail =[];
-            $(".row[id^='payment-installment']").each(function(index, item){
-                var row = $(item);
-                var detail = {
-                    payment_installment_amount: row.find("input[id^='payment_installment_amount']").val(),
-                    payment_installment_bl: row.find("input[id^='payment_installment_bl']").val(),
-                    payment_installment_time :row.find("input[id^='payment_installment_time']").val(),
-                    payment_installment_paymentMethod :row.find("input[id^='payment_installment_paymentMethod']:checked").val(),
-                    payment_installment_activeDate: row.find("input[id^='payment_installment_activeDate']").val(),
-                    payment_installment_condition: row.find("select[id^='payment_installment_condition'] option:selected").val()
-                };
-                paymentDetail.push(detail);
-            });
-            return paymentDetail;
-        }
-
         function updatePayment(sender){
-            var row = $(sender).closest('.row');
-            var amountField = row.find("input[id^='payment_installment_amount']");
-            var blField = row.find("input[id^='payment_installment_bl']")
+            if(!sumAmount) return;
 
-            if($(sender).prop("id").indexOf("payment_installment_amount")>=0){
+            var row = $(sender).closest('.row');
+            var amountField = row.find("input[id$='_amount']");
+            var blField = row.find("input[id$='bl']")
+
+            if($(sender).prop("id").indexOf("_amount")>=0){
                 blField.val(((parseFloat(amountField.val())/sumAmount) * 100).toFixed(2));
             } else{
                 amountField.val((sumAmount * ((parseFloat(blField.val()))/100)).toFixed(2));

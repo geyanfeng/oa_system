@@ -24,7 +24,6 @@ public class PurchaseOrder extends ActEntity<PurchaseOrder> {
 	private String addressType;		// 地址类型
 	private String address;		// 地址
 	private Supplier supplier;		// 供应商
-	private String paymentDetail;		// 付款信息
 	private Integer paymentPointnum;		// 帐期点数
 	private Integer shipDate;		// 预计到货时间
 	private String remark;		// 备注
@@ -114,16 +113,7 @@ public class PurchaseOrder extends ActEntity<PurchaseOrder> {
 	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
 	}
-	
-	@Length(min=0, max=4000, message="付款信息长度必须介于 0 和 4000 之间")
-	public String getPaymentDetail() {
-		return paymentDetail;
-	}
 
-	public void setPaymentDetail(String paymentDetail) {
-		this.paymentDetail = paymentDetail;
-	}
-	
 	public Integer getPaymentPointnum() {
 		return paymentPointnum;
 	}
