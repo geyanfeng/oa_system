@@ -12,4 +12,6 @@ import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 public interface ReportDao {
 	public List<Map> reportSupplierStatistics(Map map);	
 	public List<Map> reportCustomerStatistics(Map map);	
+	public List<Map> reportContractStatistics(Map map);	
+	public List<Map> reportAchievementStatistics(Map map);	
 }

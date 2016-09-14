@@ -44,33 +44,32 @@ public class ReportController extends BaseController {
 	private SupplierService supplierService;
 	@Autowired
 	private CustomerService customerService;
-	
+
 	@RequiresPermissions("oa:report:view")
 	@RequestMapping(value = { "list", "" })
 	public String list(SearchParams searchParams, HttpServletRequest request,
 			HttpServletResponse response, Model model) {
 
 		if (StringUtils.isNumeric(request.getParameter("reportType"))) {
+			int reportType = Integer.parseInt(request
+					.getParameter("reportType"));
+
 			Page page = new Page(request, response);
 			String sqlCondition = "";
-			if (!StringUtils.isBlank(searchParams.getSupplierId())) {
-				sqlCondition += "  and supplier_id='"
-						+ searchParams.getSupplierId() + "'";
+
+			if (reportType == 1 || reportType == 2) {
+				if (searchParams.getStartTime() != null) {
+					sqlCondition += " and pay_date>='"
+							+ new java.text.SimpleDateFormat("yyyy-MM-dd")
+									.format(searchParams.getStartTime()) + "'";
+				}
+				if (searchParams.getEndTime() != null) {
+					sqlCondition += " and pay_date<='"
+							+ new java.text.SimpleDateFormat("yyyy-MM-dd")
+									.format(searchParams.getEndTime()) + "'";
+				}
 			}
-			if (!StringUtils.isBlank(searchParams.getCustomerId())) {
-				sqlCondition += "  and customer_id='"
-						+ searchParams.getCustomerId() + "'";
-			}
-			if (searchParams.getStartTime() != null) {
-				sqlCondition += " and pay_date>='"
-						+ new java.text.SimpleDateFormat("yyyy-MM-dd")
-								.format(searchParams.getStartTime()) + "'";
-			}
-			if (searchParams.getEndTime() != null) {
-				sqlCondition += " and pay_date<='"
-						+ new java.text.SimpleDateFormat("yyyy-MM-dd")
-								.format(searchParams.getEndTime()) + "'";
-			}
+
 			Map queryMap = new LinkedHashMap();
 			queryMap.put("pageNo", page.getPageNo());
 			queryMap.put("pageSize", page.getPageSize());
@@ -79,11 +78,14 @@ public class ReportController extends BaseController {
 
 			List<Map> list = null;
 			Map headers = new LinkedHashMap();
-			int reportType = Integer.parseInt(request
-					.getParameter("reportType"));
+
 			model.addAttribute("reportType", reportType);
 			switch (reportType) {
 			case 1:
+				if (!StringUtils.isBlank(searchParams.getSupplierId())) {
+					sqlCondition += "  and supplier_id='"
+							+ searchParams.getSupplierId() + "'";
+				}
 				model.addAttribute("title", "付款统计报表");
 				headers.put("name", "供应商名称");
 				headers.put("evaluateValue", "评分");
@@ -91,7 +93,7 @@ public class ReportController extends BaseController {
 				headers.put("unfinishedCount", "订单数(未完)");
 				headers.put("avgAmount", "平均订单金额");
 				headers.put("totalAmount", "完成总金额");
-				
+
 				// 获取所有供应商
 				List<Supplier> supplierList = supplierService
 						.findList(new Supplier());
@@ -99,6 +101,10 @@ public class ReportController extends BaseController {
 				list = reportDao.reportSupplierStatistics(queryMap);
 				break;
 			case 2:
+				if (!StringUtils.isBlank(searchParams.getCustomerId())) {
+					sqlCondition += "  and customer_id='"
+							+ searchParams.getCustomerId() + "'";
+				}
 				model.addAttribute("title", "回款统计报表");
 				headers.put("name", "客户名称");
 				headers.put("evaluateValue", "评分");
@@ -109,11 +115,31 @@ public class ReportController extends BaseController {
 				headers.put("overdueTimes", "逾期次数");
 				headers.put("avgOverdueDay", "平均逾期时间");
 				headers.put("overdueAmount", "逾期损失");
-	
-				//获取所有客户
-				List<Customer> customerList = customerService.findList(new Customer());
+
+				// 获取所有客户
+				List<Customer> customerList = customerService
+						.findList(new Customer());
 				model.addAttribute("customerList", customerList);
 				list = reportDao.reportCustomerStatistics(queryMap);
+				break;
+			case 3:
+				model.addAttribute("title", "业绩统计报表");
+				headers.put("createDate", "日期");
+				headers.put("no", "合同号");
+				headers.put("companyName", "公司抬头");
+				headers.put("customerName", "客户");
+				headers.put("name", "合同名称");
+				headers.put("amount", "合同金额");
+				headers.put("status", "合同状态");
+				headers.put("salerName", "销售");
+				headers.put("businessName", "商务协同");
+				headers.put("artisanName", "技术协同");
+
+				// 获取所有客户
+				List<Customer> customerList1 = customerService
+						.findList(new Customer());
+				model.addAttribute("customerList", customerList1);
+				list = reportDao.reportContractStatistics(queryMap);
 				break;
 			}
 

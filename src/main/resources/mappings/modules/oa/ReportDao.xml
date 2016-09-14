@@ -41,4 +41,17 @@
        )
       }
     </select> 
+    
+   <select id="reportContractStatistics" parameterType="java.util.LinkedHashMap"  resultType="java.util.LinkedHashMap" statementType="CALLABLE" >  
+      {call report_contract_statistics(
+     	 #{pageNo,jdbcType=INTEGER,mode=IN},#{pageSize,jdbcType=INTEGER,mode=IN},#{sqlCondition,jdbcType=VARCHAR,mode=IN},#{orderBy,jdbcType=VARCHAR,mode=IN}
+       )
+      }
+    </select> 
+    <select id="reportAchievementStatistics" parameterType="java.util.LinkedHashMap"  resultType="java.util.LinkedHashMap" statementType="CALLABLE" >  
+      {call report_achievement_statistics(
+     	 #{pageNo,jdbcType=INTEGER,mode=IN},#{pageSize,jdbcType=INTEGER,mode=IN},#{sqlCondition,jdbcType=VARCHAR,mode=IN},#{orderBy,jdbcType=VARCHAR,mode=IN}
+       )
+      }
+    </select> 
 </mapper>
