@@ -14,8 +14,8 @@ SET @COUNTSTMT := CONCAT("select COUNT(a.contract_id) into @COUNT from (select c
 PREPARE STMT FROM @COUNTSTMT; 
 EXECUTE STMT;  
 
-SET @STMT := CONCAT("select @COUNT as recordCount, c.create_date as createDate,c.`no`,c.company_name as companyName,
-cus.`name` as CustomerName,c.`name`,
+SET @STMT := CONCAT("select @COUNT as recordCount, DATE_FORMAT(c.create_date,'%Y-%m-%d') as createDate,c.`no`,c.company_name as companyName,
+cus.`name` as customerName,c.`name`,
 c.amount,
 CASE
   WHEN c.`status` = 0 THEN '初始状态'
