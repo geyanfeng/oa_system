@@ -5,10 +5,10 @@ import java.util.Date;
 public class SearchParams {
 	private String supplierId;	
 	private String customerId;	
-	private String salerIds;
+	private String[] salerIds;
 	private String productTypeGroup;	
-	private Date startTime;	
-	private Date endTime;	
+	private String startTime;	
+	private String endTime;	
 
 	public String getSupplierId() {
 		return supplierId;
@@ -26,11 +26,11 @@ public class SearchParams {
 		this.customerId = customerId;
 	}
 
-	public String getSalerIds() {
+	public String[] getSalerIds() {
 		return salerIds;
 	}
 
-	public void setSalerIds(String salerIds) {
+	public void setSalerIds(String[] salerIds) {
 		this.salerIds = salerIds;
 	}
 
@@ -42,19 +42,19 @@ public class SearchParams {
 		this.productTypeGroup = productTypeGroup;
 	}
 
-	public Date getStartTime() {
+	public String getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(Date startTime) {
+	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
 
-	public Date getEndTime() {
+	public String getEndTime() {
 		return endTime;
 	}
 
-	public void setEndTime(Date endTime) {
+	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
 }

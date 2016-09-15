@@ -35,7 +35,7 @@
 					<div class="input-group">
 						<input name="startTime" type="text" readonly="readonly"
 							maxlength="20" class="form-control" size="10"
-							value="<fmt:formatDate value="${searchParams.startTime}" pattern="yyyy-MM-dd"/>"
+							value="${searchParams.startTime}"
 							onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 						<span class="input-group-addon bg-custom b-0 text-white"><i
 							class="ti-calendar"></i></span>
@@ -43,7 +43,7 @@
 					<div class="input-group">
 						<input name="endTime" type="text" readonly="readonly"
 							maxlength="20" class="form-control" size="10"
-							value="<fmt:formatDate value="${searchParams.endTime}" pattern="yyyy-MM-dd"/>"
+							value="${searchParams.endTime}"
 							onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 						<span class="input-group-addon bg-custom b-0 text-white"><i
 							class="ti-calendar"></i></span>
@@ -52,21 +52,18 @@
 				</c:if>
 				<c:if test="${reportType eq '3'}">
 			    <div class="row" style="margin-bottom:20px;">
-			    	<div class="checkbox checkbox-custom checkbox-inline">
-                            <input id="inlineCheckbox2" type="checkbox" checked="" value="option1">
-                            <label for="inlineCheckbox2"> Inline Two </label>
-                    </div>
-                    <div class="checkbox checkbox-custom checkbox-inline">
-                            <input id="inlineCheckbox2" type="checkbox" checked="" value="option1">
-                            <label for="inlineCheckbox2"> Inline Two </label>
-                    </div>
+			    <form:checkboxes path="salerIds"
+									items="${salerList}" itemLabel="name"
+									itemValue="id" htmlEscape="false" class=""
+									element="span class='checkbox checkbox-custom checkbox-inline'" />
+			    
 			    </div>
 				<div class="form-group m-r-10">
 					<label>时间：</label>
 					<div class="input-group">
 						<input name="startTime" type="text" readonly="readonly"
 							maxlength="20" class="form-control" size="10"
-							value="<fmt:formatDate value="${searchParams.startTime}" pattern="yyyy-MM-dd"/>"
+							value="${searchParams.startTime}"
 							onclick="WdatePicker({dateFmt:'yyyy',isShowClear:false});" />
 						<span class="input-group-addon bg-custom b-0 text-white"><i
 							class="ti-calendar"></i></span>
@@ -74,7 +71,7 @@
 					<div class="input-group">
 						<input name="endTime" type="text" readonly="readonly"
 							maxlength="20" class="form-control" size="10"
-							value="<fmt:formatDate value="${searchParams.endTime}" pattern="yyyy-MM-dd"/>"
+							value="${searchParams.endTime}"
 							onclick="WdatePicker({dateFmt:'yyyy',isShowClear:false});" />
 						<span class="input-group-addon bg-custom b-0 text-white"><i
 							class="ti-calendar"></i></span>

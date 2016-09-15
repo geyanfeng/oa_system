@@ -82,6 +82,16 @@ public class UserUtils {
 	public static List<User> getUsersByRoleEnName(String roleEnName){
 		return userDao.findUserByRoleEnName(roleEnName);
 	}
+	
+	public static boolean IsRoleByRoleEnName(String roleEnName){
+		List<User> listUser= userDao.findUserByRoleEnName(roleEnName);
+		for(User u : listUser){
+			if(u.getId().equals(getUser().getId())){
+				return true;
+			}
+		}
+		return false;
+	}
 
 
 	/**

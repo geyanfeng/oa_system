@@ -16,24 +16,19 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.common.utils.CookieUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
-import com.thinkgem.jeesite.modules.act.service.ActTaskService;
-import com.thinkgem.jeesite.modules.oa.dao.AlertSettingDao;
 import com.thinkgem.jeesite.modules.oa.dao.ReportDao;
 import com.thinkgem.jeesite.modules.oa.entity.Customer;
 import com.thinkgem.jeesite.modules.oa.entity.SearchParams;
 import com.thinkgem.jeesite.modules.oa.entity.Supplier;
 import com.thinkgem.jeesite.modules.oa.service.CustomerService;
 import com.thinkgem.jeesite.modules.oa.service.SupplierService;
+import com.thinkgem.jeesite.modules.sys.entity.User;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 @Controller
 @RequestMapping(value = "${adminPath}/report")
@@ -57,27 +52,68 @@ public class ReportController extends BaseController {
 			Page page = new Page(request, response);
 			String sqlCondition = "";
 
-			if (searchParams.getStartTime() != null) {
+			if (!StringUtils.isBlank(searchParams.getStartTime())) {
 				if (reportType == 1 || reportType == 2) {
 					sqlCondition += " and pay_date>='"
-							+ new java.text.SimpleDateFormat("yyyy-MM-dd")
-									.format(searchParams.getStartTime()) + "'";
+							+ searchParams.getStartTime() + "'";
 				} else if (reportType == 3) {
-					sqlCondition += " and year>="
-							+ new java.text.SimpleDateFormat("yyyy")
-									.format(searchParams.getStartTime());
+					sqlCondition += " and year>=" + searchParams.getStartTime();
 				}
 			}
-			if (searchParams.getEndTime() != null) {
+			if (!StringUtils.isBlank(searchParams.getEndTime())) {
 				if (reportType == 1 || reportType == 2) {
 					sqlCondition += " and pay_date<='"
-							+ new java.text.SimpleDateFormat("yyyy-MM-dd")
-									.format(searchParams.getEndTime()) + "'";
+							+ searchParams.getEndTime() + "'";
 				} else if (reportType == 3) {
-					sqlCondition += " and year<="
-							+ new java.text.SimpleDateFormat("yyyy")
-									.format(searchParams.getEndTime());
+					sqlCondition += " and year<=" + searchParams.getEndTime();
 				}
+			}
+
+			if (reportType == 1) {
+				if (!StringUtils.isBlank(searchParams.getSupplierId())) {
+					sqlCondition += "  and supplier_id='"
+							+ searchParams.getSupplierId() + "'";
+				}
+			}
+
+			if (reportType == 2 || reportType == 3) {
+				if (!StringUtils.isBlank(searchParams.getCustomerId())) {
+					sqlCondition += "  and customer_id='"
+							+ searchParams.getCustomerId() + "'";
+				}
+				// 获取所有客户
+				List<Customer> customerList = customerService
+						.findList(new Customer());
+				model.addAttribute("customerList", customerList);
+			}
+
+			if (reportType == 3) {
+				boolean isSaler = UserUtils.IsRoleByRoleEnName("saler");
+				if (isSaler) {
+					sqlCondition += "  and saler_id='"
+							+ UserUtils.getUser().getId() + "'";
+				} else {
+					List<User> salerList = UserUtils
+							.getUsersByRoleEnName("saler");
+					if (searchParams.getSalerIds() != null
+							&& searchParams.getSalerIds().length > 0) {
+						String salerIds = "";
+						for (String salerId : searchParams.getSalerIds()) {
+							salerIds += "'" + salerId + "',";
+						}
+						sqlCondition += "  and saler_id in("
+								+ salerIds.substring(0, salerIds.length() - 1)
+								+ ")";
+					} else {
+                          String[] selectedSalerIds = new String[salerList.size()];
+                          for(int i=0;i<selectedSalerIds.length;i++){                       	  
+                        	  selectedSalerIds[i]=salerList.get(i).getId();
+                          }
+                          searchParams.setSalerIds(selectedSalerIds);
+					}
+					model.addAttribute("salerList", salerList);
+				}
+				model.addAttribute("isSaler", isSaler);
 			}
 
 			Map queryMap = new LinkedHashMap();
@@ -92,10 +128,6 @@ public class ReportController extends BaseController {
 			model.addAttribute("reportType", reportType);
 			switch (reportType) {
 			case 1:
-				if (!StringUtils.isBlank(searchParams.getSupplierId())) {
-					sqlCondition += "  and supplier_id='"
-							+ searchParams.getSupplierId() + "'";
-				}
 				model.addAttribute("title", "付款统计报表");
 				headers.put("name", "供应商名称");
 				headers.put("evaluateValue", "评分");
@@ -111,10 +143,6 @@ public class ReportController extends BaseController {
 				list = reportDao.reportSupplierStatistics(queryMap);
 				break;
 			case 2:
-				if (!StringUtils.isBlank(searchParams.getCustomerId())) {
-					sqlCondition += "  and customer_id='"
-							+ searchParams.getCustomerId() + "'";
-				}
 				model.addAttribute("title", "回款统计报表");
 				headers.put("name", "客户名称");
 				headers.put("evaluateValue", "评分");
@@ -125,18 +153,9 @@ public class ReportController extends BaseController {
 				headers.put("overdueTimes", "逾期次数");
 				headers.put("avgOverdueDay", "平均逾期时间");
 				headers.put("overdueAmount", "逾期损失");
-
-				// 获取所有客户
-				List<Customer> customerList = customerService
-						.findList(new Customer());
-				model.addAttribute("customerList", customerList);
 				list = reportDao.reportCustomerStatistics(queryMap);
 				break;
 			case 3:
-				if (!StringUtils.isBlank(searchParams.getCustomerId())) {
-					sqlCondition += "  and customer_id='"
-							+ searchParams.getCustomerId() + "'";
-				}
 				model.addAttribute("title", "业绩统计报表");
 				headers.put("createDate", "日期");
 				headers.put("no", "合同号");
@@ -149,14 +168,11 @@ public class ReportController extends BaseController {
 				headers.put("businessName", "商务协同");
 				headers.put("artisanName", "技术协同");
 
-				// 获取所有客户
-				List<Customer> customerList1 = customerService
-						.findList(new Customer());
-				model.addAttribute("customerList", customerList1);
 				list = reportDao.reportContractStatistics(queryMap);
 				List<Map> achievementList = reportDao
 						.reportAchievementStatistics(queryMap);
 				model.addAttribute("achievementList", achievementList);
+
 				break;
 			}
 
