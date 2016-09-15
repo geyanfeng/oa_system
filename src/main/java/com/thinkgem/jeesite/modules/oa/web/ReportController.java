@@ -57,16 +57,26 @@ public class ReportController extends BaseController {
 			Page page = new Page(request, response);
 			String sqlCondition = "";
 
-			if (reportType == 1 || reportType == 2) {
-				if (searchParams.getStartTime() != null) {
+			if (searchParams.getStartTime() != null) {
+				if (reportType == 1 || reportType == 2) {
 					sqlCondition += " and pay_date>='"
 							+ new java.text.SimpleDateFormat("yyyy-MM-dd")
 									.format(searchParams.getStartTime()) + "'";
+				} else if (reportType == 3) {
+					sqlCondition += " and year>="
+							+ new java.text.SimpleDateFormat("yyyy")
+									.format(searchParams.getStartTime());
 				}
-				if (searchParams.getEndTime() != null) {
+			}
+			if (searchParams.getEndTime() != null) {
+				if (reportType == 1 || reportType == 2) {
 					sqlCondition += " and pay_date<='"
 							+ new java.text.SimpleDateFormat("yyyy-MM-dd")
 									.format(searchParams.getEndTime()) + "'";
+				} else if (reportType == 3) {
+					sqlCondition += " and year<="
+							+ new java.text.SimpleDateFormat("yyyy")
+									.format(searchParams.getEndTime());
 				}
 			}
 
@@ -123,6 +133,10 @@ public class ReportController extends BaseController {
 				list = reportDao.reportCustomerStatistics(queryMap);
 				break;
 			case 3:
+				if (!StringUtils.isBlank(searchParams.getCustomerId())) {
+					sqlCondition += "  and customer_id='"
+							+ searchParams.getCustomerId() + "'";
+				}
 				model.addAttribute("title", "业绩统计报表");
 				headers.put("createDate", "日期");
 				headers.put("no", "合同号");
@@ -140,6 +154,9 @@ public class ReportController extends BaseController {
 						.findList(new Customer());
 				model.addAttribute("customerList", customerList1);
 				list = reportDao.reportContractStatistics(queryMap);
+				List<Map> achievementList = reportDao
+						.reportAchievementStatistics(queryMap);
+				model.addAttribute("achievementList", achievementList);
 				break;
 			}
 

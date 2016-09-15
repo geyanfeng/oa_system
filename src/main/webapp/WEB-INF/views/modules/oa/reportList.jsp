@@ -4,6 +4,7 @@
 <head>
 <title></title>
 <meta name="decorator" content="default" />
+<script src="${ctxStatic}/assets/plugins/echarts.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 
@@ -28,7 +29,7 @@
 					value="${page.pageSize}" />
 				<sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}"
 					callback="page();" />
-				
+				<c:if test="${reportType eq '1' or reportType eq '2'}">
 				<div class="form-group m-r-10">
 					<label>日期：</label>
 					<div class="input-group">
@@ -48,7 +49,38 @@
 							class="ti-calendar"></i></span>
 					</div>
 				</div>
-				
+				</c:if>
+				<c:if test="${reportType eq '3'}">
+			    <div class="row" style="margin-bottom:20px;">
+			    	<div class="checkbox checkbox-custom checkbox-inline">
+                            <input id="inlineCheckbox2" type="checkbox" checked="" value="option1">
+                            <label for="inlineCheckbox2"> Inline Two </label>
+                    </div>
+                    <div class="checkbox checkbox-custom checkbox-inline">
+                            <input id="inlineCheckbox2" type="checkbox" checked="" value="option1">
+                            <label for="inlineCheckbox2"> Inline Two </label>
+                    </div>
+			    </div>
+				<div class="form-group m-r-10">
+					<label>时间：</label>
+					<div class="input-group">
+						<input name="startTime" type="text" readonly="readonly"
+							maxlength="20" class="form-control" size="10"
+							value="<fmt:formatDate value="${searchParams.startTime}" pattern="yyyy-MM-dd"/>"
+							onclick="WdatePicker({dateFmt:'yyyy',isShowClear:false});" />
+						<span class="input-group-addon bg-custom b-0 text-white"><i
+							class="ti-calendar"></i></span>
+					</div>
+					<div class="input-group">
+						<input name="endTime" type="text" readonly="readonly"
+							maxlength="20" class="form-control" size="10"
+							value="<fmt:formatDate value="${searchParams.endTime}" pattern="yyyy-MM-dd"/>"
+							onclick="WdatePicker({dateFmt:'yyyy',isShowClear:false});" />
+						<span class="input-group-addon bg-custom b-0 text-white"><i
+							class="ti-calendar"></i></span>
+					</div>
+				</div>
+				</c:if>
 			   <c:choose>
 					<c:when test="${reportType eq '1'}">
 					<div class="form-group m-r-10">
@@ -61,7 +93,7 @@
 				</form:select>
 			   </div>
 					</c:when>
-					<c:when test="${reportType eq '2'}">
+					<c:when test="${reportType eq '2' or reportType eq '3'}">
 					<div class="form-group m-r-10">
 				<label>客户：</label>
 
@@ -79,6 +111,88 @@
 
 				</div>
 			</form:form>
+			<c:if test="${reportType eq '3'}">
+			<div class="col-sm-8">
+				<div class="card-box">
+
+					<div id="website-stats" style="height: 320px;" class="flot-chart"></div>
+
+				</div>
+			</div>
+			<script type="text/javascript">
+			$(document).ready(function() {
+				var chartData = ${fns:toJson(achievementList)};
+				var xAxisData = new Array();
+				var seriesGpi = new Array();
+				var seriesGp = new Array();
+				$.each(chartData, function(i, item){      
+					xAxisData.push(item.year + "年" + item.quarter + "季度"); 
+					seriesGpi.push(item.gpi);
+					seriesGp.push(item.gp);
+				});   
+				var website_stats = echarts.init(document
+						.getElementById('website-stats'));
+				option = {
+					title : {
+						text : '业绩统计'
+					},
+					color : ['#dedede','#57c5a5'],
+					tooltip : {
+						trigger : 'axis'
+					},
+					legend : {
+						data : [ '毛利指标', '完成毛利' ]
+					},
+					grid : {
+						left : '3%',
+						right : '4%',
+						bottom : '3%',
+						containLabel : true
+					},
+					xAxis : [ {
+						type : 'category',
+						boundaryGap : false,
+						data : xAxisData
+					} ],
+					yAxis : [ {
+						name: '金额',
+						type : 'value'
+					} ],
+					series : [ {
+						name : '毛利指标',
+						type : 'line',
+						stack : '金额',
+						areaStyle : {
+							normal : {}
+						},
+						 label: {
+				                normal: {
+				                    show: true,
+				                    position: 'top'
+				                }
+				            },
+						data : seriesGpi
+					}, {
+						name : '完成毛利',
+						type : 'line',
+						stack : '金额',
+						areaStyle : {
+							normal : {}
+						},
+						   label: {
+				                normal: {
+				                    show: true,
+				                    position: 'top'
+				                }
+				            },
+						data : seriesGp
+					} ]
+				};
+				website_stats.setOption(option);
+			});
+				
+			</script>
+			</c:if>
 			<sys:message content="${message}" />
 			<table id="contentTable" class="table table-striped m-0">
 				<thead>
