@@ -19,9 +19,10 @@
 .input-min{width:30px;} .input-mini{width:120px;} .input-small{width:120px;} .input-medium {width:163px;}.input-xxlarge {width:460px;}
 .help-block,.help-inline {color:#aaaaaa;} .alert {margin-bottom:10px;}
 
-.form-search label{padding-top:7px;margin-bottom:0;text-align:right}
+
 .form-search span label{margin-left:0;}
 .form-search .ul-form {margin:0;}
+
 .form-search .ul-form li{float:left;list-style:none;margin-top:5px;}
 .form-search .ul-form li label{width:100px;text-align:right;}
 .form-search .ul-form li span label{width:auto;}
@@ -32,7 +33,7 @@
 .form-horizontal {margin:0 10px;} .form-horizontal .control-group {margin-bottom:8px;}
 .form-horizontal .controls {text-align:left;overflow-x:auto;overflow-y:hidden;}
 .form-horizontal .controls label.error {background-position:0 2px;}
-.form-inline .radio-inline,.form-inline .checkbox{
+.form-inline .radio-inline{
     margin-bottom: 0;
     margin-top: 0;
     padding-top: 0px;
