@@ -212,10 +212,10 @@
         <div class="panel-body">
             <script type="text/template" id="payment-installment-tpl">//<!--
                 <div class="row" id="payment-installment_{{idx}}">
-                    <div class="col-sm-3">付款金额：{{row.payment_installment_amount}}</div>
-                    <div class="col-sm-3">账期：{{row.payment_installment_time}}</div>
+                    <div class="col-sm-3">付款金额：{{row.amount}}</div>
+                    <div class="col-sm-3">账期：{{row.zq}}</div>
                     <div class="col-sm-3">付款方式：{{row.paymentMethod}}</div>
-                    <div class="col-sm-3">付款期限：</div>
+                    <div class="col-sm-3">付款期限：{{row.activeDate}}</div>
                 </div>
                 //-->
             </script>
@@ -225,11 +225,11 @@
                 $(document).ready(function () {
                     if ($('#id').val()!="") {
                         //load payment detail from saved data
-                        var paymentDetail = JSON.parse(${fns:toJson(purchaseOrder.paymentDetail)});
+                        var paymentDetail = ${fns:toJson(purchaseOrder.purchaseOrderFinanceList)};
                         var paymentMethod = ${fns:getDictListJson("oa_payment_method")};
                         $.each(paymentDetail, function (idx, item) {
                             for(i=0;i<paymentMethod.length;i++){
-                                if(paymentMethod[i].value == item.payment_installment_paymentMethod)
+                                if(paymentMethod[i].value == item.payMethod)
                                 {
                                     item.paymentMethod= paymentMethod[i].label;
                                     break;
