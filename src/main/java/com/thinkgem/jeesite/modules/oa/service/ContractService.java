@@ -16,6 +16,7 @@ import com.thinkgem.jeesite.modules.oa.dao.*;
 import com.thinkgem.jeesite.modules.oa.entity.*;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+import org.activiti.engine.*;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,10 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 
     @Autowired
     private ActTaskService actTaskService;
+    @Autowired
+    private TaskService taskService;
+    @Autowired
+    private RuntimeService runtimeService;
     @Autowired
     private ActProcessService actProcessService;
     @Autowired
@@ -430,6 +435,8 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         String taskDefKey = contract.getAct().getTaskDefKey();
         String flag = contract.getAct().getFlag();
         Boolean pass = false;
+        String oldNode = ""; //原始结点
+        String oldStatus = ""; //原始状态
 
         if (isBlank(taskDefKey) && "submit_audit".equals(flag)) {
             //更新合同状态
@@ -523,6 +530,21 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                         } else {
                             contract.setStatus(DictUtils.getDictValue("已发货", "oa_contract_status", ""));
                         }
+                    } else  if("recall_cso_audit".equals(taskDefKey) || "recall_cfo_audit".equals(taskDefKey)) {//如果是销售总监撤回审核或者财务总监撤回审核
+                        actTaskService.claim(contract.getAct().getTaskId(), UserUtils.getUser().getLoginName());
+                        Map<String, Object> currentTaskVars = taskService.getVariables(contract.getAct().getTaskId());
+                        if(currentTaskVars.containsKey("contract_oldNode"))
+                            oldNode = currentTaskVars.get("contract_oldNode").toString();
+                        if(currentTaskVars.containsKey("contract_oldStatus"))
+                            oldStatus = currentTaskVars.get("contract_oldStatus").toString();
+
+                        //更改合同状态
+                        /*if(pass && "recall_cfo_audit".equals(taskDefKey) && currentTaskVars.containsKey("recall_type")){
+                            Integer recall_type = Integer.parseInt(currentTaskVars.get("recall_type").toString());
+                            if(recall_type == 1){//合同撤销
+
+                            }
+                        }*/
                     }
                 }
             }
@@ -531,13 +553,41 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 
             contract.preUpdate();
             contractDao.update(contract);
-            actTaskService.complete(contract.getAct().getTaskId(), contract.getAct().getProcInsId(), contract.getAct().getComment(), vars);
+
+            if(!(("recall_cso_audit".equals(taskDefKey) || "recall_cfo_audit".equals(taskDefKey)) && !pass)) {
+                actTaskService.complete(contract.getAct().getTaskId(), contract.getAct().getProcInsId(), contract.getAct().getComment(), vars);
+            }
+
+            if("recall_cso_audit".equals(taskDefKey) || "recall_cfo_audit".equals(taskDefKey)){//如果是销售总监撤回审核或者财务总监撤回审核
+                if(!pass && isNotBlank(oldNode)){
+                    //跳转合同流程到"销售总监撤回审核"节点
+                    jump(contract,oldNode);
+                    //改回原始状态
+                    if(isNotBlank(oldStatus)){
+                        contract.setStatus(oldStatus);
+                        contract.preUpdate();
+                        contractDao.update(contract);
+                    }
+
+                    //删除多余的变量
+                    Task currentTask = actTaskService.getCurrentTaskInfo(actTaskService.getProcIns(contract.getAct().getProcInsId()));
+                    taskService.removeVariable(currentTask.getId(), "recall_id" );
+                    taskService.removeVariable(currentTask.getId(), "recall_type" );
+                    taskService.removeVariable(currentTask.getId(), "recall_remark" );
+                    taskService.removeVariable(currentTask.getId(), "contract_oldNode" );
+                    taskService.removeVariable(currentTask.getId(), "contract_oldStatus" );
+                }
+            }
         }
         //消息处理
-        String node = taskDefKey;
+       /* String node = taskDefKey;
         if(StringUtils.isBlank(node) && "submit_audit".equals(flag))
             node = "submit_audit";
-        alertService.alertContract(node, contract);
+        try{
+            alertService.alertContract(node, contract);
+        } catch(Exception e){
+            throw e;
+        }*/
     }
 
     public Integer getCountByNoPref(String noPref) {
@@ -599,12 +649,10 @@ public class ContractService extends CrudService<ContractDao, Contract> {
     }
 
     @Transactional(readOnly = false)
-    public void jump(String contractId){
-        Contract contract = get(contractId);
+    public void jump(Contract contract, String newNode){
         ProcessInstance processInstance = actTaskService.getProcIns(contract.getProcInsId());
         Task task = actTaskService.getCurrentTaskInfo(processInstance);
-        String actId = "cfo_recall_audit";
-        actTaskService.Jump(task.getExecutionId(), actId);
+        actTaskService.Jump(task.getExecutionId(), newNode);
     }
 
     /*
@@ -676,7 +724,77 @@ public class ContractService extends CrudService<ContractDao, Contract> {
      * @param contractId
      * @param recallApprove
      */
-    public void recallApprove(String contractId, ContractRecallApprove recallApprove) {
+    @Transactional(readOnly = false)
+    public void recallApprove(String contractId, ContractRecallApprove recallApprove) throws Exception {
+        Contract contract = get(contractId);
+        //判断合同是否已经开始流程
+        if(isBlank(contract.getAct().getProcInsId()))
+            throw new Exception("撤回失败: 合同还没有提交审批,不需要撤回!");
+        //挂起合同流程
+       /* if(isNotBlank(contract.getProcInsId()))
+            runtimeService.suspendProcessInstanceById(contract.getProcInsId());*/
+        List<PurchaseOrder> poList = purchaseOrderService.getPoListByContractId(contractId);
+        //挂起与合同相关的所有订单
+        for(PurchaseOrder po : poList){
+            if(isNotBlank(po.getProcInsId()))
+                runtimeService.suspendProcessInstanceById(po.getProcInsId());
+        }
 
+        //保存撤回合同的申请
+        recallApprove.setContract(new Contract(contractId));
+        if (recallApprove.getIsNewRecord()){
+            recallApprove.setStatus(0);
+            recallApprove.preInsert();
+            recallApproveDao.insert(recallApprove);
+        }else{
+            recallApprove.preUpdate();
+            recallApproveDao.update(recallApprove);
+        }
+
+        //增加变量
+        Map<String, Object> vars = Maps.newHashMap();
+        vars.put("recall_id", recallApprove.getId());
+        vars.put("recall_type", recallApprove.getType());
+        vars.put("recall_remark", recallApprove.getRemark());
+        vars.put("contract_oldNode", actTaskService.getCurrentTaskInfo(actTaskService.getProcIns(contract.getAct().getProcInsId())).getTaskDefinitionKey());
+        vars.put("contract_oldStatus", contract.getStatus());
+
+        //跳转合同流程到"销售总监撤回审核"节点
+        jump(contract,"recall_cso_audit");
+
+        Task currentTask = actTaskService.getCurrentTaskInfo(actTaskService.getProcIns(contract.getAct().getProcInsId()));
+        for(String key: vars.keySet()){
+            taskService.setVariable(currentTask.getId(),key, vars.get(key));
+        }
+
+        //更新合同状态
+        contract.setStatus("200");//更改合同状态: 撤回中
+        contract.preUpdate();
+        contractDao.update(contract);
     }
+
+    /*@Transactional(readOnly = false)
+    public void recallAudit(ContractRecallApprove recallApprove){
+        // 对不同环节的业务逻辑进行操作
+        String taskDefKey = recallApprove.getAct().getTaskDefKey();
+        String flag = recallApprove.getAct().getFlag();
+        Boolean pass = false;
+        Map<String, Object> vars = Maps.newHashMap();
+        String comment = recallApprove.getAct().getComment();
+
+        vars.put("contract_id", recallApprove.getContract().getId());
+        vars.put("contract_old")
+        if (isNotBlank(flag) && ("yes".equals(flag) || "no".equals(flag))) {
+            pass = "yes".equals(recallApprove.getAct().getFlag());
+            comment = (pass ? "[同意] " : "[驳回] ") + (isNotBlank(comment) ? comment : "");
+            recallApprove.getAct().setComment(comment);
+            vars.put("pass", pass ? 1: 0);
+        }
+
+        if("recall_cso_audit".equals(taskDefKey)){//销售总监撤回审核
+
+        } else if("recall_cfo_audit".equals(taskDefKey)){//财务总监撤回审核
+
+        }
+    }*/
 }

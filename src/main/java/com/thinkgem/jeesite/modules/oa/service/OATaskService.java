@@ -14,7 +14,7 @@ import java.util.Locale;
 @Service
 @Lazy(false)
 @Component("taskJob")
-public class TaskService {
+public class OATaskService {
     @Scheduled(cron = "0 0/1 * * * ?")
     public void job1() {
         String time = new SimpleDateFormat("MMM d，yyyy KK:mm:ss a", Locale.ENGLISH).format(System.currentTimeMillis());

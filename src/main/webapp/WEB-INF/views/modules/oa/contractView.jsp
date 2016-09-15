@@ -899,8 +899,16 @@
 							</td>
 							<td>
 							    <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true'}">
-							        <a href="javascript:void(0);" onclick="editPo('{{row.id}}')" title="编辑" class="zmdi zmdi-edit text-success" style="font-size:25px;"></a>
-							        <a href="javascript:void(0);" onclick="return confirmx('确认要删除该订单吗？', function(){deletePo('{{row.id}}');})" title="删除" class="zmdi zmdi-minus-square text-success" style="font-size:25px;"></a>
+							        {{#row.isDisplayModifyBtn}}
+							            <a href="javascript:void(0);" onclick="editPo('{{row.id}}')" title="编辑" class="zmdi zmdi-edit text-success" style="font-size:25px;"></a>
+							         {{/row.isDisplayModifyBtn}}
+							         {{#row.isDisplayDeleteBtn}}
+							            <a href="javascript:void(0);" onclick="return confirmx('确认要删除该订单吗？', function(){deletePo('{{row.id}}');})" title="删除" class="zmdi zmdi-minus-square text-success" style="font-size:25px;"></a>
+							         {{/row.isDisplayDeleteBtn}}
+                                     {{#row.isDisplayTBtn}}
+							            <a href="javascript:void(0);" title="退款确认" class="text-success">退</a>
+							            <a href="javascript:void(0);" title="转入库存" class="text-success">库</a>
+							         {{/row.isDisplayTBtn}}
 							    </c:if>
 							</td>
 						</tr>
@@ -920,6 +928,20 @@
                                 poList = data;
                                 $.each(data, function(idx, po){
                                     calcPoZq(po);
+                                    po.payFinish = true;
+                                    po.isPay = false;
+                                    if(po.purchaseOrderFinanceList.length>0){
+                                        $.each(po.purchaseOrderFinanceList, function(findex, finance){
+                                           if(finance.status == 2)
+                                               po.isPay = true;
+                                            if(finance.status == 1)
+                                                po.payFinish = false;
+                                        });
+                                    }
+                                    po.isDisplayModifyBtn = !po.payFinish;
+                                    po.isDisplayDeleteBtn = !po.isPay;
+                                    po.isDisplayTBtn = po.isPay;
+
                                     addRow("#poBody", idx,poViewTpl,po );
                                 });
 

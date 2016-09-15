@@ -17,6 +17,7 @@ public class ContractRecallApprove extends ActEntity<ContractRecallApprove> {
 	private Contract contract;		// 合同id
 	private Integer type = 1;		// 撤回类型: 1为合同撤销， 2为合同修改
 	private String remark;		// 备注
+	private Integer status = 0;	//状态:0为结束, 1为结束
 	
 	public ContractRecallApprove() {
 		super();
@@ -55,5 +56,7 @@ public class ContractRecallApprove extends ActEntity<ContractRecallApprove> {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	
+
+	public Integer getStatus(){return status;}
+	public void setStatus(Integer status){this.status = status;}
 }

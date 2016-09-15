@@ -8,6 +8,7 @@
 		a.proc_ins_id AS "procInsId",
 		a.type AS "type",
 		a.remark AS "remark",
+		a.status AS "status",
 		a.del_flag AS "delFlag",
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
@@ -84,6 +85,7 @@
 			proc_ins_id,
 			type,
 			remark,
+			status,
 			del_flag,
 			create_by,
 			create_date,
@@ -95,6 +97,7 @@
 			#{procInsId},
 			#{type},
 			#{remark},
+			#{status},
 			#{delFlag},
 			#{createBy.id},
 			#{createDate},
@@ -109,6 +112,7 @@
 			proc_ins_id = #{procInsId},
 			type = #{type},
 			remark = #{remark},
+			status =#{status},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate}
 		WHERE id = #{id}

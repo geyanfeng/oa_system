@@ -21,6 +21,7 @@ import com.thinkgem.jeesite.modules.oa.service.*;
 import com.thinkgem.jeesite.modules.sys.entity.Dict;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+import org.activiti.engine.TaskService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -54,7 +55,7 @@ public class ContractController extends BaseController {
 	@Autowired
 	private ProductTypeService productTypeService;
 	@Autowired
-	private ProductTypeGroupService productTypeGroupService;
+	private TaskService taskService;
 	@Autowired
 	private PeopleSettingDao peopleSettingDao;
 	@Autowired
@@ -207,6 +208,10 @@ public class ContractController extends BaseController {
 		//获取所有客户
 		List<Customer> customerList = customerService.findList(new Customer());
 		model.addAttribute("customerList", customerList);
+		//获取商务人员
+		model.addAttribute("businessPeopleList", UserUtils.getUsersByRoleEnName("businesser"));
+		//获取技术人员
+		model.addAttribute("artisanList", UserUtils.getUsersByRoleEnName("tech"));
 
 		// 查看审批申请单
 		if (isNotBlank(contract.getId())) {//.getAct().getProcInsId())){
@@ -257,6 +262,15 @@ public class ContractController extends BaseController {
 				List<PurchaseOrder> purchaseOrderList = purchaseOrderService.getPoListByContractId(contract.getId());
 				model.addAttribute("purchaseOrderList",purchaseOrderList);
 				view = "contractView_cfo";
+			} else if("recall_cso_audit".equals(taskDefKey) || "recall_cfo_audit".equals(taskDefKey)){
+				if(contract.getAct() !=null && isNotBlank(contract.getAct().getTaskId())) {
+					Map<String, Object> currentTaskVars = taskService.getVariables(contract.getAct().getTaskId());
+					if(currentTaskVars.containsKey("recall_type"))
+						model.addAttribute("recall_type", currentTaskVars.get("recall_type"));
+					if(currentTaskVars.containsKey("recall_remark"))
+						model.addAttribute("recall_remark", currentTaskVars.get("recall_remark"));
+				}
+				view = "contractRecall_audit";
 			}
 
 			model.addAttribute("taskDefKey",taskDefKey);
@@ -407,8 +421,8 @@ public class ContractController extends BaseController {
 撤回合同
  */
 	@RequestMapping(value = "{contractId}/recallApprove")
-	@RequiresPermissions("oa:contract:cancel")
-	public String recallApprove(@PathVariable String contractId, ContractRecallApprove recallApprove,HttpServletResponse response){
+	@RequiresPermissions("oa:contract:recall")
+	public String recallApprove(@PathVariable String contractId, @RequestBody ContractRecallApprove recallApprove,HttpServletResponse response){
 		try{
 			contractService.recallApprove(contractId, recallApprove);
 			return renderString(response, "成功撤回合同!");

@@ -44,6 +44,16 @@
 		modal.find("#btnSubmitCancel").data("contractId", contractId);
 	}
 
+	//撤回合同
+	function recallContract(contractId) {
+		var modal = $('#modal-recall');
+		modal.modal({
+			show : true,
+			backdrop : 'static'
+		});
+		modal.find("#btnSubmitRecall").data("contractId", contractId);
+	}
+
 	function submitCancelContract(sender) {
 		var contractId = $(sender).data("contractId"), isCopy = $("#copyFrom")
 				.is(':checked') ? "true" : "false", cancelType = $(
@@ -65,6 +75,29 @@
 			},
 			error : function(a) {
 				showTipMsg("撤销合同失败", "error");
+			}
+		});
+
+	}
+
+	function submitRecall(sender) {
+		var contractId = $(sender).data("contractId");
+		var postData = {
+			type : $("input[name='recall_type']:checked").val(),
+			remark: $("#recall_remark").val()
+		};
+		$.ajax({
+			type : 'POST',
+			url : "${ctx}/oa/contract/" + contractId + "/recallApprove",
+			contentType : "application/json;",
+			data : JSON.stringify(postData),
+			success : function(msg) {
+				var type = msg.indexOf("失败") > -1 ? "error" : "info";
+				showTipMsg(msg, type);
+				location.reload();
+			},
+			error : function(a) {
+				showTipMsg("撤回合同失败", "error");
 			}
 		});
 
@@ -232,9 +265,15 @@
 									</c:if>
 								</shiro:hasPermission>
 								<c:if test="${contract.cancelFlag eq 0 and contract.status ne '0' and contract.status ne '100'}">
-									<shiro:hasPermission name="oa:contract:cancel">
+								<%--	<shiro:hasPermission name="oa:contract:cancel">
 										<a href="#" onclick="cancelContract('${contract.id}');"
 											title="撤销"><i class="fa fa-reply"></i></a>
+									</shiro:hasPermission>--%>
+								</c:if>
+								<c:if test="${contract.status ne '0' and contract.status ne '100' and contract.status ne '200'}">
+									<shiro:hasPermission name="oa:contract:recall">
+										<a href="#" onclick="recallContract('${contract.id}');"
+										   title="撤回"><i class="fa fa-reply"></i></a>
 									</shiro:hasPermission>
 								</c:if>
 							</td>
@@ -306,5 +345,47 @@
 		</div>
 	</div>
 
+	<div id="modal-recall" class="modal fade" tabindex="-1"
+		 role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+		 style="display: none;">
+		<div class="modal-dialog" style="width:400px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×</button>
+					<h4 class="modal-title">撤回申请</h4>
+				</div>
+				<div class="modal-body">
+						<div class="row">
+							<div class="col-md-12">
+									<div class="col-md-4">
+										<input id="recallType1" name="recall_type" type="radio"
+											   value="1" checked>
+										<label for="recallType1">合同撤销</label>
+									</div>
+									<div class="col-md-4">
+										<input id="recallType2" name="recall_type" type="radio"
+											   value="2" checked>
+										<label for="recallType1">合同修改</label>
+									</div>
+								</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label class="control-label">备注:</label>
+									<textarea id="recall_remark" class="form-control" rows="5"></textarea>
+								</div>
+							</div>
+						</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn" data-dismiss="modal">返回</button>
+					<button type="button" class="btn btn-info waves-effect waves-light"
+							id="btnSubmitRecall" onclick="submitRecall(this);">提交</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
