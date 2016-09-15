@@ -13,6 +13,8 @@ and f.CUSTOMER_ID in ('5afa65abd21849b79ae6eca5a78a3277');
 DROP PROCEDURE IF EXISTS report_achievement_statistics;
 
 create procedure report_achievement_statistics(
+IN pageNo INT, 
+IN pageSize INT,  
 IN sqlCondition VARCHAR(500),  
 IN orderBy VARCHAR(100)
 )
@@ -20,7 +22,7 @@ begin
  
 
 SET @STMT := CONCAT("select a.year,a.quarter,a.gp,c.gpi from 
-(select year,quarter,sum(k_gp) as gp from oa_view_achievement where 1=1 ", sqlCondition,"GROUP BY year,quarter) a
+(select year,quarter,FLOOR(sum(k_gp)) as gp from oa_view_achievement where 1=1 ", sqlCondition," GROUP BY year,quarter) a
 INNER JOIN 
 (select b.year, b.quarter,sum(gpi) as gpi from 
 (select year,quarter,saler_id,gpi from oa_view_achievement where 1=1 ", sqlCondition," GROUP BY year,quarter,saler_id) b group by b.year,b.quarter) c 
