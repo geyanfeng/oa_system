@@ -93,7 +93,7 @@ public class ReportController extends BaseController {
 
 			if (reportType == 3 || reportType == 4) {
 				boolean isSaler = UserUtils.IsRoleByRoleEnName("saler");
-				if (isSaler) {
+				if (isSaler && !UserUtils.IsRoleByRoleEnName("cso")) {
 					sqlCondition += "  and saler_id='"
 							+ UserUtils.getUser().getId() + "'";
 				} else {
