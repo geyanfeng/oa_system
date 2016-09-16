@@ -231,6 +231,88 @@
 				
 			</script>
 			</c:if>
+			<c:if test="${reportType eq '4'}">
+			<div class="col-sm-8">
+				<div class="card-box">
+
+					<div id="website-stats" style="height: 320px;" class="flot-chart"></div>
+
+				</div>
+			</div>
+			<script type="text/javascript">
+			$(document).ready(function() {
+				var chartData = ${fns:toJson(forecastList)};
+				var xAxisData = new Array();
+				var seriesGpi = new Array();
+				var seriesGp = new Array();
+				$.each(chartData, function(i, item){      
+					xAxisData.push(item.year + "年" + item.month + "月"); 
+					seriesGpi.push(item.gp);
+					seriesGp.push(item.gp);
+				});   
+				var website_stats = echarts.init(document
+						.getElementById('website-stats'));
+				option = {
+					title : {
+						text : '来单预测'
+					},
+					color : ['#dedede','#57c5a5'],
+					tooltip : {
+						trigger : 'axis'
+					},
+					legend : {
+						data : [ '预测毛利', '完成毛利' ]
+					},
+					grid : {
+						left : '3%',
+						right : '4%',
+						bottom : '3%',
+						containLabel : true
+					},
+					xAxis : [ {
+						type : 'category',
+						boundaryGap : false,
+						data : xAxisData
+					} ],
+					yAxis : [ {
+						name: '金额',
+						type : 'value'
+					} ],
+					series : [ {
+						name : '预测毛利',
+						type : 'line',
+						stack : '金额',
+						areaStyle : {
+							normal : {}
+						},
+						 label: {
+				                normal: {
+				                    show: true,
+				                    position: 'top'
+				                }
+				            },
+						data : seriesGpi
+					}, {
+						name : '完成毛利',
+						type : 'line',
+						stack : '金额',
+						areaStyle : {
+							normal : {}
+						},
+						   label: {
+				                normal: {
+				                    show: true,
+				                    position: 'top'
+				                }
+				            },
+						data : seriesGp
+					} ]
+				};
+				website_stats.setOption(option);
+			});
+				
+			</script>
+			</c:if>
 			<c:if test="${reportType ne '4'}">
 			<sys:message content="${message}" />
 			<table id="contentTable" class="table table-striped m-0">
