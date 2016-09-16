@@ -25,7 +25,10 @@
 								<th>销售</th>
 								<th>商务</th>
 								<th>技术</th>
-								<th>本Q指标</th>
+								 <th>Q1指标</th>
+                        <th>Q2指标</th>
+                        <th>Q3指标</th>
+                        <th>Q4指标</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -58,8 +61,20 @@
 											</c:forEach>
 									</select></td>
 									<td><input
-										name="peopleSettingCollocations[${settingIdx.index}].gpi"
-										value="${peopleSetting.gpi}" class="text number required">
+										name="peopleSettingCollocations[${settingIdx.index}].gpiQ1"
+										value="${peopleSetting.gpiQ1}" class="text number required">
+									</td>
+									<td><input
+										name="peopleSettingCollocations[${settingIdx.index}].gpiQ2"
+										value="${peopleSetting.gpiQ2}" class="text number required">
+									</td>
+									<td><input
+										name="peopleSettingCollocations[${settingIdx.index}].gpiQ3"
+										value="${peopleSetting.gpiQ3}" class="text number required">
+									</td>
+									<td><input
+										name="peopleSettingCollocations[${settingIdx.index}].gpiQ4"
+										value="${peopleSetting.gpiQ4}" class="text number required">
 									</td>
 								</tr>
 							</c:forEach>

@@ -22,7 +22,10 @@ public class PeopleSetting extends DataEntity<PeopleSetting> {
 	private User saler; // 销售
 	private User businessPerson; // 商务
 	private User artisan; // 技术
-	private Double gpi; // 本Q指标 毛利指标为GPI
+	private Double gpiQ1; // 本Q指标 毛利指标为GPI
+	private Double gpiQ2; // 本Q指标 毛利指标为GPI
+	private Double gpiQ3; // 本Q指标 毛利指标为GPI
+	private Double gpiQ4; // 本Q指标 毛利指标为GPI
 	private String remark; // 备注
 
 	public PeopleSetting() {
@@ -69,13 +72,36 @@ public class PeopleSetting extends DataEntity<PeopleSetting> {
 		this.remark = remark;
 	}
 
-	// 本Q指标
-	public Double getGpi() {
-		return gpi;
+	public Double getGpiQ1() {
+		return gpiQ1;
 	}
 
-	public void setGpi(Double gpi) {
-		this.gpi = gpi;
+	public void setGpiQ1(Double gpiQ1) {
+		this.gpiQ1 = gpiQ1;
+	}
+
+	public Double getGpiQ2() {
+		return gpiQ2;
+	}
+
+	public void setGpiQ2(Double gpiQ2) {
+		this.gpiQ2 = gpiQ2;
+	}
+
+	public Double getGpiQ3() {
+		return gpiQ3;
+	}
+
+	public void setGpiQ3(Double gpiQ3) {
+		this.gpiQ3 = gpiQ3;
+	}
+
+	public Double getGpiQ4() {
+		return gpiQ4;
+	}
+
+	public void setGpiQ4(Double gpiQ4) {
+		this.gpiQ4 = gpiQ4;
 	}
 
 }

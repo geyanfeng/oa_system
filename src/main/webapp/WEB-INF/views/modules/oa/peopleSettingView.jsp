@@ -22,7 +22,10 @@
                         <th>销售</th>
                         <th>商务</th>
                         <th>技术</th>
-                        <th>本Q指标</th>
+                        <th>Q1指标</th>
+                        <th>Q2指标</th>
+                        <th>Q3指标</th>
+                        <th>Q4指标</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -38,9 +41,17 @@
                                     ${setting.artisan.name}
                             </td>
                               <td>
-                                    ${setting.gpi}
+                                    ${setting.gpiQ1}
                             </td>
-
+ 							 <td>
+                                    ${setting.gpiQ2}
+                            </td>
+                             <td>
+                                    ${setting.gpiQ3}
+                            </td>
+                             <td>
+                                    ${setting.gpiQ4}
+                            </td>
                         </tr>
                     </c:forEach>
                     </tbody>
