@@ -253,7 +253,10 @@
 			ship_ems = #{shipEms},
 			remark = #{remark},
 			update_by = #{updateBy.id},
-			update_date = #{updateDate}
+			update_date = #{updateDate},
+			cancel_flag = #{cancelFlag},
+			cancel_date = #{cancelDate},
+			cancel_reason =#{cancelReason}
 		WHERE id = #{id}
 	</update>
 	

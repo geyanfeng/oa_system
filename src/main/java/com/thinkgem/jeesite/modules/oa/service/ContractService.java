@@ -464,9 +464,21 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 
             //拆分po
             if("split_po".equals(taskDefKey)){
-                if(!isFinishSplitPO(contract))
-                    throw new Exception("提交失败: 还没有完成拆分po, 不能提交!");
-                contract.setStatus(DictUtils.getDictValue("待审批(销售)","oa_contract_status",""));
+                Map<String, Object> currentTaskVars = taskService.getVariables(contract.getAct().getTaskId());
+                //如果撤回类型为撤销,合同结束,并更改撤销状态
+                if(currentTaskVars.containsKey("recall_type") && currentTaskVars.get("recall_type").toString().equals("1")) {
+                    contract.setStatus(DictUtils.getDictValue("已完成", "oa_contract_status", ""));
+                    contract.setCancelFlag(1);
+                    contract.setCancelDate(new Date());
+                    contract.setCancelReason("合同撤销!");
+                    vars.put("isRecall", 1);
+
+                } else {
+                    if (!isFinishSplitPO(contract))
+                        throw new Exception("提交失败: 还没有完成拆分po, 不能提交!");
+                    contract.setStatus(DictUtils.getDictValue("待审批(销售)", "oa_contract_status", ""));
+                    vars.put("isRecall", 0);
+                }
                 saveProducts(contract);
             } else if("business_person_createbill".equals(taskDefKey)){//商务下单
                 if(!isFinishCreateBill(contract))
@@ -538,6 +550,28 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                         if(currentTaskVars.containsKey("contract_oldStatus"))
                             oldStatus = currentTaskVars.get("contract_oldStatus").toString();
 
+                        //如果为修改合同复制原合同产品数据
+                        if(pass && "recall_cfo_audit".equals(taskDefKey) && currentTaskVars.containsKey("recall_type")){
+                            Integer recall_type = Integer.parseInt(currentTaskVars.get("recall_type").toString());
+                            if(recall_type == 2) {//合同修改
+                                //删除已存在的数据
+                                ContractProduct filter = new ContractProduct(contract);
+                                filter.setOldFlag(1);
+                                List<ContractProduct> existingProducts = contractProductDao.findList(filter);
+                                for (ContractProduct product :existingProducts){
+                                    contractProductDao.delete(product);
+                                }
+                                //复制新数据
+                                for (ContractProduct product :contract.getContractProductList()){
+                                    ContractProduct copiedProduct = (ContractProduct) product.deepCopy();
+                                    copiedProduct.setId("");
+                                    copiedProduct.setIsNewRecord(false);
+                                    copiedProduct.setOldFlag(1);
+                                    copiedProduct.preInsert();
+                                    contractProductDao.insert(copiedProduct);
+                                }
+                            }
+                        }
                         //更改合同状态
                         /*if(pass && "recall_cfo_audit".equals(taskDefKey) && currentTaskVars.containsKey("recall_type")){
                             Integer recall_type = Integer.parseInt(currentTaskVars.get("recall_type").toString());
@@ -614,11 +648,11 @@ public class ContractService extends CrudService<ContractDao, Contract> {
     private Boolean isFinishSplitPO(Contract contract){
         for (ContractProduct product : contract.getContractProductList()) {
             if(product.getChilds().size() == 0 ){
-                if(!product.getNum().equals(product.getHasSendNum()))
+                if(product.getNum()>product.getHasSendNum())
                     return false;
             } else{
                 for (ContractProduct childProduct : product.getChilds()) {
-                    if(!childProduct.getNum().equals(childProduct.getHasSendNum()))
+                    if(childProduct.getNum()>childProduct.getHasSendNum())
                         return false;
                 }
             }
@@ -727,6 +761,12 @@ public class ContractService extends CrudService<ContractDao, Contract> {
     @Transactional(readOnly = false)
     public void recallApprove(String contractId, ContractRecallApprove recallApprove) throws Exception {
         Contract contract = get(contractId);
+        //删除已经存在的撤回申请
+        if(contract.getRecallApproveList().size()>0){
+            for(ContractRecallApprove approve : contract.getRecallApproveList()){
+                recallApproveDao.delete(approve);
+            }
+        }
         //判断合同是否已经开始流程
         if(isBlank(contract.getAct().getProcInsId()))
             throw new Exception("撤回失败: 合同还没有提交审批,不需要撤回!");
@@ -736,8 +776,11 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         List<PurchaseOrder> poList = purchaseOrderService.getPoListByContractId(contractId);
         //挂起与合同相关的所有订单
         for(PurchaseOrder po : poList){
-            if(isNotBlank(po.getProcInsId()))
-                runtimeService.suspendProcessInstanceById(po.getProcInsId());
+            if(isNotBlank(po.getProcInsId())){
+                ProcessInstance pi = actTaskService.getProcIns(po.getProcInsId());
+                if(!pi.isSuspended())
+                    runtimeService.suspendProcessInstanceById(po.getProcInsId());
+            }
         }
 
         //保存撤回合同的申请

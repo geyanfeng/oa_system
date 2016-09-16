@@ -1268,7 +1268,7 @@
     </div>
 
     <a class="anchor" name="panel-8"></a>
-    <c:if test="${not empty contract.id and not empty contract.act.procInsId}">
+    <c:if test="${(not empty contract.id and not empty contract.act.procInsId) or (not empty contract.act.taskId)}">
         <act:histoicFlow procInsId="${contract.act.procInsId}"/>
     </c:if>
 

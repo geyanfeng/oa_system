@@ -13,6 +13,7 @@
 		a.amount AS "amount",
 		a.remark AS "remark",
 		a.has_send_num AS "hasSendNum",
+		a.old_flag AS "oldFlag",
 		a.cancel_flag AS "cancelFlag",
 		a.del_flag AS "delFlag",
 		a.create_by AS "createBy.id",
@@ -44,7 +45,7 @@
 		FROM oa_contract_product a
 		<include refid="contractProductJoins"/>
 		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
+			a.del_flag = #{DEL_FLAG_NORMAL} and a.old_flag = #{oldFlag}
 			<if test="contract != null and contract.id != null and contract.id != ''">
 				AND a.contract_id = #{contract.id}
 			</if>
@@ -96,6 +97,7 @@
 			remark,
 			product_type,
 			service_flag,
+			old_flag,
 			cancel_flag,
 			del_flag,
 			create_by,
@@ -115,6 +117,7 @@
 			#{remark},
 			#{productType.id},
 			#{serviceFlag},
+			#{oldFlag},
 			#{cancelFlag},
 			#{delFlag},
 			#{createBy.id},

@@ -336,7 +336,10 @@
         <input id="purchaseOrderFinanceList{{idx}}_id" name="purchaseOrderFinanceList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
         <input id="purchaseOrderFinanceList{{idx}}_sort" name="purchaseOrderFinanceList[{{idx}}].sort" type="hidden" value="{{row.sort}}"/>
 	    <input id="purchaseOrderFinanceList{{idx}}_delFlag" name="purchaseOrderFinanceList[{{idx}}].delFlag" type="hidden" value="0"/>
-        <div style="background: #f5f5f5;width:80%;float:left; padding: 10px;">
+	    <input id="purchaseOrderFinanceList{{idx}}_planPayDate" name="purchaseOrderFinanceList[{{idx}}].planPayDate" type="hidden" value="{{row.planPayDate}}"/>
+	    <input id="purchaseOrderFinanceList{{idx}}_payDate" name="purchaseOrderFinanceList[{{idx}}].payDate" type="hidden" value="{{row.payDate}}"/>
+	    <input id="purchaseOrderFinanceList{{idx}}_status" name="purchaseOrderFinanceList[{{idx}}].status" type="hidden" value="{{row.status}}"/>
+        <div style="background: #f5f5f5;width:80%;float:left; padding: 10px;" class="div-pay">
             <div>
             金额：<input type="text" class="form-control required number input-sm" id="purchaseOrderFinanceList{{idx}}_amount" name="purchaseOrderFinanceList[{{idx}}].amount"
                         onchange="updatePayment(this);" value="{{row.amount}}" style="display: inline;width:90px;"/>
@@ -434,9 +437,16 @@
                 $("#div-activeData_"+ idx).show();
             }
 
+            //如果已付款,设置为只读
+            if(row.status==2){
+                $("#payment-body .row[data-idx='"+idx+"']").find("input").attr("readonly", "readonly");
+                $("#payment-body .row[data-idx='"+idx+"']").find("select").attr("onfocus", "this.defaultIndex=this.selectedIndex;");
+                $("#payment-body .row[data-idx='"+idx+"']").find("select").attr("onchange", "this.selectedIndex=this.defaultIndex;");
+                $("#payment-body .row[data-idx='"+idx+"']").find(".div-pay").css("background","#f5cccc");
+            }
+
             idx = idx+1;
             $("#payment-body").data("idx",idx);
-
         }
 
         function deleteInstallmentPayment(sender){
