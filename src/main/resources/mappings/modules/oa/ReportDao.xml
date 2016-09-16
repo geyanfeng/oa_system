@@ -54,4 +54,10 @@
        )
       }
     </select> 
+     <select id="reportForecastStatistics" parameterType="java.util.LinkedHashMap"  resultType="java.util.LinkedHashMap" statementType="CALLABLE" >  
+      {call report_forecast_statistics(
+     	 #{sqlCondition,jdbcType=VARCHAR,mode=IN}
+       )
+      }
+    </select> 
 </mapper>

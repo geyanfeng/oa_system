@@ -23,9 +23,11 @@ import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.oa.dao.ReportDao;
 import com.thinkgem.jeesite.modules.oa.entity.Customer;
+import com.thinkgem.jeesite.modules.oa.entity.ProductTypeGroup;
 import com.thinkgem.jeesite.modules.oa.entity.SearchParams;
 import com.thinkgem.jeesite.modules.oa.entity.Supplier;
 import com.thinkgem.jeesite.modules.oa.service.CustomerService;
+import com.thinkgem.jeesite.modules.oa.service.ProductTypeGroupService;
 import com.thinkgem.jeesite.modules.oa.service.SupplierService;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
@@ -39,7 +41,9 @@ public class ReportController extends BaseController {
 	private SupplierService supplierService;
 	@Autowired
 	private CustomerService customerService;
-
+	@Autowired
+	private ProductTypeGroupService productTypeGroupService;
+	
 	@RequiresPermissions("oa:report:view")
 	@RequestMapping(value = { "list", "" })
 	public String list(SearchParams searchParams, HttpServletRequest request,
@@ -87,7 +91,7 @@ public class ReportController extends BaseController {
 				model.addAttribute("customerList", customerList);
 			}
 
-			if (reportType == 3) {
+			if (reportType == 3 || reportType == 4) {
 				boolean isSaler = UserUtils.IsRoleByRoleEnName("saler");
 				if (isSaler) {
 					sqlCondition += "  and saler_id='"
@@ -174,29 +178,40 @@ public class ReportController extends BaseController {
 				model.addAttribute("achievementList", achievementList);
 
 				break;
+			case 4:
+				model.addAttribute("title", "来单预测报表");
+				List<Map> forecastList = reportDao
+						.reportForecastStatistics(queryMap);
+				model.addAttribute("forecastList", forecastList);
+				model.addAttribute("productTypeGroup_list", productTypeGroupService.findList(new ProductTypeGroup()));
+				break;
 			}
 
-			if (list != null && list.size() > 0) {
-				Set set = list.get(0).entrySet();
-				Iterator i = set.iterator();
-				while (i.hasNext()) {
-					Map.Entry me = (Map.Entry) i.next();
-					if (me.getKey().toString().equals("recordCount")) {
-						page.setCount(Long.parseLong(me.getValue().toString()));
-						break;
+			if(reportType != 4){
+				if (list != null && list.size() > 0) {
+					Set set = list.get(0).entrySet();
+					Iterator i = set.iterator();
+					while (i.hasNext()) {
+						Map.Entry me = (Map.Entry) i.next();
+						if (me.getKey().toString().equals("recordCount")) {
+							page.setCount(Long.parseLong(me.getValue().toString()));
+							break;
+						}
 					}
+					// page.setCount(list.get(0).values().g);
+				} else {
+					page.setCount(0);
 				}
-				// page.setCount(list.get(0).values().g);
-			} else {
-				page.setCount(0);
-			}
 
-			page.setList(list);
-			model.addAttribute("page", page);
+				page.setList(list);
+				model.addAttribute("page", page);
+			}
+			
 			model.addAttribute("headers", headers);
 		}
 
 		return "modules/oa/reportList";
 	}
+
 
 }

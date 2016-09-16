@@ -78,6 +78,36 @@
 					</div>
 				</div>
 				</c:if>
+				
+				<c:if test="${reportType eq '4'}">
+			    <div class="row" style="margin-bottom:20px;">
+			    <form:checkboxes path="salerIds"
+									items="${salerList}" itemLabel="name"
+									itemValue="id" htmlEscape="false" class=""
+									element="span class='checkbox checkbox-custom checkbox-inline'" />
+			    
+			    </div>
+				<div class="form-group m-r-10">
+					<label>时间：</label>
+					<div class="input-group">
+						<input name="startTime" type="text" readonly="readonly"
+							maxlength="20" class="form-control" size="10"
+							value="${searchParams.startTime}"
+							onclick="WdatePicker({dateFmt:'yyyy-MM',isShowClear:false});" />
+						<span class="input-group-addon bg-custom b-0 text-white"><i
+							class="ti-calendar"></i></span>
+					</div>
+					<div class="input-group">
+						<input name="endTime" type="text" readonly="readonly"
+							maxlength="20" class="form-control" size="10"
+							value="${searchParams.endTime}"
+							onclick="WdatePicker({dateFmt:'yyyy-MM',isShowClear:false});" />
+						<span class="input-group-addon bg-custom b-0 text-white"><i
+							class="ti-calendar"></i></span>
+					</div>
+				</div>
+				</c:if>
+				
 			   <c:choose>
 					<c:when test="${reportType eq '1'}">
 					<div class="form-group m-r-10">
@@ -100,6 +130,17 @@
 								  itemValue="id" htmlEscape="false"/>
 				</form:select>
 			   </div>
+					</c:when>
+					<c:when test="${reportType eq '4'}">
+					<div class="form-group m-r-10">
+			<label>产品类型：</label>
+			<form:select path="productTypeGroup" class="input-medium form-control" style="width:200px;">
+					<form:option value="" label=""/>
+					<form:options items="${productTypeGroup_list}" itemLabel="name" itemValue="id" htmlEscape="false"/>
+				</form:select>
+		</div>
+
+				
 					</c:when>
 				</c:choose>
 				<div class="form-group m-r-10">
@@ -190,6 +231,7 @@
 				
 			</script>
 			</c:if>
+			<c:if test="${reportType ne '4'}">
 			<sys:message content="${message}" />
 			<table id="contentTable" class="table table-striped m-0">
 				<thead>
@@ -210,6 +252,7 @@
 				</tbody>
 			</table>
 			${page}
+			</c:if>
 		</div>
 	</div>
 </body>
