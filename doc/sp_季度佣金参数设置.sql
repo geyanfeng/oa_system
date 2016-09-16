@@ -82,6 +82,13 @@ UPDATE oa_quarter_setting SET lc_p1 =@lc_p1,lc_p2 =@lc_p2,lc_p3 =@lc_p3,lc_p4 =@
 
 #销售人员本Q指标，即GPI  提成系数（SCC)计算（毛利指标为GPI，实际完成毛利为GP）
 DELETE FROM oa_quarter_sale_setting WHERE `year` = @year and `quarter` = @quarter;
-INSERT INTO oa_quarter_sale_setting (`year`, `quarter`, `sale_id`, `gpi`, `update_date`) select @year, @quarter, saler_id, gpi, now() from oa_people_setting;
+INSERT INTO oa_quarter_sale_setting (`year`, `quarter`, `sale_id`, `gpi`, `update_date`) 
+select @year, @quarter, saler_id, 
+          CASE @quarter
+            WHEN 1 THEN gpi_q1
+            WHEN 2 THEN gpi_q2
+            WHEN 3 THEN gpi_q3
+            WHEN 4 THEN gpi_q4
+         END, now() from oa_people_setting;
 
 end
