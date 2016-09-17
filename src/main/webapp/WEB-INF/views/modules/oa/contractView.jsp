@@ -906,8 +906,8 @@
 							            <a href="javascript:void(0);" onclick="return confirmx('确认要删除该订单吗？', function(){deletePo('{{row.id}}');})" title="删除" class="zmdi zmdi-minus-square text-success" style="font-size:25px;"></a>
 							         {{/row.isDisplayDeleteBtn}}
                                      {{#row.isDisplayTBtn}}
-							            <a href="javascript:void(0);" title="退款确认" onclick="showPoTKUI('{{row.id}}');" class="text-success">退</a>
-							            <a href="javascript:void(0);" title="转入库存" onclick="showPoInKCUI('{{row.id}}');" class="text-success">库</a>
+							            <a href="javascript:void(0);" title="退款确认" onclick="showPoTKTHUI(this, '{{row.id}}', 1);" class="text-success">退</a>
+							            <a href="javascript:void(0);" title="转入库存" onclick="showPoTKTHUI(this, '{{row.id}}', 2);" class="text-success">库</a>
 							         {{/row.isDisplayTBtn}}
 							    </c:if>
 							</td>
@@ -1397,7 +1397,7 @@
     <div id="modal-PoTKTH" class="modal fade" tabindex="-1"
          role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
          style="display: none;">
-        <div class="modal-dialog" style="width:400px;">
+        <div class="modal-dialog" style="width:500px;">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"
@@ -1409,25 +1409,111 @@
                         <thead>
                         <tr role="row">
                             <th class="hidden"></th>
-                            <th>订单编号</th>
-                            <th>供应商</th>
-                            <th>金额</th>
-                            <th>帐期</th>
-                            <th>帐期点数</th>
-                            <th>帐期日利率</th>
-                            <th>操作</th>
+                            <th>退货条目</th>
+                            <th>退货数量</th>
+                            <th>单位</th>
+                            <th>单价</th>
+                            <th>小计</th>
                         </tr>
                         </thead>
                         <tbody id="body-poTKTH">
                         </tbody>
                     </table>
+                    <div class="pull-right">总计: <span class="total" style="color:red;"></span></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-info waves-effect waves-light" class="submit-poTKTH">确定</button>
+                    <button type="button" class="btn btn-info waves-effect waves-light submit-poTKTH">确定</button>
                 </div>
             </div>
         </div>
     </div>
+    <script type="text/template" id="tpl-PoTKTH">//<!--
+        <tr>
+            <td class="hidden">
+                <input name="name" type="hidden" value="{{row.name}}"/>
+                <input name="unit" type="hidden" value="{{row.unit}}"/>
+                <input name="price" type="hidden" value="{{row.price}}"/>
+                <input name="amount" type="hidden" value="{{row.amount}}"/>
+                <input name="productType" type="hidden" value="{{row.productType}}"/>
+            </td>
+            <td>
+                {{row.name}}
+            </td>
+            <td>
+                <input name="num" type="text" value="{{row.num}}" class="form-control number input-block required" style="width:80px;"/>
+            </td>
+            <td>
+                {{row.unitName}}
+            </td>
+            <td>
+                {{row.price}}
+            </td>
+             <td>
+                {{row.amount}}
+            </td>
+        </tr>//-->
+    </script>
+    <script>
+        function showPoTKTHUI(sender, po_id, type){
+            var tpl = $("#tpl-PoTKTH").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""),
+                top = window.event.clientY,
+                    totalAmount = 0;
+
+            $("#body-poTKTH").empty();//清空数据
+
+            var modal = $('#modal-PoTKTH');
+            modal.css('top',top>200 ? (top-200): top );
+
+            if(type == 1) {//退款确认
+                modal.find(".modal-title").html("退款确认");
+                modal.find("#table-poTKTH  thead td:eq(1)").html("退货条目");
+                modal.find("#table-poTKTH  thead td:eq(2)").html("退货数量");
+            }
+            else {//转入库存
+                modal.find(".modal-title").html("转入库存");
+                modal.find("#table-poTKTH  thead td:eq(1)").html("入库条目");
+                modal.find("#table-poTKTH  thead td:eq(2)").html("入库数量");
+            }
+
+            modal.find(".submit-poTKTH").data("type", type);
+            modal.find(".submit-poTKTH").data("poId", po_id);
+            modal.find(".submit-poTKTH").click(function(){
+                if(modal.find('input').hasClass("error"))return;
+                var type = $(this).data("type"), poid = $(this).data("poId");
+                var data = {
+                    name: modal.find("input[name='name']").val(),
+                    num: modal.find("input[name='num']").val(),
+                    unit: modal.find("input[name='unit']").val(),
+                    price: modal.find("input[name='price']").val(),
+                    amount: modal.find("input[name='amount']").val(),
+                    productType: modal.find("input[name='productType']").val()
+                }
+            });
+
+            $.each(poList, function(index, po){
+                if(po.id == po_id){
+                    var productList = po.purchaseOrderProductList;
+                    $.each(productList, function(pIdx, product){
+                        for(var j = 0; j<unitList.length; j++){
+                            if(unitList[j].value == product.unit)
+                            {
+                                product.unitName = unitList[j].label;
+                                break;
+                            }
+                        }
+                        $("#body-poTKTH").append(Mustache.render(tpl, { row: product }));
+                        totalAmount+=product.amount;
+                    });
+                }
+            });
+            modal.find(".total").html(totalAmount);
+
+            modal.modal({
+                show : true,
+                backdrop : 'static'
+            });
+        }
+    </script>
 </body>
 </html>
