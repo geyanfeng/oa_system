@@ -549,7 +549,7 @@ th,td{text-align:left;}
 								</select>
 							</td>
 							<td>
-								<input id="contractProductList{{idx}}_amount" name="contractProductList[{{idx}}].amount" type="text" value="{{row.amount}}" class="form-control input-block " readonly style="background-color: #e8e8e8 !important;"/>
+								<input id="contractProductList{{idx}}_amount" name="contractProductList[{{idx}}].amount" type="text" value="{{row.amount}}" class="form-control input-block " readonly style="background-color: #e8e8e8 !important;" size="10"/>
 							</td>
 							<td>
 								<input id="contractProductList{{idx}}_remark" name="contractProductList[{{idx}}].remark" type="text" value="{{row.remark}}" maxlength="255" class="form-control input-block "/>
