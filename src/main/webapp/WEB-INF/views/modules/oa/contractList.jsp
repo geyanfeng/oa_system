@@ -236,7 +236,7 @@
 							<td><fmt:formatDate value="${contract.createDate}"
 									pattern="yyyy-MM-dd" /></td>
 
-							<td><a href="${ctx}/oa/contract/view?id=${contract.id}">
+							<td><a href="${ctx}/oa/contract/view?id=${contract.id}" target="mainFrame">
 									${contract.no} </a></td>
 							</td>
 							<td>${contract.customer.name}</td>

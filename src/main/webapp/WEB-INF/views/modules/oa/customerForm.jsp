@@ -53,7 +53,7 @@
 </head>
 <body>
 <c:if test="${empty fromModal}"><h2 style="padding-left: 20px; font-weight: normal; font-size: 18px;">客户管理--编辑</h2></c:if>
-<div class="panel panel-default" style="margin:0;">
+<div class="panel panel-default" style="margin:0;<c:if test="${not empty fromModal}">border:none;</c:if>">
 		<div class="panel-body">
 	<form:form id="inputForm" modelAttribute="customer" action="${ctx}/oa/customer/${not empty fromModal?'ajaxSave':'save'}" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
