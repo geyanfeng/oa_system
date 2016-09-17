@@ -149,6 +149,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 
     @Transactional(readOnly = false)
     public void save(Contract contract) {
+        boolean isNew = contract.getIsNewRecord();
         if(contract.getStatus()==null)
             contract.setStatus("0");
         super.save(contract);
@@ -156,6 +157,12 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         saveProducts(contract);
         saveAttachments(contract);
         saveFinance(contract);
+
+       /* if(isNew) {
+            if (!contract.getContractType().equals("1") && isNotBlank(contract.getAct().getFlag()) || isNotBlank(contract.getAct().getTaskDefKey())) {
+                submitAudit(contract);
+            }
+        }*/
     }
 
     @Transactional(readOnly = false)
@@ -426,6 +433,31 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         return contractDao.getByName(name);
     }
 
+    /**
+     * 合同提交审批
+     * @param contract
+     */
+    private void submitAudit(Contract contract){
+        String taskDefKey = contract.getAct().getTaskDefKey();
+        String flag = contract.getAct().getFlag();
+
+        if (isBlank(taskDefKey) && "submit_audit".equals(flag)) {
+            //更新合同状态
+            contract.setStatus(DictUtils.getDictValue("已签约", "oa_contract_status", ""));
+            contract.preUpdate();
+            contractDao.update(contract);
+            // 设置流程变量
+            Map<String, Object> vars = Maps.newHashMap();
+            vars.put("business_person", UserUtils.get(contract.getBusinessPerson().getId()).getName());
+            vars.put("artisan",  UserUtils.get(contract.getArtisan().getId()).getName());
+            vars.put("contract_no", contract.getNo());
+            vars.put("contract_name", contract.getName());
+            //dao.insert(contract);
+            contract.getAct().setComment("提交审批");
+            actTaskService.startProcess(ActUtils.PD_CONTRAT_AUDIT[0], ActUtils.PD_CONTRAT_AUDIT[1], contract.getId(), contract.getName(), vars);
+        }
+    }
+
     /*
     审批合同
      */
@@ -438,20 +470,8 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         String oldNode = ""; //原始结点
         String oldStatus = ""; //原始状态
 
-        if (isBlank(taskDefKey) && "submit_audit".equals(flag)) {
-            //更新合同状态
-            contract.setStatus(DictUtils.getDictValue("已签约","oa_contract_status",""));
-            contract.preUpdate();
-            contractDao.update(contract);
-            // 设置流程变量
-            Map<String, Object> vars = Maps.newHashMap();
-            vars.put("business_person", contract.getBusinessPerson().getName());
-            vars.put("artisan", contract.getArtisan().getName());
-            vars.put("contract_no", contract.getNo());
-            vars.put("contract_name", contract.getName());
-            //dao.insert(contract);
-            contract.getAct().setComment("提交审批");
-            actTaskService.startProcess(ActUtils.PD_CONTRAT_AUDIT[0], ActUtils.PD_CONTRAT_AUDIT[1], contract.getId(), contract.getName(), vars);
+        if (isBlank(taskDefKey) && "submit_audit".equals(flag)) {//合同提交审批
+            submitAudit(contract);
         } else {
             Map<String, Object> vars = Maps.newHashMap();
             String comment = contract.getAct().getComment();
