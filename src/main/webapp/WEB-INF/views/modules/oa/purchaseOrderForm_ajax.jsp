@@ -438,7 +438,7 @@
             }
 
             //如果已付款,设置为只读
-            if(row.status==2){
+            if(row && row.status && row.status==2){
                 $("#payment-body .row[data-idx='"+idx+"']").find("input").attr("readonly", "readonly");
                 $("#payment-body .row[data-idx='"+idx+"']").find("select").attr("onfocus", "this.defaultIndex=this.selectedIndex;");
                 $("#payment-body .row[data-idx='"+idx+"']").find("select").attr("onchange", "this.selectedIndex=this.defaultIndex;");

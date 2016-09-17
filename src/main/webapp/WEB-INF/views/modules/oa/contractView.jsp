@@ -906,8 +906,8 @@
 							            <a href="javascript:void(0);" onclick="return confirmx('确认要删除该订单吗？', function(){deletePo('{{row.id}}');})" title="删除" class="zmdi zmdi-minus-square text-success" style="font-size:25px;"></a>
 							         {{/row.isDisplayDeleteBtn}}
                                      {{#row.isDisplayTBtn}}
-							            <a href="javascript:void(0);" title="退款确认" class="text-success">退</a>
-							            <a href="javascript:void(0);" title="转入库存" class="text-success">库</a>
+							            <a href="javascript:void(0);" title="退款确认" onclick="showPoTKUI('{{row.id}}');" class="text-success">退</a>
+							            <a href="javascript:void(0);" title="转入库存" onclick="showPoInKCUI('{{row.id}}');" class="text-success">库</a>
 							         {{/row.isDisplayTBtn}}
 							    </c:if>
 							</td>
@@ -1388,6 +1388,43 @@
                     <div class="row">
                         <iframe width="100%" height="500" frameborder="0"></iframe>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--转入库存和退款确认-->
+    <div id="modal-PoTKTH" class="modal fade" tabindex="-1"
+         role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+         style="display: none;">
+        <div class="modal-dialog" style="width:400px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true">×</button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <table id="table-poTKTH" class="table table-striped table-condensed table-hover">
+                        <thead>
+                        <tr role="row">
+                            <th class="hidden"></th>
+                            <th>订单编号</th>
+                            <th>供应商</th>
+                            <th>金额</th>
+                            <th>帐期</th>
+                            <th>帐期点数</th>
+                            <th>帐期日利率</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="body-poTKTH">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-info waves-effect waves-light" class="submit-poTKTH">确定</button>
                 </div>
             </div>
         </div>
