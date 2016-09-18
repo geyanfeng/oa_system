@@ -1,7 +1,7 @@
 /*
 alter view oa_view_receivable_amount as
 select  
-CONCAT(c.`no`,"-S",f.sort) as finance_no,
+CONCAT(c.`no`,"-S",CONVERT(f.sort,char)) as finance_no,
 d.value as company_id, d.label as company_name,
 u.id as saler_id, u.`name` as saler_name,
 ct.id as customer_id, ct.`name` as customer_name,
@@ -40,7 +40,6 @@ CASE
 END as finance_stauts_name,
 CASE
   WHEN f.`status` = 3 THEN f.amount
-  Else 0
 END as finance_amount,
 f.pay_date,
 DATEDIFF(f.pay_date,f.plan_pay_date) as over_days
@@ -67,7 +66,7 @@ PREPARE STMT FROM @COUNTSTMT;
 EXECUTE STMT;  
 
 SET @STMT := CONCAT("select @COUNT as recordCount,finance_no,company_name,saler_name,customer_name,contract_name,contract_stauts_name,
-receivable_amount,billing_date,payment_days,finance_stauts_name,finance_amount,pay_date,over_days from oa_view_receivable_amount where 1=1 ", sqlCondition,
+receivable_amount,billing_date,payment_days,plan_pay_date,finance_stauts_name,finance_amount,pay_date,over_days from oa_view_receivable_amount where 1=1 ", sqlCondition,
 " ", orderBy);
 PREPARE STMT FROM @STMT; 
 EXECUTE STMT;  
