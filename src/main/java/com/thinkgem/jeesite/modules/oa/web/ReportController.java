@@ -185,6 +185,37 @@ public class ReportController extends BaseController {
 				model.addAttribute("forecastList", forecastList);
 				model.addAttribute("productTypeGroup_list", productTypeGroupService.findList(new ProductTypeGroup()));
 				break;
+			case 5:
+				model.addAttribute("title", "应收列表");
+				headers.put("finance_no", "收款流水号");
+				headers.put("company_name", "单位");
+				headers.put("saler_name", "销售");
+				headers.put("customer_name", "客户");
+				headers.put("contract_name", "项目名称");
+				headers.put("contract_stauts_name", "合同状态");
+				headers.put("receivable_amount", "应收金额");
+				headers.put("billing_date", "开票日期");
+				headers.put("payment_days", "账期");
+				headers.put("plan_pay_date", "账期截止日");
+				headers.put("finance_stauts_name", "收款状态");
+				headers.put("finance_amount", "收款金额");
+				headers.put("pay_date", "收款日期");
+				headers.put("over_days", "逾期天数");
+				list = reportDao.reportReceivableAmount(queryMap);
+				break;
+			case 6:
+				model.addAttribute("title", "应付列表");
+				headers.put("finance_no", "付款流水号");
+				headers.put("company_name", "单位");
+				headers.put("supplier_name", "收款方");
+				headers.put("plan_pay_date", "到期日");
+				headers.put("amount", "金额");
+				headers.put("pay_condition_name", "付款条件");
+				headers.put("pay_method_name", "付款方式");
+				headers.put("pay_status_name", "状态");
+				headers.put("pay_date", "付款日期");
+				list = reportDao.reportPayAmount(queryMap);
+				break;
 			}
 
 			if(reportType != 4){

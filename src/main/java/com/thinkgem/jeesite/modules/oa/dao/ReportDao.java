@@ -15,4 +15,6 @@ public interface ReportDao {
 	public List<Map> reportContractStatistics(Map map);	
 	public List<Map> reportAchievementStatistics(Map map);	
 	public List<Map> reportForecastStatistics(Map map);	
+	public List<Map> reportReceivableAmount(Map map);	
+	public List<Map> reportPayAmount(Map map);	
 }
