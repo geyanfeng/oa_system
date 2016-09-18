@@ -1435,13 +1435,13 @@
                 <input name="unit" type="hidden" value="{{row.unit}}"/>
                 <input name="price" type="hidden" value="{{row.price}}"/>
                 <input name="amount" type="hidden" value="{{row.amount}}"/>
-                <input name="productType" type="hidden" value="{{row.productType}}"/>
+                <input name="productType" type="hidden" value="{{row.productType.id}}"/>
             </td>
             <td>
                 {{row.name}}
             </td>
             <td>
-                <input name="num" type="text" value="{{row.num}}" class="form-control number input-block required" style="width:80px;"/>
+                <input name="num" type="text" value="{{row.num}}" class="form-control number input-block required" style="width:80px;" onchange="tkThUpdateAmount(this);"/>
             </td>
             <td>
                 {{row.unitName}}
@@ -1481,13 +1481,28 @@
             modal.find(".submit-poTKTH").click(function(){
                 if(modal.find('input').hasClass("error"))return;
                 var type = $(this).data("type"), poid = $(this).data("poId");
-                var data = {
-                    name: modal.find("input[name='name']").val(),
-                    num: modal.find("input[name='num']").val(),
-                    unit: modal.find("input[name='unit']").val(),
-                    price: modal.find("input[name='price']").val(),
-                    amount: modal.find("input[name='amount']").val(),
-                    productType: modal.find("input[name='productType']").val()
+                var dataList = [];
+                $("#body-poTKTH tr").each(function(idx, item){
+                    var row = $(item);
+                    var data = {
+                        name: row.find("input[name='name']").val(),
+                        num: row.find("input[name='num']").val(),
+                        unit: row.find("input[name='unit']").val(),
+                        price: row.find("input[name='price']").val(),
+                        amount: row.find("input[name='amount']").val(),
+                        productType: row.find("input[name='productType']").val()
+                    }
+                    dataList.push(data);
+                })
+                if(type == 1){
+                    var a= 1;
+                } else{
+                    $.ajax({
+                        type: 'POST',
+                        url: "${ctx}/oa/stockin/" + poid + "/save",
+                        contentType: "application/json;",
+                        data: JSON.stringify(dataList)
+                    });
                 }
             });
 
@@ -1513,6 +1528,21 @@
                 show : true,
                 backdrop : 'static'
             });
+        }
+
+        function tkThUpdateAmount(sender){
+            var self = $(sender),
+                    row = self.closest("tr"),
+                    num = parseInt(self.val()),
+                    price = parseFloat(row.find("td:eq(4)").html());
+            row.find("td:eq(5)").html((num*price).toFixed(2));
+
+            totalAmount = 0;
+            $("#body-poTKTH tr").each(function(idx,row){
+                var amount = parseFloat($(row).find("td:eq(5)").html());
+                totalAmount+=amount;
+            });
+            $('#modal-PoTKTH').find(".total").html(totalAmount);
         }
     </script>
 </body>

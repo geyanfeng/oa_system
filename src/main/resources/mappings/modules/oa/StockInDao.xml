@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.oa.dao.StockInDao">
+    
+	<sql id="stockInColumns">
+		a.id AS "id",
+		a.po_id AS "poId",
+		a.contract_id AS "contractId",
+		a.recall_id AS "recallId",
+		a.name AS "name",
+		a.product_type AS "productType",
+		a.price AS "price",
+		a.num AS "num",
+		a.unit AS "unit",
+		a.amount AS "amount",
+		a.remark AS "remark",
+		a.sort AS "sort",
+		a.del_flag AS "delFlag",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate"
+	</sql>
+	
+	<sql id="stockInJoins">
+	</sql>
+    
+	<select id="get" resultType="StockIn">
+		SELECT 
+			<include refid="stockInColumns"/>
+		FROM oa_stock_in a
+		<include refid="stockInJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="StockIn">
+		SELECT 
+			<include refid="stockInColumns"/>
+		FROM oa_stock_in a
+		<include refid="stockInJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="poId != null and poId != ''">
+				And a.po_id = #{poId}
+			</if>
+			<if test="contractId != null and contractId != ''">
+				And a.conract_id = #{contractId}
+			</if>
+			<if test="recallId != null and recallId != ''">
+				And a.recall_id = #{recallId}
+			</if>
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="StockIn">
+		SELECT 
+			<include refid="stockInColumns"/>
+		FROM oa_stock_in a
+		<include refid="stockInJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO oa_stock_in(
+			id,
+			po_id,
+			contract_id,
+			recall_id,
+			name,
+			product_type,
+			price,
+			num,
+			unit,
+			amount,
+			remark,
+			sort,
+			del_flag,
+			create_by,
+			create_date,
+			update_by,
+			update_date
+		) VALUES (
+			#{id},
+			#{poId},
+			#{contractId},
+			#{recallId},
+			#{name},
+			#{productType},
+			#{price},
+			#{num},
+			#{unit},
+			#{amount},
+			#{remark},
+			#{sort},
+			#{delFlag},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE oa_stock_in SET 	
+			po_id = #{poId},
+			contract_id = #{contractId},
+			recall_id = #{recallId},
+			name = #{name},
+			product_type = #{productType},
+			price = #{price},
+			num = #{num},
+			unit = #{unit},
+			amount = #{amount},
+			remark = #{remark},
+			sort = #{sort},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE oa_stock_in SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
