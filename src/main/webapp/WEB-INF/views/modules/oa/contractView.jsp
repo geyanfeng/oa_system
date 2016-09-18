@@ -1501,7 +1501,10 @@
                         type: 'POST',
                         url: "${ctx}/oa/stockin/" + poid + "/save",
                         contentType: "application/json;",
-                        data: JSON.stringify(dataList)
+                        data: JSON.stringify(dataList),
+                        success: function(){
+                            $('#modal-PoTKTH').modal('hide');
+                        }
                     });
                 }
             });
