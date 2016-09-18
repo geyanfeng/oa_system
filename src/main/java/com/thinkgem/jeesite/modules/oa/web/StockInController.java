@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
@@ -24,13 +25,13 @@ public class StockInController extends BaseController {
 
     @RequestMapping(value = "{poId}/save")
     @ResponseBody
-    public void save(@PathVariable String poId, @RequestBody List<StockIn> stockInList, HttpServletResponse response) throws Exception {
+    public String save(@PathVariable String poId, @RequestBody List<StockIn> stockInList, HttpServletResponse response) throws Exception {
         try{
             stockInService.saveList(poId, stockInList);
-             renderString(response, "转入库存成功!");
+            return renderString(response, "转入库存成功!");
         }
        catch(Exception e){
-           renderString(response, "转入库存失败!");
+           return renderString(response, "转入库存失败!");
        }
     }
 }
