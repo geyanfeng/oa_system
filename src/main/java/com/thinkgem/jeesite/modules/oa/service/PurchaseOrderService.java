@@ -308,8 +308,8 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 		if (isBlank(taskDefKey) && "submit_audit".equals(flag)) {
 			// 设置流程变量
 			Map<String, Object> vars = Maps.newHashMap();
-			vars.put("business_person", contract.getBusinessPerson().getName());//商务人员
-			vars.put("artisan", contract.getArtisan().getName());//技术人员
+			vars.put("business_person", UserUtils.get(contract.getBusinessPerson().getId()).getLoginName());//商务人员
+			vars.put("artisan",  UserUtils.get(contract.getArtisan().getId()).getLoginName());//技术人员
 			vars.put("payment_num", purchaseOrder.getPurchaseOrderFinanceList().size());//支付次数
 			vars.put("contract_no", contract.getNo());
 			vars.put("contract_name", contract.getName());
