@@ -736,4 +736,18 @@ public class ActTaskService extends BaseService {
 		TaskServiceImpl taskServiceImpl=(TaskServiceImpl)taskService;
 		taskServiceImpl.getCommandExecutor().execute(new JumpTaskCmd(executionId, activityId));
 	}
+
+	public Object getVarValue(String procInsId, String varKey){
+		if(StringUtils.isNotBlank(procInsId)) {
+			Task task = getCurrentTaskInfo(getProcIns(procInsId));
+			if(task!=null) {
+				Map<String, Object> currentTaskVars = taskService.getVariables(task.getId());
+				//如果撤回类型为撤销,合同结束,并更改撤销状态
+				if (currentTaskVars.containsKey(varKey)) {
+					return currentTaskVars.get(varKey);
+				}
+			}
+		}
+		return null;
+	}
 }
