@@ -1,7 +1,7 @@
 /*
 alter view oa_view_pay_amount as
 select 
-CONCAT(p.`no`,"-FK",f.sort) as finance_no,
+CONCAT(p.`no`,"-FK",CONVERT(f.sort,char)) as finance_no,
 d.value as company_id, d.label as company_name,
 s.id as supplier_id, s.name as supplier_name,
 f.plan_pay_date,f.amount,
@@ -18,7 +18,7 @@ CASE
 END as pay_method_name,
 f.`status`,
 CASE
-  WHEN f.`status` = 1 THEN '没付款'
+  WHEN f.`status` = 1 THEN '未付款'
   WHEN f.`status` = 2 THEN '已付款'
 END as pay_status_name,
 f.pay_date
