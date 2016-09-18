@@ -448,8 +448,8 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             contractDao.update(contract);
             // 设置流程变量
             Map<String, Object> vars = Maps.newHashMap();
-            vars.put("business_person", UserUtils.get(contract.getBusinessPerson().getId()).getName());
-            vars.put("artisan",  UserUtils.get(contract.getArtisan().getId()).getName());
+            vars.put("business_person", UserUtils.get(contract.getBusinessPerson().getId()).getLoginName());
+            vars.put("artisan",  UserUtils.get(contract.getArtisan().getId()).getLoginName());
             vars.put("contract_no", contract.getNo());
             vars.put("contract_name", contract.getName());
             //dao.insert(contract);
