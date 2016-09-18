@@ -115,10 +115,10 @@
 			</div>
 		</div>
 		<div class="form-actions">
-			<shiro:hasPermission name="gen:genScheme:edit">
+			<%--<shiro:hasPermission name="gen:genScheme:edit">--%>
 				<input id="btnSubmit" class="btn btn-primary" type="submit" value="保存方案" onclick="$('#flag').val('0');"/>&nbsp;
 				<input id="btnSubmit" class="btn btn-danger" type="submit" value="保存并生成代码" onclick="$('#flag').val('1');"/>&nbsp;
-			</shiro:hasPermission>
+			<%--</shiro:hasPermission>--%>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
