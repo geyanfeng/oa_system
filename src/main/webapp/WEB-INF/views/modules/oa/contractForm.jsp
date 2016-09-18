@@ -36,6 +36,10 @@ th,td{text-align:left;}
                     name: {remote: "合同名称已存在"}
                 },
                 submitHandler: function (form) {
+                	if($("#contractType").val() == "3" && $("#parentId").val() == ""){
+                		showTipMsg("补充合同,父级合同不能为空","error");
+                		return;
+                	}
                     if(!validationPaymentAmount())
                             return;
                     loading('正在提交，请稍等...');
