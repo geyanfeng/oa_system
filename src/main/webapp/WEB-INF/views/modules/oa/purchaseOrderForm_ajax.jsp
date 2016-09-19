@@ -376,7 +376,7 @@ h4 {
 	    <input id="purchaseOrderFinanceList{{idx}}_planPayDate" name="purchaseOrderFinanceList[{{idx}}].planPayDate" type="hidden" value="{{row.planPayDate}}"/>
 	    <input id="purchaseOrderFinanceList{{idx}}_payDate" name="purchaseOrderFinanceList[{{idx}}].payDate" type="hidden" value="{{row.payDate}}"/>
 	    <input id="purchaseOrderFinanceList{{idx}}_status" name="purchaseOrderFinanceList[{{idx}}].status" type="hidden" value="{{row.status}}"/>
-        <div style="background: #f5f5f5;width:80%;float:left; padding: 10px;" class="div-pay">
+        <div style="background: #f5f5f5;width:85%;float:left; padding: 10px;" class="div-pay">
 			<table>
 				<tr>
 					<td width="80" height="40">付款金额：</td>
@@ -391,7 +391,7 @@ h4 {
 					<td><input id="purchaseOrderFinanceList{{idx}}_zq" name="purchaseOrderFinanceList[{{idx}}].zq" type="text" class="form-control required number input-sm"
                            value="{{row.zq}}" onchange="updateRll()"/></td>
 					<td>付款条件：</td>
-					<td><select id="purchaseOrderFinanceList{{idx}}_payCondition" name="purchaseOrderFinanceList[{{idx}}].payCondition" data-value="{{row.payCondition}}" class="form-control input-block required input-sm"  style="width: 100px;display: inline;">
+					<td><select id="purchaseOrderFinanceList{{idx}}_payCondition" name="purchaseOrderFinanceList[{{idx}}].payCondition" data-value="{{row.payCondition}}" class="form-control input-block required input-sm">
                     	<option value="0">预付</option>
                     	<option value="1">后付</option>
                 	</select></td>
