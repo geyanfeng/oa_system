@@ -45,7 +45,7 @@
 				And a.po_id = #{poId}
 			</if>
 			<if test="contractId != null and contractId != ''">
-				And a.conract_id = #{contractId}
+				And a.contract_id = #{contractId}
 			</if>
 			<if test="recallId != null and recallId != ''">
 				And a.recall_id = #{recallId}

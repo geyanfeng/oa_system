@@ -166,12 +166,79 @@ th, td {
 				</div>
 			</div>
 
+			<shiro:hasRole name="cso">
+				<c:if test="${not empty is_recall && is_recall eq true}">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">原采购列表</h3>
+						</div>
+						<div class="panel-body">
+							<table id="contentTable_old" class="table table-condensed">
+								<thead>
+								<tr role="row">
+									<th class="hidden"></th>
+									<th>采购条目</th>
+									<th>采购数量</th>
+									<th>产品组</th>
+									<th>合同价</th>
+								</tr>
+								</thead>
+								<tbody id="contractProductList_old">
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<script type="text/template" id="contractProductViewTpl_old">//<!--
+							<tr id="contractProductList_old{{idx}}" row="row" data-idx={{idx}} data-id="{{row.id}}">
+								<td class="hidden"></td>
+								<td>
+									<span>{{row.name}}</span>
+								</td>
+								<td>
+									{{row.num}}
+								</td>
+								<td>
+									{{row.productType.name}}
+								</td>
+								<td>
+									{{row.amount}}
+								</td>
+							</tr>
+							//-->
+					</script>
+					<script>
+						var contractProductRowIdx_old = 0, contractProductViewTpl_old = $("#contractProductViewTpl_old").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "")
+						 contractProductList_old = ${fns:toJson(old_product_list)};
+						$(document).ready(function () {
+							loadOldProducts(contractProductList_old);
+						});
+
+						function loadOldProducts(data){
+							for (var i = 0; i < data.length; i++) {
+								data[i].unitName = "";
+								for(var j = 0; j<unitList.length; j++){
+									if(data[i].unit!= "" && unitList[j].value == data[i].unit)
+									{
+										data[i].unitName = unitList[j].label;
+										break;
+									}
+								}
+
+								addRow('#contractProductList_old', contractProductRowIdx_old, contractProductViewTpl_old, data[i]);
+
+								contractProductRowIdx_old = contractProductRowIdx_old + 1;
+							}
+						}
+					</script>
+				</c:if>
+			</shiro:hasRole>
+
 			<!--采购列表-->
-			<div class="panel panel-default" id="card_products">
+			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">采购列表</h3>
+					<h3 class="panel-title"><shiro:hasRole name="cso"><c:if test="${not empty is_recall && is_recall eq true}">新</c:if></shiro:hasRole>采购列表</h3>
 				</div>
-				<div class="panel-body" id="products-collapse">
+				<div class="panel-body">
 					<table id="contentTable" class="table table-condensed">
 						<thead>
 							<tr role="row">
@@ -215,43 +282,43 @@ th, td {
 						</tr>
 						//-->
             </script>
-					<script type="text/javascript">
-                var contractProductRowIdx = 0, contractProductViewTpl = $("#contractProductViewTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "")
-                var unitList = ${fns:getDictListJson('oa_unit')};
-                var productTypeList = ${fns:toJson(productTypeList)};
-                var contractProductList = ${fns:toJson(contract.contractProductList)};
-
-                $(document).ready(function () {
-                   loadProducts(contractProductList);
-                });
-
-                function loadProducts(data){
-                    for (var i = 0; i < data.length; i++) {
-                        data[i].unitName = "";
-                        for(var j = 0; j<unitList.length; j++){
-                            if(data[i].unit!= "" && unitList[j].value == data[i].unit)
-                            {
-                                data[i].unitName = unitList[j].label;
-                                break;
-                            }
-                        }
-                        data[i].ml = data[i].amount - data[i].cost - (${contract.customerCost} * (data[i].amount / ${contract.cost}) * 1.1);
-                        data[i].mll = data[i].ml / data[i].amount;
-                        addRow('#contractProductList', contractProductRowIdx, contractProductViewTpl, data[i]);
-
-                        contractProductRowIdx = contractProductRowIdx + 1;
-                    }
-                }
-
-                function addRow(list, idx, tpl, row) {
-                    $(list).append(Mustache.render(tpl, {
-                        idx: idx, delBtn: true, row: row, unitList:unitList
-                    }));
-                }
-
-            </script>
 				</div>
 			</div>
+			<script type="text/javascript">
+				var contractProductRowIdx = 0, contractProductViewTpl = $("#contractProductViewTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "")
+				var unitList = ${fns:getDictListJson('oa_unit')};
+				var productTypeList = ${fns:toJson(productTypeList)};
+				var contractProductList = ${fns:toJson(contract.contractProductList)};
+
+				$(document).ready(function () {
+					loadProducts(contractProductList);
+				});
+
+				function loadProducts(data){
+					for (var i = 0; i < data.length; i++) {
+						data[i].unitName = "";
+						for(var j = 0; j<unitList.length; j++){
+							if(data[i].unit!= "" && unitList[j].value == data[i].unit)
+							{
+								data[i].unitName = unitList[j].label;
+								break;
+							}
+						}
+						data[i].ml = data[i].amount - data[i].cost - (${contract.customerCost} * (data[i].amount / ${contract.cost}) * 1.1);
+						data[i].mll = data[i].ml / data[i].amount;
+						addRow('#contractProductList', contractProductRowIdx, contractProductViewTpl, data[i]);
+
+						contractProductRowIdx = contractProductRowIdx + 1;
+					}
+				}
+
+				function addRow(list, idx, tpl, row) {
+					$(list).append(Mustache.render(tpl, {
+						idx: idx, delBtn: true, row: row, unitList:unitList
+					}));
+				}
+
+			</script>
 
 			<!--订单列表-->
 			<div class="panel panel-default">
@@ -320,6 +387,59 @@ th, td {
             </script>
 				</div>
 			</div>
+
+			<shiro:hasRole name="cso">
+			<c:if test="${not empty is_recall && is_recall eq true}">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">额外成本</h3>
+					</div>
+					<div class="panel-body">
+						<div class="row form-inline">
+							<div class="form-group">
+								<label><font color="red">库存金额</font>：</label>
+
+								<form:input path="stockInAmount" htmlEscape="false"
+											class="form-control required number " />&nbsp;元
+
+							</div>
+
+							<div class="form-group">
+								<div class="checkbox checkbox-custom checkbox-circle">
+									<input type="checkbox" value="true" name="stockInIsDeduction" id="stockInIsDeduction">
+									<label for="stockInIsDeduction">是否业绩抵扣</label>
+									<input type="hidden" value="on" name="_stockInIsDeduction">
+								</div>
+							</div>
+
+							<div class="form-group" id="stockInDiscount-group" style="margin-left: 20px;">
+								<label>抵扣金额：</label>
+								<form:input path="stockInDiscount" htmlEscape="false"
+											class="form-control  number " />&nbsp;元
+							</div>
+						</div>
+					</div>
+				</div>
+				<script>
+					$(function(){
+						$("#stockInAmount").val(${stockInSumAmount});
+
+						//更改是否业绩抵扣
+						$("#stockInIsDeduction").change(function(){
+							if($(this).prop('checked'))
+								$("#stockInDiscount-group").show();
+							else {
+								$("#stockInDiscount").val("");
+								$("#stockInDiscount-group").hide();
+							}
+						});
+
+						$("#stockInIsDeduction").trigger('change');
+					});
+
+				</script>
+			</c:if>
+			</shiro:hasRole>
 
 			<c:if
 				test="${not empty contract.id and not empty contract.act.procInsId}">

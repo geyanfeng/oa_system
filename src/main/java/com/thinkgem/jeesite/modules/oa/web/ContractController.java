@@ -14,8 +14,11 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.utils.excel.ImportExcel;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.act.service.ActTaskService;
 import com.thinkgem.jeesite.modules.oa.dao.ContractFinanceDao;
+import com.thinkgem.jeesite.modules.oa.dao.ContractProductDao;
 import com.thinkgem.jeesite.modules.oa.dao.PeopleSettingDao;
+import com.thinkgem.jeesite.modules.oa.dao.StockInDao;
 import com.thinkgem.jeesite.modules.oa.entity.*;
 import com.thinkgem.jeesite.modules.oa.service.*;
 import com.thinkgem.jeesite.modules.sys.entity.Dict;
@@ -57,11 +60,17 @@ public class ContractController extends BaseController {
 	@Autowired
 	private TaskService taskService;
 	@Autowired
+	private ActTaskService actTaskService;
+	@Autowired
 	private PeopleSettingDao peopleSettingDao;
 	@Autowired
 	private ContractFinanceDao contractFinanceDao;
 	@Autowired
+	private ContractProductDao contractProductDao;
+	@Autowired
 	private PurchaseOrderService purchaseOrderService;
+	@Autowired
+	private StockInDao stockInDao;
 	
 	@ModelAttribute
 	public Contract get(@RequestParam(required=false) String id) {
@@ -231,6 +240,22 @@ public class ContractController extends BaseController {
 				view = "contractForm";
 			}
 			else if("saler_audit".equals(taskDefKey) || "cso_audit".equals(taskDefKey)){//销售审核和总监审核
+				//检查是否为撤回并得到老的采购数据
+				if(UserUtils.IsRoleByRoleEnName("cso") && actTaskService.getVarValue(contract.getProcInsId(),"recall_id") != null) {
+					model.addAttribute("is_recall", true);
+					ContractProduct filter = new ContractProduct(contract);
+					filter.setOldFlag(1);
+					model.addAttribute("old_product_list", contractProductDao.findList(filter));
+					//库存金额
+					StockIn filter1 = new StockIn();
+					filter1.setContractId(contract.getId());
+					List<StockIn> stockInList = stockInDao.findList(filter1);
+					Double stockInSumAmount = 0.00;
+					for (StockIn in : stockInList){
+						stockInSumAmount+=in.getAmount();
+					}
+					model.addAttribute("stockInSumAmount", stockInSumAmount);
+				}
 				view = "contractView_includeCost";
 			}
 			else if("cw_kp".equals(taskDefKey)){//财务开票
