@@ -129,7 +129,7 @@ public class ReportController extends BaseController {
 						if (searchParams.getOverStatus().equals("2")) {
 							sqlCondition += "  and billing_date is not null and ((pay_date is null and NOW()>plan_pay_date) OR (pay_date is not null and pay_date>plan_pay_date)) ";
 						} else {
-							sqlCondition += "  billing_date is not null and ((pay_date is null and NOW()<=plan_pay_date) OR (pay_date is not null and pay_date<=plan_pay_date))";
+							sqlCondition += "  and billing_date is not null and ((pay_date is null and NOW()<=plan_pay_date) OR (pay_date is not null and pay_date<=plan_pay_date))";
 						}
 					}
 				}
