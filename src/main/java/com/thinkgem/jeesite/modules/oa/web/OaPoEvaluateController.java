@@ -102,8 +102,11 @@ public class OaPoEvaluateController extends BaseController {
 		if (oaPoEvaluateService.get(oaPoEvaluate.getPoId()) != null) {
 			addMessage(redirectAttributes, "订单只能评一次");
 		}
-		oaPoEvaluateService.save(oaPoEvaluate);
-		addMessage(redirectAttributes, "保存供应商评价成功");
+		else{
+			oaPoEvaluateService.save(oaPoEvaluate);
+			addMessage(redirectAttributes, "保存供应商评价成功");
+		}
+		
 		return null;
 	}
 

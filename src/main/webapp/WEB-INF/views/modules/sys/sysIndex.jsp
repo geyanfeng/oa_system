@@ -131,10 +131,8 @@
 						<c:forEach items="${fns:getMenuList()}" var="menu" varStatus="idxStatus">
 							<c:if test="${menu.parent.id eq '1'&&menu.isShow eq '1'}">
 								<li class="has_sub ${not empty firstMenu && firstMenu ? ' active' : ''}">
-									<c:if test="${empty menu.href}">
-									    <A class="waves-effect ${not empty firstMenu && firstMenu ? ' active' : ''}"
-							href="javascript:void(0);"><I class="zmdi zmdi-${not empty menu.icon ? menu.icon : 'view-dashboard'} ti-share"></I><SPAN>${menu.name}</SPAN></A>
-									</c:if>
+									  <A class="waves-effect ${not empty firstMenu && firstMenu ? ' active' : ''}"
+							href="${not empty menu.href ? ctx : ''}${not empty menu.href ? menu.href : 'javascript:void(0);'}" target="${not empty menu.target ? menu.target : 'mainFrame'}"><I class="zmdi zmdi-${not empty menu.icon ? menu.icon : 'view-dashboard'} ti-share"></I><SPAN>${menu.name}</SPAN></A>
 										   <UL>
 							<c:forEach items="${menuList}" var="menu2">
 							

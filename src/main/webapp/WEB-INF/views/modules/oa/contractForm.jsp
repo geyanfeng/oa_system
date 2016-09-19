@@ -36,6 +36,10 @@ th,td{text-align:left;}
                     name: {remote: "合同名称已存在"}
                 },
                 submitHandler: function (form) {
+                	if($("#contractType").val() == "3" && $("#parentId").val() == ""){
+                		showTipMsg("补充合同,父级合同不能为空","error");
+                		return;
+                	}
                     if(!validationPaymentAmount())
                             return;
                     loading('正在提交，请稍等...');
@@ -49,7 +53,8 @@ th,td{text-align:left;}
                     } else {
                         error.insertAfter(element);
                     }
-                }
+                },
+				onfocusout: function(element){ $(element).valid(); }
             });
             //changeContractType();//如果从合同列表中新合同时, 初始化时加载合同类型
 
@@ -726,7 +731,7 @@ th,td{text-align:left;}
                 <div class="row form-inline" id="payment-onetime">
                     <div class="form-group">
                         <label>付款金额：</label>
-                        <input type="text" class="form-control  number  required" id="payment_onetime_amount" value="{{row.payment_onetime_amount}}"/>
+                        <input type="text" class="form-control number required" id="payment_onetime_amount" value="{{row.payment_onetime_amount}}"/>
                     </div>
                     <div class="form-group">
                         <label>付款方式：</label>
@@ -740,11 +745,11 @@ th,td{text-align:left;}
                     </div>
                     <div class="form-group">
                         <label>账期：</label>
-                        <input id="payment_onetime_time" type="text" class="form-control number  required" value="{{row.payment_onetime_time}}"/>
+                        <input id="payment_onetime_time" type="text" class="form-control number required" value="{{row.payment_onetime_time}}"/>
                     </div>
                     <div class="form-group">
                         <label>账期点数：</label>
-                        <input id="payment_onetime_pointnum" type="text" class="form-control number  required" value="{{row.payment_onetime_pointnum}}"/>
+                        <input id="payment_onetime_pointnum" type="text" class="form-control number required" value="{{row.payment_onetime_pointnum}}"/>
                     </div>
                 </div>
                     //-->
@@ -826,6 +831,11 @@ th,td{text-align:left;}
                     $("input[id^='paymentCycle']").change(function () {
                         $("#payment-body").empty();
                         addPaymentRow();
+						/*$("#payment-body").find(".required").each(function(){
+							$(this).rules("add", {
+								required: true
+							});
+						});*/
                     });
 
                     if ($('#id').val()!="") {

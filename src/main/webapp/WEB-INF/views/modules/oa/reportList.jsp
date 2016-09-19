@@ -16,6 +16,9 @@
 		return false;
 	}
 </script>
+<style type="text/css">
+.form-group {margin-top:10px;}
+</style>
 </head>
 <body>
 	<h2 style="padding-left: 20px; font-weight: normal; font-size: 18px;">${title}</h2>
@@ -107,7 +110,87 @@
 					</div>
 				</div>
 				</c:if>
-				
+				<c:if test="${reportType eq '5'}">
+				    <div class="form-group m-r-10">
+					<label>我方抬头：</label>
+
+					<form:select cssStyle="width:200px;" path="companyId"
+										class="select2-container form-control">
+										<form:option value="" label="" />
+										<form:options items="${fns:getDictList('oa_company_name')}"
+											itemLabel="label" itemValue="value" htmlEscape="false" />
+					</form:select>
+					</div>
+					<div class="form-group m-r-10">
+					<label>销售：</label>
+
+					<form:select path="salerId" class="select2-container form-control" id="salerId" cssStyle="width:200px;">
+					<form:option value="" label=""/>
+					<form:options items="${salerList}" itemLabel="name"
+								  itemValue="id" htmlEscape="false"/>
+					</form:select>
+			  		 </div>
+			  		 <div class="form-group m-r-10">
+					<label>客户：</label>
+
+					<form:select path="customerId" class="select2-container form-control" id="customerId" cssStyle="width:200px;">
+					<form:option value="" label=""/>
+					<form:options items="${customerList}" itemLabel="name"
+								  itemValue="id" htmlEscape="false"/>
+					</form:select>
+			 	    </div>
+			 	    <div class="form-group m-r-10">
+					<label>开票状态：</label>
+
+					<form:select path="billingStatus"
+										class="form-control" cssStyle="width:100px;">
+										<form:option value="" label="全部" />									
+										<form:option value="1" label="未开票" />
+										<form:option value="2" label="已开票" />
+					</form:select>
+					</div>
+					<div class="form-group m-r-10">
+					<label>收款状态：</label>
+
+					<form:select path="payStatus"
+										class="form-control" cssStyle="width:100px;">
+										<form:option value="" label="全部" />
+										<form:option value="1" label="未付款" />
+										<form:option value="2" label="已付款" />
+					</form:select>
+					</div>
+					<div class="form-group m-r-10">
+					<label>是否逾期：</label>
+
+					<form:select path="overStatus"
+										class="form-control" cssStyle="width:100px;">
+										<form:option value="" label="全部" />
+										<form:option value="1" label="未逾期" />
+										<form:option value="2" label="已逾期" />
+					</form:select>
+					</div>
+				</c:if>
+				<c:if test="${reportType eq '6'}">
+					<div class="form-group m-r-10">
+					<label>收款方：</label>
+
+					<form:select path="supplierId" class="select2-container form-control" id="supplierId" cssStyle="width:200px;">
+					<form:option value="" label=""/>
+					<form:options items="${supplierList}" itemLabel="name"
+								  itemValue="id" htmlEscape="false"/>
+					</form:select>
+				   </div>
+				   <div class="form-group m-r-10">
+					<label>付款条件：</label>
+
+					<form:select path="payCondition"
+										class="form-control">
+										<form:option value="" label="全部" />
+										<form:option value="0" label="预付" />
+										<form:option value="1" label="后付" />
+					</form:select>
+					</div>
+				</c:if>
 			   <c:choose>
 					<c:when test="${reportType eq '1'}">
 					<div class="form-group m-r-10">
@@ -319,7 +402,7 @@
 				<thead>
 					<tr>
 						<c:forEach items="${headers}" var="headers">
-						<th>${headers.value}</th>
+						<th class="sort-column ${headers.key}">${headers.value}</th>
 					   </c:forEach>					
 					</tr>
 				</thead>

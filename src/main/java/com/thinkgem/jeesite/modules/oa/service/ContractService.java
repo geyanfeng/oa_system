@@ -359,7 +359,9 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 
         if(contract.getPaymentCycle().equals("1")) {//一次性付款
             Map<String, Object> paymentObj=(Map<String, Object>)payment;
-            Integer payment_onetime_time  =Integer.parseInt(paymentObj.get("payment_onetime_time").toString());
+            Integer payment_onetime_time = 0;
+            if(paymentObj.get("payment_onetime_time")!=null && isNotBlank(paymentObj.get("payment_onetime_time").toString()))
+                payment_onetime_time = Integer.parseInt(paymentObj.get("payment_onetime_time").toString());
             contractFinance.setBillingDate(cc.getTime());//设置开票日期
             cc.add(Calendar.DATE, payment_onetime_time);//设置预付款时间
             contractFinance.setPlanPayDate(cc.getTime());
@@ -368,7 +370,9 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             Integer sort = contractFinance.getSort();
             if(sort-1<0) return;
             Map<String, Object> paymentObj=paymentList.get(sort-1);
-            Integer payment_installment_time  =Integer.parseInt(paymentObj.get("payment_installment_time").toString());
+            Integer payment_installment_time = 0;
+            if(paymentObj.get("payment_installment_time")!=null && isNotBlank(paymentObj.get("payment_installment_time").toString()))
+                payment_installment_time = Integer.parseInt(paymentObj.get("payment_installment_time").toString());
             contractFinance.setBillingDate(cc.getTime());//设置开票日期
             cc.add(Calendar.DATE, payment_installment_time);//设置预付款时间
             contractFinance.setPlanPayDate(cc.getTime());

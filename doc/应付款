@@ -1,0 +1,52 @@
+/*
+alter view oa_view_pay_amount as
+select 
+CONCAT(p.`no`,"-FK",CONVERT(f.sort,char)) as finance_no,
+d.value as company_id, d.label as company_name,
+s.id as supplier_id, s.name as supplier_name,
+f.plan_pay_date,f.amount,
+f.pay_condition,
+CASE
+  WHEN f.pay_condition = 0 THEN '预付'
+  WHEN f.pay_condition = 1 THEN '后付'
+END as pay_condition_name,
+f.pay_method,
+CASE
+  WHEN f.pay_method = 1 THEN '现金'
+  WHEN f.pay_method = 2 THEN '银行转账'
+  WHEN f.pay_method = 3 THEN '票据'
+END as pay_method_name,
+f.`status`,
+CASE
+  WHEN f.`status` = 1 THEN '未付款'
+  WHEN f.`status` = 2 THEN '已付款'
+END as pay_status_name,
+f.pay_date
+from oa_po_finance f
+inner join oa_po p on p.id = f.po_id
+inner join oa_contract c on c.id = p.contract_id
+inner join sys_dict d on d.`value` = c.company_name 
+inner join oa_supplier s on s.id = p.supplier_id
+where d.type='oa_company_name' and p.del_flag=0 and p.cancel_flag=0 and c.`status`> 26 and c.`status` not in(30,200);
+*/
+DROP PROCEDURE IF EXISTS report_pay_amount;
+
+create procedure report_pay_amount(
+IN pageNo INT, 
+IN pageSize INT,  
+IN sqlCondition VARCHAR(500),  
+IN orderBy VARCHAR(100)
+)
+begin
+
+SET pageNo = (pageNo-1 ) * pageSize;  
+SET @COUNTSTMT := CONCAT("select COUNT(*) into @COUNT from oa_view_pay_amount where 1=1 ", sqlCondition,";");
+PREPARE STMT FROM @COUNTSTMT; 
+EXECUTE STMT;  
+
+SET @STMT := CONCAT("select @COUNT as recordCount,finance_no,company_name,supplier_name,plan_pay_date,
+amount, pay_condition_name,pay_method_name,pay_status_name,pay_date from oa_view_pay_amount where 1=1 ", sqlCondition,
+" ", orderBy);
+PREPARE STMT FROM @STMT; 
+EXECUTE STMT;  
+end

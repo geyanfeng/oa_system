@@ -1,3 +1,4 @@
+
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp" %>
 <html>
@@ -109,7 +110,7 @@
         <div class="panel panel-default">
             <div class="panel-heading" style="text-align: center;">采购下单
                 <div class="pull-right">
-                    <a href="javascript:void(0);" onClick="openOrClosePOPanel()"><i class="glyphicon glyphicon-remove"></i></a>
+                    <a href="javascript:void(0);" onclick="openOrClosePOPanel()"><i class="glyphicon glyphicon-remove"></i></a>
                 </div>
             </div>
             <div class="panel-body" style="padding:0;">
@@ -125,13 +126,13 @@
                     $(parent.window).scroll(  function(){
                     var winHeight = $(parent.window).height(), winWidth = $(parent.window).width(), divHeight =  $("#panel_po").height(), divWidth = $("#panel_po").width();
                     $("#panel_po").css('top',parent.window.document.body.scrollTop  + $('.navbar').height() + 20); //控制上下位置
-                    $("#panel_po").attr('left',(winWidth - divWidth -300 - 20)); //控制横向位置
+                    $("#panel_po").css('left',(winWidth - divWidth -300 - 20)); //控制横向位置
                 });
             } else{
                 $(parent).scroll( function(){
                     var winHeight = $(window).height(), winWidth = $(window).width(), divHeight =  $("#panel_po").height(), divWidth = $("#panel_po").width();
                     $("#panel_po").css('top',document.body.scrollTop + $('.navbar').height() + 20); //控制上下位置
-                    $("#panel_po").attr('left',document.body.scrollLeft + (winWidth - divWidth - 20)); //控制横向位置
+                    $("#panel_po").css('left',document.body.scrollLeft + (winWidth - divWidth - 20)); //控制横向位置
                 });
             }
             if(parent.mainFrame) {
@@ -143,24 +144,15 @@
         });
         //关闭采购下单panel
         function openOrClosePOPanel(){
-            if($("#panel_po").is(":hidden")){
-            	openPoPanel();
-            }else
-            	closePoPanel();
-        }
-        
-        function closePoPanel(){
-        	$("#panel_po").animate({right:'-' + $("#panel_po").width() + 'px'},'5000',function(){
-        		$("#panel_po" ).fadeIn();
-        	
-        	});
+            if($("#panel_po").is(":hidden"))
+                $("#panel_po" ).fadeIn();
+            else
+                $("#panel_po" ).fadeOut();
         }
 
         //打开采购下单的panel
         function openPoPanel(){
-        	$("#panel_po").css({'right': '-' + $("#panel_po").width() + 'px'});
-        	$("#panel_po").show();
-        	$("#panel_po").animate({right:'0px'},'5000');
+            $("#panel_po" ).fadeIn();
         }
     </script>
 </c:if>
@@ -307,7 +299,7 @@
                 <span id="productMsg" style="display:none" class="label label-danger"></span>
             <div class="pull-right">
                 <a href="javascript:" class="btn btn-custom" id="btnSetProductCanEdit"><i class="zmdi zmdi-edit"></i>&nbsp;编辑</a>
-                <a href="javascript:" class="btn btn-primary" onClick="openPoPanel();"><i class="fa fa-folder-open-o"></i>&nbsp;打开下单</a>
+                <a href="javascript:" class="btn btn-primary" onclick="$('#panel_po').show()"><i class="fa fa-folder-open-o"></i>&nbsp;打开下单</a>
             </div>
             </c:if>
             </h3>
@@ -1253,7 +1245,7 @@
                             <sys:myckfinder input="files${status.index}" type="files" uploadPath="/oa/contract"
                                             selectMultiple="true"/>
                         </td>
-                        <td style="text-align:center;">
+                        <td>
                             <fmt:formatDate value="${attachment.updateDate}" pattern="yyyy-MM-dd"/>
                         </td>
                     </tr>
@@ -1311,15 +1303,15 @@
 
     <div class="form-group">
         <div class="text-center">
-				<input id="btnCancel" class="btn btn-inverse" type="button" value="返 回" onClick="history.go(-1)"/>
+				<input id="btnCancel" class="btn btn-inverse" type="button" value="返 回" onclick="history.go(-1)"/>
                 <c:if test="${contract.contractType ne '1' and not empty contract.id}">
                     <c:set var="submitText" value="提交"/>
                     <c:if test="${empty contract.act.procInsId}">
-                        <c:set var="submitText" value="开始审批"/>
+                        <c:set var="submitText" value="提交审批"/>
                     </c:if>
 
                     <c:if test="${contract.act.taskDefKey eq 'split_po'}">
-                        <c:set var="submitText" value="提交审核"/>
+                        <c:set var="submitText" value="确认拆分"/>
                     </c:if>
 
                     <c:if test="${contract.act.taskDefKey eq 'contract_edit'}">
@@ -1359,12 +1351,12 @@
                                             contract.act.taskDefKey eq 'verify_sk' ||
                                             contract.act.taskDefKey eq 'finish' ||
                                             contract.act.taskDefKey eq 'can_invoice'}">
-                            <input id="btnSubmit" class="btn btn-custom" type="submit" value="${submitText}" onClick="$('#flag').val('submit_audit')"/>&nbsp;
+                            <input id="btnSubmit" class="btn btn-custom" type="submit" value="${submitText}" onclick="$('#flag').val('submit_audit')"/>&nbsp;
                         </c:when>
 
                         <c:when test="${not empty contract.act.taskDefKey}">
-                        	<input id="btnUnAudit" class="btn btn-info" type="submit" value="驳 回" onClick="$('#flag').val('no')"/>&nbsp;
-                            <input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onClick="$('#flag').val('yes')"/>&nbsp;                   
+                            <input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
+                            <input id="btnUnAudit" class="btn btn-info" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
                         </c:when>
                     </c:choose>
 
@@ -1431,7 +1423,7 @@
                     <div class="pull-right">总计: <span class="total" style="color:red;"></span></div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn inverse" data-dismiss="modal">取消</button>
                     <button type="button" class="btn btn-info waves-effect waves-light submit-poTKTH">确定</button>
                 </div>
             </div>
@@ -1444,13 +1436,13 @@
                 <input name="unit" type="hidden" value="{{row.unit}}"/>
                 <input name="price" type="hidden" value="{{row.price}}"/>
                 <input name="amount" type="hidden" value="{{row.amount}}"/>
-                <input name="productType" type="hidden" value="{{row.productType}}"/>
+                <input name="productType" type="hidden" value="{{row.productType.id}}"/>
             </td>
             <td>
                 {{row.name}}
             </td>
             <td>
-                <input name="num" type="text" value="{{row.num}}" class="form-control number input-block required" style="width:80px;"/>
+                <input name="num" type="text" value="{{row.num}}" class="form-control number input-block required" style="width:80px;" onchange="tkThUpdateAmount(this);"/>
             </td>
             <td>
                 {{row.unitName}}
@@ -1490,13 +1482,31 @@
             modal.find(".submit-poTKTH").click(function(){
                 if(modal.find('input').hasClass("error"))return;
                 var type = $(this).data("type"), poid = $(this).data("poId");
-                var data = {
-                    name: modal.find("input[name='name']").val(),
-                    num: modal.find("input[name='num']").val(),
-                    unit: modal.find("input[name='unit']").val(),
-                    price: modal.find("input[name='price']").val(),
-                    amount: modal.find("input[name='amount']").val(),
-                    productType: modal.find("input[name='productType']").val()
+                var dataList = [];
+                $("#body-poTKTH tr").each(function(idx, item){
+                    var row = $(item);
+                    var data = {
+                        name: row.find("input[name='name']").val(),
+                        num: row.find("input[name='num']").val(),
+                        unit: row.find("input[name='unit']").val(),
+                        price: row.find("input[name='price']").val(),
+                        amount: row.find("input[name='amount']").val(),
+                        productType: row.find("input[name='productType']").val()
+                    }
+                    dataList.push(data);
+                })
+                if(type == 1){
+                    var a= 1;
+                } else{
+                    $.ajax({
+                        type: 'POST',
+                        url: "${ctx}/oa/stockin/" + poid + "/save",
+                        contentType: "application/json;",
+                        data: JSON.stringify(dataList),
+                        success: function(){
+                            $('#modal-PoTKTH').modal('hide');
+                        }
+                    });
                 }
             });
 
@@ -1522,6 +1532,21 @@
                 show : true,
                 backdrop : 'static'
             });
+        }
+
+        function tkThUpdateAmount(sender){
+            var self = $(sender),
+                    row = self.closest("tr"),
+                    num = parseInt(self.val()),
+                    price = parseFloat(row.find("td:eq(4)").html());
+            row.find("td:eq(5)").html((num*price).toFixed(2));
+
+            totalAmount = 0;
+            $("#body-poTKTH tr").each(function(idx,row){
+                var amount = parseFloat($(row).find("td:eq(5)").html());
+                totalAmount+=amount;
+            });
+            $('#modal-PoTKTH').find(".total").html(totalAmount);
         }
     </script>
 </body>

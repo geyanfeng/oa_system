@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.oa.dao.RefundMainDao">
+    
+	<sql id="refundMainColumns">
+		a.id AS "id",
+		a.contract_id AS "contractId",
+		a.po_id AS "poId",
+		a.recall_id AS "recallId",
+		a.proc_ins_id AS "procInsId",
+		a.amount AS "amount",
+		a.remark AS "remark",
+		a.del_flag AS "delFlag",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate"
+	</sql>
+	
+	<sql id="refundMainJoins">
+	</sql>
+    
+	<select id="get" resultType="RefundMain">
+		SELECT 
+			<include refid="refundMainColumns"/>
+		FROM oa_refund_main a
+		<include refid="refundMainJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="RefundMain">
+		SELECT 
+			<include refid="refundMainColumns"/>
+		FROM oa_refund_main a
+		<include refid="refundMainJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="poId != null and poId != ''">
+				And a.po_id = #{poId}
+			</if>
+			<if test="contractId != null and contractId != ''">
+				And a.conract_id = #{contractId}
+			</if>
+			<if test="recallId != null and recallId != ''">
+				And a.recall_id = #{recallId}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="RefundMain">
+		SELECT 
+			<include refid="refundMainColumns"/>
+		FROM oa_refund_main a
+		<include refid="refundMainJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO oa_refund_main(
+			id,
+			contract_id,
+			po_id,
+			recall_id,
+			proc_ins_id,
+			amount,
+			remark,
+			del_flag,
+			create_by,
+			create_date,
+			update_by,
+			update_date
+		) VALUES (
+			#{id},
+			#{contractId},
+			#{poId},
+			#{recallId},
+			#{procInsId},
+			#{amount},
+			#{remark},
+			#{delFlag},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE oa_refund_main SET 	
+			contract_id = #{contractId},
+			po_id = #{poId},
+			recall_id = #{recallId},
+			proc_ins_id = #{procInsId},
+			amount = #{amount},
+			remark = #{remark},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE oa_refund_main SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
