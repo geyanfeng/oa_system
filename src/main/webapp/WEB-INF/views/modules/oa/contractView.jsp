@@ -120,18 +120,18 @@
     </div>
     <script>
         $( function() {
-            $( "#panel_po" ).draggable();
+            //$( "#panel_po" ).draggable();
             if(parent.mainFrame){
                 if(parent.window)
                     $(parent.window).scroll(  function(){
                     var winHeight = $(parent.window).height(), winWidth = $(parent.window).width(), divHeight =  $("#panel_po").height(), divWidth = $("#panel_po").width();
-                    $("#panel_po").css('top',parent.window.document.body.scrollTop  + $('.navbar').height() + 20); //控制上下位置
+                    $("#panel_po").css('top',parent.window.document.body.scrollTop  + $('.navbar').height()); //控制上下位置
                     $("#panel_po").attr('left',(winWidth - divWidth -300 - 20)); //控制横向位置
                 });
             } else{
                 $(parent).scroll( function(){
                     var winHeight = $(window).height(), winWidth = $(window).width(), divHeight =  $("#panel_po").height(), divWidth = $("#panel_po").width();
-                    $("#panel_po").css('top',document.body.scrollTop + $('.navbar').height() + 20); //控制上下位置
+                    $("#panel_po").css('top',document.body.scrollTop + $('.navbar').height()); //控制上下位置
                     $("#panel_po").attr('left',document.body.scrollLeft + (winWidth - divWidth - 20)); //控制横向位置
                 });
             }

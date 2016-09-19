@@ -415,7 +415,7 @@ h4 {
 				</tr>
 			</table>
         </div>
-        <div class="pull-right">
+        <div class="text-center">
             <a href="javascript:void(0);" onclick="addNewInstallmentPayment(this)" title="增加新的分期付款" class="zmdi zmdi-plus-circle text-custom" style="font-size:25px;"></a>
             <a href="javascript:void(0);" onclick="deleteInstallmentPayment(this)" title="删除" class="zmdi zmdi-minus-circle text-custom" style="font-size:25px;"></a>
         </div>
@@ -546,18 +546,19 @@ h4 {
 			<div class="row">
 				<div class="form-group">
 					<div class="col-xs-3">预计到货时间 :</div>
-					<div class="col-xs-6">
+					<div class="col-xs-4">
 					<form:input path="shipDate" htmlEscape="false" maxlength="255"
 						class="form-control required input-sm"
 						cssStyle="width:100px; display:inline;" />
 					
-					天</div>
+					</div>
+					<div class="col-xs-1">天</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="form-group">
 					<div class="col-xs-3">收货方 :</div>
-					<div class="col-xs-6">
+					<div class="col-xs-4">
 					<form:select path="addressType"
 						class="form-control required input-sm">
 						<form:option value="" label="" />
@@ -610,7 +611,7 @@ h4 {
 				<input id="btnCancel" class="btn btn-inverse" type="button" value="取 消"
 					onclick="if(parent.openOrClosePOPanel)parent.openOrClosePOPanel();" />
 				<shiro:hasPermission name="oa:purchaseOrder:edit">
-					<input id="btnSubmit" class="btn btn-primary" type="submit"
+					<input id="btnSubmit" class="btn btn-info" type="submit"
 						value="保 存" />&nbsp;</shiro:hasPermission>
 			</div>
 		</form:form>
