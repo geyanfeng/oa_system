@@ -393,7 +393,7 @@
 			<!-- end col-->
 		</div>
 		</c:if>
-        <c:if test="${roleType eq '1' or roleType eq '2' or roleType eq '3'}">
+        <c:if test="${roleType eq '4'}">
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="card-box">
