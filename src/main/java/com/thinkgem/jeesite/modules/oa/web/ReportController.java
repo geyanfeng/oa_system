@@ -43,7 +43,7 @@ public class ReportController extends BaseController {
 	private CustomerService customerService;
 	@Autowired
 	private ProductTypeGroupService productTypeGroupService;
-	
+
 	@RequiresPermissions("oa:report:view")
 	@RequestMapping(value = { "list", "" })
 	public String list(SearchParams searchParams, HttpServletRequest request,
@@ -73,14 +73,24 @@ public class ReportController extends BaseController {
 				}
 			}
 
-			if (reportType == 1) {
+			if (reportType == 1 || reportType == 6) {
+				// 获取所有供应商
+				List<Supplier> supplierList = supplierService
+						.findList(new Supplier());
+				model.addAttribute("supplierList", supplierList);
 				if (!StringUtils.isBlank(searchParams.getSupplierId())) {
 					sqlCondition += "  and supplier_id='"
 							+ searchParams.getSupplierId() + "'";
 				}
+				if (reportType == 6) {
+					if (!StringUtils.isBlank(searchParams.getPayCondition())) {
+						sqlCondition += "  and pay_condition='"
+								+ searchParams.getPayCondition() + "'";
+					}
+				}
 			}
 
-			if (reportType == 2 || reportType == 3) {
+			if (reportType == 2 || reportType == 3 || reportType == 5) {
 				if (!StringUtils.isBlank(searchParams.getCustomerId())) {
 					sqlCondition += "  and customer_id='"
 							+ searchParams.getCustomerId() + "'";
@@ -89,6 +99,40 @@ public class ReportController extends BaseController {
 				List<Customer> customerList = customerService
 						.findList(new Customer());
 				model.addAttribute("customerList", customerList);
+				if (reportType == 5) {
+					List<User> salerList = UserUtils
+							.getUsersByRoleEnName("saler");
+					model.addAttribute("salerList", salerList);
+					if (!StringUtils.isBlank(searchParams.getCompanyId())) {
+						sqlCondition += "  and company_id='"
+								+ searchParams.getCompanyId() + "'";
+					}
+					if (!StringUtils.isBlank(searchParams.getSalerId())) {
+						sqlCondition += "  and saler_id='"
+								+ searchParams.getSalerId() + "'";
+					}
+					if (!StringUtils.isBlank(searchParams.getBillingStatus())) {
+						if (searchParams.getBillingStatus().equals("2")) {
+							sqlCondition += "  and finance_status in (2,3) ";
+						} else {
+							sqlCondition += "  and finance_status =1 ";
+						}
+					}
+					if (!StringUtils.isBlank(searchParams.getPayStatus())) {
+						if (searchParams.getPayStatus().equals("2")) {
+							sqlCondition += "  and finance_status = 3 ";
+						} else {
+							sqlCondition += "  and finance_status in (1,2) ";
+						}
+					}
+					if (!StringUtils.isBlank(searchParams.getOverStatus())) {
+						if (searchParams.getOverStatus().equals("2")) {
+							sqlCondition += "  and billing_date is not null and ((pay_date is null and NOW()>plan_pay_date) OR (pay_date is not null and pay_date>plan_pay_date)) ";
+						} else {
+							sqlCondition += "  billing_date is not null and ((pay_date is null and NOW()<=plan_pay_date) OR (pay_date is not null and pay_date<=plan_pay_date))";
+						}
+					}
+				}
 			}
 
 			if (reportType == 3 || reportType == 4) {
@@ -109,15 +153,24 @@ public class ReportController extends BaseController {
 								+ salerIds.substring(0, salerIds.length() - 1)
 								+ ")";
 					} else {
-                          String[] selectedSalerIds = new String[salerList.size()];
-                          for(int i=0;i<selectedSalerIds.length;i++){                       	  
-                        	  selectedSalerIds[i]=salerList.get(i).getId();
-                          }
-                          searchParams.setSalerIds(selectedSalerIds);
+						String[] selectedSalerIds = new String[salerList.size()];
+						for (int i = 0; i < selectedSalerIds.length; i++) {
+							selectedSalerIds[i] = salerList.get(i).getId();
+						}
+						searchParams.setSalerIds(selectedSalerIds);
 					}
 					model.addAttribute("salerList", salerList);
 				}
 				model.addAttribute("isSaler", isSaler);
+			}
+			// 设置排序参数
+			String orderBy = request.getParameter("orderBy");
+			if (!StringUtils.isNotBlank(orderBy)) {
+				if (reportType == 6) {
+					orderBy = " plan_pay_date desc";
+				} else {
+					orderBy = "";
+				}
 			}
 
 			Map queryMap = new LinkedHashMap();
@@ -140,10 +193,6 @@ public class ReportController extends BaseController {
 				headers.put("avgAmount", "平均订单金额");
 				headers.put("totalAmount", "完成总金额");
 
-				// 获取所有供应商
-				List<Supplier> supplierList = supplierService
-						.findList(new Supplier());
-				model.addAttribute("supplierList", supplierList);
 				list = reportDao.reportSupplierStatistics(queryMap);
 				break;
 			case 2:
@@ -183,7 +232,9 @@ public class ReportController extends BaseController {
 				List<Map> forecastList = reportDao
 						.reportForecastStatistics(queryMap);
 				model.addAttribute("forecastList", forecastList);
-				model.addAttribute("productTypeGroup_list", productTypeGroupService.findList(new ProductTypeGroup()));
+				model.addAttribute("productTypeGroup_list",
+						productTypeGroupService
+								.findList(new ProductTypeGroup()));
 				break;
 			case 5:
 				model.addAttribute("title", "应收列表");
@@ -192,12 +243,12 @@ public class ReportController extends BaseController {
 				headers.put("saler_name", "销售");
 				headers.put("customer_name", "客户");
 				headers.put("contract_name", "项目名称");
-				headers.put("contract_stauts_name", "合同状态");
+				headers.put("contract_status_name", "合同状态");
 				headers.put("receivable_amount", "应收金额");
 				headers.put("billing_date", "开票日期");
 				headers.put("payment_days", "账期");
 				headers.put("plan_pay_date", "账期截止日");
-				headers.put("finance_stauts_name", "收款状态");
+				headers.put("finance_status_name", "收款状态");
 				headers.put("finance_amount", "收款金额");
 				headers.put("pay_date", "收款日期");
 				headers.put("over_days", "逾期天数");
@@ -218,14 +269,15 @@ public class ReportController extends BaseController {
 				break;
 			}
 
-			if(reportType != 4){
+			if (reportType != 4) {
 				if (list != null && list.size() > 0) {
 					Set set = list.get(0).entrySet();
 					Iterator i = set.iterator();
 					while (i.hasNext()) {
 						Map.Entry me = (Map.Entry) i.next();
 						if (me.getKey().toString().equals("recordCount")) {
-							page.setCount(Long.parseLong(me.getValue().toString()));
+							page.setCount(Long.parseLong(me.getValue()
+									.toString()));
 							break;
 						}
 					}
@@ -237,12 +289,11 @@ public class ReportController extends BaseController {
 				page.setList(list);
 				model.addAttribute("page", page);
 			}
-			
+
 			model.addAttribute("headers", headers);
 		}
 
 		return "modules/oa/reportList";
 	}
-
 
 }

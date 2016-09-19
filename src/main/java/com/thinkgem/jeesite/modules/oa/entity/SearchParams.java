@@ -1,6 +1,5 @@
 package com.thinkgem.jeesite.modules.oa.entity;
 
-import java.util.Date;
 
 public class SearchParams {
 	private String supplierId;	
@@ -9,6 +8,13 @@ public class SearchParams {
 	private String productTypeGroup;	
 	private String startTime;	
 	private String endTime;	
+	private String payCondition;
+	
+	private String overStatus;	
+	private String payStatus;	
+	private String billingStatus;	
+	private String salerId;	
+	private String companyId;	
 
 	public String getSupplierId() {
 		return supplierId;
@@ -56,5 +62,53 @@ public class SearchParams {
 
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
+	}
+
+	public String getPayCondition() {
+		return payCondition;
+	}
+
+	public void setPayCondition(String payCondition) {
+		this.payCondition = payCondition;
+	}
+
+	public String getOverStatus() {
+		return overStatus;
+	}
+
+	public void setOverStatus(String overStatus) {
+		this.overStatus = overStatus;
+	}
+
+	public String getPayStatus() {
+		return payStatus;
+	}
+
+	public void setPayStatus(String payStatus) {
+		this.payStatus = payStatus;
+	}
+
+	public String getSalerId() {
+		return salerId;
+	}
+
+	public void setSalerId(String salerId) {
+		this.salerId = salerId;
+	}
+
+	public String getBillingStatus() {
+		return billingStatus;
+	}
+
+	public void setBillingStatus(String billingStatus) {
+		this.billingStatus = billingStatus;
+	}
+
+	public String getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
 	}
 }
