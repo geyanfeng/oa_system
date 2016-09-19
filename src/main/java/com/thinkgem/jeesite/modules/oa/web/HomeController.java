@@ -39,6 +39,26 @@ public class HomeController  extends BaseController {
         List<Act> po_audit_list = actTaskService.todoList(act);
         model.addAttribute("po_audit_list", po_audit_list);
 
+        //角色类型
+        int roleType = 0;
+        if (UserUtils.getUser().isAdmin()) {
+			//管理员
+			roleType = 1;
+		}
+        else if (UserUtils.IsRoleByRoleEnName("cfo")) {
+			//财务总监
+			roleType = 2;
+		}
+        else if (UserUtils.IsRoleByRoleEnName("cso")) {
+			//销售总兼
+			roleType = 3;
+		}
+		
+		else if (UserUtils.IsRoleByRoleEnName("saler")) {
+			//销售
+			roleType = 4;
+		}
+		model.addAttribute("roleType", roleType);
         return "modules/oa/home";
     }
 }
