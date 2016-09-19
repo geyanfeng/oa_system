@@ -126,13 +126,13 @@
                     $(parent.window).scroll(  function(){
                     var winHeight = $(parent.window).height(), winWidth = $(parent.window).width(), divHeight =  $("#panel_po").height(), divWidth = $("#panel_po").width();
                     $("#panel_po").css('top',parent.window.document.body.scrollTop  + $('.navbar').height() + 20); //控制上下位置
-                    $("#panel_po").css('left',(winWidth - divWidth -300 - 20)); //控制横向位置
+                    $("#panel_po").attr('left',(winWidth - divWidth -300 - 20)); //控制横向位置
                 });
             } else{
                 $(parent).scroll( function(){
                     var winHeight = $(window).height(), winWidth = $(window).width(), divHeight =  $("#panel_po").height(), divWidth = $("#panel_po").width();
                     $("#panel_po").css('top',document.body.scrollTop + $('.navbar').height() + 20); //控制上下位置
-                    $("#panel_po").css('left',document.body.scrollLeft + (winWidth - divWidth - 20)); //控制横向位置
+                    $("#panel_po").attr('left',document.body.scrollLeft + (winWidth - divWidth - 20)); //控制横向位置
                 });
             }
             if(parent.mainFrame) {
@@ -144,15 +144,24 @@
         });
         //关闭采购下单panel
         function openOrClosePOPanel(){
-            if($("#panel_po").is(":hidden"))
-                $("#panel_po" ).fadeIn();
-            else
-                $("#panel_po" ).fadeOut();
+            if($("#panel_po").is(":hidden")){
+            	openPoPanel();
+            }else
+            	closePoPanel();
+        }
+        
+        function closePoPanel(){
+        	$("#panel_po").animate({right:'-' + $("#panel_po").width() + 'px'},'5000',function(){
+        		$("#panel_po" ).fadeIn();
+        	
+        	});
         }
 
         //打开采购下单的panel
         function openPoPanel(){
-            $("#panel_po" ).fadeIn();
+        	$("#panel_po").css({'right': '-' + $("#panel_po").width() + 'px'});
+        	$("#panel_po").show();
+        	$("#panel_po").animate({right:'0px'},'5000');
         }
     </script>
 </c:if>
@@ -299,7 +308,7 @@
                 <span id="productMsg" style="display:none" class="label label-danger"></span>
             <div class="pull-right">
                 <a href="javascript:" class="btn btn-custom" id="btnSetProductCanEdit"><i class="zmdi zmdi-edit"></i>&nbsp;编辑</a>
-                <a href="javascript:" class="btn btn-primary" onclick="$('#panel_po').show()"><i class="fa fa-folder-open-o"></i>&nbsp;打开下单</a>
+                <a href="javascript:" class="btn btn-primary" onclick="openPoPanel();"><i class="fa fa-folder-open-o"></i>&nbsp;打开下单</a>
             </div>
             </c:if>
             </h3>
