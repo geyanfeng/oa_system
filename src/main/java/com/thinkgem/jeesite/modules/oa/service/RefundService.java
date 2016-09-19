@@ -1,7 +1,9 @@
 package com.thinkgem.jeesite.modules.oa.service;
 
+import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.modules.act.service.ActTaskService;
+import com.thinkgem.jeesite.modules.act.utils.ActUtils;
 import com.thinkgem.jeesite.modules.oa.dao.ContractDao;
 import com.thinkgem.jeesite.modules.oa.dao.PurchaseOrderDao;
 import com.thinkgem.jeesite.modules.oa.dao.RefundDetailDao;
@@ -10,8 +12,8 @@ import com.thinkgem.jeesite.modules.oa.entity.Contract;
 import com.thinkgem.jeesite.modules.oa.entity.PurchaseOrder;
 import com.thinkgem.jeesite.modules.oa.entity.RefundDetail;
 import com.thinkgem.jeesite.modules.oa.entity.RefundMain;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import org.activiti.engine.TaskService;
-import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,18 +72,9 @@ public class RefundService  extends CrudService<RefundMainDao, RefundMain> {
 
         Integer sort = 1;
         Double amount = 0.00;
-        //增加新增数据
         for (RefundDetail detail : refundDetailList) {
-            detail.setPoId(poId);
-            detail.setContractId(contractId);
-            detail.setRecallId(recall_id);
-            detail.setSort(sort);
-            detail.preInsert();
-            refundDetailDao.insert(detail);
-            sort++;
             amount += detail.getAmount();
         }
-
 
         RefundMain main = new RefundMain();
         main.setAmount(amount);
@@ -90,5 +83,35 @@ public class RefundService  extends CrudService<RefundMainDao, RefundMain> {
         main.setRecallId(recall_id);
         main.preInsert();
         dao.insert(main);
+
+        //增加新增数据
+        for (RefundDetail detail : refundDetailList) {
+            detail.setPoId(poId);
+            detail.setContractId(contractId);
+            detail.setRecallId(recall_id);
+            detail.setMainId(main.getId());
+            detail.setSort(sort);
+            detail.preInsert();
+            refundDetailDao.insert(detail);
+            sort++;
+            amount += detail.getAmount();
+        }
+
+        //开始退款流程
+        Map<String, Object> vars = Maps.newHashMap();
+        vars.put("contract_no", contract.getNo());
+        vars.put("contract_name", contract.getName());
+        vars.put("po_no", po.getNo());
+        vars.put("recall_id", recall_id);
+        actTaskService.startProcess(ActUtils.PD_TK_AUDIT[0], ActUtils.PD_TK_AUDIT[1], main.getId(), po.getNo(),vars);
+    }
+
+    @Transactional(readOnly = false)
+    public void audit(RefundMain refundMain) {
+        actTaskService.claim(refundMain.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
+        actTaskService.complete(refundMain.getAct().getTaskId(), refundMain.getAct().getProcInsId(), refundMain.getAct().getComment(),null);
+
+        refundMain.preUpdate();
+        dao.update(refundMain);
     }
 }

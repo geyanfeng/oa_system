@@ -86,6 +86,10 @@ function showTip(mess, type, timeout, lazytime){
 }
 
 function showTipMsg(msg, type){
+    if(msg.indexOf('成功')>-1)
+        type="success";
+    if(msg.indexOf('失败')>-1)
+        type = "error";
    if(parent.showMsg){
        parent.showMsg(msg,type);
    } else

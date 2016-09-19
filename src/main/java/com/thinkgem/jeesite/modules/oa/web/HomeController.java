@@ -3,8 +3,8 @@ package com.thinkgem.jeesite.modules.oa.web;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.act.entity.Act;
 import com.thinkgem.jeesite.modules.act.service.ActTaskService;
+import com.thinkgem.jeesite.modules.act.utils.ActUtils;
 import com.thinkgem.jeesite.modules.oa.service.ContractService;
-import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,6 +59,13 @@ public class HomeController  extends BaseController {
 			roleType = 4;
 		}
 		model.addAttribute("roleType", roleType);
+
+		//退款待办
+		act = new Act();
+        act.setProcDefKey(ActUtils.PD_TK_AUDIT[0]);
+        List<Act> po_tk_audit_list = actTaskService.todoList(act);
+        model.addAttribute("po_tk_audit_list", po_tk_audit_list);
+
         return "modules/oa/home";
     }
 }

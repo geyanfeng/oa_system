@@ -1490,6 +1490,7 @@
             modal.find(".submit-poTKTH").data("poId", po_id);
             modal.find(".submit-poTKTH").click(function(){
                 if(modal.find('input').hasClass("error"))return;
+                modal.find(".submit-poTKTH").attr('disabled',"true");
                 var type = $(this).data("type"), poid = $(this).data("poId");
                 var dataList = [];
                 $("#body-poTKTH tr").each(function(idx, item){
@@ -1505,15 +1506,27 @@
                     dataList.push(data);
                 })
                 if(type == 1){
-                    var a= 1;
+                    $.ajax({
+                        type: 'POST',
+                        url: "${ctx}/oa/refund/" + poid + "/save",
+                        contentType: "application/json;",
+                        data: JSON.stringify(dataList),
+                        success: function(data){
+                            showTipMsg(data)
+                            $('#modal-PoTKTH').modal('hide');
+                            modal.find(".submit-poTKTH").removeAttr("disabled");
+                        }
+                    });
                 } else{
                     $.ajax({
                         type: 'POST',
                         url: "${ctx}/oa/stockin/" + poid + "/save",
                         contentType: "application/json;",
                         data: JSON.stringify(dataList),
-                        success: function(){
+                        success: function(data){
+                            showTipMsg(data)
                             $('#modal-PoTKTH').modal('hide');
+                            modal.find(".submit-poTKTH").removeAttr("disabled");
                         }
                     });
                 }
@@ -1547,8 +1560,10 @@
             var self = $(sender),
                     row = self.closest("tr"),
                     num = parseInt(self.val()),
-                    price = parseFloat(row.find("td:eq(4)").html());
-            row.find("td:eq(5)").html((num*price).toFixed(2));
+                    price = parseFloat(row.find("td:eq(4)").html()),
+                    amount = (num*price).toFixed(2);
+            row.find("td:eq(5)").html(amount);
+            row.find("input[name='amount']").val(amount);
 
             totalAmount = 0;
             $("#body-poTKTH tr").each(function(idx,row){

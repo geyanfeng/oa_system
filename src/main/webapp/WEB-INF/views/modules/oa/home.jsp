@@ -574,6 +574,42 @@
 			</div>
 			</c:if>
 		</div>
+
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="card-box">
+					<h4 class="header-title m-t-0 m-b-30">采购订单退款待办</h4>
+					<table class="table m-0">
+						<thead>
+						<tr>
+							<th width="20%">合同ID</th>
+							<th>项目名称</th>
+							<th width="15%">类别</th>
+
+						</tr>
+						</thead>
+						<tbody>
+						<c:forEach items="${po_tk_audit_list}" var="po_tk_audit" varStatus="p">
+							<c:set var="task" value="${po_tk_audit.task}" />
+							<c:set var="vars" value="${po_tk_audit.vars}" />
+							<c:set var="procDef" value="${po_tk_audit.procDef}" />
+							<c:set var="status" value="${po_tk_audit.status}" />
+							<tr>
+								<th scope="row">${p.index + 1}</th>
+								<td><a
+										href="${ctx}/act/task/form?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}">
+										${fns:abbr(not empty vars.map.contract_name ? vars.map.contract_name : task.id, 60)}(${not empty vars.map.po_no ? vars.map.po_no : ''})
+								</a>
+								</td>
+								<td><span class="label label-danger">${task.name}</span></td>
+							</tr>
+						</c:forEach>
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
 	</div>
 
 

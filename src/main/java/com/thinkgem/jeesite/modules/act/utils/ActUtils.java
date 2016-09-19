@@ -3,15 +3,6 @@
  */
 package com.thinkgem.jeesite.modules.act.utils;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.activiti.engine.impl.persistence.entity.GroupEntity;
-import org.activiti.engine.impl.persistence.entity.UserEntity;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Lists;
@@ -24,6 +15,14 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.act.entity.Act;
 import com.thinkgem.jeesite.modules.sys.entity.Role;
 import com.thinkgem.jeesite.modules.sys.entity.User;
+import org.activiti.engine.impl.persistence.entity.GroupEntity;
+import org.activiti.engine.impl.persistence.entity.UserEntity;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 流程工具
@@ -42,6 +41,7 @@ public class ActUtils {
 	public static final String[] PD_TEST_AUDIT = new String[]{"test_audit", "oa_test_audit"};
 	public static final String[] PD_CONTRAT_AUDIT = new String[]{"contract_audit","oa_contract"};
 	public static final String[] PD_PO_AUDIT = new String[]{"purchaseOrder_audit","oa_po"};
+	public static final String[] PD_TK_AUDIT = new String[]{"oa_TK","oa_refund_main"};
 	
 //	/**
 //	 * 流程定义Map（自动初始化）

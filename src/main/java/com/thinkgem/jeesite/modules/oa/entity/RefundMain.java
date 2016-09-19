@@ -3,10 +3,11 @@
  */
 package com.thinkgem.jeesite.modules.oa.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.thinkgem.jeesite.common.persistence.ActEntity;
 import org.hibernate.validator.constraints.Length;
 
-import com.thinkgem.jeesite.common.persistence.DataEntity;
+import java.util.Date;
 
 /**
  * 退款主数据Entity
@@ -21,6 +22,7 @@ public class RefundMain extends ActEntity<RefundMain> {
 	private String recallId;		// 撤回id
 	private Double amount;		// 金额
 	private String remark;		// 备注
+	private Date tkDate;
 	
 	public RefundMain() {
 		super();
@@ -73,5 +75,9 @@ public class RefundMain extends ActEntity<RefundMain> {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
+
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	public Date getTkDate(){return tkDate;}
+	public void setTkDate(Date tkDate){this.tkDate = tkDate;}
 	
 }
