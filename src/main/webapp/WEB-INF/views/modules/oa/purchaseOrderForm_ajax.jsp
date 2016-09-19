@@ -1,35 +1,42 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-    <title>采购订单管理</title>
-    <meta name="decorator" content="default"/>
-    <style>
-        html, body{
-            background: white;
-        }
-        #table_po_products>tbody>tr>td{
-            border: 1px solid transparent !important;
-        }
+<title>采购订单管理</title>
+<meta name="decorator" content="default" />
+<style>
+html, body {
+	background: white;
+}
 
-        hr{
-            margin-left: -15px;
-            margin-right: -15px;
-            margin-top:10px;
-            margin-bottom:10px;
-        }
-        h4{
-            margin-right: -15px;
-        }
-        .row{
-            margin-top:5px;
-            padding-left: 15px;
-        }
-    </style>
-    <link href="${ctxStatic}/assets/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css" rel="stylesheet" />
-    <script src="${ctxStatic}/assets/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js" type="text/javascript"></script>
-    <script src="${ctxStatic}/assets/js/jquery.form.js"></script>
-    <script type="text/javascript">
+#table_po_products>tbody>tr>td {
+	border: 1px solid transparent !important;
+}
+
+hr {
+	margin-left: -15px;
+	margin-right: -15px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+h4 {
+	margin-right: -15px;
+}
+
+.row {
+	margin-top: 5px;
+	padding-left: 15px;
+}
+</style>
+<link
+	href="${ctxStatic}/assets/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css"
+	rel="stylesheet" />
+<script
+	src="${ctxStatic}/assets/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"
+	type="text/javascript"></script>
+<script src="${ctxStatic}/assets/js/jquery.form.js"></script>
+<script type="text/javascript">
     function changeSupplier() { 
  	   var selectedValue = $("#supplier").find("option:selected").val();
  	   selectedOpt = $("#"+selectedValue);
@@ -158,18 +165,19 @@
     </script>
 </head>
 <body>
-<div class="container">
-<form:form id="inputForm" modelAttribute="purchaseOrder" action="${ctx}/oa/purchaseOrder/ajaxSave" method="post" >
-    <form:hidden path="id"/>
-    <form:hidden path="contract.id"/>
-    <sys:message content="${message}"/>
-    <!--产品-->
-    <div class="form-inline">
-        <table class="table table-condensed" id="table_po_products">
-            <tbody id="purchaseOrderProductList">
-            </tbody>
-        </table>
-        <script type="text/template" id="poProductTpl">//<!--
+	<div class="container" style="padding: 0;">
+		<form:form id="inputForm" modelAttribute="purchaseOrder"
+			action="${ctx}/oa/purchaseOrder/ajaxSave" method="post">
+			<form:hidden path="id" />
+			<form:hidden path="contract.id" />
+			<sys:message content="${message}" />
+			<!--产品-->
+			<div class="form-inline">
+				<table class="table table-condensed" id="table_po_products">
+					<tbody id="purchaseOrderProductList">
+					</tbody>
+				</table>
+				<script type="text/template" id="poProductTpl">//<!--
 						<tr id="purchaseOrderProductList{{idx}}" row="row" data-idx={{idx}} data-contractProductId="{{row.contractProductId}}">
 							<td class="hidden">
 								<input id="purchaseOrderProductList{{idx}}_id" name="purchaseOrderProductList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
@@ -199,7 +207,7 @@
 						</tr>
 						//-->
         </script>
-        <script type="text/javascript">
+				<script type="text/javascript">
             var poProductRowIdx = 0, poProductTpl = $("#poProductTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
             var sumAmount = ${not empty purchaseOrder.amount? purchaseOrder.amount: 0 };
             $(document).ready(function () {
@@ -290,49 +298,78 @@
                     sumAmount = sumAmount + price * num;
             }
         </script>
-    </div>
+			</div>
 
-    <hr>
+			<hr>
 
-    <!--供应商-->
-    <div class="row">
-            供应商：
-            
-            <form:select path="supplier.id" class="form-control required input-sm" id="supplier" cssStyle="width:280px;" onchange="changeSupplier();">
-                <form:option value="" label=""/>
-               
-               <form:options items="${supplierList}" itemLabel="name"
-                              itemValue="id" htmlEscape="false"/>
-                           
-            </form:select>
-            <c:forEach var="supplierItem" items="${supplierList}" varStatus="status">  
-                 <input id="${supplierItem.id}" type="hidden" shippingSpeed="${supplierItem.shippingSpeed}"  communicationEfficiency="${supplierItem.communicationEfficiency}"  productQuality="${supplierItem.productQuality}"  serviceAttitude="${supplierItem.serviceAttitude}">
-              </c:forEach>  
-           <a href="javascript:void(0);" onclick="addSupplier(this)" title="新增供应商" class="zmdi zmdi-plus-circle text-success" style="margin-left:10px;font-size:25px;"></a>
-            <div class="row">
-            <span>发货  <span id="shippingSpeed" style="color:red;">未评价</span>&nbsp;&nbsp;沟通  <span id="communicationEfficiency" style="color:red;">未评价</span> &nbsp;&nbsp;质量  <span id="productQuality" style="color:red;">未评价</span> &nbsp;&nbsp;态度 <span id="serviceAttitude" style="color:red;">未评价</span></span>
-             </div>
-           
-    </div>
+			<!--供应商-->
+			<div class="row">
+				<div class="form-group">
+					<div class="col-xs-3">
+						<label>供应商：</label>
+					</div>
+					<div class="col-xs-8">
+						<div class="input-group">
+							<form:select path="supplier.id"
+								class="form-control required input-sm" id="supplier"
+								onchange="changeSupplier();">
+								<form:option value="" label="" />
 
-    <hr>
+								<form:options items="${supplierList}" itemLabel="name"
+									itemValue="id" htmlEscape="false" />
 
-    <!--付款信息-->
-    <!--todo: 检查付款总金额等于产品总金额之和-->
-    <h4>付款信息</h4>
-    <div id="payment-body" data-idx="0"></div>
+							</form:select>
+							<c:forEach var="supplierItem" items="${supplierList}"
+								varStatus="status">
+								<input id="${supplierItem.id}" type="hidden"
+									shippingSpeed="${supplierItem.shippingSpeed}"
+									communicationEfficiency="${supplierItem.communicationEfficiency}"
+									productQuality="${supplierItem.productQuality}"
+									serviceAttitude="${supplierItem.serviceAttitude}">
+							</c:forEach>
+							<span class="input-group-btn"> <a
+								href="javascript:void(0);" onclick="addSupplier(this)"
+								title="新增供应商" class="btn btn-sm btn-custom">+</a></span>
+						</div>
+					</div>
+				</div>
+			</div>
 
-    <div class="row">
-     帐期点数:&nbsp;
-        <form:input path="paymentPointnum" htmlEscape="false" maxlength="255" class="form-control required input-sm" cssStyle="width:100px; display:inline;" onchange="updateRll();"/>
-    </div>
 
-    <div class="row">
-        帐期日利率:
-        <span id="rll"></span>
-    </div>
-    <script type="text/template" id="paymentTpl">//<!--
-    <div class="row" style=" margin-left:-10px; margin-top:10px;" id="purchaseOrderFinanceList{{idx}}" data-idx="{{idx}}">
+			<div class="row">
+				<div class="col-xs-12 form-group">
+					<span>发货 <span id="shippingSpeed" style="color: red;">未评价</span>&nbsp;&nbsp;沟通
+						<span id="communicationEfficiency" style="color: red;">未评价</span>
+						&nbsp;&nbsp;质量 <span id="productQuality" style="color: red;">未评价</span>
+						&nbsp;&nbsp;态度 <span id="serviceAttitude" style="color: red;">未评价</span></span>
+				</div>
+			</div>
+
+
+
+			<hr>
+
+			<!--付款信息-->
+			<!--todo: 检查付款总金额等于产品总金额之和-->
+			<h4 style="padding-left: 15px;">付款信息</h4>
+			<div id="payment-body" data-idx="0" class="clearfix"></div>
+
+			<div class="row m-t-10">
+				<div class="form-group col-xs-12">
+					帐期点数：&nbsp;
+					<form:input path="paymentPointnum" htmlEscape="false"
+						maxlength="255" class="form-control required input-sm"
+						cssStyle="width:100px; display:inline;" onchange="updateRll();" />
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="form-group col-xs-12">
+					帐期日利率：<span id="rll"></span>
+				</div>
+			</div>
+			<script type="text/template" id="paymentTpl">//<!--
+    <div id="purchaseOrderFinanceList{{idx}}" data-idx="{{idx}}">
         <input id="purchaseOrderFinanceList{{idx}}_id" name="purchaseOrderFinanceList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
         <input id="purchaseOrderFinanceList{{idx}}_sort" name="purchaseOrderFinanceList[{{idx}}].sort" type="hidden" value="{{row.sort}}"/>
 	    <input id="purchaseOrderFinanceList{{idx}}_delFlag" name="purchaseOrderFinanceList[{{idx}}].delFlag" type="hidden" value="0"/>
@@ -340,44 +377,52 @@
 	    <input id="purchaseOrderFinanceList{{idx}}_payDate" name="purchaseOrderFinanceList[{{idx}}].payDate" type="hidden" value="{{row.payDate}}"/>
 	    <input id="purchaseOrderFinanceList{{idx}}_status" name="purchaseOrderFinanceList[{{idx}}].status" type="hidden" value="{{row.status}}"/>
         <div style="background: #f5f5f5;width:80%;float:left; padding: 10px;" class="div-pay">
-            <div>
-            金额：<input type="text" class="form-control required number input-sm" id="purchaseOrderFinanceList{{idx}}_amount" name="purchaseOrderFinanceList[{{idx}}].amount"
-                        onchange="updatePayment(this);" value="{{row.amount}}" style="display: inline;width:90px;"/>
-            比例：<input type="text" class="form-control required number input-sm" id="purchaseOrderFinanceList{{idx}}_bl" onchange="updatePayment(this);"
-                           value="{{row.bl}}" style="display: inline;width:70px;"/>
-            账期：<input id="purchaseOrderFinanceList{{idx}}_zq" name="purchaseOrderFinanceList[{{idx}}].zq" type="text" class="form-control required number input-sm"
-                           value="{{row.zq}}" style="display: inline;width:50px;" onchange="updateRll()"/>
-            </div>
-            <div style="padding-top: 10px;">
-                <span style="margin-right:17px;">付款方式：</span>
-                <c:forEach items="${fns:getDictList('oa_payment_method')}" var="dict" varStatus="s">
-                                    <span class="radio radio-success radio-inline" style="padding-left:2px">
+			<table>
+				<tr>
+					<td width="80" height="40">付款金额：</td>
+					<td><input type="text" class="form-control required number input-sm" id="purchaseOrderFinanceList{{idx}}_amount" name="purchaseOrderFinanceList[{{idx}}].amount"
+                        onchange="updatePayment(this);" value="{{row.amount}}" /></td>
+					<td  width="80">比例：</td>
+					<td><input type="text" class="form-control required number input-sm" id="purchaseOrderFinanceList{{idx}}_bl" onchange="updatePayment(this);"
+                           value="{{row.bl}}"/></td>
+				</tr>
+				<tr>
+					<td height="40">付款账期：</td>
+					<td><input id="purchaseOrderFinanceList{{idx}}_zq" name="purchaseOrderFinanceList[{{idx}}].zq" type="text" class="form-control required number input-sm"
+                           value="{{row.zq}}" onchange="updateRll()"/></td>
+					<td>付款条件：</td>
+					<td><select id="purchaseOrderFinanceList{{idx}}_payCondition" name="purchaseOrderFinanceList[{{idx}}].payCondition" data-value="{{row.payCondition}}" class="form-control input-block required input-sm"  style="width: 100px;display: inline;">
+                    	<option value="0">预付</option>
+                    	<option value="1">后付</option>
+                	</select></td>
+				</tr>
+				<tr>
+					<td height="40">付款方式：</td>
+					<td colspan="3" style="text-align:left;"><c:forEach items="${fns:getDictList('oa_payment_method')}" var="dict" varStatus="s">
+                                    <span class="radio radio-custom radio-inline">
                                         <input id="purchaseOrderFinanceList{{idx}}_payMethod_${s.index+1}" name="purchaseOrderFinanceList[{{idx}}].payMethod" type="radio"
                                                value="${dict.value}" data-value="{{row.payMethod}}" ${s.index eq 1? "checked":""}>
                                         <label for="purchaseOrderFinanceList{{idx}}_payMethod_${s.index+1}">${dict.label}</label>
                                     </span>
-                    </c:forEach>
-            </div>
-            <div id="div-activeData_{{idx}}" style= "padding-top: 10px;display:none;">
-            生效日期:&nbsp;<input id="purchaseOrderFinanceList{{idx}}_activeDate" name="purchaseOrderFinanceList[{{idx}}].activeDate" value="{{row.activeDate}}" type="text"
-            readonly="readonly" style="width: 150px;display:inline;"class="form-control Wdate input-sm required" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
-            </div>
-            <div style="padding-top: 10px;">
-            付款条件：
-                <select id="purchaseOrderFinanceList{{idx}}_payCondition" name="purchaseOrderFinanceList[{{idx}}].payCondition" data-value="{{row.payCondition}}" class="form-control input-block required input-sm"  style="width: 100px;display: inline;">
-                    <option value="0">预付</option>
-                    <option value="1">后付</option>
-                </select>
-            </div>
+                    </c:forEach></td>
+				</tr>
+				<tr id="div-activeData_{{idx}}" style="display:'none';">
+					<td height="40">生效日期：</td>
+					<td colspan="3" style="text-align:left;">
+						<input id="purchaseOrderFinanceList{{idx}}_activeDate" name="purchaseOrderFinanceList[{{idx}}].activeDate" value="{{row.activeDate}}" type="text"
+            readonly="readonly" style="width: 150px;" class="form-control Wdate input-sm required" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+                    </td>
+				</tr>
+			</table>
         </div>
         <div class="pull-right">
-            <a href="javascript:void(0);" onclick="addNewInstallmentPayment(this)" title="增加新的分期付款" class="zmdi zmdi-plus-circle text-success" style="font-size:25px;"></a>
-            <a href="javascript:void(0);" onclick="deleteInstallmentPayment(this)" title="删除" class="zmdi zmdi-minus-square text-success" style="font-size:25px;"></a>
+            <a href="javascript:void(0);" onclick="addNewInstallmentPayment(this)" title="增加新的分期付款" class="zmdi zmdi-plus-circle text-custom" style="font-size:25px;"></a>
+            <a href="javascript:void(0);" onclick="deleteInstallmentPayment(this)" title="删除" class="zmdi zmdi-minus-circle text-custom" style="font-size:25px;"></a>
         </div>
     </div>
     //-->
     </script>
-    <script>
+			<script>
         $(function(){
             <c:if test="${empty purchaseOrder.id}">
                 addNewInstallmentPayment();
@@ -494,28 +539,43 @@
         }
     </script>
 
-    <hr>
+			<hr>
 
-    <!--发货信息-->
-    <h4>发货信息</h4>
-    <div class="row">
-        预计到货时间 :
-       <form:input path="shipDate" htmlEscape="false" maxlength="255" class="form-control required input-sm" cssStyle="width:100px; display:inline;"/>
-        天
-    </div>
-    <div class="row">
-        收货方 :
-        <form:select path="addressType" class="form-control required input-sm" cssStyle="width:300px;">
-            <form:option value="" label=""/>
-            <form:options items="${fns:getDictList('oa_po_address_type')}" itemLabel="label"
-                          itemValue="value" htmlEscape="false"/>
-        </form:select>
-    </div>
-    <div class="row" id="div_address" style="display:none;">
-        地址&nbsp;&nbsp; :
-        <form:input path="address" htmlEscape="false" maxlength="255" class="form-control required input-sm" cssStyle="display:inline;width: 300px;"/>
-    </div>
-    <script>
+			<!--发货信息-->
+			<h4 style="padding-left: 15px;">发货信息</h4>
+			<div class="row">
+				<div class="form-group">
+					<div class="col-xs-3">预计到货时间 :</div>
+					<div class="col-xs-6">
+					<form:input path="shipDate" htmlEscape="false" maxlength="255"
+						class="form-control required input-sm"
+						cssStyle="width:100px; display:inline;" />
+					
+					天</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group">
+					<div class="col-xs-3">收货方 :</div>
+					<div class="col-xs-6">
+					<form:select path="addressType"
+						class="form-control required input-sm">
+						<form:option value="" label="" />
+						<form:options items="${fns:getDictList('oa_po_address_type')}"
+							itemLabel="label" itemValue="value" htmlEscape="false" />
+					</form:select>
+					</div>
+				</div>
+			</div>
+			<div class="row" id="div_address" style="display: none;">
+				<div class="col-xs-12 form-group">
+					地址&nbsp;&nbsp; :
+					<form:input path="address" htmlEscape="false" maxlength="255"
+						class="form-control required input-sm"
+						cssStyle="display:inline;width: 300px;" />
+				</div>
+			</div>
+			<script>
         $(function(){
             $("#addressType").change(function(){
                 var sVal = $('#addressType').val();
@@ -535,17 +595,25 @@
         });
     </script>
 
-    <hr>
+			<hr>
 
-    <!--备注信息 -->
-     <h4>备注</h4>
-    <form:input path="remark" htmlEscape="false" maxlength="255" class="form-control input-sm"/>
+			<!--备注信息 -->
+			<h4 style="padding-left:15px;">备注</h4>
+			<div class="row">
+				<div class="form-group col-xs-10">
+				<form:input path="remark" htmlEscape="false" maxlength="255"
+					class="form-control input-sm" />
+				</div>
+			</div>
 
-    <div class="row pull-right">
-        <input id="btnCancel" class="btn" type="button" value="取 消" onclick="if(parent.openOrClosePOPanel)parent.openOrClosePOPanel();"/>
-        <shiro:hasPermission name="oa:purchaseOrder:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
-    </div>
-</form:form>
-</div>
+			<div class="row pull-right m-r-10">
+				<input id="btnCancel" class="btn btn-inverse" type="button" value="取 消"
+					onclick="if(parent.openOrClosePOPanel)parent.openOrClosePOPanel();" />
+				<shiro:hasPermission name="oa:purchaseOrder:edit">
+					<input id="btnSubmit" class="btn btn-primary" type="submit"
+						value="保 存" />&nbsp;</shiro:hasPermission>
+			</div>
+		</form:form>
+	</div>
 </body>
 </html>

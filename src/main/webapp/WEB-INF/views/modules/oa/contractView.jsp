@@ -109,7 +109,7 @@
         <div class="panel panel-default">
             <div class="panel-heading" style="text-align: center;">采购下单
                 <div class="pull-right">
-                    <a href="javascript:void(0);" onclick="openOrClosePOPanel()"><i class="glyphicon glyphicon-remove"></i></a>
+                    <a href="javascript:void(0);" onClick="openOrClosePOPanel()"><i class="glyphicon glyphicon-remove"></i></a>
                 </div>
             </div>
             <div class="panel-body" style="padding:0;">
@@ -125,13 +125,13 @@
                     $(parent.window).scroll(  function(){
                     var winHeight = $(parent.window).height(), winWidth = $(parent.window).width(), divHeight =  $("#panel_po").height(), divWidth = $("#panel_po").width();
                     $("#panel_po").css('top',parent.window.document.body.scrollTop  + $('.navbar').height() + 20); //控制上下位置
-                    $("#panel_po").css('left',(winWidth - divWidth -300 - 20)); //控制横向位置
+                    $("#panel_po").attr('left',(winWidth - divWidth -300 - 20)); //控制横向位置
                 });
             } else{
                 $(parent).scroll( function(){
                     var winHeight = $(window).height(), winWidth = $(window).width(), divHeight =  $("#panel_po").height(), divWidth = $("#panel_po").width();
                     $("#panel_po").css('top',document.body.scrollTop + $('.navbar').height() + 20); //控制上下位置
-                    $("#panel_po").css('left',document.body.scrollLeft + (winWidth - divWidth - 20)); //控制横向位置
+                    $("#panel_po").attr('left',document.body.scrollLeft + (winWidth - divWidth - 20)); //控制横向位置
                 });
             }
             if(parent.mainFrame) {
@@ -143,15 +143,24 @@
         });
         //关闭采购下单panel
         function openOrClosePOPanel(){
-            if($("#panel_po").is(":hidden"))
-                $("#panel_po" ).fadeIn();
-            else
-                $("#panel_po" ).fadeOut();
+            if($("#panel_po").is(":hidden")){
+            	openPoPanel();
+            }else
+            	closePoPanel();
+        }
+        
+        function closePoPanel(){
+        	$("#panel_po").animate({right:'-' + $("#panel_po").width() + 'px'},'5000',function(){
+        		$("#panel_po" ).fadeIn();
+        	
+        	});
         }
 
         //打开采购下单的panel
         function openPoPanel(){
-            $("#panel_po" ).fadeIn();
+        	$("#panel_po").css({'right': '-' + $("#panel_po").width() + 'px'});
+        	$("#panel_po").show();
+        	$("#panel_po").animate({right:'0px'},'5000');
         }
     </script>
 </c:if>
@@ -298,7 +307,7 @@
                 <span id="productMsg" style="display:none" class="label label-danger"></span>
             <div class="pull-right">
                 <a href="javascript:" class="btn btn-custom" id="btnSetProductCanEdit"><i class="zmdi zmdi-edit"></i>&nbsp;编辑</a>
-                <a href="javascript:" class="btn btn-primary" onclick="$('#panel_po').show()"><i class="fa fa-folder-open-o"></i>&nbsp;打开下单</a>
+                <a href="javascript:" class="btn btn-primary" onClick="openPoPanel();"><i class="fa fa-folder-open-o"></i>&nbsp;打开下单</a>
             </div>
             </c:if>
             </h3>
@@ -1244,7 +1253,7 @@
                             <sys:myckfinder input="files${status.index}" type="files" uploadPath="/oa/contract"
                                             selectMultiple="true"/>
                         </td>
-                        <td>
+                        <td style="text-align:center;">
                             <fmt:formatDate value="${attachment.updateDate}" pattern="yyyy-MM-dd"/>
                         </td>
                     </tr>
@@ -1302,7 +1311,7 @@
 
     <div class="form-group">
         <div class="text-center">
-				<input id="btnCancel" class="btn btn-inverse" type="button" value="返 回" onclick="history.go(-1)"/>
+				<input id="btnCancel" class="btn btn-inverse" type="button" value="返 回" onClick="history.go(-1)"/>
                 <c:if test="${contract.contractType ne '1' and not empty contract.id}">
                     <c:set var="submitText" value="提交"/>
                     <c:if test="${empty contract.act.procInsId}">
@@ -1310,7 +1319,7 @@
                     </c:if>
 
                     <c:if test="${contract.act.taskDefKey eq 'split_po'}">
-                        <c:set var="submitText" value="确认拆分"/>
+                        <c:set var="submitText" value="提交审核"/>
                     </c:if>
 
                     <c:if test="${contract.act.taskDefKey eq 'contract_edit'}">
@@ -1350,12 +1359,12 @@
                                             contract.act.taskDefKey eq 'verify_sk' ||
                                             contract.act.taskDefKey eq 'finish' ||
                                             contract.act.taskDefKey eq 'can_invoice'}">
-                            <input id="btnSubmit" class="btn btn-custom" type="submit" value="${submitText}" onclick="$('#flag').val('submit_audit')"/>&nbsp;
+                            <input id="btnSubmit" class="btn btn-custom" type="submit" value="${submitText}" onClick="$('#flag').val('submit_audit')"/>&nbsp;
                         </c:when>
 
                         <c:when test="${not empty contract.act.taskDefKey}">
-                            <input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
-                            <input id="btnUnAudit" class="btn btn-info" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
+                        	<input id="btnUnAudit" class="btn btn-info" type="submit" value="驳 回" onClick="$('#flag').val('no')"/>&nbsp;
+                            <input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onClick="$('#flag').val('yes')"/>&nbsp;                   
                         </c:when>
                     </c:choose>
 
