@@ -369,7 +369,7 @@ h4 {
 				</div>
 			</div>
 			<script type="text/template" id="paymentTpl">//<!--
-    <div id="purchaseOrderFinanceList{{idx}}" data-idx="{{idx}}">
+    <div id="purchaseOrderFinanceList{{idx}}" data-idx="{{idx}}" class="row">
         <input id="purchaseOrderFinanceList{{idx}}_id" name="purchaseOrderFinanceList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
         <input id="purchaseOrderFinanceList{{idx}}_sort" name="purchaseOrderFinanceList[{{idx}}].sort" type="hidden" value="{{row.sort}}"/>
 	    <input id="purchaseOrderFinanceList{{idx}}_delFlag" name="purchaseOrderFinanceList[{{idx}}].delFlag" type="hidden" value="0"/>
