@@ -108,9 +108,9 @@
     <script src="${ctxStatic}/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
     <div class="col-sm-5 div_bill" id="panel_po" style="display: none">
         <div class="panel panel-default">
-            <div class="panel-heading" style="text-align: center;">采购下单
+            <div class="panel-heading" style="text-align: center;"><span style="font-size:16px;">采购下单</span>
                 <div class="pull-right">
-                    <a href="javascript:void(0);" onclick="openOrClosePOPanel()"><i class="glyphicon glyphicon-remove"></i></a>
+                    <a href="javascript:void(0);" onclick="openOrClosePOPanel()" style="color:#797979;"><i class="glyphicon glyphicon-remove"></i></a>
                 </div>
             </div>
             <div class="panel-body" style="padding:0;">
@@ -152,7 +152,7 @@
         
         function closePoPanel(){
         	$("#panel_po").animate({right:'-' + $("#panel_po").width() + 'px'},'5000',function(){
-        		$("#panel_po" ).fadeIn();
+        		$("#panel_po" ).fadeOut();
         	
         	});
         }
@@ -394,13 +394,15 @@
 							<td class="hidden">
 
 							</td>
-							<td>
+							<td>	
 							    <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true'}">
-							        <input type="checkbox" onchange="selectProduct(this, '{{row.json}}')">
+							        <div class="checkbox checkbox-custom"><input type="checkbox" onchange="selectProduct(this, '{{row.json}}')">
                                 </c:if>
-								<span>{{row.name}}</span>
+								<label>{{row.name}}</label>
+								
 								 <span style="margin-left:50px;">{{row.productType.name}}</span>
                                 <span style="margin-left:50px;">{{isServiceText}}</span>
+								<c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true'}"></div></c:if>
 							</td>
 							<td>
 								{{row.price}}
@@ -473,10 +475,13 @@
 							</td>
 							<td>
 							    <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true'}">
-							        <input type="checkbox" onchange="selectProduct(this, '{{row.json}}')">
+							        <div class="checkbox checkbox-custom"><input type="checkbox" onchange="selectProduct(this, '{{row.json}}')">
                                 </c:if>
-								<span style="display:inline-block;width:100px;">{{row.name}}</span>
+								<label style="display:inline-block;width:100px;">{{row.name}}</label>
 								<span style="margin-left:50px">{{row.productType.name}}</span>
+								<c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true'}">
+							        </div>
+                                </c:if>
 							</td>
 							<td>
 								{{row.num}}
@@ -729,7 +734,7 @@
                         }
                     }
                     if($("#panel_po").is(":hidden"))
-                        $("#panel_po" ).fadeIn();
+                    	openOrClosePOPanel();
                 }
 
                 function unSelectProduct(id){
@@ -1112,7 +1117,7 @@
                             <label class="control-label">发货方式：</label>
                             <form:radiobuttons path="shipMode" items="${fns:getDictList('oa_ship_mode')}"
                                                itemLabel="label" itemValue="value" htmlEscape="false" class=""
-                                               element="span class='radio radio-success radio-inline'"/>
+                                               element="span class='radio radio-custom radio-inline'"/>
 
                         </div>
                     </div>

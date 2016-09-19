@@ -190,17 +190,17 @@ h4 {
 								<input  id="purchaseOrderProductList{{idx}}_name" name="purchaseOrderProductList[{{idx}}].name" type="hidden" value="{{row.name}}" maxlength="100" class="form-control required input-sm"  style="display: inline-block;"/>
 								{{row.name}}
 							</td>
-							<td>
+							<td width="120">
 								<input id="purchaseOrderProductList{{idx}}_num" name="purchaseOrderProductList[{{idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="form-control number input-block required input-sm" onchange="updateSumAmount(this);" style="display:inline-block"/>
 							</td>
-							<td>
+							<td width="20">
 							    {{row.unitName}}
 								<input id="purchaseOrderProductList{{idx}}_unit" name="purchaseOrderProductList[{{idx}}].unit" type="hidden" value="{{row.unitId}}"/>
 							</td>
-							<td>
+							<td width="180">
 								<input id="purchaseOrderProductList{{idx}}_price" name="purchaseOrderProductList[{{idx}}].price" type="text" value="{{row.price}}" class="form-control number input-block required input-sm" onchange="updateSumAmount(this);" style="display:inline-block"/>
 							</td>
-							<td>元</td>
+							<td width="20">元</td>
 							<shiro:hasPermission name="oa:contract:edit"><td class="text-center" width="10">
 								{{#delBtn}}<a href="javascript:void(0);" class="on-default remove-row" onclick="delRow(this, '#purchaseOrderProductList{{idx}}', '{{row.contractProductId}}')"  title="删除"><i class="fa fa-trash-o"></i></a>{{/delBtn}}
 							</td></shiro:hasPermission>
@@ -305,14 +305,13 @@ h4 {
 			<!--供应商-->
 			<div class="row">
 				<div class="form-group">
-					<div class="col-xs-3">
-						<label>供应商：</label>
-					</div>
-					<div class="col-xs-8">
-						<div class="input-group">
+					<table>
+					<tr>
+						<td width="80" height="40">供应商：</td>
+						<td><div class="input-group">
 							<form:select path="supplier.id"
 								class="form-control required input-sm" id="supplier"
-								onchange="changeSupplier();">
+								onchange="changeSupplier();" cssStyle="width:200px;">
 								<form:option value="" label="" />
 
 								<form:options items="${supplierList}" itemLabel="name"
@@ -330,8 +329,9 @@ h4 {
 							<span class="input-group-btn"> <a
 								href="javascript:void(0);" onclick="addSupplier(this)"
 								title="新增供应商" class="btn btn-sm btn-custom">+</a></span>
-						</div>
-					</div>
+						</div></td>
+					</tr>
+					</table>
 				</div>
 			</div>
 
@@ -369,7 +369,7 @@ h4 {
 				</div>
 			</div>
 			<script type="text/template" id="paymentTpl">//<!--
-    <div id="purchaseOrderFinanceList{{idx}}" data-idx="{{idx}}" class="row">
+    <div id="purchaseOrderFinanceList{{idx}}" data-idx="{{idx}}" class="row" style="padding-left:10px;">
         <input id="purchaseOrderFinanceList{{idx}}_id" name="purchaseOrderFinanceList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
         <input id="purchaseOrderFinanceList{{idx}}_sort" name="purchaseOrderFinanceList[{{idx}}].sort" type="hidden" value="{{row.sort}}"/>
 	    <input id="purchaseOrderFinanceList{{idx}}_delFlag" name="purchaseOrderFinanceList[{{idx}}].delFlag" type="hidden" value="0"/>
@@ -408,14 +408,19 @@ h4 {
 				</tr>
 				<tr id="div-activeData_{{idx}}" style="display:'none';">
 					<td height="40">生效日期：</td>
-					<td colspan="3" style="text-align:left;">
+					<td colspan="2" style="text-align:left;">
+						<div class="input-group">
 						<input id="purchaseOrderFinanceList{{idx}}_activeDate" name="purchaseOrderFinanceList[{{idx}}].activeDate" value="{{row.activeDate}}" type="text"
-            readonly="readonly" style="width: 150px;" class="form-control Wdate input-sm required" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+            readonly="readonly" class="form-control input-sm required" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+						<span class="input-group-addon bg-custom b-0 text-white btn-sm"><i
+							class="ti-calendar"></i></span>
+						</div>
                     </td>
+					<td></td>
 				</tr>
 			</table>
         </div>
-        <div class="text-center">
+        <div class="text-center m-r-5">
             <a href="javascript:void(0);" onclick="addNewInstallmentPayment(this)" title="增加新的分期付款" class="zmdi zmdi-plus-circle text-custom" style="font-size:25px;"></a>
             <a href="javascript:void(0);" onclick="deleteInstallmentPayment(this)" title="删除" class="zmdi zmdi-minus-circle text-custom" style="font-size:25px;"></a>
         </div>
@@ -549,7 +554,7 @@ h4 {
 					<div class="col-xs-4">
 					<form:input path="shipDate" htmlEscape="false" maxlength="255"
 						class="form-control required input-sm"
-						cssStyle="width:100px; display:inline;" />
+						 />
 					
 					</div>
 					<div class="col-xs-1">天</div>
