@@ -307,7 +307,9 @@ th, td {
 						data[i].ml = data[i].amount - data[i].cost - (${contract.customerCost} * (data[i].amount / ${contract.cost}) * 1.1);
 						data[i].mll = data[i].ml / data[i].amount;
 						addRow('#contractProductList', contractProductRowIdx, contractProductViewTpl, data[i]);
-
+						if(data[i].ml<0){
+							$("#contractProductList"+contractProductRowIdx).css("color","red");
+						}
 						contractProductRowIdx = contractProductRowIdx + 1;
 					}
 				}
