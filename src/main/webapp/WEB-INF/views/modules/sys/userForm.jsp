@@ -64,10 +64,9 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-sm-2 control-label">工号<span class="help-inline"><font color="red">*</font> </span></label>
+			<label class="col-sm-2 control-label">工号</label>
 			<div class="col-sm-6">
-				<form:input path="no" htmlEscape="false" maxlength="50" class="required form-control"/>
-				
+				<form:input path="no" htmlEscape="false" maxlength="50" class="form-control"/>
 			</div>
 		</div>
 		<div class="form-group">
@@ -129,7 +128,7 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-sm-2 control-label">用户类型</label>
+			<label class="col-sm-2 control-label">职位</label>
 			<div class="col-sm-6">
 				<form:select path="userType" class="input-xlarge form-control">
 					<form:option value="" label="请选择"/>
