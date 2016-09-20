@@ -1154,7 +1154,7 @@ th,td{text-align:left;}
 						<c:if
 							test="${contract.contractType ne '1' and empty contract.act.procInsId}">
 							<input id="btnStartAudit" class="btn btn-custom" type="submit"
-								value="开始审批" onclick="$('#flag').val('submit_audit');" />&nbsp;
+								value="提交审批" onclick="$('#flag').val('submit_audit');" />&nbsp;
 						</c:if>
 					</shiro:hasPermission>
 
