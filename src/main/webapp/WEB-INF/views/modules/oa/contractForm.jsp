@@ -732,12 +732,12 @@ th,td{text-align:left;}
                 <div class="row form-inline" id="payment-onetime">
                     <div class="form-group">
                         <label>付款金额：</label>
-                        <input type="text" class="form-control number required" id="payment_onetime_amount" value="{{row.payment_onetime_amount}}"/>
+                        <input type="text" class="form-control number required payment_amount" id="payment_onetime_amount" value="{{row.payment_onetime_amount}}"/>
                     </div>
  					<div class="form-group">
 							<label>比例：</label>
 							<div class="input-group">
-							<input type="text" value="" class="form-control  number " name="payPercentage" style="width:60px;">
+							<input type="text" value="" class="form-control  number payPercentage" onchange="updatePayment(this);" style="width:60px;">
 							<span class="input-group-addon bootstrap-touchspin-postfix">%</span></div>
 					</div>
                     <div class="form-group">
@@ -767,13 +767,13 @@ th,td{text-align:left;}
                 <div class="row form-inline" id="payment-installment_{{idx}}" style="margin-bottom:10px;">
                     <div class="form-group">
                         <label>付款金额：</label>
-                        <input type="text" class="form-control required number " id="payment_installment_amount_{{idx}}"
+                        <input type="text" class="form-control required number payment_amount" id="payment_installment_amount_{{idx}}"
                         value="{{row.payment_installment_amount}}"/>
                     </div>
 					<div class="form-group">
 							<label>比例：</label>
 							<div class="input-group">
-							<input type="text" value="" class="form-control  number " name="payPercentage" style="width:60px;">
+							<input type="text" value="" class="form-control  number payPercentage" onchange="updatePayment(this);" style="width:60px;">
 							<span class="input-group-addon bootstrap-touchspin-postfix">%</span></div>
 					</div>
                     <div class="form-group">
@@ -803,13 +803,13 @@ th,td{text-align:left;}
                 <div class="row form-inline" id="payment-month">
                     <div class="form-group">
                         <label>付款金额：</label>
-                        <input type="text" class="form-control  number  required" id="payment_month_amount" size="10"
+                        <input type="text" class="form-control  number  required payment_amount" id="payment_month_amount" size="10"
                         value="{{row.payment_month_amount}}"/>
                     </div>
 					<div class="form-group">
 							<label>比例：</label>
 							<div class="input-group">
-							<input type="text" value="" class="form-control  number " name="payPercentage" style="width:60px;">
+							<input type="text" value="" class="form-control  number payPercentage" onchange="updatePayment(this);" style="width:60px;">
 							<span class="input-group-addon bootstrap-touchspin-postfix">%</span></div>
 					</div>
                     <div class="form-group">
@@ -843,8 +843,16 @@ th,td{text-align:left;}
             </script>
 					<div id="payment-body" data-idx="1"></div>
 					<script type="text/javascript">
+					
+					function updatePayment(sender){
+						var totalAmount = parseFloat($("#amount").val());
+                    	var percentage = parseFloat($(sender).val());
+                    	if(totalAmount&& percentage) {
+                    		$(sender).parent().parent().parent().find(".payment_amount").val((totalAmount * percentage /100).toFixed(2));
+                    	}
+					}
                 $(document).ready(function () {
-
+                	                   
                     $("#btnSubmit, #btnStartAudit").click(function () {
                         $("#paymentDetail").val(JSON.stringify(getPaymentDetail()));
                     });
