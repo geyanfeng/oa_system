@@ -422,7 +422,7 @@ h4 {
         </div>
         <div class="text-center m-r-5">
             <br/><br/><a href="javascript:void(0);" onclick="addNewInstallmentPayment(this)" title="增加新的分期付款" class="zmdi zmdi-plus-circle text-custom" style="font-size:25px;"></a>
-            <br/><br/><br/><a href="javascript:void(0);" onclick="deleteInstallmentPayment(this)" title="删除" class="zmdi zmdi-minus-circle text-custom" style="font-size:25px;"></a>
+            <br/><br/><br/><a href="javascript:void(0);" id="purchaseOrderFinanceList{{idx}}_btnDelete" onclick="deleteInstallmentPayment(this)" title="删除" class="zmdi zmdi-minus-circle text-custom" style="font-size:25px;"></a>
         </div>
     </div>
     //-->
@@ -493,6 +493,7 @@ h4 {
                 $("#payment-body .row[data-idx='"+idx+"']").find("select").attr("onfocus", "this.defaultIndex=this.selectedIndex;");
                 $("#payment-body .row[data-idx='"+idx+"']").find("select").attr("onchange", "this.selectedIndex=this.defaultIndex;");
                 $("#payment-body .row[data-idx='"+idx+"']").find(".div-pay").css("background","#f5cccc");
+                $("#payment-body .row[data-idx='"+idx+"']").find("a[id$='btnDelete']").remove();
             }
 
             idx = idx+1;
