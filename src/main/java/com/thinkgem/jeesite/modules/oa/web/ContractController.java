@@ -354,7 +354,7 @@ public class ContractController extends BaseController {
 		{
 			try {
 				contractService.audit(contract);
-				addMessage(redirectAttributes, "合同成功审批");
+				addMessage(redirectAttributes, "操作成功，请等待下一环节操作");
 			}
 			catch(Exception e){
 				addMessage(redirectAttributes, e.getMessage());

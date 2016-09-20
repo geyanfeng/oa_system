@@ -27,7 +27,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
-import static org.codehaus.plexus.util.StringUtils.isBlank;
 import static org.codehaus.plexus.util.StringUtils.isNotBlank;
 
 /**
@@ -182,7 +181,7 @@ public class PurchaseOrderController extends BaseController {
 		{
 			try {
 				purchaseOrderService.audit(purchaseOrder);//审核
-				addMessage(redirectAttributes, "订单成功审批");
+				addMessage(redirectAttributes, "操作成功，请等待下一环节操作");
 			}catch(Exception e){
 				addMessage(redirectAttributes, e.getMessage());
 				return "redirect:" + request.getHeader("referer");
