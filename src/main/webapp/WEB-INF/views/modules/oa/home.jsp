@@ -574,7 +574,7 @@
 			</div>
 			</c:if>
 		</div>
-
+		<shiro:hasRole name="cw">
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="card-box">
@@ -610,6 +610,7 @@
 				</div>
 			</div>
 		</div>
+		</shiro:hasRole>
 	</div>
 
 
