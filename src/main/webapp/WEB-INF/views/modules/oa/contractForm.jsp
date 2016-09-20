@@ -12,7 +12,9 @@
 
 .row.form-inline .form-group {
 	margin-left: 20px;
+	margin-bottom:5px;
 }
+
 th,td{text-align:left;}
 .table{margin-bottom:0px;}
 .table tr th:nth-child(2),.table tr td:nth-child(2){
@@ -732,6 +734,12 @@ th,td{text-align:left;}
                         <label>付款金额：</label>
                         <input type="text" class="form-control number required" id="payment_onetime_amount" value="{{row.payment_onetime_amount}}"/>
                     </div>
+ 					<div class="form-group">
+							<label>比例：</label>
+							<div class="input-group">
+							<input type="text" value="" class="form-control  number " name="payPercentage" style="width:60px;">
+							<span class="input-group-addon bootstrap-touchspin-postfix">%</span></div>
+					</div>
                     <div class="form-group">
                         <label>付款方式：</label>
                         <c:forEach items="${fns:getDictList('oa_payment_method')}" var="dict" varStatus="s">
@@ -748,7 +756,9 @@ th,td{text-align:left;}
                     </div>
                     <div class="form-group">
                         <label>账期点数：</label>
-                        <input id="payment_onetime_pointnum" type="text" class="form-control number required" value="{{row.payment_onetime_pointnum}}"/>
+                        <div class="input-group">
+							<input id="payment_onetime_pointnum" type="text" style="width:60px;" class="form-control number required" value="{{row.payment_onetime_pointnum}}"/>
+							<span class="input-group-addon bootstrap-touchspin-postfix">%</span></div>
                     </div>
                 </div>
                     //-->
@@ -760,6 +770,12 @@ th,td{text-align:left;}
                         <input type="text" class="form-control required number " id="payment_installment_amount_{{idx}}"
                         value="{{row.payment_installment_amount}}"/>
                     </div>
+					<div class="form-group">
+							<label>比例：</label>
+							<div class="input-group">
+							<input type="text" value="" class="form-control  number " name="payPercentage" style="width:60px;">
+							<span class="input-group-addon bootstrap-touchspin-postfix">%</span></div>
+					</div>
                     <div class="form-group">
                         <label>账期：</label>
                         <input id="payment_installment_time_{{idx}}" type="text" class="form-control number  required"
@@ -790,6 +806,12 @@ th,td{text-align:left;}
                         <input type="text" class="form-control  number  required" id="payment_month_amount" size="10"
                         value="{{row.payment_month_amount}}"/>
                     </div>
+					<div class="form-group">
+							<label>比例：</label>
+							<div class="input-group">
+							<input type="text" value="" class="form-control  number " name="payPercentage" style="width:60px;">
+							<span class="input-group-addon bootstrap-touchspin-postfix">%</span></div>
+					</div>
                     <div class="form-group">
                         <label>付款方式：</label>
                         <c:forEach items="${fns:getDictList('oa_payment_method')}" var="dict" varStatus="s">
@@ -1060,7 +1082,7 @@ th,td{text-align:left;}
 						<div class="form-group">
 							<label>业绩分成比例：</label>
 							<div class="input-group">
-							<input type="text" value="" class="form-control  number " name="performancePercentage" id="performancePercentage" style="width:50px;">
+							<input type="text" value="" class="form-control  number " name="performancePercentage" id="performancePercentage" style="width:60px;">
 							<span class="input-group-addon bootstrap-touchspin-postfix">%</span></div>
 						</div>
 					</div>
