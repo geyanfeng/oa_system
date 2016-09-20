@@ -284,7 +284,6 @@ th,td{text-align:left;}
 								<div class="col-sm-9">
 									<form:select path="companyName"
 										class="form-control col-md-12 required">
-										<form:option value="" label="" />
 										<form:options items="${fns:getDictList('oa_company_name')}"
 											itemLabel="label" itemValue="value" htmlEscape="false" />
 									</form:select>
