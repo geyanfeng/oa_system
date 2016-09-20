@@ -1388,8 +1388,6 @@
                         <input id="btnSubmit" class="btn btn-info" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
                     </c:if>--%>
                 </c:if>
-
-            
         </div>
     </div>
     </form:form>
@@ -1450,17 +1448,17 @@
     <script type="text/template" id="tpl-PoTKTH">//<!--
         <tr>
             <td class="hidden">
-                <input name="name" type="hidden" value="{{row.name}}"/>
-                <input name="unit" type="hidden" value="{{row.unit}}"/>
-                <input name="price" type="hidden" value="{{row.price}}"/>
-                <input name="amount" type="hidden" value="{{row.amount}}"/>
-                <input name="productType" type="hidden" value="{{row.productType.id}}"/>
+                <input id="PoTKTH{{idx}}_name" type="hidden" value="{{row.name}}"/>
+                <input id="PoTKTH{{idx}}_unit" type="hidden" value="{{row.unit}}"/>
+                <input id="PoTKTH{{idx}}_price" type="hidden" value="{{row.price}}"/>
+                <input id="PoTKTH{{idx}}_amount" type="hidden" value="{{row.amount}}"/>
+                <input id="PoTKTH{{idx}}_productType" type="hidden" value="{{row.productType.id}}"/>
             </td>
             <td>
                 {{row.name}}
             </td>
             <td>
-                <input name="num" type="text" value="{{row.num}}" class="form-control number input-block required" style="width:80px;" onchange="tkThUpdateAmount(this);"/>
+                <input id="PoTKTH{{idx}}_num" type="text" value="{{row.num}}" class="form-control number input-block required" style="width:80px;" onchange="tkThUpdateAmount(this);"/>
             </td>
             <td>
                 {{row.unitName}}
@@ -1505,12 +1503,12 @@
                 $("#body-poTKTH tr").each(function(idx, item){
                     var row = $(item);
                     var data = {
-                        name: row.find("input[name='name']").val(),
-                        num: row.find("input[name='num']").val(),
-                        unit: row.find("input[name='unit']").val(),
-                        price: row.find("input[name='price']").val(),
-                        amount: row.find("input[name='amount']").val(),
-                        productType: row.find("input[name='productType']").val()
+                        name: row.find("input[id$='name']").val(),
+                        num: row.find("input[id$='num']").val(),
+                        unit: row.find("input[id$='unit']").val(),
+                        price: row.find("input[id$='price']").val(),
+                        amount: row.find("input[id$='amount']").val(),
+                        productType: row.find("input[id$='productType']").val()
                     }
                     dataList.push(data);
                 })
@@ -1552,7 +1550,7 @@
                                 break;
                             }
                         }
-                        $("#body-poTKTH").append(Mustache.render(tpl, { row: product }));
+                        $("#body-poTKTH").append(Mustache.render(tpl, { row: product, idx: pIdx }));
                         totalAmount+=product.amount;
                     });
                 }
@@ -1572,7 +1570,7 @@
                     price = parseFloat(row.find("td:eq(4)").html()),
                     amount = (num*price).toFixed(2);
             row.find("td:eq(5)").html(amount);
-            row.find("input[name='amount']").val(amount);
+            row.find("input[id$='amount']").val(amount);
 
             totalAmount = 0;
             $("#body-poTKTH tr").each(function(idx,row){
