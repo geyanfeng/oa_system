@@ -334,7 +334,7 @@ public class ContractController extends BaseController {
 
 		contractService.save(contract);
 		//执行审批
-		if(!contract.getContractType().equals("1") && isNotBlank(contract.getAct().getFlag()) && isBlank(contract.getAct().getTaskDefKey())){
+		if((!contract.getContractType().equals("1") && isNotBlank(contract.getAct().getFlag())) || isNotBlank(contract.getAct().getTaskDefKey())){
 			//return "redirect:" + adminPath + "/act/task/todo/";
 			return audit(request, contract, redirectAttributes, null);
 		} else {
