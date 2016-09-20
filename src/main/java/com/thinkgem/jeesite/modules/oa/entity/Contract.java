@@ -66,6 +66,7 @@ public class Contract extends ActEntity<Contract> {
 	private List<ContractRecallApprove> recallApproveList = Lists.newArrayList();		// 撤回列表
 	private Double cost = 0.00;		//成本(从订单产品中获取)
 	private Date skDate;				//收款日期
+	private Date kpDate;				//开票日期
 	private Integer cancelFlag=0;		//撤销标志: 0为没有撤销, 1为撤销
 	private String cancelReason;		//撤销原因
 	private Date cancelDate;			//撤销时间
@@ -430,6 +431,9 @@ public class Contract extends ActEntity<Contract> {
 
 	public Date getSkDate(){return skDate;}
 	public void setSkDate(Date skDate){this.skDate = skDate;}
+
+	public Date getKpDate(){return kpDate;}
+	public void setKpDate(Date kpDate){this.kpDate = kpDate;}
 
 	public Integer getCancelFlag(){return cancelFlag;}
 	public void setCancelFlag(Integer cancelFlag){this.cancelFlag = cancelFlag;}

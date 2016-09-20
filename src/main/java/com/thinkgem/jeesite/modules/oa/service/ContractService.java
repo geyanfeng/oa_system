@@ -354,6 +354,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             return;
 
         Calendar cc = Calendar.getInstance();
+        cc.setTime(contract.getKpDate());//设置开票时间
 
         ContractFinance contractFinance = finances.get(0);
 
@@ -496,7 +497,6 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                     contract.setCancelDate(new Date());
                     contract.setCancelReason("合同撤销!");
                     vars.put("isRecall", 1);
-
                 } else {
                     if (!isFinishSplitPO(contract))
                         throw new Exception("提交失败: 还没有完成拆分po, 不能提交!");

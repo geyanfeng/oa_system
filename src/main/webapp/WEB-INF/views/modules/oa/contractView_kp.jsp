@@ -1,3 +1,5 @@
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Calendar" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp" %>
 <html>
@@ -71,13 +73,22 @@
         </div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-3">
                     发票类型：${fns:getDictLabel(contract.invoiceType, "oa_invoice_type","" )}
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-3">
                     开票金额：<font style="color: red">${finance.amount}</font>
                 </div>
-
+                <div class="col-sm-3">
+                    <%
+                        String datetime=new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()); //获取系统时间
+                        request.setAttribute("currentTime",datetime);
+                    %>
+                    实际开票日期：<input name="kpDate" type="text" readonly="readonly" style="width: 150px;display:inline;"
+                                  class="form-control Wdate input-sm required"
+                                  value="${currentTime}"
+                                  onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+                </div>
             </div>
             <div class="row">
                 <div class="col-sm-6">
