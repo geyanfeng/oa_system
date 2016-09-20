@@ -594,10 +594,14 @@
                                 }
                             }
                             if(existChildCount == 0)
+                                $("tr[data-id="+data[i].id+"] input:checkbox").closest("div").removeClass("checkbox");
+                                $("tr[data-id="+data[i].id+"] input:checkbox").closest("div").removeClass("checkbox-custom");
                                 $("tr[data-id="+data[i].id+"] input:checkbox").remove();
                                 //$("tr[data-id="+data[i].id+"]").next().remove();
                         } else{
                             if(data[i].hasSendNum == data[i].num){
+                                $("tr[data-id="+data[i].id+"] input:checkbox").closest("div").removeClass("checkbox");
+                                $("tr[data-id="+data[i].id+"] input:checkbox").closest("div").removeClass("checkbox-custom");
                                 $("tr[data-id="+data[i].id+"] input:checkbox").remove();
                                 /!*$("tr[data-id="+data[i].id+"]").next("tr").remove();*!/
                             }
