@@ -2,6 +2,7 @@ package com.thinkgem.jeesite.modules.oa.service;
 
 import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.service.CrudService;
+import com.thinkgem.jeesite.modules.act.service.ActProcessService;
 import com.thinkgem.jeesite.modules.act.service.ActTaskService;
 import com.thinkgem.jeesite.modules.act.utils.ActUtils;
 import com.thinkgem.jeesite.modules.oa.dao.ContractDao;
@@ -39,6 +40,8 @@ public class RefundService  extends CrudService<RefundMainDao, RefundMain> {
     private ActTaskService actTaskService;
     @Autowired
     private RefundDetailDao refundDetailDao;
+    @Autowired
+    private ActProcessService actProcessService;
 
     @Transactional(readOnly = false)
     public void saveList(String poId, List<RefundDetail> refundDetailList) throws Exception {
@@ -61,6 +64,10 @@ public class RefundService  extends CrudService<RefundMainDao, RefundMain> {
         filter.setPoId(poId);
         List<RefundMain> existingMainList = dao.findList(filter);
         for (RefundMain main : existingMainList) {
+            //删除没有完成的退款流程
+            if (isNotBlank(main.getProcInsId()))
+                actProcessService.deleteProcIns(main.getProcInsId(), "删除退款流程");
+            //删除数据
             dao.delete(main);
         }
         RefundDetail filterDetail = new RefundDetail();
