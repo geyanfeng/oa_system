@@ -186,7 +186,7 @@ h4 {
 								<input id="purchaseOrderProductList{{idx}}_maxNum" name="purchaseOrderProductList[{{idx}}].maxNum" type="hidden" value="{row.maxNum}}"/>
 								<input id="purchaseOrderProductList{{idx}}_contractProductId" name="purchaseOrderProductList[{{idx}}].contractProductId" type="hidden" value="{{row.contractProductId}}"/>
 							</td>
-							<td>
+							<td style="text-align:left;padding-left:15px;">
 								<input  id="purchaseOrderProductList{{idx}}_name" name="purchaseOrderProductList[{{idx}}].name" type="hidden" value="{{row.name}}" maxlength="100" class="form-control required input-sm"  style="display: inline-block;"/>
 								{{row.name}}
 							</td>
@@ -406,7 +406,7 @@ h4 {
                                     </span>
                     </c:forEach></td>
 				</tr>
-				<tr id="div-activeData_{{idx}}" style="display:'none';">
+				<tr id="div-activeData_{{idx}}" style="display:none;">
 					<td height="40">生效日期：</td>
 					<td colspan="2" style="text-align:left;">
 						<div class="input-group">
