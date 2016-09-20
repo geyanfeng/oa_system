@@ -514,8 +514,8 @@
 					<table class="table m-0">
 						<thead>
 							<tr>
-								<th width="20%">合同ID</th>
-								<th>项目名称</th>
+								<th width="20%">合同号</th>
+								<th>合同名称</th>
 								<th width="15%">类别</th>
 
 							</tr>
@@ -528,9 +528,10 @@
 								<c:set var="procDef" value="${contract_audit.procDef}" />
 								<c:set var="status" value="${contract_audit.status}" />
 								<tr>
-									<th scope="row">${p.index + 1}</th>
+									<th scope="row">${not empty vars.map.contract_no ? vars.map.contract_no: p.index + 1}</th>
 									<td><a
-										href="${ctx}/act/task/form?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}">${fns:abbr(not empty vars.map.title ? vars.map.title : task.id, 60)}</a>
+										href="${ctx}/act/task/form?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}">
+										${fns:abbr(not empty vars.map.title ? vars.map.title : task.id, 30)}</a>
 									</td>
 									<td><span class="label label-danger">${task.name}</span></td>
 								</tr>
@@ -541,14 +542,14 @@
 				</div>
 			</div>
 			<c:if test="${roleType ne '3' and roleType ne '4'}">
-			<div class="col-sm-6"">
-				<div class="card-box id="card_po_audit">
+			<div class="col-sm-6">
+				<div class="card-box" id="card_po_audit">
 					<h4 class="header-title m-t-0 m-b-30">采购订单待办</h4>
 					<table class="table m-0">
 						<thead>
 							<tr>
-								<th width="20%">合同ID</th>
-								<th>项目名称</th>
+								<th width="35%">订单号</th>
+								<th>合同名称</th>
 								<th width="15%">类别</th>
 
 							</tr>
@@ -560,9 +561,11 @@
 								<c:set var="procDef" value="${po_audit.procDef}" />
 								<c:set var="status" value="${po_audit.status}" />
 								<tr>
-									<th scope="row">${p.index + 1}</th>
+									<th scope="row">${not empty vars.map.title ? vars.map.title: p.index + 1}</th>
 									<td><a
-										href="${ctx}/act/task/form?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}">${fns:abbr(not empty vars.map.title ? vars.map.title : task.id, 60)}</a>
+										href="${ctx}/act/task/form?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}">
+										${fns:abbr(not empty vars.map.contract_name ? vars.map.contract_name : task.id, 30)}
+									</a>
 									</td>
 									<td><span class="label label-danger">${task.name}</span></td>
 								</tr>
