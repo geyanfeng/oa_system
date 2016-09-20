@@ -754,12 +754,7 @@ th,td{text-align:left;}
                         <label>账期：</label>
                         <input id="payment_onetime_time" type="text" class="form-control number required" value="{{row.payment_onetime_time}}"/>
                     </div>
-                    <div class="form-group">
-                        <label>账期点数：</label>
-                        <div class="input-group">
-							<input id="payment_onetime_pointnum" type="text" style="width:60px;" class="form-control number required" value="{{row.payment_onetime_pointnum}}"/>
-							<span class="input-group-addon bootstrap-touchspin-postfix">%</span></div>
-                    </div>
+                   
                 </div>
                     //-->
             </script>
@@ -947,8 +942,7 @@ th,td{text-align:left;}
                                 paymentDetail={
                                     payment_onetime_amount:$("#payment-onetime #payment_onetime_amount").val(),
                                     payment_onetime_paymentMethod:$("#payment-onetime input[id^='payment_onetime_paymentMethod']:checked").val(),
-                                    payment_onetime_time:$("#payment-onetime #payment_onetime_time").val(),
-                                    payment_onetime_pointnum:$("#payment-onetime #payment_onetime_pointnum").val()
+                                    payment_onetime_time:$("#payment-onetime #payment_onetime_time").val()
                                 };
                             break;
                         case "2":

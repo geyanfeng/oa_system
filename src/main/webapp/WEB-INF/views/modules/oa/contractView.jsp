@@ -1006,7 +1006,6 @@
                     <div class="col-sm-3">付款金额：{{row.payment_onetime_amount}}</div>
                     <div class="col-sm-3">付款方式：{{row.paymentMethod}}</div>
                     <div class="col-sm-3">账期：{{row.payment_onetime_time}}</div>
-                    <div class="col-sm-3">账期点数：{{row.payment_onetime_pointnum}}</div>
                 </div>
                     //-->
             </script>
