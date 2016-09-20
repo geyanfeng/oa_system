@@ -516,7 +516,7 @@
 							<tr>
 								<th width="20%">合同号</th>
 								<th>合同名称</th>
-								<th width="15%">类别</th>
+								<th width="15%">状态</th>
 
 							</tr>
 						</thead>
@@ -550,7 +550,7 @@
 							<tr>
 								<th width="35%">订单号</th>
 								<th>合同名称</th>
-								<th width="15%">类别</th>
+								<th width="15%">状态</th>
 
 							</tr>
 						</thead>
@@ -585,8 +585,8 @@
 					<table class="table m-0">
 						<thead>
 						<tr>
-							<th width="20%">合同ID</th>
-							<th>项目名称</th>
+							<th width="35%">订单号</th>
+							<th>合同名称</th>
 							<th width="15%">类别</th>
 
 						</tr>
@@ -598,10 +598,10 @@
 							<c:set var="procDef" value="${po_tk_audit.procDef}" />
 							<c:set var="status" value="${po_tk_audit.status}" />
 							<tr>
-								<th scope="row">${p.index + 1}</th>
+								<th scope="row">${not empty vars.map.po_no ? vars.map.po_no: p.index + 1}</th>
 								<td><a
 										href="${ctx}/act/task/form?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}">
-										${fns:abbr(not empty vars.map.contract_name ? vars.map.contract_name : task.id, 60)}(${not empty vars.map.po_no ? vars.map.po_no : ''})
+										${fns:abbr(not empty vars.map.contract_name ? vars.map.contract_name : task.id, 30)}
 								</a>
 								</td>
 								<td><span class="label label-danger">${task.name}</span></td>

@@ -457,6 +457,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             vars.put("artisan",  UserUtils.get(contract.getArtisan().getId()).getLoginName());
             vars.put("contract_no", contract.getNo());
             vars.put("contract_name", contract.getName());
+            vars.put("status", contract.getStatus());
             //dao.insert(contract);
             contract.getAct().setComment("提交审批");
             actTaskService.startProcess(ActUtils.PD_CONTRAT_AUDIT[0], ActUtils.PD_CONTRAT_AUDIT[1], contract.getId(), contract.getName(), vars);
@@ -616,6 +617,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             contractDao.update(contract);
 
             if(!(("recall_cso_audit".equals(taskDefKey) || "recall_cfo_audit".equals(taskDefKey)) && !pass)) {
+                vars.put("status", contract.getStatus());
                 actTaskService.complete(contract.getAct().getTaskId(), contract.getAct().getProcInsId(), contract.getAct().getComment(), vars);
             }
 
@@ -829,6 +831,11 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         vars.put("contract_oldNode", actTaskService.getCurrentTaskInfo(actTaskService.getProcIns(contract.getAct().getProcInsId())).getTaskDefinitionKey());
         vars.put("contract_oldStatus", contract.getStatus());
 
+        //更新合同状态
+        contract.setStatus("200");//更改合同状态: 撤回中
+
+        vars.put("status", contract.getStatus());
+
         //跳转合同流程到"销售总监撤回审核"节点
         jump(contract,"recall_cso_audit");
 
@@ -837,8 +844,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             taskService.setVariable(currentTask.getId(),key, vars.get(key));
         }
 
-        //更新合同状态
-        contract.setStatus("200");//更改合同状态: 撤回中
+
         contract.preUpdate();
         contractDao.update(contract);
     }
