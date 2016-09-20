@@ -448,7 +448,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 
         if (isBlank(taskDefKey) && "submit_audit".equals(flag)) {
             //更新合同状态
-            contract.setStatus(DictUtils.getDictValue("已签约", "oa_contract_status", ""));
+            contract.setStatus("10");//已签约待处理
             contract.preUpdate();
             contractDao.update(contract);
             // 设置流程变量
@@ -492,7 +492,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                 Map<String, Object> currentTaskVars = taskService.getVariables(contract.getAct().getTaskId());
                 //如果撤回类型为撤销,合同结束,并更改撤销状态
                 if(currentTaskVars.containsKey("recall_type") && currentTaskVars.get("recall_type").toString().equals("1")) {
-                    contract.setStatus(DictUtils.getDictValue("已完成", "oa_contract_status", ""));
+                    contract.setStatus("100");//已确认已完成
                     contract.setCancelFlag(1);
                     contract.setCancelDate(new Date());
                     contract.setCancelReason("合同撤销!");
@@ -500,71 +500,74 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                 } else {
                     if (!isFinishSplitPO(contract))
                         throw new Exception("提交失败: 还没有完成拆分po, 不能提交!");
-                    contract.setStatus(DictUtils.getDictValue("待审批(销售)", "oa_contract_status", ""));
+                    contract.setStatus("20"); //待审核(销售)
                     vars.put("isRecall", 0);
                 }
                 saveProducts(contract);
             } else if("business_person_createbill".equals(taskDefKey)){//商务下单
                 if(!isFinishCreateBill(contract))
                     throw new Exception("提交失败: 还有订单没有完成商务下单, 不能提交!");
-                contract.setStatus(DictUtils.getDictValue("已下单","oa_contract_status",""));
+                contract.setStatus("40");//已下单待发货
             } else if("verify_ship".equals(taskDefKey)){//确认发货
-                contract.setStatus(DictUtils.getDictValue("已发货","oa_contract_status",""));
+                contract.setStatus("60");//已发货待验收
             } if("can_invoice".equals(taskDefKey)){//商务确认开票
-                contract.setStatus(DictUtils.getDictValue("确认开票中","oa_contract_status",""));
+                contract.setStatus("75");//可开票待开票
             } else if("cw_kp".equals(taskDefKey)){//财务开票
                 actTaskService.claim(contract.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
                 updateFinanceKP(contract);
-                contract.setStatus(DictUtils.getDictValue("已开票","oa_contract_status",""));
+                contract.setStatus("80");//已开票待收款
             } else if("verify_sk".equals(taskDefKey)){//确认收款
                 actTaskService.claim(contract.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
                 updateFinanceSK(contract);
                 //检查是否已经全部收款
                 vars.put("pass",checkSK(contract)?1:0);
-
-                contract.setStatus(DictUtils.getDictValue("已收款","oa_contract_status",""));
+                if(!checkSK(contract)){
+                    contract.setStatus("90");//已收款待开票
+                } else {
+                    contract.setStatus("95");//已收款待收尾
+                }
             } else if("finish".equals(taskDefKey)){//商务确认合同完成
-                contract.setStatus(DictUtils.getDictValue("已完成","oa_contract_status",""));
+                contract.setStatus("100");//已确认已完成
             } else {
                 if (isNotBlank(flag)) {
                     //销售审核
                     if ("saler_audit".equals(taskDefKey)) {
                         if (pass) {
-                            contract.setStatus(DictUtils.getDictValue("待审批(技术)", "oa_contract_status", ""));
+                            contract.setStatus("22");//待审核(技术)
                         } else {
-                            contract.setStatus(DictUtils.getDictValue("已签约", "oa_contract_status", ""));
+                            contract.setStatus("10"); //已签约待处理
                         }
 
                     }
                     else if("artisan_audit".equals(taskDefKey)){//技术审核
                         if (pass) {
-                            contract.setStatus(DictUtils.getDictValue("待审批(销售总监)", "oa_contract_status", ""));
+                            contract.setStatus("24");//待审核(销售总监)
                         } else {
-                            contract.setStatus(DictUtils.getDictValue("已签约", "oa_contract_status", ""));
+                            contract.setStatus("10");//已签约待处理
                         }
                     }
                      else if ("cso_audit".equals(taskDefKey)) {//销售总监审核
                         if (pass) {
                             actTaskService.claim(contract.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
-                            contract.setStatus(DictUtils.getDictValue("待审批(财务总监)", "oa_contract_status", ""));
+                            contract.setStatus("26");//待审核(财务总监)
                         } else {
-                            contract.setStatus(DictUtils.getDictValue("待签约", "oa_contract_status", ""));
+                            contract.setStatus("30");//已驳回待修改
                         }
                     }
                     else if ("cfo_audit".equals(taskDefKey)) {//财务总监审核
                         if (pass) {
                             actTaskService.claim(contract.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
-                            contract.setStatus(DictUtils.getDictValue("待下单", "oa_contract_status", ""));
+                            contract.setStatus("35");//已驳回待下单
                             autoStartPOFlow(contract);//自动启动合同相关的所有订单流程
                         } else {
-                            contract.setStatus(DictUtils.getDictValue("待签约", "oa_contract_status", ""));
+                            contract.setStatus("30");//已驳回待修改
                         }
                     }
                     else if ("verify_receiving".equals(taskDefKey)) {//收货验收
                         if (pass) {
-                            contract.setStatus(DictUtils.getDictValue("已验收", "oa_contract_status", ""));
+                            contract.setStatus("70");//已验收待开票
                         } else {
-                            contract.setStatus(DictUtils.getDictValue("已发货", "oa_contract_status", ""));
+                            contract.setStatus("72");//验收失败待发货
                         }
                     } else  if("recall_cso_audit".equals(taskDefKey) || "recall_cfo_audit".equals(taskDefKey)) {//如果是销售总监撤回审核或者财务总监撤回审核
                         actTaskService.claim(contract.getAct().getTaskId(), UserUtils.getUser().getLoginName());
