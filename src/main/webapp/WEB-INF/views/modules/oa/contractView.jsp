@@ -304,7 +304,7 @@
     <a class="anchor" name="panel-3"></a>
     <div class="panel panel-default" id="card_products">
         <div class="panel-heading"><h3 class="panel-title">采购列表
-            <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true'}">
+            <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true' || (not empty is_recall && is_recall eq true)}">
                 <span id="productMsg" style="display:none" class="label label-danger"></span>
             <div class="pull-right">
                 <a href="javascript:" class="btn btn-custom" id="btnSetProductCanEdit"><i class="zmdi zmdi-edit"></i>&nbsp;编辑</a>
@@ -527,7 +527,7 @@
                             }
                         } else{
                             //检查是否已经有订单了
-                            if(poList && poList.length>0)
+                            if("${is_recall}" !="true" && poList && poList.length>0)
                             {
                                 showTipMsg("已经下过采购订单了,不能编辑!", "error");
                                 return;
