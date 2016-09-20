@@ -235,8 +235,12 @@ public class ContractController extends BaseController {
 			else if ("modify".equals(taskDefKey)){
 				view = "testAuditForm";
 			}*/
-			//合同修改
-			if("contract_edit".equals(taskDefKey)){
+			if("split_po".equals(taskDefKey)){//拆分po
+				if(actTaskService.getVarValue(contract.getProcInsId(),"recall_id") != null) {
+					model.addAttribute("is_recall", true);
+				}
+			}
+			else if("contract_edit".equals(taskDefKey)){//合同修改
 				view = "contractForm";
 			}
 			else if("saler_audit".equals(taskDefKey) || "cso_audit".equals(taskDefKey)){//销售审核和总监审核
@@ -409,13 +413,15 @@ public class ContractController extends BaseController {
 	@ResponseBody
 	public void saveProduct(@PathVariable String contractId,@RequestBody List<ContractProduct> contractProductList) throws Exception {
 		Contract contract = get(contractId);
-		for (ContractProduct contractProduct : contract.getContractProductList()){
-			if(contractProduct.getHasSendNum()>0){
-				throw new Exception("已经下单不能修改");
-			}
-			for(ContractProduct childProduct : contractProduct.getChilds()){
-				if(childProduct.getHasSendNum()>0){
+		if(actTaskService.getVarValue(contract.getProcInsId(),"recall_id") == null) {
+			for (ContractProduct contractProduct : contract.getContractProductList()) {
+				if (contractProduct.getHasSendNum() > 0) {
 					throw new Exception("已经下单不能修改");
+				}
+				for (ContractProduct childProduct : contractProduct.getChilds()) {
+					if (childProduct.getHasSendNum() > 0) {
+						throw new Exception("已经下单不能修改");
+					}
 				}
 			}
 		}
