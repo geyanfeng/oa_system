@@ -21,7 +21,7 @@ public class Customer extends DataEntity<Customer> {
 	private String phone;		// 电话
 	private String remark;		// 备注
 	private float evaluate;		// 客户评价分数
-	private String usedFlag;		// 状态
+	private String usedFlag = "1";		// 状态
 	
 	public Customer() {
 		super();

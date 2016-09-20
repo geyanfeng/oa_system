@@ -83,20 +83,6 @@
 				<form:input path="phone" htmlEscape="false" maxlength="100" class="input-xlarge form-control "/>
 			</div>
 		</div>
-		<div class="form-group">
-			<label class="col-sm-2 control-label">状态 <span class="help-inline"><font color="red">*</font> </span></label>
-				<div class="col-sm-4">
-					<form:radiobuttons path="usedFlag" items="${fns:getDictList('oa_customer_status')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required"/>
-					
-				</div>
-		</div>
-
-		<div class="form-group">
-			<label class="col-sm-2 control-label">备注 </label>
-			<div class="col-sm-4">
-				<form:textarea path="remark" htmlEscape="false" rows="4" maxlength="255" class="input-xxlarge form-control " />
-			</div>
-		</div>
 		<div class="form-actions text-center">
 			<shiro:hasPermission name="oa:customer:edit"><input id="btnSubmit" class="btn btn-custom" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
 			<c:if test="${empty fromModal}">
