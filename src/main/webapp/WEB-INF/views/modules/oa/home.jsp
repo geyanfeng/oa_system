@@ -223,11 +223,11 @@
 					<div class="card-box" style="height: 200px;">
 						<div class="m-t-0">收款情况</div>
 						<div class="text-center m-t-30">
-							<h2 class="text-custom">应收1000,000</h2>
+							<h2 class="text-custom">应收${financeList[0]['allAmount']}</h2>
 							<ul class="list-unstyled">
-								<li>已收：10000</li>
-								<li>未收：100</li>
-								<li>逾期：<span class="text-danger">100</span></li>
+								<li>已收：${financeList[0]['payAmount']}</li>
+								<li>未收：${financeList[0]['noPayAmount']}</li>
+								<li>逾期：<span class="text-danger">${financeList[0]['overdueAmount']}</span></li>
 							</ul>
 						</div>
 					</div>
@@ -238,10 +238,10 @@
 					<div class="card-box" style="height: 200px;">
 						<div class="m-t-0">付款情况</div>
 						<div class="text-center m-t-30">
-							<h2 class="text-custom">应付1000,000</h2>
+							<h2 class="text-custom">应付${financeList[0]['toAllAmount']}</h2>
 							<ul class="list-unstyled">
-								<li>已付：10000</li>
-								<li>未付：100</li>
+								<li>已付：${financeList[0]['toPayAmount']}</li>
+								<li>未付：${financeList[0]['toNoPayAmount']}</li>
 							</ul>
 						</div>
 					</div>
@@ -252,7 +252,7 @@
 					<div class="card-box" style="height: 200px;">
 						<div class="m-t-0">待开发票金额</div>
 						<div class="text-center m-t-30">
-							<h2 class="text-custom">待开票1000,000</h2>
+							<h2 class="text-custom">${financeList[0]['noBillAmount']}</h2>
 						</div>
 					</div>
 				</div>

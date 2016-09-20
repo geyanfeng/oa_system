@@ -72,4 +72,7 @@
        )
       }
     </select> 
+    <select id="reportHomeFinance"  resultType="java.util.LinkedHashMap" statementType="CALLABLE" >  
+      {call reportHomeFinance()}
+    </select> 
 </mapper>
