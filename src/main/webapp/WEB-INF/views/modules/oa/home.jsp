@@ -533,7 +533,7 @@
 										href="${ctx}/act/task/form?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}">
 										${fns:abbr(not empty vars.map.title ? vars.map.title : task.id, 30)}</a>
 									</td>
-									<td><span class="label label-danger">${task.name}</span></td>
+									<td><span class="label label-<c:if test="${not empty vars.map.status}">${fns:getDictRemark(vars.map.status,"oa_contract_status" ,"danguer" )}</c:if><c:if test="${empty vars.map.status}">danger</c:if>">${task.name}</span></td>
 								</tr>
 							</c:forEach>
 
@@ -567,7 +567,7 @@
 										${fns:abbr(not empty vars.map.contract_name ? vars.map.contract_name : task.id, 30)}
 									</a>
 									</td>
-									<td><span class="label label-danger">${task.name}</span></td>
+									<td><span class="label label-<c:if test="${not empty vars.map.status}">${fns:getDictRemark(vars.map.status,"oa_po_status" ,"danguer" )}</c:if><c:if test="${empty vars.map.status}">danger</c:if>">${task.name}</span></td>
 								</tr>
 							</c:forEach>
 

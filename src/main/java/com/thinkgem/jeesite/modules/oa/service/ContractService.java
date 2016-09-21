@@ -558,7 +558,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                     else if ("cfo_audit".equals(taskDefKey)) {//财务总监审核
                         if (pass) {
                             actTaskService.claim(contract.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
-                            contract.setStatus("35");//已驳回待下单
+                            contract.setStatus("35");//已批准待下单
                             autoStartPOFlow(contract);//自动启动合同相关的所有订单流程
                         } else {
                             contract.setStatus("30");//已驳回待修改
