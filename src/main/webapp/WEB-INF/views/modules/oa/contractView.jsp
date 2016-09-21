@@ -201,7 +201,7 @@
             合同名称：${contract.name}
         </div>
         <div class="pull-right">
-            合同状态: <span class="label label-warning" style="font-size:16px;color:#000;">${fns:getDictLabel(contract.status, "oa_contract_status","" )}</span>
+            合同状态: <span class="label label-${fns:getDictRemark(contract.status,"oa_contract_status","warning")}" style="font-size:16px;color:#000;">${fns:getDictLabel(contract.status, "oa_contract_status","" )}</span>
         </div>
     </div>
 	</div>

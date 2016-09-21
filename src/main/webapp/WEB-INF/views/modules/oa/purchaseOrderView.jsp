@@ -84,7 +84,7 @@
             订单编号 ：${purchaseOrder.no}
         </div>
         <div class="pull-right">
-            订单状态: <span class="label label-warning" style="font-size:16px;color:#000;">${fns:getDictLabel(purchaseOrder.status, "oa_po_status","" )}</span>
+            订单状态: <span class="label label-${fns:getDictRemark(contract.status,"oa_po_status","warning")}" style="font-size:16px;color:#000;">${fns:getDictLabel(purchaseOrder.status, "oa_po_status","" )}</span>
         </div>
     </div>
 	</div>

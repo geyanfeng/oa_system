@@ -475,6 +475,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         Boolean pass = false;
         String oldNode = ""; //原始结点
         String oldStatus = ""; //原始状态
+        Map<String, Object> currentTaskVars = taskService.getVariables(contract.getAct().getTaskId());//得到当前流程变量
 
         if (isBlank(taskDefKey) && "submit_audit".equals(flag)) {//合同提交审批
             submitAudit(contract);
@@ -490,14 +491,14 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 
             //拆分po
             if("split_po".equals(taskDefKey)){
-                Map<String, Object> currentTaskVars = taskService.getVariables(contract.getAct().getTaskId());
-                //如果撤回类型为撤销,合同结束,并更改撤销状态
+                //如果撤回类型为撤销,合同结束,并更改撤销状态,同时订单流程恢复
                 if(currentTaskVars.containsKey("recall_type") && currentTaskVars.get("recall_type").toString().equals("1")) {
                     contract.setStatus("100");//已确认已完成
                     contract.setCancelFlag(1);
                     contract.setCancelDate(new Date());
                     contract.setCancelReason("合同撤销!");
                     vars.put("isRecall", 1);
+                    restorePoWorkFlow(contract.getId());//恢复订单流程
                 } else {
                     if (!isFinishSplitPO(contract))
                         throw new Exception("提交失败: 还没有完成拆分po, 不能提交!");
@@ -558,8 +559,12 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                     else if ("cfo_audit".equals(taskDefKey)) {//财务总监审核
                         if (pass) {
                             actTaskService.claim(contract.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
-                            contract.setStatus("35");//已驳回待下单
-                            autoStartPOFlow(contract);//自动启动合同相关的所有订单流程
+                            contract.setStatus("35");//已批准待下单
+                            if(currentTaskVars.containsKey("recall_type") && currentTaskVars.get("recall_type").toString().equals("2")){
+                                restorePoWorkFlow(contract.getId());//恢复订单流程
+                            }else{
+                                autoStartPOFlow(contract);//自动启动合同相关的所有订单流程
+                            }
                         } else {
                             contract.setStatus("30");//已驳回待修改
                         }
@@ -572,7 +577,6 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                         }
                     } else  if("recall_cso_audit".equals(taskDefKey) || "recall_cfo_audit".equals(taskDefKey)) {//如果是销售总监撤回审核或者财务总监撤回审核
                         actTaskService.claim(contract.getAct().getTaskId(), UserUtils.getUser().getLoginName());
-                        Map<String, Object> currentTaskVars = taskService.getVariables(contract.getAct().getTaskId());
                         if(currentTaskVars.containsKey("contract_oldNode"))
                             oldNode = currentTaskVars.get("contract_oldNode").toString();
                         if(currentTaskVars.containsKey("contract_oldStatus"))
@@ -847,6 +851,22 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 
         contract.preUpdate();
         contractDao.update(contract);
+    }
+
+    /**
+     * 重新激活订单流程, 有两个地方: 1. 在撤回的撤销过程中,在拆分po结束恢复订单流程. 2:  在撤回的合同修改过程中,在财务总监审核通过后
+     * @param contractId
+     */
+    public void restorePoWorkFlow(String contractId){
+        List<PurchaseOrder> poList = purchaseOrderService.getPoListByContractId(contractId);
+        //挂起与合同相关的所有订单
+        for(PurchaseOrder po : poList){
+            if(isNotBlank(po.getProcInsId())){
+                ProcessInstance pi = actTaskService.getProcIns(po.getProcInsId());
+                if(pi.isSuspended())
+                    runtimeService.activateProcessInstanceById(po.getProcInsId());
+            }
+        }
     }
 
     /*@Transactional(readOnly = false)
