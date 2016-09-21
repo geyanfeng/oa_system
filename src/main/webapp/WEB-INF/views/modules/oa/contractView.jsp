@@ -352,7 +352,7 @@
                                             <option value="${dict.id}">${dict.name}</option>
                                         </c:forEach>
                                     </select>
-							        <a href="javascript:" class="fa fa-plus" onclick="addNewChildRow(this)"></a>
+							        <a href="javascript:" class="fa fa-plus" onclick="addNewChildRow(this,'{{row.productType.id}}')"></a>
 							        <span style="{{serviceSpanStyle}}" id="contractProductList{{idx}}_serviceFlag_span"><input type="checkbox" value=1 {{serviceChecked}} onclick="selectServiceFlag(this);"/>是否为服务</span>
                                 </c:if>
 							</td>
@@ -571,7 +571,7 @@
                                         break;
                                     }
                                 }
-                                addChildRow(childTableBodySelector, contractProductRowIdx, j, isEdit? contractProductChildTpl: contractProductChildViewTpl, data[i].childs[j]);
+                                addChildRow(childTableBodySelector, contractProductRowIdx, j, isEdit? contractProductChildTpl: contractProductChildViewTpl, data[i].childs[j],null);
                             }
                         } else{
                             //如果子产品数等于于0, 隐藏子产品表
@@ -639,7 +639,7 @@
                     });
                 }
 
-                function addChildRow(list, idx, child_idx, tpl, row) {
+                function addChildRow(list, idx, child_idx, tpl, row,productTypeId) {
                     <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true'}">
                     if(row)
                         row.json = JSON.stringify(row);
@@ -661,9 +661,13 @@
                             }
                         }
                     });
+                    if(productTypeId){
+                    	$("#childProductList"+idx +"_"+ child_idx +"_productType").val(productTypeId);
+                    }
+                    
                 }
 
-                function addNewChildRow(sender) {
+                function addNewChildRow(sender,productTypeId) {
                     var parentRow = $(sender).closest('tr');
                     var parentIdx = parentRow.data('idx');
                     var childTable = $('#contractProductList' + parentIdx + '_childTable');
@@ -673,7 +677,7 @@
                     $('#contractProductList' + parentIdx + '_child').closest('td').show();
 
                     var productTypeGroup = parentRow.find("input[id$='productTypeGroup']").val();
-                    addChildRow('#contractProductList' + parentIdx + '_child', parentIdx, childIdx, contractProductChildTpl);
+                    addChildRow('#contractProductList' + parentIdx + '_child', parentIdx, childIdx, contractProductChildTpl,null,productTypeId);
                 }
 
                 function delRow(obj, prefix) {
