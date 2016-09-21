@@ -124,7 +124,7 @@
     <div class="form-group">
         <div class="col-sm-offset-4 col-sm-8">
             <c:if test="${purchaseOrder.act.taskDefKey eq 'cfo_confirm_payment_1' || purchaseOrder.act.taskDefKey eq 'cfo_confirm_payment_2' || purchaseOrder.act.taskDefKey eq 'cfo_confirm_payment_3'}">
-                <c:set var="submitText" value="财务总监确认可付款"/>
+                <c:set var="submitText" value="批准付款"/>
                 <input id="btnSubmit" class="btn btn-custom" type="submit" value="${submitText}" onclick="$('#flag').val('submit_audit')"/>&nbsp;
             </c:if>
 

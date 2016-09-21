@@ -364,7 +364,7 @@
                 </c:if>
 
                 <c:if test="${purchaseOrder.act.taskDefKey eq 'cfo_confirm_payment_1' || purchaseOrder.act.taskDefKey eq 'cfo_confirm_payment_2' || purchaseOrder.act.taskDefKey eq 'cfo_confirm_payment_3'}">
-                    <c:set var="submitText" value="财务总监确认可付款"/>
+                    <c:set var="submitText" value="批准付款"/>
                 </c:if>
 
                 <c:if test="${purchaseOrder.act.taskDefKey eq 'payment_first'}">

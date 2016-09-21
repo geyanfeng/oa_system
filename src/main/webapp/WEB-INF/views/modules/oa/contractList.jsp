@@ -175,7 +175,7 @@
 				<div class="form-group m-r-10" id="div-status">
 					<label>合同状态：</label>
 					<form:select path="status" class="select2-container form-control"
-						cssStyle="width:100px;">
+						cssStyle="width:150px;">
 						<form:option value="" label="" />
 						<form:options items="${fns:getDictList('oa_contract_status')}"
 							itemLabel="label" itemValue="value" htmlEscape="false" />
