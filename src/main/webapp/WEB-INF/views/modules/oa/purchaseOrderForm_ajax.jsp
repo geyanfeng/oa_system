@@ -522,10 +522,17 @@ h4 {
                 $.each(timeFields, function (idx,item) {
                    var time = $(item).val();
                     if(time && time.length > 0){
-                        rll = rll +  parseInt(paymentPointNum) /parseInt(time);
+                        rll = rll +  parseFloat(paymentPointNum) /parseFloat(time);
                     }
                 });
             }
+            if(parseFloat(paymentPointNum) > ${dayRate}){
+            	$('#paymentPointnum').css("color","red");
+            }
+            else{
+            	$('#paymentPointnum').css("color","black");
+            }
+            
 
             $("#rll").html(rll.toFixed(2));
         }

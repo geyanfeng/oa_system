@@ -9,12 +9,15 @@ import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.Encodes;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.oa.dao.CommissionSettingDao;
 import com.thinkgem.jeesite.modules.oa.dao.PurchaseOrderFinanceDao;
+import com.thinkgem.jeesite.modules.oa.entity.CommissionSetting;
 import com.thinkgem.jeesite.modules.oa.entity.ProductType;
 import com.thinkgem.jeesite.modules.oa.entity.PurchaseOrder;
 import com.thinkgem.jeesite.modules.oa.entity.PurchaseOrderFinance;
 import com.thinkgem.jeesite.modules.oa.entity.Supplier;
 import com.thinkgem.jeesite.modules.oa.service.*;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.util.List;
 import java.util.Map;
 
@@ -50,6 +54,9 @@ public class PurchaseOrderController extends BaseController {
 	private ContractService contractService;
 	@Autowired
 	private PurchaseOrderFinanceDao purchaseOrderFinanceDao;
+	
+	@Autowired
+	private CommissionSettingDao commissionSettingDao;
 	
 	@ModelAttribute
 	public PurchaseOrder get(@RequestParam(required=false) String id) {
@@ -78,6 +85,9 @@ public class PurchaseOrderController extends BaseController {
 	@RequestMapping(value = "form")
 	public String form(PurchaseOrder purchaseOrder, Model model, @RequestParam(value="fromModal", required=false) String fromModal) {
 		String view = "purchaseOrderForm";
+		//资金日利率
+		CommissionSetting commissionSetting =commissionSettingDao.get("ceee7d108d684470ba028f7e9f8a57d7");
+		model.addAttribute("dayRate", commissionSetting.getAvalue() * 100);
 		//获取所有供应商
 		List<Supplier> supplierList = supplierService.findList(new Supplier());
 		model.addAttribute("supplierList", supplierList);
