@@ -166,18 +166,19 @@ public class ReportController extends BaseController {
 			// 设置排序参数
 			String orderBy = request.getParameter("orderBy");
 			if (!StringUtils.isNotBlank(orderBy)) {
-				if (reportType == 6) {
-					orderBy = " plan_pay_date desc";
-				} else {
-					orderBy = "";
-				}
+				
 			}
-
+			
+			if (reportType == 6 || reportType == 5) {
+				orderBy = "order by plan_pay_date desc";
+			} else {
+				orderBy = "";
+			}
 			Map queryMap = new LinkedHashMap();
 			queryMap.put("pageNo", page.getPageNo());
 			queryMap.put("pageSize", page.getPageSize());
 			queryMap.put("sqlCondition", sqlCondition);
-			queryMap.put("orderBy", "");
+			queryMap.put("orderBy", orderBy);
 
 			List<Map> list = null;
 			Map headers = new LinkedHashMap();
@@ -247,10 +248,10 @@ public class ReportController extends BaseController {
 				headers.put("receivable_amount", "应收金额");
 				headers.put("billing_date", "开票日期");
 				headers.put("payment_days", "账期");
-				headers.put("plan_pay_date", "账期截止日");
+				headers.put("plan_pay_date", "应收日期");
 				headers.put("finance_status_name", "收款状态");
 				headers.put("finance_amount", "收款金额");
-				headers.put("pay_date", "收款日期");
+				headers.put("pay_date", "实收日期");
 				headers.put("over_days", "逾期天数");
 				list = reportDao.reportReceivableAmount(queryMap);
 				break;
