@@ -475,7 +475,6 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         Boolean pass = false;
         String oldNode = ""; //原始结点
         String oldStatus = ""; //原始状态
-        Map<String, Object> currentTaskVars = taskService.getVariables(contract.getAct().getTaskId());//得到当前流程变量
 
         if (isBlank(taskDefKey) && "submit_audit".equals(flag)) {//合同提交审批
             submitAudit(contract);
@@ -491,6 +490,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 
             //拆分po
             if("split_po".equals(taskDefKey)){
+                Map<String, Object> currentTaskVars = taskService.getVariables(contract.getAct().getTaskId());//得到当前流程变量
                 //如果撤回类型为撤销,合同结束,并更改撤销状态,同时订单流程恢复
                 if(currentTaskVars.containsKey("recall_type") && currentTaskVars.get("recall_type").toString().equals("1")) {
                     contract.setStatus("100");//已确认已完成
@@ -560,6 +560,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                         if (pass) {
                             actTaskService.claim(contract.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
                             contract.setStatus("35");//已批准待下单
+                            Map<String, Object> currentTaskVars = taskService.getVariables(contract.getAct().getTaskId());//得到当前流程变量
                             if(currentTaskVars.containsKey("recall_type") && currentTaskVars.get("recall_type").toString().equals("2")){
                                 restorePoWorkFlow(contract.getId());//恢复订单流程
                             }else{
@@ -577,6 +578,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                         }
                     } else  if("recall_cso_audit".equals(taskDefKey) || "recall_cfo_audit".equals(taskDefKey)) {//如果是销售总监撤回审核或者财务总监撤回审核
                         actTaskService.claim(contract.getAct().getTaskId(), UserUtils.getUser().getLoginName());
+                        Map<String, Object> currentTaskVars = taskService.getVariables(contract.getAct().getTaskId());//得到当前流程变量
                         if(currentTaskVars.containsKey("contract_oldNode"))
                             oldNode = currentTaskVars.get("contract_oldNode").toString();
                         if(currentTaskVars.containsKey("contract_oldStatus"))
