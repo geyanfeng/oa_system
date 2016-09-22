@@ -521,7 +521,7 @@ h4 {
             if(timeFields.length > 0 ){
                 $.each(timeFields, function (idx,item) {
                    var time = $(item).val();
-                    if(time && time.length > 0){
+                    if(time && time.length > 0 && parseFloat(time)>0){
                         rll = rll +  parseFloat(paymentPointNum) /parseFloat(time);
                     }
                 });
