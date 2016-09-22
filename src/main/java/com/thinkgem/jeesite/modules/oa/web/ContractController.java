@@ -24,6 +24,7 @@ import com.thinkgem.jeesite.modules.oa.service.*;
 import com.thinkgem.jeesite.modules.sys.entity.Dict;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+
 import org.activiti.engine.TaskService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -111,6 +113,10 @@ public class ContractController extends BaseController {
 		model.addAttribute("salerList", UserUtils.getUsersByRoleEnName("saler"));
 		Page<Contract> page = contractService.findPage(new Page<Contract>(request, response), contract); 
 		model.addAttribute("page", page);
+		String isSelect = request.getParameter("isSelect");
+		if (StringUtils.isNotBlank(isSelect)) {
+			model.addAttribute("isSelect", isSelect);
+		}
 		if(contract.getContractType().equals("1"))
 			view = "contractList_kj";
 		return "modules/oa/"+view;

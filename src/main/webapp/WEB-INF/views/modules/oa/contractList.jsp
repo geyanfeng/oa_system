@@ -236,8 +236,12 @@
 							<td><fmt:formatDate value="${contract.createDate}"
 									pattern="yyyy-MM-dd" /></td>
 
-							<td><a href="${ctx}/oa/contract/view?id=${contract.id}" target="mainFrame">
-									${contract.no} </a></td>
+							<td>
+								<c:choose><c:when test="${empty isSelect}">
+									<a href="${ctx}/oa/contract/view?id=${contract.id}" target="mainFrame">${contract.no} </a>
+								</c:when><c:otherwise>
+									<a href="${ctx}/oa/contract/view?id=${contract.id}" target="blank">${contract.no} </a>
+						  	    </c:otherwise></c:choose>
 							</td>
 							<td>${contract.customer.name}</td>
 							<td>${contract.name}</td>
