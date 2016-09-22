@@ -379,12 +379,13 @@ h4 {
         <div style="background: #f5f5f5;width:85%;float:left; padding: 10px;" class="div-pay">
 			<table>
 				<tr>
-					<td width="80" height="40">付款金额：</td>
-					<td><input type="text" class="form-control required number input-sm" id="purchaseOrderFinanceList{{idx}}_amount" name="purchaseOrderFinanceList[{{idx}}].amount"
-                        onchange="updatePayment(this);" value="{{row.amount}}" /></td>
 					<td  width="80">比例：</td>
 					<td><input type="text" class="form-control required number input-sm" id="purchaseOrderFinanceList{{idx}}_bl" onchange="updatePayment(this);"
                            value="{{row.bl}}"/></td>
+					<td width="80" height="40">付款金额：</td>
+					<td><input type="text" class="form-control required number input-sm" id="purchaseOrderFinanceList{{idx}}_amount" name="purchaseOrderFinanceList[{{idx}}].amount"
+                        onchange="updatePayment(this);" value="{{row.amount}}" /></td>
+					
 				</tr>
 				<tr>
 					<td height="40">付款账期：</td>
