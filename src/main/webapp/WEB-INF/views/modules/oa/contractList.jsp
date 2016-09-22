@@ -34,6 +34,13 @@
 		return false;
 	}
 
+	function selectContract(sender) {
+		var self = $(sender);
+		var selectedContract = self.closest('tr').data('json');
+		if (parent.closeSelectContractModal)
+			parent.closeSelectContractModal(selectedContract);
+	}
+	
 	//撤销合同
 	function cancelContract(contractId) {
 		var modal = $('#modal-cancelContract');
@@ -274,6 +281,12 @@
 											title="撤销"><i class="fa fa-reply"></i></a>
 									</shiro:hasPermission>--%>
 								</c:if>
+								<shiro:hasPermission name="oa:contract:view">
+									<c:if test="${not empty isSelect}">
+										<a href="#" onclick="selectContract(this);" title="选择"><i
+											class="fa fa-check"></i></a>
+									</c:if>
+								</shiro:hasPermission>
 								<c:if test="${contract.status ne '0' and contract.status ne '100' and contract.status ne '200'}">
 									<shiro:hasPermission name="oa:contract:recall">
 										<a href="#" onclick="recallContract('${contract.id}');"
