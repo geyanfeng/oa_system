@@ -408,7 +408,7 @@ th,td{text-align:left;}
 						<div class="form-group">
 							<label class="col-sm-3 control-label">发票类型 <span
 								class="help-inline"><font color="red">*</font> </span></label>
-							<div class="col-sm-9" style="padding-top:7px;">
+							<div class="col-sm-9" style="padding-top:6px;">
 								<form:radiobuttons path="invoiceType"
 									items="${fns:getDictList('oa_invoice_type')}" itemLabel="label"
 									itemValue="value" htmlEscape="false" class=""

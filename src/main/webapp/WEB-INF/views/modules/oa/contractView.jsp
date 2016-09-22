@@ -1111,7 +1111,9 @@
             </script>
         </div>
     </div>
-
+	<style>
+	.c_radio label{line-height:16px;}
+	</style>
     <!--物流信息-->
     <a class="anchor" name="panel-5"></a>
     <div class="panel panel-default">
@@ -1120,20 +1122,21 @@
             <c:choose>
                 <c:when test="${contract.act.taskDefKey eq 'verify_ship' or contract.act.taskDefKey eq 'split_po'}">
                     <div class="row">
-                        <div class="form-group">
+                        <div class="col-sm-12">
                             <label class="control-label">发货方式：</label>
                             <form:radiobuttons path="shipMode" items="${fns:getDictList('oa_ship_mode')}"
                                                itemLabel="label" itemValue="value" htmlEscape="false" class=""
-                                               element="span class='radio radio-custom radio-inline'"/>
+                                               element="span class='radio radio-custom radio-inline c_radio'"/>
 
                         </div>
                     </div>
                     <div class="row form-inline">
-                        <div class="form-group">
+                    	<div class="col-sm-12">
+                        <div class="form-group m-r-5">
                             <label class="control-label">收货地址：</label>
                             <form:input path="shipAddress" htmlEscape="false" class="form-control  input-sm" size="60"/>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group m-r-5">
                             <label class="control-label">收货人：</label>
                             <form:input path="shipReceiver" htmlEscape="false" class="form-control  input-sm"/>
                         </div>
@@ -1141,12 +1144,14 @@
                             <label class="control-label">联系电话：</label>
                             <form:input path="shipPhone" htmlEscape="false" class="form-control  input-sm phone"/>
                         </div>
-
+						</div>
                     </div>
                     <div class="row form-inline">
+                    	<div class="col-sm-12">
                         <div class="form-group">
                             <label class="control-label">快递单号：</label>
                             <form:input path="shipEms" htmlEscape="false" class="form-control  input-sm" size="60"/>
+                        </div>
                         </div>
                     </div>
                 </c:when>
