@@ -58,10 +58,7 @@
 
             //新建订单通过参数newpo来控制,如:contract/view?newpo=true
             if("${param.newpo}"!=""){
-                var frameSrc = "${ctx}/oa/contract/list?contractType=2&status=10&isSelect=true";
-                $('#modal iframe').attr("src", frameSrc);
-                $('#modal .modal-title').html('选择合同');
-                $('#modal').modal({show: true, backdrop: 'static'});
+                openModalFromUrl("选择合同","${ctx}/oa/contract/contractSelectList?targetType=4&status=10" , true );
             }
 
             //编辑订单
@@ -97,7 +94,7 @@
         });
 
         function closeSelectContractModal(selectedContract){
-            $('#modal').modal('hide');
+            getCommonModal().modal('hide');
             window.location = "${ctx}/oa/contract/view?po=true&id="+ selectedContract.id;
         }
     </script>
