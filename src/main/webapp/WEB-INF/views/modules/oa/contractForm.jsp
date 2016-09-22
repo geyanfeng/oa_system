@@ -1077,9 +1077,9 @@ th,td{text-align:left;}
 						</div>
 
 						<div class="form-group">
-						<div class="checkbox checkbox-custom checkbox-circle">
+						<div class="checkbox checkbox-custom checkbox-circle" style="padding-top:0;">
 							<input type="checkbox" value="true" name="isDeduction" id="isDeduction">
-							<label for="isDeduction">是否业绩抵扣</label>
+							<label for="isDeduction" style="line-height:16px;">是否业绩抵扣</label>
 							<input type="hidden" value="on" name="_isDeduction">
 							</div>
 						</div>

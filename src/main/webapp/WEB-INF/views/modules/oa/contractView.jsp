@@ -1374,10 +1374,9 @@
                                             contract.act.taskDefKey eq 'can_invoice'}">
                             <input id="btnSubmit" class="btn btn-custom" type="submit" value="${submitText}" onclick="$('#flag').val('submit_audit')"/>&nbsp;
                         </c:when>
-
-                        <c:when test="${not empty contract.act.taskDefKey}">
-                            <input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
-                            <input id="btnUnAudit" class="btn btn-info" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
+                        <c:when test="${not empty contract.act.taskDefKey}">                          
+                            <input id="btnUnAudit" class="btn btn-info" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>
+                            <input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>
                         </c:when>
                     </c:choose>
 
