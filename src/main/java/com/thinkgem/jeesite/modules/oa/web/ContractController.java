@@ -146,6 +146,8 @@ public class ContractController extends BaseController {
 		Page<Contract> page = contractService.findPage(new Page<Contract>(request, response), contract);
 		model.addAttribute("page", page);
 		model.addAttribute("targetType",targetType);
+		//获取销售人员
+		model.addAttribute("salerList", UserUtils.getUsersByRoleEnName("saler"));
 		return "modules/oa/contractSelectList";
 	}
 
