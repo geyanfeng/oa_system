@@ -254,7 +254,7 @@ th,td{text-align:left;}
 									</c:if>
 									<c:if test="${not empty param.contractType}">
 										<form:hidden path="contractType"></form:hidden>
-										<span>${fns:getDictLabel(contract.contractType,"oa_contract_type" ,"" )}</span>
+										<span style="line-height:32px;">${fns:getDictLabel(contract.contractType,"oa_contract_type" ,"" )}</span>
 									</c:if>
 								</div>
 							</div>
