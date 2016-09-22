@@ -619,13 +619,13 @@ th,td{text-align:left;}
                         var data = ${fns:toJson(contract.contractProductList)};
                         for (var i = 0; i < data.length; i++) {
                             addRow('#contractProductList', contractProductRowIdx, contractProductTpl, data[i]);
-
+                            <c:if test="${contract.act.taskDefKey ne 'contract_edit'}">
                             if (data[i].childs) {
                                 for (var j = 0; j < data[i].childs.length; j++) {
                                     addChildRow('#childProductList' + contractProductRowIdx, contractProductRowIdx, j, contractProductChildTpl, data[i].childs[j]);
                                 }
                             }
-
+                            </c:if>                   
                             contractProductRowIdx = contractProductRowIdx + 1;
                         }
                     });
