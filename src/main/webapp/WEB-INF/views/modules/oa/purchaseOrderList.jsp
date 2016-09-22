@@ -181,6 +181,8 @@
   function supplierEvaluation(id){
       var frameSrc = "${ctx}/oa/oaPoEvaluate/form?poid=" + id;
       var modal = $('#modal');
+      modal.find('.modal-dialog').css({width:'500px'});
+      modal.find('.modal-full').removeClass('modal-full');
       modal.find('iframe').attr("src", frameSrc);
       modal.find('.modal-title').html('供应商评价');
       modal.modal({show: true, backdrop: 'static'});

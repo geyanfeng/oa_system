@@ -63,40 +63,40 @@
 		<br><br>
 		<form:hidden path="poId"/>
 		<div class="form-group">
-			<label class="col-md-2 control-label">发货速度</label>
-			<div class="col-md-4">
+			<label class="col-xs-3 control-label">发货速度</label>
+			<div class="col-xs-6">
 				<form:hidden path="shippingSpeed"/>
 				 <div class='starrr' path="shippingSpeed"></div>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-md-2 control-label">沟通效率</label>
-			<div class="col-md-4">
+			<label class="col-xs-3 control-label">沟通效率</label>
+			<div class="col-xs-6">
 				<form:hidden path="communicationEfficiency"/>
 				 <div class='starrr' path="communicationEfficiency"></div>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-md-2 control-label">产品质量</label>
-			<div class="col-md-4">
+			<label class="col-xs-3 control-label">产品质量</label>
+			<div class="col-xs-6">
 			    <form:hidden path="productQuality"/>
 			     <div class='starrr' path="productQuality"></div>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-md-2 control-label">服务态度</label>
-			<div class="col-md-4">
+			<label class="col-xs-3 control-label">服务态度</label>
+			<div class="col-xs-6">
 				<form:hidden path="serviceAttitude"/>
 				 <div class='starrr' path="serviceAttitude"></div>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-md-2 control-label">备注：</label>
-			<div class="col-md-4">
+			<label class="col-xs-3 control-label">备注：</label>
+			<div class="col-xs-8">
 				<form:textarea path="remark" htmlEscape="false" maxlength="255" class="form-control "/>
 			</div>
 		</div>
-		<div class="form-actions">
+		<div class="form-actions text-center">
 			<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
 		</div>
 	</form:form>
