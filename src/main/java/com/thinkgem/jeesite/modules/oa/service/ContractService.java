@@ -61,7 +61,11 @@ public class ContractService extends CrudService<ContractDao, Contract> {
     @Autowired
     private PurchaseOrderService purchaseOrderService;
     @Autowired
+    private PurchaseOrderDao purchaseOrderDao ;
+    @Autowired
     private AlertService alertService;
+    @Autowired
+    private RefundMainDao refundMainDao;
 
     public Contract getByProcInsId(String procInsId) {
         return contractDao.getByProcInsId(procInsId);
@@ -863,10 +867,19 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         List<PurchaseOrder> poList = purchaseOrderService.getPoListByContractId(contractId);
         //挂起与合同相关的所有订单
         for(PurchaseOrder po : poList){
-            if(isNotBlank(po.getProcInsId())){
+            if(isNotBlank(po.getProcInsId())) {
                 ProcessInstance pi = actTaskService.getProcIns(po.getProcInsId());
-                if(pi.isSuspended())
+                if (pi == null) break;
+                RefundMain filter = new RefundMain();
+                filter.setPoId(po.getId());
+                List<RefundMain> refundMainList = refundMainDao.findList(filter);
+                if (pi.isSuspended() && refundMainList.size() == 0)//检查是否有退款,如果有退款, 不能重新激活订单流程
                     runtimeService.activateProcessInstanceById(po.getProcInsId());
+                else {
+                    po.setStatus("110");//已退货待收款
+                    po.preUpdate();
+                    purchaseOrderDao.update(po);
+                }
             }
         }
     }

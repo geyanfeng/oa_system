@@ -120,5 +120,10 @@ public class RefundService  extends CrudService<RefundMainDao, RefundMain> {
 
         refundMain.preUpdate();
         dao.update(refundMain);
+
+        PurchaseOrder po = purchaseOrderDao.get(new PurchaseOrder(refundMain.getPoId()));
+        po.setStatus("120");//已收款已完成
+        po.preUpdate();
+        purchaseOrderDao.update(po);
     }
 }
