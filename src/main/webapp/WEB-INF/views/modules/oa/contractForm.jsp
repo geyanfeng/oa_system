@@ -538,14 +538,6 @@ th,td{text-align:left;}
 							</td>
 							<td>
 								<input id="contractProductList{{idx}}_name" name="contractProductList[{{idx}}].name" type="text" value="{{row.name}}" maxlength="100" class="form-control required "  style="display: inline-block;"/>
-								<c:if test="${contract.act.taskDefKey eq 'split_po'}">
-                                    <select id="contractProductList{{idx}}_productType" name="contractProductList[{{idx}}].productType" data-value="{{row.productType.id}}" class="form-control input-block required " style="width: 40%;display: inline-block;">
-                                        <c:forEach items="${productTypeList}" var="dict">
-                                            <option value="${dict.id}">${dict.name}</option>
-                                        </c:forEach>
-                                    </select>
-							        <a href="javascript:" class="fa fa-plus" onclick="addNewChildRow(this)"></a>
-                                </c:if>
 							</td>
 							<td>
 								<input id="contractProductList{{idx}}_price" name="contractProductList[{{idx}}].price" type="text" value="{{row.price}}" class="form-control number input-block required " onchange="updatePriceAmount(this);"/>
@@ -570,62 +562,15 @@ th,td{text-align:left;}
 								{{#delBtn}}<a href="javascript:void(0);" class="on-default remove-row" onclick="delRow(this, '#contractProductList{{idx}}')"  title="删除" style="font-size:18px;"><i class="fa fa-trash-o"></i></a>{{/delBtn}}
 							</td></shiro:hasPermission>
 						</tr>
-						<tr>
-							<td colspan=6 style="padding-left: 40px;">
-							 <table class="table table-condensed" id="childProductList{{idx}}_table" style="width: 60%;">
-								<tbody id="childProductList{{idx}}">
-								  </tbody>
-								</table>
-							</td>
-						<tr>
-						//-->
-                </script>
-						<script type="text/template" id="contractProductChildTpl">//<!--
-						<tr id="childProductList{{idx}}_{{child_idx}}" row="row">
-							<td class="hidden">
-								<input id="childProductList{{idx}}_{{child_idx}}_id" name="contractProductList[{{idx}}].childs[{{child_idx}}].id" type="hidden" value="{{row.id}}"/>
-								<input id="childProductList{{idx}}_{{child_idx}}_sort" name="contractProductList[{{idx}}].childs[{{child_idx}}].sort" type="hidden" value="{{row.sort}}"/>
-								<input id="childProductList{{idx}}_{{child_idx}}_delFlag" name="contractProductList[{{idx}}].childs[{{child_idx}}].delFlag" type="hidden" value="0"/>
-							</td>
-							<td>
-								<input id="childProductList{{idx}}_{{child_idx}}_name" name="contractProductList[{{idx}}].childs[{{child_idx}}].name" type="text" value="{{row.name}}" maxlength="100" class="form-control required "  style="width: 50%;display: inline-block;"/>
-								<select id="childProductList{{idx}}_{{child_idx}}_productType" name="contractProductList[{{idx}}].childs[{{child_idx}}].productType" data-value="{{row.productType.id}}" class="form-control input-block required "  style="width: 40%;display: inline-block;">
-										<c:forEach items="${productTypeList}" var="dict">
-										<option value="${dict.id}">${dict.name}</option>
-									</c:forEach>
-								</select>
-							</td>
-							<td>
-								<input id="cchildProductList{{idx}}_{{child_idx}}_num" name="contractProductList[{{idx}}].childs[{{child_idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="form-control number input-block required " onchange="updatePriceAmount(this);" size="10"/>
-							</td>
-							<td>
-								<select id="childProductList{{idx}}_{{child_idx}}_unit" name="contractProductList[{{idx}}].childs[{{child_idx}}].unit" data-value="{{row.unit}}" class="form-control input-block required ">
-									<c:forEach items="${fns:getDictList('oa_unit')}" var="dict">
-										<option value="${dict.value}">${dict.label}</option>
-									</c:forEach>
-								</select>
-							</td>
-							<shiro:hasPermission name="oa:contract:edit"><td class="text-center">
-								{{#delBtn}}<a href="javascript:void(0);" class="on-default remove-row" onclick="delRow(this, '#childProductList{{idx}}_{{child_idx}}')"  title="删除"><i class="fa fa-trash-o"></i></a>{{/delBtn}}
-							</td></shiro:hasPermission>
-						</tr>
 						//-->
                 </script>
 						<script type="text/javascript">
                     var contractProductRowIdx = 0, contractProductTpl = $("#contractProductTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
-                    var childRowIdx = 0, contractProductChildTpl = $("#contractProductChildTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
 
                     $(document).ready(function () {
                         var data = ${fns:toJson(contract.contractProductList)};
                         for (var i = 0; i < data.length; i++) {
                             addRow('#contractProductList', contractProductRowIdx, contractProductTpl, data[i]);
-                            <c:if test="${contract.act.taskDefKey ne 'contract_edit'}">
-                            if (data[i].childs) {
-                                for (var j = 0; j < data[i].childs.length; j++) {
-                                    addChildRow('#childProductList' + contractProductRowIdx, contractProductRowIdx, j, contractProductChildTpl, data[i].childs[j]);
-                                }
-                            }
-                            </c:if>                   
                             contractProductRowIdx = contractProductRowIdx + 1;
                         }
                     });
@@ -645,32 +590,6 @@ th,td{text-align:left;}
                                 }
                             }
                         });
-                    }
-
-                    function addChildRow(list, idx, child_idx, tpl, row) {
-                        $(list).append(Mustache.render(tpl, {
-                            idx: idx, child_idx: child_idx, delBtn: true, row: row
-                        }));
-                        $(list + "_" + child_idx).find("select").each(function () {
-                            $(this).val($(this).attr("data-value"));
-                        });
-                        $(list + "_" + child_idx).find("input[type='checkbox'], input[type='radio']").each(function () {
-                            var ss = $(this).attr("data-value").split(',');
-                            for (var i = 0; i < ss.length; i++) {
-                                if ($(this).val() == ss[i]) {
-                                    $(this).attr("checked", "checked");
-                                }
-                            }
-                        });
-                    }
-
-                    function addNewChildRow(sender) {
-                        var parentRow = $(sender).closest('tr');
-                        var parentIdx = parentRow.data('idx');
-                        var childTable = $('#childProductList' + parentIdx + '_table');
-                        var childIdx = childTable.find('tr').length;
-                        var productTypeGroup = parentRow.find('select').val();
-                        addChildRow('#childProductList' + parentIdx, parentIdx, childIdx, contractProductChildTpl);
                     }
 
                     function delRow(obj, prefix) {
