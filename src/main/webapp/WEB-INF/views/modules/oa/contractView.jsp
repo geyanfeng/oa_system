@@ -1479,7 +1479,8 @@
         function showPoTKTHUI(sender, po_id, type){
             var tpl = $("#tpl-PoTKTH").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""),
                 top = window.event.clientY,
-                    totalAmount = 0;
+                    totalAmount = 0,
+                    fkSumAmount = 0;//已付款总金额
 
             $("#body-poTKTH").empty();//清空数据
 
@@ -1501,6 +1502,10 @@
             modal.find(".submit-poTKTH").data("poId", po_id);
             modal.find(".submit-poTKTH").click(function(){
                 if(modal.find('input').hasClass("error"))return;
+                if(totalAmount > fkSumAmount){
+                    showTipMsg("退款金额不能大于已付款金额, 已付款金额为:" + fkSumAmount,"error");
+                    return;
+                }
                 modal.find(".submit-poTKTH").attr('disabled',"true");
                 var type = $(this).data("type"), poid = $(this).data("poId");
                 var dataList = [];
@@ -1557,6 +1562,14 @@
                         $("#body-poTKTH").append(Mustache.render(tpl, { row: product, idx: pIdx }));
                         totalAmount+=product.amount;
                     });
+                    //得到已付款总金额
+                    if(po.purchaseOrderFinanceList && po.purchaseOrderFinanceList.length > 0){
+                        $.each(po.purchaseOrderFinanceList, function(pIdx, finance){
+                            if(finance.status == 2){
+                                fkSumAmount += finance.amount;
+                            }
+                        });
+                    }
                 }
             });
             modal.find(".total").html(totalAmount);
