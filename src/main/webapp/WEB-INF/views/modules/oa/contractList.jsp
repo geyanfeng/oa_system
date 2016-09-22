@@ -357,17 +357,17 @@
 				</div>
 				<div class="modal-body">
 						<div class="row">
-							<div class="col-md-12">
-									<div class="col-md-4">
-										<input id="recallType1" name="recall_type" type="radio"
+							<div class="col-md-12 form-group">
+								<span class="radio radio-custom radio-inline">
+									<input id="recallType1" name="recall_type" type="radio"
 											   value="1" checked>
 										<label for="recallType1">合同撤销</label>
-									</div>
-									<div class="col-md-4">
-										<input id="recallType2" name="recall_type" type="radio"
+								</span>
+								<span class="radio radio-custom radio-inline">
+									<input id="recallType2" name="recall_type" type="radio"
 											   value="2" checked>
 										<label for="recallType1">合同修改</label>
-									</div>
+								</span>
 								</div>
 						</div>
 						<div class="row">
@@ -379,9 +379,9 @@
 							</div>
 						</div>
 				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn" data-dismiss="modal">返回</button>
-					<button type="button" class="btn btn-info waves-effect waves-light"
+				<div class="text-center">
+					<button type="button" class="btn btn-inverse" data-dismiss="modal">返回</button>
+					<button type="button" class="btn btn-custom"
 							id="btnSubmitRecall" onclick="submitRecall(this);">提交</button>
 				</div>
 			</div>
