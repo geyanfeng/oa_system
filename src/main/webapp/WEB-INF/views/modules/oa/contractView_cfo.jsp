@@ -138,8 +138,8 @@ th, td {
 					
 						<div class="col-sm-6">
 							毛利率：
-							<font color="red"><fmt:formatNumber type="number" value="${(contract.amount - contract.cost - contract.customerCost * 1.1)/contract.amount}"
-								maxFractionDigits="2" /></font>
+							<font color="red"><fmt:formatNumber type="number" value="${((contract.amount - contract.cost - contract.customerCost * 1.1)/contract.amount)*100}"
+								maxFractionDigits="2" />%</font>
 						</div>
 						<div class="col-sm-6">
 							销售奖金：<font color="red"><fmt:formatNumber type="number"

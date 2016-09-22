@@ -159,8 +159,8 @@ th, td {
 						<div class="col-sm-3">
 							毛利率：
 							<fmt:formatNumber type="number"
-								value="${(contract.amount - contract.cost - contract.customerCost * 1.1)/contract.amount}"
-								maxFractionDigits="2" />
+								value="${((contract.amount - contract.cost - contract.customerCost * 1.1)/contract.amount)*100}"
+								maxFractionDigits="2" />%
 						</div>
 					</div>
 				</div>
@@ -305,7 +305,7 @@ th, td {
 							}
 						}
 						data[i].ml = data[i].amount - data[i].cost - (${contract.customerCost} * (data[i].amount / ${contract.cost}) * 1.1);
-						data[i].mll = data[i].ml / data[i].amount;
+						data[i].mll = ((data[i].ml / data[i].amount) *100).toFixed(2);
 						addRow('#contractProductList', contractProductRowIdx, contractProductViewTpl, data[i]);
 						if(data[i].ml<0){
 							$("#contractProductList"+contractProductRowIdx).css("color","red");
