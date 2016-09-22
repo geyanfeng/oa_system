@@ -134,9 +134,14 @@ public class ContractController extends BaseController {
 		//要么搜索contractType, 要么搜索typeArray
 		if("2".equals(targetType)){
 			contract.setContractType("1");
-		} else
+		}
+		else if("3".equals(targetType))
 		{
 			contract.setSearchTypeArray(new String[]{"1","2"});
+		}
+		else if("4".equals(targetType))//新建订单时
+		{
+			contract.setSearchTypeArray(new String[]{"2","3"});
 		}
 		Page<Contract> page = contractService.findPage(new Page<Contract>(request, response), contract);
 		model.addAttribute("page", page);
