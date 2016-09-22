@@ -21,6 +21,12 @@ th,td{text-align:left;}
         	padding-left:20px;
         }
 .table > tbody > tr > td{vertical-align:middle;}
+.form-horizontal .radio label,.form-inline .radio label{
+    line-height: 16px;
+}
+.form-horizontal .radio{
+    padding-top:1px;
+}
 </style>
 <script type="text/javascript">
         $(document).ready(function () {
@@ -729,17 +735,17 @@ th,td{text-align:left;}
 							class="label label-danger pull-right"></span>
 					</div>
 					<script type="text/template" id="payment-onetime-tpl">//<!--
-                <div class="row form-inline" id="payment-onetime">
-                    <div class="form-group">
-                        <label>付款金额：</label>
-                        <input type="text" class="form-control number required payment_amount" id="payment_onetime_amount" value="{{row.payment_onetime_amount}}"/>
-                    </div>
+                <div class="row form-inline" id="payment-onetime">      
  					<div class="form-group">
 							<label>比例：</label>
 							<div class="input-group">
 							<input type="text" value="" class="form-control  number payPercentage" onchange="updatePayment(this);" style="width:60px;">
 							<span class="input-group-addon bootstrap-touchspin-postfix">%</span></div>
 					</div>
+					<div class="form-group">
+                        <label>付款金额：</label>
+                        <input type="text" class="form-control number required payment_amount" id="payment_onetime_amount" value="{{row.payment_onetime_amount}}"/>
+                    </div>
                     <div class="form-group">
                         <label>付款方式：</label>
                         <c:forEach items="${fns:getDictList('oa_payment_method')}" var="dict" varStatus="s">
@@ -760,17 +766,17 @@ th,td{text-align:left;}
             </script>
 					<script type="text/template" id="payment-installment-tpl">//<!--
                 <div class="row form-inline" id="payment-installment_{{idx}}" style="margin-bottom:10px;">
-                    <div class="form-group">
-                        <label>付款金额：</label>
-                        <input type="text" class="form-control required number payment_amount" id="payment_installment_amount_{{idx}}"
-                        value="{{row.payment_installment_amount}}"/>
-                    </div>
 					<div class="form-group">
 							<label>比例：</label>
 							<div class="input-group">
 							<input type="text" value="" class="form-control  number payPercentage" onchange="updatePayment(this);" style="width:60px;">
 							<span class="input-group-addon bootstrap-touchspin-postfix">%</span></div>
 					</div>
+					<div class="form-group">
+                        <label>付款金额：</label>
+                        <input type="text" class="form-control required number payment_amount" id="payment_installment_amount_{{idx}}"
+                        value="{{row.payment_installment_amount}}"/>
+                    </div>
                     <div class="form-group">
                         <label>账期：</label>
                         <input id="payment_installment_time_{{idx}}" type="text" class="form-control number  required"
@@ -785,6 +791,8 @@ th,td{text-align:left;}
                                 <label for="payment_installment_paymentMethod_{{idx}}_${s.index+1}">${dict.label}</label>
                             </span>
                         </c:forEach>
+					</div>
+					<div class="form-group">
                         <span  style="margin-left:20px;">
   				   		<a href="javascript:void(0);" onclick="addNewInstallmentPayment(this)" title="增加新的分期付款" class="zmdi zmdi-plus-circle text-custom" style="font-size:24px;"></a>
                    		<a href="javascript:void(0);" onclick="deleteInstallmentPayment(this)" title="删除" class="zmdi zmdi-minus-circle text-custom" style="font-size:24px;"></a>
@@ -796,17 +804,17 @@ th,td{text-align:left;}
             </script>
 					<script type="text/template" id="payment-month-tpl">//<!--
                 <div class="row form-inline" id="payment-month">
-                    <div class="form-group">
-                        <label>付款金额：</label>
-                        <input type="text" class="form-control  number  required payment_amount" id="payment_month_amount" size="10"
-                        value="{{row.payment_month_amount}}"/>
-                    </div>
 					<div class="form-group">
 							<label>比例：</label>
 							<div class="input-group">
 							<input type="text" value="" class="form-control  number payPercentage" onchange="updatePayment(this);" style="width:60px;">
 							<span class="input-group-addon bootstrap-touchspin-postfix">%</span></div>
 					</div>
+					<div class="form-group">
+                        <label>付款金额：</label>
+                        <input type="text" class="form-control  number  required payment_amount" id="payment_month_amount" size="10"
+                        value="{{row.payment_month_amount}}"/>
+                    </div>
                     <div class="form-group">
                         <label>付款方式：</label>
                         <c:forEach items="${fns:getDictList('oa_payment_method')}" var="dict" varStatus="s">
@@ -821,17 +829,17 @@ th,td{text-align:left;}
                         <label>{{type}}数：</label>
 						<div class="input-group">
                         <input id="payment_month_num" type="text" class="form-control number  required" size="10"
-                        value="{{row.payment_month_num}}"/><span class="input-group-addon bootstrap-touchspin-postfix">{{type}}</span></div>
+                        value="{{row.payment_month_num}}" style="width:50px;"/><span class="input-group-addon bootstrap-touchspin-postfix">{{type}}</span></div>
                     </div>
                     <div class="form-group">
                         <label>付款日：</label>
                         <input id="payment_month_day" type="text" class="form-control number  required" size="10"
-                        value="{{row.payment_month_day}}"/>
+                        value="{{row.payment_month_day}}" style="width:50px;"/>
                     </div>
                     <div class="form-group">
                         <label>起始月：</label>
                         <input id="payment_month_start" type="text" class="form-control number  required" size="10"
-                        value="{{row.payment_month_start}}"/>
+                        value="{{row.payment_month_start}}"  style="width:50px;"/>
                     </div>
                 </div>
                  //-->

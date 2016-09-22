@@ -21,6 +21,12 @@ th,td{text-align:left;}
 .table tr th:nth-child(2),.table tr td:nth-child(2){
         	padding-left:20px;
         }
+.form-horizontal .radio label,.form-inline .radio label{
+    line-height: 16px;
+}
+.form-horizontal .radio{
+    padding-top:1px;
+}
 </style>
 <script type="text/javascript">
 	$(document)
