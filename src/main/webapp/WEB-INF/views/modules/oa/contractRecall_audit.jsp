@@ -136,7 +136,7 @@ th, td {
 		<div class="col-sm-12">
 			<div class="container">
 				<div class="row m-b-20" style="margin-top: 80px !important;">
-					<div class="col-sm-3">合同撤回申请审核</div>
+					<div class="col-sm-3"><h3>合同撤回申请审核</h3></div>
 				</div>
 			</div>
 			<!--合同信息-->
@@ -375,7 +375,7 @@ th, td {
 
 					</div>
 					<div class="row">
-						<div class="col-sm-12">备注：${recall_remark}</div>
+						<div class="col-sm-12  text-danger">备注：${recall_remark}</div>
 
 					</div>
 				</div>
