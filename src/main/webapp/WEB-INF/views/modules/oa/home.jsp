@@ -511,6 +511,11 @@
 			<div class="col-sm-6">
 				<div class="card-box" id="card_contract_audit">
 					<h4 class="header-title m-t-0 m-b-30">合同订单待办</h4>
+					 <c:choose>
+   							<c:when test="${empty contract_audit_list}">
+   								当前无待办事项
+   							</c:when>
+   					<c:otherwise>
 					<table class="table m-0">
 						<thead>
 							<tr>
@@ -539,13 +544,20 @@
 
 						</tbody>
 					</table>
+					</c:otherwise>
+					 </c:choose>
 				</div>
 			</div>
 			<c:if test="${roleType ne '3' and roleType ne '4'}">
 			<div class="col-sm-6">
 				<div class="card-box" id="card_po_audit">
 					<h4 class="header-title m-t-0 m-b-30">采购订单待办</h4>
-					<table class="table m-0">
+					 <c:choose>
+   							<c:when test="${empty po_audit_list}">
+   								当前无待办事项
+   							</c:when>
+   					<c:otherwise>
+						<table class="table m-0">
 						<thead>
 							<tr>
 								<th width="35%">订单号</th>
@@ -573,6 +585,9 @@
 
 						</tbody>
 					</table>
+					</c:otherwise>
+					 </c:choose>
+				
 				</div>
 			</div>
 			</c:if>
@@ -582,6 +597,11 @@
 			<div class="col-sm-6">
 				<div class="card-box">
 					<h4 class="header-title m-t-0 m-b-30">采购订单退款待办</h4>
+					 <c:choose>
+   							<c:when test="${empty po_tk_audit_list}">
+   								当前无待办事项
+   							</c:when>
+   					<c:otherwise>
 					<table class="table m-0">
 						<thead>
 						<tr>
@@ -610,6 +630,8 @@
 
 						</tbody>
 					</table>
+					</c:otherwise>
+					 </c:choose>
 				</div>
 			</div>
 		</div>
