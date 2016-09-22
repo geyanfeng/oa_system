@@ -15,6 +15,7 @@ public class SearchParams {
 	private String billingStatus;	
 	private String salerId;	
 	private String companyId;	
+	private String invoiceType;
 
 	public String getSupplierId() {
 		return supplierId;
@@ -110,5 +111,13 @@ public class SearchParams {
 
 	public void setCompanyId(String companyId) {
 		this.companyId = companyId;
+	}
+
+	public String getInvoiceType() {
+		return invoiceType;
+	}
+
+	public void setInvoiceType(String invoiceType) {
+		this.invoiceType = invoiceType;
 	}
 }

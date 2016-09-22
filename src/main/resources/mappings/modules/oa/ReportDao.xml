@@ -75,4 +75,10 @@
     <select id="reportHomeFinance"  resultType="java.util.LinkedHashMap" statementType="CALLABLE" >  
       {call reportHomeFinance()}
     </select> 
+     <select id="reportBillingAmount" parameterType="java.util.LinkedHashMap"  resultMap="resultSupplierStatisticsMap" statementType="CALLABLE" >  
+      {call reportBillingAmount(
+     	 #{pageNo,jdbcType=INTEGER,mode=IN},#{pageSize,jdbcType=INTEGER,mode=IN},#{sqlCondition,jdbcType=VARCHAR,mode=IN},#{orderBy,jdbcType=VARCHAR,mode=IN}
+       )
+      }
+    </select>  	
 </mapper>

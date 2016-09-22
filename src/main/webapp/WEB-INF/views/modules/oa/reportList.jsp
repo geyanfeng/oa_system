@@ -32,7 +32,7 @@
 					value="${page.pageSize}" />
 				<sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}"
 					callback="page();" />
-				<c:if test="${reportType eq '1' or reportType eq '2'}">
+				<c:if test="${reportType eq '1' or reportType eq '2' or reportType eq '7'}">
 				<div class="form-group m-r-10">
 					<label>日期：</label>
 					<div class="input-group">
@@ -109,6 +109,27 @@
 							class="ti-calendar"></i></span>
 					</div>
 				</div>
+				</c:if>
+				<c:if test="${reportType eq '7'}">
+				<div class="form-group m-r-10">
+					<label>发票类型：</label>
+
+					<form:select cssStyle="width:200px;" path="invoiceType"
+										class="select2-container form-control">
+										<form:option value="" label="" />
+										<form:options items="${fns:getDictList('oa_invoice_type')}"
+											itemLabel="label" itemValue="value" htmlEscape="false" />
+					</form:select>
+					</div>
+					 <div class="form-group m-r-10">
+					<label>客户：</label>
+
+					<form:select path="customerId" class="select2-container form-control" id="customerId" cssStyle="width:200px;">
+					<form:option value="" label=""/>
+					<form:options items="${customerList}" itemLabel="name"
+								  itemValue="id" htmlEscape="false"/>
+					</form:select>
+			 	    </div>
 				</c:if>
 				<c:if test="${reportType eq '5'}">
 				    <div class="form-group m-r-10">

@@ -62,6 +62,9 @@ public class ReportController extends BaseController {
 							+ searchParams.getStartTime() + "'";
 				} else if (reportType == 3) {
 					sqlCondition += " and year>=" + searchParams.getStartTime();
+				} else if (reportType == 7) {
+					sqlCondition += " and billing_date>='"
+							+ searchParams.getStartTime() + "'";
 				}
 			}
 			if (!StringUtils.isBlank(searchParams.getEndTime())) {
@@ -70,7 +73,11 @@ public class ReportController extends BaseController {
 							+ searchParams.getEndTime() + "'";
 				} else if (reportType == 3) {
 					sqlCondition += " and year<=" + searchParams.getEndTime();
+				} else if (reportType == 7) {
+					sqlCondition += " and billing_date<='"
+							+ searchParams.getEndTime() + "'";
 				}
+
 			}
 
 			if (reportType == 1 || reportType == 6) {
@@ -90,7 +97,13 @@ public class ReportController extends BaseController {
 				}
 			}
 
-			if (reportType == 2 || reportType == 3 || reportType == 5) {
+			
+			if (!StringUtils.isBlank(searchParams.getInvoiceType())) {
+				sqlCondition += "  and invoice_type='"
+						+ searchParams.getInvoiceType() + "'";
+			}
+			
+			if (reportType == 2 || reportType == 3 || reportType == 5 || reportType == 7) {
 				if (!StringUtils.isBlank(searchParams.getCustomerId())) {
 					sqlCondition += "  and customer_id='"
 							+ searchParams.getCustomerId() + "'";
@@ -99,17 +112,19 @@ public class ReportController extends BaseController {
 				List<Customer> customerList = customerService
 						.findList(new Customer());
 				model.addAttribute("customerList", customerList);
+				
 				if (reportType == 5) {
 					List<User> salerList = UserUtils
 							.getUsersByRoleEnName("saler");
 					model.addAttribute("salerList", salerList);
-					if (!StringUtils.isBlank(searchParams.getCompanyId())) {
-						sqlCondition += "  and company_id='"
-								+ searchParams.getCompanyId() + "'";
-					}
+		
 					if (!StringUtils.isBlank(searchParams.getSalerId())) {
 						sqlCondition += "  and saler_id='"
 								+ searchParams.getSalerId() + "'";
+					}
+					if (!StringUtils.isBlank(searchParams.getCompanyId())) {
+						sqlCondition += "  and company_id='"
+								+ searchParams.getCompanyId() + "'";
 					}
 					if (!StringUtils.isBlank(searchParams.getBillingStatus())) {
 						if (searchParams.getBillingStatus().equals("2")) {
@@ -166,12 +181,16 @@ public class ReportController extends BaseController {
 			// 设置排序参数
 			String orderBy = request.getParameter("orderBy");
 			if (!StringUtils.isNotBlank(orderBy)) {
-				
+
 			}
-			
+
 			if (reportType == 6 || reportType == 5) {
 				orderBy = "order by plan_pay_date desc";
-			} else {
+			} 
+			else if (reportType == 7) {
+				orderBy = "order by billing_date desc";
+			}
+			else {
 				orderBy = "";
 			}
 			Map queryMap = new LinkedHashMap();
@@ -267,6 +286,17 @@ public class ReportController extends BaseController {
 				headers.put("pay_status_name", "状态");
 				headers.put("pay_date", "付款日期");
 				list = reportDao.reportPayAmount(queryMap);
+				break;
+			case 7:
+				model.addAttribute("title", "开票列表");
+				headers.put("billing_no", "发票流水号");
+				headers.put("company_name", "我司抬头");
+				headers.put("contract_name", "合同名称");
+				headers.put("customer_name", "客户名称");
+				headers.put("receivable_amount", "发票金额");
+				headers.put("invoice_type_name", "发票类型");
+				headers.put("billing_date", "实际开票时间");
+				list = reportDao.reportBillingAmount(queryMap);
 				break;
 			}
 
