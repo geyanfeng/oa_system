@@ -127,7 +127,7 @@ public class PurchaseOrderController extends BaseController {
 			}
 
 			//财务确认付款
-			if("payment_first".equals(taskDefKey) || "payment_all".equals(taskDefKey) || "payment_first".equals(taskDefKey)){
+			if("payment_first".equals(taskDefKey) || "payment_all".equals(taskDefKey) || "payment".equals(taskDefKey)){
 				view = "purchaseOrderAudit_fk";
 				//获取供应商完整信息
 				purchaseOrder.setSupplier(supplierService.get(purchaseOrder.getSupplier().getId()));
