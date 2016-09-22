@@ -134,6 +134,19 @@ th, td {
 						</div>
 
 					</div>
+					<div class="row">
+					
+						<div class="col-sm-6">
+							毛利率：
+							<font color="red"><fmt:formatNumber type="number" value="${(contract.amount - contract.cost - contract.customerCost * 1.1)/contract.amount}"
+								maxFractionDigits="2" /></font>
+						</div>
+						<div class="col-sm-6">
+							销售奖金：<font color="red"><fmt:formatNumber type="number"
+									value="${contract.customerCost}" maxFractionDigits="2" /></font>
+						</div>
+
+					</div>
 				</div>
 			</div>
 
@@ -168,6 +181,7 @@ th, td {
 												value="${finance.zq}" maxFractionDigits="0" />天
 										</td>
 										<td>帐期点数: ${po.paymentPointnum}%</td>
+										<td>付款条件: <c:if test="${finance.payCondition eq 0}">预付</c:if><c:if test="${finance.payCondition eq 1}">后付</c:if></td>
 										<td>付款方式: <font
 											<c:if test="${finance.payMethod eq 3}">color="red"</c:if>>
 												${fns:getDictLabel(finance.payMethod,"oa_payment_method","")}</font></td>
