@@ -93,6 +93,7 @@
 			type : $("input[name='recall_type']:checked").val(),
 			remark: $("#recall_remark").val()
 		};
+		$("#btnSubmitRecall").attr('disabled',"true");
 		$.ajax({
 			type : 'POST',
 			url : "${ctx}/oa/contract/" + contractId + "/recallApprove",
@@ -105,6 +106,7 @@
 			},
 			error : function(a) {
 				showTipMsg("撤回合同失败", "error");
+				$("#btnSubmitRecall").removeAttr("disabled");
 			}
 		});
 

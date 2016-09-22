@@ -622,10 +622,10 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             contract.preUpdate();
             contractDao.update(contract);
 
-            if(!(("recall_cso_audit".equals(taskDefKey) || "recall_cfo_audit".equals(taskDefKey)) && !pass)) {
+            //if(!(("recall_cso_audit".equals(taskDefKey) || "recall_cfo_audit".equals(taskDefKey)) && !pass)) {
                 vars.put("status", contract.getStatus());
                 actTaskService.complete(contract.getAct().getTaskId(), contract.getAct().getProcInsId(), contract.getAct().getComment(), vars);
-            }
+            //}
 
             if("recall_cso_audit".equals(taskDefKey) || "recall_cfo_audit".equals(taskDefKey)){//如果是销售总监撤回审核或者财务总监撤回审核
                 if(!pass && isNotBlank(oldNode)){
