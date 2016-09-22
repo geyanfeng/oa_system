@@ -1271,7 +1271,7 @@
                             <sys:myckfinder input="files${status.index}" type="files" uploadPath="/oa/contract"
                                             selectMultiple="true"/>
                         </td>
-                        <td>
+                        <td style="text-align:center;">
                             <fmt:formatDate value="${attachment.updateDate}" pattern="yyyy-MM-dd"/>
                         </td>
                     </tr>
