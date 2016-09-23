@@ -111,7 +111,7 @@ th, td {
 				<li><a href="#panel-3">采购列表</a></li>
 				<li><a href="#panel-9">订单列表</a></li>
 				<li><a href="#panel-4">付款信息</a></li>
-				<li><a href="#panel-5">物流信息</a></li>
+				<li><a href="#panel-5">收货信息</a></li>
 				<li id="li-other"><a href="#panel-6">其它信息</a></li>
 				<li><a href="#panel-7">附件</a></li>
 				<li><a href="#panel-8">操作信息</a></li>

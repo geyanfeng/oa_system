@@ -52,6 +52,7 @@
 				<th>款项</th>
 				<th>本期毛利</th>
 				<th>税收成本</th>
+				<th>物流费用</th>
 				<th>账期成本</th>
 				<th>本期净利</th>
 				<th>业绩提成</th>
@@ -78,6 +79,7 @@
 			    </td>
 			    <td>${oaCommission.KGp}</td>			  
 				<td>${oaCommission.KTrV}</td>
+				<td>${oaCommission.KLc}</td>
 				<td>${oaCommission.KPccV}</td>
 				<td>${oaCommission.KNp}</td>
 				<td>${oaCommission.KYjV}</td>

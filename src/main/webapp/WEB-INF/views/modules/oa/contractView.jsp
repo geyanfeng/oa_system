@@ -180,7 +180,7 @@
             <li><a href="#panel-3">采购列表</a></li>
             <li><a href="#panel-9">订单列表</a></li>
             <li><a href="#panel-4">付款信息</a></li>
-            <li><a href="#panel-5">物流信息</a></li>
+            <li><a href="#panel-5">收货信息</a></li>
             <li id="li-other"><a href="#panel-6">其它信息</a></li>
             <li><a href="#panel-7">附件</a></li>
             <li><a href="#panel-8">操作信息</a></li>
@@ -1114,7 +1114,7 @@
     <!--物流信息-->
     <a class="anchor" name="panel-5"></a>
     <div class="panel panel-default">
-        <div class="panel-heading"><h3 class="panel-title">物流信息</h3></div>
+        <div class="panel-heading"><h3 class="panel-title">收货信息</h3></div>
         <div class="panel-body panel-collapse collapse in" id="ship-collapse">
             <c:choose>
                 <c:when test="${contract.act.taskDefKey eq 'verify_ship' or contract.act.taskDefKey eq 'split_po'}">

@@ -267,9 +267,19 @@
         <div class="panel-heading"><h3 class="panel-title">发货信息</h3></div>
         <div class="panel-body">
             <div class="row"><%--todo: 发货信息--%>
-                <div class="col-sm-6">发货地址：</div>
-                <div class="col-sm-3">发货周期：</div>
-                <div class="col-sm-3">发货方式：</div>
+                <div class="col-sm-6">发货地址：
+                  <c:choose>
+   			<c:when test="${purchaseOrder.addressType eq '1'}">
+   				杨浦区国伟路135号13号楼401
+   			</c:when>
+   			<c:otherwise>
+   			 ${purchaseOrder.address}
+   			</c:otherwise>
+   		  </c:choose>
+               
+                </div>
+                <div class="col-sm-3">发货周期：${purchaseOrder.shipDate}</div>
+                <div class="col-sm-3">发货方式：到${fns:getDictLabel(purchaseOrder.addressType,"oa_po_address_type" ,"" )}</div>
             </div>
         </div>
     </div>

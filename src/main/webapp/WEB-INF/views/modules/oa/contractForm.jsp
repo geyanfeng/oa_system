@@ -216,7 +216,7 @@ th,td{text-align:left;}
 						<li><a href="#panel-3">采购列表</a></li>
 						<li><a href="#panel-9">订单列表</a></li>
 						<li><a href="#panel-4">付款信息</a></li>
-						<li><a href="#panel-5">物流信息</a></li>
+						<li><a href="#panel-5">收货信息</a></li>
 						<li><a href="#panel-6">其它信息</a></li>
 						<li><a href="#panel-7">附件</a></li>
 						<li><a href="#panel-8">操作信息</a></li>
@@ -934,7 +934,7 @@ th,td{text-align:left;}
 			<!--物流信息-->
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">物流信息</h3>
+					<h3 class="panel-title">收货信息</h3>
 				</div>
 				<div class="panel-body form-horizontal" id="ship-collapse">
 
