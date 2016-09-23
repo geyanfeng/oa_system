@@ -21,6 +21,7 @@ import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.oa.entity.OaCommission;
 import com.thinkgem.jeesite.modules.oa.service.OaCommissionService;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 /**
  * 佣金统计Controller
@@ -51,6 +52,8 @@ public class OaCommissionController extends BaseController {
 	public String list(OaCommission oaCommission, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<OaCommission> page = oaCommissionService.findPage(new Page<OaCommission>(request, response), oaCommission); 
 		model.addAttribute("page", page);
+		//获取销售人员
+		model.addAttribute("salerList", UserUtils.getUsersByRoleEnName("saler"));
 		return "modules/oa/oaCommissionList";
 	}
 
