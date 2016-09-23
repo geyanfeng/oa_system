@@ -51,6 +51,9 @@ a.anchor {
 th, td {
 	text-align: left;
 }
+.form-group {
+	margin-right: 15px;
+}
 </style>
 <script>
         $(function(){
@@ -402,11 +405,31 @@ th, td {
 								<label><font color="red">库存金额</font>：</label>
 
 								<form:input path="stockInAmount" htmlEscape="false"
+											class="form-control required number " onchange="updateExtraAmount(this);" />&nbsp;元
+
+							</div>
+							
+							<div class="form-group">
+								<label><font color="red">退货成本</font>：</label>
+
+								<form:input path="returningAmount" htmlEscape="false"
+											class="form-control required number " value="0" onchange="updateExtraAmount(this);" />&nbsp;元
+
+							</div>
+							
+							<div class="form-group">
+								<label><font color="red">额外成本总额</font>：</label>
+
+								<form:input path="extraAmount" htmlEscape="false"
 											class="form-control required number " />&nbsp;元
 
 							</div>
 
-							<div class="form-group">
+							
+						</div>
+					
+						<div class="row form-inline">
+						<div class="form-group">
 								<div class="checkbox checkbox-custom checkbox-circle">
 									<input type="checkbox" value="true" name="stockInIsDeduction" id="stockInIsDeduction">
 									<label for="stockInIsDeduction">是否业绩抵扣</label>
@@ -419,13 +442,19 @@ th, td {
 								<form:input path="stockInDiscount" htmlEscape="false"
 											class="form-control  number " />&nbsp;元
 							</div>
-						</div>
+					    </div>
 					</div>
 				</div>
 				<script>
+				    function updateExtraAmount(sender){
+				    	var stockInAmount = parseFloat($("#stockInAmount").val());
+                    	var returningAmount = parseFloat($("#returningAmount").val());
+                    	$("#extraAmount").val(stockInAmount + returningAmount); 
+				    }
 					$(function(){
 						$("#stockInAmount").val(${stockInSumAmount});
-
+						$("#extraAmount").val(${stockInSumAmount});
+						
 						//更改是否业绩抵扣
 						$("#stockInIsDeduction").change(function(){
 							if($(this).prop('checked'))
