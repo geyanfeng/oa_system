@@ -40,9 +40,13 @@ public class Contract extends ActEntity<Contract> {
 	private Double customerCost =0.00;		// 客户费用
 	private Boolean isDeduction;		// 是否业绩抵扣
 	private Double discount;		// 抵扣金额
-	private Double stockInAmount;		// 库存金额
+	
 	private Boolean stockInIsDeduction;		// 库存是否业绩抵扣
 	private Double stockInDiscount;		// 库存抵扣金额
+	private Double stockInAmount;		// 库存金额
+	private Double returningAmount;  //退货成本
+	private Double extraAmount; //额外成本总额
+	
 	private Double performancePercentage;   //业绩提成比例
 	private Date expiryDate;		// 有效期
 	private String invoiceType;		// 发票类型
@@ -464,4 +468,20 @@ public class Contract extends ActEntity<Contract> {
 
 	public Double getStockInDiscount(){return stockInDiscount;}
 	public void setStockInDiscount(Double stockInDiscount){this.stockInDiscount = stockInDiscount;}
+
+	public Double getReturningAmount() {
+		return returningAmount;
+	}
+
+	public void setReturningAmount(Double returningAmount) {
+		this.returningAmount = returningAmount;
+	}
+
+	public Double getExtraAmount() {
+		return extraAmount;
+	}
+
+	public void setExtraAmount(Double extraAmount) {
+		this.extraAmount = extraAmount;
+	}
 }

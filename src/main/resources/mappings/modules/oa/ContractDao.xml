@@ -238,6 +238,8 @@
 			is_deduction = #{isDeduction},
 			discount = #{discount},
 			stock_in_amount = #{stockInAmount},
+			returning_amount = #{returningAmount},
+			extra_amount = #{extraAmount},
 			stock_in_is_deduction = #{stockInIsDeduction},
 			stock_in_discount = #{stockInDiscount},
 			performance_percentage = #{performancePercentage},
