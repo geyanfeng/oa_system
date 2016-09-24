@@ -721,7 +721,7 @@ th,td{text-align:left;}
                      	<label>付款条件：</label>
 					   	<select id="payment_installment_payCondition_{{idx}}" data-value="{{row.payment_installment_payCondition}}" class="form-control  required">
 							<option value="0">预付</option>
-							<option value="1" selected>后付</option>
+							<option value="1">后付</option>
 						</select>
                 	 </div>
 					<div class="form-group">
@@ -828,13 +828,13 @@ th,td{text-align:left;}
                     var paymentCycle = $("input[id^='paymentCycle']:checked").val();
                     switch(paymentCycle){
                         case "1":
-								row.payCondition = 0;
+								row.payment_onetime_payCondition = 0;
                                 $("#payment-body").append(Mustache.render($("#payment-onetime-tpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""), {row:row}));
                             break;
                         case "2":
                                 if(!idx)
                                     idx=1;
-								row.payCondition = 0;
+								row.payment_installment_payCondition = 0;
                                 $("#payment-body").append(Mustache.render($("#payment-installment-tpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""), {idx:idx, row:row}));
                                 idx = idx+1;
                                 $("#payment-body").data("idx",idx);
@@ -897,7 +897,7 @@ th,td{text-align:left;}
                                     payment_installment_amount: row.find("input[id^='payment_installment_amount']").val(),
                                     payment_installment_time :row.find("input[id^='payment_installment_time']").val(),
                                     payment_installment_paymentMethod :row.find("input[id^='payment_installment_paymentMethod']:checked").val(),
-									payment_installment_payCondition: row.find("input[id^='payment_installment_payCondition']").val()
+									payment_installment_payCondition: row.find("select[id^='payment_installment_payCondition']").val()
                                 });
                             });
                             break;

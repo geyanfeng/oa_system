@@ -546,11 +546,12 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                 actTaskService.claim(contract.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
                 updateFinanceSK(contract);
                 //检查是否已经全部收款
-                vars.put("pass",checkSK(contract)?1:0);
                 if(!checkSK(contract)){
                     contract.setStatus("90");//已收款待开票
+                    vars.put("finishPayment",0);
                 } else {
                     contract.setStatus("95");//已收款待收尾
+                    vars.put("finishPayment",1);
                 }
             } else if("finish".equals(taskDefKey)){//商务确认合同完成
                 contract.setStatus("100");//已确认已完成
@@ -604,6 +605,14 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                     else if ("verify_receiving".equals(taskDefKey)) {//收货验收
                         if (pass) {
                             contract.setStatus("70");//已验收待开票
+                            //检查是否已经全部收款
+                            if(!checkSK(contract)){
+                                contract.setStatus("90");//已收款待开票
+                                vars.put("finishPayment",0);
+                            } else {
+                                contract.setStatus("95");//已收款待收尾
+                                vars.put("finishPayment",1);
+                            }
                         } else {
                             contract.setStatus("72");//验收失败待发货
                         }

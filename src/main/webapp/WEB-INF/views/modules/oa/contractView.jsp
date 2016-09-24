@@ -1065,7 +1065,7 @@
                                             break;
                                         }
                                     }
-                                    if(paymentDetail.payment_onetime_payCondition == 1){
+                                    if(item.payment_installment_payCondition == 1){
                                         item.payCondition = "后付";
                                     } else{
                                         item.payCondition = "预付";
