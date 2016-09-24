@@ -275,14 +275,14 @@ public class ContractController extends BaseController {
 				}
 				view = "contractView_includeCost";
 			}
-			else if("cw_kp".equals(taskDefKey)){//财务开票
+			else if("cw_kp".equals(taskDefKey) || "cw_kp2".equals(taskDefKey)){//财务开票
 				ContractFinance filter = new ContractFinance(contract,1);
 				List<ContractFinance> finances = contractFinanceDao.findList(filter);
 				if(finances.size()>0)
 					model.addAttribute("finance", finances.get(0));
 				view = "contractView_kp";
 			}
-			else if("verify_sk".equals(taskDefKey)){//财务收款
+			else if("verify_sk".equals(taskDefKey) || "verify_sk2".equals(taskDefKey)){//财务收款
 				ContractFinance filter = new ContractFinance(contract,2);
 				List<ContractFinance> finances = contractFinanceDao.findList(filter);
 				if(finances.size()>0) {

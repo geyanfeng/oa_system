@@ -1007,6 +1007,7 @@
                     <div class="col-sm-3">付款金额：{{row.payment_onetime_amount}}</div>
                     <div class="col-sm-3">付款方式：{{row.paymentMethod}}</div>
                     <div class="col-sm-3">账期：{{row.payment_onetime_time}}</div>
+                    <div class="col-sm-3">付款条件：{{row.payCondition}}</div>
                 </div>
                     //-->
             </script>
@@ -1015,6 +1016,7 @@
                     <div class="col-sm-4">付款金额：{{row.payment_installment_amount}}</div>
                     <div class="col-sm-4">账期：{{row.payment_installment_time}}</div>
                     <div class="col-sm-4">付款方式：{{row.paymentMethod}}</div>
+                    <div class="col-sm-3">付款条件：{{row.payCondition}}</div>
                 </div>
                 //-->
             </script>
@@ -1047,6 +1049,11 @@
                                          break;
                                      }
                                  }
+                                 if(paymentDetail.payment_onetime_payCondition == 1){
+                                     paymentDetail.payCondition = "后付";
+                                 } else{
+                                     paymentDetail.payCondition = "预付";
+                                 }
                                 addPaymentRow(paymentCycle, paymentDetail);
                                 break;
                             case 2:
@@ -1057,6 +1064,11 @@
                                             item.paymentMethod= paymentMethod[i].label;
                                             break;
                                         }
+                                    }
+                                    if(paymentDetail.payment_onetime_payCondition == 1){
+                                        item.payCondition = "后付";
+                                    } else{
+                                        item.payCondition = "预付";
                                     }
                                     addPaymentRow(paymentCycle, item, idx + 1);
                                 });
@@ -1349,11 +1361,11 @@
                         <c:set var="submitText" value="确认发货"/>
                     </c:if>
 
-                    <c:if test="${contract.act.taskDefKey eq 'cw_kp'}">
+                    <c:if test="${contract.act.taskDefKey eq 'cw_kp' || contract.act.taskDefKey eq 'cw_kp2'}">
                         <c:set var="submitText" value="确认开票"/>
                     </c:if>
 
-                    <c:if test="${contract.act.taskDefKey eq 'verify_sk'}">
+                    <c:if test="${contract.act.taskDefKey eq 'verify_sk' || contract.act.taskDefKey eq 'verify_sk2'}">
                         <c:set var="submitText" value="确认收款"/>
                     </c:if>
 
@@ -1361,7 +1373,7 @@
                         <c:set var="submitText" value="确认合同完成"/>
                     </c:if>
 
-                    <c:if test="${contract.act.taskDefKey eq 'can_invoice'}">
+                    <c:if test="${contract.act.taskDefKey eq 'can_invoice' || contract.act.taskDefKey eq 'can_invoice2'}">
                         <c:set var="submitText" value="确认可以开票"/>
                     </c:if>
                     <c:choose>
@@ -1371,9 +1383,12 @@
                                             contract.act.taskDefKey eq 'business_person_createbill' ||
                                             contract.act.taskDefKey eq 'verify_ship' ||
                                             contract.act.taskDefKey eq 'cw_kp' ||
+                                            contract.act.taskDefKey eq 'cw_kp2' ||
                                             contract.act.taskDefKey eq 'verify_sk' ||
+                                            contract.act.taskDefKey eq 'verify_sk2' ||
                                             contract.act.taskDefKey eq 'finish' ||
-                                            contract.act.taskDefKey eq 'can_invoice'}">
+                                            contract.act.taskDefKey eq 'can_invoice' ||
+                                            contract.act.taskDefKey eq 'can_invoice2'}">
                             <input id="btnSubmit" class="btn btn-custom" type="submit" value="${submitText}" onclick="$('#flag').val('submit_audit')"/>&nbsp;
                         </c:when>
                         <c:when test="${not empty contract.act.taskDefKey}">                          

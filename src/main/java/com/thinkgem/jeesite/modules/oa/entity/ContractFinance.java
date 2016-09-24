@@ -19,6 +19,7 @@ public class ContractFinance extends DataEntity<ContractFinance> {
 	
 	private static final long serialVersionUID = 1L;
 	private Contract contract;		// 合同 父类
+	private Integer payCondition = 1;		//付款条件,0为预付,1为后付, 默认为后付
 	private String paymentCycle;		// 付款周期
 	private Date billingDate;		// 开票时间
 	private String payMethod;		// 收款方式
@@ -157,4 +158,7 @@ public class ContractFinance extends DataEntity<ContractFinance> {
 
 	public Integer getCancelFlag(){return cancelFlag;}
 	public void setCancelFlag(Integer cancelFlag){this.cancelFlag = cancelFlag;}
+
+	public Integer getPayCondition(){return payCondition;}
+	public void setPayCondition(Integer payCondition){this.payCondition = payCondition;}
 }

@@ -288,6 +288,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             contractFinance.setPaymentCycle(contract.getPaymentCycle());
             contractFinance.setPayMethod(paymentObj.get("payment_onetime_paymentMethod").toString());
             contractFinance.setAmount(Double.parseDouble(paymentObj.get("payment_onetime_amount").toString()));
+            contractFinance.setPayCondition(Integer.parseInt(paymentObj.get("payment_onetime_payCondition").toString()));
             contractFinance.setSort(1);
             contractFinance.setStatus(1);
             contractFinance.preInsert();
@@ -300,6 +301,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                 contractFinance.setPaymentCycle(contract.getPaymentCycle());
                 contractFinance.setPayMethod(paymentObj.get("payment_installment_paymentMethod").toString());
                 contractFinance.setAmount(Double.parseDouble(paymentObj.get("payment_installment_amount").toString()));
+                contractFinance.setPayCondition(Integer.parseInt(paymentObj.get("payment_installment_payCondition").toString()));
                 contractFinance.setSort(sort);
                 contractFinance.setStatus(1);
                 contractFinance.preInsert();
@@ -428,6 +430,24 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             return true;
     }
 
+    /**
+     * 检查第一笔是否是预付
+     * @param contract
+     * @return
+     */
+    public boolean checkFirstPaymentIsYF(Contract contract){
+        ContractFinance filter = new ContractFinance(contract);
+        List<ContractFinance> finances = contractFinanceDao.findList(filter);
+        if(finances.size()>0) {
+            if(finances.get(0).getPayCondition() == 0)
+                return true;
+            else
+                return false;
+        }
+        else
+            return false;
+    }
+
     @Transactional(readOnly = false)
     public void delete(Contract contract) {
         if (isNotBlank(contract.getProcInsId()))
@@ -516,13 +536,13 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                 contract.setStatus("40");//已下单待发货
             } else if("verify_ship".equals(taskDefKey)){//确认发货
                 contract.setStatus("60");//已发货待验收
-            } if("can_invoice".equals(taskDefKey)){//商务确认开票
+            } if("can_invoice".equals(taskDefKey) || "can_invoice2".equals(taskDefKey)){//商务确认开票
                 contract.setStatus("75");//可开票待开票
-            } else if("cw_kp".equals(taskDefKey)){//财务开票
+            } else if("cw_kp".equals(taskDefKey) || "cw_kp2".equals(taskDefKey)){//财务开票
                 actTaskService.claim(contract.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
                 updateFinanceKP(contract);
                 contract.setStatus("80");//已开票待收款
-            } else if("verify_sk".equals(taskDefKey)){//确认收款
+            } else if("verify_sk".equals(taskDefKey) || "verify_sk2".equals(taskDefKey)){//确认收款
                 actTaskService.claim(contract.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
                 updateFinanceSK(contract);
                 //检查是否已经全部收款
@@ -570,6 +590,13 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                             }else{
                                 autoStartPOFlow(contract);//自动启动合同相关的所有订单流程
                             }
+                            //第一笔是否为预付
+                            if(checkFirstPaymentIsYF(contract)){
+                                vars.put("isyf", 1);
+                            } else{
+                                vars.put("isyf", 0);
+                            }
+
                         } else {
                             contract.setStatus("30");//已驳回待修改
                         }
