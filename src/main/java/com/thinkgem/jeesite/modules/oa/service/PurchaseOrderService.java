@@ -357,10 +357,10 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 			vars.put("status", purchaseOrder.getStatus());
 			actTaskService.complete(purchaseOrder.getAct().getTaskId(), purchaseOrder.getAct().getProcInsId(), purchaseOrder.getAct().getComment(), vars);
 
-			//自动合同的审核
+			/*//自动合同的审核
 			if("business_person_createbill".equals(taskDefKey)) {//商务下单
 				autoFinishContractTask(20, contract, "business_person_createbill");
-			}
+			}*/
 		}
 	}
 
