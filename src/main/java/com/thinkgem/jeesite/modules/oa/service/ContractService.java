@@ -535,6 +535,8 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                     throw new Exception("提交失败: 还有订单没有完成商务下单, 不能提交!");
                 contract.setStatus("40");//已下单待发货
             } else if("verify_ship".equals(taskDefKey)){//确认发货
+                if(!isFinishPO_FH(contract))
+                    throw new Exception("提交失败: 还有订单没有确认发货, 不能提交!");
                 contract.setStatus("60");//已发货待验收
             } if("can_invoice".equals(taskDefKey) || "can_invoice2".equals(taskDefKey)){//商务确认开票
                 contract.setStatus("75");//可开票待开票
@@ -752,6 +754,20 @@ public class ContractService extends CrudService<ContractDao, Contract> {
        List<PurchaseOrder> poList = purchaseOrderService.getPoListByContractId(contract.getId());
         for(PurchaseOrder purchaseOrder:poList){
             if(isBlank(purchaseOrder.getStatus()) || new Integer(purchaseOrder.getStatus())<20)
+                return false;
+        }
+        return true;
+    }
+
+    /**
+     * 判断订单是否已经发货
+     * @param contract
+     * @return
+     */
+    private Boolean isFinishPO_FH(Contract contract){
+        List<PurchaseOrder> poList = purchaseOrderService.getPoListByContractId(contract.getId());
+        for(PurchaseOrder purchaseOrder:poList){
+            if(isBlank(purchaseOrder.getStatus()) || new Integer(purchaseOrder.getStatus())<60)
                 return false;
         }
         return true;
