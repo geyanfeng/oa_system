@@ -307,7 +307,7 @@ th, td {
 								break;
 							}
 						}
-						data[i].ml = data[i].amount - data[i].cost - (${contract.customerCost} * (data[i].amount / ${contract.cost}) * 1.1);
+						data[i].ml = (data[i].amount - data[i].cost - (${contract.customerCost} * (data[i].amount / ${contract.cost}) * 1.1)).toFixed(2);
 						data[i].mll = ((data[i].ml / data[i].amount) *100).toFixed(2);
 						addRow('#contractProductList', contractProductRowIdx, contractProductViewTpl, data[i]);
 						if(data[i].ml<0){
@@ -392,7 +392,7 @@ th, td {
 									for(var j = 0; j<poStatusList.length; j++){
 										if(po.status!= "" && po.status == poStatusList[j].value)
 										{
-											po.statusLabel = poStatusList[i].label;
+											po.statusLabel = poStatusList[j].label;
 											break;
 										}
 									}
