@@ -209,7 +209,7 @@ h4 {
         </script>
 				<script type="text/javascript">
             var poProductRowIdx = 0, poProductTpl = $("#poProductTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
-            var sumAmount = ${not empty purchaseOrder.amount? purchaseOrder.amount: 0 };
+            var sumAmount = ${not empty purchaseOrder.amount? purchaseOrder.amount: 0.00 };
             $(document).ready(function () {
                 var data = ${fns:toJson(purchaseOrder.purchaseOrderProductList)};
                 for (var i = 0; i < data.length; i++) {
@@ -233,11 +233,11 @@ h4 {
                         }
                     }
                 });
-                $(list + idx).find("input[name$='.price']").TouchSpin({
+                /*$(list + idx).find("input[name$='.price']").TouchSpin({
                     buttondown_class: "btn btn-custom",
                     buttonup_class: "btn btn-custom",
                     max:99999999
-                });
+                });*/
                 $(list + idx).find("input[name$='.num']").TouchSpin({
                     buttondown_class: "btn btn-custom",
                     buttonup_class: "btn btn-custom",
@@ -292,8 +292,8 @@ h4 {
             //更新总金额
             function updateSumAmount(sender){
                 var row = $(sender).closest('tr');
-                var price = row.find("input[id$='_price']").val();
-                var num = row.find("input[id$='_num']").val();
+                var price = parseFloat(row.find("input[id$='_price']").val());
+                var num = parseFloat(row.find("input[id$='_num']").val());
                 if(price && num)
                     sumAmount = sumAmount + price * num;
             }
