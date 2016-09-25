@@ -249,6 +249,35 @@
                     技术协同：${contract.artisan.name}
                 </div>
             </div>
+            <c:if test="${contract.cost ne 0}">
+                <div class="row" style="color:red">
+                    <div class="col-sm-3">
+                        毛利：
+                        <fmt:formatNumber type="number"
+                                          value="${contract.amount - contract.cost - contract.customerCost * 1.1}"
+                                          maxFractionDigits="2" />
+                    </div>
+                    <div class="col-sm-3">
+                        毛利率：
+                        <fmt:formatNumber type="number"
+                                          value="${((contract.amount - contract.cost - contract.customerCost * 1.1)/contract.amount)*100}"
+                                          maxFractionDigits="2" />%
+                    </div>
+
+                    <c:if test="${not empty contract.stockInAmount}">
+                        <div class="col-sm-3">
+                            库存金额：
+                              <fmt:formatNumber type="number" value="${contract.stockInAmount}" maxFractionDigits="2" />
+                        </div>
+                    </c:if>
+                    <c:if test="${not empty contract.extraAmount}">
+                        <div class="col-sm-3">
+                            额外成本：
+                            <fmt:formatNumber type="number" value="${contract.extraAmount}" maxFractionDigits="2" />
+                    </div>
+                    </c:if>
+                </div>
+            </c:if>
         </div>
     </div>
 
@@ -966,7 +995,7 @@
                                     for(var j = 0; j<poStatusList.length; j++){
                                         if(po.status!= "" && po.status == poStatusList[j].value)
                                         {
-                                            po.statusLabel = poStatusList[i].label;
+                                            po.statusLabel = poStatusList[j].label;
                                             break;
                                         }
                                     }
