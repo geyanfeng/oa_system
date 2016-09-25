@@ -1496,7 +1496,11 @@
                         <tbody id="body-poTKTH">
                         </tbody>
                     </table>
-                    <div class="pull-right">总计: <span class="total" style="color:red;"></span></div>
+                    <div>
+                        <span class="total_label">总计</span>: <span class="total" style="color:red;"></span>
+                        <span class="total_sf_label">实退金额: </span>
+                        <input id="total_sf" type="text" class="form-control number input-block required input-sm" style="display: inline-block; width:100px;"/>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn inverse" data-dismiss="modal">取消</button>
@@ -1547,18 +1551,25 @@
                 modal.find(".modal-title").html("退款确认");
                 modal.find("#table-poTKTH  thead td:eq(1)").html("退货条目");
                 modal.find("#table-poTKTH  thead td:eq(2)").html("退货数量");
+                modal.find(".total_label").html("应退金额");
+                modal.find(".total_sf_label").show();
+                modal.find("#total_sf").show();
             }
             else {//转入库存
                 modal.find(".modal-title").html("转入库存");
                 modal.find("#table-poTKTH  thead td:eq(1)").html("入库条目");
                 modal.find("#table-poTKTH  thead td:eq(2)").html("入库数量");
+                modal.find(".total_label").html("总计");
+                modal.find(".total_sf_label").hide();
+                modal.find("#total_sf").hide();
             }
 
             modal.find(".submit-poTKTH").data("type", type);
             modal.find(".submit-poTKTH").data("poId", po_id);
             modal.find(".submit-poTKTH").click(function(){
                 if(modal.find('input').hasClass("error"))return;
-                if(totalAmount > fkSumAmount){
+                var amount = parseFloat(modal.find(".total").html());
+                if(amount > fkSumAmount){
                     showTipMsg("退款金额不能大于已付款金额, 已付款金额为:" + fkSumAmount,"error");
                     return;
                 }
@@ -1578,11 +1589,15 @@
                     dataList.push(data);
                 })
                 if(type == 1){
+                    var data={
+                        amount: $("#modal-PoTKTH").find("#total_sf").val(),
+                        refundDetailList: dataList
+                    }
                     $.ajax({
                         type: 'POST',
                         url: "${ctx}/oa/refund/" + poid + "/save",
                         contentType: "application/json;",
-                        data: JSON.stringify(dataList),
+                        data: JSON.stringify(data),
                         success: function(data){
                             showTipMsg(data)
                             $('#modal-PoTKTH').modal('hide');
@@ -1629,6 +1644,7 @@
                 }
             });
             modal.find(".total").html(totalAmount);
+            modal.find("#total_sf").val(totalAmount);
 
             modal.modal({
                 show : true,
@@ -1651,6 +1667,7 @@
                 totalAmount+=amount;
             });
             $('#modal-PoTKTH').find(".total").html(totalAmount);
+            $('#modal-PoTKTH').find("#total_sf").val(totalAmount);
         }
     </script>
 </body>

@@ -44,8 +44,8 @@ public class RefundService  extends CrudService<RefundMainDao, RefundMain> {
     private ActProcessService actProcessService;
 
     @Transactional(readOnly = false)
-    public void saveList(String poId, List<RefundDetail> refundDetailList) throws Exception {
-        if (refundDetailList == null || refundDetailList.size() == 0) throw new Exception("出错: 没有提交数据!");
+    public void saveRefund(String poId, RefundMain refundMain) throws Exception {
+        if (refundMain == null || refundMain.getRefundDetailList().size() == 0) throw new Exception("出错: 没有提交数据!");
 
         PurchaseOrder po = purchaseOrderDao.get(new PurchaseOrder(poId));
         String contractId = po.getContract().getId();
@@ -78,30 +78,23 @@ public class RefundService  extends CrudService<RefundMainDao, RefundMain> {
         }
 
         Integer sort = 1;
-        Double amount = 0.00;
-        for (RefundDetail detail : refundDetailList) {
-            amount += detail.getAmount();
-        }
 
-        RefundMain main = new RefundMain();
-        main.setAmount(amount);
-        main.setPoId(poId);
-        main.setContractId(contractId);
-        main.setRecallId(recall_id);
-        main.preInsert();
-        dao.insert(main);
+        refundMain.setPoId(poId);
+        refundMain.setContractId(contractId);
+        refundMain.setRecallId(recall_id);
+        refundMain.preInsert();
+        dao.insert(refundMain);
 
         //增加新增数据
-        for (RefundDetail detail : refundDetailList) {
+        for (RefundDetail detail : refundMain.getRefundDetailList()) {
             detail.setPoId(poId);
             detail.setContractId(contractId);
             detail.setRecallId(recall_id);
-            detail.setMainId(main.getId());
+            detail.setMainId(refundMain.getId());
             detail.setSort(sort);
             detail.preInsert();
             refundDetailDao.insert(detail);
             sort++;
-            amount += detail.getAmount();
         }
 
         //开始退款流程
@@ -110,7 +103,7 @@ public class RefundService  extends CrudService<RefundMainDao, RefundMain> {
         vars.put("contract_name", contract.getName());
         vars.put("po_no", po.getNo());
         vars.put("recall_id", recall_id);
-        actTaskService.startProcess(ActUtils.PD_TK_AUDIT[0], ActUtils.PD_TK_AUDIT[1], main.getId(), po.getNo(),vars);
+        actTaskService.startProcess(ActUtils.PD_TK_AUDIT[0], ActUtils.PD_TK_AUDIT[1], refundMain.getId(), po.getNo(),vars);
     }
 
     @Transactional(readOnly = false)

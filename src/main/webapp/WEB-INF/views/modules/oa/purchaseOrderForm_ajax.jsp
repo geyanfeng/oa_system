@@ -291,11 +291,18 @@ h4 {
 
             //更新总金额
             function updateSumAmount(sender){
-                var row = $(sender).closest('tr');
-                var price = parseFloat(row.find("input[id$='_price']").val());
-                var num = parseFloat(row.find("input[id$='_num']").val());
-                if(price && num)
-                    sumAmount = sumAmount + price * num;
+                sumAmount = 0 ;
+                $(sender).closest('tbody').find("tr").each(function(){
+                    var row = $(this);
+                    var price = parseFloat(row.find("input[id$='_price']").val());
+                    var num = parseFloat(row.find("input[id$='_num']").val());
+                    if(price && num)
+                        sumAmount = sumAmount + price * num;
+                });
+
+                $("input[id$='_bl']").each(function(){
+                    updatePayment(this);
+                });
             }
         </script>
 			</div>
@@ -546,9 +553,13 @@ h4 {
             var blField = row.find("input[id$='bl']")
 
             if($(sender).prop("id").indexOf("_amount")>=0){
-                blField.val(((parseFloat(amountField.val())/sumAmount) * 100).toFixed(2));
+                if(amountField.val()) {
+                    blField.val(((parseFloat(amountField.val()) / sumAmount) * 100).toFixed(2));
+                }
             } else{
-                amountField.val((sumAmount * ((parseFloat(blField.val()))/100)).toFixed(2));
+                if(blField.val()) {
+                    amountField.val((sumAmount * ((parseFloat(blField.val())) / 100)).toFixed(2));
+                }
             }
         }
     </script>

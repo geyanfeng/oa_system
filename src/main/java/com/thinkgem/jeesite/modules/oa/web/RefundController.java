@@ -50,9 +50,9 @@ public class RefundController extends BaseController {
 
     @RequestMapping(value = "{poId}/save")
     @ResponseBody
-    public String save(@PathVariable String poId, @RequestBody List<RefundDetail> stockInList, HttpServletResponse response) throws Exception {
+    public String save(@PathVariable String poId, @RequestBody RefundMain main, HttpServletResponse response) throws Exception {
         try{
-            refundService.saveList(poId, stockInList);
+            refundService.saveRefund(poId, main);
             return renderString(response, "退款成功!");
         }
         catch(Exception e){
