@@ -337,6 +337,7 @@ th, td {
 							<tr role="row">
 								<th class="hidden"></th>
 								<th>采购订单编号</th>
+								<th>状态</th>
 								<th>供应商</th>
 								<th>金额</th>
 								<th>帐期</th>
@@ -352,6 +353,9 @@ th, td {
 							<td class="hidden"></td>
 							<td>
 							   <a href="${ctx}/oa/purchaseOrder/view?id={{row.id}}">{{row.no}}</a>
+							</td>
+							<td>
+							    {{row.statusLabel}}
 							</td>
 							<td>
 								{{row.supplier.name}}
@@ -373,6 +377,7 @@ th, td {
             </script>
 					<script>
                 var poList = [] ;
+				var poStatusList = ${fns:getDictListJson('oa_po_status')};
                 $(function(){
                     loadPoList();
                 });
@@ -384,6 +389,13 @@ th, td {
                                 poList = data;
                                 $.each(data, function(idx, po){
                                     calcPoZq(po);
+									for(var j = 0; j<poStatusList.length; j++){
+										if(po.status!= "" && po.status == poStatusList[j].value)
+										{
+											po.statusLabel = poStatusList[i].label;
+											break;
+										}
+									}
                                     addRow("#poBody", idx,poViewTpl,po );
                                 });
 

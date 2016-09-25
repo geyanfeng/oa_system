@@ -885,6 +885,7 @@
                 <tr role="row">
                 	<th class="hidden"></th>
                     <th>采购订单编号</th>
+                    <th>状态</th>
                     <th>供应商</th>
                     <th>金额</th>
                     <th>帐期</th>
@@ -901,6 +902,9 @@
 							<td class="hidden"></td>
 							<td>
 							   <a href="${ctx}/oa/purchaseOrder/view?id={{row.id}}">{{row.no}}</a>
+							</td>
+							<td>
+							    {{row.statusLabel}}
 							</td>
 							<td>
 								{{row.supplier.name}}
@@ -936,6 +940,7 @@
             </script>
             <script>
                 var poList = [] ;
+                var poStatusList = ${fns:getDictListJson('oa_po_status')};
                 $(function(){
                     loadPoList();
                 });
@@ -957,6 +962,13 @@
                                             if(finance.status == 1)
                                                 po.payFinish = false;
                                         });
+                                    }
+                                    for(var j = 0; j<poStatusList.length; j++){
+                                        if(po.status!= "" && po.status == poStatusList[j].value)
+                                        {
+                                            po.statusLabel = poStatusList[i].label;
+                                            break;
+                                        }
                                     }
                                     po.isDisplayModifyBtn = !po.payFinish;
                                     po.isDisplayDeleteBtn = !po.isPay;
