@@ -81,7 +81,7 @@
 	<div class="container">
     <div class="row m-b-20" style="margin-top: 80px !important;">
         <div class="col-sm-3">
-            订单编号 ：${purchaseOrder.no}
+            采购订单编号 ：${purchaseOrder.no}
         </div>
         <div class="pull-right">
             订单状态: <span class="label label-${fns:getDictRemark(contract.status,"oa_po_status","warning")}" style="font-size:16px;color:#000;">${fns:getDictLabel(purchaseOrder.status, "oa_po_status","" )}</span>
@@ -179,8 +179,8 @@
                 <thead>
                 <tr role="row">
                 	<th class="hidden"></th>
-                    <th>采购条目</th>
-                    <th>产品组类别</th>
+                    <th>名称</th>
+                    <th>产品类别</th>
                     <th>单价</th>
                     <th>数量</th>
                     <th>单位</th>

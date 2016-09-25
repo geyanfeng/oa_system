@@ -479,16 +479,16 @@ public class ContractController extends BaseController {
 	@RequestMapping(value = "import/productTemplate")
 	public void importFileTemplate(HttpServletResponse response, RedirectAttributes redirectAttributes) {
 		try {
-			String fileName = "采购列表数据导入模板.xlsx";
+			String fileName = "销售清单数据导入模板.xlsx";
 			List<ContractProduct> list = Lists.newArrayList();
-			new ExportExcel("采购列表", ContractProduct.class, 2).setDataList(list).write(response, fileName).dispose();
+			new ExportExcel("销售清单", ContractProduct.class, 2).setDataList(list).write(response, fileName).dispose();
 		} catch (Exception e) {
 			addMessage(redirectAttributes, "导入模板下载失败！失败信息："+e.getMessage());
 		}
 	}
 
 	/**
-	 * 导入采购列表数据
+	 * 导入销售清单数据
 	 * @param file
 	 * @param response
      * @return

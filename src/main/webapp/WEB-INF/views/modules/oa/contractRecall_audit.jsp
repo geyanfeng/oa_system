@@ -108,8 +108,8 @@ th, td {
 			<ul class="nav navbar-nav">
 				<li><a href="#panel-1">合同信息</a></li>
 				<li><a href="#panel-2">开票信息</a></li>
-				<li><a href="#panel-3">采购列表</a></li>
-				<li><a href="#panel-9">订单列表</a></li>
+				<li><a href="#panel-3">销售清单</a></li>
+				<li><a href="#panel-9">采购订单列表</a></li>
 				<li><a href="#panel-4">付款信息</a></li>
 				<li><a href="#panel-5">收货信息</a></li>
 				<li id="li-other"><a href="#panel-6">其它信息</a></li>
@@ -206,20 +206,20 @@ th, td {
 				</div>
 			</div>
 
-			<!--采购列表-->
+			<!--销售清单-->
 			<div class="panel panel-default" id="card_products">
 				<div class="panel-heading">
-					<h3 class="panel-title">采购列表</h3>
+					<h3 class="panel-title">销售清单</h3>
 				</div>
 				<div class="panel-body" id="products-collapse">
 					<table id="contentTable" class="table table-condensed">
 						<thead>
 							<tr role="row">
 								<th class="hidden"></th>
-								<th>采购条目</th>
-								<th>采购数量</th>
-								<th>产品组</th>
-								<th>合同价</th>
+								<th>名称</th>
+								<th>数量</th>
+								<th>产品类别</th>
+								<th>合同售价</th>
 								<th>采购成本</th>
 								<th>毛利</th>
 								<th>毛利率</th>
@@ -293,10 +293,10 @@ th, td {
 				</div>
 			</div>
 
-			<!--订单列表-->
+			<!--采购订单列表-->
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">订单列表</h3>
+					<h3 class="panel-title">采购订单列表</h3>
 				</div>
 				<div class="panel-body">
 					<table id="poTable"
@@ -304,7 +304,7 @@ th, td {
 						<thead>
 							<tr role="row">
 								<th class="hidden"></th>
-								<th>订单编号</th>
+								<th>采购订单编号</th>
 								<th>供应商</th>
 								<th>金额</th>
 								<th>帐期</th>

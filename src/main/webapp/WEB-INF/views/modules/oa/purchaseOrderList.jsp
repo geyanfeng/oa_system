@@ -29,7 +29,7 @@
 </head>
 <body>
 <h2 style="padding-left:20px; font-weight: normal;font-size:18px;">
-订单列表
+	采购订单列表
 		<div class="pull-right">
 			<c:if test="${empty isSelect}">
 				<shiro:hasPermission name="oa:contract:edit">

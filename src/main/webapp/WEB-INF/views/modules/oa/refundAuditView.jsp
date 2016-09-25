@@ -98,7 +98,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-6">
-                    订单编号 ：${purchaseOrder.no}
+                    采购订单编号 ：${purchaseOrder.no}
                 </div>
                 <div class="col-sm-6">
                     订单金额 ：<fmt:formatNumber type="number" value="${purchaseOrder.amount}" maxFractionDigits="2"/>

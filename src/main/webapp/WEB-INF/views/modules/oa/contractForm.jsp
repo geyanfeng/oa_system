@@ -213,8 +213,8 @@ th,td{text-align:left;}
 					<ul class="nav navbar-nav">
 						<li><a href="#panel-1">合同信息</a></li>
 						<li><a href="#panel-2">开票信息</a></li>
-						<li><a href="#panel-3">采购列表</a></li>
-						<li><a href="#panel-9">订单列表</a></li>
+						<li><a href="#panel-3">销售清单</a></li>
+						<li><a href="#panel-9">采购订单列表</a></li>
 						<li><a href="#panel-4">付款信息</a></li>
 						<li><a href="#panel-5">收货信息</a></li>
 						<li><a href="#panel-6">其它信息</a></li>
@@ -485,11 +485,11 @@ th,td{text-align:left;}
         });
     </script>
 
-			<!--采购列表-->
+			<!--销售清单-->
 			<div class="panel panel-default" id="card_products">
 				<div class="panel-heading">
 					<h3 class="panel-title">
-						采购列表
+						销售清单
 						<shiro:hasPermission name="oa:contract:edit">
 							<div class="pull-right">
 								<a href="javascript:void(0);" class="btn btn-danger"
@@ -497,7 +497,7 @@ th,td{text-align:left;}
 									<i class="fa fa-plus"></i> 新增
 								</a>
 								<a class="btn btn-info" onclick="importProducts();">
-									<i class="fa fa-upload"></i> 导入采购列表
+									<i class="fa fa-upload"></i> 导入销售清单
 								</a>
 								<a class="btn btn-primary" href="${ctx}/oa/contract/import/productTemplate">
 									<i class="fa fa-download"></i> 下载导入模版

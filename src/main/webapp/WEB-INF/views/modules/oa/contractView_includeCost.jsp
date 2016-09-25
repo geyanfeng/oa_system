@@ -173,17 +173,17 @@ th, td {
 				<c:if test="${not empty is_recall && is_recall eq true}">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h3 class="panel-title">原采购列表</h3>
+							<h3 class="panel-title">原销售清单</h3>
 						</div>
 						<div class="panel-body">
 							<table id="contentTable_old" class="table table-condensed">
 								<thead>
 								<tr role="row">
 									<th class="hidden"></th>
-									<th>采购条目</th>
-									<th>采购数量</th>
-									<th>产品组</th>
-									<th>合同价</th>
+									<th>名称</th>
+									<th>数量</th>
+									<th>产品类别</th>
+									<th>合同售价</th>
 								</tr>
 								</thead>
 								<tbody id="contractProductList_old">
@@ -236,20 +236,20 @@ th, td {
 				</c:if>
 			</shiro:hasRole>
 
-			<!--采购列表-->
+			<!--销售清单-->
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title"><shiro:hasRole name="cso"><c:if test="${not empty is_recall && is_recall eq true}">新</c:if></shiro:hasRole>采购列表</h3>
+					<h3 class="panel-title"><shiro:hasRole name="cso"><c:if test="${not empty is_recall && is_recall eq true}">新</c:if></shiro:hasRole>销售清单</h3>
 				</div>
 				<div class="panel-body">
 					<table id="contentTable" class="table table-condensed">
 						<thead>
 							<tr role="row">
 								<th class="hidden"></th>
-								<th>采购条目</th>
-								<th>采购数量</th>
-								<th>产品组</th>
-								<th>合同价</th>
+								<th>名称</th>
+								<th>数量</th>
+								<th>产品类别</th>
+								<th>合同售价</th>
 								<th>采购成本</th>
 								<th>毛利</th>
 								<th>毛利率</th>
@@ -325,10 +325,10 @@ th, td {
 
 			</script>
 
-			<!--订单列表-->
+			<!--采购订单列表-->
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">订单列表</h3>
+					<h3 class="panel-title">采购订单列表</h3>
 				</div>
 				<div class="panel-body">
 					<table id="poTable"
@@ -336,7 +336,7 @@ th, td {
 						<thead>
 							<tr role="row">
 								<th class="hidden"></th>
-								<th>订单编号</th>
+								<th>采购订单编号</th>
 								<th>供应商</th>
 								<th>金额</th>
 								<th>帐期</th>

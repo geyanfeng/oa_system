@@ -177,8 +177,8 @@
         <ul class="nav navbar-nav">
             <li><a href="#panel-1">合同信息</a></li>
             <li><a href="#panel-2">开票信息</a></li>
-            <li><a href="#panel-3">采购列表</a></li>
-            <li><a href="#panel-9">订单列表</a></li>
+            <li><a href="#panel-3">销售清单</a></li>
+            <li><a href="#panel-9">采购订单列表</a></li>
             <li><a href="#panel-4">付款信息</a></li>
             <li><a href="#panel-5">收货信息</a></li>
             <li id="li-other"><a href="#panel-6">其它信息</a></li>
@@ -297,10 +297,10 @@
         </div>
     </div>
 
-    <!--采购列表-->
+    <!--销售清单-->
     <a class="anchor" name="panel-3"></a>
     <div class="panel panel-default" id="card_products">
-        <div class="panel-heading"><h3 class="panel-title">采购列表
+        <div class="panel-heading"><h3 class="panel-title">销售清单
             <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true' || (not empty is_recall && is_recall eq true)}">
                 <span id="productMsg" style="display:none" class="label label-danger"></span>
             <div class="pull-right">
@@ -315,9 +315,9 @@
                 <thead>
                 <tr role="row">
                     <th class="hidden"></th>
-                    <th>采购条目</th>
+                    <th>名称</th>
                     <th>采购价格</th>
-                    <th>采购数量</th>
+                    <th>数量</th>
                     <th>单位</th>
                     <th>金额</th>
                     <th>备注</th>
@@ -754,7 +754,7 @@
                     loadProducts(data);
                 }
 
-                //从服务器重新加载采购列表数据
+                //从服务器重新加载销售清单数据
                 function loadProductsFromServer(){
                     $.getJSON("${ctx}/oa/contract/get?id=${contract.id}", function(result){
                         contractProductList=result.data.contractProductList;
@@ -763,7 +763,7 @@
                     });
                 }
 
-                //当在拆分po阶段 ajax方式保存编辑的采购列表
+                //当在拆分po阶段 ajax方式保存编辑的销售清单
                 function getSaveProducts(){
                     //得到每一行编辑的产品信息
                     function getProduct(tr, tdPref){
@@ -875,16 +875,16 @@
         </div>
     </div>
 
-    <!--订单列表-->
+    <!--采购订单列表-->
     <a class="anchor" name="panel-9"></a>
     <div class="panel panel-default">
-        <div class="panel-heading"><h3 class="panel-title">订单列表</h3></div>
+        <div class="panel-heading"><h3 class="panel-title">采购订单列表</h3></div>
         <div class="panel-body">
             <table id="poTable" class="table table-striped table-condensed table-hover">
                 <thead>
                 <tr role="row">
                 	<th class="hidden"></th>
-                    <th>订单编号</th>
+                    <th>采购订单编号</th>
                     <th>供应商</th>
                     <th>金额</th>
                     <th>帐期</th>

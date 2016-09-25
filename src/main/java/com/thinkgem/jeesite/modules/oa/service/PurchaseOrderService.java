@@ -233,7 +233,7 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 		return purchaseOrderDao.getCountByNoPref(noPref);
 	}
 
-	//设置订单号"订单编号为[合同编号]-PO[两位数编号]"
+	//设置订单号"采购订单编号为[合同编号]-PO[两位数编号]"
 	public void setNo(PurchaseOrder purchaseOrder){
 		if(StringUtils.isBlank(purchaseOrder.getId())) {
 			//得到合同编号
