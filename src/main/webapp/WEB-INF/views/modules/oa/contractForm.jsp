@@ -214,17 +214,17 @@ th,td{text-align:left;}
 						<li><a href="#panel-1" class="on">合同信息</a></li>
 						<li><a href="#panel-2">开票信息</a></li>
 						<li><a href="#panel-3">销售清单</a></li>
-						<li><a href="#panel-9">采购订单列表</a></li>
 						<li><a href="#panel-4">付款信息</a></li>
 						<li><a href="#panel-5">收货信息</a></li>
 						<li><a href="#panel-6">其它信息</a></li>
 						<li><a href="#panel-7">附件</a></li>
-						<li><a href="#panel-8">操作信息</a></li>
+						<li><a href="#panel-8">备注</a></li>
 					</ul>
 				</div>
 			</div>
 			<div style="margin-top:39px;">
 			<!--合同信息-->
+			<a class="anchor" name="panel-1"></a>
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h3 class="panel-title">
@@ -393,6 +393,7 @@ th,td{text-align:left;}
 			</div>
 
 			<!--开票信息-->
+			<a class="anchor" name="panel-2"></a>
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h3 class="panel-title">
@@ -486,6 +487,7 @@ th,td{text-align:left;}
     </script>
 
 			<!--销售清单-->
+			<a class="anchor" name="panel-3"></a>
 			<div class="panel panel-default" id="card_products">
 				<div class="panel-heading">
 					<h3 class="panel-title">
@@ -635,6 +637,7 @@ th,td{text-align:left;}
 			</div>
 
 			<!--付款信息-->
+			<a class="anchor" name="panel-4"></a>
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h3 class="panel-title">付款信息</h3>
@@ -950,6 +953,7 @@ th,td{text-align:left;}
 			</div>
 
 			<!--物流信息-->
+			<a class="anchor" name="panel-5"></a>
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h3 class="panel-title">收货信息</h3>
@@ -999,6 +1003,7 @@ th,td{text-align:left;}
 			</div>
 
 			<!--其它-->
+			<a class="anchor" name="panel-6"></a>
 			<div class="panel panel-default" id="card_other">
 				<div class="panel-heading">
 					<h3 class="panel-title">其它</h3>
@@ -1037,6 +1042,7 @@ th,td{text-align:left;}
 			</div>
 
 			<!--附件-->
+			<a class="anchor" name="panel-7"></a>
 			<div class="panel panel-default" id="card_attachemnts">
 				<div class="panel-heading">
 					<h3 class="panel-title">附件</h3>
@@ -1083,6 +1089,7 @@ th,td{text-align:left;}
 			</div>
 
 			<!--备注-->
+			<a class="anchor" name="panel-8"></a>
 			<div class="panel panel-default" id="card_other">
 				<div class="panel-heading">
 				<h3 class="panel-title">备注</h3></div>
@@ -1115,14 +1122,14 @@ th,td{text-align:left;}
 				
 					<shiro:hasPermission name="oa:contract:edit">
 						<input id="btnSubmit" class="btn btn-info" type="submit"
-							value="保 存" />&nbsp;
+							value="保 存" />
 					</shiro:hasPermission>
 
 					<shiro:hasPermission name="oa:contract:audit">
 						<c:if
 							test="${contract.contractType ne '1' and empty contract.act.procInsId}">
 							<input id="btnStartAudit" class="btn btn-custom" type="submit"
-								value="提交审批" onclick="$('#flag').val('submit_audit');" />&nbsp;
+								value="提交审批" onclick="$('#flag').val('submit_audit');" />
 						</c:if>
 					</shiro:hasPermission>
 
@@ -1130,5 +1137,14 @@ th,td{text-align:left;}
 				</div>
 			</div>
 	</form:form>
+	<script>
+	$(function(){
+    	$('#mainFrame',window.parent.document).parent().parent().css({paddingTop:'3px'});
+    	$(window.parent.document).scroll(function(){
+        	var _height = $(window.parent.document).scrollTop();
+       		$('#navbar').css({position:'absolute',top:_height + 'px'});
+        });
+    });    
+	</script>
 </body>
 </html>
