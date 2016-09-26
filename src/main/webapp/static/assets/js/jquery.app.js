@@ -171,6 +171,7 @@ function($) {
       // right side-bar toggle
       $('.right-bar-toggle').on('click', function(e){
           var alertTpl = $("#alertTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
+          $("#ul-alert").closest(".right-bar").find("H4").html("提醒");
           $.getJSON(ctx + "/oa/alert", function(alertList){
               $("#ul-alert").empty();
               $("#ul-alert").append(Mustache.render(alertTpl, {alertList:alertList}));
@@ -183,6 +184,7 @@ function($) {
         });
         $('.right-bar-todo').on('click', function(e){
             var alertTpl = $("#todoTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
+            $("#ul-alert").closest(".right-bar").find("H4").html("待办事项");
             $.getJSON(ctx + "/act/task/todoJson", function(list){
                 var todoList=[];
                 $.each(list, function(index, item){

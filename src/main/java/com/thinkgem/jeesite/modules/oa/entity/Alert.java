@@ -8,6 +8,8 @@ import javax.validation.constraints.NotNull;
 
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 
+import java.util.Date;
+
 /**
  * 消息提醒Entity
  * @author anthony
@@ -16,13 +18,18 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 public class Alert extends DataEntity<Alert> {
 	
 	private static final long serialVersionUID = 1L;
-	private Integer alertType;		//提醒类型: 0为合同提醒, 1为订单提醒
+	private String alertType;		//提醒类型: 0为合同提醒, 1为订单提醒
 	private String targetId;		//目标id: 合同id或订单id
 	private String node;			//节点
 	private String ownerId;		// 接收人_id
 	private String title;		// 标题
 	private String content;		// 内容
+	private String emailTitle;		// 标题
+	private String emailContent;		// 内容
+	private String inSys;
 	private Integer isRead = 0;		// 是否看过
+	private Date beginCreateDate;		// 开始 日期
+	private Date endCreateDate;		// 结束 日期
 	
 	public Alert() {
 		super();
@@ -61,7 +68,26 @@ public class Alert extends DataEntity<Alert> {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	
+
+	public String getEmailTitle() {
+		return emailTitle;
+	}
+
+	public void setEmailTitle(String emailTitle) {
+		this.emailTitle = emailTitle;
+	}
+
+	public String getEmailContent() {
+		return emailContent;
+	}
+
+	public void setEmailContent(String emailContent) {
+		this.emailContent = emailContent;
+	}
+
+	public String getInSys(){return inSys;}
+	public void setInSys(String inSys){this.inSys = inSys;}
+
 	@NotNull(message="是否看过不能为空")
 	public Integer getIsRead() {
 		return isRead;
@@ -71,10 +97,26 @@ public class Alert extends DataEntity<Alert> {
 		this.isRead = isRead;
 	}
 
-	public Integer getAlertType(){return alertType;}
-	public void setAlertType(Integer alertType){this.alertType = alertType;}
+	public String getAlertType(){return alertType;}
+	public void setAlertType(String alertType){this.alertType = alertType;}
 
 	public String getTargetId(){return targetId;}
 	public void setTargetId(String targetId){this.targetId = targetId;}
+
+	public Date getBeginCreateDate() {
+		return beginCreateDate;
+	}
+
+	public void setBeginCreateDate(Date beginCreateDate) {
+		this.beginCreateDate = beginCreateDate;
+	}
+
+	public Date getEndCreateDate() {
+		return endCreateDate;
+	}
+
+	public void setEndCreateDate(Date endCreateDate) {
+		this.endCreateDate = endCreateDate;
+	}
 	
 }

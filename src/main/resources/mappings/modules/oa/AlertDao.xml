@@ -10,6 +10,9 @@
 		a.owner_id AS "ownerId",
 		a.title AS "title",
 		a.content AS "content",
+		a.emailTitle AS "emailTitle",
+		a.emailContent AS "emailContent",
+		a.in_sys AS "inSys",
 		a.is_read AS "isRead",
 		a.del_flag AS "delFlag",
 		a.create_by AS "createBy.id",
@@ -38,6 +41,21 @@
 			a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="ownerId != null and ownerId != ''">
 				AND a.owner_id = #{ownerId}
+			</if>
+			<if test="inSys != null and inSys != ''">
+				AND a.in_sys = #{inSys}
+			</if>
+			<if test="alertType != null and alertType != ''">
+				AND a.alert_type = #{alertType}
+			</if>
+			<if test="targetId != null and targetId != ''">
+				AND a.target_id = #{targetId}
+			</if>
+			<if test="node != null and node != ''">
+				AND a.node = #{node}
+			</if>
+			<if test="beginCreateDate != null and endCreateDate != null and beginCreateDate != '' and endCreateDate != ''">
+				AND a.create_date BETWEEN #{beginCreateDate} AND #{endCreateDate}
 			</if>
 			<if test="isRead != null and isRead != ''">
 				AND a.isRead = #{isRead}
@@ -86,6 +104,9 @@
 			owner_id,
 			title,
 			content,
+			emailTitle,
+			emailContent,
+			in_sys,
 			is_read,
 			del_flag,
 			create_by,
@@ -100,6 +121,9 @@
 			#{ownerId},
 			#{title},
 			#{content},
+			#{emailTitle},
+			#{emailContent},
+			#{inSys},
 			#{isRead},
 			#{delFlag},
 			#{createBy.id},

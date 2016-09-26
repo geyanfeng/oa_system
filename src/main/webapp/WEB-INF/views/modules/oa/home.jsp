@@ -533,7 +533,7 @@
 								<c:set var="procDef" value="${contract_audit.procDef}" />
 								<c:set var="status" value="${contract_audit.status}" />
 								<tr>
-									<th scope="row">${not empty vars.map.contract_no ? vars.map.contract_no: p.index + 1}</th>
+									<td scope="row">${not empty vars.map.contract_no ? vars.map.contract_no: p.index + 1}</td>
 									<td><a
 										href="${ctx}/act/task/form?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}">
 										${fns:abbr(not empty vars.map.title ? vars.map.title : task.id, 30)}</a>
@@ -573,7 +573,7 @@
 								<c:set var="procDef" value="${po_audit.procDef}" />
 								<c:set var="status" value="${po_audit.status}" />
 								<tr>
-									<th scope="row">${not empty vars.map.title ? vars.map.title: p.index + 1}</th>
+									<td scope="row">${not empty vars.map.title ? vars.map.title: p.index + 1}</td>
 									<td><a
 										href="${ctx}/act/task/form?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}">
 										${fns:abbr(not empty vars.map.contract_name ? vars.map.contract_name : task.id, 30)}
@@ -618,7 +618,7 @@
 							<c:set var="procDef" value="${po_tk_audit.procDef}" />
 							<c:set var="status" value="${po_tk_audit.status}" />
 							<tr>
-								<th scope="row">${not empty vars.map.po_no ? vars.map.po_no: p.index + 1}</th>
+								<td scope="row">${not empty vars.map.po_no ? vars.map.po_no: p.index + 1}</td>
 								<td><a
 										href="${ctx}/act/task/form?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}">
 										${fns:abbr(not empty vars.map.contract_name ? vars.map.contract_name : task.id, 30)}
