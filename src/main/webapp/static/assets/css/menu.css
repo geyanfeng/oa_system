@@ -83,8 +83,9 @@ File: Menu
 #navbar .nav > li > a {
   color: #000 !important;
   line-height: 28px;
-  padding: 5px 18px;
+  padding: 10px 18px;
   position: relative;
+  font-size: 16px;
 }
 
 #navbar .nav > li > a:hover{

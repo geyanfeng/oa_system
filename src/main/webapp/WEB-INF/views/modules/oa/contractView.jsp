@@ -23,12 +23,12 @@
         html,body{
             background: #FFF;
         }
-        a.anchor {
+        /*a.anchor {
             display: block;
             position: relative;
             top: -150px;
             visibility: hidden;
-        }
+        }*/
         .table tr th:nth-child(2),.table tr td:nth-child(2){
         	padding-left:20px;
         }

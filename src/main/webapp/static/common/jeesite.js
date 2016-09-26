@@ -17,13 +17,15 @@ $(document).ready(function() {
 		// blank
 	}
 	
+	
 	$('#navbar a').click(function(){
 		$('#navbar').find('.on').removeClass('on');
 		$(this).addClass('on');
 		var a = $(this).attr('href').replace('#','');
 		if($("a[name='"+a+"']")){
-			$(window.parent.document).scrollTop($("a[name='"+a+"']").offset().top + 100);
+			$(window.parent.document).scrollTop($("a[name='"+a+"']").offset().top - 50);
 		}
+		return false;
 	});
 
 });
