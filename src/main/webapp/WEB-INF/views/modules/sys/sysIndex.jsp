@@ -14,7 +14,7 @@
 			 <!-- LOGO -->
                 <div class="topbar-left">
                     <div class="text-center"  style="padding-top:10px;height:40px;">
-                        <a href="${ctx}" class="logo">
+                        <a href="${ctx}" class="logo" target="mainFrame">
                            <span><img src="${ctxStatic}/images/logo.png" alt="logo" style="height: 26px;vertical-align:0px;"></span>
                             <i class="zmdi zmdi-toys icon-c-logo"></i><span>Born to be pround</span>
                           

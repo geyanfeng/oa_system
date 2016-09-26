@@ -211,7 +211,7 @@ th,td{text-align:left;}
 				role="navigation" id="navbar">
 				<div class="collapse navbar-collapse bs-js-navbar-scrollspy">
 					<ul class="nav navbar-nav">
-						<li><a href="#panel-1">合同信息</a></li>
+						<li><a href="#panel-1" class="on">合同信息</a></li>
 						<li><a href="#panel-2">开票信息</a></li>
 						<li><a href="#panel-3">销售清单</a></li>
 						<li><a href="#panel-9">采购订单列表</a></li>
