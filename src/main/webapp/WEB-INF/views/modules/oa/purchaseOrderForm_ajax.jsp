@@ -9,6 +9,8 @@ html, body {
 	background: white;
 }
 
+body{padding-bottom:10px;}
+
 #table_po_products>tbody>tr>td {
 	border: 1px solid transparent !important;
 }

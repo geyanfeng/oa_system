@@ -111,7 +111,7 @@
                 </div>
             </div>
             <div class="panel-body" style="padding:0;">
-                <iframe id="poFrame" name="poFrame" scrolling="auto" frameborder="no" src="${ctx}/oa/purchaseOrder/form?contract.id=${contract.id}&fromModal=1" width="100%" height="600px"></iframe>
+                <iframe id="poFrame" name="poFrame" scrolling="auto" frameborder="no" src="${ctx}/oa/purchaseOrder/form?contract.id=${contract.id}&fromModal=1" width="100%" height="400"></iframe>
             </div>
         </div>
     </div>

@@ -158,16 +158,16 @@
           .addClass(o.wrapperClass)
           .css({
             position: 'relative',
-            //overflow: 'hidden',
+            overflow: 'hidden',
             width: o.width,
-            //height: o.height
+            height: o.height
           });
 
         // update style for the div
         me.css({
-          //overflow: 'hidden',
+          overflow: 'hidden',
           width: o.width,
-          //height: o.height
+          height: o.height
         });
 
         // create scrollbar rail
