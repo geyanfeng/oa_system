@@ -99,7 +99,7 @@
         }
     </script>
 </head>
-<body data-spy="scroll" data-target="#navbar">
+<body>
 
 <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true'}">
     <script src="${ctxStatic}/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
@@ -118,6 +118,7 @@
     <script>
         $( function() {
             //$( "#panel_po" ).draggable();
+            $('#mainFrame',window.parent.document).parent().parent().css({paddingTop:'3px'});
             if(parent.mainFrame){
                 if(parent.window)
                     $(parent.window).scroll(  function(){
@@ -172,7 +173,7 @@
 <form:hidden path="act.procDefId"/>
 <form:hidden id="flag" path="act.flag"/>
 <sys:message content="${message}"/>
-<div class="navbar navbar-default navbar-fixed-top  navbar-static" role="navigation" id="navbar">
+<div id="navbar">
     <div class="collapse navbar-collapse bs-js-navbar-scrollspy">
         <ul class="nav navbar-nav">
             <li><a href="#panel-1" class="on">合同信息</a></li>
@@ -1669,6 +1670,10 @@
             $('#modal-PoTKTH').find(".total").html(totalAmount);
             $('#modal-PoTKTH').find("#total_sf").val(totalAmount);
         }
+        $(window.parent.document).scroll(function(){
+        	var _height = $(window.parent.document).scrollTop();
+       		$('#navbar').css({position:'absolute',top:_height + 'px'});
+        });
     </script>
 </body>
 </html>
