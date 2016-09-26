@@ -118,7 +118,6 @@
     <script>
         $( function() {
             //$( "#panel_po" ).draggable();
-            $('#mainFrame',window.parent.document).parent().parent().css({paddingTop:'3px'});
             if(parent.mainFrame){
                 if(parent.window)
                     $(parent.window).scroll(  function(){
@@ -1670,10 +1669,13 @@
             $('#modal-PoTKTH').find(".total").html(totalAmount);
             $('#modal-PoTKTH').find("#total_sf").val(totalAmount);
         }
-        $(window.parent.document).scroll(function(){
-        	var _height = $(window.parent.document).scrollTop();
-       		$('#navbar').css({position:'absolute',top:_height + 'px'});
-        });
+        $(function(){
+        	$('#mainFrame',window.parent.document).parent().parent().css({paddingTop:'3px'});
+        	$(window.parent.document).scroll(function(){
+            	var _height = $(window.parent.document).scrollTop();
+           		$('#navbar').css({position:'absolute',top:_height + 'px'});
+            });
+        });    
     </script>
 </body>
 </html>

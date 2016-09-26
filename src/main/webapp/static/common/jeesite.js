@@ -22,7 +22,7 @@ $(document).ready(function() {
 		$(this).addClass('on');
 		var a = $(this).attr('href').replace('#','');
 		if($("a[name='"+a+"']")){
-			$(window.parent.document).scrollTop($("a[name='"+a+"']").offset().top);
+			$(window.parent.document).scrollTop($("a[name='"+a+"']").offset().top + 100);
 		}
 	});
 
