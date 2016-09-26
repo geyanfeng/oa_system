@@ -194,7 +194,7 @@ th,td{text-align:left;}
 	</div>
 
 	<form:form id="inputForm" modelAttribute="contract"
-		action="${ctx}/oa/contract/save" method="post" role="form" class="form-horizontal">
+		action="${ctx}/oa/contract/save" method="post" role="form" class="form-horizontal" style="margin:0;">
 		<form:hidden path="id" />
 		<form:hidden path="act.taskId" />
 		<form:hidden path="act.taskName" />
@@ -205,7 +205,7 @@ th,td{text-align:left;}
 		<%--<input name="status" value="${empty contract.status?10:contract.status}" type="hidden"/>--%>
 		<sys:message content="${message}" />
 
-		<div class="col-sm-12">
+		
 			<!-- Page-Title -->
 			<div class="navbar navbar-default navbar-fixed-top  navbar-static"
 				role="navigation" id="navbar">
@@ -223,7 +223,7 @@ th,td{text-align:left;}
 					</ul>
 				</div>
 			</div>
-
+			<div style="margin-top:39px;">
 			<!--合同信息-->
 			<div class="panel panel-default">
 				<div class="panel-heading">

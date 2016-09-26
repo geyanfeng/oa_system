@@ -16,6 +16,12 @@ $(document).ready(function() {
 	}catch(e){
 		// blank
 	}
+	
+	$('#navbar a').click(function(){
+		$('#navbar').find('.on').removeClass('on');
+		$(this).addClass('on');
+	});
+
 });
 
 // 引入js和css文件
