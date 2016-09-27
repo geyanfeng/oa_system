@@ -31,9 +31,9 @@ th,td{text-align:left;}
 <script type="text/javascript">
         $(document).ready(function () {
             //增加定义付款金额验证规则
-            /*$.validator.addMethod("validationPaymentAmount", function(value) {
+            $.validator.addMethod("validationPaymentAmount", function(value) {
                 return validationPaymentAmount();
-            }, "付款金额应该大于等于采购总金额:"+ $("#amount").val());*/
+            }, "付款金额应该大于等于采购总金额:"+ $("#amount").val());
 
             $("#inputForm").validate({
                 rules: {
