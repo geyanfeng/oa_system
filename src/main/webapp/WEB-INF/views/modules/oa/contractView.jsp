@@ -380,7 +380,7 @@
                                         </c:forEach>
                                     </select>
 							        <a href="javascript:" class="fa fa-plus" onclick="addNewChildRow(this,'{{row.productType.id}}')"></a>
-							        <span style="{{serviceSpanStyle}}" id="contractProductList{{idx}}_serviceFlag_span"><input type="checkbox" value=1 {{serviceChecked}} onclick="selectServiceFlag(this);"/>是否为服务</span>
+							        <span style="{{serviceSpanStyle}}" id="contractProductList{{idx}}_serviceFlag_span"><input type="checkbox" value=1 {{serviceChecked}} onclick="selectServiceFlag(this);"/>续约合同</span>
                                 </c:if>
 							</td>
 							<td>
@@ -643,7 +643,7 @@
                     </c:if>
                     $(list).append(Mustache.render(tpl, {
                         idx: idx, delBtn: true, row: row, unitList:unitList, isServiceText: function(){
-                            return row.serviceFlag == 1? "服务":"";
+                            return row.serviceFlag == 1? "续约合同":"";
                         }, serviceChecked: function(){
                             return row.serviceFlag == 1? "checked":"";
                         },serviceSpanStyle: function(){
