@@ -22,12 +22,6 @@
         html,body{
             background: #FFF;
         }
-        a.anchor {
-            display: block;
-            position: relative;
-            top: -150px;
-            visibility: hidden;
-        }
         .table tr th:nth-child(2),.table tr td:nth-child(2){
         	padding-left:20px;
         }
@@ -63,10 +57,10 @@
 <form:hidden path="act.procDefId"/>
 <form:hidden id="flag" path="act.flag"/>
 <sys:message content="${message}"/>
-<div class="navbar navbar-default navbar-fixed-top  navbar-static" role="navigation" id="navbar">
+<div role="navigation" id="navbar">
     <div class="collapse navbar-collapse bs-js-navbar-scrollspy">
         <ul class="nav navbar-nav">
-            <li><a href="#panel-1">合同信息</a></li>
+            <li><a href="#panel-1" class="on">合同信息</a></li>
             <li><a href="#panel-2">供应商信息</a></li>
             <li><a href="#panel-3">采购清单</a></li>
             <li><a href="#panel-4">付款信息</a></li>
@@ -412,5 +406,14 @@
         </div>
     </div>
     </form:form>
+    <script>
+    $(function(){
+    	$('#mainFrame',window.parent.document).parent().parent().css({paddingTop:'3px'});
+    	$(window.parent.document).scroll(function(){
+        	var _height = $(window.parent.document).scrollTop();
+       		$('#navbar').css({position:'absolute',top:_height + 'px'});
+        });
+    });  
+    </script>
 </body>
 </html>
