@@ -65,7 +65,7 @@ public class HomeController extends BaseController {
 			roleType = 4;
 		}
 		model.addAttribute("roleType", roleType);
-		if (roleType == 1 || roleType == 2 || roleType == 3) {
+		if (roleType == 1 || roleType == 3) {
 			List<Map> financeList = reportDao.reportHomeFinance();
 			model.addAttribute("financeList", financeList);
 		}

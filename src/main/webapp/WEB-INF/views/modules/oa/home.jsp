@@ -7,10 +7,97 @@
 <style>
 </style>
 <script src="${ctxStatic}/assets/plugins/echarts.min.js"></script>
+<shiro:hasAnyRoles name="cw,cfo">
+<link href='${ctxStatic}/assets/fullcalendar/fullcalendar.css' rel='stylesheet' />
+<link href='${ctxStatic}/assets/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
+<script src='${ctxStatic}/assets/fullcalendar/moment.min.js'></script>
+<script src='${ctxStatic}/assets/fullcalendar/fullcalendar.min.js'></script>
+<script src='${ctxStatic}/assets/fullcalendar/zh-cn.js'></script>
+<script>
+
+	$(document).ready(function() {
+		
+		$('#calendar').fullCalendar({
+			header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month,agendaWeek,agendaDay,listWeek'
+			},
+			locale:'zh-cn',
+			defaultDate: '2016-09-12',
+			navLinks: true, // can click day/week names to navigate views
+			editable: true,
+			eventLimit: true, // allow "more" link when too many events
+			events: [
+				{
+					title: 'All Day Event',
+					start: '2016-09-01'
+				},
+				{
+					title: 'Long Event',
+					start: '2016-09-07',
+					end: '2016-09-10'
+				},
+				{
+					id: 999,
+					title: 'Repeating Event',
+					start: '2016-09-09T16:00:00'
+				},
+				{
+					id: 999,
+					title: 'Repeating Event',
+					start: '2016-09-16T16:00:00'
+				},
+				{
+					title: 'Conference',
+					start: '2016-09-11',
+					end: '2016-09-13'
+				},
+				{
+					title: 'Meeting',
+					start: '2016-09-12T10:30:00',
+					end: '2016-09-12T12:30:00'
+				},
+				{
+					title: 'Lunch',
+					start: '2016-09-12T12:00:00'
+				},
+				{
+					title: 'Meeting',
+					start: '2016-09-12T14:30:00'
+				},
+				{
+					title: 'Happy Hour',
+					start: '2016-09-12T17:30:00'
+				},
+				{
+					title: 'Dinner',
+					start: '2016-09-12T20:00:00'
+				},
+				{
+					title: 'Birthday Party',
+					start: '2016-09-13T07:00:00'
+				},
+				{
+					title: 'Click for Google',
+					url: 'http://google.com/',
+					start: '2016-09-28'
+				}
+			]
+		});
+		
+	});
+
+</script>
+</shiro:hasAnyRoles>
 </head>
 <body>
 	<div class="container">
-		<c:if test="${roleType eq '1' or roleType eq '2' or roleType eq '3' or roleType eq '4'}">
+	    <shiro:hasAnyRoles name="cw,cfo">
+      		<div class="row" id="calendar">
+      		</div>
+		</shiro:hasAnyRoles>
+		<c:if test="${roleType eq '1' or roleType eq '3' or roleType eq '4'}">
 			<div class="row">
 				<div class="col-sm-12">
 					<div class="card-box">
@@ -217,7 +304,7 @@
 				total.setOption(option);
 			</script>
 		</c:if>
-		<c:if test="${roleType eq '1' or roleType eq '2' or roleType eq '3'}">
+		<c:if test="${roleType eq '1'  or roleType eq '3'}">
 			<div class="row">
 				<div class="col-sm-4">
 					<div class="card-box" style="height: 200px;">
@@ -260,7 +347,7 @@
 			</div>
 		</c:if>
 
-		<c:if test="${roleType eq '1' or roleType eq '2' or roleType eq '3' or roleType eq '4'}">
+		<c:if test="${roleType eq '1'  or roleType eq '3' or roleType eq '4'}">
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="card-box">
