@@ -156,6 +156,7 @@
 
         //打开采购下单的panel
         function openPoPanel(){
+        	$('#poFrame').css({'height':$(top.window).height() * 0.8 + 'px'});
         	$("#panel_po").css({'right': '-' + $("#panel_po").width() + 'px'});
         	$("#panel_po").show();
         	$("#panel_po").animate({right:'0px'},'5000');
