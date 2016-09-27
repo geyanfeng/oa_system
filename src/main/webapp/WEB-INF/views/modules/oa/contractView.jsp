@@ -1245,7 +1245,7 @@
         <div class="panel panel-default">
             <div class="panel-heading"><h3 class="panel-title">其它</h3></div>
             <div class="panel-body">
-                <div class="row">
+                <div class="row" style="color:red;">
                     <div class="col-sm-3">
                         销售奖金：${contract.customerCost}
                     </div>
