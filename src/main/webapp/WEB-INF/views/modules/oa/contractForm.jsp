@@ -666,7 +666,7 @@ th,td{text-align:left;}
 					</div>
 					<div class="form-group">
                         <label>付款金额：</label>
-                        <input type="text" class="form-control number required payment_amount" id="payment_onetime_amount" value="{{row.payment_onetime_amount}}"/>
+                        <input type="text" class="form-control number required payment_amount" id="payment_onetime_amount" value="{{row.payment_onetime_amount}}" style="width:100px;"/>
                     </div>
                     <div class="form-group">
                         <label>付款方式：</label>
@@ -680,7 +680,7 @@ th,td{text-align:left;}
                     </div>
                     <div class="form-group">
                         <label>账期：</label>
-                        <input id="payment_onetime_time" type="text" class="form-control number required" value="{{row.payment_onetime_time}}"/>
+                        <input id="payment_onetime_time" type="text" class="form-control number required" value="{{row.payment_onetime_time}}" style="width:100px;"/>
                     </div>
                      <div class="form-group">
                      	<label>付款条件：</label>
@@ -703,12 +703,12 @@ th,td{text-align:left;}
 					<div class="form-group">
                         <label>付款金额：</label>
                         <input type="text" class="form-control required number payment_amount" id="payment_installment_amount_{{idx}}"
-                        value="{{row.payment_installment_amount}}"/>
+                        value="{{row.payment_installment_amount}}" style="width:100px;"/>
                     </div>
                     <div class="form-group">
                         <label>账期：</label>
                         <input id="payment_installment_time_{{idx}}" type="text" class="form-control number  required"
-                        value="{{row.payment_installment_time}}"/>
+                        value="{{row.payment_installment_time}}" style="width:100px;"/>
                     </div>
                     <div class="form-group">
                         <label>付款方式：</label>
