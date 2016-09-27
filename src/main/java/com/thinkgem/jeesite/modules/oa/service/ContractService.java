@@ -867,9 +867,9 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         List<PurchaseOrder> poList = purchaseOrderService.getPoListByContractId(contractId);
         //挂起与合同相关的所有订单
         for(PurchaseOrder po : poList){
-            if(isNotBlank(po.getProcInsId())){
-                ProcessInstance pi = actTaskService.getProcIns(po.getProcInsId());
-                if(!pi.isSuspended())
+            if(po.getAct()!=null && isNotBlank(po.getAct().getProcInsId())){
+                ProcessInstance pi = actTaskService.getProcIns(po.getAct().getProcInsId());
+                if(pi!=null && !pi.isSuspended())
                     runtimeService.suspendProcessInstanceById(po.getProcInsId());
             }
         }
