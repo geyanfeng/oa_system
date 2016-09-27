@@ -80,5 +80,11 @@
      	 #{pageNo,jdbcType=INTEGER,mode=IN},#{pageSize,jdbcType=INTEGER,mode=IN},#{sqlCondition,jdbcType=VARCHAR,mode=IN},#{orderBy,jdbcType=VARCHAR,mode=IN}
        )
       }
+    </select> 
+      <select id="financeCalendar" parameterType="java.util.LinkedHashMap"  resultType="java.util.LinkedHashMap" statementType="CALLABLE" >  
+      {call financeCalendar(
+     	 #{roleName,jdbcType=VARCHAR,mode=IN}
+       )
+      }
     </select>  	
 </mapper>

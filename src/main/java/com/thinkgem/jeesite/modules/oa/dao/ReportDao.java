@@ -19,4 +19,5 @@ public interface ReportDao {
 	public List<Map> reportPayAmount(Map map);	
 	public List<Map> reportBillingAmount(Map map);	
 	public List<Map> reportHomeFinance();	
+	public List<Map> financeCalendar(Map map);		
 }

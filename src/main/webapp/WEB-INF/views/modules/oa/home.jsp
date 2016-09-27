@@ -16,7 +16,8 @@
 <script>
 
 	$(document).ready(function() {
-		
+		var financeCalendarList = ${fns:toJson(financeCalendarList)};
+  
 		$('#calendar').fullCalendar({
 			header: {
 				left: 'prev,next today',
@@ -28,62 +29,7 @@
 			navLinks: true, // can click day/week names to navigate views
 			editable: true,
 			eventLimit: true, // allow "more" link when too many events
-			events: [
-				{
-					title: 'All Day Event',
-					start: '2016-09-01'
-				},
-				{
-					title: 'Long Event',
-					start: '2016-09-07',
-					end: '2016-09-10'
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: '2016-09-09T16:00:00'
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: '2016-09-16T16:00:00'
-				},
-				{
-					title: 'Conference',
-					start: '2016-09-11',
-					end: '2016-09-13'
-				},
-				{
-					title: 'Meeting',
-					start: '2016-09-12T10:30:00',
-					end: '2016-09-12T12:30:00'
-				},
-				{
-					title: 'Lunch',
-					start: '2016-09-12T12:00:00'
-				},
-				{
-					title: 'Meeting',
-					start: '2016-09-12T14:30:00'
-				},
-				{
-					title: 'Happy Hour',
-					start: '2016-09-12T17:30:00'
-				},
-				{
-					title: 'Dinner',
-					start: '2016-09-12T20:00:00'
-				},
-				{
-					title: 'Birthday Party',
-					start: '2016-09-13T07:00:00'
-				},
-				{
-					title: 'Click for Google',
-					url: 'http://google.com/',
-					start: '2016-09-28'
-				}
-			]
+			events: financeCalendarList
 		});
 		
 	});
@@ -97,7 +43,7 @@
       		<div class="row" id="calendar">
       		</div>
 		</shiro:hasAnyRoles>
-		<c:if test="${roleType eq '1' or roleType eq '3' or roleType eq '4'}">
+		<shiro:hasAnyRoles name="cso,saler">
 			<div class="row">
 				<div class="col-sm-12">
 					<div class="card-box">
@@ -303,8 +249,8 @@
 				};
 				total.setOption(option);
 			</script>
-		</c:if>
-		<c:if test="${roleType eq '1'  or roleType eq '3'}">
+		</shiro:hasAnyRoles>
+		<shiro:hasAnyRoles name="cso">
 			<div class="row">
 				<div class="col-sm-4">
 					<div class="card-box" style="height: 200px;">
@@ -345,9 +291,9 @@
 				</div>
 				<!-- end col -->
 			</div>
-		</c:if>
+		</shiro:hasAnyRoles>
 
-		<c:if test="${roleType eq '1'  or roleType eq '3' or roleType eq '4'}">
+		<shiro:hasAnyRoles name="cso,saler">
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="card-box">
@@ -479,8 +425,8 @@
 
 			<!-- end col-->
 		</div>
-		</c:if>
-        <c:if test="${roleType eq '4'}">
+		</shiro:hasAnyRoles>
+        <shiro:hasAnyRoles name="saler">
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="card-box">
@@ -592,7 +538,7 @@
 
 			<!-- end col-->
 		</div>
-		</c:if>
+		</shiro:hasAnyRoles>
 
 		<div class="row">
 			<div class="col-sm-6">
@@ -635,7 +581,7 @@
 					 </c:choose>
 				</div>
 			</div>
-			<c:if test="${roleType ne '3' and roleType ne '4'}">
+			 <shiro:lacksRole name="cso,saler">
 			<div class="col-sm-6">
 				<div class="card-box" id="card_po_audit">
 					<h4 class="header-title m-t-0 m-b-30">采购订单待办</h4>
@@ -677,7 +623,7 @@
 				
 				</div>
 			</div>
-			</c:if>
+		 </shiro:lacksRole>
 		</div>
 		<shiro:hasRole name="cw">
 		<div class="row">
