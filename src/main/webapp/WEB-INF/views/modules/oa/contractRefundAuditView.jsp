@@ -56,7 +56,7 @@
         <div class="row m-b-20">
             <div class="col-sm-3">
                 <c:choose>
-                    <c:when test="${act.taskDefKey eq 'cfo_audit'}">
+                    <c:when test="${contractRefund.act.taskDefKey eq 'cfo_audit'}">
                         <h4>财务总监确认预付款退款</h4>
                     </c:when>
                     <c:otherwise>
@@ -124,7 +124,7 @@
                         request.setAttribute("currentTime",datetime);
                     %>
                     <c:choose>
-                        <c:when test="${act.taskDefKey eq 'cfo_audit'}">
+                        <c:when test="${contractRefund.act.taskDefKey eq 'cfo_audit'}">
                             应退日期：<input name="planTkDate" type="text" readonly="readonly" style="width: 150px;display:inline;"
                             class="form-control Wdate input-sm required"
                             value="${currentTime}"
