@@ -672,12 +672,12 @@
 				</div>
 			</div>
 			</shiro:hasRole>
-			<shiro:lacksRole name="cw,cfo">
+			<shiro:hasAnyRoles name="cw,cfo">
 			<div class="col-sm-6">
 				<div class="card-box">
 					<h4 class="header-title m-t-0 m-b-30">合同退款待办</h4>
 					<c:choose>
-						<c:when test="${empty po_tk_audit_list}">
+						<c:when test="${empty contract_refund_audit_list}">
 							当前无待办事项
 						</c:when>
 						<c:otherwise>
@@ -713,7 +713,7 @@
 					</c:choose>
 				</div>
 			</div>
-			</shiro:lacksRole>
+			</shiro:hasAnyRoles>
 		</div>
 
 	</div>
