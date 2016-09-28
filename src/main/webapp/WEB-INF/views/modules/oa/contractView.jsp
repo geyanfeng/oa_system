@@ -1618,10 +1618,12 @@
             modal.find(".submit-poTKTH").data("poId", po_id);
             modal.find(".submit-poTKTH").click(function(){
                 if(modal.find('input').hasClass("error"))return;
-                var amount = parseFloat(modal.find(".total").html());
-                if(amount > fkSumAmount){
-                    showTipMsg("退款金额不能大于已付款金额, 已付款金额为:" + fkSumAmount,"error");
-                    return;
+                if(type == 1) {//退款确认
+                    var amount = parseFloat(modal.find("#total_sf").html());
+                    if (amount > fkSumAmount) {
+                        showTipMsg("退款金额不能大于已付款金额, 已付款金额为:" + fkSumAmount, "error");
+                        return;
+                    }
                 }
                 modal.find(".submit-poTKTH").attr('disabled',"true");
                 var type = $(this).data("type"), poid = $(this).data("poId");
