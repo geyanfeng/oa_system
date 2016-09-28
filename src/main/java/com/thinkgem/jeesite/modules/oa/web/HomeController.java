@@ -71,6 +71,12 @@ public class HomeController extends BaseController {
 		List<Act> po_tk_audit_list = actTaskService.todoList(act);
 		model.addAttribute("po_tk_audit_list", po_tk_audit_list);
 
+		// 合同退款待办
+		act = new Act();
+		act.setProcDefKey(ActUtils.PD_CONTRAT_REFUND_AUDIT[0]);
+		List<Act> contract_refund_audit_list = actTaskService.todoList(act);
+		model.addAttribute("contract_refund_audit_list", contract_refund_audit_list);
+
 		return "modules/oa/home";
 	}
 }

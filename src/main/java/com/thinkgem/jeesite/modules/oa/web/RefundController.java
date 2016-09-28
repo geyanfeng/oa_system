@@ -6,7 +6,6 @@ import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.oa.dao.PurchaseOrderFinanceDao;
 import com.thinkgem.jeesite.modules.oa.entity.PurchaseOrder;
 import com.thinkgem.jeesite.modules.oa.entity.PurchaseOrderFinance;
-import com.thinkgem.jeesite.modules.oa.entity.RefundDetail;
 import com.thinkgem.jeesite.modules.oa.entity.RefundMain;
 import com.thinkgem.jeesite.modules.oa.service.ContractService;
 import com.thinkgem.jeesite.modules.oa.service.PurchaseOrderService;
@@ -82,7 +81,7 @@ public class RefundController extends BaseController {
     public String audit(RefundMain refundMain, @RequestParam(value="sUrl", required=false) String sUrl, HttpServletRequest request, RedirectAttributes redirectAttributes){
         try {
             refundService.audit(refundMain);
-            addMessage(redirectAttributes, "退款成功审批");
+            addMessage(redirectAttributes, "操作成功，请等待下一环节操作");
         }
         catch(Exception e){
             addMessage(redirectAttributes, e.getMessage());
