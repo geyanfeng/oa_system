@@ -62,6 +62,7 @@ public class Act extends BaseEntity<Act> {
 	
 	private Date beginDate;	// 开始查询日期
 	private Date endDate;	// 结束查询日期
+	private String hiddenButton;
 
 	private List<Act> list; // 任务列表
 
@@ -377,6 +378,14 @@ public class Act extends BaseEntity<Act> {
 	@Override
 	public void preUpdate() {
 		
+	}
+
+	public String getHiddenButton() {
+		return hiddenButton;
+	}
+
+	public void setHiddenButton(String hiddenButton) {
+		this.hiddenButton = hiddenButton;
 	}
 
 }

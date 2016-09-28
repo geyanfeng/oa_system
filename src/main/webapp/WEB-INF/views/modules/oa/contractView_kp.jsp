@@ -136,8 +136,9 @@
 
     <div class="form-group">
         <div class="text-center">
+        <c:if test="${contract.act.hiddenButton ne '1'}">
             <input id="btnSubmit" class="btn btn-custom" type="submit" value="确认开票"/>&nbsp;
-
+		</c:if>
             <input id="btnCancel" class="btn btn-inverse" type="button" value="返 回" onclick="history.go(-1)"/>
         </div>
     </div>

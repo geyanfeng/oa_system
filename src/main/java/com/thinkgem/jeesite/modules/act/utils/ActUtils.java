@@ -141,7 +141,9 @@ public class ActUtils {
 		formUrl.append("&act.procInsId=").append(act.getProcInsId() != null ? act.getProcInsId() : "");
 		formUrl.append("&act.procDefId=").append(act.getProcDefId() != null ? act.getProcDefId() : "");
 		formUrl.append("&act.status=").append(act.getStatus() != null ? act.getStatus() : "");
+		formUrl.append("&act.hiddenButton=").append(act.getHiddenButton() != null ? act.getHiddenButton() : "");
 		formUrl.append("&id=").append(act.getBusinessId() != null ? act.getBusinessId() : "");
+		
 		
 		return formUrl.toString();
 	}

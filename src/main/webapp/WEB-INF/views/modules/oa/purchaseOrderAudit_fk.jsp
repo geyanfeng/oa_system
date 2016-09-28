@@ -159,6 +159,7 @@
 
     <div class="form-group">
         <div class="col-sm-offset-4 col-sm-8">
+        <c:if test="${purchaseOrder.act.hiddenButton ne '1'}">
             <c:if test="${not empty purchaseOrder.act.taskDefKey || empty purchaseOrder.act.procInsId}">
                 <c:set var="submitText" value="提交审批"/>
 
@@ -176,7 +177,7 @@
 
                 <input id="btnSubmit" class="btn btn-custom" type="submit" value="${submitText}" onclick="$('#flag').val('submit_audit')"/>&nbsp;
             </c:if>
-
+		</c:if>
             <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
         </div>
     </div>
