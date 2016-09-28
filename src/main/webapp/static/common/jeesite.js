@@ -13,6 +13,8 @@ $(document).ready(function() {
 		});
 		//所有下拉框使用select2
 		$("select").select2();
+
+        closeLoading();//关闭提示框
 	}catch(e){
 		// blank
 	}
