@@ -42,6 +42,7 @@ public class ActUtils {
 	public static final String[] PD_CONTRAT_AUDIT = new String[]{"contract_audit","oa_contract"};
 	public static final String[] PD_PO_AUDIT = new String[]{"purchaseOrder_audit","oa_po"};
 	public static final String[] PD_TK_AUDIT = new String[]{"oa_TK","oa_refund_main"};
+	public static final String[] PD_CONTRAT_REFUND_AUDIT = new String[]{"contract_refund_audit","oa_contract_refund"};
 	
 //	/**
 //	 * 流程定义Map（自动初始化）

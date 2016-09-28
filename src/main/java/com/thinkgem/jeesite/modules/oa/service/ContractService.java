@@ -66,6 +66,8 @@ public class ContractService extends CrudService<ContractDao, Contract> {
     private AlertService alertService;
     @Autowired
     private RefundMainDao refundMainDao;
+    @Autowired
+    private ContractRefundService contractRefundService;
 
     public Contract getByProcInsId(String procInsId) {
         return contractDao.getByProcInsId(procInsId);
@@ -523,6 +525,8 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                     contract.setCancelReason("合同撤销!");
                     vars.put("isRecall", 1);
                     restorePoWorkFlow(contract.getId());//恢复订单流程
+                    //退合同预付款
+                    contractRefundService.saveRefund(contract, currentTaskVars.containsKey("recall_id")? currentTaskVars.get("recall_id").toString():"");
                 } else {
                     if (!isFinishSplitPO(contract))
                         throw new Exception("提交失败: 还没有完成拆分po, 不能提交!");
@@ -590,6 +594,8 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                             Map<String, Object> currentTaskVars = taskService.getVariables(contract.getAct().getTaskId());//得到当前流程变量
                             if(currentTaskVars.containsKey("recall_type") && currentTaskVars.get("recall_type").toString().equals("2")){
                                 restorePoWorkFlow(contract.getId());//恢复订单流程
+                                //退合同预付款
+                                contractRefundService.saveRefund(contract, currentTaskVars.containsKey("recall_id")? currentTaskVars.get("recall_id").toString():"");
                             }else{
                                 autoStartPOFlow(contract);//自动启动合同相关的所有订单流程
                             }

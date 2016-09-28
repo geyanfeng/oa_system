@@ -77,6 +77,8 @@ public class Contract extends ActEntity<Contract> {
 	private String cancelType;			//撤销类型:oa_contract_cancel_type
 	private String[] searchTypeArray =new String[]{};		//查找合同的类型数组
 	private String searchName;			//搜索的合同名称
+	private String backPayMethod;			//退预付款方式
+	private Double backAmount;			//退预付款
 	
 	public Contract() {
 		super();
@@ -484,4 +486,10 @@ public class Contract extends ActEntity<Contract> {
 	public void setExtraAmount(Double extraAmount) {
 		this.extraAmount = extraAmount;
 	}
+
+	public String getBackPayMethod(){return backPayMethod;}
+	public void setBackPayMethod(String backPayMethod){this.backPayMethod = backPayMethod;}
+
+	public Double getBackAmount(){return backAmount;}
+	public void setBackAmount(Double backAmount){this.backAmount = backAmount;}
 }

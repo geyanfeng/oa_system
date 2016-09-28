@@ -1165,6 +1165,53 @@
 	<style>
 	.c_radio label{line-height:16px;}
 	</style>
+
+    <!--退预付款-->
+    <c:if test="${not empty is_recall && is_recall eq true}">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h3 class="panel-title">退预付款</h3></div>
+            <div class="panel_body">
+                <div class="row form-inline" style="margin-top: 10px;margin-bottom: 10px;">
+                    <div class="col-sm-2">
+                        <div class="checkbox checkbox-custom checkbox-circle" style="padding-top:0;">
+                            <input type="checkbox" value="true" id="isBackAmount">
+                            <label for="isBackAmount" style="line-height:16px;">退预付款</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4" id="backPayMethod-group">
+                        <label class="control-label">退款方式：</label>
+                        <form:radiobuttons path="backPayMethod"
+                                           items="${fns:getDictList('oa_payment_method')}"
+                                           itemLabel="label" itemValue="value" htmlEscape="false" class=""
+                                           element="span class='radio radio-custom radio-inline'" />
+                    </div>
+                    <div class="form-group" id="backAmount-group">
+                        <label>退款金额：</label>
+                        <form:input path="backAmount" htmlEscape="false"
+                                    class="form-control  number input-sm" />
+                    </div>
+                </div>
+            </div>
+         </div>
+        <script>
+            $(function(){
+                $("#isBackAmount").change(function(){
+                    if($(this).prop('checked')) {
+                        $("#backAmount-group").show();
+                        $("#backPayMethod-group").show();
+                    }
+                    else {
+                        $("#backAmount").val("");
+                        $("#backAmount-group").hide();
+                        $("#backPayMethod-group").hide();
+                    }
+                });
+                $("#isBackAmount").trigger('change');
+                $("input[name=backPayMethod]:eq(0)").attr("checked",'checked');
+            });
+        </script>
+    </c:if>
+
     <!--物流信息-->
     <a class="anchor" name="panel-5"></a>
     <div class="panel panel-default">

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.oa.dao.ContractRefundDao">
+    
+	<sql id="contractRefundColumns">
+		a.id AS "id",
+		a.contract_id AS "contractId",
+		a.proc_ins_id AS "procInsId",
+		a.pay_method AS "payMethod",
+		a.amount AS "amount",
+		a.remark AS "remark",
+		a.plan_tk_date AS "planTkDate",
+		a.tk_date AS "tkDate",
+		a.status AS "status",
+		a.del_flag AS "delFlag",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate"
+	</sql>
+	
+	<sql id="contractRefundJoins">
+	</sql>
+
+	<select id="getByProcInsId" resultType="ContractRefund">
+		SELECT
+		<include refid="contractRefundColumns"/>
+		FROM oa_refund_main a
+		<include refid="contractRefundJoins"/>
+		WHERE a.proc_ins_id = #{procInsId} AND a.del_flag = 0
+	</select>
+    
+	<select id="get" resultType="ContractRefund">
+		SELECT 
+			<include refid="contractRefundColumns"/>
+		FROM oa_contract_refund a
+		<include refid="contractRefundJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ContractRefund">
+		SELECT 
+			<include refid="contractRefundColumns"/>
+		FROM oa_contract_refund a
+		<include refid="contractRefundJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="contractId != null and contractId != ''">
+				And a.contract_id = #{contractId}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ContractRefund">
+		SELECT 
+			<include refid="contractRefundColumns"/>
+		FROM oa_contract_refund a
+		<include refid="contractRefundJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO oa_contract_refund(
+			id,
+			contract_id,
+			proc_ins_id,
+			pay_method,
+			amount,
+			remark,
+			plan_tk_date,
+			tk_date,
+			del_flag,
+			create_by,
+			create_date,
+			update_by,
+			update_date
+		) VALUES (
+			#{id},
+			#{contractId},
+			#{procInsId},
+			#{payMethod},
+			#{amount},
+			#{remark},
+			#{planTkDate},
+			#{tkDate},
+			#{delFlag},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE oa_contract_refund SET 	
+			contract_id = #{contractId},
+			proc_ins_id = #{procInsId},
+			pay_method = #{payMethod},
+			amount = #{amount},
+			remark = #{remark},
+			plan_tk_date = #{planTkDate},
+			tk_date = #{tkDate},
+			status = #{status},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE oa_contract_refund SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

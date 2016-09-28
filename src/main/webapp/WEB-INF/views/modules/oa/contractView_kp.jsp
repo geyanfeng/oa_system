@@ -77,7 +77,7 @@
                     发票类型：${fns:getDictLabel(contract.invoiceType, "oa_invoice_type","" )}
                 </div>
                 <div class="col-sm-3">
-                    开票金额：<font style="color: red">${finance.amount}</font>
+                    开票金额：<font style="color: red"><fmt:formatNumber type="number" value="${finance.amount}" maxFractionDigits="2" /></font>
                 </div>
                 <div class="col-sm-3">
                     <%
