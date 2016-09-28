@@ -34,10 +34,6 @@
 								  itemValue="value" htmlEscape="false"/>
 				</form:select>
 		</div>
-		<div class="form-group m-r-10">
-			<label>费用：</label>
-			<form:input path="cost" htmlEscape="false" class="input-medium form-control"/>
-		</div>
 		<div class="form-group">
 			<input id="btnSubmit" class="btn btn-custom" type="submit" value="查 询"/>
 		</div>
