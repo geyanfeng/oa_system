@@ -35,6 +35,10 @@ th,td{text-align:left;}
                 return validationPaymentAmount();
             }, "付款金额应该大于等于采购总金额:"+ $("#amount").val());
 
+			$("#inputForm").submit(function(){
+				disableButtons();
+			});
+
             $("#inputForm").validate({
                 rules: {
                     name: {remote: "${ctx}/oa/contract/checkName?oldName=" + encodeURIComponent('${contract.name}')},
@@ -45,14 +49,20 @@ th,td{text-align:left;}
                 },
                 submitHandler: function (form) {
                 	if($("#contractType").val() == "3" && $("#parentId").val() == ""){
+						enableButtons();
                 		showTipMsg("补充合同,父级合同不能为空","error");
                 		return;
                 	}
-                    if(!validationPaymentAmount())
-                            return;
+                    if(!validationPaymentAmount()) {
+						enableButtons();
+						return;
+					}
                     loading('正在提交，请稍等...');
                     form.submit();
                 },
+				invalidHandler: function(){
+					enableButtons();
+				},
                 errorContainer: "#messageBox",
                 errorPlacement: function (error, element) {
                     $("#messageBox").text("输入有误，请先更正。");
@@ -86,6 +96,16 @@ th,td{text-align:left;}
 
 			setCommonHideHandler();
         });
+
+		function disableButtons(){
+			$("#btnSubmit").attr("disabled","disabled");
+			$("#btnStartAudit").attr("disabled","disabled");
+		}
+
+		function enableButtons(){
+			$("#btnSubmit").removeAttr("disabled");
+			$("#btnStartAudit").removeAttr("disabled");
+		}
 
         function changeContractType() {
             var contractType_value = $('#contractType').val();
