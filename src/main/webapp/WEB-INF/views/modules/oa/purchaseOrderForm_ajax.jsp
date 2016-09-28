@@ -53,16 +53,23 @@ h4 {
      	   $("#serviceAttitude").html(selectedOpt.attr("serviceAttitude"));  	   
  	   }
  	
-    } 
-       
+    }
+
+
         
         $(document).ready(function() {
             //$("#name").focus();
             changeSupplier();
+
             $("#inputForm").validate({
                 submitHandler: function(form){
                     /*loading('正在提交，请稍等...');
                     form.submit();*/
+                    if(!validationPaymentAmount()) {
+                        showTipMsg("付款金额应该等于采购总金额:"+ sumAmount, "error");
+                        return;
+                    }
+
                     $("#inputForm").ajaxSubmit({
                         success:function(result){
                             var status= result.status;
@@ -358,7 +365,7 @@ h4 {
 
 			<!--付款信息-->
 			<!--todo: 检查付款总金额等于产品总金额之和-->
-			<h4 style="padding-left: 15px;">付款信息</h4>
+			<h4 style="padding-left: 15px;" id="h4_payment">付款信息</h4>
 			<div id="payment-body" data-idx="0" class="clearfix"></div>
 
 			<div class="row m-t-10">
@@ -561,6 +568,17 @@ h4 {
                     amountField.val((sumAmount * ((parseFloat(blField.val())) / 100)).toFixed(2));
                 }
             }
+        }
+
+        //验证付款金额
+        function validationPaymentAmount(){
+            var result = false;
+            var totalAmount = 0.00;
+            $("input[id$='_amount']").each(function(idx, item){
+                totalAmount = totalAmount + parseFloat($(item).val());
+            });
+            result = totalAmount ==  sumAmount;
+            return result;
         }
     </script>
 

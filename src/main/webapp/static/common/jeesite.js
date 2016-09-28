@@ -104,10 +104,7 @@ function showTipMsg(msg, type){
         type="success";
     if(msg.indexOf('失败')>-1)
         type = "error";
-   if(parent.showMsg){
-       parent.showMsg(msg,type);
-   } else
-       showMsg(msg, type);
+    top.showMsg(msg,type);
 }
 
 function showMsg(msg, type){
