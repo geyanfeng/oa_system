@@ -1722,12 +1722,12 @@
             $('#modal-PoTKTH').find("#total_sf").val(totalAmount);
         }
         $(function(){
-        	$('#mainFrame',window.parent.document).parent().parent().css({paddingTop:'3px'});
-        	$(window.parent.document).scroll(function(){
-            	var _height = $(window.parent.document).scrollTop();
-           		$('#navbar').css({position:'absolute',top:_height + 'px'});
+            $('#mainFrame',top.document).parent().parent().css({paddingTop:'3px'});
+            $(top.document).scroll(function(){
+                var _height = $(this).scrollTop();
+                $('#navbar').css({position:'absolute',top:_height + 'px'});
             });
-        });    
+        });
     </script>
 </body>
 </html>
