@@ -12,6 +12,7 @@
 <script type="text/javascript">
 	$(document).ready(
 			function() {
+				$("select").select2({ allowClear: true});
 				$("#btnExport").click(
 						function() {
 							top.$.jBox.confirm("确认要导出合同列表吗？", "系统提示", function(

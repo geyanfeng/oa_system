@@ -7,7 +7,7 @@
 <script src="${ctxStatic}/assets/plugins/echarts.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-
+		$("select").select2({ allowClear: true});
 	});
 	function page(n, s) {
 		$("#pageNo").val(n);

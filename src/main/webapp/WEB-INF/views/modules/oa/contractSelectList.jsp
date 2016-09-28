@@ -25,6 +25,10 @@
             if (frameWin.closeSelectContractModal)
                 frameWin.closeSelectContractModal(selectedContract);
         }
+
+        $(function(){
+            $("select").select2({ allowClear: true});
+        });
     </script>
 </head>
 <body>

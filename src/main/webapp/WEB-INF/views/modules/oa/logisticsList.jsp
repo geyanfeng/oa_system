@@ -6,7 +6,7 @@
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			
+			$("select").select2({ allowClear: true});
 		});
 		function page(n,s){
 			$("#pageNo").val(n);

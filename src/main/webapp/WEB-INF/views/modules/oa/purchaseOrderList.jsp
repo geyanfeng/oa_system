@@ -6,6 +6,8 @@
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
+			$("select").select2({ allowClear: true});
+
 			$("#btnNew").click(function () {
 				var frameSrc = "${ctx}/oa/contract/list?contractType=2&status=10&isSelect=true";
 				$('#modal iframe').attr("src", frameSrc);
