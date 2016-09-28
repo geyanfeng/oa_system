@@ -16,8 +16,11 @@
 <script>
 
 	$(document).ready(function() {
+		var rootpath = "${ctx}";
 		var financeCalendarList = ${fns:toJson(financeCalendarList)};
-  
+		$.each(financeCalendarList, function(i, item){      
+			financeCalendarList[i].url = rootpath + item.url;
+		}); 
 		$('#calendar').fullCalendar({
 			header: {
 				left: 'prev,next today',
