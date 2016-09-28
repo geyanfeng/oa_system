@@ -172,6 +172,7 @@ public class ContractController extends BaseController {
 			contract.setCompanyName(originalContract.getCompanyName());
 			contract.setPaymentCycle(originalContract.getPaymentCycle());
 			contract.setPaymentDetail(originalContract.getPaymentDetail());
+			contract.setContractType("2"); //设置默认合同类型为客户合同*/
 		}
 		/*if (contract.getContractType() == null)
 			contract.setContractType("2"); //设置默认合同类型为客户合同*/
