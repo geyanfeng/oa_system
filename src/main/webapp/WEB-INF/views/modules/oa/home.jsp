@@ -28,7 +28,6 @@
 				right: 'month,agendaWeek,agendaDay,listWeek'
 			},
 			locale:'zh-cn',
-			defaultDate: '2016-09-12',
 			navLinks: true, // can click day/week names to navigate views
 			editable: true,
 			eventLimit: true, // allow "more" link when too many events
