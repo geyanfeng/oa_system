@@ -353,11 +353,11 @@ public class ContractController extends BaseController {
 		//执行审批
 		if((!contract.getContractType().equals("1") && isNotBlank(contract.getAct().getFlag())) || isNotBlank(contract.getAct().getTaskDefKey())){
 			//return "redirect:" + adminPath + "/act/task/todo/";
-			return audit(request, contract, redirectAttributes, null);
+			audit(request, contract, redirectAttributes, null);
 		} else {
 			addMessage(redirectAttributes, "保存合同成功");
-			return "redirect:" + Global.getAdminPath() + "/oa/contract/?contractType=" + contract.getContractType() + "&repage";
 		}
+		return "redirect:" + Global.getAdminPath() + "/oa/contract/?contractType=" + contract.getContractType() + "&repage";
 	}
 
 	@RequiresPermissions("oa:contract:audit")
