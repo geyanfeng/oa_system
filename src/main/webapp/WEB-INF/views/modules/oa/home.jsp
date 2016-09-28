@@ -672,7 +672,7 @@
 				</div>
 			</div>
 			</shiro:hasRole>
-			<shiro:hasRole name="cw,cfo">
+			<shiro:lacksRole name="cw,cfo">
 			<div class="col-sm-6">
 				<div class="card-box">
 					<h4 class="header-title m-t-0 m-b-30">合同退款待办</h4>
@@ -713,7 +713,7 @@
 					</c:choose>
 				</div>
 			</div>
-			</shiro:hasRole>
+			</shiro:lacksRole>
 		</div>
 
 	</div>
