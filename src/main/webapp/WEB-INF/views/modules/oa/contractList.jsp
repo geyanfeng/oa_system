@@ -83,7 +83,7 @@
 				location.reload();
 			},
 			error : function(a) {
-				showTipMsg("撤销合同失败", "error");
+				showTipMsg("撤回申请提交失败", "error");
 			}
 		});
 
@@ -107,7 +107,7 @@
 				location.reload();
 			},
 			error : function(a) {
-				showTipMsg("撤回合同失败", "error");
+				showTipMsg("撤回申请提交失败", "error");
 				$("#btnSubmitRecall").removeAttr("disabled");
 			}
 		});

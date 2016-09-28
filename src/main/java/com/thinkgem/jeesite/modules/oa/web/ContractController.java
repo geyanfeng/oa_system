@@ -471,9 +471,9 @@ public class ContractController extends BaseController {
 	public String recallApprove(@PathVariable String contractId, @RequestBody ContractRecallApprove recallApprove,HttpServletResponse response){
 		try{
 			contractService.recallApprove(contractId, recallApprove);
-			return renderString(response, "成功撤回合同!");
+			return renderString(response, "撤回申请提交成功!");
 		}catch(Exception e){
-			return renderString(response, "撤回合同失败!");
+			return renderString(response, "撤回申请提交失败!");
 		}
 	}
 
