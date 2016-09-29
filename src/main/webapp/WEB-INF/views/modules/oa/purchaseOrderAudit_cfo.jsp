@@ -6,11 +6,14 @@
     <meta name="decorator" content="default"/>
     <style>
         .panel-body .row{
-            padding-top: 10px;
+            padding: 10px;
+            margin:0;
         }
         .panel-body .row:not(:last-child){
-            border-bottom: 1px solid;
-            padding-bottom: 10px;
+            border-bottom: 1px solid #dcdcdc;
+        }
+        .panel .panel-body {
+        	padding:0;
         }
         .productChildTable>tbody>tr>td{
             border: 1px solid transparent !important;
@@ -19,12 +22,19 @@
         html,body{
             background: #FFF;
         }
-        a.anchor {
+        /*a.anchor {
             display: block;
             position: relative;
             top: -150px;
             visibility: hidden;
+        }*/
+        .table tr th:nth-child(2),.table tr td:nth-child(2){
+        	padding-left:20px;
         }
+        .table{
+        	margin-bottom:0;
+        }
+        th,td{text-align:left;}
     </style>
 </head>
 <body data-spy="scroll" data-target="#navbar">

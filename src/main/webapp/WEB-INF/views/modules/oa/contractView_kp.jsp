@@ -79,15 +79,19 @@
                 <div class="col-sm-3">
                     开票金额：<font style="color: red"><fmt:formatNumber type="number" value="${finance.amount}" maxFractionDigits="2" /></font>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-3 form-inline">
                     <%
                         String datetime=new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()); //获取系统时间
                         request.setAttribute("currentTime",datetime);
                     %>
-                    实际开票日期：<input name="kpDate" type="text" readonly="readonly" style="width: 150px;display:inline;"
-                                  class="form-control Wdate input-sm required"
+                    实际开票日期：<div class="input-group">
+                    <input name="kpDate" type="text" readonly="readonly"
+                                  class="form-control input-sm required"
                                   value="${currentTime}"
                                   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+                     <span class="input-group-addon bg-custom b-0 text-white"><i
+									class="ti-calendar"></i></span>
+							</div>
                 </div>
             </div>
             <div class="row">

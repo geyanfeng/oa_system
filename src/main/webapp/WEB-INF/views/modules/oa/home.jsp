@@ -8,12 +8,14 @@
 </style>
 <script src="${ctxStatic}/assets/plugins/echarts.min.js"></script>
 <shiro:hasAnyRoles name="cw,cfo">
-<link href='${ctxStatic}/assets/fullcalendar/fullcalendar.css' rel='stylesheet' />
-<link href='${ctxStatic}/assets/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
-<script src='${ctxStatic}/assets/fullcalendar/moment.min.js'></script>
-<script src='${ctxStatic}/assets/fullcalendar/fullcalendar.min.js'></script>
-<script src='${ctxStatic}/assets/fullcalendar/zh-cn.js'></script>
-<script>
+	<link href='${ctxStatic}/assets/fullcalendar/fullcalendar.css'
+		rel='stylesheet' />
+	<link href='${ctxStatic}/assets/fullcalendar/fullcalendar.print.css'
+		rel='stylesheet' media='print' />
+	<script src='${ctxStatic}/assets/fullcalendar/moment.min.js'></script>
+	<script src='${ctxStatic}/assets/fullcalendar/fullcalendar.min.js'></script>
+	<script src='${ctxStatic}/assets/fullcalendar/zh-cn.js'></script>
+	<script>
 
 	$(document).ready(function() {
 		var rootpath = "${ctx}";
@@ -41,9 +43,8 @@
 </head>
 <body>
 	<div class="container">
-	    <shiro:hasAnyRoles name="cw,cfo">
-      		<div class="row" id="calendar">
-      		</div>
+		<shiro:hasAnyRoles name="cw,cfo">
+			<div class="row" id="calendar"></div>
 		</shiro:hasAnyRoles>
 		<shiro:hasAnyRoles name="cso,saler">
 			<div class="row">
@@ -296,14 +297,14 @@
 		</shiro:hasAnyRoles>
 
 		<shiro:hasAnyRoles name="cso,saler">
-		<div class="row">
-			<div class="col-sm-6">
-				<div class="card-box">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="card-box">
 
-					<div id="website-stats" style="height: 320px;" class="flot-chart"></div>
+						<div id="website-stats" style="height: 320px;" class="flot-chart"></div>
 
-				</div>
-				<script type="text/javascript">
+					</div>
+					<script type="text/javascript">
 					var website_stats = echarts.init(document
 							.getElementById('website-stats'));
 					option = {
@@ -351,13 +352,13 @@
 					};
 					website_stats.setOption(option);
 				</script>
-			</div>
-
-			<div class="col-sm-6">
-				<div class="card-box">
-					<div id="product" style="height: 320px;" class="flot-chart"></div>
 				</div>
-				<script type="text/javascript">
+
+				<div class="col-sm-6">
+					<div class="card-box">
+						<div id="product" style="height: 320px;" class="flot-chart"></div>
+					</div>
+					<script type="text/javascript">
 					// 基于准备好的dom，初始化echarts实例
 					var product = echarts.init(document
 							.getElementById('product'));
@@ -423,20 +424,20 @@
 					product.setOption(option);
 				</script>
 
-			</div>
-
-			<!-- end col-->
-		</div>
-		</shiro:hasAnyRoles>
-        <shiro:hasAnyRoles name="saler">
-		<div class="row">
-			<div class="col-sm-6">
-				<div class="card-box">
-
-					<div id="income-stats" style="height: 320px;" class="flot-chart"></div>
-
 				</div>
-				<script type="text/javascript">
+
+				<!-- end col-->
+			</div>
+		</shiro:hasAnyRoles>
+		<shiro:hasAnyRoles name="saler">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="card-box">
+
+						<div id="income-stats" style="height: 320px;" class="flot-chart"></div>
+
+					</div>
+					<script type="text/javascript">
 					var income_stats = echarts.init(document
 							.getElementById('income-stats'));
 					option = {
@@ -479,13 +480,13 @@
 					};
 					income_stats.setOption(option);
 				</script>
-			</div>
-			<div class="col-sm-6">
-				<div class="card-box">
-					<div id="pie-chart-container" style="height: 320px;"
-						class="flot-chart"></div>
 				</div>
-				<script type="text/javascript">
+				<div class="col-sm-6">
+					<div class="card-box">
+						<div id="pie-chart-container" style="height: 320px;"
+							class="flot-chart"></div>
+					</div>
+					<script type="text/javascript">
 					// 基于准备好的dom，初始化echarts实例
 					var pie = echarts.init(document
 							.getElementById('pie-chart-container'));
@@ -534,177 +535,50 @@
 					// 使用刚指定的配置项和数据显示图表。
 					pie.setOption(option);
 				</script>
+				</div>
+
+
+
+				<!-- end col-->
 			</div>
-
-
-
-			<!-- end col-->
-		</div>
 		</shiro:hasAnyRoles>
 
-		<div class="row">
+		<div class="row m-t-20">
 			<div class="col-sm-6">
 				<div class="card-box" id="card_contract_audit">
 					<h4 class="header-title m-t-0 m-b-30">合同订单待办</h4>
-					 <c:choose>
-   							<c:when test="${empty contract_audit_list}">
-   								当前无待办事项
-   							</c:when>
-   					<c:otherwise>
-					<table class="table m-0">
-						<thead>
-							<tr>
-								<th width="20%">合同号</th>
-								<th>合同名称</th>
-								<th width="15%">状态</th>
-
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach items="${contract_audit_list}" var="contract_audit"
-								varStatus="p">
-								<c:set var="task" value="${contract_audit.task}" />
-								<c:set var="vars" value="${contract_audit.vars}" />
-								<c:set var="procDef" value="${contract_audit.procDef}" />
-								<c:set var="status" value="${contract_audit.status}" />
-								<tr>
-									<td scope="row">${not empty vars.map.contract_no ? vars.map.contract_no: p.index + 1}</td>
-									<td><a
-										href="${ctx}/act/task/form?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}">
-										${fns:abbr(not empty vars.map.title ? vars.map.title : task.id, 30)}</a>
-									</td>
-									<td><span class="label label-<c:if test="${not empty vars.map.status}">${fns:getDictRemark(vars.map.status,"oa_contract_status" ,"danguer" )}</c:if><c:if test="${empty vars.map.status}">danger</c:if>">${task.name}</span></td>
-								</tr>
-							</c:forEach>
-
-						</tbody>
-					</table>
-					</c:otherwise>
-					 </c:choose>
-				</div>
-			</div>
-			 <shiro:lacksRole name="cso,saler">
-			<div class="col-sm-6">
-				<div class="card-box" id="card_po_audit">
-					<h4 class="header-title m-t-0 m-b-30">采购订单待办</h4>
-					 <c:choose>
-   							<c:when test="${empty po_audit_list}">
-   								当前无待办事项
-   							</c:when>
-   					<c:otherwise>
-						<table class="table m-0">
-						<thead>
-							<tr>
-								<th width="35%">订单号</th>
-								<th>合同名称</th>
-								<th width="15%">状态</th>
-
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach items="${po_audit_list}" var="po_audit" varStatus="p">
-								<c:set var="task" value="${po_audit.task}" />
-								<c:set var="vars" value="${po_audit.vars}" />
-								<c:set var="procDef" value="${po_audit.procDef}" />
-								<c:set var="status" value="${po_audit.status}" />
-								<tr>
-									<td scope="row">${not empty vars.map.title ? vars.map.title: p.index + 1}</td>
-									<td><a
-										href="${ctx}/act/task/form?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}">
-										${fns:abbr(not empty vars.map.contract_name ? vars.map.contract_name : task.id, 30)}
-									</a>
-									</td>
-									<td><span class="label label-<c:if test="${not empty vars.map.status}">${fns:getDictRemark(vars.map.status,"oa_po_status" ,"danguer" )}</c:if><c:if test="${empty vars.map.status}">danger</c:if>">${task.name}</span></td>
-								</tr>
-							</c:forEach>
-
-						</tbody>
-					</table>
-					</c:otherwise>
-					 </c:choose>
-				
-				</div>
-			</div>
-		 </shiro:lacksRole>
-		</div>
-
-		<div class="row">
-			<shiro:hasRole name="cw">
-			<div class="col-sm-6">
-				<div class="card-box">
-					<h4 class="header-title m-t-0 m-b-30">采购订单退款待办</h4>
-					 <c:choose>
-   							<c:when test="${empty po_tk_audit_list}">
-   								当前无待办事项
-   							</c:when>
-   					<c:otherwise>
-					<table class="table m-0">
-						<thead>
-						<tr>
-							<th width="35%">订单号</th>
-							<th>合同名称</th>
-							<th width="15%">类别</th>
-
-						</tr>
-						</thead>
-						<tbody>
-						<c:forEach items="${po_tk_audit_list}" var="po_tk_audit" varStatus="p">
-							<c:set var="task" value="${po_tk_audit.task}" />
-							<c:set var="vars" value="${po_tk_audit.vars}" />
-							<c:set var="procDef" value="${po_tk_audit.procDef}" />
-							<c:set var="status" value="${po_tk_audit.status}" />
-							<tr>
-								<td scope="row">${not empty vars.map.po_no ? vars.map.po_no: p.index + 1}</td>
-								<td><a
-										href="${ctx}/act/task/form?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}">
-										${fns:abbr(not empty vars.map.contract_name ? vars.map.contract_name : task.id, 30)}
-								</a>
-								</td>
-								<td><span class="label label-danger">${task.name}</span></td>
-							</tr>
-						</c:forEach>
-
-						</tbody>
-					</table>
-					</c:otherwise>
-					 </c:choose>
-				</div>
-			</div>
-			</shiro:hasRole>
-			<shiro:hasAnyRoles name="cw,cfo">
-			<div class="col-sm-6">
-				<div class="card-box">
-					<h4 class="header-title m-t-0 m-b-30">合同退款待办</h4>
 					<c:choose>
-						<c:when test="${empty contract_refund_audit_list}">
-							当前无待办事项
-						</c:when>
+						<c:when test="${empty contract_audit_list}">
+   								当前无待办事项
+   							</c:when>
 						<c:otherwise>
 							<table class="table m-0">
 								<thead>
-								<tr>
-									<th width="35%">合同号</th>
-									<th>合同名称</th>
-									<th width="15%">类别</th>
+									<tr>
+										<th width="20%">合同号</th>
+										<th>合同名称</th>
+										<th width="15%">状态</th>
 
-								</tr>
+									</tr>
 								</thead>
 								<tbody>
-								<c:forEach items="${contract_refund_audit_list}" var="contract_refund_audit" varStatus="p">
-									<c:set var="task" value="${contract_refund_audit.task}" />
-									<c:set var="vars" value="${contract_refund_audit.vars}" />
-									<c:set var="procDef" value="${contract_refund_audit.procDef}" />
-									<c:set var="status" value="${contract_refund_audit.status}" />
-									<tr>
-										<td scope="row">${not empty vars.map.contract_no ? vars.map.contract_no: p.index + 1}</td>
-										<td><a
+									<c:forEach items="${contract_audit_list}" var="contract_audit"
+										varStatus="p">
+										<c:set var="task" value="${contract_audit.task}" />
+										<c:set var="vars" value="${contract_audit.vars}" />
+										<c:set var="procDef" value="${contract_audit.procDef}" />
+										<c:set var="status" value="${contract_audit.status}" />
+										<tr>
+											<td scope="row">${not empty vars.map.contract_no ? vars.map.contract_no: p.index + 1}</td>
+											<td><a
 												href="${ctx}/act/task/form?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}">
-												${fns:abbr(not empty vars.map.contract_name ? vars.map.contract_name : task.id, 30)}
-										</a>
-										</td>
-										<td><span class="label label-danger">${task.name}</span></td>
-									</tr>
-								</c:forEach>
+													${fns:abbr(not empty vars.map.title ? vars.map.title : task.id, 30)}</a>
+											</td>
+											<td><span
+												class="label label-<c:if test="${not empty vars.map.status}">${fns:getDictRemark(vars.map.status,"oa_contract_status" ,"danguer" )}</c:if>
+													<c:if test="${empty vars.map.status}">danger</c:if>">${task.name}</span></td>
+										</tr>
+									</c:forEach>
 
 								</tbody>
 							</table>
@@ -712,8 +586,139 @@
 					</c:choose>
 				</div>
 			</div>
+			<div class="col-sm-6">
+				<shiro:lacksRole name="cso,saler">
+					<div class="card-box" id="card_po_audit">
+						<h4 class="header-title m-t-0 m-b-30">采购订单待办</h4>
+						<c:choose>
+							<c:when test="${empty po_audit_list}">
+   								当前无待办事项
+   							</c:when>
+							<c:otherwise>
+								<table class="table m-0">
+									<thead>
+										<tr>
+											<th width="35%">订单号</th>
+											<th>合同名称</th>
+											<th width="15%">状态</th>
+
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach items="${po_audit_list}" var="po_audit"
+											varStatus="p">
+											<c:set var="task" value="${po_audit.task}" />
+											<c:set var="vars" value="${po_audit.vars}" />
+											<c:set var="procDef" value="${po_audit.procDef}" />
+											<c:set var="status" value="${po_audit.status}" />
+											<tr>
+												<td scope="row">${not empty vars.map.title ? vars.map.title: p.index + 1}</td>
+												<td><a
+													href="${ctx}/act/task/form?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}">
+														${fns:abbr(not empty vars.map.contract_name ? vars.map.contract_name : task.id, 30)}
+												</a></td>
+												<td><span
+													class="label label-<c:if test="${not empty vars.map.status}">${fns:getDictRemark(vars.map.status,"oa_po_status" ,"danguer" )}</c:if>
+														<c:if test="${empty vars.map.status}">danger</c:if>">${task.name}</span></td>
+											</tr>
+										</c:forEach>
+
+									</tbody>
+								</table>
+							</c:otherwise>
+						</c:choose>
+
+					</div>
+				</shiro:lacksRole>
+			</div>
+
+			<div class="col-sm-6">
+				<shiro:hasRole name="cw">
+
+					<div class="card-box">
+						<h4 class="header-title m-t-0 m-b-30">采购订单退款待办</h4>
+						<c:choose>
+							<c:when test="${empty po_tk_audit_list}">
+   								当前无待办事项
+   							</c:when>
+							<c:otherwise>
+								<table class="table m-0">
+									<thead>
+										<tr>
+											<th width="35%">订单号</th>
+											<th>合同名称</th>
+											<th width="15%">类别</th>
+
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach items="${po_tk_audit_list}" var="po_tk_audit"
+											varStatus="p">
+											<c:set var="task" value="${po_tk_audit.task}" />
+											<c:set var="vars" value="${po_tk_audit.vars}" />
+											<c:set var="procDef" value="${po_tk_audit.procDef}" />
+											<c:set var="status" value="${po_tk_audit.status}" />
+											<tr>
+												<td scope="row">${not empty vars.map.po_no ? vars.map.po_no: p.index + 1}</td>
+												<td><a
+													href="${ctx}/act/task/form?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}">
+														${fns:abbr(not empty vars.map.contract_name ? vars.map.contract_name : task.id, 30)}
+												</a></td>
+												<td><span class="label label-danger">${task.name}</span></td>
+											</tr>
+										</c:forEach>
+
+									</tbody>
+								</table>
+							</c:otherwise>
+						</c:choose>
+					</div>
+				</shiro:hasRole>
+			</div>
+			<div class="col-sm-6">
+				<shiro:hasAnyRoles name="cw,cfo">
+					<div class="card-box">
+						<h4 class="header-title m-t-0 m-b-30">合同退款待办</h4>
+						<c:choose>
+							<c:when test="${empty contract_refund_audit_list}">
+							当前无待办事项
+						</c:when>
+							<c:otherwise>
+								<table class="table m-0">
+									<thead>
+										<tr>
+											<th width="35%">合同号</th>
+											<th>合同名称</th>
+											<th width="15%">类别</th>
+
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach items="${contract_refund_audit_list}"
+											var="contract_refund_audit" varStatus="p">
+											<c:set var="task" value="${contract_refund_audit.task}" />
+											<c:set var="vars" value="${contract_refund_audit.vars}" />
+											<c:set var="procDef" value="${contract_refund_audit.procDef}" />
+											<c:set var="status" value="${contract_refund_audit.status}" />
+											<tr>
+												<td scope="row">${not empty vars.map.contract_no ? vars.map.contract_no: p.index + 1}</td>
+												<td><a
+													href="${ctx}/act/task/form?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}">
+														${fns:abbr(not empty vars.map.contract_name ? vars.map.contract_name : task.id, 30)}
+												</a></td>
+												<td><span class="label label-danger">${task.name}</span></td>
+											</tr>
+										</c:forEach>
+
+									</tbody>
+								</table>
+							</c:otherwise>
+						</c:choose>
+					</div>
+			</div>
 			</shiro:hasAnyRoles>
 		</div>
+
 
 	</div>
 
