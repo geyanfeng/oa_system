@@ -49,142 +49,6 @@
 </head>
 <body>
 	<div class="container">
-		<div class="row">
-			<div class="col-sm-6">
-				<div class="card-box">
-					<h4 class="header-title m-t-0">销售来单情况</h4>
-					<div id="total_1" style="height: 293px;" class="flot-chart"></div>
-				</div>
-			</div>
-			<script type="text/javascript">
-			var total_1 = echarts.init(document.getElementById('total_1'));
-			option = {
-					tooltip : {
-				        trigger: 'axis',
-				        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-				            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-				        }
-				    },
-				    legend: {
-				        data: ['销售A', '销售B','销售C','销售D','销售E','销售F','销售G','销售总监']
-				    },
-				    grid: {
-				        left: '0%',
-				        right: '4%',
-				        bottom: '3%',
-				        containLabel: true
-				    },
-				    xAxis:  {
-				        type: 'value'
-				    },
-				    yAxis: {
-				        type: 'category',
-				        data: ['Q4','Q3','Q2','Q1']
-				    },
-				    series: [
-				        {
-				            name: '销售A',
-				            type: 'bar',
-				            stack: '总量',
-				            label: {
-				                normal: {
-				                    show: true,
-				                    position: 'insideRight'
-				                }
-				            },
-				            data: [320, 302, 301, 334]
-				        },
-				        {
-				            name: '销售B',
-				            type: 'bar',
-				            stack: '总量',
-				            label: {
-				                normal: {
-				                    show: true,
-				                    position: 'insideRight'
-				                }
-				            },
-				            data: [120, 132, 101, 134]
-				        },
-				        {
-				            name: '销售C',
-				            type: 'bar',
-				            stack: '总量',
-				            label: {
-				                normal: {
-				                    show: true,
-				                    position: 'insideRight'
-				                }
-				            },
-				            data: [220, 182, 191, 234]
-				        },
-				        {
-				            name: '销售D',
-				            type: 'bar',
-				            stack: '总量',
-				            label: {
-				                normal: {
-				                    show: true,
-				                    position: 'insideRight'
-				                }
-				            },
-				            data: [150, 212, 201, 154]
-				        },
-				        {
-				            name: '销售E',
-				            type: 'bar',
-				            stack: '总量',
-				            label: {
-				                normal: {
-				                    show: true,
-				                    position: 'insideRight'
-				                }
-				            },
-				            data: [150, 212, 201, 154]
-				        },
-				        {
-				            name: '销售F',
-				            type: 'bar',
-				            stack: '总量',
-				            label: {
-				                normal: {
-				                    show: true,
-				                    position: 'insideRight'
-				                }
-				            },
-				            data: [150, 212, 201, 154]
-				        },
-				        {
-				            name: '销售G',
-				            type: 'bar',
-				            stack: '总量',
-				            label: {
-				                normal: {
-				                    show: true,
-				                    position: 'insideRight'
-				                }
-				            },
-				            data: [150, 212, 201, 154]
-				        },
-				        {
-				            name: '销售总监',
-				            type: 'bar',
-				            stack: '总量',
-				            label: {
-				                normal: {
-				                    show: true,
-				                    position: 'insideRight'
-				                }
-				            },
-				            data: [820, 832, 901, 934]
-				        }
-				    ]
-				};
-				total_1.setOption(option);
-			</script>
-		</div>
-
-
 		<shiro:hasAnyRoles name="cw,cfo">
 			<div class="row" id="calendar"></div>
 		</shiro:hasAnyRoles>
@@ -442,6 +306,138 @@
 			<div class="row">
 				<div class="col-sm-6">
 					<div class="card-box">
+						<h4 class="header-title m-t-0">销售来单情况</h4>
+						<div id="total_1" style="height: 293px;" class="flot-chart"></div>
+					</div>
+				</div>
+				<script type="text/javascript">
+			var total_1 = echarts.init(document.getElementById('total_1'));
+			option = {
+					tooltip : {
+				        trigger: 'axis',
+				        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+				            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+				        }
+				    },
+				    legend: {
+				        data: ['销售A', '销售B','销售C','销售D','销售E','销售F','销售G','销售总监']
+				    },
+				    grid: {
+				        left: '0%',
+				        right: '4%',
+				        bottom: '3%',
+				        containLabel: true
+				    },
+				    xAxis:  {
+				        type: 'value'
+				    },
+				    yAxis: {
+				        type: 'category',
+				        data: ['Q4','Q3','Q2','Q1']
+				    },
+				    series: [
+				        {
+				            name: '销售A',
+				            type: 'bar',
+				            stack: '总量',
+				            label: {
+				                normal: {
+				                    show: true,
+				                    position: 'insideRight'
+				                }
+				            },
+				            data: [320, 302, 301, 334]
+				        },
+				        {
+				            name: '销售B',
+				            type: 'bar',
+				            stack: '总量',
+				            label: {
+				                normal: {
+				                    show: true,
+				                    position: 'insideRight'
+				                }
+				            },
+				            data: [120, 132, 101, 134]
+				        },
+				        {
+				            name: '销售C',
+				            type: 'bar',
+				            stack: '总量',
+				            label: {
+				                normal: {
+				                    show: true,
+				                    position: 'insideRight'
+				                }
+				            },
+				            data: [220, 182, 191, 234]
+				        },
+				        {
+				            name: '销售D',
+				            type: 'bar',
+				            stack: '总量',
+				            label: {
+				                normal: {
+				                    show: true,
+				                    position: 'insideRight'
+				                }
+				            },
+				            data: [150, 212, 201, 154]
+				        },
+				        {
+				            name: '销售E',
+				            type: 'bar',
+				            stack: '总量',
+				            label: {
+				                normal: {
+				                    show: true,
+				                    position: 'insideRight'
+				                }
+				            },
+				            data: [150, 212, 201, 154]
+				        },
+				        {
+				            name: '销售F',
+				            type: 'bar',
+				            stack: '总量',
+				            label: {
+				                normal: {
+				                    show: true,
+				                    position: 'insideRight'
+				                }
+				            },
+				            data: [150, 212, 201, 154]
+				        },
+				        {
+				            name: '销售G',
+				            type: 'bar',
+				            stack: '总量',
+				            label: {
+				                normal: {
+				                    show: true,
+				                    position: 'insideRight'
+				                }
+				            },
+				            data: [150, 212, 201, 154]
+				        },
+				        {
+				            name: '销售总监',
+				            type: 'bar',
+				            stack: '总量',
+				            label: {
+				                normal: {
+				                    show: true,
+				                    position: 'insideRight'
+				                }
+				            },
+				            data: [820, 832, 901, 934]
+				        }
+				    ]
+				};
+				total_1.setOption(option);
+			</script>
+				<div class="col-sm-6">
+					<div class="card-box">
 
 						<div id="website-stats" style="height: 320px;" class="flot-chart"></div>
 
@@ -495,7 +491,11 @@
 					website_stats.setOption(option);
 				</script>
 				</div>
-
+				<!-- end col-->
+			</div>
+		</shiro:hasAnyRoles>
+		<shiro:hasAnyRoles name="saler">
+			<div class="row">
 				<div class="col-sm-6">
 					<div class="card-box">
 						<div id="product" style="height: 320px;" class="flot-chart"></div>
@@ -567,12 +567,6 @@
 				</script>
 
 				</div>
-
-				<!-- end col-->
-			</div>
-		</shiro:hasAnyRoles>
-		<shiro:hasAnyRoles name="saler">
-			<div class="row">
 				<div class="col-sm-6">
 					<div class="card-box">
 
