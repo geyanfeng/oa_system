@@ -23,18 +23,21 @@
 		var financeCalendarList = ${fns:toJson(financeCalendarList)};
 		$.each(financeCalendarList, function(i, item){      
 			financeCalendarList[i].url = rootpath + item.url;
-		}); 
+		});
 		$('#calendar').fullCalendar({
 			header: {
-				left: 'prev,next today',
+				left: 'prev,next',
 				center: 'title',
-				right: 'month,agendaWeek,agendaDay,listWeek'
+				//right: 'month,agendaWeek,agendaDay,listWeek'
+				right: ''
 			},
 			locale:'zh-cn',
 			navLinks: true, // can click day/week names to navigate views
 			editable: true,
 			eventLimit: true, // allow "more" link when too many events
-			events: financeCalendarList
+			events: financeCalendarList,
+			height: $(top.window).height() - 100,
+			fixedWeekCount: false
 		});
 		
 		//瀑布流
@@ -50,7 +53,7 @@
 <body>
 	<div class="container">
 		<shiro:hasAnyRoles name="cw,cfo">
-			<div class="row" id="calendar"></div>
+			<div class="row" id="calendar" style="padding:10px;background:#fff;"></div>
 		</shiro:hasAnyRoles>
 		<shiro:hasAnyRoles name="cso,saler">
 			<div class="row">
