@@ -100,9 +100,8 @@
 		<!-- Top Bar End -->
 		<!-- ========== Left Sidebar Start ========== -->
 
-		<DIV class="left side-menu">
-			<div class="text-center">
-
+		<DIV class="left side-menu" style="padding-top:122px;">
+			<div class="text-center" style="position:absolute;top:0;left:0;right:0;">
 				<div class="user-thumb m-t-20">
 					<A href="${ctx}"><img
 						src="${not empty fns:getUser().photo ? fns:getUser().photo : 'static/images/tx.jpg'}"
@@ -198,14 +197,11 @@
 			<DIV class="notification-list nicescroll">
 				<UL class="list-group list-no-border user-list" id="ul-alert">
 				</UL>
-<<<<<<< HEAD
 				<div style="float: right; margin-right: 20px;">
 					<a href="#" title="删除全部" onclick="deleteAlert(this,'');"
 						style="font-size: 25px"><i class="zmdi zmdi-delete"></i></a>
 				</div>
-=======
 				<div style="float: right;margin-right: 20px;"><a href="#" title="删除全部" onclick="deleteAlert(this,'${ctx}','');" style="font-size:25px"><i class="zmdi zmdi-delete"></i></a></div>
->>>>>>> branch 'master' of https://bitbucket.org/luffyace/oa_system
 			</DIV>
 		</DIV>
 		<!-- /Right-bar -->
