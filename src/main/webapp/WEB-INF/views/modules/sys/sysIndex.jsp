@@ -183,7 +183,7 @@
 			<DIV class="notification-list nicescroll">
 				<UL class="list-group list-no-border user-list" id="ul-alert">
 				</UL>
-				<div style="float: right;margin-right: 20px;"><a href="#" title="删除全部" onclick="deleteAlert(this,'');" style="font-size:25px"><i class="zmdi zmdi-delete"></i></a></div>
+				<div style="float: right;margin-right: 20px;"><a href="#" title="删除全部" onclick="deleteAlert(this,'${ctx}','');" style="font-size:25px"><i class="zmdi zmdi-delete"></i></a></div>
 			</DIV>
 		</DIV>
 		<!-- /Right-bar -->
@@ -230,7 +230,7 @@
 					<SPAN class="name" title="{{title}}">{{title}}</SPAN>
 					<SPAN class="desc">{{content}}</SPAN>
 					<SPAN class="time">{{createDate}}</SPAN>
-					<a href="#" title="删除" onclick="deleteAlert(this,'{{id}}');"><i class="zmdi zmdi-minus-circle-outline" style="float: right;font-size: 18px;"></i></a>
+					<a href="#" title="删除" onclick="deleteAlert(this,'${ctx}','{{id}}');"><i class="zmdi zmdi-minus-circle-outline" style="float: right;font-size: 18px;"></i></a>
 				</DIV>
 		</LI>
 		{{/alertList}}

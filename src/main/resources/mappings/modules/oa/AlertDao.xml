@@ -77,7 +77,10 @@
 		FROM oa_alert a
 		<include refid="alertJoins"/>
 		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
+			1=1
+			<if test="delFlag != null and delFlag != ''">
+				AND a.del_flag = #{delFlag}
+			</if>
 			<if test="ownerId != null and ownerId != ''">
 				AND a.owner_id = #{ownerId}
 			</if>
