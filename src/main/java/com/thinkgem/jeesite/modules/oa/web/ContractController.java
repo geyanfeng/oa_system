@@ -252,6 +252,16 @@ public class ContractController extends BaseController {
 			if("split_po".equals(taskDefKey)){//拆分po
 				if(actTaskService.getVarValue(contract.getProcInsId(),"recall_id") != null) {
 					model.addAttribute("is_recall", true);
+					//得到已付款金额
+					ContractFinance filter = new ContractFinance(contract,3);
+					List<ContractFinance> finances = contractFinanceDao.findList(filter);
+					if(finances.size()>0) {
+						Double fkTotalAmount = 0.00;
+						for(ContractFinance finance : finances){
+							fkTotalAmount+=finance.getAmount();
+						}
+						model.addAttribute("fkTotalAmount", fkTotalAmount);
+					}
 				}
 			}
 			else if("contract_edit".equals(taskDefKey)){//合同修改
