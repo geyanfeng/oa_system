@@ -696,7 +696,7 @@
 									<tr>
 										<th width="20%">合同号</th>
 										<th>合同名称</th>
-										<th width="15%">状态</th>
+										<th width="15%">流程节点</th>
 
 									</tr>
 								</thead>
@@ -739,7 +739,7 @@
 										<tr>
 											<th width="35%">合同号</th>
 											<th>合同名称</th>
-											<th width="15%">类别</th>
+											<th width="15%">流程节点</th>
 
 										</tr>
 									</thead>
@@ -781,7 +781,7 @@
 										<tr>
 											<th width="35%">订单号</th>
 											<th>合同名称</th>
-											<th width="15%">状态</th>
+											<th width="15%">流程节点</th>
 
 										</tr>
 									</thead>
@@ -826,7 +826,7 @@
 										<tr>
 											<th width="35%">订单号</th>
 											<th>合同名称</th>
-											<th width="15%">类别</th>
+											<th width="15%">流程节点</th>
 
 										</tr>
 									</thead>
