@@ -60,6 +60,19 @@ public class HomeController extends BaseController {
 			model.addAttribute("financeCalendarList", financeCalendarList);
 		} 
 		
+		if (UserUtils.IsRoleByRoleEnName("cso") || UserUtils.IsRoleByRoleEnName("saler")) {
+			String sqlCondition = "";
+			if(!UserUtils.IsRoleByRoleEnName("cso")){
+				sqlCondition = "and saler_id='" +UserUtils.getUser().getId()+ "'";
+			}
+			for(int i= 1;i<6;i++){
+				Map queryMap = new LinkedHashMap();
+				queryMap.put("type", i);
+				queryMap.put("sqlCondition", sqlCondition);
+				model.addAttribute("salerHomeList"+i, reportDao.reportSalerHome(queryMap));
+			}			
+		}
+		
 		if (UserUtils.IsRoleByRoleEnName("cso")) {
 			List<Map> financeList = reportDao.reportHomeFinance();
 			model.addAttribute("financeList", financeList);

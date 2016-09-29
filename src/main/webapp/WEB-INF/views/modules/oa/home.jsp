@@ -547,22 +547,7 @@
 									show : false
 								}
 							},
-							data : [ {
-								value : 335,
-								name : 'K1'
-							}, {
-								value : 310,
-								name : 'K2'
-							}, {
-								value : 234,
-								name : 'K3'
-							}, {
-								value : 135,
-								name : 'K4'
-							}, {
-								value : 1548,
-								name : 'K5'
-							} ]
+							data : ${fns:toJson(salerHomeList1)}
 						} ]
 					};
 

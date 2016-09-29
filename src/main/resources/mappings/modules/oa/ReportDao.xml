@@ -87,4 +87,10 @@
        )
       }
     </select>  	
+      <select id="reportSalerHome" parameterType="java.util.LinkedHashMap"  resultType="java.util.LinkedHashMap" statementType="CALLABLE" >  
+      {call reportSalerHome(
+     	  #{type,jdbcType=INTEGER,mode=IN},#{sqlCondition,jdbcType=VARCHAR,mode=IN}
+       )
+      }
+    </select>  	
 </mapper>
