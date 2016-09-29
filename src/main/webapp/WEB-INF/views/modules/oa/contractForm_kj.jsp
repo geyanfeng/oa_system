@@ -219,17 +219,29 @@ th,td{text-align:left;}
 							</div>
 						</div>
 						<div class="col-sm-6">
+							<div class="form-group clearfix">
+								<label class="col-sm-3 control-label">合同名称 <span
+										class="help-inline"><font color="red">*</font> </span></label>
+								<div class="col-sm-9">
+									<form:input path="name" htmlEscape="false" maxlength="255"
+												class="form-control required" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
 							<div class="form-group ">
 								<label class="col-sm-3 control-label">有效期  <span
-									class="help-inline"><font color="red">*</font> </span></label>
+										class="help-inline"><font color="red">*</font> </span></label>
 								<div class="col-sm-9">
 									<div class="input-group bootstrap-touchspin">
 										<input name="expiryDate" type="text" readonly="readonly"
-											maxlength="20" class="form-control required"
-											value="<fmt:formatDate value="${contract.expiryDate}" pattern="yyyy-MM-dd"/>"
-											onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
+											   maxlength="20" class="form-control required"
+											   value="<fmt:formatDate value="${contract.expiryDate}" pattern="yyyy-MM-dd"/>"
+											   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" />
 										<span class="input-group-addon bg-custom b-0 text-white"><i
-											class="ti-calendar"></i></span>
+												class="ti-calendar"></i></span>
 									</div>
 								</div>
 							</div>
