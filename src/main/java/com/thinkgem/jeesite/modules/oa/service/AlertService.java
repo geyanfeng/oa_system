@@ -244,6 +244,7 @@ public class AlertService extends CrudService<AlertDao, Alert> {
         alertFiler.setAlertType(alertType);
         alertFiler.setTargetId(targetId);
         alertFiler.setNode(alertSetting.getNode());
+        alertFiler.setDelFlag(null);
         if(alertSetting.getDuration() == 1){
             Calendar cc = Calendar.getInstance();
             //获得当天0点时间
