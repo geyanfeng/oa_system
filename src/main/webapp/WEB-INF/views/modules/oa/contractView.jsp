@@ -69,10 +69,14 @@
             $.validator.addMethod("val-comment", function(value) {
                 return !($('#flag').val() === "no" && value==="");
             }, "请输入驳回信息");
+            $.validator.addMethod("valiateBackAmount", function(value) {
+                return valiateBackAmount();
+            }, "退款金额不能大于付款金额");
             //表单验证
             $("#inputForm").validate({
                 rules: {
-                    "act.comment":  "val-comment"
+                    "act.comment":  "val-comment",
+                    backAmount:  "valiateBackAmount"
                 },
                 submitHandler: function (form) {
                     loading('正在提交，请稍等...');
@@ -1209,8 +1213,16 @@
                     }
                 });
                 $("#isBackAmount").trigger('change');
-                $("input[name=backPayMethod]:eq(0)").attr("checked",'checked');
+                $("input[name=backPayMethod]:eq(1)").attr("checked",'checked');
             });
+
+            //验证退预付款金额
+            function valiateBackAmount(){
+                if(!$("#isBackAmount").prop('checked')) return true;
+                if($("#backAmount").val().length==0)return true;
+                var fkTotalAmount = ${fkTotalAmount};
+                return fkTotalAmount>=parseFloat($("#backAmount").val());
+            }
         </script>
     </c:if>
 
