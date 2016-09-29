@@ -69,7 +69,7 @@
 	</div>
     <!--合同信息-->
     <div class="panel panel-default">
-        <div class="panel-heading"><h3 class="panel-title">合同信息</h3>
+        <div class="panel-heading"><h3 class="panel-title">开票信息</h3>
         </div>
         <div class="panel-body">
             <div class="row">

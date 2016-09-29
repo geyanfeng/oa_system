@@ -55,7 +55,7 @@
 
             <div class="form-group m-r-10">
                 <label>客户：</label>
-                <form:select path="customer.id" class="input-small" id="customer"
+                <form:select path="customer.id" class="input-small form-control" id="customer"
                              cssStyle="width: 150px">
                     <form:option value="" label="" />
                     <form:options items="${customerList}" itemLabel="name"
@@ -65,7 +65,7 @@
 
             <div class="form-group m-r-10">
                 <label>销售：</label>
-                <form:select path="createBy.id" class="input-small" id="createBy"
+                <form:select path="createBy.id" class="input-small form-control" id="createBy"
                              cssStyle="width: 150px">
                     <form:option value="" label="" />
                     <form:options items="${salerList}" itemLabel="name"

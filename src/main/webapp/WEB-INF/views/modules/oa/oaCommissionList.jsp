@@ -25,7 +25,7 @@
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 			<div class="form-group m-r-10">
 					<label>销售：</label>
-					<form:select path="saler.id" class="input-small" id="saler"
+					<form:select path="saler.id" class="input-small form-control" id="saler"
 								 cssStyle="width: 150px">
 						<form:option value="" label="" />
 						<form:options items="${salerList}" itemLabel="name"
