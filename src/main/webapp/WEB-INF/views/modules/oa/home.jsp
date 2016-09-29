@@ -636,16 +636,7 @@
 							type : 'pie',
 							radius : '55%',
 							center : [ '50%', '60%' ],
-							data : [ {
-								value : 335,
-								name : '已签约'
-							}, {
-								value : 310,
-								name : '已验收'
-							}, {
-								value : 234,
-								name : '已完成'
-							} ],
+							data : ${fns:toJson(salerHomeList2)},
 							itemStyle : {
 								emphasis : {
 									shadowBlur : 10,
