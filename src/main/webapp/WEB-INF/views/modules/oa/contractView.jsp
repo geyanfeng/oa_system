@@ -1213,7 +1213,7 @@
                     }
                 });
                 $("#isBackAmount").trigger('change');
-                $("input[name=backPayMethod]:eq(1)").attr("checked",'checked');
+                $("input[name=backPayMethod]:eq(1)").prop("checked",'checked');
             });
 
             //验证退预付款金额

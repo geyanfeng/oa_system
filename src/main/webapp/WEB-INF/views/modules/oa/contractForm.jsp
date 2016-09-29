@@ -847,6 +847,16 @@ th,td{text-align:left;}
                                 });
                                 break;
                         }
+						$("#payment-body").find("input[type='checkbox'], input[type='radio']").each(function () {
+							var ss = $(this).attr("data-value").split(',');
+							for (var i = 0; i < ss.length; i++) {
+								if ($(this).val() == ss[i]) {
+									$(this).prop("checked", "checked");
+								} else {
+									$(this).prop("checked", "");
+								}
+							}
+						});
                     } else{
                         $("input[id^='paymentCycle']").trigger('change');
                     }
@@ -857,13 +867,15 @@ th,td{text-align:left;}
                     var paymentCycle = $("input[id^='paymentCycle']:checked").val();
                     switch(paymentCycle){
                         case "1":
-								row.payment_onetime_payCondition = 0;
+								if(!row.payment_onetime_payCondition)
+									row.payment_onetime_payCondition = 0;
                                 $("#payment-body").append(Mustache.render($("#payment-onetime-tpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""), {row:row}));
                             break;
                         case "2":
                                 if(!idx)
                                     idx=1;
-								row.payment_installment_payCondition = 0;
+								if(!row.payment_installment_payCondition)
+									row.payment_installment_payCondition = 0;
                                 $("#payment-body").append(Mustache.render($("#payment-installment-tpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""), {idx:idx, row:row}));
                                 idx = idx+1;
                                 $("#payment-body").data("idx",idx);

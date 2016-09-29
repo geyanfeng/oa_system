@@ -196,10 +196,7 @@ public class PurchaseOrderController extends BaseController {
 				addMessage(redirectAttributes, e.getMessage());
 				return "redirect:" + request.getHeader("referer");
 			}
-			if(isNotBlank(sUrl))
-				return "redirect:" + Encodes.urlDecode(sUrl);
-			else
-				return "redirect:" + adminPath + "/act/task/todo/";
+			return autoRedirect(sUrl);
 		}
 		return "redirect:"+Global.getAdminPath()+"/oa/purchaseOrder";
 	}
