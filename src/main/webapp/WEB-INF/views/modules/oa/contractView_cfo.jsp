@@ -181,7 +181,7 @@ th, td {
 									<tr>
 										<td class="hidden"></td>
 										<td>第${bStatus.count}笔: <fmt:formatNumber type="number"
-												value="${(finance.amount / po.amount) * 100}"
+												value="${po.amount eq 0 ? 0:((finance.amount / po.amount) * 100)}"
 												maxFractionDigits="2" />%
 										</td>
 										<td>付款金额: <fmt:formatNumber type="number"
