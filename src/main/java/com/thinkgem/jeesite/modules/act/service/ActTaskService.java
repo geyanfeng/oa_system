@@ -709,6 +709,20 @@ public class ActTaskService extends BaseService {
 	}
 
 	/**
+	 * 获取当前节点信息
+	 * @param procInsId
+	 * @return
+     */
+	public Task getCurrentTaskInfo(String procInsId) {
+		if(StringUtils.isBlank(procInsId)) return null;
+		ProcessInstance pi = getProcIns(procInsId);
+		if(pi!=null){
+			return getCurrentTaskInfo(pi);
+		}
+		return null;
+	}
+
+	/**
 	 * 设置宽度、高度属性
 	 * @param activity
 	 * @param activityInfo

@@ -1,8 +1,10 @@
 package com.thinkgem.jeesite.modules.oa.service;
 
+import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.common.utils.SendMailUtil;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.modules.act.service.ActTaskService;
 import com.thinkgem.jeesite.modules.oa.dao.AlertDao;
 import com.thinkgem.jeesite.modules.oa.dao.AlertSettingDao;
 import com.thinkgem.jeesite.modules.oa.dao.ContractDao;
@@ -14,6 +16,7 @@ import com.thinkgem.jeesite.modules.oa.entity.PurchaseOrder;
 import com.thinkgem.jeesite.modules.sys.dao.UserDao;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
+import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +38,8 @@ public class AlertService extends CrudService<AlertDao, Alert> {
     private ContractDao contractDao;
     @Autowired
     private PurchaseOrderDao poDao;
+    @Autowired
+    private ActTaskService actTaskService;
 
     public AlertSetting getSettingByNode(String node) {
         return alertSettingDao.getByNode(node);
@@ -143,6 +148,8 @@ public class AlertService extends CrudService<AlertDao, Alert> {
         List<AlertSetting> alertSettings = alertSettingDao.findList(new AlertSetting());
         AlertType alertType = AlertType.Contract;
         for (AlertSetting alertSetting : alertSettings){
+            //如果没有设置邮件标题或内容,直接跳过
+            if(StringUtils.isBlank(alertSetting.getTitle()) || StringUtils.isBlank(alertSetting.getContent())) break;
             String node = alertSetting.getNode().toLowerCase();
             String[] splitNodeArray =  node.split("_");
             if(splitNodeArray.length<2) break;
@@ -193,6 +200,8 @@ public class AlertService extends CrudService<AlertDao, Alert> {
                     //得到内容
                     emailContent = SendMailUtil.getText(alertSetting.getContent(), data);
 
+                    //emailContent = addTaskLink(contract.getProcInsId(), emailContent);//增加任务链接
+
                     saveAndSendEmail(alertSetting, alertType, contract.getId(),userId, receiverMap.get(userId), title, content,emailTitle,emailContent);
                 }
             }
@@ -225,10 +234,26 @@ public class AlertService extends CrudService<AlertDao, Alert> {
                     //得到内容
                     emailContent = SendMailUtil.getText(alertSetting.getContent(), data);
 
+                    //emailContent = addTaskLink(po.getProcInsId(), emailContent);//增加任务链接
+
                     saveAndSendEmail(alertSetting, alertType, po.getId(),userId, receiverMap.get(userId), title, content,emailTitle,emailContent);
                 }
             }
         }
+    }
+
+    /**
+     * 增加任务链接
+     * @param procInsId
+     * @param content
+     */
+    private String addTaskLink(String procInsId, String content){
+        Task task = actTaskService.getCurrentTaskInfo(procInsId);
+        if(task!=null) {
+            String url = Global.getConfig("site.domain")+ Global.getAdminPath()+ "/act/task/form?taskId="+task.getId()+"&taskName="+task.getName()+"&taskDefKey="+task.getTaskDefinitionKey()+"&procInsId="+task.getProcessInstanceId()+"&procDefId="+task.getProcessDefinitionId()+"&status=todo";
+            content=content+"<br/>"+"<a href='" +url+"'>"+url+"</a>";
+        }
+        return content;
     }
 
     /**

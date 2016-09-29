@@ -22,7 +22,7 @@ public class OATaskService {
 
     @Scheduled(cron = "0 0/9 * * * ?")
     public void job1() {
-        if(Global.getConfig("useAlertTask")!=null && Boolean.parseBoolean(Global.getConfig("useAlertTask"))) {
+        if(Global.getConfig("alert.isOn")!=null && Boolean.parseBoolean(Global.getConfig("alert.isOn"))) {
             alertService.scheduleAlert();
             String time = new SimpleDateFormat("MMM d，yyyy KK:mm:ss a", Locale.ENGLISH).format(System.currentTimeMillis());
             System.out.println("time:" + time);
