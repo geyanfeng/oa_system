@@ -74,7 +74,7 @@
 <div class="col-sm-12">
 	<div class="container">
     <div class="row m-b-20" style="margin-top: 80px !important;">
-        <div class="col-sm-3">
+        <div class="col-sm-6">
             采购订单编号 ：${purchaseOrder.no}
         </div>
         <div class="pull-right">
@@ -360,6 +360,7 @@
 
     <div class="form-group">
         <div class="text-center">
+        	<input id="btnCancel" class="btn btn-inverse" type="button" value="返 回" onclick="history.go(-1)"/>
             <c:if test="${not empty purchaseOrder.act.taskDefKey || empty purchaseOrder.act.procInsId}">
                 <c:set var="submitText" value="提交审批"/>
 
@@ -402,7 +403,7 @@
                 </c:choose>
             </c:if>
 
-            <input id="btnCancel" class="btn btn-inverse" type="button" value="返 回" onclick="history.go(-1)"/>
+            
         </div>
     </div>
     </form:form>
