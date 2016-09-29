@@ -131,8 +131,8 @@
 					</a>
 					<a id="btnNew"
 						href="${ctx}/oa/contract/form?contractType=${contract.contractType}"
-						class="btn btn-primary" title="增加合同" data-content="新增"><i
-						class="fa fa-plus"></i>&nbsp;增加合同</a>
+						class="btn btn-primary" title="新建合同" data-content="新增"><i
+						class="fa fa-plus"></i>&nbsp;新建合同</a>
 				</shiro:hasPermission>
 			</c:if>
 
@@ -230,11 +230,11 @@
 						<th class="sort-column no">合同号</th>
 						<th class="sort-column a9.name">客户</th>
 						<th class="sort-column name">合同名称</th>
-						<th class="sort-column amount">合同金额</th>
-						<th class="sort-column status">合同状态</th>
+						<th class="sort-column amount">金额</th>
+						<th class="sort-column status">状态</th>
 						<th class="sort-column u32.name">销售</th>
-						<th class="sort-column u15.name">商务人员</th>
-						<th class="sort-column u16.name">技术人员</th>
+						<th class="sort-column u15.name">商务</th>
+						<th class="sort-column u16.name">技术</th>
 						<%-- <th>更新时间</th>--%>
 						<shiro:hasPermission name="oa:contract:edit">
 							<th>操作</th>
