@@ -34,6 +34,9 @@ th,td{text-align:left;}
             $.validator.addMethod("validationPaymentAmount", function(value) {
                 return validationPaymentAmount();
             }, "付款金额应该大于等于采购总金额:"+ $("#amount").val());
+			$.validator.addMethod("validatePayCondition", function(value) {
+				return validatePayCondition();
+			}, "只能第一个为预付");
 
 			$("#inputForm").submit(function(){
 				disableButtons();
@@ -42,7 +45,10 @@ th,td{text-align:left;}
             $("#inputForm").validate({
                 rules: {
                     name: {remote: "${ctx}/oa/contract/checkName?oldName=" + encodeURIComponent('${contract.name}')},
-                    paymentCycle:  "validationPaymentAmount"
+                    paymentCycle:  {
+						validationPaymentAmount: true,
+						validatePayCondition: true
+					}
                 },
                 messages: {
                     name: {remote: "合同名称已存在"}
@@ -968,6 +974,20 @@ th,td{text-align:left;}
 
                     return result;
                 }
+
+				//分期付款时验证条件
+				function validatePayCondition(){
+					var result = true;
+					var paymentCycle = $("input[id^='paymentCycle']:checked").val();
+					if(paymentCycle!="2") return true;
+					$("select[id^='payment_installment_payCondition']:gt(0)").each(function(){
+						if($(this).val()=="0")
+						{
+							result = false;
+						}
+					});
+					return result;
+				}
             </script>
 				</div>
 			</div>
