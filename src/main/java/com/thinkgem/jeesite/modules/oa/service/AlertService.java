@@ -225,7 +225,7 @@ public class AlertService extends CrudService<AlertDao, Alert> {
                     //得到内容
                     emailContent = SendMailUtil.getText(alertSetting.getContent(), data);
 
-                    saveAndSendEmail(alertSetting, alertType, contract.getId(),userId, receiverMap.get(userId), title, content,emailTitle,emailContent);
+                    saveAndSendEmail(alertSetting, alertType, po.getId(),userId, receiverMap.get(userId), title, content,emailTitle,emailContent);
                 }
             }
         }
@@ -244,6 +244,7 @@ public class AlertService extends CrudService<AlertDao, Alert> {
         alertFiler.setAlertType(alertType);
         alertFiler.setTargetId(targetId);
         alertFiler.setNode(alertSetting.getNode());
+        alertFiler.setDelFlag(null);
         if(alertSetting.getDuration() == 1){
             Calendar cc = Calendar.getInstance();
             //获得当天0点时间
@@ -297,6 +298,8 @@ public class AlertService extends CrudService<AlertDao, Alert> {
                 SendMailUtil.sendCommonMail(email, emailTitle, emailContent);
         }
     }
+
+
 
     public enum AlertType{
         Contract,

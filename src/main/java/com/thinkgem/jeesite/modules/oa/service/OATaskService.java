@@ -1,6 +1,6 @@
 package com.thinkgem.jeesite.modules.oa.service;
 
-import com.thinkgem.jeesite.modules.oa.entity.AlertSetting;
+import com.thinkgem.jeesite.common.config.Global;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -20,10 +20,12 @@ public class OATaskService {
     @Autowired
     private AlertService alertService;
 
-    @Scheduled(cron = "0 0/1 * * * ?")
+    @Scheduled(cron = "0 0/9 * * * ?")
     public void job1() {
-        //alertService.scheduleAlert();
-        String time = new SimpleDateFormat("MMM d，yyyy KK:mm:ss a", Locale.ENGLISH).format(System.currentTimeMillis());
-        System.out.println("time:"+time);
+        if(Global.getConfig("useAlertTask")!=null && Boolean.parseBoolean(Global.getConfig("useAlertTask"))) {
+            alertService.scheduleAlert();
+            String time = new SimpleDateFormat("MMM d，yyyy KK:mm:ss a", Locale.ENGLISH).format(System.currentTimeMillis());
+            System.out.println("time:" + time);
+        }
     }
 }

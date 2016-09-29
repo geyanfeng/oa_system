@@ -339,10 +339,10 @@ var wow = new WOW(
 );
 wow.init();
 
-function deleteAlert(sender,id){
+function deleteAlert(sender,urlPrefix, id){
     var self = $(sender);
 
-    $.post("${ctx}/oa/alert/delete?id="+id,{}, function(){
+    $.post(urlPrefix+"/oa/alert/delete?id="+id,{}, function(){
         if(id==""){
             $("#ul-alert").empty();
         } else {
