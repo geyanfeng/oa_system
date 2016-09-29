@@ -585,7 +585,49 @@
 						</c:otherwise>
 					</c:choose>
 				</div>
+				<shiro:hasAnyRoles name="cw,cfo">
+					<div class="card-box">
+						<h4 class="header-title m-t-0 m-b-30">合同退款待办</h4>
+						<c:choose>
+							<c:when test="${empty contract_refund_audit_list}">
+							当前无待办事项
+						</c:when>
+							<c:otherwise>
+								<table class="table m-0">
+									<thead>
+										<tr>
+											<th width="35%">合同号</th>
+											<th>合同名称</th>
+											<th width="15%">类别</th>
+
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach items="${contract_refund_audit_list}"
+											var="contract_refund_audit" varStatus="p">
+											<c:set var="task" value="${contract_refund_audit.task}" />
+											<c:set var="vars" value="${contract_refund_audit.vars}" />
+											<c:set var="procDef" value="${contract_refund_audit.procDef}" />
+											<c:set var="status" value="${contract_refund_audit.status}" />
+											<tr>
+												<td scope="row">${not empty vars.map.contract_no ? vars.map.contract_no: p.index + 1}</td>
+												<td><a
+													href="${ctx}/act/task/form?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}">
+														${fns:abbr(not empty vars.map.contract_name ? vars.map.contract_name : task.id, 30)}
+												</a></td>
+												<td><span class="label label-danger">${task.name}</span></td>
+											</tr>
+										</c:forEach>
+
+									</tbody>
+								</table>
+							</c:otherwise>
+						</c:choose>
+					</div>
+				</shiro:hasAnyRoles>
+				
 			</div>
+
 			<div class="col-sm-6">
 				<shiro:lacksRole name="cso,saler">
 					<div class="card-box" id="card_po_audit">
@@ -630,11 +672,7 @@
 
 					</div>
 				</shiro:lacksRole>
-			</div>
-
-			<div class="col-sm-6">
 				<shiro:hasRole name="cw">
-
 					<div class="card-box">
 						<h4 class="header-title m-t-0 m-b-30">采购订单退款待办</h4>
 						<c:choose>
@@ -674,55 +712,9 @@
 						</c:choose>
 					</div>
 				</shiro:hasRole>
+
+				
 			</div>
-			<div class="col-sm-6">
-				<shiro:hasAnyRoles name="cw,cfo">
-					<div class="card-box">
-						<h4 class="header-title m-t-0 m-b-30">合同退款待办</h4>
-						<c:choose>
-							<c:when test="${empty contract_refund_audit_list}">
-							当前无待办事项
-						</c:when>
-							<c:otherwise>
-								<table class="table m-0">
-									<thead>
-										<tr>
-											<th width="35%">合同号</th>
-											<th>合同名称</th>
-											<th width="15%">类别</th>
-
-										</tr>
-									</thead>
-									<tbody>
-										<c:forEach items="${contract_refund_audit_list}"
-											var="contract_refund_audit" varStatus="p">
-											<c:set var="task" value="${contract_refund_audit.task}" />
-											<c:set var="vars" value="${contract_refund_audit.vars}" />
-											<c:set var="procDef" value="${contract_refund_audit.procDef}" />
-											<c:set var="status" value="${contract_refund_audit.status}" />
-											<tr>
-												<td scope="row">${not empty vars.map.contract_no ? vars.map.contract_no: p.index + 1}</td>
-												<td><a
-													href="${ctx}/act/task/form?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}">
-														${fns:abbr(not empty vars.map.contract_name ? vars.map.contract_name : task.id, 30)}
-												</a></td>
-												<td><span class="label label-danger">${task.name}</span></td>
-											</tr>
-										</c:forEach>
-
-									</tbody>
-								</table>
-							</c:otherwise>
-						</c:choose>
-					</div>
-			</div>
-			</shiro:hasAnyRoles>
-		</div>
-
-
 	</div>
-
-
-
 </body>
 </html>
