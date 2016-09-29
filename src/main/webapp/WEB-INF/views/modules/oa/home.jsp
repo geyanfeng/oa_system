@@ -52,7 +52,7 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="card-box">
-					<h4 style="margin-top:0;font-weight:normal;">销售来单情况</h4>
+					<h4 class="header-title m-t-0">销售来单情况</h4>
 					<div id="total_1" style="height: 293px;" class="flot-chart"></div>
 				</div>
 			</div>
@@ -399,7 +399,7 @@
 			<div class="row">
 				<div class="col-sm-4">
 					<div class="card-box" style="height: 200px;">
-						<div class="m-t-0">收款情况</div>
+						<h4 class="header-title m-t-0">收款情况</h4>
 						<div class="text-center m-t-30">
 							<h2 class="text-custom">应收${financeList[0]['allAmount']}</h2>
 							<ul class="list-unstyled">
@@ -414,7 +414,7 @@
 
 				<div class="col-sm-4">
 					<div class="card-box" style="height: 200px;">
-						<div class="m-t-0">付款情况</div>
+						<h4 class="header-title m-t-0">付款情况</h4>
 						<div class="text-center m-t-30">
 							<h2 class="text-custom">应付${financeList[0]['toAllAmount']}</h2>
 							<ul class="list-unstyled">
@@ -428,9 +428,9 @@
 
 				<div class="col-sm-4">
 					<div class="card-box" style="height: 200px;">
-						<div class="m-t-0">待开发票金额</div>
+						<h4 class="header-title m-t-0">待开发票金额</h4>
 						<div class="text-center m-t-30">
-							<h2 class="text-custom">${financeList[0]['noBillAmount']}</h2>
+							<h2 class="text-custom">待开票${financeList[0]['noBillAmount']}</h2>
 						</div>
 					</div>
 				</div>
