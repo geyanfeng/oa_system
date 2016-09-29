@@ -48,74 +48,74 @@
 				<form:hidden path="id" />
 				<sys:message content="${message}" />
 				<div class="form-group">
-					<label class="col-md-2 control-label">名称<span class="help-inline"><font color="red">*</font> </span></label>
-					<div class="col-md-4">
+					<label class="col-sm-2 control-label">名称<span class="help-inline"><font color="red">*</font> </span></label>
+					<div class="col-sm-4">
 						<form:input path="name" htmlEscape="false" maxlength="100"
 							class="form-control input-xlarge required" />
 						
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-2 control-label">地址</label>
-					<div class="col-md-4">
+					<label class="col-sm-2 control-label">地址</label>
+					<div class="col-sm-4">
 						<form:input path="address" htmlEscape="false" maxlength="255"
 							class="input-xlarge form-control " />
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-2 control-label">联系人<font color="red">*</font></label>
-					<div class="col-md-4">
+					<label class="col-sm-2 control-label">联系人<font color="red">*</font></label>
+					<div class="col-sm-4">
 						<form:input path="contact" htmlEscape="false" maxlength="100"
 							class="input-xlarge form-control required" />
 						
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-2 control-label">联系电话<font color="red">*</font></label>
-					<div class="col-md-4">
+					<label class="col-sm-2 control-label">联系电话<font color="red">*</font></label>
+					<div class="col-sm-4">
 						<form:input path="phone" htmlEscape="false" maxlength="100"
 							class="input-xlarge form-control required" />
 						
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-2 control-label">QQ/微信：</label>
-					<div class="col-md-4">
+					<label class="col-sm-2 control-label">QQ/微信：</label>
+					<div class="col-sm-4">
 						<form:input path="qqWebChat" htmlEscape="false" maxlength="100"
 							class="input-xlarge form-control " />
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-2 control-label">邮箱：</label>
-					<div class="col-md-4">
+					<label class="col-sm-2 control-label">邮箱：</label>
+					<div class="col-sm-4">
 						<form:input path="email" htmlEscape="false" maxlength="100"
 							class="input-xlarge form-control " />
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-2 control-label">帐户名称：</label>
-					<div class="col-md-4">
+					<label class="col-sm-2 control-label">帐户名称：</label>
+					<div class="col-sm-4">
 						<form:input path="blankAccountName" htmlEscape="false"
 							maxlength="100" class="input-xlarge form-control " />
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-2 control-label">开户行：</label>
-					<div class="col-md-4">
+					<label class="col-sm-2 control-label">开户行：</label>
+					<div class="col-sm-4">
 						<form:input path="blankName" htmlEscape="false" maxlength="100"
 							class="input-xlarge form-control " />
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-2 control-label">帐号：</label>
-					<div class="col-md-4">
+					<label class="col-sm-2 control-label">帐号：</label>
+					<div class="col-sm-4">
 						<form:input path="blankAccountNo" htmlEscape="false"
 							maxlength="100" class="input-xlarge form-control " />
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-2 control-label">备注：</label>
-					<div class="col-md-4">
+					<label class="col-sm-2 control-label">备注：</label>
+					<div class="col-sm-4">
 						<form:textarea path="remark" htmlEscape="false" rows="4"
 							maxlength="255" class="form-control input-xxlarge " />
 					</div>

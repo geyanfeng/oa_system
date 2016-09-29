@@ -437,7 +437,7 @@ h4 {
         </div>
         <div class="text-center m-r-5">
             <br/><br/><a href="javascript:void(0);" onclick="addNewInstallmentPayment(this)" title="增加新的分期付款" class="zmdi zmdi-plus-circle text-custom" style="font-size:25px;"></a>
-            <br/><br/><br/><a href="javascript:void(0);" id="purchaseOrderFinanceList{{idx}}_btnDelete" onclick="deleteInstallmentPayment(this)" title="删除" class="zmdi zmdi-minus-circle text-custom" style="font-size:25px;"></a>
+            <a href="javascript:void(0);" id="purchaseOrderFinanceList{{idx}}_btnDelete" onclick="deleteInstallmentPayment(this)" title="删除" class="zmdi zmdi-minus-circle text-custom J_minus" style="font-size:25px;display:none;"></a>
         </div>
     </div>
     //-->
@@ -460,6 +460,9 @@ h4 {
             if(row && row.amount)
                 row.bl = ((parseFloat(row.amount)/sumAmount) * 100).toFixed(2);
             var tpl= $("#paymentTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
+            if($('.div-pay').length > 0){
+            	tpl = tpl.replace('font-size:25px;display:none;','font-size:25px;');	
+            }
             var idx = 0;
             if($("#payment-body").data("idx")){
                 idx = parseInt($("#payment-body").data("idx"));

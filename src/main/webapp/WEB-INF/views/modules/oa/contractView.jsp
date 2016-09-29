@@ -103,7 +103,7 @@
 
 <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true'}">
     <script src="${ctxStatic}/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
-    <div class="col-sm-5 div_bill" id="panel_po" style="display: none">
+    <div class="col-sm-5 div_bill" id="panel_po" style="display: none;width:500px;">
         <div class="panel panel-default">
             <div class="panel-heading" style="text-align: center;"><span style="font-size:16px;">采购下单</span>
                 <div class="pull-right">
@@ -1057,9 +1057,9 @@
             </script>
             <script type="text/template" id="payment-installment-tpl">//<!--
                 <div class="row" id="payment-installment_{{idx}}">
-                    <div class="col-sm-4">付款金额：{{row.payment_installment_amount}}</div>
-                    <div class="col-sm-4">账期：{{row.payment_installment_time}}</div>
-                    <div class="col-sm-4">付款方式：{{row.paymentMethod}}</div>
+                    <div class="col-sm-3">付款金额：{{row.payment_installment_amount}}</div>
+                    <div class="col-sm-3">账期：{{row.payment_installment_time}}</div>
+                    <div class="col-sm-3">付款方式：{{row.paymentMethod}}</div>
                     <div class="col-sm-3">付款条件：{{row.payCondition}}</div>
                 </div>
                 //-->
@@ -1068,9 +1068,9 @@
                 <div class="row" id="payment-month">
                     <div class="col-sm-3">付款金额：{{row.payment_month_amount}}</div>
                     <div class="col-sm-3">付款方式：{{row.paymentMethod}}</div>
-                    <div class="col-sm-3">{{type}}数：{{row.payment_month_num}} 个{{type}}</div>
-                    <div class="col-sm-3">付款日：{{row.payment_month_day}}</div>
-                    <div class="col-sm-3">起始月：{{row.payment_month_start}}</div>
+                    <div class="col-sm-2">{{type}}数：{{row.payment_month_num}} 个{{type}}</div>
+                    <div class="col-sm-2">付款日：{{row.payment_month_day}}</div>
+                    <div class="col-sm-2">起始月：{{row.payment_month_start}}</div>
                 </div>
                  //-->
             </script>
@@ -1437,7 +1437,7 @@
                     </c:if>
 
                     <c:if test="${contract.act.taskDefKey eq 'split_po'}">
-                        <c:set var="submitText" value="确认拆分"/>
+                        <c:set var="submitText" value="提交审核"/>
                     </c:if>
 
                     <c:if test="${contract.act.taskDefKey eq 'contract_edit'}">
