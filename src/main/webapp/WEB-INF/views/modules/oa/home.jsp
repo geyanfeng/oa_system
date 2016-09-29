@@ -323,8 +323,9 @@
 				        }
 				    },
 				    legend: {
-				        data: ['销售A', '销售B','销售C','销售D','销售E','销售F','销售G','销售总监']
+				        data: ['销售A', '销售B','销售C','销售D','销售E','销售总监']
 				    },
+				    color : [ '#4568cc','#3fc847','#46b0e4','#fcca35','#e96153','#57c4a4'],
 				    grid: {
 				        left: '0%',
 				        right: '4%',
@@ -389,30 +390,6 @@
 				        },
 				        {
 				            name: '销售E',
-				            type: 'bar',
-				            stack: '总量',
-				            label: {
-				                normal: {
-				                    show: true,
-				                    position: 'insideRight'
-				                }
-				            },
-				            data: [150, 212, 201, 154]
-				        },
-				        {
-				            name: '销售F',
-				            type: 'bar',
-				            stack: '总量',
-				            label: {
-				                normal: {
-				                    show: true,
-				                    position: 'insideRight'
-				                }
-				            },
-				            data: [150, 212, 201, 154]
-				        },
-				        {
-				            name: '销售G',
 				            type: 'bar',
 				            stack: '总量',
 				            label: {
