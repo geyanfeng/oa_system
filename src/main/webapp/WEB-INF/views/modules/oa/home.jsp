@@ -15,6 +15,7 @@
 	<script src='${ctxStatic}/assets/fullcalendar/moment.min.js'></script>
 	<script src='${ctxStatic}/assets/fullcalendar/fullcalendar.min.js'></script>
 	<script src='${ctxStatic}/assets/fullcalendar/zh-cn.js'></script>
+	<script src='${ctxStatic}/jquery/jquery.masonry.js'></script>
 	<script>
 
 	$(document).ready(function() {
@@ -36,6 +37,11 @@
 			events: financeCalendarList
 		});
 		
+		//瀑布流
+		/*$('#masonry').masonry({
+            columnWidth: '.item',
+            itemSelector: '.item'
+        });*/
 	});
 
 </script>
@@ -543,8 +549,8 @@
 			</div>
 		</shiro:hasAnyRoles>
 
-		<div class="row m-t-20">
-			<div class="col-sm-6">
+		<div class="row masonry-container m-t-20" id="masonry">
+			<div class="col-sm-6 item">
 				<div class="card-box" id="card_contract_audit">
 					<h4 class="header-title m-t-0 m-b-30">合同订单待办</h4>
 					<c:choose>
@@ -585,6 +591,8 @@
 						</c:otherwise>
 					</c:choose>
 				</div>
+			</div>
+			<div class="col-sm-6 item">
 				<shiro:hasAnyRoles name="cw,cfo">
 					<div class="card-box">
 						<h4 class="header-title m-t-0 m-b-30">合同退款待办</h4>
@@ -625,10 +633,8 @@
 						</c:choose>
 					</div>
 				</shiro:hasAnyRoles>
-				
 			</div>
-
-			<div class="col-sm-6">
+			<div class="col-sm-6 item">
 				<shiro:lacksRole name="cso,saler">
 					<div class="card-box" id="card_po_audit">
 						<h4 class="header-title m-t-0 m-b-30">采购订单待办</h4>
@@ -672,6 +678,8 @@
 
 					</div>
 				</shiro:lacksRole>
+			</div>
+			<div class="col-sm-6 item">
 				<shiro:hasRole name="cw">
 					<div class="card-box">
 						<h4 class="header-title m-t-0 m-b-30">采购订单退款待办</h4>
@@ -712,9 +720,7 @@
 						</c:choose>
 					</div>
 				</shiro:hasRole>
-
-				
 			</div>
-	</div>
+		</div>
 </body>
 </html>

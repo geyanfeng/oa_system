@@ -397,7 +397,7 @@ th,td{text-align:left;}
 							</div>
 						</div>
 
-						<div class="col-sm-6">
+						<div class="col-sm-6" style="visibility: hidden;">
 							<div class="form-group clearfix">
 								<label class="col-sm-3 control-label" for="no">合同号 <span
 									class="help-inline"><font color="red">*</font> </span></label>
@@ -721,14 +721,14 @@ th,td{text-align:left;}
 							<span class="input-group-addon bootstrap-touchspin-postfix">%</span></div>
 					</div>
 					<div class="form-group">
-                        <label>付款金额：</label>
+                        <label>金额：</label>
                         <input type="text" class="form-control required number payment_amount" id="payment_installment_amount_{{idx}}"
                         value="{{row.payment_installment_amount}}" style="width:100px;"/>
                     </div>
                     <div class="form-group">
                         <label>账期：</label>
                         <input id="payment_installment_time_{{idx}}" type="text" class="form-control number  required"
-                        value="{{row.payment_installment_time}}" style="width:100px;"/>
+                        value="{{row.payment_installment_time}}" style="width:60px;"/>
                     </div>
                     <div class="form-group">
                         <label>付款方式：</label>
