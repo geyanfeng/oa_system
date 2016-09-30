@@ -744,7 +744,7 @@
 				</shiro:hasAnyRoles>
 			</div>
 			<div class="col-sm-6 item">
-				<shiro:lacksRole name="cso,saler">
+				<shiro:hasAnyRoles name="cw,tech,businesser,cfo,dept">
 					<div class="card-box" id="card_po_audit">
 						<h4 class="header-title m-t-0 m-b-30">采购订单待办</h4>
 						<c:choose>
@@ -786,7 +786,7 @@
 						</c:choose>
 
 					</div>
-				</shiro:lacksRole>
+				</shiro:hasAnyRoles>
 			</div>
 			<div class="col-sm-6 item">
 				<shiro:hasRole name="cw">
