@@ -10,43 +10,8 @@
 	margin: 0;
 }
 
-.panel-body
-
- 
-
-.row
-
-
-:not
-
- 
-
-(
-:last-child
-
- 
-
-){
-border-bottom
-
-
-:
-
- 
-
-1
-px
-
- 
-
-solid
-
- 
-
-#dcdcdc
-
-
-;
+.panel-body .row:not(:last-child){
+   border-bottom:1px solid #dcdcdc;
 }
 .panel .panel-body {
 	padding: 0;
@@ -531,6 +496,26 @@ th, td {
 				</c:if>
 			</shiro:hasRole>
 
+			<!--退预付款-->
+			<shiro:hasRole name="cso">
+				<c:if test="${not empty is_recall && is_recall eq true}">
+					<div class="panel panel-default m-t-10">
+						<div class="panel-heading"><h3 class="panel-title">退预付款</h3></div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-sm-4">
+									退款方式：${fns:getDictLabel(contract.backPayMethod,"oa_payment_method" ,"" )}
+								</div>
+								<div class="col-sm-4">
+									退款金额：
+									<fmt:formatNumber type="number" value="${contract.backAmount}"
+													  maxFractionDigits="2" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</c:if>
+			</shiro:hasRole>
 			<c:if
 				test="${not empty contract.id and not empty contract.act.procInsId}">
 				<act:histoicFlow procInsId="${contract.act.procInsId}" />
