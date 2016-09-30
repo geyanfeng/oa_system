@@ -14,8 +14,8 @@
 			<!-- LOGO -->
 			<div class="topbar-left">
 				<div class="text-center" style="padding-top: 10px; height: 40px;">
-					<a href="${ctx}" class="logo"> <span><img
-							src="${ctxStatic}/images/logo.png" alt="logo"
+					<a href="${ctx}/oa/home" class="logo" target="mainFrame"> <span><img
+							src="${ctxStatic}/images/logo.png"  alt="logo"
 							style="height: 26px; vertical-align: 0px;"></span> <i
 						class="zmdi zmdi-toys icon-c-logo"></i><span>Born to be
 							pround</span>
@@ -103,7 +103,7 @@
 		<DIV class="left side-menu" style="padding-top:122px;">
 			<div class="text-center" style="position:absolute;top:0;left:0;right:0;">
 				<div class="user-thumb m-t-20">
-					<A href="${ctx}"><img
+					<A href="${ctx}/oa/home" target="mainFrame"><img
 						src="${not empty fns:getUser().photo ? fns:getUser().photo : 'static/images/tx.jpg'}"
 						style="width: 65px; height: 65px; padding: 1px;"
 						class="img-responsive img-circle img-thumbnail" alt="thumbnail"></A>
@@ -179,12 +179,12 @@
 				<DIV class="container">
 					<!-- Page-Title -->
 					<iframe id="mainFrame" name="mainFrame" scrolling="auto"
-						frameborder="no" src="${ctx}/oa/home" width="100%"></iframe>
+						frameborder="no" width="100%"></iframe>
 				</DIV>
 				<!-- container -->
 			</DIV>
 			<!-- content -->
-			<FOOTER class="footer"> ${fns:getConfig('productName')} </FOOTER>
+			<FOOTER class="footer"> ${fns:getConfig('productName')}</FOOTER>
 		</DIV>
 		<!-- ============================================================== -->
 		<!-- End Right content here -->
@@ -272,12 +272,21 @@
 	//-->
 	</script>
 	<script type="text/javascript">
+	
+		var mainFrame = document.getElementById("mainFrame");
+		<%
+		  if(request.getSession().getAttribute("frameurl") != null) {
+			  out.print("mainFrame.src='"+request.getSession().getAttribute("frameurl")+"';");
+		  }
+		  else{
+			  out.print("mainFrame.src='"+request.getContextPath()+"/a/oa/home';");
+		  }
+	    %>
 		var frameResizer = $('#mainFrame').iFrameResize([ {
 			log : true,
 			minHeight : 700,
 			scrolling : true
 		} ]);
-		var mainFrame = document.getElementById("mainFrame");
 		//$(mainFrame).height($(window).height()-190);
 
 		var resizefunc = [];
