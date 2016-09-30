@@ -647,8 +647,11 @@ th,td{text-align:left;}
 						});
 						$("#importForm").ajaxForm({success:completeLoadProducts, dataType:'json'});
 						function completeLoadProducts(result){
+							var productNum = $("#contractProductList tr").length;
 							for (var i = 0; i < result.length; i++) {
-								addRow('#contractProductList', contractProductRowIdx, contractProductTpl, result[i]);
+								addRow('#contractProductList', productNum, contractProductTpl, result[i]);
+								$("#contractProductList"+ productNum +"_num").trigger("change");
+								productNum++;
 							}
 							$("#uploadFile").val("");
 						}
