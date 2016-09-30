@@ -146,6 +146,9 @@
 	<update id="delete">
 		DELETE FROM oa_contract_finance
 		WHERE contract_id = #{contract.id}
+		<if test="sort!= null and sort!= '' and sort!= 0">
+			AND sort = #{sort}
+		</if>
 	</update>
 	
 </mapper>

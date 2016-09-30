@@ -361,6 +361,18 @@ function setCommonHideHandler(){
     });
 }
 
+//增加蒙版
+function addDivMask(sender, width, height){
+    $(sender).css("position","relative");
+    $(sender).append("<span class='div_mask'></span>");
+    if(width){
+        $(sender).find(".div_mask").css("width", width);
+    }
+    if(height){
+        $(sender).find(".div_mask").css("height", height);
+    }
+}
+
 //配置ajax
 $.ajaxSetup({
     'error':function (xhr, status, err) {

@@ -263,8 +263,15 @@ public class ContractService extends CrudService<ContractDao, Contract> {
      */
     @Transactional(readOnly = false)
     public void saveFinance(Contract contract){
-        //删除数据
-        contractFinanceDao.delete(new ContractFinance(contract));
+        ContractFinance filter = new ContractFinance(contract,3);//过滤已经付款数据
+        List<ContractFinance> kfFinances = contractFinanceDao.findList(filter);
+
+        //如果没有付款信息,可以直接删除所有
+        if(kfFinances.size()==0) {
+            //删除数据
+            contractFinanceDao.delete(new ContractFinance(contract));
+        }
+
         //如果收款数据为空, 不增加新的付款数据
         if(isBlank(contract.getPaymentDetail())){
             return;
@@ -298,17 +305,34 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         } else if(contract.getPaymentCycle().equals("2")){//分期付款
             List<Map<String, Object>> paymentList=(List<Map<String, Object>>)payment;
             int sort = 1;
+            boolean canReAdd = true;//是否可以增加, 如果已经付款不可以增加
+
             for (Map<String, Object> paymentObj: paymentList){
-                ContractFinance contractFinance = new ContractFinance(contract);
-                contractFinance.setPaymentCycle(contract.getPaymentCycle());
-                contractFinance.setPayMethod(paymentObj.get("payment_installment_paymentMethod").toString());
-                contractFinance.setAmount(Double.parseDouble(paymentObj.get("payment_installment_amount").toString()));
-                contractFinance.setPayCondition(Integer.parseInt(paymentObj.get("payment_installment_payCondition").toString()));
-                contractFinance.setSort(sort);
-                contractFinance.setStatus(1);
-                contractFinance.preInsert();
-                contractFinanceDao.insert(contractFinance);
+                //验证是否已经付款
+                for(ContractFinance fkFinance : kfFinances){
+                    if(sort == fkFinance.getSort()){
+                        canReAdd = false;
+                        break;
+                    }
+                }
+                if(canReAdd) {
+                    //删除数据
+                    ContractFinance deleteFinance = new ContractFinance(contract);
+                    deleteFinance.setSort(sort);
+                    contractFinanceDao.delete(deleteFinance);
+
+                    ContractFinance contractFinance = new ContractFinance(contract);
+                    contractFinance.setPaymentCycle(contract.getPaymentCycle());
+                    contractFinance.setPayMethod(paymentObj.get("payment_installment_paymentMethod").toString());
+                    contractFinance.setAmount(Double.parseDouble(paymentObj.get("payment_installment_amount").toString()));
+                    contractFinance.setPayCondition(Integer.parseInt(paymentObj.get("payment_installment_payCondition").toString()));
+                    contractFinance.setSort(sort);
+                    contractFinance.setStatus(1);
+                    contractFinance.preInsert();
+                    contractFinanceDao.insert(contractFinance);
+                }
                 sort++;
+                canReAdd = true;
             }
         }  else if(contract.getPaymentCycle().equals("3") || contract.getPaymentCycle().equals("4")){//月付或季付
             Map<String, Object> paymentObj=(Map<String, Object>)payment;
