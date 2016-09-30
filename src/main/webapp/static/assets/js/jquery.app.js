@@ -174,6 +174,7 @@ function($) {
           $("#ul-alert").closest(".right-bar").find("H4").html("提醒");
           $.getJSON(ctx + "/oa/alert", function(alertList){
               $("#ul-alert").empty();
+              $(".div-delete").show();
               $("#ul-alert").append(Mustache.render(alertTpl, {alertList:alertList}));
           });
           $('#wrapper').toggleClass('right-bar-enabled');
@@ -203,6 +204,7 @@ function($) {
                     todoList.push(todo);
                 });
                 $("#ul-alert").empty();
+                $(".div-delete").hide();
                 $("#ul-alert").append(Mustache.render(alertTpl, {todoList:todoList}));
             });
             $('#wrapper').toggleClass('right-bar-enabled');

@@ -197,11 +197,7 @@
 			<DIV class="notification-list nicescroll">
 				<UL class="list-group list-no-border user-list" id="ul-alert">
 				</UL>
-				<div style="float: right; margin-right: 20px;">
-					<a href="#" title="删除全部" onclick="deleteAlert(this,'');"
-						style="font-size: 25px"><i class="zmdi zmdi-delete"></i></a>
-				</div>
-				<div style="float: right;margin-right: 20px;"><a href="#" title="删除全部" onclick="deleteAlert(this,'${ctx}','');" style="font-size:25px"><i class="zmdi zmdi-delete"></i></a></div>
+				<div style="float: right;margin-right: 20px;" class="div-delete"><a href="#" title="删除全部" onclick="deleteAlert(this,'${ctx}','');" style="font-size:25px"><i class="zmdi zmdi-delete"></i></a></div>
 			</DIV>
 		</DIV>
 		<!-- /Right-bar -->
