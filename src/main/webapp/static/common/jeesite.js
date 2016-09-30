@@ -29,6 +29,11 @@ $(document).ready(function() {
 		}
 		return false;
 	});
+	
+	$('select').change(function(){
+		var id = $(this).attr('id');
+		$('label[for="'+id+'"]').hide();
+	});
 
 });
 
@@ -359,6 +364,18 @@ function setCommonHideHandler(){
         $(this).find('iframe').html("");
         $(this).find('iframe').attr("src", "");
     });
+}
+
+//增加蒙版
+function addDivMask(sender, width, height){
+    $(sender).css("position","relative");
+    $(sender).append("<span class='div_mask'></span>");
+    if(width){
+        $(sender).find(".div_mask").css("width", width);
+    }
+    if(height){
+        $(sender).find(".div_mask").css("height", height);
+    }
 }
 
 //配置ajax

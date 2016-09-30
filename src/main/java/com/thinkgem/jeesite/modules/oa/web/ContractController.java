@@ -266,6 +266,14 @@ public class ContractController extends BaseController {
 			}
 			else if("contract_edit".equals(taskDefKey)){//合同修改
 				view = "contractForm";
+
+				if(actTaskService.getVarValue(contract.getProcInsId(),"recall_id") != null) {
+					model.addAttribute("is_recall", true);
+					//得到已付款金额
+					ContractFinance filter = new ContractFinance(contract,3);
+					List<ContractFinance> finances = contractFinanceDao.findList(filter);
+					model.addAttribute("fkFinances", finances);
+				}
 			}
 			else if("saler_audit".equals(taskDefKey) || "cso_audit".equals(taskDefKey)){//销售审核和总监审核
 				//检查是否为撤回并得到老的采购数据

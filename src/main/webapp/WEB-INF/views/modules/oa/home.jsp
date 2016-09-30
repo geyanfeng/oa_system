@@ -5,8 +5,19 @@
 <title>合同管理</title>
 <meta name="decorator" content="default" />
 <style>
+
 </style>
+<script src='${ctxStatic}/jquery-plugin/jquery.masonry.js'></script>
 <script src="${ctxStatic}/assets/plugins/echarts.min.js"></script>
+<script>
+$(function(){
+	//瀑布流
+	$('#masonry').masonry({
+        columnWidth: '.item',
+        itemSelector: '.item'
+    });
+});
+</script>
 <shiro:hasAnyRoles name="cw,cfo">
 	<link href='${ctxStatic}/assets/fullcalendar/fullcalendar.css'
 		rel='stylesheet' />
@@ -15,7 +26,7 @@
 	<script src='${ctxStatic}/assets/fullcalendar/moment.min.js'></script>
 	<script src='${ctxStatic}/assets/fullcalendar/fullcalendar.min.js'></script>
 	<script src='${ctxStatic}/assets/fullcalendar/zh-cn.js'></script>
-	<script src='${ctxStatic}/jquery/jquery.masonry.js'></script>
+	
 	<script>
 
 	$(document).ready(function() {
@@ -38,13 +49,7 @@
 			events: financeCalendarList,
 			height: $(top.window).height() - 100,
 			fixedWeekCount: false
-		});
-		
-		//瀑布流
-		/*$('#masonry').masonry({
-            columnWidth: '.item',
-            itemSelector: '.item'
-        });*/
+		});	
 	});
 
 </script>

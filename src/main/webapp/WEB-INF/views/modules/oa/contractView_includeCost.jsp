@@ -10,10 +10,44 @@
 	margin: 0;
 }
 
-.panel-body .row:not (:last-child ){
-	border-bottom: 1px solid #dcdcdc;
-}
+.panel-body
 
+ 
+
+.row
+
+
+:not
+
+ 
+
+(
+:last-child
+
+ 
+
+){
+border-bottom
+
+
+:
+
+ 
+
+1
+px
+
+ 
+
+solid
+
+ 
+
+#dcdcdc
+
+
+;
+}
 .panel .panel-body {
 	padding: 0;
 }
@@ -51,6 +85,7 @@ a.anchor {
 th, td {
 	text-align: left;
 }
+
 .form-group {
 	margin-right: 15px;
 }
@@ -163,7 +198,8 @@ th, td {
 							毛利率：
 							<fmt:formatNumber type="number"
 								value="${((contract.amount - contract.cost - contract.customerCost * 1.1)/contract.amount)*100}"
-								maxFractionDigits="2" />%
+								maxFractionDigits="2" />
+							%
 						</div>
 					</div>
 				</div>
@@ -178,13 +214,13 @@ th, td {
 						<div class="panel-body">
 							<table id="contentTable_old" class="table table-condensed">
 								<thead>
-								<tr role="row">
-									<th class="hidden"></th>
-									<th>名称</th>
-									<th>数量</th>
-									<th>产品类别</th>
-									<th>合同售价</th>
-								</tr>
+									<tr role="row">
+										<th class="hidden"></th>
+										<th>名称</th>
+										<th>数量</th>
+										<th>产品类别</th>
+										<th>合同售价</th>
+									</tr>
 								</thead>
 								<tbody id="contractProductList_old">
 								</tbody>
@@ -239,7 +275,12 @@ th, td {
 			<!--销售清单-->
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title"><shiro:hasRole name="cso"><c:if test="${not empty is_recall && is_recall eq true}">新</c:if></shiro:hasRole>销售清单</h3>
+					<h3 class="panel-title">
+						<shiro:hasRole name="cso">
+							<c:if test="${not empty is_recall && is_recall eq true}">新</c:if>
+						</shiro:hasRole>
+						销售清单
+					</h3>
 				</div>
 				<div class="panel-body">
 					<table id="contentTable" class="table table-condensed">
@@ -406,58 +447,64 @@ th, td {
 			</div>
 
 			<shiro:hasRole name="cso">
-			<c:if test="${not empty is_recall && is_recall eq true}">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h3 class="panel-title">额外成本</h3>
-					</div>
-					<div class="panel-body">
-						<div class="row form-inline">
-							<div class="form-group">
-								<label><font color="red">库存金额</font>：</label>
-
-								<form:input path="stockInAmount" htmlEscape="false"
-											class="form-control required number " onchange="updateExtraAmount(this);" />&nbsp;元
-
-							</div>
-							
-							<div class="form-group">
-								<label><font color="red">退货成本</font>：</label>
-
-								<form:input path="returningAmount" htmlEscape="false"
-											class="form-control required number " value="0" onchange="updateExtraAmount(this);" />&nbsp;元
-
-							</div>
-							
-							<div class="form-group">
-								<label><font color="red">额外成本总额</font>：</label>
-
-								<form:input path="extraAmount" htmlEscape="false"
-											class="form-control required number " />&nbsp;元
-
-							</div>
-
-							
+				<c:if test="${not empty is_recall && is_recall eq true}">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">额外成本</h3>
 						</div>
-					
-						<div class="row form-inline">
-						<div class="form-group">
-								<div class="checkbox checkbox-custom checkbox-circle">
-									<input type="checkbox" value="true" name="stockInIsDeduction" id="stockInIsDeduction">
-									<label for="stockInIsDeduction">是否业绩抵扣</label>
-									<input type="hidden" value="on" name="_stockInIsDeduction">
+						<div class="panel-body">
+							<div class="row form-inline">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<label><font color="red">库存金额</font>：</label>
+
+										<form:input path="stockInAmount" htmlEscape="false"
+											class="form-control required number " style="width:100px;"
+											onchange="updateExtraAmount(this);" />
+										&nbsp;元
+
+									</div>
+
+									<div class="form-group">
+										<label><font color="red">退货成本</font>：</label>
+
+										<form:input path="returningAmount" htmlEscape="false"
+											class="form-control required number " value="0" style="width:100px;"
+											onchange="updateExtraAmount(this);" />
+										&nbsp;元
+
+									</div>
+
+									<div class="form-group">
+										<label><font color="red">额外成本总额</font>：</label>
+
+										<form:input path="extraAmount" htmlEscape="false" style="width:100px;"
+											class="form-control required number " />
+										&nbsp;元
+
+									</div>
+
+									<div class="form-group">
+										<div class="checkbox checkbox-custom checkbox-circle">
+											<input type="checkbox" value="true" name="stockInIsDeduction"
+												id="stockInIsDeduction"> <label
+												for="stockInIsDeduction">是否业绩抵扣</label> <input type="hidden"
+												value="on" name="_stockInIsDeduction">
+										</div>
+									</div>
+
+									<div class="form-group" id="stockInDiscount-group"
+										style="margin-left: 20px;">
+										<label>抵扣金额：</label>
+										<form:input path="stockInDiscount" htmlEscape="false"
+											class="form-control  number " />
+										&nbsp;元
+									</div>
 								</div>
 							</div>
-
-							<div class="form-group" id="stockInDiscount-group" style="margin-left: 20px;">
-								<label>抵扣金额：</label>
-								<form:input path="stockInDiscount" htmlEscape="false"
-											class="form-control  number " />&nbsp;元
-							</div>
-					    </div>
-					</div>
-				</div>
-				<script>
+						</div>
+						</div>
+						<script>
 				    function updateExtraAmount(sender){
 				    	var stockInAmount = parseFloat($("#stockInAmount").val());
                     	var returningAmount = parseFloat($("#returningAmount").val());
@@ -481,7 +528,7 @@ th, td {
 					});
 
 				</script>
-			</c:if>
+				</c:if>
 			</shiro:hasRole>
 
 			<c:if
@@ -528,9 +575,9 @@ th, td {
 						test="${contract.contractType ne '1' and not empty contract.id and not empty contract.act.taskDefKey}">
 						<input id="btnSubmit" class="btn btn-info" type="submit"
 							value="驳 回" onclick="$('#flag').val('no')" />
-                		<input id="btnSubmit" class="btn btn-primary"
-							type="submit" value="同 意" onclick="$('#flag').val('yes')" />
-                </c:if>
+						<input id="btnSubmit" class="btn btn-primary" type="submit"
+							value="同 意" onclick="$('#flag').val('yes')" />
+					</c:if>
 				</div>
 			</div>
 		</div>
