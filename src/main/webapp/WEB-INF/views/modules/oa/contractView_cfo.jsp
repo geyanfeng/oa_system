@@ -166,7 +166,7 @@ th, td {
 				<div class="panel-body">
 					<c:forEach items="${purchaseOrderList}" var="po"
 						varStatus="aStatus">
-						<div class="row">
+						<div class="row" style="border-top: 1px solid #e0e0e0;">
 							<div class="col-sm-3">
 								订单号: <a href="${ctx}/oa/purchaseOrder/view?id=${po.id}">${po.no}</a>
 							</div>
@@ -179,19 +179,19 @@ th, td {
 								<c:forEach items="${po.purchaseOrderFinanceList}" var="finance"
 									varStatus="bStatus">
 									<tr>
-										<td class="hidden"></td>
-										<td>第${bStatus.count}笔: <fmt:formatNumber type="number"
+										<td class="hidden" style="border:none;"></td>
+										<td style="border:none;">第${bStatus.count}笔: <fmt:formatNumber type="number"
 												value="${po.amount eq 0 ? 0:((finance.amount / po.amount) * 100)}"
 												maxFractionDigits="2" />%
 										</td>
-										<td>付款金额: <fmt:formatNumber type="number"
+										<td style="border:none;">付款金额: <fmt:formatNumber type="number"
 												value="${finance.amount}" maxFractionDigits="2" /></td>
-										<td>帐期: <fmt:formatNumber type="number"
+										<td style="border:none;">帐期: <fmt:formatNumber type="number"
 												value="${finance.zq}" maxFractionDigits="0" />天
 										</td>
-										<td>帐期点数: ${po.paymentPointnum}%</td>
-										<td>付款条件: <c:if test="${finance.payCondition eq 0}">预付</c:if><c:if test="${finance.payCondition eq 1}">后付</c:if></td>
-										<td>付款方式: <font
+										<td style="border:none;">帐期点数: ${po.paymentPointnum}%</td>
+										<td style="border:none;">付款条件: <c:if test="${finance.payCondition eq 0}">预付</c:if><c:if test="${finance.payCondition eq 1}">后付</c:if></td>
+										<td style="border:none;">付款方式: <font
 											<c:if test="${finance.payMethod eq 3}">color="red"</c:if>>
 												${fns:getDictLabel(finance.payMethod,"oa_payment_method","")}</font></td>
 									</tr>
