@@ -29,6 +29,11 @@ $(document).ready(function() {
 		}
 		return false;
 	});
+	
+	$('select').change(function(){
+		var id = $(this).attr('id');
+		$('label[for="'+id+'"]').hide();
+	});
 
 });
 

@@ -41,6 +41,7 @@ th,td{text-align:left;}
 			$("#inputForm").submit(function(){
 				disableButtons();
 			});
+			
 
             $("#inputForm").validate({
                 rules: {
