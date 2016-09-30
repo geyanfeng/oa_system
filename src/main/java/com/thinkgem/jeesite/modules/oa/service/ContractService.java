@@ -465,7 +465,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         ContractFinance filter = new ContractFinance(contract);
         List<ContractFinance> finances = contractFinanceDao.findList(filter);
         if(finances.size()>0) {
-            if(finances.get(0).getPayCondition() == 0)
+            if(finances.get(0).getPayCondition() == 0 && finances.get(0).getStatus() != 3)
                 return true;
             else
                 return false;
