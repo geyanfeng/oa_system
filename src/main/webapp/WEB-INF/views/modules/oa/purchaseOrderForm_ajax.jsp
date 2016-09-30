@@ -70,6 +70,11 @@ h4 {
                         return;
                     }
 
+                    if(!validatePayCondition()){
+                        showTipMsg("只能第一个为预付", "error");
+                        return;
+                    }
+
                     $("#inputForm").ajaxSubmit({
                         success:function(result){
                             var status= result.status;
@@ -581,6 +586,18 @@ h4 {
                 totalAmount = totalAmount + parseFloat($(item).val());
             });
             result = totalAmount ==  sumAmount;
+            return result;
+        }
+
+        //分期付款时验证条件
+        function validatePayCondition(){
+            var result = true;
+            $("select[id$='_payCondition']:gt(0)").each(function(){
+                if($(this).val()=="0")
+                {
+                    result = false;
+                }
+            });
             return result;
         }
     </script>

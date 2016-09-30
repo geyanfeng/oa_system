@@ -20,11 +20,13 @@ import com.thinkgem.jeesite.modules.oa.dao.ContractProductDao;
 import com.thinkgem.jeesite.modules.oa.dao.PeopleSettingDao;
 import com.thinkgem.jeesite.modules.oa.dao.StockInDao;
 import com.thinkgem.jeesite.modules.oa.entity.*;
-import com.thinkgem.jeesite.modules.oa.service.*;
+import com.thinkgem.jeesite.modules.oa.service.ContractService;
+import com.thinkgem.jeesite.modules.oa.service.CustomerService;
+import com.thinkgem.jeesite.modules.oa.service.ProductTypeService;
+import com.thinkgem.jeesite.modules.oa.service.PurchaseOrderService;
 import com.thinkgem.jeesite.modules.sys.entity.Dict;
 import com.thinkgem.jeesite.modules.sys.utils.DictUtils;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
-
 import org.activiti.engine.TaskService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,12 +38,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static org.codehaus.plexus.util.StringUtils.isBlank;
 import static org.codehaus.plexus.util.StringUtils.isNotBlank;
 
 /**
@@ -255,13 +255,13 @@ public class ContractController extends BaseController {
 					//得到已付款金额
 					ContractFinance filter = new ContractFinance(contract,3);
 					List<ContractFinance> finances = contractFinanceDao.findList(filter);
+					Double fkTotalAmount = 0.00;
 					if(finances.size()>0) {
-						Double fkTotalAmount = 0.00;
 						for(ContractFinance finance : finances){
 							fkTotalAmount+=finance.getAmount();
 						}
-						model.addAttribute("fkTotalAmount", fkTotalAmount);
 					}
+					model.addAttribute("fkTotalAmount", fkTotalAmount);
 				}
 			}
 			else if("contract_edit".equals(taskDefKey)){//合同修改
@@ -384,10 +384,7 @@ public class ContractController extends BaseController {
 				addMessage(redirectAttributes, e.getMessage());
 				return "redirect:" + request.getHeader("referer");
 			}
-			if(isBlank(sUrl))
-				return "redirect:" + adminPath + "/act/task/todo/";
-			else
-				return "redirect:" + Encodes.urlDecode(sUrl);
+			return autoRedirect(sUrl);
 		}
 		return "redirect:"+Global.getAdminPath()+"/oa/contract/?contractType="+contract.getContractType()+"&repage";
 	}

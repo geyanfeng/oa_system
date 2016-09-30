@@ -16,6 +16,8 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
 
+import com.thinkgem.jeesite.common.config.Global;
+import com.thinkgem.jeesite.common.utils.Encodes;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -37,6 +39,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.thinkgem.jeesite.common.beanvalidator.BeanValidators;
 import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.utils.DateUtils;
+
+import static org.codehaus.plexus.util.StringUtils.isNotBlank;
 
 /**
  * 控制器支持类
@@ -242,5 +246,14 @@ public abstract class BaseController {
 			// "";
 			// }
 		});
+	}
+
+	public String autoRedirect(String sUrl){
+		if(isNotBlank(sUrl) && !sUrl.endsWith(Global.getAdminPath())) {
+			return "redirect:" + Encodes.urlDecode(sUrl);
+		}
+		else {
+			return "redirect:" +Global.getAdminPath()+"/oa/home";
+		}
 	}
 }

@@ -1,6 +1,5 @@
 package com.thinkgem.jeesite.modules.oa.web;
 
-import com.thinkgem.jeesite.common.utils.Encodes;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.oa.dao.ContractFinanceDao;
@@ -77,9 +76,6 @@ public class ContractRefundController extends BaseController {
             addMessage(redirectAttributes, e.getMessage());
             return "redirect:" + request.getHeader("referer");
         }
-        if(StringUtils.isBlank(sUrl))
-            return "redirect:" + adminPath + "/act/task/todo/";
-        else
-            return "redirect:" + Encodes.urlDecode(sUrl);
+        return autoRedirect(sUrl);
     }
 }
