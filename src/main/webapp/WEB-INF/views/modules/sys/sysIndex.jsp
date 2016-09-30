@@ -58,7 +58,7 @@
 										<LI><A class="right-bar-toggle"
 											href="javascript:void(0);" title="提醒"><I
 												class="zmdi zmdi-notifications-none"></I> </A>
-											<DIV class="noti-dot">
+											<DIV class="noti-dot" style="display: none">
 												<SPAN class="dot"></SPAN> <SPAN class="pulse"></SPAN>
 											</DIV></LI>
 									</UL>
@@ -70,7 +70,7 @@
 										<LI><A class="right-bar-todo" href="javascript:void(0);"
 											target="mainFrame" title="待办事项"><i
 												class="zmdi zmdi-hourglass-outline"></I> </A>
-											<DIV class="noti-dot">
+											<DIV class="noti-dot" style="display: none">
 												<SPAN class="dot"></SPAN> <SPAN class="pulse"></SPAN>
 											</DIV></LI>
 									</UL>

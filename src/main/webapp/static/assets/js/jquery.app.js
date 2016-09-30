@@ -209,7 +209,6 @@ function($) {
             });
             $('#wrapper').toggleClass('right-bar-enabled');
         });
-
     },
     //initilizing 
     App.prototype.init = function() {
