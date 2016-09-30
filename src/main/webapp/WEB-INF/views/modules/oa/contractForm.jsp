@@ -754,8 +754,8 @@ th,td{text-align:left;}
 							<option value="1">后付</option>
 						</select>
                 	 </div>
-					<div class="form-group">
-                        <span  style="margin-left:20px;">
+					<div class="form-group pull-right">
+                        <span  style="margin-right:20px;">
   				   		<a href="javascript:void(0);" onclick="addNewInstallmentPayment(this)" title="增加新的分期付款" class="zmdi zmdi-plus-circle text-custom" style="font-size:24px;"></a>
                    		<a href="javascript:void(0);" onclick="deleteInstallmentPayment(this)" title="删除" class="zmdi zmdi-minus-circle text-custom" style="font-size:24px;"></a>
 						</span>
@@ -808,7 +808,9 @@ th,td{text-align:left;}
             </script>
 					<div id="payment-body" data-idx="1"></div>
 					<script type="text/javascript">
-					
+					var is_recall =<c:choose><c:when test="${not empty is_recall}">true</c:when><c:otherwise>false</c:otherwise></c:choose>;
+					var fkFinances =  <c:choose><c:when test="${not empty fkFinances}">${fns:toJson(fkFinances)}</c:when><c:otherwise>[]</c:otherwise></c:choose>;
+
 					function updatePayment(sender){
 						var totalAmount = parseFloat($("#amount").val());
                     	var percentage = parseFloat($(sender).val());
@@ -816,6 +818,7 @@ th,td{text-align:left;}
                     		$(sender).parent().parent().parent().find(".payment_amount").val((totalAmount * percentage /100).toFixed(2));
                     	}
 					}
+
                 $(document).ready(function () {
                 	                   
                     $("#btnSubmit, #btnStartAudit").click(function () {
@@ -831,6 +834,10 @@ th,td{text-align:left;}
 							});
 						});*/
                     });
+
+					if(is_recall) {
+						addDivMask($("input[id^='paymentCycle']").closest(".row"));
+					}
 
                     if ($('#id').val()!="") {
                         //load payment detail from saved data
@@ -871,6 +878,9 @@ th,td{text-align:left;}
 								if(!row.payment_onetime_payCondition)
 									row.payment_onetime_payCondition = 0;
                                 $("#payment-body").append(Mustache.render($("#payment-onetime-tpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""), {row:row}));
+								if(is_recall && fkFinances.length > 0){
+									addDivMask($("#payment-body"));
+								}
                             break;
                         case "2":
                                 if(!idx)
@@ -878,14 +888,28 @@ th,td{text-align:left;}
 								if(!row.payment_installment_payCondition)
 									row.payment_installment_payCondition = 0;
                                 $("#payment-body").append(Mustache.render($("#payment-installment-tpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""), {idx:idx, row:row}));
+								if(is_recall && fkFinances.length > 0){
+									$.each(fkFinances, function(i, finance){
+										if(finance.sort == idx){
+											addDivMask($("#payment-installment_"+idx), "80%");
+											$("#payment-installment_"+idx).find(".zmdi-minus-circle").remove();
+										}
+									});
+								}
                                 idx = idx+1;
                                 $("#payment-body").data("idx",idx);
                             break;
                         case "3":
                                 $("#payment-body").append(Mustache.render($("#payment-month-tpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""), {type:"月",row:row}));
+								if(is_recall && fkFinances.length > 0){
+									addDivMask($("#payment-body"));
+								}
                             break;
                         case "4":
                                 $("#payment-body").append(Mustache.render($("#payment-month-tpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""), {type:"季",row:row}));
+								if(is_recall && fkFinances.length > 0){
+									addDivMask($("#payment-body"));
+								}
                             break;
                     }
                     $("#payment-body").find("select").each(function () {
