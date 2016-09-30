@@ -148,10 +148,12 @@
 								class="fa fa-trash"></i></a>
 							</c:if>
 						</shiro:hasPermission>
+						<shiro:hasRole name="businesser">
 						<c:if test="${purchaseOrder.evaluateFlag eq '0'}">
 						<a href="#" onclick="supplierEvaluation('${purchaseOrder.id}')" title="供应商评价"><i
 								class="zmdi zmdi-flower-alt"></i></a>
 						</c:if>
+						</shiro:hasRole>
 					</td>
 
 				</tr>
