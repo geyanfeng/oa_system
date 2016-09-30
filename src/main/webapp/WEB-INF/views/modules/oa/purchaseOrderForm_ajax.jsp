@@ -312,7 +312,7 @@ h4 {
                         sumAmount = sumAmount + price * num;
                 });
 
-                $("input[id$='_bl']").each(function(){
+                $("input[id$='_amount']").each(function(){
                     updatePayment(this);
                 });
             }
@@ -501,7 +501,7 @@ h4 {
                 var ss = $(this).attr("data-value").split(',');
                 for (var i = 0; i < ss.length; i++) {
                     if ($(this).val() == ss[i]) {
-                        $(this).attr("checked", "checked");
+                        $(this).prop("checked", "checked");
                     }
                 }
             });
