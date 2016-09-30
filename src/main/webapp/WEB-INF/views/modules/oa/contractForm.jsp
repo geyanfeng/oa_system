@@ -700,7 +700,7 @@ th,td{text-align:left;}
                         <c:forEach items="${fns:getDictList('oa_payment_method')}" var="dict" varStatus="s">
                             <span class="radio radio-custom radio-inline" style="padding-left:2px">
                                 <input id="payment_onetime_paymentMethod${s.index+1}" name="payment_onetime_paymentMethod" type="radio"
-                                       value="${dict.value}" data-value="{{row.payment_onetime_paymentMethod}}"  checked>
+                                       value="${dict.value}" data-value="{{row.payment_onetime_paymentMethod}}" checked>
                                 <label for="payment_onetime_paymentMethod${s.index+1}">${dict.label}</label>
                             </span>
                         </c:forEach>
@@ -873,10 +873,13 @@ th,td{text-align:left;}
                 function addPaymentRow(row,idx){
 					if(row==null) row=[];
                     var paymentCycle = $("input[id^='paymentCycle']:checked").val();
+
                     switch(paymentCycle){
                         case "1":
 								if(!row.payment_onetime_payCondition)
 									row.payment_onetime_payCondition = 0;
+								if(!row.payment_onetime_paymentMethod)
+									row.payment_onetime_paymentMethod = "2";
                                 $("#payment-body").append(Mustache.render($("#payment-onetime-tpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""), {row:row}));
 								if(is_recall && fkFinances.length > 0){
 									addDivMask($("#payment-body"));
@@ -887,6 +890,8 @@ th,td{text-align:left;}
                                     idx=1;
 								if(!row.payment_installment_payCondition)
 									row.payment_installment_payCondition = 0;
+								if(!row.payment_installment_paymentMethod)
+									row.payment_installment_paymentMethod = "2";
                                 $("#payment-body").append(Mustache.render($("#payment-installment-tpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""), {idx:idx, row:row}));
 								if(is_recall && fkFinances.length > 0){
 									$.each(fkFinances, function(i, finance){
@@ -900,12 +905,16 @@ th,td{text-align:left;}
                                 $("#payment-body").data("idx",idx);
                             break;
                         case "3":
+								if(!row.payment_month_paymentMethod)
+									row.payment_month_paymentMethod = "2";
                                 $("#payment-body").append(Mustache.render($("#payment-month-tpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""), {type:"月",row:row}));
 								if(is_recall && fkFinances.length > 0){
 									addDivMask($("#payment-body"));
 								}
                             break;
                         case "4":
+								if(!row.payment_month_paymentMethod)
+									row.payment_month_paymentMethod = "2";
                                 $("#payment-body").append(Mustache.render($("#payment-month-tpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""), {type:"季",row:row}));
 								if(is_recall && fkFinances.length > 0){
 									addDivMask($("#payment-body"));
@@ -919,8 +928,10 @@ th,td{text-align:left;}
                         var ss = $(this).attr("data-value").split(',');
                         for (var i = 0; i < ss.length; i++) {
                             if ($(this).val() == ss[i]) {
-                                $(this).attr("checked", "checked");
-                            }
+                                $(this).prop("checked", "checked");
+                            } else {
+								$(this).prop("checked","");
+							}
                         }
                     });
                 }
