@@ -18,6 +18,7 @@ import javax.validation.Validator;
 
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.utils.Encodes;
+import com.thinkgem.jeesite.common.utils.StringUtils;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.ibatis.io.Resources;
@@ -221,8 +222,29 @@ public abstract class BaseController {
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) {
 		// String类型转换，将所有传递进来的String进行HTML编码，防止XSS攻击
-		String frameurl = Servlets.getRequest().getRequestURI() + "?" + Servlets.getRequest().getQueryString();
-		Servlets. getRequest().getSession().setAttribute("frameurl", frameurl);
+		if (Servlets.getRequest().getHeader("X-Requested-With") == null) {
+			String frameurl = Servlets.getRequest().getRequestURI();
+			Map<String, String[]> params = Servlets.getRequest().getParameterMap();
+			String queryString = "";
+			if(params!=null&&params.size()>0){
+				for (String key : params.keySet()) {
+					String[] values = params.get(key);
+					for (int i = 0; i < values.length; i++) {
+						String value = values[i];
+						queryString += key + "=" + value + "&";
+					}
+				}
+				// 去掉最后一个空格
+				queryString = queryString.substring(0, queryString.length() - 1);
+			}		
+
+			if (!StringUtils.isBlank(queryString)) {
+				frameurl = frameurl + "?"
+						+ queryString;
+			}
+			Servlets.getRequest().getSession()
+					.setAttribute("frameurl", frameurl);
+		}
 		binder.registerCustomEditor(String.class, new PropertyEditorSupport() {
 			@Override
 			public void setAsText(String text) {
@@ -251,12 +273,11 @@ public abstract class BaseController {
 		});
 	}
 
-	public String autoRedirect(String sUrl){
-		if(isNotBlank(sUrl) && !sUrl.endsWith(Global.getAdminPath())) {
+	public String autoRedirect(String sUrl) {
+		if (isNotBlank(sUrl) && !sUrl.endsWith(Global.getAdminPath())) {
 			return "redirect:" + Encodes.urlDecode(sUrl);
-		}
-		else {
-			return "redirect:" +Global.getAdminPath()+"/oa/home";
+		} else {
+			return "redirect:" + Global.getAdminPath() + "/oa/home";
 		}
 	}
 }
