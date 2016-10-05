@@ -3,10 +3,10 @@
  */
 package com.thinkgem.jeesite.modules.oa.dao;
 
+import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
+
 import java.util.List;
 import java.util.Map;
-
-import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 
 @MyBatisDao
 public interface ReportDao {
@@ -20,5 +20,6 @@ public interface ReportDao {
 	public List<Map> reportBillingAmount(Map map);	
 	public List<Map> reportHomeFinance();	
 	public List<Map> financeCalendar(Map map);	
-	public List<Map> reportSalerHome(Map map);	
+	public List<Map> reportSalerHome(Map map);
+	public List<Map> home_gauge(Map map);
 }

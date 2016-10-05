@@ -6,6 +6,7 @@ import com.thinkgem.jeesite.modules.act.service.ActTaskService;
 import com.thinkgem.jeesite.modules.act.utils.ActUtils;
 import com.thinkgem.jeesite.modules.oa.dao.ReportDao;
 import com.thinkgem.jeesite.modules.oa.service.ContractService;
+import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +71,23 @@ public class HomeController extends BaseController {
 				queryMap.put("type", i);
 				queryMap.put("sqlCondition", sqlCondition);
 				model.addAttribute("salerHomeList"+i, reportDao.reportSalerHome(queryMap));
-			}			
+			}
+
+			//首页guage
+			String saler_ids = "";
+			if(!UserUtils.IsRoleByRoleEnName("cso")){
+				saler_ids = "'" +UserUtils.getUser().getId()+ "'";
+			} else{
+				List<User> userList = UserUtils.getUsersByRoleEnName("saler");
+				Integer idx = 0;
+				for(User user : userList){
+					saler_ids += (idx==0? "":"," ) + "'"+ user.getId()+"'";
+					idx++;
+				}
+			}
+			Map queryMap = new LinkedHashMap();
+			queryMap.put("saler_ids", saler_ids);
+			model.addAttribute("home_gauge", reportDao.home_gauge(queryMap));
 		}
 		
 		if (UserUtils.IsRoleByRoleEnName("cso")) {

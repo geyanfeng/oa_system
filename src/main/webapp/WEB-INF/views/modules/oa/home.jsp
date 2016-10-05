@@ -71,6 +71,21 @@ $(function(){
 
 			<script type="text/javascript">
 				var total = echarts.init(document.getElementById('total'));
+				var home_gauge = ${fns:toJson(home_gauge)};
+				var avg_quarter_gpi = home_gauge[0].avg_quarter_gpi,
+				avg_year_gpi  = home_gauge[0].avg_year_gpi,
+				sum_quarter_gpi = home_gauge[0].sum_quarter_gpi,
+				sum_year_gpi  = home_gauge[0].sum_year_gpi,
+				quarter_ld_amount  = home_gauge[0].quarter_ld_amount,
+				year_ld_amount = home_gauge[0].year_ld_amount,
+				quarter_yj_amount = home_gauge[0].quarter_yj_amount,
+				year_yj_amount  = home_gauge[0].year_yj_amount;
+				console.log("avg_quarter_gpi:"+avg_quarter_gpi +","+
+						"avg_year_gpi:"+ avg_year_gpi+","+
+				"quarter_ld_amount:"+quarter_ld_amount+","+
+				"year_ld_amount:"+ year_ld_amount+","+
+				"quarter_yj_amount:"+ quarter_yj_amount+","+
+				"year_yj_amount:"+ year_yj_amount);
 				option = {
 					title : {
 						text : '业绩完成情况'
@@ -83,12 +98,17 @@ $(function(){
 						type : 'gauge',
 						z : 3,
 						min : 0,
-						max : 220,
-						splitNumber : 11,
+						max : avg_quarter_gpi,
+						splitNumber : 10,
 						radius : '85%',
 						axisLine : { // 坐标轴线
 							lineStyle : { // 属性lineStyle控制线条样式
 								width : 10
+							}
+						},
+						axisLabel : {
+							formatter : function(v) {
+								return v.toFixed(0);
 							}
 						},
 						axisTick : { // 坐标轴小标记
@@ -116,7 +136,7 @@ $(function(){
 							}
 						},
 						data : [ {
-							value : 4000,
+							value : quarter_yj_amount,
 							name : '本季度'
 						} ]
 					}, {
@@ -125,12 +145,17 @@ $(function(){
 						center : [ '20%', '55%' ], // 默认全局居中
 						radius : '55%',
 						min : 0,
-						max : 7,
+						max : avg_quarter_gpi,
 						endAngle : 45,
 						splitNumber : 7,
 						axisLine : { // 坐标轴线
 							lineStyle : { // 属性lineStyle控制线条样式
 								width : 8
+							}
+						},
+						axisLabel : {
+							formatter : function(v) {
+								return v.toFixed(0);
 							}
 						},
 						axisTick : { // 坐标轴小标记
@@ -157,7 +182,7 @@ $(function(){
 							}
 						},
 						data : [ {
-							value : 1.5,
+							value : quarter_ld_amount,
 							name : '本季度预测'
 						} ]
 					}, {
@@ -166,7 +191,7 @@ $(function(){
 						center : [ '79%', '50%' ], // 默认全局居中
 						radius : '55%',
 						min : 0,
-						max : 2,
+						max : 100,
 						startAngle : 135,
 						endAngle : 45,
 						splitNumber : 2,
@@ -187,9 +212,9 @@ $(function(){
 								switch (v + '') {
 								case '0':
 									return '0';
-								case '1':
-									return '年度完成30%';
-								case '2':
+								case '50':
+									return '年度完成50%';
+								case '100':
 									return '100%';
 								}
 							}
@@ -210,7 +235,7 @@ $(function(){
 							show : false
 						},
 						data : [ {
-							value : 0.5,
+							value : ((year_yj_amount / sum_year_gpi)*100).toFixed(2),
 							name : 'gas'
 						} ]
 					}, {
@@ -219,7 +244,7 @@ $(function(){
 						center : [ '79%', '50%' ], // 默认全局居中
 						radius : '55%',
 						min : 0,
-						max : 2,
+						max : 100,
 						startAngle : 315,
 						endAngle : 225,
 						splitNumber : 2,
@@ -236,9 +261,9 @@ $(function(){
 								switch (v + '') {
 								case '0':
 									return '0';
-								case '1':
+								case '50':
 									return '年度预测50%';
-								case '2':
+								case '100':
 									return '100%';
 								}
 							}
@@ -259,7 +284,7 @@ $(function(){
 							show : false
 						},
 						data : [ {
-							value : 0.8,
+							value : ((year_ld_amount / sum_year_gpi)*100).toFixed(2),
 							name : '年度预测'
 						} ]
 					} ]

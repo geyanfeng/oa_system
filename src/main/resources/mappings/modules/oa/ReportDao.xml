@@ -92,5 +92,11 @@
      	  #{type,jdbcType=INTEGER,mode=IN},#{sqlCondition,jdbcType=VARCHAR,mode=IN}
        )
       }
-    </select>  	
+    </select>
+    <select id="home_gauge" parameterType="java.util.LinkedHashMap"  resultType="java.util.LinkedHashMap" statementType="CALLABLE" >
+        {call home_gauge(
+        #{saler_ids,jdbcType=VARCHAR,mode=IN}
+        )
+        }
+    </select>
 </mapper>
