@@ -345,6 +345,47 @@ $(function(){
 				</div>
 				<script type="text/javascript">
 			var total_1 = echarts.init(document.getElementById('total_1'));
+			var salerList = ${fns:toJson(salerList)};
+			var home_ld_group_by_salar = ${fns:toJson(home_ld_group_by_salar)};
+			var home_ld_series=[];
+			var saler_List =[];
+			$.each(salerList, function(idx, saler){
+				saler_List.push(saler.name);
+				var item={ name: saler.name,
+					type: 'bar',
+					stack: '总量',
+					label: {
+						normal: {
+							show: true,
+							position: 'insideRight'
+						}
+					},
+					data: [0,0,0,0]
+				};
+				$.each(home_ld_group_by_salar, function(idx,data){
+					if(saler.id == data.saler_id){
+						if(data.total_amount) {
+							switch (data.quarter) {
+								case 1:
+									item.data[3] = parseFloat(data.total_amount).toFixed(2);
+									break;
+								case 2:
+									item.data[2] = parseFloat(data.total_amount).toFixed(2);
+									break;
+								case 3:
+									item.data[1] = parseFloat(data.total_amount).toFixed(2);
+									break;
+								case 4:
+									item.data[0] = parseFloat(data.total_amount).toFixed(2);
+									break;
+							}
+						}
+
+						return;
+					}
+				});
+				home_ld_series.push(item);
+			});
 			option = {
 					tooltip : {
 				        trigger: 'axis',
@@ -353,7 +394,7 @@ $(function(){
 				        }
 				    },
 				    legend: {
-				        data: ['销售A', '销售B','销售C','销售D','销售E','销售总监']
+				        data: saler_List
 				    },
 				    color : [ '#4568cc','#3fc847','#46b0e4','#fcca35','#e96153','#57c4a4'],
 				    grid: {
@@ -369,80 +410,7 @@ $(function(){
 				        type: 'category',
 				        data: ['Q4','Q3','Q2','Q1']
 				    },
-				    series: [
-				        {
-				            name: '销售A',
-				            type: 'bar',
-				            stack: '总量',
-				            label: {
-				                normal: {
-				                    show: true,
-				                    position: 'insideRight'
-				                }
-				            },
-				            data: [320, 302, 301, 334]
-				        },
-				        {
-				            name: '销售B',
-				            type: 'bar',
-				            stack: '总量',
-				            label: {
-				                normal: {
-				                    show: true,
-				                    position: 'insideRight'
-				                }
-				            },
-				            data: [120, 132, 101, 134]
-				        },
-				        {
-				            name: '销售C',
-				            type: 'bar',
-				            stack: '总量',
-				            label: {
-				                normal: {
-				                    show: true,
-				                    position: 'insideRight'
-				                }
-				            },
-				            data: [220, 182, 191, 234]
-				        },
-				        {
-				            name: '销售D',
-				            type: 'bar',
-				            stack: '总量',
-				            label: {
-				                normal: {
-				                    show: true,
-				                    position: 'insideRight'
-				                }
-				            },
-				            data: [150, 212, 201, 154]
-				        },
-				        {
-				            name: '销售E',
-				            type: 'bar',
-				            stack: '总量',
-				            label: {
-				                normal: {
-				                    show: true,
-				                    position: 'insideRight'
-				                }
-				            },
-				            data: [150, 212, 201, 154]
-				        },
-				        {
-				            name: '销售总监',
-				            type: 'bar',
-				            stack: '总量',
-				            label: {
-				                normal: {
-				                    show: true,
-				                    position: 'insideRight'
-				                }
-				            },
-				            data: [820, 832, 901, 934]
-				        }
-				    ]
+				    series: home_ld_series
 				};
 				total_1.setOption(option);
 			</script>

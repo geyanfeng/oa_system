@@ -93,10 +93,15 @@
        )
       }
     </select>
+    <!--首页业绩完成情况-->
     <select id="home_gauge" parameterType="java.util.LinkedHashMap"  resultType="java.util.LinkedHashMap" statementType="CALLABLE" >
         {call home_gauge(
         #{saler_ids,jdbcType=VARCHAR,mode=IN}
         )
         }
+    </select>
+    <!--首页销售来单情况-->
+    <select id="home_ld_group_by_salar" resultType="java.util.LinkedHashMap" statementType="CALLABLE" >
+        {call home_ld_group_by_salar()}
     </select>
 </mapper>

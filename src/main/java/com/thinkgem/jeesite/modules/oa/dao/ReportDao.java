@@ -22,4 +22,5 @@ public interface ReportDao {
 	public List<Map> financeCalendar(Map map);	
 	public List<Map> reportSalerHome(Map map);
 	public List<Map> home_gauge(Map map);
+	public List<Map> home_ld_group_by_salar(Map map);
 }

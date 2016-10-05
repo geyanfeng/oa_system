@@ -73,7 +73,7 @@ public class HomeController extends BaseController {
 				model.addAttribute("salerHomeList"+i, reportDao.reportSalerHome(queryMap));
 			}
 
-			//首页guage
+			//首页业绩完成情况
 			String saler_ids = "";
 			if(!UserUtils.IsRoleByRoleEnName("cso")){
 				saler_ids = "'" +UserUtils.getUser().getId()+ "'";
@@ -88,6 +88,10 @@ public class HomeController extends BaseController {
 			Map queryMap = new LinkedHashMap();
 			queryMap.put("saler_ids", saler_ids);
 			model.addAttribute("home_gauge", reportDao.home_gauge(queryMap));
+
+			//首页销售来单情况
+			model.addAttribute("home_ld_group_by_salar", reportDao.home_ld_group_by_salar(queryMap));
+			model.addAttribute("salerList", UserUtils.getUsersByRoleEnName("saler"));
 		}
 		
 		if (UserUtils.IsRoleByRoleEnName("cso")) {
