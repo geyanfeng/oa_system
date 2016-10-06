@@ -943,8 +943,21 @@ th,td{text-align:left;}
                     var self = $(sender);
                     var selfRow = self.closest('.row');
                     var idx = parseInt($("#payment-body").data("idx"));
+					var row=[];
+					row.payment_installment_payCondition = 0;
+					row.payment_installment_paymentMethod = "2";
 
-                    selfRow.after(Mustache.render($("#payment-installment-tpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""), {idx: idx}));
+                    selfRow.after(Mustache.render($("#payment-installment-tpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""), {idx: idx, row:row}));
+					$("#payment-installment_"+idx).find("input[type='checkbox'], input[type='radio']").each(function () {
+						var ss = $(this).attr("data-value").split(',');
+						for (var i = 0; i < ss.length; i++) {
+							if ($(this).val() == ss[i]) {
+								$(this).prop("checked", "checked");
+							} else {
+								$(this).prop("checked","");
+							}
+						}
+					});
                     idx = idx+1;
                     $("#payment-body").data("idx",idx);
                 }

@@ -83,10 +83,8 @@ h4 {
                                     showTipMsg(result.msg,"error");
                                 return;
                             }
-                            if(parent){
-                                    parent.showTipMsg("订单保存成功","success");
-                            } else
-                                showTipMsg("订单保存成功","success");
+
+                            showTipMsg("订单保存成功","success");
 
                             if(parent.loadProductsAfterClear){
                                 $.getJSON("${ctx}/oa/contract/get?id="+result.contractId, function(result){
@@ -94,12 +92,12 @@ h4 {
                                     //关闭本窗体
                                     if(parent.openOrClosePOPanel)
                                         parent.openOrClosePOPanel();
-                                    location.reload();
+
+                                    location.href="${ctx}/oa/purchaseOrder/form?fromModal=1&contract.id=${purchaseOrder.contract.id}";
                                 });
                             }
                             if(parent.loadPoList)
-                                    parent.loadPoList();
-
+                                parent.loadPoList();
                         }});
                 },
                 errorContainer: "#messageBox",

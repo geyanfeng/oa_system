@@ -6,6 +6,8 @@ import com.thinkgem.jeesite.modules.act.service.ActTaskService;
 import com.thinkgem.jeesite.modules.act.utils.ActUtils;
 import com.thinkgem.jeesite.modules.oa.dao.ReportDao;
 import com.thinkgem.jeesite.modules.oa.service.ContractService;
+import com.thinkgem.jeesite.modules.sys.dao.UserDao;
+import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
@@ -33,6 +35,8 @@ public class HomeController extends BaseController {
 	private ActTaskService actTaskService;
 	@Autowired
 	private ReportDao reportDao;
+	@Autowired
+	private UserDao userDao;
 
 	@RequestMapping(value = { "index", "" })
 	public String index(HttpServletRequest request,
@@ -59,14 +63,33 @@ public class HomeController extends BaseController {
 			List<Map> financeCalendarList = reportDao.financeCalendar(queryMap);
 			
 			model.addAttribute("financeCalendarList", financeCalendarList);
-		} 
+		}
+
+		//KAB来单
+		if (UserUtils.IsRoleByRoleEnName("cso")){
+			String sqlCondition = " and saler_id in (";
+			Integer index = 0;
+			User userFilter = new User();
+			userFilter.setOffice(new Office("3"));
+
+			List<User> findUserList = userDao.findList(userFilter);
+			for (User user : findUserList){
+				sqlCondition +=(index==0?"":",")+ "'"+user.getId()+"'";
+				index++;
+			}
+			sqlCondition +=")";
+			Map queryMap = new LinkedHashMap();
+			queryMap.put("type", 4);
+			queryMap.put("sqlCondition", sqlCondition);
+			model.addAttribute("salerHomeList"+4, reportDao.reportSalerHome(queryMap));
+		}
 		
 		if (UserUtils.IsRoleByRoleEnName("cso") || UserUtils.IsRoleByRoleEnName("saler")) {
 			String sqlCondition = "";
 			if(!UserUtils.IsRoleByRoleEnName("cso")){
 				sqlCondition = "and saler_id='" +UserUtils.getUser().getId()+ "'";
 			}
-			for(int i= 1;i<6;i++){
+			for(int i= 1;i<3;i++){
 				Map queryMap = new LinkedHashMap();
 				queryMap.put("type", i);
 				queryMap.put("sqlCondition", sqlCondition);
