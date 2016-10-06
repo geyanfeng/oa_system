@@ -12,7 +12,7 @@ website:	http://code.google.com/p/jquerytree/
 .ztree {margin:0; padding:2px; color:#797979;}
 .ztree li{padding:0; margin:0; list-style:none; line-height:14px; text-align:left; white-space:nowrap; outline:0}
 .ztree li ul{ margin:0; padding:0 0 0 18px}
-.ztree li ul.line{ background:url(./img/line_conn.gif) 0 0 repeat-y;}
+/*.ztree li ul.line{ background:url(./img/line_conn.gif) 0 0 repeat-y;}*/
 
 .ztree li a {padding:6px 3px 5px 0; margin:0; cursor:pointer; height:27px; color:#797979; background-color: transparent;
 	text-decoration:none; vertical-align:top; display: inline-block;}
@@ -35,7 +35,7 @@ website:	http://code.google.com/p/jquerytree/
 
 /* IE7 fix */
 .ztree li span.button.level0 {*margin-left:-15px;}
-
+.ztree li span.button.chk{background-image:url("./img/zTreeStandard.png"); *background-image:url("./img/zTreeStandard.gif");}
 .ztree li span.button.chk {width:13px; height:13px; margin:0 3px 0 0; cursor: auto}
 .ztree li span.button.chk.checkbox_false_full {background-position:0 0}
 .ztree li span.button.chk.checkbox_false_full_focus {background-position:0 -14px}
@@ -61,10 +61,10 @@ website:	http://code.google.com/p/jquerytree/
 .ztree li span.button.switch {width:24px; height:27px}
 .ztree li span.button.root_open{background-position: -190px 12px;}
 .ztree li span.button.root_close{background-position:-190px -10px;}
-.ztree li span.button.roots_open{background-position:-92px 0}
-.ztree li span.button.roots_close{background-position:-74px 0}
-.ztree li span.button.center_open{background-position:-92px -18px}
-.ztree li span.button.center_close{background-position:-74px -18px}
+.ztree li span.button.roots_open{background-position:-190px 12px;}
+.ztree li span.button.roots_close{background-position:-190px -10px;}
+.ztree li span.button.center_open{background-position:-190px 12px;}
+.ztree li span.button.center_close{background-position:-190px -10px;}
 .ztree li span.button.bottom_open{background-position:-92px -36px}
 .ztree li span.button.bottom_close{background-position:-74px -36px}
 .ztree li span.button.noline_open{background-position:-92px -72px}
