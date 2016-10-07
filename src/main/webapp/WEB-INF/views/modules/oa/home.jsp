@@ -58,7 +58,7 @@
 <body>
 <div class="container">
     <shiro:hasAnyRoles name="cw,cfo">
-    <div class="row" id="calendar" style="padding:10px;background:#fff;"></div>
+    <div class="row" id="calendar" style="padding:10px;background:#fff;margin-bottom:20px;"></div>
     </shiro:hasAnyRoles>
     <shiro:hasAnyRoles name="cso,saler">
     <div class="row">
