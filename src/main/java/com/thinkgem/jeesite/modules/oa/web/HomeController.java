@@ -89,11 +89,13 @@ public class HomeController extends BaseController {
 			if(!UserUtils.IsRoleByRoleEnName("cso")){
 				sqlCondition = "and saler_id='" +UserUtils.getUser().getId()+ "'";
 			}
-			for(int i= 1;i<3;i++){
-				Map queryMap = new LinkedHashMap();
-				queryMap.put("type", i);
-				queryMap.put("sqlCondition", sqlCondition);
-				model.addAttribute("salerHomeList"+i, reportDao.reportSalerHome(queryMap));
+			for(int i= 1;i<6;i++){
+				if(i==1 || i ==2 || i==5) {
+					Map queryMap = new LinkedHashMap();
+					queryMap.put("type", i);
+					queryMap.put("sqlCondition", sqlCondition);
+					model.addAttribute("salerHomeList" + i, reportDao.reportSalerHome(queryMap));
+				}
 			}
 
 			//首页业绩完成情况

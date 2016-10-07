@@ -1,3 +1,4 @@
+<%@ page import="java.util.Calendar" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp" %>
 <html>
@@ -79,12 +80,6 @@
                 year_ld_amount = home_gauge[0].year_ld_amount,
                 quarter_yj_amount = home_gauge[0].quarter_yj_amount,
                 year_yj_amount = home_gauge[0].year_yj_amount;
-        console.log("avg_quarter_gpi:" + avg_quarter_gpi + "," +
-                "avg_year_gpi:" + avg_year_gpi + "," +
-                "quarter_ld_amount:" + quarter_ld_amount + "," +
-                "year_ld_amount:" + year_ld_amount + "," +
-                "quarter_yj_amount:" + quarter_yj_amount + "," +
-                "year_yj_amount:" + year_yj_amount);
         option = {
             title: {
                 text: '业绩完成情况'
@@ -465,6 +460,30 @@
                 <script type="text/javascript">
                     var website_stats = echarts.init(document
                             .getElementById('website-stats'));
+                    <%
+						Calendar cc = Calendar.getInstance();
+						request.setAttribute("year", cc.get(Calendar.YEAR));
+						request.setAttribute("month", cc.get(Calendar.MONTH) + 1);
+					%>
+                    var ldqk_data = ${fns:toJson(salerHomeList5)};
+                    var sj_data=[0, 0, 0, 0, 0, 0];//实际数据
+                    var fyear = ${year};
+                    var fmonth = ${month};
+                    for(var i=5;i>=0;i--){
+                        $.each(ldqk_data, function(idx, data){
+                            if(fyear == data.year && fmonth == data.month && data.value){
+                                sj_data[i] = data.value;
+                                return;
+                            }
+                        });
+                        fmonth--;
+                        if(fmonth==0){
+                            fyear--;
+                            fmonth=12;
+                        }
+                        i--;
+                    }
+
                     option = {
                         title: {
                             text: '来单情况'
@@ -485,7 +504,7 @@
                         xAxis: [{
                             type: 'category',
                             boundaryGap: false,
-                            data: ['0', '1', '2', '3', '4', '5', '6']
+                            data: ['1', '2', '3', '4', '5', '6']
                         }],
                         yAxis: [{
                             type: 'value'
@@ -497,7 +516,7 @@
                             areaStyle: {
                                 normal: {}
                             },
-                            data: [120, 132, 101, 134, 90, 230, 210]
+                            data: sj_data
                         }, {
                             name: '预测',
                             type: 'line',
@@ -505,7 +524,7 @@
                             areaStyle: {
                                 normal: {}
                             },
-                            data: [220, 182, 191, 234, 290, 330, 310]
+                            data: [182, 191, 234, 290, 330, 310]
                         }]
                     };
                     website_stats.setOption(option);
