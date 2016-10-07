@@ -68,7 +68,6 @@
             </div>
         </div>
     </div>
-
     <script type="text/javascript">
         var total = echarts.init(document.getElementById('total'));
         var home_gauge = ${fns:toJson(home_gauge)};
@@ -335,10 +334,13 @@
                             </ul>
                         </c:when>
                         <c:otherwise>
-                            <h2 class="text-custom">应付${not empty financeList[0]['toAllAmount'] ? financeList[0]['toAllAmount'] : 0}</h2>
+                            <h2 class="text-custom">
+                                应付${not empty financeList[0]['toAllAmount'] ? financeList[0]['toAllAmount'] : 0}</h2>
                             <ul class="list-unstyled">
-                                <li>已付：${not empty financeList[0]['toPayAmount'] ? financeList[0]['toPayAmount'] : 0}</li>
-                                <li>未付：${not empty financeList[0]['toNoPayAmount'] ? financeList[0]['toNoPayAmount'] : 0}</li>
+                                <li>
+                                    已付：${not empty financeList[0]['toPayAmount'] ? financeList[0]['toPayAmount'] : 0}</li>
+                                <li>
+                                    未付：${not empty financeList[0]['toNoPayAmount'] ? financeList[0]['toNoPayAmount'] : 0}</li>
                             </ul>
                         </c:otherwise>
                     </c:choose>
@@ -357,7 +359,8 @@
                             <h2 class="text-custom">待开票 0</h2>
                         </c:when>
                         <c:otherwise>
-                            <h2 class="text-custom">待开票${not empty financeList[0]['noBillAmount'] ? financeList[0]['noBillAmount'] : 0}</h2>
+                            <h2 class="text-custom">
+                                待开票${not empty financeList[0]['noBillAmount'] ? financeList[0]['noBillAmount'] : 0}</h2>
                         </c:otherwise>
                     </c:choose>
                 </div>
@@ -367,147 +370,147 @@
     </div>
     </shiro:hasAnyRoles>
 
-    <shiro:hasAnyRoles name="cso,saler">
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="card-box">
-                <h4 class="header-title m-t-0">销售来单情况</h4>
-                <div id="total_1" style="height: 293px;" class="flot-chart"></div>
-            </div>
-        </div>
-        <script type="text/javascript">
-            var total_1 = echarts.init(document.getElementById('total_1'));
-            var salerList = ${fns:toJson(salerList)};
-            var home_ld_group_by_salar = ${fns:toJson(home_ld_group_by_salar)};
-            var home_ld_series = [];
-            var saler_List = [];
-            $.each(salerList, function (idx, saler) {
-                saler_List.push(saler.name);
-                var item = {
-                    name: saler.name,
-                    type: 'bar',
-                    stack: '总量',
-                    label: {
-                        normal: {
-                            show: true,
-                            position: 'insideRight'
-                        }
-                    },
-                    data: [0, 0, 0, 0]
-                };
-                $.each(home_ld_group_by_salar, function (idx, data) {
-                    if (saler.id == data.saler_id) {
-                        if (data.total_amount) {
-                            switch (data.quarter) {
-                                case 1:
-                                    item.data[3] = parseFloat(data.total_amount).toFixed(2);
-                                    break;
-                                case 2:
-                                    item.data[2] = parseFloat(data.total_amount).toFixed(2);
-                                    break;
-                                case 3:
-                                    item.data[1] = parseFloat(data.total_amount).toFixed(2);
-                                    break;
-                                case 4:
-                                    item.data[0] = parseFloat(data.total_amount).toFixed(2);
-                                    break;
-                            }
-                        }
+    <div class="row masonry-container" id="masonry">
+        <shiro:hasAnyRoles name="cso">
 
-                        return;
-                    }
-                });
-                home_ld_series.push(item);
-            });
-            option = {
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-                        type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                    }
-                },
-                legend: {
-                    data: saler_List
-                },
-                color: ['#4568cc', '#3fc847', '#46b0e4', '#fcca35', '#e96153', '#57c4a4', '#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3'],
-                grid: {
-                    left: '0%',
-                    right: '4%',
-                    bottom: '3%',
-                    containLabel: true
-                },
-                xAxis: {
-                    type: 'value'
-                },
-                yAxis: {
-                    type: 'category',
-                    data: ['Q4', 'Q3', 'Q2', 'Q1']
-                },
-                series: home_ld_series
-            };
-            total_1.setOption(option);
-        </script>
-        <div class="col-sm-6">
-            <div class="card-box">
-
-                <div id="website-stats" style="height: 320px;" class="flot-chart"></div>
-
+            <div class="col-sm-6 item">
+                <div class="card-box">
+                    <h4 class="header-title m-t-0">销售来单情况</h4>
+                    <div id="total_1" style="height: 293px;" class="flot-chart"></div>
+                </div>
             </div>
             <script type="text/javascript">
-                var website_stats = echarts.init(document
-                        .getElementById('website-stats'));
+                var total_1 = echarts.init(document.getElementById('total_1'));
+                var salerList = ${fns:toJson(salerList)};
+                var home_ld_group_by_salar = ${fns:toJson(home_ld_group_by_salar)};
+                var home_ld_series = [];
+                var saler_List = [];
+                $.each(salerList, function (idx, saler) {
+                    saler_List.push(saler.name);
+                    var item = {
+                        name: saler.name,
+                        type: 'bar',
+                        stack: '总量',
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'insideRight'
+                            }
+                        },
+                        data: [0, 0, 0, 0]
+                    };
+                    $.each(home_ld_group_by_salar, function (idx, data) {
+                        if (saler.id == data.saler_id) {
+                            if (data.total_amount) {
+                                switch (data.quarter) {
+                                    case 1:
+                                        item.data[3] = parseFloat(data.total_amount).toFixed(2);
+                                        break;
+                                    case 2:
+                                        item.data[2] = parseFloat(data.total_amount).toFixed(2);
+                                        break;
+                                    case 3:
+                                        item.data[1] = parseFloat(data.total_amount).toFixed(2);
+                                        break;
+                                    case 4:
+                                        item.data[0] = parseFloat(data.total_amount).toFixed(2);
+                                        break;
+                                }
+                            }
+
+                            return;
+                        }
+                    });
+                    home_ld_series.push(item);
+                });
                 option = {
-                    title: {
-                        text: '来单情况'
-                    },
-                    color: ['#57c5a5', '#dedede'],
                     tooltip: {
-                        trigger: 'axis'
+                        trigger: 'axis',
+                        axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                        }
                     },
                     legend: {
-                        data: ['实际', '预测']
+                        data: saler_List
                     },
+                    color: ['#4568cc', '#3fc847', '#46b0e4', '#fcca35', '#e96153', '#57c4a4', '#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3'],
                     grid: {
-                        left: '3%',
+                        left: '0%',
                         right: '4%',
                         bottom: '3%',
                         containLabel: true
                     },
-                    xAxis: [{
-                        type: 'category',
-                        boundaryGap: false,
-                        data: ['0', '1', '2', '3', '4', '5', '6']
-                    }],
-                    yAxis: [{
+                    xAxis: {
                         type: 'value'
-                    }],
-                    series: [{
-                        name: '实际',
-                        type: 'line',
-                        stack: '总量',
-                        areaStyle: {
-                            normal: {}
-                        },
-                        data: [120, 132, 101, 134, 90, 230, 210]
-                    }, {
-                        name: '预测',
-                        type: 'line',
-                        stack: '总量',
-                        areaStyle: {
-                            normal: {}
-                        },
-                        data: [220, 182, 191, 234, 290, 330, 310]
-                    }]
+                    },
+                    yAxis: {
+                        type: 'category',
+                        data: ['Q4', 'Q3', 'Q2', 'Q1']
+                    },
+                    series: home_ld_series
                 };
-                website_stats.setOption(option);
+                total_1.setOption(option);
             </script>
-        </div>
-        <!-- end col-->
-    </div>
-    </shiro:hasAnyRoles>
+            <!-- end col-->
+        </shiro:hasAnyRoles>
 
-    <div class="row masonry-container">
         <shiro:hasAnyRoles name="cso,saler">
+            <!--来单情况-->
+            <div class="col-sm-6 item">
+                <div class="card-box">
+
+                    <div id="website-stats" style="height: 320px;" class="flot-chart"></div>
+
+                </div>
+                <script type="text/javascript">
+                    var website_stats = echarts.init(document
+                            .getElementById('website-stats'));
+                    option = {
+                        title: {
+                            text: '来单情况'
+                        },
+                        color: ['#57c5a5', '#dedede'],
+                        tooltip: {
+                            trigger: 'axis'
+                        },
+                        legend: {
+                            data: ['实际', '预测']
+                        },
+                        grid: {
+                            left: '3%',
+                            right: '4%',
+                            bottom: '3%',
+                            containLabel: true
+                        },
+                        xAxis: [{
+                            type: 'category',
+                            boundaryGap: false,
+                            data: ['0', '1', '2', '3', '4', '5', '6']
+                        }],
+                        yAxis: [{
+                            type: 'value'
+                        }],
+                        series: [{
+                            name: '实际',
+                            type: 'line',
+                            stack: '总量',
+                            areaStyle: {
+                                normal: {}
+                            },
+                            data: [120, 132, 101, 134, 90, 230, 210]
+                        }, {
+                            name: '预测',
+                            type: 'line',
+                            stack: '总量',
+                            areaStyle: {
+                                normal: {}
+                            },
+                            data: [220, 182, 191, 234, 290, 330, 310]
+                        }]
+                    };
+                    website_stats.setOption(option);
+                </script>
+            </div>
             <!--产品组来单情况-->
             <div class="col-sm-6 item">
                 <div class="card-box">
@@ -724,10 +727,7 @@
             </div>
         </shiro:hasAnyRoles>
         <!-- end col-->
-    </div>
 
-
-    <div class="row masonry-container m-t-20" id="masonry">
         <div class="col-sm-6 item">
             <div class="card-box" id="card_contract_audit">
                 <h4 class="header-title m-t-0 m-b-30">合同订单待办</h4>
