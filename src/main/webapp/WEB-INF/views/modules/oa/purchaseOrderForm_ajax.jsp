@@ -200,14 +200,14 @@ h4 {
 								<input  id="purchaseOrderProductList{{idx}}_name" name="purchaseOrderProductList[{{idx}}].name" type="hidden" value="{{row.name}}" maxlength="100" class="form-control required input-sm"  style="display: inline-block;"/>
 								{{row.name}}
 							</td>
-							<td width="100">
+							<td width="120">
 								<input id="purchaseOrderProductList{{idx}}_num" name="purchaseOrderProductList[{{idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="form-control number input-block required input-sm" onchange="updateSumAmount(this);" style="display:inline-block"/>
 							</td>
 							<td width="20">
 							    {{row.unitName}}
 								<input id="purchaseOrderProductList{{idx}}_unit" name="purchaseOrderProductList[{{idx}}].unit" type="hidden" value="{{row.unitId}}"/>
 							</td>
-							<td width="140">
+							<td width="120">
 								<input id="purchaseOrderProductList{{idx}}_price" name="purchaseOrderProductList[{{idx}}].price" type="text" value="{{row.price}}" class="form-control number input-block required input-sm" onchange="updateSumAmount(this);" style="display:inline-block"/>
 							</td>
 							<td width="20">元</td>

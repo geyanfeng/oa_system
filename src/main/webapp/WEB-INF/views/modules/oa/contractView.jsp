@@ -387,19 +387,19 @@
 							        <span style="{{serviceSpanStyle}}" id="contractProductList{{idx}}_serviceFlag_span"><input type="checkbox" value=1 {{serviceChecked}} onclick="selectServiceFlag(this);"/>续约合同</span>
                                 </c:if>
 							</td>
-							<td>
+							<td style="vertical-align:middle;">
 								{{row.price}}
 							</td>
-							<td>
+							<td style="vertical-align:middle;">
 								{{row.num}}
 							</td>
-							<td>
+							<td style="vertical-align:middle;">
 							    {{row.unitName}}
 							</td>
-							<td>
+							<td style="vertical-align:middle;">
 								{{row.amount}}
 							</td>
-							<td>
+							<td style="vertical-align:middle;">
 								{{row.remark}}
 							</td>
 						</tr>
@@ -435,19 +435,19 @@
                                 <span style="margin-left:50px;">{{isServiceText}}</span>
 								<c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true'}"></div></c:if>
 							</td>
-							<td>
+							<td style="vertical-align:middle;">
 								{{row.price}}
 							</td>
-							<td>
+							<td style="vertical-align:middle;">
 								{{row.num}}
 							</td>
-							<td>
+							<td style="vertical-align:middle;">
 							    {{row.unitName}}
 							</td>
-							<td>
+							<td style="vertical-align:middle;">
 								{{row.amount}}
 							</td>
-							<td>
+							<td style="vertical-align:middle;">
 								{{row.remark}}
 							</td>
 						</tr>
