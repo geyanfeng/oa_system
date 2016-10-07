@@ -135,7 +135,7 @@ public class PurchaseOrderController extends BaseController {
 
 			//得到第一笔付款数据
 			if("cfo_confirm_payment_1".equals(taskDefKey) || "cfo_confirm_payment_2".equals(taskDefKey) || "cfo_confirm_payment_3".equals(taskDefKey) ||
-					"payment_first".equals(taskDefKey) || "payment_all".equals(taskDefKey) || "payment_first".equals(taskDefKey)){
+					"payment_first".equals(taskDefKey) || "payment_all".equals(taskDefKey) || "payment".equals(taskDefKey)){
 				PurchaseOrderFinance filter = new PurchaseOrderFinance(purchaseOrder,1);
 				List<PurchaseOrderFinance> finances = purchaseOrderFinanceDao.findList(filter);
 				if(finances.size()>0)
