@@ -94,7 +94,7 @@
                 formatter: "{a} <br/>{c}"
             },
             series: [{
-                name: '本季度',
+                name: '本季度业绩',
                 type: 'gauge',
                 z: 3,
                 min: 0,
@@ -137,10 +137,10 @@
                 },
                 data: [{
                     value: quarter_yj_amount,
-                    name: '本季度'
+                    name: '本季度业绩'
                 }]
             }, {
-                name: '本季度预测',
+                name: '本季度来单',
                 type: 'gauge',
                 center: ['20%', '55%'], // 默认全局居中
                 radius: '55%',
@@ -183,7 +183,7 @@
                 },
                 data: [{
                     value: quarter_ld_amount,
-                    name: '本季度预测'
+                    name: '本季度来单'
                 }]
             }, {
                 name: '年度完成度',
@@ -239,7 +239,7 @@
                     name: 'gas'
                 }]
             }, {
-                name: '年度预测',
+                name: '年度来单',
                 type: 'gauge',
                 center: ['79%', '50%'], // 默认全局居中
                 radius: '55%',
@@ -262,7 +262,7 @@
                             case '0':
                                 return '0';
                             case '50':
-                                return '年度预测50%';
+                                return '年度来单50%';
                             case '100':
                                 return '100%';
                         }
@@ -285,7 +285,7 @@
                 },
                 data: [{
                     value: ((year_ld_amount / sum_year_gpi) * 100).toFixed(2),
-                    name: '年度预测'
+                    name: '年度来单'
                 }]
             }]
         };
@@ -300,9 +300,21 @@
                 <div class="text-center m-t-30">
                     <h2 class="text-custom">应收${financeList[0]['allAmount']}</h2>
                     <ul class="list-unstyled">
-                        <li>已收：${financeList[0]['payAmount']}</li>
-                        <li>未收：${financeList[0]['noPayAmount']}</li>
-                        <li>逾期：<span class="text-danger">${financeList[0]['overdueAmount']}</span></li>
+                        <c:choose>
+                            <c:when test="${fn:length(financeList) eq 0}">
+                                <li>已收：0</li>
+                                <li>未收：0</li>
+                                <li>逾期：<span class="text-danger">0</span></li>
+                            </c:when>
+                            <c:otherwise>
+                                <li>已收：${not empty financeList[0]['payAmount'] ? financeList[0]['payAmount'] : 0}</li>
+                                <li>
+                                    未收：${not empty financeList[0]['noPayAmount'] ? financeList[0]['noPayAmount'] : 0}</li>
+                                <li>逾期：<span
+                                        class="text-danger">${not empty financeList[0]['overdueAmount']? financeList[0]['overdueAmount']:0}</span>
+                                </li>
+                            </c:otherwise>
+                        </c:choose>
                     </ul>
                 </div>
             </div>
@@ -313,11 +325,24 @@
             <div class="card-box" style="height: 200px;">
                 <h4 class="header-title m-t-0">付款情况</h4>
                 <div class="text-center m-t-30">
-                    <h2 class="text-custom">应付${financeList[0]['toAllAmount']}</h2>
-                    <ul class="list-unstyled">
-                        <li>已付：${financeList[0]['toPayAmount']}</li>
-                        <li>未付：${financeList[0]['toNoPayAmount']}</li>
-                    </ul>
+
+                    <c:choose>
+                        <c:when test="${fn:length(financeList) eq 0}">
+                            <h2 class="text-custom">应付0</h2>
+                            <ul class="list-unstyled">
+                                <li>已付：0</li>
+                                <li>未付：0</li>
+                            </ul>
+                        </c:when>
+                        <c:otherwise>
+                            <h2 class="text-custom">应付${not empty financeList[0]['toAllAmount'] ? financeList[0]['toAllAmount'] : 0}</h2>
+                            <ul class="list-unstyled">
+                                <li>已付：${not empty financeList[0]['toPayAmount'] ? financeList[0]['toPayAmount'] : 0}</li>
+                                <li>未付：${not empty financeList[0]['toNoPayAmount'] ? financeList[0]['toNoPayAmount'] : 0}</li>
+                            </ul>
+                        </c:otherwise>
+                    </c:choose>
+
                 </div>
             </div>
         </div>
@@ -327,7 +352,14 @@
             <div class="card-box" style="height: 200px;">
                 <h4 class="header-title m-t-0">待开发票金额</h4>
                 <div class="text-center m-t-30">
-                    <h2 class="text-custom">待开票${financeList[0]['noBillAmount']}</h2>
+                    <c:choose>
+                        <c:when test="${fn:length(financeList) eq 0}">
+                            <h2 class="text-custom">待开票 0</h2>
+                        </c:when>
+                        <c:otherwise>
+                            <h2 class="text-custom">待开票${not empty financeList[0]['noBillAmount'] ? financeList[0]['noBillAmount'] : 0}</h2>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </div>
@@ -474,10 +506,10 @@
     </div>
     </shiro:hasAnyRoles>
 
-    <div class="row">
+    <div class="row masonry-container">
         <shiro:hasAnyRoles name="cso,saler">
             <!--产品组来单情况-->
-            <div class="col-sm-6">
+            <div class="col-sm-6 item">
                 <div class="card-box">
                     <div id="product" style="height: 320px;" class="flot-chart"></div>
                 </div>
@@ -536,7 +568,7 @@
         </shiro:hasAnyRoles>
         <shiro:hasAnyRoles name="cso">
             <!--KAB产品组来单情况-->
-            <div class="col-sm-6">
+            <div class="col-sm-6 item">
                 <div class="card-box">
                     <div id="kabProduct" style="height: 320px;" class="flot-chart"></div>
                 </div>
@@ -593,7 +625,7 @@
 
             </div>
             <!--应收实收情况-->
-            <div class="col-sm-6">
+            <div class="col-sm-6 item">
                 <div class="card-box">
 
                     <div id="income-stats" style="height: 320px;" class="flot-chart"></div>
@@ -644,7 +676,7 @@
                 </script>
             </div>
             <!--当季度合同状态-->
-            <div class="col-sm-6">
+            <div class="col-sm-6 item">
                 <div class="card-box">
                     <div id="pie-chart-container" style="height: 320px;"
                          class="flot-chart"></div>
