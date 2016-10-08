@@ -343,7 +343,8 @@
         <act:histoicFlow procInsId="${purchaseOrder.act.procInsId}"/>
     </c:if>
 
-    <c:if test="${purchaseOrder.act.taskDefKey eq 'verify_receiving'}">
+    <c:if test="${purchaseOrder.act.taskDefKey eq 'verify_receiving_1' ||
+            purchaseOrder.act.taskDefKey eq 'verify_receiving_2'}">
     <!--您的意见和建议-->
     <div class="panel panel-default" id="comment_other">
         <div class="panel-heading"><h3 class="panel-title">您的意见和建议</h3></div>
