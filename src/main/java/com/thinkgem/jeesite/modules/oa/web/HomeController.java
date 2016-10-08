@@ -119,7 +119,7 @@ public class HomeController extends BaseController {
 			model.addAttribute("salerList", UserUtils.getUsersByRoleEnName("saler"));
 		}
 		
-		if (UserUtils.IsRoleByRoleEnName("cso")) {
+		if (UserUtils.IsRoleByRoleEnName("cso") || UserUtils.IsRoleByRoleEnName("cfo")) {
 			List<Map> financeList = reportDao.reportHomeFinance();
 			model.addAttribute("financeList", financeList);
 		}

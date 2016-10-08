@@ -286,7 +286,7 @@
         total.setOption(option);
     </script>
     </shiro:hasAnyRoles>
-    <shiro:hasAnyRoles name="cso">
+    <shiro:hasAnyRoles name="cso,cfo">
     <div class="row">
         <div class="col-sm-4">
             <div class="card-box" style="height: 200px;">
