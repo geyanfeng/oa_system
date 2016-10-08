@@ -178,7 +178,7 @@
 			<DIV class="content">
 				<DIV class="container">
 					<!-- Page-Title -->
-					<iframe id="mainFrame" name="mainFrame" scrolling="auto"
+					<iframe id="mainFrame" name="mainFrame" scrolling="auto" src="${ctx}/oa/home"
 						frameborder="no" width="100%"></iframe>
 				</DIV>
 				<!-- container -->
@@ -269,15 +269,15 @@
 	</script>
 	<script type="text/javascript">
 	
-		var mainFrame = document.getElementById("mainFrame");
-		<%
+		/*var mainFrame = document.getElementById("mainFrame");
+
 		  if(request.getSession().getAttribute("frameurl") != null) {
 			  out.print("mainFrame.src='"+request.getSession().getAttribute("frameurl")+"';");
 		  }
 		  else{
 			  out.print("mainFrame.src='"+request.getContextPath()+"/a/oa/home';");
 		  }
-	    %>
+	    */
 		var frameResizer = $('#mainFrame').iFrameResize([ {
 			log : true,
 			minHeight : 700,

@@ -222,7 +222,7 @@ public abstract class BaseController {
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) {
 		// String类型转换，将所有传递进来的String进行HTML编码，防止XSS攻击
-		if (Servlets.getRequest().getHeader("X-Requested-With") == null) {
+		/*if (Servlets.getRequest().getHeader("X-Requested-With") == null) {
 			String frameurl = Servlets.getRequest().getRequestURI();
 			Map<String, String[]> params = Servlets.getRequest().getParameterMap();
 			String queryString = "";
@@ -244,7 +244,7 @@ public abstract class BaseController {
 			}
 			Servlets.getRequest().getSession()
 					.setAttribute("frameurl", frameurl);
-		}
+		}*/
 		binder.registerCustomEditor(String.class, new PropertyEditorSupport() {
 			@Override
 			public void setAsText(String text) {
