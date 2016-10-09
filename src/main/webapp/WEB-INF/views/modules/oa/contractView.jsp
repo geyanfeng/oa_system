@@ -184,7 +184,7 @@
             <li><a href="#panel-2">开票信息</a></li>
             <li><a href="#panel-3">销售清单</a></li>
             <li><a href="#panel-9">采购订单列表</a></li>
-            <li><a href="#panel-4">付款信息</a></li>
+            <li><a href="#panel-4">收款信息</a></li>
             <li><a href="#panel-5">收货信息</a></li>
             <li id="li-other"><a href="#panel-6">其它信息</a></li>
             <li><a href="#panel-7">附件</a></li>
@@ -1049,17 +1049,36 @@
         </div>
     </div>
 
-    <!--付款信息-->
+    <!--收款信息-->
     <a class="anchor" name="panel-4"></a>
     <div class="panel panel-default" id="panel-payment">
-        <div class="panel-heading"><h3 class="panel-title">付款信息</h3></div>
+        <div class="panel-heading"><h3 class="panel-title">收款信息</h3></div>
         <div class="panel-body panel-collapse collapse in" id="payment-collapse">
             <div class="row">
                 <div class="col-sm-12">
-                    付款周期：${fns:getDictLabel(contract.paymentCycle,"oa_payment_cycle" ,"" )}
+                    收款周期：${fns:getDictLabel(contract.paymentCycle,"oa_payment_cycle" ,"" )}
                 </div>
             </div>
-            <script type="text/template" id="payment-onetime-tpl">//<!--
+
+            <div id="payment-body" data-idx="1">
+                <table class="table table-striped table-condensed">
+                    <tbody >
+                    <c:forEach items="${contract.contractFinanceList}" var="finance" varStatus="status">
+                        <tr row="row">
+                            <td>第${status.count}笔</td>
+                            <td>收款金额：<fmt:formatNumber type="number" value="${finance.amount}" maxFractionDigits="2" /></td>
+                            <td>付款方式：${fns:getDictLabel(finance.payMethod, "oa_payment_method" ,"银行转帐" )}</td>
+                            <td>付款条件：${finance.payCondition eq 0 ? '预付':'后付'}</td>
+                            <td>状态：${finance.status eq 1 ? '未开票': finance.status eq 2 ? '已开票':'已收款'}</td>
+                            <td>开票时间：<fmt:formatDate value="${finance.billingDate}" pattern="yyyy-MM-dd" /></td>
+                            <td>预计付款时间：<fmt:formatDate value="${finance.planPayDate}" pattern="yyyy-MM-dd" /></td>
+                            <td>付款时间：<fmt:formatDate value="${finance.payDate}" pattern="yyyy-MM-dd" /></td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+         <%--   <script type="text/template" id="payment-onetime-tpl">//<!--
                 <div class="row" id="payment-onetime">
                     <div class="col-sm-3">付款金额：{{row.payment_onetime_amount}}</div>
                     <div class="col-sm-3">付款方式：{{row.paymentMethod}}</div>
@@ -1087,9 +1106,6 @@
                 </div>
                  //-->
             </script>
-            <div id="payment-body" data-idx="1">
-
-            </div>
             <script type="text/javascript">
                 $(document).ready(function () {
                     if ($('#id').val()!="") {
@@ -1174,7 +1190,7 @@
                             break;
                     }
                 }
-            </script>
+            </script>--%>
         </div>
     </div>
 	<style>

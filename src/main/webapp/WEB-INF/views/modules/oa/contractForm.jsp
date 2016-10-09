@@ -241,7 +241,7 @@ th,td{text-align:left;}
 						<li><a href="#panel-1" class="on">合同信息</a></li>
 						<li><a href="#panel-2">开票信息</a></li>
 						<li><a href="#panel-3">销售清单</a></li>
-						<li><a href="#panel-4">付款信息</a></li>
+						<li><a href="#panel-4">收款信息</a></li>
 						<li><a href="#panel-5">收货信息</a></li>
 						<li><a href="#panel-6">其它信息</a></li>
 						<li><a href="#panel-7">附件</a></li>
@@ -666,16 +666,16 @@ th,td{text-align:left;}
 				</div>
 			</div>
 
-			<!--付款信息-->
+			<!--收款信息-->
 			<a class="anchor" name="panel-4"></a>
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">付款信息</h3>
+					<h3 class="panel-title">收款信息</h3>
 				</div>
 				<div class="panel-body form-horizontal" id="payment-collapse">
 					<div class="row clearfix">
 						<div class="form-group">
-							<label class="control-label">付款周期：</label>
+							<label class="control-label">收款周期：</label>
 								<form:radiobuttons path="paymentCycle"
 									items="${fns:getDictList('oa_payment_cycle')}"
 									itemLabel="label" itemValue="value" htmlEscape="false" class=""
