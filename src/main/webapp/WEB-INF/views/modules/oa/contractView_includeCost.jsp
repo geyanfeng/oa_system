@@ -432,7 +432,7 @@ th, td {
 										<label><font color="red">库存金额</font>：</label>
 
 										<form:input path="stockInAmount" htmlEscape="false"
-											class="form-control required number " style="width:100px;"
+											class="form-control required number " style="width:80px;"
 											onchange="updateExtraAmount(this);" />
 										&nbsp;元
 
@@ -442,7 +442,7 @@ th, td {
 										<label><font color="red">退货成本</font>：</label>
 
 										<form:input path="returningAmount" htmlEscape="false"
-											class="form-control required number " value="0" style="width:100px;"
+											class="form-control required number " value="0" style="width:80px;"
 											onchange="updateExtraAmount(this);" />
 										&nbsp;元
 
@@ -451,7 +451,7 @@ th, td {
 									<div class="form-group">
 										<label><font color="red">额外成本总额</font>：</label>
 
-										<form:input path="extraAmount" htmlEscape="false" style="width:100px;"
+										<form:input path="extraAmount" htmlEscape="false" style="width:80px;"
 											class="form-control required number " />
 										&nbsp;元
 
@@ -467,10 +467,10 @@ th, td {
 									</div>
 
 									<div class="form-group" id="stockInDiscount-group"
-										style="margin-left: 20px;">
+										>
 										<label>抵扣金额：</label>
 										<form:input path="stockInDiscount" htmlEscape="false"
-											class="form-control  number " />
+											class="form-control  number " style="width:80px;"/>
 										&nbsp;元
 									</div>
 								</div>
