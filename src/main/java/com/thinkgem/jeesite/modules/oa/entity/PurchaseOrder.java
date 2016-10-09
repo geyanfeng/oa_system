@@ -39,6 +39,8 @@ public class PurchaseOrder extends ActEntity<PurchaseOrder> {
 	private Integer cancelFlag=0;		//撤销标志: 0为没有撤销, 1为撤销
 	private String cancelReason;		//撤销原因
 	private Date cancelDate;			//撤销时间
+	private Double refundMainAmount;	//退款金额
+	private Double stockInAmount;		//转库存金额
 	
 	public PurchaseOrder() {
 		super();
@@ -187,4 +189,10 @@ public class PurchaseOrder extends ActEntity<PurchaseOrder> {
 
 	public Date getCancelDate(){return cancelDate;}
 	public void setCancelDate(Date cancelDate){this.cancelDate = cancelDate;}
+
+	public Double getRefundMainAmount(){return refundMainAmount;}
+	public void setRefundMainAmount(Double refundMainAmount){this.refundMainAmount = refundMainAmount;}
+
+	public Double getStockInAmount(){return stockInAmount;}
+	public void setStockInAmount(Double stockInAmount){this.stockInAmount = stockInAmount;}
 }

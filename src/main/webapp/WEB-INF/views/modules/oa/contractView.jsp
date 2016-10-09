@@ -927,6 +927,8 @@
                     <th>帐期</th>
                     <th>帐期点数</th>
                     <th>帐期日利率</th>
+                    <th>退款金额</th>
+                    <th>库存金额</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -956,6 +958,12 @@
 							</td>
 							<td>
                                 {{row.zqrll}}
+							</td>
+							<td>
+                                {{row.refundMainAmount}}
+							</td>
+							<td>
+                                {{row.stockInAmount}}
 							</td>
 							<td>
 							    <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true'}">
@@ -1009,7 +1017,8 @@
                                     po.isDisplayModifyBtn = !po.payFinish;
                                     po.isDisplayDeleteBtn = !po.isPay;
                                     po.isDisplayTBtn = po.isPay;
-
+                                    if((po.refundMainAmount && po.refundMainAmount > 0) || (po.stockInAmount && po.stockInAmount > 0))
+                                        po.isDisplayTBtn = false;
                                     addRow("#poBody", idx,poViewTpl,po );
                                 });
 
@@ -1584,7 +1593,13 @@
                 {{row.name}}
             </td>
             <td>
-                <input id="PoTKTH{{idx}}_num" type="text" value="{{row.num}}" class="form-control number input-block required" style="width:80px;" onchange="tkThUpdateAmount(this);"/>
+                {{#row.isShowNumEdit}}
+                    <input id="PoTKTH{{idx}}_num" type="text" value="{{row.num}}" class="form-control number input-block required" style="width:80px;" onchange="tkThUpdateAmount(this);"/>
+                {{/row.isShowNumEdit}}
+                {{#row.isShowNum}}
+                    <input id="PoTKTH{{idx}}_num" type="hidden" value="{{row.num}}"/>
+                    {{row.num}}
+                {{/row.isShowNum}}
             </td>
             <td>
                 {{row.unitName}}
@@ -1629,6 +1644,8 @@
             modal.find(".submit-poTKTH").data("type", type);
             modal.find(".submit-poTKTH").data("poId", po_id);
             modal.find(".submit-poTKTH").click(function(){
+                loading('正在提交，请稍等...');
+
                 if(modal.find('input').hasClass("error"))return;
                 if(type == 1) {//退款确认
                     var amount = parseFloat(modal.find("#total_sf").html());
@@ -1666,6 +1683,8 @@
                             showTipMsg(data)
                             $('#modal-PoTKTH').modal('hide');
                             modal.find(".submit-poTKTH").removeAttr("disabled");
+                            loadPoList();
+                            closeLoading();
                         }
                     });
                 } else{
@@ -1678,6 +1697,8 @@
                             showTipMsg(data)
                             $('#modal-PoTKTH').modal('hide');
                             modal.find(".submit-poTKTH").removeAttr("disabled");
+                            loadPoList();
+                            closeLoading();
                         }
                     });
                 }
@@ -1694,6 +1715,8 @@
                                 break;
                             }
                         }
+                        product.isShowNumEdit = (type != 1);
+                        product.isShowNum = !product.isShowNumEdit;
                         $("#body-poTKTH").append(Mustache.render(tpl, { row: product, idx: pIdx }));
                         totalAmount+=product.amount;
                     });

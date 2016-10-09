@@ -349,6 +349,8 @@ th, td {
 								<th>帐期</th>
 								<th>帐期点数</th>
 								<th>帐期日利率</th>
+								<th>退款金额</th>
+								<th>库存金额</th>
 							</tr>
 						</thead>
 						<tbody id="poBody">
@@ -377,6 +379,12 @@ th, td {
 							</td>
 							<td>
                                 {{row.zqrll}}
+							</td>
+							<td>
+                                {{row.refundMainAmount}}
+							</td>
+							<td>
+                                {{row.stockInAmount}}
 							</td>
 						</tr>
 						//-->

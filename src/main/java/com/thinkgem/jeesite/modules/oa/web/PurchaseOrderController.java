@@ -11,11 +11,9 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.oa.dao.CommissionSettingDao;
 import com.thinkgem.jeesite.modules.oa.dao.PurchaseOrderFinanceDao;
-import com.thinkgem.jeesite.modules.oa.entity.CommissionSetting;
-import com.thinkgem.jeesite.modules.oa.entity.ProductType;
-import com.thinkgem.jeesite.modules.oa.entity.PurchaseOrder;
-import com.thinkgem.jeesite.modules.oa.entity.PurchaseOrderFinance;
-import com.thinkgem.jeesite.modules.oa.entity.Supplier;
+import com.thinkgem.jeesite.modules.oa.dao.RefundMainDao;
+import com.thinkgem.jeesite.modules.oa.dao.StockInDao;
+import com.thinkgem.jeesite.modules.oa.entity.*;
 import com.thinkgem.jeesite.modules.oa.service.*;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -54,7 +52,11 @@ public class PurchaseOrderController extends BaseController {
 	private ContractService contractService;
 	@Autowired
 	private PurchaseOrderFinanceDao purchaseOrderFinanceDao;
-	
+	@Autowired
+	private RefundMainDao refundMainDao;
+	@Autowired
+	private StockInDao stockInDao;
+
 	@Autowired
 	private CommissionSettingDao commissionSettingDao;
 	
@@ -206,6 +208,27 @@ public class PurchaseOrderController extends BaseController {
 	public List<PurchaseOrder> getPoByContractId(@PathVariable String contractId)
 	{
 		List<PurchaseOrder> purchaseOrderList = purchaseOrderService.getPoListByContractId(contractId);
+		for(PurchaseOrder po : purchaseOrderList){
+			Double refundMainAmount =0.00;
+			Double stockInAmount = 0.00;
+			//得到退款金额
+			RefundMain refundMainFilter = new RefundMain();
+			refundMainFilter.setPoId(po.getId());
+			List<RefundMain> refundMainList = refundMainDao.findList(refundMainFilter);
+			for (RefundMain main : refundMainList){
+				refundMainAmount += main.getAmount();
+			}
+			po.setRefundMainAmount(refundMainAmount);
+
+			//得到转库存金额
+			StockIn stockInFilter = new StockIn();
+			stockInFilter.setPoId(po.getId());
+			List<StockIn> stockInList = stockInDao.findList(stockInFilter);
+			for (StockIn stockIn : stockInList){
+				stockInAmount += stockIn.getAmount();
+			}
+			po.setStockInAmount(stockInAmount);
+		}
 		return purchaseOrderList;
 	}
 }

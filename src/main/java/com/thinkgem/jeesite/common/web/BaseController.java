@@ -274,7 +274,7 @@ public abstract class BaseController {
 	}
 
 	public String autoRedirect(String sUrl) {
-		if (isNotBlank(sUrl) && !sUrl.endsWith(Global.getAdminPath())) {
+		if (isNotBlank(sUrl) && !sUrl.endsWith(Global.getAdminPath())  && !sUrl.contains("login")) {
 			return "redirect:" + Encodes.urlDecode(sUrl);
 		} else {
 			return "redirect:" + Global.getAdminPath() + "/oa/home";
