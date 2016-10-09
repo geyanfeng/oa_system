@@ -4,6 +4,23 @@
 <head>
 <title>${fns:getConfig('productName')}</title>
 <meta name="decorator" content="blank" />
+<script language="javascript">
+//禁止按键F5
+document.onkeydown = function(e){
+    e = window.event || e;
+    var keycode = e.keyCode || e.which;
+    if( keycode = 116){
+        if(window.event){// ie
+            try{e.keyCode = 0;}catch(e){}
+            e.returnValue = false;
+            document.getElementById('mainFrame').contentWindow.location.reload(true);
+        }else{// ff
+            e.preventDefault();
+            document.getElementById('mainFrame').contentWindow.location.reload(true);
+        }
+    }
+}
+</script>
 </head>
 <BODY class="fixed-left">
 	<!-- Begin page -->
