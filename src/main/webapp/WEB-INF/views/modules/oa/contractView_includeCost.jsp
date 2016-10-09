@@ -419,8 +419,8 @@ th, td {
 				</div>
 			</div>
 
-			<shiro:hasRole name="cso">
-				<c:if test="${not empty is_recall && is_recall eq true}">
+
+			<c:if test="${not empty is_recall && is_recall eq true}">
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h3 class="panel-title">额外成本</h3>
@@ -502,11 +502,10 @@ th, td {
 
 				</script>
 				</c:if>
-			</shiro:hasRole>
+
 
 			<!--退预付款-->
-			<shiro:hasRole name="cso">
-				<c:if test="${not empty is_recall && is_recall eq true}">
+			<c:if test="${not empty is_recall && is_recall eq true}">
 					<div class="panel panel-default m-t-10">
 						<div class="panel-heading"><h3 class="panel-title">退预付款</h3></div>
 						<div class="panel-body">
@@ -523,7 +522,7 @@ th, td {
 						</div>
 					</div>
 				</c:if>
-			</shiro:hasRole>
+
 			<c:if
 				test="${not empty contract.id and not empty contract.act.procInsId}">
 				<act:histoicFlow procInsId="${contract.act.procInsId}" />
