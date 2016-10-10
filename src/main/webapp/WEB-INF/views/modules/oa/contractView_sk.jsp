@@ -146,7 +146,7 @@
     <div class="form-group">
         <div class="text-center">
         <c:if test="${contract.act.hiddenButton ne '1'}">
-            <input id="btnSubmit" class="btn btn-custom" type="submit" value="确认收款"/>&nbsp;
+            <input id="btnSubmit" class="btn btn-custom" type="button" value="确认收款" onclick="return confirmx('请确认已收到这笔款项？', function(){document.forms[0].submit();})"/>&nbsp;
         </c:if>
             <input id="btnCancel" class="btn btn-inverse" type="button" value="返 回" onclick="history.go(-1)"/>
         </div>

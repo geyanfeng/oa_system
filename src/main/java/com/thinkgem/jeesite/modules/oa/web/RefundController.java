@@ -59,7 +59,7 @@ public class RefundController extends BaseController {
     }
 
     @RequestMapping(value = "auditView")
-    public String auditView(RefundMain refundMain,Model model){
+    public String auditView(RefundMain refundMain, Model model){
         model.addAttribute("contract", contractService.get(refundMain.getContractId()));
         PurchaseOrder purchaseOrder = purchaseOrderService.get(refundMain.getPoId());
         model.addAttribute("purchaseOrder", purchaseOrder);

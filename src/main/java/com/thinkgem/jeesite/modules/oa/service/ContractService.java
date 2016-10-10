@@ -396,8 +396,10 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             if(paymentObj.get("payment_onetime_time")!=null && isNotBlank(paymentObj.get("payment_onetime_time").toString()))
                 payment_onetime_time = Integer.parseInt(paymentObj.get("payment_onetime_time").toString());
             contractFinance.setBillingDate(cc.getTime());//设置开票日期
-            cc.add(Calendar.DATE, payment_onetime_time);//设置预付款时间
-            contractFinance.setPlanPayDate(cc.getTime());
+            if(contractFinance.getPlanPayDate()==null){//设置预付款时间
+                cc.add(Calendar.DATE, payment_onetime_time);
+                contractFinance.setPlanPayDate(cc.getTime());
+            }
         } else if(contract.getPaymentCycle().equals("2")) {//分期付款
             List<Map<String, Object>> paymentList=(List<Map<String, Object>>)payment;
             Integer sort = contractFinance.getSort();
@@ -407,8 +409,10 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             if(paymentObj.get("payment_installment_time")!=null && isNotBlank(paymentObj.get("payment_installment_time").toString()))
                 payment_installment_time = Integer.parseInt(paymentObj.get("payment_installment_time").toString());
             contractFinance.setBillingDate(cc.getTime());//设置开票日期
-            cc.add(Calendar.DATE, payment_installment_time);//设置预付款时间
-            contractFinance.setPlanPayDate(cc.getTime());
+            if(contractFinance.getPlanPayDate()==null) {//设置预付款时间
+                cc.add(Calendar.DATE, payment_installment_time);
+                contractFinance.setPlanPayDate(cc.getTime());
+            }
         } else  if(contract.getPaymentCycle().equals("3") || contract.getPaymentCycle().equals("4")){//月付或季付
             contractFinance.setBillingDate(cc.getTime());//设置开票日期
         }

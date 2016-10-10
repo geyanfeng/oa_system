@@ -377,6 +377,14 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 			}
 			else//多次付款
 				purchaseOrder.setStatus("20");//已下单待审核
+			//预付的应付时间就是商务下单的时间
+			if(purchaseOrder.getPurchaseOrderFinanceList().size() > 0 && purchaseOrder.getPurchaseOrderFinanceList().get(0).getPayCondition() == 0){
+				PurchaseOrderFinance finance = purchaseOrder.getPurchaseOrderFinanceList().get(0);
+				Calendar cc = Calendar.getInstance();
+				finance.setPlanPayDate(cc.getTime());
+				finance.preUpdate();
+				purchaseOrderFinanceDao.update(finance);
+			}
 		}
 		else if("cfo_confirm_payment_1".equals(taskDefKey) || "cfo_confirm_payment_2".equals(taskDefKey) || "cfo_confirm_payment_2".equals(taskDefKey)){//财务总监确认可付款
 			purchaseOrder.setStatus("30");//已审核待付款
