@@ -6,7 +6,7 @@
     <title>合同管理</title>
     <meta name="decorator" content="default"/>
     <style>
-
+	body{padding-top:17px;}
     </style>
     <script src='${ctxStatic}/jquery-plugin/jquery.masonry.js'></script>
     <script src="${ctxStatic}/assets/plugins/echarts.min.js"></script>

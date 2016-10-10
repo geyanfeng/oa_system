@@ -193,7 +193,7 @@ document.onkeydown = function(e){
 
 		<DIV class="content-page">
 			<!-- Start content -->
-			<DIV class="content">
+			<DIV class="content" style="padding-top:3px;">
 				<DIV class="container">
 					<!-- Page-Title -->
 					<iframe id="mainFrame" name="mainFrame" scrolling="auto" src="${ctx}/oa/home"
