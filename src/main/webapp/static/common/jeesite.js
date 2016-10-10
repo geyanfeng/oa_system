@@ -5,7 +5,7 @@
  * @author ThinkGem
  * @version 2014-4-29
  */
-document.onkeydown = function(e){
+/*document.onkeydown = function(e){
     e = window.event || e;
     var keycode = e.keyCode || e.which;
     if( keycode = 116){
@@ -18,7 +18,7 @@ document.onkeydown = function(e){
             top.document.getElementById('mainFrame').contentWindow.location.reload(true);
         }
     }
-}
+}*/
 $(document).ready(function() {
 	try{
 		// 链接去掉虚框
