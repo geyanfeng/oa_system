@@ -266,7 +266,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         ContractFinance filter = new ContractFinance(contract,3);//过滤已经付款数据
         List<ContractFinance> kfFinances = contractFinanceDao.findList(filter);
 
-        //如果没有付款信息,可以直接删除所有
+        //如果没有收款信息,可以直接删除所有
         if(kfFinances.size()==0) {
             //删除数据
             contractFinanceDao.delete(new ContractFinance(contract));
