@@ -3,6 +3,7 @@
 <html>
 <head>
 <title>${fns:getConfig('productName')}</title>
+<link rel="shortcut icon" href="${ctxStatic}/common/logo.png" type="image/x-icon">
 <meta name="decorator" content="blank" />
 <script language="javascript">
 //禁止按键F5

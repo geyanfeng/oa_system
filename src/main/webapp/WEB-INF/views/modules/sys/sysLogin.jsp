@@ -3,6 +3,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
+	<link rel="shortcut icon" href="${ctxStatic}/common/logo.png" type="image/x-icon">
 	<title>${fns:getConfig('productName')} 登录</title>
 	<meta name="decorator" content="blank"/>
 		<style type="text/css">
