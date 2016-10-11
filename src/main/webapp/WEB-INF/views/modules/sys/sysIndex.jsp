@@ -3,24 +3,30 @@
 <html>
 <head>
 <title>${fns:getConfig('productName')}</title>
-<link rel="shortcut icon" href="${ctxStatic}/common/logo.png" type="image/x-icon">
+<link rel="shortcut icon" href="${ctxStatic}/common/logo.png"
+	type="image/x-icon">
 <meta name="decorator" content="blank" />
 <script language="javascript">
-//禁止按键F5
-document.onkeydown = function(e){
-    e = window.event || e;
-    var keycode = e.keyCode || e.which;
-    if( keycode == 116){
-        if(window.event){// ie
-            try{e.keyCode = 0;}catch(e){}
-            e.returnValue = false;
-            document.getElementById('mainFrame').contentWindow.location.reload(true);
-        }else{// ff
-            e.preventDefault();
-            document.getElementById('mainFrame').contentWindow.location.reload(true);
-        }
-    }
-}
+	//禁止按键F5
+	document.onkeydown = function(e) {
+		e = window.event || e;
+		var keycode = e.keyCode || e.which;
+		if (keycode == 116) {
+			if (window.event) {// ie
+				try {
+					e.keyCode = 0;
+				} catch (e) {
+				}
+				e.returnValue = false;
+				document.getElementById('mainFrame').contentWindow.location
+						.reload(true);
+			} else {// ff
+				e.preventDefault();
+				document.getElementById('mainFrame').contentWindow.location
+						.reload(true);
+			}
+		}
+	}
 </script>
 </head>
 <BODY class="fixed-left">
@@ -33,10 +39,9 @@ document.onkeydown = function(e){
 			<div class="topbar-left">
 				<div class="text-center" style="padding-top: 10px; height: 40px;">
 					<a href="${ctx}/oa/home" class="logo" target="mainFrame"> <span><img
-							src="${ctxStatic}/images/logo.png"  alt="logo"
-							style="height: 26px; vertical-align: 0px;"></span> <i
-						class="zmdi zmdi-toys icon-c-logo"></i><span>Born to be
-							pround</span>
+							src="${ctxStatic}/images/logo.png" alt="logo"></span> <i
+						class="zmdi zmdi-toys icon-c-logo"></i><br />
+					<span>Born to be Proud</span>
 
 					</a>
 				</div>
@@ -118,8 +123,9 @@ document.onkeydown = function(e){
 		<!-- Top Bar End -->
 		<!-- ========== Left Sidebar Start ========== -->
 
-		<DIV class="left side-menu" style="padding-top:122px;">
-			<div class="text-center" style="position:absolute;top:0;left:0;right:0;">
+		<DIV class="left side-menu" style="padding-top: 122px;">
+			<div class="text-center"
+				style="position: absolute; top: 0; left: 0; right: 0;">
 				<div class="user-thumb m-t-20">
 					<A href="${ctx}/oa/home" target="mainFrame"><img
 						src="${not empty fns:getUser().photo ? fns:getUser().photo : 'static/images/tx.jpg'}"
@@ -193,11 +199,11 @@ document.onkeydown = function(e){
 
 		<DIV class="content-page">
 			<!-- Start content -->
-			<DIV class="content" style="padding-top:3px;">
+			<DIV class="content" style="padding-top: 3px;">
 				<DIV class="container">
 					<!-- Page-Title -->
-					<iframe id="mainFrame" name="mainFrame" scrolling="auto" src="${ctx}/oa/home"
-						frameborder="no" width="100%"></iframe>
+					<iframe id="mainFrame" name="mainFrame" scrolling="auto"
+						src="${ctx}/oa/home" frameborder="no" width="100%"></iframe>
 				</DIV>
 				<!-- container -->
 			</DIV>
@@ -215,7 +221,10 @@ document.onkeydown = function(e){
 			<DIV class="notification-list nicescroll">
 				<UL class="list-group list-no-border user-list" id="ul-alert">
 				</UL>
-				<div style="float: right;margin-right: 20px;" class="div-delete"><a href="#" title="删除全部" onclick="deleteAlert(this,'${ctx}','');" style="font-size:25px"><i class="zmdi zmdi-delete"></i></a></div>
+				<div style="float: right; margin-right: 20px;" class="div-delete">
+					<a href="#" title="删除全部" onclick="deleteAlert(this,'${ctx}','');"
+						style="font-size: 25px"><i class="zmdi zmdi-delete"></i></a>
+				</div>
 			</DIV>
 		</DIV>
 		<!-- /Right-bar -->
@@ -286,7 +295,6 @@ document.onkeydown = function(e){
 	//-->
 	</script>
 	<script type="text/javascript">
-	
 		/*var mainFrame = document.getElementById("mainFrame");
 
 		  if(request.getSession().getAttribute("frameurl") != null) {
@@ -295,7 +303,7 @@ document.onkeydown = function(e){
 		  else{
 			  out.print("mainFrame.src='"+request.getContextPath()+"/a/oa/home';");
 		  }
-	    */
+		 */
 		var frameResizer = $('#mainFrame').iFrameResize([ {
 			log : true,
 			minHeight : 700,
