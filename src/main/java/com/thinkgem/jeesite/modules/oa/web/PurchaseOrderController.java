@@ -186,7 +186,7 @@ public class PurchaseOrderController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/oa/purchaseOrder/?repage";
 	}
 
-	@RequiresPermissions("oa:purchaseOrder:edit")
+	@RequiresPermissions("oa:purchaseOrder:audit")
 	@RequestMapping(value = "audit")
 	public String audit(HttpServletRequest request, PurchaseOrder purchaseOrder, Model model, RedirectAttributes redirectAttributes,@RequestParam(value="sUrl", required=false) String sUrl) {
 		if(isNotBlank(purchaseOrder.getAct().getFlag()) || isNotBlank(purchaseOrder.getAct().getTaskDefKey()))
