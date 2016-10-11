@@ -46,7 +46,7 @@
 			<div class="tab-content">
 				<div role="tabpanel" class="tab-pane fade in active" id="home1">
 					<form:form id="inputForm" modelAttribute="user"
-						action="${ctx}/sys/user/info" method="post"
+						action="${ctx}/sys/user/saveInfo" method="post" enctype="multipart/form-data"
 						class="form-horizontal">
 						<%--
 		<form:hidden path="email" htmlEscape="false" maxlength="255" class="input-xlarge form-control"/>
@@ -55,11 +55,11 @@
 						<div class="form-group">
 							<label class="col-md-2 control-label">头像:</label>
 							<div class="col-md-4">
-								<form:hidden id="nameImage" path="photo" htmlEscape="false"
-									maxlength="255" class="input-xlarge form-control" />
-								<sys:ckfinder input="nameImage" type="images"
-									uploadPath="/photo" selectMultiple="false" maxWidth="100"
-									maxHeight="100" />
+
+								<c:if test="${not empty user.photo}">
+									<img src="${user.photo}" style="max-height:100px;max-width:100px"/>
+								</c:if>
+								<input type="file" id="file" name="file">
 							</div>
 						</div>
 						<div class="form-group">

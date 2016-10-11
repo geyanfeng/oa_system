@@ -239,7 +239,7 @@ public class UploadUtils {
 	 * @param file
 	 * @return
 	 */
-	private String saveFile(FileItem item) {
+	public String saveFile(FileItem item) {
 		String error = "true";
 		String fileName = item.getName();
 		String fileExt = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
