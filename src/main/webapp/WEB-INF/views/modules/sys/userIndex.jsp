@@ -8,6 +8,13 @@
 	<style type="text/css">
 		.ztree {overflow:hidden;margin:0;_margin-top:10px;}
 	</style>
+	<script>
+		$(function(){
+			if("${message}".indexOf("导入")>-1){
+				top.$.jBox.close();
+			}
+		});
+	</script>
 </head>
 <body>
 	<sys:message content="${message}"/>
