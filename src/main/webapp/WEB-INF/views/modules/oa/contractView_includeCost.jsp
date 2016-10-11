@@ -313,7 +313,7 @@ th, td {
 								break;
 							}
 						}
-						data[i].ml = (data[i].amount - data[i].cost - (${contract.customerCost} * (data[i].amount / ${contract.cost}) * 1.1)).toFixed(2);
+						data[i].ml = (data[i].amount - data[i].cost).toFixed(2);
 						data[i].mll = ((data[i].ml / data[i].amount) *100).toFixed(2);
 						addRow('#contractProductList', contractProductRowIdx, contractProductViewTpl, data[i]);
 						if(data[i].ml<0){
