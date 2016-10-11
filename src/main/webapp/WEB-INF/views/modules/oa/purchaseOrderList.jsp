@@ -34,7 +34,7 @@
 	采购订单列表
 		<div class="pull-right">
 			<c:if test="${empty isSelect}">
-				<shiro:hasPermission name="oa:contract:edit">
+				<shiro:hasPermission name="oa:purchaseOrder:edit">
 					<a id="btnNew" href="#" class="btn btn-primary" title="新增"><i
 							class="fa fa-plus m-r-5"></i>新增订单</a>
 				</shiro:hasPermission>
