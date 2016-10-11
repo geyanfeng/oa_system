@@ -3,24 +3,9 @@
  */
 package com.thinkgem.jeesite.modules.oa.web;
 
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.oa.dao.ReportDao;
 import com.thinkgem.jeesite.modules.oa.entity.Customer;
 import com.thinkgem.jeesite.modules.oa.entity.ProductTypeGroup;
@@ -31,6 +16,15 @@ import com.thinkgem.jeesite.modules.oa.service.ProductTypeGroupService;
 import com.thinkgem.jeesite.modules.oa.service.SupplierService;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "${adminPath}/report")
@@ -214,6 +208,23 @@ public class ReportController extends BaseController {
 				headers.put("totalAmount", "完成总金额");
 
 				list = reportDao.reportSupplierStatistics(queryMap);
+
+				if(list.size()>0) {
+					Integer finishedCount = 0;
+					Integer unfinishedCount = 0;
+					Double avgAmount = 0.00;
+					Double totalAmount = 0.00;
+					for (Map map : list) {
+						finishedCount += Integer.parseInt(map.get("finishedCount").toString());
+						unfinishedCount += Integer.parseInt(map.get("unfinishedCount").toString());
+						avgAmount += Double.parseDouble(map.get("avgAmount").toString());
+						totalAmount += Double.parseDouble(map.get("totalAmount").toString());
+					}
+					model.addAttribute("finishedCount", finishedCount);
+					model.addAttribute("unfinishedCount", unfinishedCount);
+					model.addAttribute("avgAmount", avgAmount / list.size());
+					model.addAttribute("totalAmount", totalAmount);
+				}
 				break;
 			case 2:
 				model.addAttribute("title", "回款统计报表");
@@ -227,6 +238,32 @@ public class ReportController extends BaseController {
 				headers.put("avgOverdueDay", "平均逾期时间");
 				headers.put("overdueAmount", "逾期损失");
 				list = reportDao.reportCustomerStatistics(queryMap);
+
+				if(list.size()>0) {
+					Integer finishedCount = 0;
+					Double avgPayDay = 0.0;
+					Integer unfinishedCount = 0;
+					Double totalAmount = 0.00;
+					Integer overdueTimes = 0;
+					Double avgOverdueDay = 0.0;
+					Double overdueAmount = 0.00;
+					for (Map map : list) {
+						finishedCount += Integer.parseInt(map.get("finishedCount").toString());
+						avgPayDay += Double.parseDouble(map.get("avgPayDay").toString());
+						unfinishedCount += Integer.parseInt(map.get("unfinishedCount").toString());
+						totalAmount += Double.parseDouble(map.get("totalAmount").toString());
+						overdueTimes += Integer.parseInt(map.get("overdueTimes").toString());
+						avgOverdueDay += Double.parseDouble(map.get("avgOverdueDay").toString());
+						overdueAmount += Double.parseDouble(map.get("overdueAmount").toString());
+					}
+					model.addAttribute("finishedCount", finishedCount);
+					model.addAttribute("avgPayDay", avgPayDay/list.size());
+					model.addAttribute("unfinishedCount", unfinishedCount);
+					model.addAttribute("totalAmount", totalAmount);
+					model.addAttribute("overdueTimes", overdueTimes);
+					model.addAttribute("avgOverdueDay", avgOverdueDay / list.size());
+					model.addAttribute("overdueAmount", overdueAmount);
+				}
 				break;
 			case 3:
 				model.addAttribute("title", "业绩统计报表");

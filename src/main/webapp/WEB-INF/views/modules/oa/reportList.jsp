@@ -448,7 +448,33 @@
                             </c:choose>
                         </c:forEach>
                     </tr>
+                    <!--统计-->
                 </c:forEach>
+                <c:choose>
+                    <c:when test="${reportType eq '1'}">
+                        <tr style="background: #cccfea !important;">
+                            <td>汇总行</td>
+                            <td></td>
+                            <td>${finishedCount}</td>
+                            <td>${unfinishedCount}</td>
+                            <td>${avgAmount}</td>
+                            <td>${totalAmount}</td>
+                        </tr>
+                    </c:when>
+                    <c:when test="${reportType eq '2'}">
+                        <tr style="background: #cccfea !important;">
+                            <td>汇总行</td>
+                            <td></td>
+                            <td>${finishedCount}</td>
+                            <td>${avgPayDay}</td>
+                            <td>${unfinishedCount}</td>
+                            <td>${totalAmount}</td>
+                            <td>${overdueTimes}</td>
+                            <td>${avgOverdueDay}</td>
+                            <td>${overdueAmount}</td>
+                        </tr>
+                    </c:when>
+                </c:choose>
                 </tbody>
             </table>
             ${page}
