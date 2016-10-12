@@ -294,7 +294,7 @@ public class ContractController extends BaseController {
 				}
 				view = "contractView_includeCost";
 			}
-			else if("cw_kp".equals(taskDefKey) || "cw_kp2".equals(taskDefKey)){//财务开票
+			else if("can_invoice".equals(taskDefKey) || "can_invoice2".equals(taskDefKey) || "cw_kp".equals(taskDefKey) || "cw_kp2".equals(taskDefKey)){//商务确认开票和财务开票
 				ContractFinance filter = new ContractFinance(contract,1);
 				List<ContractFinance> finances = contractFinanceDao.findList(filter);
 				if(finances.size()>0)

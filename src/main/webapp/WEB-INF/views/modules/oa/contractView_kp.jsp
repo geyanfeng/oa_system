@@ -141,7 +141,11 @@
     <div class="form-group">
         <div class="text-center">
         <c:if test="${contract.act.hiddenButton ne '1'}">
-            <input id="btnSubmit" class="btn btn-custom" type="submit" value="确认开票"/>&nbsp;
+            <c:set var="submitText" value="确认开票"/>
+            <c:if test="${contract.act.taskDefKey eq 'can_invoice' || contract.act.taskDefKey eq 'can_invoice2'}">
+                <c:set var="submitText" value="确认可以开票"/>
+            </c:if>
+            <input id="btnSubmit" class="btn btn-custom" type="submit" value="${submitText}"/>&nbsp;
 		</c:if>
             <input id="btnCancel" class="btn btn-inverse" type="button" value="返 回" onclick="history.go(-1)"/>
         </div>
