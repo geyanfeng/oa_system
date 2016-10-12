@@ -84,6 +84,7 @@ th, td {
     <div class="collapse navbar-collapse bs-js-navbar-scrollspy">
         <ul class="nav navbar-nav">
             <li><a href="#panel-1" class="on">合同信息</a></li>
+			<li><a href="#panel-3">收款信息</a></li>
             <li><a href="#panel-4">付款信息</a></li>
             <li><a href="#panel-8">操作信息</a></li>
             <li id="li-other"><a href="#panel-6">其它信息</a></li>
@@ -155,6 +156,163 @@ th, td {
 						</div>
 
 					</div>
+				</div>
+			</div>
+
+			<!--收款信息-->
+			<a class="anchor" name="panel-3"></a>
+			<div class="panel panel-default">
+				<div class="panel-heading"><h3 class="panel-title">收款信息</h3></div>
+				<div class="panel-body panel-collapse collapse in" id="payment-collapse">
+					<div class="row">
+						<div class="col-sm-12">
+							收款周期：${fns:getDictLabel(contract.paymentCycle,"oa_payment_cycle" ,"" )}
+						</div>
+					</div>
+
+					<div id="payment-body" data-idx="1">
+						<table class="table table-striped table-condensed">
+							<thead>
+							<tr row="row">
+								<th>收款次数</th>
+								<th>收款金额</th>
+								<th>收款方式</th>
+								<th>收款条件</th>
+								<th>状态</th>
+								<th>开票时间</th>
+								<th>预计收款时间</th>
+								<th>实际收款时间</th>
+							</tr>
+							</thead>
+							<tbody >
+							<c:forEach items="${contract.contractFinanceList}" var="finance" varStatus="status">
+								<tr row="row">
+									<td>${status.count}</td>
+									<td><fmt:formatNumber type="number" value="${finance.amount}" maxFractionDigits="2" /></td>
+									<td>${fns:getDictLabel(finance.payMethod, "oa_payment_method" ,"银行转帐" )}</td>
+									<td>${finance.payCondition eq 0 ? '预付':'后付'}</td>
+									<td>${finance.status eq 1 ? '未开票': finance.status eq 2 ? '已开票':'已收款'}</td>
+									<td><fmt:formatDate value="${finance.billingDate}" pattern="yyyy-MM-dd" /></td>
+									<td><fmt:formatDate value="${finance.planPayDate}" pattern="yyyy-MM-dd" /></td>
+									<td><fmt:formatDate value="${finance.payDate}" pattern="yyyy-MM-dd" /></td>
+								</tr>
+							</c:forEach>
+							</tbody>
+						</table>
+					</div>
+						<%--   <script type="text/template" id="payment-onetime-tpl">//<!--
+                               <div class="row" id="payment-onetime">
+                                   <div class="col-sm-3">付款金额：{{row.payment_onetime_amount}}</div>
+                                   <div class="col-sm-3">付款方式：{{row.paymentMethod}}</div>
+                                   <div class="col-sm-3">账期：{{row.payment_onetime_time}}</div>
+                                   <div class="col-sm-3">付款条件：{{row.payCondition}}</div>
+                               </div>
+                                   //-->
+                           </script>
+                           <script type="text/template" id="payment-installment-tpl">//<!--
+                               <div class="row" id="payment-installment_{{idx}}">
+                                   <div class="col-sm-3">付款金额：{{row.payment_installment_amount}}</div>
+                                   <div class="col-sm-3">账期：{{row.payment_installment_time}}</div>
+                                   <div class="col-sm-3">付款方式：{{row.paymentMethod}}</div>
+                                   <div class="col-sm-3">付款条件：{{row.payCondition}}</div>
+                               </div>
+                               //-->
+                           </script>
+                           <script type="text/template" id="payment-month-tpl">//<!--
+                               <div class="row" id="payment-month">
+                                   <div class="col-sm-3">付款金额：{{row.payment_month_amount}}</div>
+                                   <div class="col-sm-3">付款方式：{{row.paymentMethod}}</div>
+                                   <div class="col-sm-2">{{type}}数：{{row.payment_month_num}} 个{{type}}</div>
+                                   <div class="col-sm-2">付款日：{{row.payment_month_day}}</div>
+                                   <div class="col-sm-2">起始月：{{row.payment_month_start}}</div>
+                               </div>
+                                //-->
+                           </script>
+                           <script type="text/javascript">
+                               $(document).ready(function () {
+                                   if ($('#id').val()!="") {
+                                       //load payment detail from saved data
+                                       var paymentDetail = JSON.parse(${fns:toJson(contract.paymentDetail)});
+                                       var paymentCycle = ${contract.paymentCycle};
+                                       var paymentMethod = ${fns:getDictListJson("oa_payment_method")};
+                                       switch (paymentCycle) {
+                                           case 1:
+                                                for(i=0;i<paymentMethod.length;i++){
+                                                    if(paymentMethod[i].value == paymentDetail.payment_onetime_paymentMethod)
+                                                    {
+                                                        paymentDetail.paymentMethod= paymentMethod[i].label;
+                                                        break;
+                                                    }
+                                                }
+                                                if(paymentDetail.payment_onetime_payCondition == 1){
+                                                    paymentDetail.payCondition = "后付";
+                                                } else{
+                                                    paymentDetail.payCondition = "预付";
+                                                }
+                                               addPaymentRow(paymentCycle, paymentDetail);
+                                               break;
+                                           case 2:
+                                               $.each(paymentDetail, function (idx, item) {
+                                                   for(i=0;i<paymentMethod.length;i++){
+                                                       if(paymentMethod[i].value == item.payment_installment_paymentMethod)
+                                                       {
+                                                           item.paymentMethod= paymentMethod[i].label;
+                                                           break;
+                                                       }
+                                                   }
+                                                   if(item.payment_installment_payCondition == 1){
+                                                       item.payCondition = "后付";
+                                                   } else{
+                                                       item.payCondition = "预付";
+                                                   }
+                                                   addPaymentRow(paymentCycle, item, idx + 1);
+                                               });
+                                               break;
+                                           case 3:
+                                           case 4:
+                                               for(i=0;i<paymentMethod.length;i++){
+                                                   if(paymentMethod[i].value == paymentDetail.payment_month_paymentMethod)
+                                                   {
+                                                       paymentDetail.paymentMethod= paymentMethod[i].label;
+                                                       break;
+                                                   }
+                                               }
+                                               addPaymentRow(paymentCycle, paymentDetail);
+                                               break;
+                                       }
+                                   }
+                               });
+
+                               function addPaymentRow(paymentCycle,row,idx){
+                                   switch(paymentCycle) {
+                                       case 1:
+                                           $("#payment-body").append(Mustache.render($("#payment-onetime-tpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""), {row: row}));
+                                           break;
+                                       case 2:
+                                           if (!idx)
+                                               idx = 1;
+                                           $("#payment-body").append(Mustache.render($("#payment-installment-tpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""), {
+                                               idx: idx,
+                                               row: row
+                                           }));
+                                           idx = idx + 1;
+                                           $("#payment-body").data("idx", idx);
+                                           break;
+                                       case 3:
+                                           $("#payment-body").append(Mustache.render($("#payment-month-tpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""), {
+                                               type: "月",
+                                               row: row
+                                           }));
+                                           break;
+                                       case 4:
+                                           $("#payment-body").append(Mustache.render($("#payment-month-tpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""), {
+                                               type: "季",
+                                               row: row
+                                           }));
+                                           break;
+                                   }
+                               }
+                           </script>--%>
 				</div>
 			</div>
 
