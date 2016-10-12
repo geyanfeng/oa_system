@@ -1067,12 +1067,12 @@
                         <tr row="row">
                             <td>第${status.count}笔</td>
                             <td>收款金额：<fmt:formatNumber type="number" value="${finance.amount}" maxFractionDigits="2" /></td>
-                            <td>付款方式：${fns:getDictLabel(finance.payMethod, "oa_payment_method" ,"银行转帐" )}</td>
-                            <td>付款条件：${finance.payCondition eq 0 ? '预付':'后付'}</td>
+                            <td>收款方式：${fns:getDictLabel(finance.payMethod, "oa_payment_method" ,"银行转帐" )}</td>
+                            <td>收款条件：${finance.payCondition eq 0 ? '预付':'后付'}</td>
                             <td>状态：${finance.status eq 1 ? '未开票': finance.status eq 2 ? '已开票':'已收款'}</td>
                             <td>开票时间：<fmt:formatDate value="${finance.billingDate}" pattern="yyyy-MM-dd" /></td>
-                            <td>预计付款时间：<fmt:formatDate value="${finance.planPayDate}" pattern="yyyy-MM-dd" /></td>
-                            <td>付款时间：<fmt:formatDate value="${finance.payDate}" pattern="yyyy-MM-dd" /></td>
+                            <td>预计收款时间：<fmt:formatDate value="${finance.planPayDate}" pattern="yyyy-MM-dd" /></td>
+                            <td>实际收款时间：<fmt:formatDate value="${finance.payDate}" pattern="yyyy-MM-dd" /></td>
                         </tr>
                     </c:forEach>
                     </tbody>
