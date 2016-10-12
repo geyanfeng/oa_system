@@ -21,7 +21,7 @@
         function selectContract(sender) {
             var self = $(sender);
             var selectedContract = self.closest('tr').data('json');
-            var frameWin =  parent.window.frames["mainFrame"].contentWindow;
+            var frameWin =  top.frames["mainFrame"];
             if (frameWin.closeSelectContractModal)
                 frameWin.closeSelectContractModal(selectedContract);
         }
