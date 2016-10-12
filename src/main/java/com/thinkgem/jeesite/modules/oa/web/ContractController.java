@@ -382,7 +382,11 @@ public class ContractController extends BaseController {
 	@RequiresPermissions("oa:contract:audit")
 	@RequestMapping(value = "audit")
 	public String audit(HttpServletRequest request, Contract contract, RedirectAttributes redirectAttributes,@RequestParam(value="sUrl", required=false) String sUrl) {
-		if(!contract.getContractType().equals("1") && isNotBlank(contract.getAct().getFlag()) || isNotBlank(contract.getAct().getTaskDefKey()))
+		//保存附件
+		if(isNotBlank(contract.getAct().getFlag()) && "save_attachment".equals(contract.getAct().getFlag())){
+			contractService.saveAttachments(contract);
+		}
+		else if(!contract.getContractType().equals("1") && isNotBlank(contract.getAct().getFlag()) || isNotBlank(contract.getAct().getTaskDefKey()))
 		{
 			try {
 				contractService.audit(contract);
