@@ -144,7 +144,8 @@
                 splitNumber: 7,
                 axisLine: { // 坐标轴线
                     lineStyle: { // 属性lineStyle控制线条样式
-                        width: 8
+                        width: 8,
+                        color: [[0.2, '#b5493c'], [0.8, '#63869e'], [1, '#9cc3ad']]
                     }
                 },
                 axisLabel: {
@@ -191,7 +192,8 @@
                 splitNumber: 2,
                 axisLine: { // 坐标轴线
                     lineStyle: { // 属性lineStyle控制线条样式
-                        width: 8
+                        width: 8,
+                        color: [[0.2, '#b5493c'], [0.8, '#63869e'], [1, '#9cc3ad']]
                     }
                 },
                 axisTick: { // 坐标轴小标记
@@ -244,7 +246,8 @@
                 splitNumber: 2,
                 axisLine: { // 坐标轴线
                     lineStyle: { // 属性lineStyle控制线条样式
-                        width: 8
+                        width: 8,
+                        color: [[0.2, '#b5493c'], [0.8, '#63869e'], [1, '#9cc3ad']]
                     }
                 },
                 axisTick: { // 坐标轴小标记
