@@ -97,7 +97,8 @@
                 radius: '85%',
                 axisLine: { // 坐标轴线
                     lineStyle: { // 属性lineStyle控制线条样式
-                        width: 10
+                        width: 10,
+                        color: [[0.2, '#b5493c'], [0.8, '#63869e'], [1, '#9cc3ad']]
                     }
                 },
                 axisLabel: {
