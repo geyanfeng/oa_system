@@ -730,6 +730,7 @@
                 }
 
                 function selectProduct(sender, dataString){
+                    loading('正在执行，请稍等...');
                     var self = $(sender);
                     var checked = self.is(':checked');
                     var poFrameWin = document.getElementById("poFrame").contentWindow;
@@ -750,7 +751,7 @@
                                 $.each(data.childs, function(idx, item){
                                     $("#card_products tr[data-id='"+ item.id +"'] input:checkbox").prop("checked","checked");
                                     $("#card_products tr[data-id='"+ item.id +"'] input:checkbox").trigger('change');
-                                    //poFrameWin.addProduct(item);
+                                    poFrameWin.addProduct(item);
                                 });
                             }
                         } else {
@@ -776,6 +777,8 @@
                     }
                     if($("#panel_po").is(":hidden"))
                     	openOrClosePOPanel();
+
+                    //closeLoading();
                 }
 
                 function unSelectProduct(id){
