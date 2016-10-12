@@ -73,26 +73,42 @@
         </div>
         <div class="panel-body">
             <div class="row">
+                <c:choose>
+                <c:when test="${contract.act.taskDefKey eq 'cw_kp' || contract.act.taskDefKey eq 'cw_kp2'}">
                 <div class="col-sm-3">
+                    </c:when>
+                    <c:otherwise>
+                    <div class="col-sm-6">
+                        </c:otherwise>
+                        </c:choose>
                     发票类型：${fns:getDictLabel(contract.invoiceType, "oa_invoice_type","" )}
                 </div>
-                <div class="col-sm-3">
+                        <c:choose>
+                        <c:when test="${contract.act.taskDefKey eq 'cw_kp' || contract.act.taskDefKey eq 'cw_kp2'}">
+                        <div class="col-sm-3">
+                            </c:when>
+                            <c:otherwise>
+                            <div class="col-sm-6">
+                                </c:otherwise>
+                                </c:choose>
                     开票金额：<font style="color: red"><fmt:formatNumber type="number" value="${finance.amount}" maxFractionDigits="2" /></font>
                 </div>
-                <div class="col-sm-3 form-inline">
-                    <%
-                        String datetime=new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()); //获取系统时间
-                        request.setAttribute("currentTime",datetime);
-                    %>
-                    实际开票日期：<div class="input-group">
-                    <input name="kpDate" type="text" readonly="readonly"
-                                  class="form-control input-sm required"
-                                  value="${currentTime}"
-                                  onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
-                     <span class="input-group-addon bg-custom b-0 text-white"><i
-									class="ti-calendar"></i></span>
-							</div>
-                </div>
+                <c:if test="${contract.act.taskDefKey eq 'cw_kp' || contract.act.taskDefKey eq 'cw_kp2'}">
+                    <div class="col-sm-3 form-inline">
+                        <%
+                            String datetime=new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()); //获取系统时间
+                            request.setAttribute("currentTime",datetime);
+                        %>
+                        实际开票日期：<div class="input-group">
+                        <input name="kpDate" type="text" readonly="readonly"
+                                      class="form-control input-sm required"
+                                      value="${currentTime}"
+                                      onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+                         <span class="input-group-addon bg-custom b-0 text-white"><i
+                                        class="ti-calendar"></i></span>
+                                </div>
+                    </div>
+                </c:if>
             </div>
             <div class="row">
                 <div class="col-sm-6">
