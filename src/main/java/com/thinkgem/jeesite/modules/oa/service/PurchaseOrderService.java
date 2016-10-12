@@ -253,6 +253,8 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 	技术验收后更新预付款日期
 	 */
 	private void updatePlanPayDate(PurchaseOrder purchaseOrder) {
+		String taskDefKey = purchaseOrder.getAct().getTaskDefKey();
+
 		PurchaseOrderFinance filter = new PurchaseOrderFinance(purchaseOrder,1);//过滤还没有付款的数据
 		List<PurchaseOrderFinance> finances = purchaseOrderFinanceDao.findList(filter);
 
@@ -260,8 +262,12 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 			return;
 		PurchaseOrderFinance poFinance = finances.get(0);
 		Calendar cc = Calendar.getInstance();
-		cc.add(Calendar.DATE, poFinance.getZq());
-		poFinance.setPlanPayDate(cc.getTime());
+		if(("cfo_confirm_payment_1".equals(taskDefKey) || "cfo_confirm_payment_2".equals(taskDefKey) || "cfo_confirm_payment_3".equals(taskDefKey)) && poFinance.getPayCondition() == 0){//财务总监确认可付款
+			poFinance.setPlanPayDate(cc.getTime());
+		} else {
+			cc.add(Calendar.DATE, poFinance.getZq());
+			poFinance.setPlanPayDate(cc.getTime());
+		}
 		poFinance.preUpdate();
 		purchaseOrderFinanceDao.update(poFinance);
 	}
@@ -347,6 +353,8 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 			} else if("verify_ship_1".equals(taskDefKey) || "verify_ship_2".equals(taskDefKey)){//确认发货
 				if("verify_ship_1".equals(taskDefKey))
 					updatePlanPayDate(purchaseOrder);//更新预付款时间
+			}  else if("cfo_confirm_payment_1".equals(taskDefKey) || "cfo_confirm_payment_2".equals(taskDefKey) || "cfo_confirm_payment_3".equals(taskDefKey)){
+				updatePlanPayDate(purchaseOrder);//如果是预付的，预付款时间就是财务总监审核通过的日期
 			}
 
 			updatePoStatus(purchaseOrder, taskDefKey, pass);//更新订单状态
@@ -386,7 +394,7 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 				purchaseOrderFinanceDao.update(finance);
 			}
 		}
-		else if("cfo_confirm_payment_1".equals(taskDefKey) || "cfo_confirm_payment_2".equals(taskDefKey) || "cfo_confirm_payment_2".equals(taskDefKey)){//财务总监确认可付款
+		else if("cfo_confirm_payment_1".equals(taskDefKey) || "cfo_confirm_payment_2".equals(taskDefKey) || "cfo_confirm_payment_3".equals(taskDefKey)){//财务总监确认可付款
 			purchaseOrder.setStatus("30");//已审核待付款
 		}
 		else if("payment_first".equals(taskDefKey) || "payment_all".equals(taskDefKey) || "payment".equals(taskDefKey)){//付款
