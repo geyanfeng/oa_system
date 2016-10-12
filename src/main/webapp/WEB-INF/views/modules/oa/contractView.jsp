@@ -259,13 +259,13 @@
                     <div class="col-sm-3">
                         毛利：
                         <fmt:formatNumber type="number"
-                                          value="${contract.amount - contract.cost - contract.customerCost * 1.1}"
+                                          value="${contract.amount - (not empty contract.cost ? contract.cost : 0) - (not empty contract.customerCost ? contract.customerCost * 1.1 : 0)}"
                                           maxFractionDigits="2" />
                     </div>
                     <div class="col-sm-3">
                         毛利率：
                         <fmt:formatNumber type="number"
-                                          value="${((contract.amount - contract.cost - contract.customerCost * 1.1)/contract.amount)*100}"
+                                          value="${((contract.amount - (not empty contract.cost ? contract.cost : 0) - (not empty contract.customerCost ? contract.customerCost * 1.1 : 0))/contract.amount)*100}"
                                           maxFractionDigits="2" />%
                     </div>
 
@@ -1062,17 +1062,29 @@
 
             <div id="payment-body" data-idx="1">
                 <table class="table table-striped table-condensed">
+                    <thead>
+                    <tr row="row">
+                        <th>收款次数</th>
+                        <th>收款金额</th>
+                        <th>收款方式</th>
+                        <th>收款条件</th>
+                        <th>状态</th>
+                        <th>开票时间</th>
+                        <th>预计收款时间</th>
+                        <th>实际收款时间</th>
+                    </tr>
+                    </thead>
                     <tbody >
                     <c:forEach items="${contract.contractFinanceList}" var="finance" varStatus="status">
                         <tr row="row">
-                            <td>第${status.count}笔</td>
-                            <td>收款金额：<fmt:formatNumber type="number" value="${finance.amount}" maxFractionDigits="2" /></td>
-                            <td>收款方式：${fns:getDictLabel(finance.payMethod, "oa_payment_method" ,"银行转帐" )}</td>
-                            <td>收款条件：${finance.payCondition eq 0 ? '预付':'后付'}</td>
-                            <td>状态：${finance.status eq 1 ? '未开票': finance.status eq 2 ? '已开票':'已收款'}</td>
-                            <td>开票时间：<fmt:formatDate value="${finance.billingDate}" pattern="yyyy-MM-dd" /></td>
-                            <td>预计收款时间：<fmt:formatDate value="${finance.planPayDate}" pattern="yyyy-MM-dd" /></td>
-                            <td>实际收款时间：<fmt:formatDate value="${finance.payDate}" pattern="yyyy-MM-dd" /></td>
+                            <td>${status.count}</td>
+                            <td><fmt:formatNumber type="number" value="${finance.amount}" maxFractionDigits="2" /></td>
+                            <td>${fns:getDictLabel(finance.payMethod, "oa_payment_method" ,"银行转帐" )}</td>
+                            <td>${finance.payCondition eq 0 ? '预付':'后付'}</td>
+                            <td>${finance.status eq 1 ? '未开票': finance.status eq 2 ? '已开票':'已收款'}</td>
+                            <td><fmt:formatDate value="${finance.billingDate}" pattern="yyyy-MM-dd" /></td>
+                            <td><fmt:formatDate value="${finance.planPayDate}" pattern="yyyy-MM-dd" /></td>
+                            <td><fmt:formatDate value="${finance.payDate}" pattern="yyyy-MM-dd" /></td>
                         </tr>
                     </c:forEach>
                     </tbody>
