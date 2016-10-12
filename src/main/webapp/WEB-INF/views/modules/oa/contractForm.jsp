@@ -172,7 +172,8 @@ th,td{text-align:left;}
 			else
 				$("#parentNo").val(contract.no);
             $('#customer').val(contract.customer.id).trigger("change");
-            $("input[name=invoiceType][value=" + contract.invoiceType + "]").attr("checked", true);
+            $("input[name=invoiceType][value=" + contract.invoiceType + "]").prop("checked", true);
+			$("input[name=invoiceType]").trigger('change');
             $("#invoiceCustomerName").val(contract.invoiceCustomerName);
             $("#invoiceNo").val(contract.invoiceNo);
             $("#invoiceBank").val(contract.invoiceBank);
