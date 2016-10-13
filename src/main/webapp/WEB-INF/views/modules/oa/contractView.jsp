@@ -741,6 +741,7 @@
                             if(!data.productType){
                                 showTipMsg("没有设置产品类型, 不能下单", "error");
                                 self.prop("checked","");
+                                closeLoading();
                                 return;
                             }
                         }
@@ -778,7 +779,7 @@
                     if($("#panel_po").is(":hidden"))
                     	openOrClosePOPanel();
 
-                    //closeLoading();
+                    closeLoading();
                 }
 
                 function unSelectProduct(id){
