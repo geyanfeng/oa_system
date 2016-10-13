@@ -343,6 +343,7 @@ th,td{text-align:left;}
 						<tbody id="attchmentList">
 							<c:forEach items="${contract.contractAttachmentList}"
 								var="attachment" varStatus="status">
+								<c:if test="${attachment.type eq '1'}">
 								<tr row="row">
 									<td class="hidden"><input
 										id="contractAttachmentList${status.index}_id"
@@ -363,7 +364,7 @@ th,td{text-align:left;}
 									<td style="text-align:center;"><fmt:formatDate value="${attachment.updateDate}"
 											pattern="yyyy-MM-dd" /></td>
 								</tr>
-
+								</c:if>
 							</c:forEach>
 						</tbody>
 					</table>
