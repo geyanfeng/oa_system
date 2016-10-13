@@ -1068,6 +1068,7 @@
                 <table class="table table-striped table-condensed">
                     <thead>
                     <tr row="row">
+                        <th class="hidden"></th>
                         <th>收款次数</th>
                         <th>收款金额</th>
                         <th>收款方式</th>
@@ -1081,6 +1082,7 @@
                     <tbody >
                     <c:forEach items="${contract.contractFinanceList}" var="finance" varStatus="status">
                         <tr row="row">
+                            <td class="hidden"></td>
                             <td>${status.count}</td>
                             <td><fmt:formatNumber type="number" value="${finance.amount}" maxFractionDigits="2" /></td>
                             <td>${fns:getDictLabel(finance.payMethod, "oa_payment_method" ,"银行转帐" )}</td>

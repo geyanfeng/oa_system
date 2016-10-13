@@ -31,7 +31,7 @@
 				var status= result.status;
 				if(status!="1") return;
 				//var poModalWin =  parent.window.document.getElementById("poFrame").contentWindow;
-				var poModalWin = parent.window.frames["mainFrame"].contentWindow.frames["poFrame"];
+				var poModalWin = top.document.getElementById("mainFrame").contentWindow.frames["poFrame"];
 				if(poModalWin && poModalWin.closeSupplierModal)
 					poModalWin.closeSupplierModal(result.data);
 			}});
