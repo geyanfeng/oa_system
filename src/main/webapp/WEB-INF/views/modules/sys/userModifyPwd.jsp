@@ -42,12 +42,15 @@
 						return false;
 					}
 					return true
-				}, "密码必须包含数字、大写字母、小写字母、特殊字符");
+				}, "密码必须包含数字、大写字母、小写字母任意两项，长度最少是8位");
 				$("#inputForm")
 						.validate(
 								{
 									rules : {},
 									messages : {
+										newPassword : {
+											minlength : "密码必须包含数字、大写字母、小写字母任意两项，长度最少是8位"
+										},
 										confirmNewPassword : {
 											equalTo : "输入与上面相同的密码"
 										}
