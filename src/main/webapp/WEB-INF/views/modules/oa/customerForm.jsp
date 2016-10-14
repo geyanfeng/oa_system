@@ -40,7 +40,7 @@
 				$("#inputForm").ajaxForm({success:function(result){
 					var status= result.status;
 					if(status!="1") return;
-					var frameWin =  parent.window.frames["mainFrame"].contentWindow;
+					var frameWin =  top.document.getElementById("mainFrame").contentWindow;
 					if(frameWin.closeCustomerModal)
 						frameWin.closeCustomerModal(result.data);
 				}});
