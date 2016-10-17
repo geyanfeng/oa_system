@@ -38,15 +38,31 @@
             <c:if test="${not empty summary.contract_ml && not empty summary.amount}">
                 $("#span-ml").html(((${summary.contract_ml}/${summary.amount})*100).toFixed(2) + " %");
             </c:if>
+            //其它产品毛利率
             <c:if test="${not empty summary.contract_ml && not empty summary.other_ml}">
-            $("#span-otherML").html(((${summary.other_ml}/${summary.amount})*100).toFixed(2) + " %");
+                $("#span-otherML").html(((${summary.other_ml}/${summary.amount})*100).toFixed(2) + " %");
             </c:if>
+
+            changeType(${searchParams.reportType});
         });
         function page(n, s) {
             $("#pageNo").val(n);
             $("#pageSize").val(s);
             $("#searchForm").submit();
             return false;
+        }
+
+        function changeType(type){
+            switch (type){
+                case 3:
+                    $("#span-summary-amount").html("合同总金额");
+                    $("#contentTable thead tr th:eq(5)").html("合同金额");
+                    break;
+                case 4:
+                    $("#span-summary-amount").html("业绩总金额");
+                    $("#contentTable thead tr th:eq(5)").html("业绩金额");
+                    break;
+            }
         }
     </script>
     <style type="text/css">
@@ -111,11 +127,11 @@
             </div>
             <div class="form-group m-r-10 input-sm">
                 <span class="radio radio-custom radio-inline input-sm">
-                    <input id="reportType3" name="reportType" value="4" type="radio" ${searchParams.reportType eq '4'? 'checked':''}>
+                    <input id="reportType3" name="reportType" value="4" type="radio" ${searchParams.reportType eq '4'? 'checked':''} onchange="changeType(4)">
                     <label for="reportType3">业绩</label>
                 </span>
                 <span class="radio radio-custom radio-inline input-sm">
-                    <input id="reportType4" name="reportType" value="3" type="radio" ${searchParams.reportType eq '3'? 'checked':''}>
+                    <input id="reportType4" name="reportType" value="3" type="radio" ${searchParams.reportType eq '3'? 'checked':''} onchange="changeType(3)">
                     <label for="reportType4">来单</label>
                 </span>
             </div>
@@ -136,7 +152,7 @@
                     <tbody>
                         <tr>
                             <td>客户：<span id="span-cust">全选</span></td>
-                            <td>合同总金额：<fmt:formatNumber type="number" value="${summary.amount}" maxFractionDigits="2" /></td>
+                            <td><span id="span-summary-amount">合同总金额</span>：<fmt:formatNumber type="number" value="${summary.amount}" maxFractionDigits="2" /></td>
                             <td>采购总金额：<fmt:formatNumber type="number" value="${summary.po_sum_amount}" maxFractionDigits="2" /></td>
                             <td>进销差价：<fmt:formatNumber type="number" value="${summary.contract_ce}" maxFractionDigits="2" /></td>
                             <td>销售总费用：<fmt:formatNumber type="number" value="${summary.customer_cost}" maxFractionDigits="2" /></td>
