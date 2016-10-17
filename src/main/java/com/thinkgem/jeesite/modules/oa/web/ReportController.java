@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -71,7 +72,6 @@ public class ReportController extends BaseController {
 					sqlCondition += " and billing_date<='"
 							+ searchParams.getEndTime() + "'";
 				}
-
 			}
 
 			if (reportType == 1 || reportType == 6) {
@@ -357,11 +357,100 @@ public class ReportController extends BaseController {
 				page.setList(list);
 				model.addAttribute("page", page);
 			}
-
 			model.addAttribute("headers", headers);
+
 		}
 
 		return "modules/oa/reportList";
 	}
 
+	@RequiresPermissions("oa:report:saleStatistics")
+	@RequestMapping(value = { "saleStatistics" })
+	public String sale_statistics(SearchParams searchParams, HttpServletRequest request, HttpServletResponse response, Model model) {
+		//设置默认类型
+		if (StringUtils.isBlank(searchParams.getReportType())) {
+			searchParams.setReportType("3");
+		}
+
+		List<User> salerList = UserUtils.getUsersByRoleEnName("saler");
+		if (searchParams.getSalerIds() == null) {
+			String[] selectedSalerIds = new String[salerList.size()];
+			for (int i = 0; i < selectedSalerIds.length; i++) {
+				selectedSalerIds[i] = salerList.get(i).getId();
+			}
+			searchParams.setSalerIds(selectedSalerIds);
+		}
+		model.addAttribute("salerList", salerList);//销售员列表
+
+		model.addAttribute("customerList", customerService.findList(new Customer()));//客户列表
+
+
+		String sqlCondition = "";
+
+
+		if (searchParams.getSalerIds() != null
+				&& searchParams.getSalerIds().length > 0) {
+			String salerIds = "";
+			for (String salerId : searchParams.getSalerIds()) {
+				salerIds += "'" + salerId + "',";
+			}
+
+			sqlCondition += "  and c.create_by in("
+					+ salerIds.substring(0, salerIds.length() - 1)
+					+ ")";
+		}
+		SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		if (StringUtils.isNotBlank(searchParams.getStartTime())) {
+			Calendar cc = Calendar.getInstance();
+			sqlCondition += StringUtils.isNotBlank(sqlCondition) ? " and " : "";
+			String[] startTimes = searchParams.getStartTime().split("-");
+			cc.set(Calendar.YEAR, Integer.parseInt(startTimes[0]));
+			cc.set(Calendar.MONTH, Integer.parseInt(startTimes[1]) - 1);
+			cc.set(Calendar.DAY_OF_MONTH, 1);
+			cc.set(Calendar.HOUR_OF_DAY, 0);
+			cc.set(Calendar.SECOND, 0);
+			cc.set(Calendar.MINUTE, 0);
+			cc.set(Calendar.MILLISECOND, 0);
+			sqlCondition += "c.create_date>='" + dataFormat.format(cc.getTime()) + "'";
+		}
+
+		if (StringUtils.isNotBlank(searchParams.getEndTime())) {
+			Calendar cc = Calendar.getInstance();
+			String[] endTimes = searchParams.getEndTime().split("-");
+			cc.set(Calendar.YEAR, Integer.parseInt(endTimes[0]));
+			cc.set(Calendar.MONTH, Integer.parseInt(endTimes[1]));
+			cc.set(Calendar.DAY_OF_MONTH, 1);
+			cc.add(Calendar.DATE, -1);
+			cc.set(Calendar.HOUR_OF_DAY, 24);
+			cc.set(Calendar.SECOND, 0);
+			cc.set(Calendar.MINUTE, 0);
+			cc.set(Calendar.MILLISECOND, 0);
+			sqlCondition += " and c.create_date<='" + dataFormat.format(cc.getTime()) + "'";
+		}
+
+		if (StringUtils.isNotBlank(searchParams.getCustomerId())) {
+			sqlCondition += " and c.customer_id='" + searchParams.getCustomerId() + "'";
+		}
+
+		Page page = new Page(request, response);
+
+		Map queryMap = new LinkedHashMap();
+		queryMap.put("pageNo", page.getPageNo());
+		queryMap.put("pageSize", page.getPageSize());
+		queryMap.put("orderBy", page.getOrderBy());
+		queryMap.put("sqlCondition", sqlCondition);
+		queryMap.put("type", searchParams.getReportType().equals("3") ? 1 : 3);
+		List<Map> list  = reportDao.reportSaleStatistics(queryMap);
+		if(list.size()>0 && list.get(0).containsKey("recordCount"))
+				page.setCount(Long.parseLong(list.get(0).get("recordCount").toString()));
+		page.setList(list);
+		model.addAttribute("page", page);
+		queryMap.put("type", searchParams.getReportType().equals("3") ? 2 : 4);
+		List<Map> summary = reportDao.reportSaleStatistics(queryMap);
+		if (summary.size() > 0)
+			model.addAttribute("summary", summary.get(0));
+
+
+		return "modules/oa/reportSaleStatistics";
+	}
 }

@@ -374,7 +374,7 @@
 
             <div class="col-sm-6 item">
                 <div class="card-box">
-                    <h4 class="header-title m-t-0">销售来单情况</h4>
+                    <h4 class="header-title m-t-0">销售来单情况(毛利/RMB)</h4>
                     <div id="total_1" style="height: 293px;" class="flot-chart"></div>
                 </div>
             </div>

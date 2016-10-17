@@ -104,4 +104,10 @@
     <select id="home_ld_group_by_salar" resultType="java.util.LinkedHashMap" statementType="CALLABLE" >
         {call home_ld_group_by_salar()}
     </select>
+    <select id="reportSaleStatistics" parameterType="java.util.LinkedHashMap"  resultType="java.util.LinkedHashMap" statementType="CALLABLE" >
+        {call report_sale_statistics(
+        #{pageNo,jdbcType=INTEGER,mode=IN},#{pageSize,jdbcType=INTEGER,mode=IN},#{type,jdbcType=INTEGER,mode=IN},#{sqlCondition,jdbcType=VARCHAR,mode=IN}
+        )
+        }
+    </select>
 </mapper>

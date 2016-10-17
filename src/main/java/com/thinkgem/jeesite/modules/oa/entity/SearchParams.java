@@ -16,6 +16,8 @@ public class SearchParams {
 	private String salerId;	
 	private String companyId;	
 	private String invoiceType;
+	private String reportType;
+	private String flag;
 
 	public String getSupplierId() {
 		return supplierId;
@@ -120,4 +122,10 @@ public class SearchParams {
 	public void setInvoiceType(String invoiceType) {
 		this.invoiceType = invoiceType;
 	}
+
+	public String getReportType(){return reportType;}
+	public void setReportType(String reportType){this.reportType = reportType;}
+
+	public String getFlag(){return flag;}
+	public void setFlag(String flag){this.flag = flag;}
 }
