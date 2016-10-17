@@ -87,21 +87,21 @@
                    value="${page.pageSize}"/>
             <sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}"
                            callback="page();"/>
-            <div class="row">
+            <div class="row m-b-20">
                 <form:checkboxes path="salerIds"
                                  items="${salerList}" itemLabel="name"
                                  itemValue="id" htmlEscape="false" class=""
-                                 element="span class='checkbox checkbox-custom checkbox-inline input-sm'"/>
-                <span class="checkbox checkbox-custom checkbox-inline input-sm">
+                                 element="span class='checkbox checkbox-custom checkbox-inline'"/>
+                <span class="checkbox checkbox-custom checkbox-inline">
                     <input id="checkall" type="checkbox" checked>
                     <label for="checkall">全选</label></span>
             </div>
 
-            <div class="form-group m-r-10 input-sm">
+            <div class="form-group m-r-10">
                 <label>时间：</label>
                 <div class="input-group">
                     <input name="startTime" type="text" readonly="readonly"
-                           maxlength="20" class="form-control input-sm" size="10"
+                           maxlength="20" class="form-control" size="10"
                            value="${searchParams.startTime}"
                            onclick="WdatePicker({dateFmt:'yyyy-MM',isShowClear:false});"/>
 						<span class="input-group-addon bg-custom b-0 text-white"><i
@@ -109,35 +109,35 @@
                 </div>
                 <div class="input-group">
                     <input name="endTime" type="text" readonly="readonly"
-                           maxlength="20" class="form-control input-sm" size="10"
+                           maxlength="20" class="form-control" size="10"
                            value="${searchParams.endTime}"
                            onclick="WdatePicker({dateFmt:'yyyy-MM',isShowClear:false});"/>
 						<span class="input-group-addon bg-custom b-0 text-white"><i
                                 class="ti-calendar"></i></span>
                 </div>
             </div>
-            <div class="form-group m-r-10 input-sm">
+            <div class="form-group m-r-10">
                 <label>客户：</label>
-                <form:select path="customerId" class="select2-container form-control input-sm" id="customerId"
+                <form:select path="customerId" class="select2-container form-control" id="customerId"
                              cssStyle="width:200px;">
                     <form:option value="" label=""/>
                     <form:options items="${customerList}" itemLabel="name"
                                   itemValue="id" htmlEscape="false"/>
                 </form:select>
             </div>
-            <div class="form-group m-r-10 input-sm">
-                <span class="radio radio-custom radio-inline input-sm">
+            <div class="form-group m-r-10">
+                <span class="radio radio-custom radio-inline">
                     <input id="reportType3" name="reportType" value="4" type="radio" ${searchParams.reportType eq '4'? 'checked':''} onchange="changeType(4)">
                     <label for="reportType3">业绩</label>
                 </span>
-                <span class="radio radio-custom radio-inline input-sm">
+                <span class="radio radio-custom radio-inline">
                     <input id="reportType4" name="reportType" value="3" type="radio" ${searchParams.reportType eq '3'? 'checked':''} onchange="changeType(3)">
                     <label for="reportType4">来单</label>
                 </span>
             </div>
             <input type="hidden" name="flag" id="flag">
             <div class="form-group m-r-10">
-                <button id="btnSubmit" class="btn btn-custom input-sm" type="submit" onclick="$('#flag').val('search');"
+                <button id="btnSubmit" class="btn btn-custom" type="submit" onclick="$('#flag').val('search');"
                         value="查询">查&nbsp;&nbsp;询
                 </button>
 
