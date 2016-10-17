@@ -390,12 +390,12 @@
                         name: saler.name,
                         type: 'bar',
                         stack: '总量',
-                        label: {
+                        /*label: {
                             normal: {
                                 show: true,
                                 position: 'insideRight'
                             }
-                        },
+                        },*/
                         data: [0, 0, 0, 0]
                     };
                     $.each(home_ld_group_by_salar, function (idx, data) {
