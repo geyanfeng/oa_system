@@ -38,7 +38,7 @@ $(document).ready(function() {
             var methodParaJson = onclick.substring(onclick.indexOf('{'), onclick.indexOf('}') + 1);
             var methodPara = eval("methodPara="+methodParaJson);
             methodPara.el=pickerInput[0];
-            self.click(function(){
+            self.parent().click(function(){
                 WdatePicker(methodPara);
             })
         });

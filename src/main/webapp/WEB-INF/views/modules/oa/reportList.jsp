@@ -444,6 +444,9 @@
                             <c:choose>
                                 <c:when test="${reportType eq '5' and headers.key eq 'contract_name'}"><td><a href="${ctx}/oa/contract/view?id=${supplier['contract_id']}">${supplier[headers.key]}</a></td></c:when>
                                 <c:when test="${reportType eq '6' and headers.key eq 'finance_no'}"><td><a href="${ctx}/oa/purchaseOrder/view?id=${supplier['po_id']}">${supplier[headers.key]}</a></td></c:when>
+                                <c:when test="${headers.key eq 'avgAmount' || headers.key eq 'totalAmount'}">
+                                    <td><fmt:formatNumber type="number" value="${supplier[headers.key]}" maxFractionDigits="2" /></td>
+                                </c:when>
                                 <c:otherwise><td>${supplier[headers.key]}</td></c:otherwise>
                             </c:choose>
                         </c:forEach>
@@ -457,8 +460,8 @@
                             <td></td>
                             <td>${finishedCount}</td>
                             <td>${unfinishedCount}</td>
-                            <td>${avgAmount}</td>
-                            <td>${totalAmount}</td>
+                            <td><fmt:formatNumber type="number" value="${avgAmount}" maxFractionDigits="2" /></td>
+                            <td><fmt:formatNumber type="number" value="${totalAmount}" maxFractionDigits="2" /></td>
                         </tr>
                     </c:when>
                     <c:when test="${reportType eq '2'}">
@@ -468,10 +471,10 @@
                             <td>${finishedCount}</td>
                             <td>${avgPayDay}</td>
                             <td>${unfinishedCount}</td>
-                            <td>${totalAmount}</td>
+                            <td><fmt:formatNumber type="number" value="${totalAmount}" maxFractionDigits="2" /></td>
                             <td>${overdueTimes}</td>
                             <td>${avgOverdueDay}</td>
-                            <td>${overdueAmount}</td>
+                            <td><fmt:formatNumber type="number" value="${overdueAmount}" maxFractionDigits="2" /></td>
                         </tr>
                     </c:when>
                 </c:choose>
