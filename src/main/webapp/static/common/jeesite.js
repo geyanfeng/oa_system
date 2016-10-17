@@ -8,6 +8,7 @@
 document.onkeydown = function(e){
     e = window.event || e;
     var keycode = e.keyCode || e.which;
+    if(!top.document.getElementById('mainFrame'))return;
     if( keycode == 116){
         if(window.event){// ie
             try{e.keyCode = 0;}catch(e){}
@@ -29,6 +30,18 @@ $(document).ready(function() {
 		$("select").select2();
 
         closeLoading();//关闭提示框
+
+        $('.ti-calendar').each(function(){
+           var self = $(this);
+           var pickerInput = self.parent().prev();
+            var onclick =  pickerInput.attr('onclick');
+            var methodParaJson = onclick.substring(onclick.indexOf('{'), onclick.indexOf('}') + 1);
+            var methodPara = eval("methodPara="+methodParaJson);
+            methodPara.el=pickerInput[0];
+            self.click(function(){
+                WdatePicker(methodPara);
+            })
+        });
 	}catch(e){
 		// blank
 	}
