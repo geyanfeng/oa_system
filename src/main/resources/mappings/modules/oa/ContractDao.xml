@@ -19,8 +19,8 @@
 		a.business_person_id AS "businessPerson.id",
 		a.artisan_id AS "artisan.id",
 		a.customer_cost AS "customerCost",
-		a.is_deduction AS "isDeduction",
 		a.discount AS "discount",
+		a.discount_remark AS "discountRemark",
 		a.stock_in_amount AS "stockInAmount",
 		a.returning_amount AS "returningAmount",
 		a.extra_amount AS "extraAmount",
@@ -107,6 +107,12 @@
 			<if test="beginCreateDate != null and endCreateDate != null and beginCreateDate != '' and endCreateDate != ''">
 				AND a.create_date BETWEEN #{beginCreateDate} AND #{endCreateDate}
 			</if>
+			<if test="searchStartAmount != null and searchStartAmount != ''">
+				AND a.amount &gt;= #{searchStartAmount}
+			</if>
+			<if test="searchEndAmount != null and searchEndAmount != ''">
+				AND a.amount &lt;= #{searchEndAmount}
+			</if>
 			<if test="searchTypeArray != null and searchTypeArray.length!=0">
 				AND a.contract_type in
 				<foreach item="item" index="index" collection="searchTypeArray" open="(" separator="," close=")">
@@ -163,8 +169,8 @@
 			business_person_id,
 			artisan_id,
 			customer_cost,
-			is_deduction,
 			discount,
+			discount_remark,
 			performance_percentage,
 			expiry_date,
 			invoice_type,
@@ -204,8 +210,8 @@
 			#{businessPerson.id},
 			#{artisan.id},
 			#{customerCost},
-			#{isDeduction},
 			#{discount},
+			#{discountRemark},
 			#{performancePercentage},
 			#{expiryDate},
 			#{invoiceType},
@@ -246,8 +252,8 @@
 			business_person_id = #{businessPerson.id},
 			artisan_id = #{artisan.id},
 			customer_cost = #{customerCost},
-			is_deduction = #{isDeduction},
 			discount = #{discount},
+			discountRemark = #{discountRemark},
 			stock_in_amount = #{stockInAmount},
 			returning_amount = #{returningAmount},
 			extra_amount = #{extraAmount},

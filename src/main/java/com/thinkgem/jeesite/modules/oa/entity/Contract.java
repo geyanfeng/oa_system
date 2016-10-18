@@ -38,8 +38,8 @@ public class Contract extends ActEntity<Contract> {
 	private User businessPerson;		// 商务人员
 	private User artisan;		// 技术人员
 	private Double customerCost =0.00;		// 客户费用
-	private Boolean isDeduction;		// 是否业绩抵扣
-	private Double discount;		// 抵扣金额
+	private Double discount;		// 额外费用
+	private String discountRemark;		// 额外费用备注
 	
 	private Boolean stockInIsDeduction;		// 库存是否业绩抵扣
 	private Double stockInDiscount;		// 库存抵扣金额
@@ -79,7 +79,9 @@ public class Contract extends ActEntity<Contract> {
 	private String searchName;			//搜索的合同名称
 	private String backPayMethod;			//退预付款方式
 	private Double backAmount;			//退预付款
-	
+	private Double searchStartAmount;		// 搜索开始金额
+	private Double searchEndAmount;		// 搜索结束金额
+
 	public Contract() {
 		super();
 	}
@@ -238,14 +240,6 @@ public class Contract extends ActEntity<Contract> {
 	public void setCustomerCost(Double customerCost) {
 		this.customerCost = customerCost;
 	}
-
-	public Boolean getIsDeduction() {
-		return isDeduction;
-	}
-
-	public void setIsDeduction(Boolean isDeduction) {
-		this.isDeduction = isDeduction;
-	}
 	
 	public Double getDiscount() {
 		return discount;
@@ -254,6 +248,15 @@ public class Contract extends ActEntity<Contract> {
 	public void setDiscount(Double discount) {
 		this.discount = discount;
 	}
+
+	public String getDiscountRemark() {
+		return discountRemark;
+	}
+
+	public void setDiscountRemark(String discountRemark) {
+		this.discountRemark = discountRemark;
+	}
+
 
 	public Double getPerformancePercentage() {
 		return performancePercentage;
@@ -492,4 +495,10 @@ public class Contract extends ActEntity<Contract> {
 
 	public Double getBackAmount(){return backAmount;}
 	public void setBackAmount(Double backAmount){this.backAmount = backAmount;}
+
+	public Double getSearchStartAmount(){return searchStartAmount;}
+	public void setSearchStartAmount(Double searchStartAmount){this.searchStartAmount = searchStartAmount;}
+
+	public Double getSearchEndAmount(){return searchEndAmount;}
+	public void setSearchEndAmount(Double searchEndAmount){this.searchEndAmount = searchEndAmount;}
 }

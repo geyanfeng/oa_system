@@ -1354,10 +1354,10 @@
                         销售奖金：${contract.customerCost}
                     </div>
                     <div class="col-sm-3">
-                        是否抵扣：${contract.isDeduction? "是":"否"}
+                        额外费用：${contract.discount}
                     </div>
                     <div class="col-sm-3">
-                        抵扣金额：${contract.discount}
+                        备注：${contract.discountRemark}
                     </div>
                     <div class="col-sm-3">
                         业绩分成比例：${contract.performancePercentage}%

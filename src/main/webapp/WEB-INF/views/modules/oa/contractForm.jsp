@@ -90,17 +90,6 @@ th,td{text-align:left;}
 				openModalFromUrl($("#contractType").val() == "3"?"选择框架合同和客户合同":"选择框架合同",frameSrc , true );
             });
 
-            //更改是否业绩抵扣
-            $("#isDeduction").change(function(){
-                if($(this).prop('checked'))
-                    $("#discount-group").show();
-                else {
-                    $("#discount").val("");
-                    $("#discount-group").hide();
-                }
-            });
-            $("#isDeduction").trigger('change');
-
 			setCommonHideHandler();
         });
 
@@ -1117,24 +1106,17 @@ th,td{text-align:left;}
 					<div class="row form-inline">
 						<div class="form-group">
 							<label>销售奖金：</label>
-
 							<form:input path="customerCost" htmlEscape="false"
 								class="form-control required number " />
-
 						</div>
 
-						<div class="form-group">
-						<div class="checkbox checkbox-custom checkbox-circle" style="padding-top:0;">
-							<input type="checkbox" value="true" name="isDeduction" id="isDeduction">
-							<label for="isDeduction" style="line-height:16px;">是否业绩抵扣</label>
-							<input type="hidden" value="on" name="_isDeduction">
-							</div>
-						</div>
-						
 						<div class="form-group" id="discount-group">
-							<label>抵扣金额：</label>
-							<form:input path="discount" htmlEscape="false"
-								class="form-control  number " />
+							<label>额外费用：</label>
+							<form:input path="discount" htmlEscape="false" class="form-control  number " />
+						</div>
+						<div class="form-group">
+							<label>备注：</label>
+							<form:input path="discountRemark" htmlEscape="false" class="form-control" />
 						</div>
 						<div class="form-group">
 							<label>业绩分成比例：</label>
@@ -1142,6 +1124,7 @@ th,td{text-align:left;}
 							<input type="text" value="" class="form-control  number " name="performancePercentage" id="performancePercentage" style="width:60px;">
 							<span class="input-group-addon bootstrap-touchspin-postfix">%</span></div>
 						</div>
+
 					</div>
 				</div>
 			</div>
