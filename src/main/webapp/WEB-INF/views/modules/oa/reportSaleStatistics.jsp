@@ -166,7 +166,7 @@
                         </tr>
                         <tr>
                             <td>K1-K4产品利润：<fmt:formatNumber type="number" value="${summary.other_ml}" maxFractionDigits="2" /></td>
-                            <td style="color:red;">K1-K4产品利润率：<span style="color:red;" id="span-otherML">${(summary.contract_ml / summary.amount) * 100} %</span></td>
+                            <td>K1-K4产品利润率：<span style="color:red;" id="span-otherML">${(summary.contract_ml / summary.amount) * 100} %</span></td>
                             <td>总毛利：<fmt:formatNumber type="number" value="${summary.contract_ml}" maxFractionDigits="2" /></td>
                             <td>总毛利率：<span style="color:red;" id="span-ml">${(summary.contract_ml / summary.amount) * 100} %</span></td>
                             <td></td>
