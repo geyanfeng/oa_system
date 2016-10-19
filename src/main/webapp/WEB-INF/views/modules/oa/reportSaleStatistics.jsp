@@ -145,7 +145,7 @@
         </form:form>
         <sys:message content="${message}"/>
         <div class="panel panel-default m-r-15">
-            <div class="panel-heading">摘要信息
+            <div class="panel-heading" style="padding-left: 5px;">摘要信息
             </div>
             <div class="panel-body" style="padding: 0;">
                 <table id="zy-table" class="table table-condensed m-0">
@@ -158,11 +158,18 @@
                             <td>销售总费用：<fmt:formatNumber type="number" value="${summary.customer_cost}" maxFractionDigits="2" /></td>
                         </tr>
                         <tr>
-                            <td>毛利：<fmt:formatNumber type="number" value="${summary.contract_ml}" maxFractionDigits="2" /></td>
-                            <td>毛利率：<span style="color:red;" id="span-ml">${(summary.contract_ml / summary.amount) * 100} %</span></td>
+                            <td>K1总金额：<fmt:formatNumber type="number" value="${summary.k1_amount}" maxFractionDigits="2" /></td>
+                            <td>K2总金额：<fmt:formatNumber type="number" value="${summary.k2_amount}" maxFractionDigits="2" /></td>
+                            <td>K3总金额：<fmt:formatNumber type="number" value="${summary.k3_amount}" maxFractionDigits="2" /></td>
+                            <td>K4总金额：<fmt:formatNumber type="number" value="${summary.k4_amount}" maxFractionDigits="2" /></td>
                             <td>K5总金额：<fmt:formatNumber type="number" value="${summary.k5_amount}" maxFractionDigits="2" /></td>
-                            <td>其它产品利润：<fmt:formatNumber type="number" value="${summary.other_ml}" maxFractionDigits="2" /></td>
-                            <td style="color:red;">其它产品利润率：<span style="color:red;" id="span-otherML">${(summary.contract_ml / summary.amount) * 100} %</span></td>
+                        </tr>
+                        <tr>
+                            <td>K1-K4产品利润：<fmt:formatNumber type="number" value="${summary.other_ml}" maxFractionDigits="2" /></td>
+                            <td style="color:red;">K1-K4产品利润率：<span style="color:red;" id="span-otherML">${(summary.contract_ml / summary.amount) * 100} %</span></td>
+                            <td>总毛利：<fmt:formatNumber type="number" value="${summary.contract_ml}" maxFractionDigits="2" /></td>
+                            <td>总毛利率：<span style="color:red;" id="span-ml">${(summary.contract_ml / summary.amount) * 100} %</span></td>
+                            <td></td>
                         </tr>
                     </tbody>
                 </table>
@@ -193,12 +200,12 @@
                     <td>${item.company_name}</td>
                     <td>${item.cust_name}</td>
                     <td>${item.saler_name}</td>
-                    <td><fmt:formatNumber type="number" value="${item.amount}" maxFractionDigits="2" /></td>
-                    <td><fmt:formatNumber type="number" value="${item.k1_amount}" maxFractionDigits="2" /></td>
-                    <td><fmt:formatNumber type="number" value="${item.k2_amount}" maxFractionDigits="2" /></td>
-                    <td><fmt:formatNumber type="number" value="${item.k3_amount}" maxFractionDigits="2" /></td>
-                    <td><fmt:formatNumber type="number" value="${item.k4_amount}" maxFractionDigits="2" /></td>
-                    <td><fmt:formatNumber type="number" value="${item.k5_amount}" maxFractionDigits="2" /></td>
+                    <td><c:if test="${not empty item.amount && item.amount ne '0E-8'}"><fmt:formatNumber type="number" value="${item.amount}" maxFractionDigits="2" /></c:if></td>
+                    <td><c:if test="${not empty item.k1_amount && item.k1_amount ne '0E-8'}"><fmt:formatNumber type="number" value="${item.k1_amount}" maxFractionDigits="2" /></c:if></td>
+                    <td><c:if test="${not empty item.k2_amount && item.k2_amount ne '0E-8'}"><fmt:formatNumber type="number" value="${item.k2_amount}" maxFractionDigits="2" /></c:if></td>
+                    <td><c:if test="${not empty item.k3_amount && item.k3_amount ne '0E-8'}"><fmt:formatNumber type="number" value="${item.k3_amount}" maxFractionDigits="2" /></c:if></td>
+                    <td><c:if test="${not empty item.k4_amount && item.k4_amount ne '0E-8'}"><fmt:formatNumber type="number" value="${item.k4_amount}" maxFractionDigits="2" /></c:if></td>
+                    <td><c:if test="${not empty item.k5_amount && item.k5_amount ne '0E-8'}"><fmt:formatNumber type="number" value="${item.k5_amount}" maxFractionDigits="2" /></c:if></td>
                     <td>${item.contract_status}</td>
                 </tr>
             </c:forEach>

@@ -107,6 +107,6 @@ label.label-required:before {
   opacity: 0.5;
 }
 
-.ti-calendar, .input-group-addon{
+.ti-calendar, .input-group-addon,.sort-column{
   cursor: pointer;
 }
