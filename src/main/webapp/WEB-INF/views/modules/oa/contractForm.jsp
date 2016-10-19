@@ -107,6 +107,7 @@ th,td{text-align:left;}
 		}
 
         function changeContractType() {
+        	$(window).unbind('beforeunload');
             var contractType_value = $('#contractType').val();
             /*switch (contractType_value) {
                 case "1":
@@ -214,7 +215,7 @@ th,td{text-align:left;}
 	</div>
 
 	<form:form id="inputForm" modelAttribute="contract"
-		action="${ctx}/oa/contract/save" method="post" role="form" class="form-horizontal" style="margin:0;">
+		action="${ctx}/oa/contract/save" method="post" role="form" class="form-horizontal" style="margin:0;" onsubmit="$(window).unbind('beforeunload');">
 		<form:hidden path="id" />
 		<form:hidden path="act.taskId" />
 		<form:hidden path="act.taskName" />
