@@ -89,7 +89,7 @@ public class PurchaseOrderController extends BaseController {
 		String view = "purchaseOrderForm";
 		//资金日利率
 		CommissionSetting commissionSetting =commissionSettingDao.get("ceee7d108d684470ba028f7e9f8a57d7");
-		model.addAttribute("dayRate", commissionSetting.getAvalue() * 100);
+		model.addAttribute("dayRate", commissionSetting.getAvalue());
 		//获取所有供应商
 		List<Supplier> supplierList = supplierService.findList(new Supplier());
 		model.addAttribute("supplierList", supplierList);

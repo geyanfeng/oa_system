@@ -376,7 +376,7 @@ h4 {
 					帐期点数：&nbsp;
 					<form:input path="paymentPointnum" htmlEscape="false"
 						maxlength="255" class="form-control required input-sm"
-						cssStyle="width:100px; display:inline;" onchange="updateRll();" />
+						cssStyle="width:100px; display:inline;" onchange="updateRll();" /> %
 				</div>
 			</div>
 
@@ -547,15 +547,16 @@ h4 {
                     }
                 });
             }
-            if(parseFloat(paymentPointNum) > ${dayRate}){
-            	$('#paymentPointnum').css("color","red");
-            }
-            else{
-            	$('#paymentPointnum').css("color","black");
-            }
             
 
             $("#rll").html(rll.toFixed(2));
+
+            if(rll.toFixed(2) > ${dayRate}){
+                $('#rll').css("color","red");
+            }
+            else{
+                $('#rll').css("color","black");
+            }
         }
 
         function updatePayment(sender){
