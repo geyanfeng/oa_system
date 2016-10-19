@@ -5,6 +5,9 @@
 <title>合同管理</title>
 	<meta name="decorator" content="default" />
 	<script src="${ctxStatic}/assets/js/jquery.form.js"></script>
+	<script>
+	$(window).bind('beforeunload',function(){return '您输入的内容尚未保存，确定离开此页面吗？';});
+	</script>
 <style>
 #payment-collapse .row .form-group {
 	margin-left: 20px;
