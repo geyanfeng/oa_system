@@ -253,7 +253,7 @@
 			artisan_id = #{artisan.id},
 			customer_cost = #{customerCost},
 			discount = #{discount},
-			discountRemark = #{discountRemark},
+			discount_remark = #{discountRemark},
 			stock_in_amount = #{stockInAmount},
 			returning_amount = #{returningAmount},
 			extra_amount = #{extraAmount},
