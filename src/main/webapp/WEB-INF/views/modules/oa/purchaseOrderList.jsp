@@ -106,7 +106,7 @@
 			<tr>
 				<th class="sort-column createDate">日期</th>
 				<th class="sort-column no">订单号</th>
-				<th class="sort-column contract.no">合同号</th>
+				<th class="sort-column a10.no">合同号</th>
 				<th class="sort-column a9.name">供应商</th>
 				<th class="sort-column amount">订单金额</th>
 				<th class="sort-column status">订单状态</th>
