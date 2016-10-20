@@ -5,9 +5,9 @@
     <title>销售奖金调整确认</title>
     <meta name="decorator" content="default" />
     <style>
-        .form-group, label, input[type=text],input[type=number], .col-sm-5 {
+        /*.form-group, label, input[type=text],input[type=number], .col-sm-5 {
             padding: 0px !important;
-        }
+        }*/
 
         .modal input{
             width: 100px !important;
@@ -153,7 +153,7 @@
 
                     <td><shiro:hasPermission name="oa:oaCommission:edit">
                             <a href="javascript:void(0)" title="编辑"><i
-                                    class="fa fa-pencil"></i></a>
+                                    class="fa fa-pencil m-r-5"></i></a>
                             <a href="javascript:void(0)" title="查看"><i
                                     class="fa fa-file-text"></i></a>
                     </shiro:hasPermission> </td>
@@ -169,7 +169,7 @@
 <div id="modal-edit" class="modal fade" tabindex="-1"
      role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
      style="display: none;">
-    <div class="modal-dialog" style="width:530px;">
+    <div class="modal-dialog" style="width:550px;">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"
@@ -178,6 +178,7 @@
                 <h4 class="modal-title">编辑</h4>
             </div>
             <div class="modal-body">
+            	<div class="col-sm-12 m-b-20">
                 <div class="row form-inline">
                     <div class="form-group">
                         <label class="control-label">销售奖金:</label>
@@ -212,7 +213,7 @@
                         <input id="performancePercentage" type="number" class="form-control"> %
                     </div>
                 </div>
-
+				</div>
             </div>
             <div class="text-center">
                 <button type="button" class="btn btn-inverse" data-dismiss="modal">返回</button>
@@ -251,7 +252,8 @@
                     show : true,
                     backdrop : 'static'
                 });
-                var top = window.event.clientY;
+                var e = window.event || arguments.callee.caller.arguments[0];
+                var top = e.clientY;
                 modal.css('top',top>200 ? (top-200): top );
 
                 var contractId = row.find("input:hidden").val(),
@@ -348,7 +350,7 @@
 <div id="modal-view" class="modal fade" tabindex="-1"
      role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
      style="display: none;">
-    <div class="modal-dialog" style="width:530px;">
+    <div class="modal-dialog" style="width:550px;">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"
