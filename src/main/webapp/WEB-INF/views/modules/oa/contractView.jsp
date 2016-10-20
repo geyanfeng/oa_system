@@ -36,6 +36,7 @@
         	margin-bottom:0;
         }
         th,td{text-align:left;}
+        ol li{float:left;}
     </style>
     <script>
         function getModal(){
@@ -1401,9 +1402,9 @@
                 <thead>
                 <tr role="row">
                     <th class="hidden"></th>
-                    <th style="padding-left:20px;">附件类型</th>
+                    <th style="padding-left:20px;width:300px;">附件类型</th>
 					<th style="padding-left:30px;">文件名</th>
-					<th style="text-align:center;">创建时间</th>
+					<th style="text-align:center;width:200px;">创建时间</th>
                 </tr>
                 </thead>
                 <tbody id="attchmentList">
