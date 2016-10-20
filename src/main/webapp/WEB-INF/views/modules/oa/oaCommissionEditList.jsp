@@ -231,8 +231,8 @@
                     <div class="form-group">
                         <label class="control-label">发放日期:</label>
                         <div class="input-group">
-                            <input name="bonusDate" type="text" readonly="readonly" class="form-control" value="{{row.bonusDate}}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
-                            <span class="input-group-addon bg-custom b-0 text-white"><i class="ti-calendar"></i></span>
+                            <input name="bonusDate" id="bonusDate_{{idx}}" type="text" readonly="readonly" class="form-control" value="{{row.bonusDate}}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+                            <span class="input-group-addon bg-custom b-0 text-white"  onclick="WdatePicker({el:'bonusDate_{{idx}}',dateFmt:'yyyy-MM-dd',isShowClear:false});"><i class="ti-calendar"></i></span>
                         </div>
                     </div>
                     <div class="form-group pull-right">
@@ -329,13 +329,19 @@
         });
 
         function addNewBonusRecord(sender, row){
+            var idx = $("#div-bonus_record").data("idx");
+            if(!idx)
+                idx = 0;
+            else
+                idx  = parseInt(idx);
             if(sender) {
                 var self = $(sender);
                 var selfRow = self.closest('.row');
-                selfRow.after(Mustache.render($("#tpl-bonus-edit").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""),{ row: row }));
+                selfRow.after(Mustache.render($("#tpl-bonus-edit").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""),{ row: row, idx: idx + 1 }));
             } else{
-               $("#div-bonus_record").append(Mustache.render($("#tpl-bonus-edit").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""),{ row: row }));
+               $("#div-bonus_record").append(Mustache.render($("#tpl-bonus-edit").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, ""),{ row: row,  idx: idx + 1  }));
             }
+            $("#div-bonus_record").data("idx", idx + 1);
         }
 
         function deleteBonusRecord(sender){
