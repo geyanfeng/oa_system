@@ -5,12 +5,10 @@ package com.thinkgem.jeesite.modules.oa.web;
 
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.oa.dao.ReportDao;
-import com.thinkgem.jeesite.modules.oa.entity.Customer;
-import com.thinkgem.jeesite.modules.oa.entity.ProductTypeGroup;
-import com.thinkgem.jeesite.modules.oa.entity.SearchParams;
-import com.thinkgem.jeesite.modules.oa.entity.Supplier;
+import com.thinkgem.jeesite.modules.oa.entity.*;
 import com.thinkgem.jeesite.modules.oa.service.CustomerService;
 import com.thinkgem.jeesite.modules.oa.service.ProductTypeGroupService;
 import com.thinkgem.jeesite.modules.oa.service.SupplierService;
@@ -24,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -366,7 +365,7 @@ public class ReportController extends BaseController {
 
 	@RequiresPermissions("oa:report:saleStatistics")
 	@RequestMapping(value = { "saleStatistics" })
-	public String sale_statistics(SearchParams searchParams, HttpServletRequest request, HttpServletResponse response, Model model) {
+	public String sale_statistics(SearchParams searchParams, HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
 		//设置默认类型
 		if (StringUtils.isBlank(searchParams.getReportType())) {
 			searchParams.setReportType("3");
@@ -450,6 +449,15 @@ public class ReportController extends BaseController {
 		if (summary.size() > 0)
 			model.addAttribute("summary", summary.get(0));
 
+		if("export".equals(searchParams.getFlag())){
+			queryMap.put("pageNo", 1);
+			queryMap.put("pageSize", 999999999);
+			queryMap.put("type", searchParams.getReportType().equals("3") ? 1 : 3);
+			List<Map> exportList = reportDao.reportSaleStatistics(queryMap);
+			String[] headers = new String[]{"日期","合同号","公司抬头","客户","销售","合同金额","K1","K2","K3","K4","K5","合同状态"};
+			String[] fieldNames = new String[]{"create_date","contract_no","company_name","cust_name","saler_name","amount","k1_amount","k2_amount","k3_amount","k4_amount","k5_amount","contract_status"};
+			new ExportExcel("销售统计报表", headers).setMapList(exportList, fieldNames).write(response, "销售统计报表.xlsx").dispose();
+		}
 
 		return "modules/oa/reportSaleStatistics";
 	}

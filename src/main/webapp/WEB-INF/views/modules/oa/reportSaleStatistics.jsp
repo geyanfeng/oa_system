@@ -140,7 +140,9 @@
                 <button id="btnSubmit" class="btn btn-custom" type="submit" onclick="$('#flag').val('search');"
                         value="查询">查&nbsp;&nbsp;询
                 </button>
-
+                <button id="btnExport" class="btn btn-custom" type="submit" onclick="$('#flag').val('export');"
+                        value="导出">导&nbsp;&nbsp;出
+                </button>
             </div>
         </form:form>
         <sys:message content="${message}"/>

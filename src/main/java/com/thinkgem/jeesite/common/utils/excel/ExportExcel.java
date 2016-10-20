@@ -9,12 +9,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -326,8 +321,8 @@ public class ExportExcel {
 		String cellFormatString = "@";
 		try {
 			if(val == null){
-				cell.setCellValue("");
-			}else if(fieldType != Class.class){
+				cell.setCellValue(" ");
+			}else if(fieldType != Class.class && fieldType != String.class){
 				cell.setCellValue((String)fieldType.getMethod("setValue", Object.class).invoke(null, val));
 			}else{
 				if(val instanceof String) {
@@ -403,6 +398,22 @@ public class ExportExcel {
 				}
 				this.addCell(row, colunm++, val, ef.align(), ef.fieldType());
 				sb.append(val + ", ");
+			}
+			log.debug("Write success: ["+row.getRowNum()+"] "+sb.toString());
+		}
+		return this;
+	}
+
+	public <Map> ExportExcel setMapList(List<Map> list, String[] fieldNames){
+		for (Map item : list){
+			LinkedHashMap e = (LinkedHashMap)item;
+			int colunm = 0;
+			Row row = this.addRow();
+			StringBuilder sb = new StringBuilder();
+			for (String key: fieldNames){
+
+				this.addCell(row, colunm++, e.get(key) , 0, String.class);
+				sb.append(e.get(key) + ", ");
 			}
 			log.debug("Write success: ["+row.getRowNum()+"] "+sb.toString());
 		}
