@@ -24,10 +24,10 @@ import java.util.regex.Pattern;
 public class SendMailUtil {
 
 	// private static final String smtphost = "192.168.1.70";
-	private static final String from = "sys@jingkunsystem.com";
+	private static final String from = "her@jingkunsystem.com";
 	private static final String fromName = "协同系统消息提醒";
 	private static final String charSet = "utf-8";
-	private static final String username = "sys@jingkunsystem.com";
+	private static final String username = "her@jingkunsystem.com";
 	private static final String password = "Password#1";
 
 	private static Map<String, String> hostMap = new HashMap<String, String>();
