@@ -14,5 +14,6 @@ import com.thinkgem.jeesite.modules.oa.entity.OaCommission;
  */
 @MyBatisDao
 public interface OaCommissionDao extends CrudDao<OaCommission> {
-	
+	void reCalc(OaCommission commission);
+    void updateStatus(OaCommission commission);
 }

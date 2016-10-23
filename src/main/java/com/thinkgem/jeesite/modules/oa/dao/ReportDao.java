@@ -24,4 +24,6 @@ public interface ReportDao {
 	public List<Map> home_gauge(Map map);
 	public List<Map> home_ld_group_by_salar(Map map);
 	public List<Map> reportSaleStatistics(Map map);
+	public List<Map> comminssionSummary(Map map);
+
 }

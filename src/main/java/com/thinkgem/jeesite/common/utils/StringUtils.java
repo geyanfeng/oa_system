@@ -3,20 +3,19 @@
  */
 package com.thinkgem.jeesite.common.utils;
 
-import java.io.UnsupportedEncodingException;
-import java.util.List;
-import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.LocaleResolver;
 
-import com.google.common.collect.Lists;
+import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.text.DecimalFormat;
+import java.util.List;
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 字符串工具类, 继承org.apache.commons.lang3.StringUtils类
@@ -367,5 +366,29 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     	result.append(val.substring(1));
     	return result.toString();
     }
-    
+
+
+	/**
+	 *
+	 * @param str  String类型的数字   如"150"
+	 * @param formatAs 格式化格式  ，如“00000”
+     * @return  格式化后的字符串
+     */
+	public static String formatNumber(String str,String formatAs){
+		DecimalFormat df=new DecimalFormat(formatAs);
+		String str2=df.format(Integer.parseInt(str));
+		return str2;
+	}
+
+	/**
+	 *
+	 * @param num int数字   如150
+	 * @param formatAs 格式化格式  ，如“00000”
+     * @return 格式化后的字符串
+     */
+	public static String formatNumber(int num,String formatAs){
+		DecimalFormat df=new DecimalFormat(formatAs);
+		String str2=df.format(num);
+		return str2;
+	}
 }

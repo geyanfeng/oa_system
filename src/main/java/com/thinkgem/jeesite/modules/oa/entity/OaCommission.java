@@ -3,15 +3,13 @@
  */
 package com.thinkgem.jeesite.modules.oa.entity;
 
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.Length;
-
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 import com.thinkgem.jeesite.modules.sys.entity.User;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 /**
  * 佣金统计Entity
@@ -23,6 +21,7 @@ public class OaCommission extends DataEntity<OaCommission> {
 	private static final long serialVersionUID = 1L;
 	private Integer year;		// 年
 	private Integer quarter;		// 季度
+	private String yearQuarter;	//年和季度, 如:1604
 	private String contractId;		// 合同ID
 	private String paymentId;		// 支付ID
 	private Double sv;		// 合同金额
@@ -60,6 +59,13 @@ public class OaCommission extends DataEntity<OaCommission> {
 	private Contract contract;		// 合同
 	private ContractFinance finance;
 	private Integer paymentSchedule;		// 款项进度
+	private Integer status;		//状态: 0为未确认,1为确认
+	private String flag;
+	private Double stockInAmount;
+	private Double customerCost;
+	private Double discount;
+	private Double returningAmount;
+	private Double extraAmount;
 	
 	public OaCommission() {
 		super();
@@ -389,5 +395,28 @@ public class OaCommission extends DataEntity<OaCommission> {
 	public void setKSc(Double kSc) {
 		this.kSc = kSc;
 	}
-	
+
+	public Integer getStatus(){return status;}
+	public void setStatus(Integer status){this.status = status;}
+
+	public String getYearQuarter(){return yearQuarter;}
+	public void setYearQuarter(String yearQuarter){this.yearQuarter = yearQuarter;}
+
+	public String getFlag(){return flag;}
+	public void setFlag(String flag){this.flag = flag;}
+
+	public Double getStockInAmount(){return stockInAmount;}
+	public void setStockInAmount(Double stockInAmount){this.stockInAmount = stockInAmount;}
+
+	public Double getCustomerCost() {return customerCost;}
+	public void setCustomerCost(Double customerCost){this.customerCost = customerCost;}
+
+	public Double getDiscount(){return discount;}
+	public void setDiscount(Double discount){this.discount = discount;}
+
+	public Double getReturningAmount(){return returningAmount;}
+	public void setReturningAmount(Double returningAmount){this.returningAmount = returningAmount;}
+
+	public Double getExtraAmount(){return extraAmount;}
+	public void setExtraAmount(Double extraAmount){this.extraAmount = extraAmount;}
 }

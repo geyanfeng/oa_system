@@ -115,4 +115,14 @@ public class OaCommissionService extends CrudService<OaCommissionDao, OaCommissi
 		filter.setContractId(contractId);
 		return bonusRecordDao.findList(filter);
 	}
+
+	@Transactional(readOnly = false)
+	public void reCalc(OaCommission commission){
+		dao.reCalc(commission);
+	}
+
+	@Transactional(readOnly = false)
+	public void updateStatus(OaCommission commission){
+		dao.updateStatus(commission);
+	}
 }

@@ -110,4 +110,12 @@
         )
         }
     </select>
+
+    <!--合同提成计算概要-->
+    <select id="comminssionSummary" parameterType="java.util.LinkedHashMap"  resultType="java.util.LinkedHashMap" statementType="CALLABLE" >
+        {call calcuate_commission_summary(
+        #{salerId,jdbcType=VARCHAR,mode=IN},#{currentyear,jdbcType=INTEGER,mode=IN},#{currentquarter,jdbcType=INTEGER,mode=IN},#{status,jdbcType=INTEGER,mode=IN}
+        )
+        }
+    </select>
 </mapper>

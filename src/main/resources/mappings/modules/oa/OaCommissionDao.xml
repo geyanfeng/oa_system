@@ -5,6 +5,14 @@
 	<sql id="oaCommissionColumns">
 		a.year AS "year",
 		a.quarter AS "quarter",
+		a.SV AS "sv", -- 合同金额
+		a.K_SV AS "kSv", -- 收款金额
+		a.K_COG AS "kCog",	-- 采购成本
+		a.stock_in_amount AS "stockInAmount",	-- 库存金额,按比率
+		a.customer_cost AS "customerCost",		-- 销售奖金(按比率)
+		a.discount AS "discount",				-- 额外费用(按比率)
+		a.returning_amount AS "returningAmount", -- 退货成本(按比率)
+		a.EXTRA_AMOUNT as "extraAmount",
 		a.k_gp AS "kGp",
 		a.k_np AS "kNp",
 		a.k_tr_v AS "kTrV",
@@ -19,7 +27,8 @@
 		a2.name AS "contract.name",
 		a3.sort AS "finance.sort",
 		a4.id AS "saler.id",
-		a4.name AS "saler.name"
+		a4.name AS "saler.name",
+		a.status AS "status"
 	</sql>
 	
 	<sql id="oaCommissionJoins">
@@ -42,8 +51,15 @@
 		FROM oa_commission a
 		<include refid="oaCommissionJoins"/>
 		<where>
+			a.status = #{status}
 			<if test="saler != null and saler.id != null and saler.id != ''">
 				AND a4.id = #{saler.id}
+			</if>
+			<if test="year != null and year != ''">
+				AND a.year = #{year}
+			</if>
+			<if test="quarter != null and quarter != ''">
+				AND a.quarter = #{quarter}
 			</if>
 		</where>
 		<choose>
@@ -51,7 +67,7 @@
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
-				ORDER BY a.update_date DESC
+				ORDER BY a2.no DESC
 			</otherwise>
 		</choose>
 	</select>
@@ -73,6 +89,24 @@
 			</otherwise>
 		</choose>
 	</select>
-	
-	
+
+	<update id="updateStatus">
+		UPDATE oa_commission
+		set status = 1
+		WHERE status = 0
+		and year = #{year}
+		and quarter = #{quarter}
+		<if test="saler != null and saler.id != null and saler.id != ''">
+			AND k_saler_id = #{saler.id}
+		</if>
+	</update>
+
+	<update id="reCalc">
+		 {call calcuate_saler_commission(
+		#{saler.id,jdbcType=VARCHAR,mode=IN},#{year,jdbcType=INTEGER,mode=IN},#{quarter,jdbcType=INTEGER,mode=IN}
+        )
+        }
+	</update>
+
+
 </mapper>

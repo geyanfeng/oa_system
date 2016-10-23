@@ -180,7 +180,7 @@
         <table id="contentTable" class="table table-striped m-0">
             <thead>
             <tr>
-                <th>日期</th>
+                <th class="sort-column">日期</th>
                 <th>合同编号</th>
                 <th>公司抬头</th>
                 <th>客户</th>

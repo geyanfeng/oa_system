@@ -3,10 +3,13 @@
  */
 package com.thinkgem.jeesite.modules.oa.web;
 
+import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.oa.dao.ReportDao;
 import com.thinkgem.jeesite.modules.oa.entity.BonusRecord;
 import com.thinkgem.jeesite.modules.oa.entity.Contract;
 import com.thinkgem.jeesite.modules.oa.entity.Customer;
@@ -24,6 +27,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +46,8 @@ public class OaCommissionController extends BaseController {
 	private CustomerService customerService;
 	@Autowired
 	private OaCommissionService oaCommissionService;
+	@Autowired
+	private ReportDao reportDao;
 	
 	@ModelAttribute
 	public OaCommission get(@RequestParam(required=false) String id) {
@@ -57,8 +64,56 @@ public class OaCommissionController extends BaseController {
 	@RequiresPermissions("oa:oaCommission:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(OaCommission oaCommission, HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		//加载季度
+		String currentYear = DateUtils.getYear();
+		Integer currentQuarter = DateUtils.getSeason(new Date());
+		List<String> yearQuarters =  Lists.newArrayList();
+		//当年和季度
+		String defaultYearQuarter = String.format("%s-%d",currentYear, currentQuarter);
+		yearQuarters.add(defaultYearQuarter);
+		//当年剩下的季度
+		for(Integer i = currentQuarter-1;i>0;i--){
+			yearQuarters.add(String.format("%s-%d",currentYear,i));
+		}
+
+		//向前走3年的所有
+		for (Integer i = Integer.parseInt(currentYear) - 1;i>Integer.parseInt(currentYear) -3;i--){
+			for(Integer j=4;j>0;j--){
+				yearQuarters.add(String.format("%d-%d",i, j));
+			}
+		}
+		model.addAttribute("yearQuarters",yearQuarters);
+
+		//设置季度默认值
+		if(StringUtils.isBlank(oaCommission.getYearQuarter()))
+		{
+			oaCommission.setYearQuarter(defaultYearQuarter);
+		}
+
+		if(oaCommission.getStatus() == null)
+			oaCommission.setStatus(0);
+
+		//设置过滤的年和季度
+		String[] yearQuarterArray = oaCommission.getYearQuarter().split("-");
+		oaCommission.setYear(Integer.parseInt(yearQuarterArray[0]));
+		oaCommission.setQuarter(Integer.parseInt(yearQuarterArray[1]));
+
+		//重新计算
+		if("reCalc".equals(oaCommission.getFlag())){
+			oaCommissionService.reCalc(oaCommission);
+		} else if("confirm".equals(oaCommission.getFlag())){ //确认
+			oaCommissionService.updateStatus(oaCommission);
+		}
+
 		Page<OaCommission> page = oaCommissionService.findPage(new Page<OaCommission>(request, response), oaCommission); 
 		model.addAttribute("page", page);
+		Map queryMap = new LinkedHashMap();
+		queryMap.put("salerId", oaCommission.getSaler()==null?null:oaCommission.getSaler().getId());
+		queryMap.put("currentyear", oaCommission.getYear());
+		queryMap.put("currentquarter", oaCommission.getQuarter());
+		queryMap.put("status", oaCommission.getStatus());
+		model.addAttribute("summary",  reportDao.comminssionSummary(queryMap).get(0));
 		//获取销售人员
 		model.addAttribute("salerList", UserUtils.getUsersByRoleEnName("saler"));
 		return "modules/oa/oaCommissionList";

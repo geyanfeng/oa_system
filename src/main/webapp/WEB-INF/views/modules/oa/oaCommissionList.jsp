@@ -1,97 +1,163 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ include file="/WEB-INF/views/include/taglib.jsp"%>
+<%@ include file="/WEB-INF/views/include/taglib.jsp" %>
 <html>
 <head>
-	<title>合同提成计算</title>
-	<meta name="decorator" content="default"/>
-	<script type="text/javascript">
-		$(document).ready(function() {
-			$("select").select2({ allowClear: true});
-		});
-		function page(n,s){
-			$("#pageNo").val(n);
-			$("#pageSize").val(s);
-			$("#searchForm").submit();
-        	return false;
+    <title>合同提成计算</title>
+    <meta name="decorator" content="default"/>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("select").select2({allowClear: true});
+            changeSaler();
+        });
+        function page(n, s) {
+            $("#pageNo").val(n);
+            $("#pageSize").val(s);
+            $("#searchForm").submit();
+            return false;
         }
-	</script>
+
+        function changeSaler(){
+           var saler = $("#saler").find("option:selected").text();
+            if(saler === ""){
+                $("#span-saler").html("不限");
+            } else{
+                $("#span-saler").html(saler);
+            }
+        }
+    </script>
+    <style type="text/css">
+        .form-group {
+            margin-top: 10px;
+        }
+        #zy-table td{
+            text-align: left;
+        }
+    </style>
 </head>
 <body>
 <h2 style="padding-left:20px; font-weight: normal;font-size:18px;">合同提成计算列表</h2>
-	<div class="panel panel-default">
-	<div class="panel-body">
-	<form:form id="searchForm" modelAttribute="oaCommission" action="${ctx}/oa/oaCommission/" method="post" class="breadcrumb form-search form-inline">
-		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
-		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
-			<div class="form-group m-r-10">
-					<label>销售：</label>
-					<form:select path="saler.id" class="input-small form-control" id="saler"
-								 cssStyle="width: 150px">
-						<form:option value="" label="" />
-						<form:options items="${salerList}" itemLabel="name"
-									  itemValue="id" htmlEscape="false" />
-					</form:select>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <form:form id="searchForm" modelAttribute="oaCommission" action="${ctx}/oa/oaCommission/" method="post"
+                   class="breadcrumb form-search form-inline">
+            <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
+            <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+            <input id="flag" name="flag" type="hidden"/>
+            <div class="form-group m-r-10">
+                <label>销售：</label>
+                <form:select path="saler.id" class="input-small form-control" id="saler"
+                             cssStyle="width: 150px" onchange="changeSaler();">
+                    <form:option value="" label=""/>
+                    <form:options items="${salerList}" itemLabel="name"
+                                  itemValue="id" htmlEscape="false"/>
+                </form:select>
+            </div>
 
-				</div>
-		
+            <div class="form-group m-r-10">
+                <label>季度：</label>
+                <form:select path="yearQuarter" class="input-small form-control" id="yearQuarter">
+                    <c:forEach items="${yearQuarters}" var="item">
+                        <option value="${item}" <c:if test="${item eq oaCommission.yearQuarter}">selected</c:if>>${item}</option>
+                    </c:forEach>
+                </form:select>
+            </div>
+
+            <div class="form-group m-r-10">
+                <label>状态：</label>
+                <form:select path="status" class="input-small form-control" id="status">
+                    <option value="0" <c:if test="${oaCommission.status eq 0}">selected</c:if>>未确认</option>
+                    <option value="1" <c:if test="${oaCommission.status eq 1}">selected</c:if>>确认</option>
+                </form:select>
+            </div>
+
             <div class="form-group">
-			<button id="btnSubmit" class="btn btn-custom" type="submit" value="查询">
-				查&nbsp;&nbsp;询
-			</button>
-			</div>
-	</form:form>
-	<sys:message content="${message}"/>
-	<table id="contentTable" class="table table-striped table-condensed table-hover">
-		<thead>
-			<tr>
-				<th>年</th>
-			    <th>季度</th>
-			    <th>销售</th>
-				<th>合同编号</th>
-				<th align="center">项目名称</th>
-				<th>款项</th>
-				<th>本期毛利</th>
-				<th>税收成本</th>
-				<th>物流费用</th>
-				<th>账期成本</th>
-				<th>本期净利</th>
-				<th>业绩提成</th>
-				<th>额外佣金</th>
-				<th>合计</th>
-				
-			</tr>
-		</thead>
-		<tbody>
-		<c:forEach items="${page.list}" var="oaCommission">
-			<tr>
-			    <td>${oaCommission.year}</td>
-			    <td>${oaCommission.quarter}</td>
-			    <td>${oaCommission.saler.name}</td>
-			    <td><a href="${ctx}/oa/contract/view?id=${oaCommission.contract.id}">${oaCommission.contract.no}</a></td>
-			    <td align="center"><a href="${ctx}/oa/contract/view?id=${oaCommission.contract.id}">${oaCommission.contract.name}</a></td>
-			    <td>
-			     <c:choose>
-                  <c:when test="${oaCommission.paymentSchedule eq '0'}">全款</c:when>
-                  <c:when test="${oaCommission.paymentSchedule eq '-1'}">尾款</c:when>
-                  <c:when test="${oaCommission.paymentSchedule eq '1'}">首款</c:when>
-                  <c:otherwise>第${oaCommission.paymentSchedule}笔款</c:otherwise>
-                 </c:choose>
-			    </td>
-			    <td>${oaCommission.KGp}</td>			  
-				<td>${oaCommission.KTrV}</td>
-				<td>${oaCommission.KLc}</td>
-				<td>${oaCommission.KPccV}</td>
-				<td>${oaCommission.KNp}</td>
-				<td>${oaCommission.KYjV}</td>
-				<td>${oaCommission.KEwV}</td>
-				<td>${oaCommission.KSc}</td>
-				
-			</tr>
-		</c:forEach>
-		</tbody>
-	</table>
-	${page}
-	</div>
-	</div>
+                <button id="btnSubmit" class="btn btn-custom" type="submit" value="查询">
+                    查&nbsp;&nbsp;询
+                </button>
+                <button id="btnReCalc" class="btn btn-custom" type="submit" value="重新计算" onclick="$('#flag').val('reCalc');">
+                    重新计算
+                </button>
+                <button id="btnConfirm" class="btn btn-custom" type="submit" value="确认" onclick="$('#flag').val('confirm');">
+                    确&nbsp;&nbsp;认
+                </button>
+            </div>
+        </form:form>
+        <sys:message content="${message}"/>
+        <div class="panel panel-default m-r-15">
+            <div class="panel-heading" style="padding-left: 5px;">摘要信息
+            </div>
+            <div class="panel-body" style="padding: 0;">
+                <table id="zy-table" class="table table-condensed m-0">
+                    <tbody>
+                    <tr>
+                        <td>销售：<span id="span-saler">不限</span></td>
+                        <td>本季度指标：<fmt:formatNumber type="number" value="${summary.sum_gpi}" maxFractionDigits="2" /></td>
+                        <td>已完成业绩：<fmt:formatNumber type="number" value="${summary.sum_k_sv}" maxFractionDigits="2" /></td>
+                        <td>完成率：<span style="color:red;" id="span-otherML">${(summary.sum_k_sv / summary.sum_gpi) * 100} %</span></td>
+                    </tr>
+                    <tr>
+                        <td>提成系数：<fmt:formatNumber type="number" value="${summary.avg_k_scc}" maxFractionDigits="2" /></td>
+                        <td>提成总金额：<fmt:formatNumber type="number" value="${summary.sum_k_yjv}" maxFractionDigits="2" /></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <table id="contentTable" class="table table-striped table-condensed table-hover">
+            <thead>
+            <tr>
+                <th>销售</th>
+                <th>合同编号</th>
+                <th>合同金额</th>
+                <th>采购成本</th>
+                <th>额外总成本</th>
+                <th>销售奖金</th>
+                <th>抵扣</th>
+                <th>收款占比</th>
+
+                <%--<th>本期毛利</th>--%>
+                <th>税收成本</th>
+             <%--   <th>物流费用</th>--%>
+                <th>账期成本</th>
+                <th>本期净利</th>
+                <th>业绩提成</th>
+                <th>额外佣金</th>
+                <th>合计</th>
+                <th>状态</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${page.list}" var="oaCommission">
+                <tr>
+
+                    <td>${oaCommission.saler.name}</td>
+                    <td><a href="${ctx}/oa/contract/view?id=${oaCommission.contract.id}">${oaCommission.contract.no}</a>
+                    </td>
+                    <td><fmt:formatNumber type="number" value="${oaCommission.KSv}" maxFractionDigits="2" /></td>
+                    <td><fmt:formatNumber type="number" value="${oaCommission.KCog}" maxFractionDigits="2" /></td>
+                    <td><fmt:formatNumber type="number" value="${oaCommission.stockInAmount + oaCommission.extraAmount}" maxFractionDigits="2" /></td>
+                    <td><fmt:formatNumber type="number" value="${oaCommission.customerCost * 1.1}" maxFractionDigits="2" /></td>
+                    <td><fmt:formatNumber type="number" value="${oaCommission.stockInAmount + oaCommission.extraAmount + oaCommission.customerCost * 1.1}" maxFractionDigits="2" /></td>
+                    <td><fmt:formatNumber type="number" value="${oaCommission.sv==0?'':((oaCommission.KSv / oaCommission.sv) *100)}" maxFractionDigits="2" /></td>
+
+                   <%-- <td>${oaCommission.KGp}</td>--%>
+                    <td>${oaCommission.KTrV}</td>
+                   <%-- <td>${oaCommission.KLc}</td>--%>
+                    <td>${oaCommission.KPccV}</td>
+                    <td>${oaCommission.KNp}</td>
+                    <td>${oaCommission.KYjV}</td>
+                    <td>${oaCommission.KEwV}</td>
+                    <td>${oaCommission.KSc}</td>
+                    <td>${oaCommission.status eq 0?'未确认':'确认'}</td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+        ${page}
+    </div>
+</div>
 </body>
 </html>
