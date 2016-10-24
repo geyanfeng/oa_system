@@ -145,6 +145,12 @@ public class OaCommissionController extends BaseController {
 		}
 	}
 
+	@RequestMapping(value = "status/contract/{contractId}")
+	public String getCommissionStatus(@PathVariable String contractId, HttpServletResponse response) {
+		Integer result = oaCommissionService.getCommissionEditStatus(contractId) ? 1 : 0;
+		return renderString(response, result.toString());
+	}
+
 	@RequestMapping(value = "contract/{contractId}/bonusRecord")
 	@ResponseBody
 	public List<BonusRecord> getBonusRecords(@PathVariable String contractId){

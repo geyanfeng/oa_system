@@ -325,6 +325,23 @@
                         }
                     });
                 });
+
+                //判断是否可以编辑
+                $.get("${ctx}/oa/oaCommission/status/contract/"+contractId, function(result){
+                    if(result!=="1"){
+                        modal.find("#customerCost").prop('disabled', true);
+                        modal.find("#stockInAmount").prop('disabled', true);
+                        modal.find("#returningAmount").prop('disabled', true);
+                        modal.find("#discount").prop('disabled', true);
+                        modal.find("#performancePercentage").prop('disabled', true);
+                    } else{
+                        modal.find("#customerCost").prop('disabled', false);
+                        modal.find("#stockInAmount").prop('disabled', false);
+                        modal.find("#returningAmount").prop('disabled', false);
+                        modal.find("#discount").prop('disabled', false);
+                        modal.find("#performancePercentage").prop('disabled', false);
+                    }
+                });
             });
         });
 

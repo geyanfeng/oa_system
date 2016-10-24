@@ -52,6 +52,9 @@
 		<include refid="oaCommissionJoins"/>
 		<where>
 			a.status = #{status}
+			<if test="contractId != null and contractId != ''">
+				AND a.contract_id = #{contractId}
+			</if>
 			<if test="saler != null and saler.id != null and saler.id != ''">
 				AND a4.id = #{saler.id}
 			</if>

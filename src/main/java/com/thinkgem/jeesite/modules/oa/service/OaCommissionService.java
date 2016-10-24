@@ -125,4 +125,12 @@ public class OaCommissionService extends CrudService<OaCommissionDao, OaCommissi
 	public void updateStatus(OaCommission commission){
 		dao.updateStatus(commission);
 	}
+
+	public boolean getCommissionEditStatus(String contractId) {
+		OaCommission filter = new OaCommission();
+		filter.setContractId(contractId);
+		filter.setStatus(1);
+		List<OaCommission> commissionList = dao.findList(filter);
+		return commissionList.size() == 0;
+	}
 }
