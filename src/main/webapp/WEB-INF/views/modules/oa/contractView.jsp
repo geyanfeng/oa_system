@@ -36,7 +36,7 @@
         	margin-bottom:0;
         }
         th,td{text-align:left;}
-        ol li{float:left;}
+        ol li{float:left;padding-right:30px;}
     </style>
     <script>
         function getModal(){
