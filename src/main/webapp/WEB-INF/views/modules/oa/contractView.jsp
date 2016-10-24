@@ -81,6 +81,14 @@
                 },
                 submitHandler: function (form) {
                     loading('正在提交，请稍等...');
+
+                    if("${contract.status}" == "95"){
+                        if($("#row-attachment-1 ol li").length == 1 || $("#row-attachment-3 ol li").length == 1){
+                            showTipMsg("请上传合同文本和签收单","error");
+                            closeLoading();
+                            return;
+                        }
+                    }
                     form.submit();
                 },
                 errorContainer: "#messageBox",
@@ -1409,7 +1417,7 @@
                 </thead>
                 <tbody id="attchmentList">
                 <c:forEach items="${contract.contractAttachmentList}" var="attachment" varStatus="status">
-                    <tr row="row">
+                    <tr row="row" id="row-attachment-${attachment.type}">
                         <td class="hidden">
                             <input id="contractAttachmentList${status.index}_id"
                                    name="contractAttachmentList[${status.index}].id" type="hidden"
@@ -1440,6 +1448,16 @@
             </table>
         </div>
     </div>
+    <script>
+        $(function(){
+            //如果合同已完成移除删除按钮
+            if("${contract.status}" == "100"){
+                $("#attchmentTable ol li a:eq(1)").each(function(){
+                   $(this).remove();
+                });
+            }
+        });
+    </script>
 
     <!--备注-->
     <div class="panel panel-default" id="card_other">
@@ -1489,7 +1507,7 @@
     <div class="form-group">
         <div class="text-center">
 				<input id="btnCancel" class="btn btn-inverse" type="button" value="返 回" onclick="history.go(-1)"/>
-                <shiro:hasAnyRoles name="saler,businesser">
+                <shiro:hasAnyRoles name="businesser">
                     <c:if test="${empty contract.act.taskDefKey}">
                             <input id="btnSubmit" class="btn btn-custom" type="submit" value="保存附件" onclick="$('#flag').val('save_attachment')"/>
                     </c:if>
