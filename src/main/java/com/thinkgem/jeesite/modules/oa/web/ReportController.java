@@ -439,6 +439,10 @@ public class ReportController extends BaseController {
 		queryMap.put("orderBy", page.getOrderBy());
 		queryMap.put("sqlCondition", sqlCondition);
 		queryMap.put("type", searchParams.getReportType().equals("3") ? 1 : 3);
+		if(StringUtils.isNotBlank(page.getOrderBy()))
+			queryMap.put("orderBy", "order by " + page.getOrderBy());
+		else
+			queryMap.put("orderBy", " ");
 		List<Map> list  = reportDao.reportSaleStatistics(queryMap);
 		if(list.size()>0 && list.get(0).containsKey("recordCount"))
 				page.setCount(Long.parseLong(list.get(0).get("recordCount").toString()));

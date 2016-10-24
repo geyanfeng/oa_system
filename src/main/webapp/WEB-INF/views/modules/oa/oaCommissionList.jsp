@@ -42,6 +42,8 @@
                    class="breadcrumb form-search form-inline">
             <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
             <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+            <sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}"
+                           callback="page();" />
             <input id="flag" name="flag" type="hidden"/>
             <div class="form-group m-r-10">
                 <label>销售：</label>
@@ -109,23 +111,23 @@
         <table id="contentTable" class="table table-striped table-condensed table-hover">
             <thead>
             <tr>
-                <th>销售</th>
-                <th>合同编号</th>
-                <th>合同金额</th>
-                <th>采购成本</th>
-                <th>额外总成本</th>
-                <th>销售奖金</th>
-                <th>抵扣</th>
-                <th>收款占比</th>
+                <th class="sort-column a4.name ">销售</th>
+                <th class="sort-column a2.no">合同编号</th>
+                <th class="sort-column K_SV">合同金额</th>
+                <th class="sort-column K_COG">采购成本</th>
+                <th class="sort-column stock_in_amount+discount">额外总成本</th>
+                <th class="sort-column customerCost">销售奖金</th>
+                <th class="sort-column stockInAmount+extraAmount+customerCost">抵扣</th>
+                <th class="sort-column K_SV/kv">收款占比</th>
 
                 <%--<th>本期毛利</th>--%>
-                <th>税收成本</th>
+                <th class="sort-column k_tr_v">税收成本</th>
              <%--   <th>物流费用</th>--%>
-                <th>账期成本</th>
-                <th>本期净利</th>
-                <th>业绩提成</th>
-                <th>额外佣金</th>
-                <th>合计</th>
+                <th class="sort-column k_pcc_v">账期成本</th>
+                <th class="sort-column c.k_np">本期净利</th>
+                <th class="sort-column k_yj_v">业绩提成</th>
+                <th class="sort-column k_ew_v">额外佣金</th>
+                <th class="sort-column k_sc">合计</th>
                 <th>状态</th>
             </tr>
             </thead>

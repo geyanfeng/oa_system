@@ -180,18 +180,18 @@
         <table id="contentTable" class="table table-striped m-0">
             <thead>
             <tr>
-                <th class="sort-column">日期</th>
-                <th>合同编号</th>
-                <th>公司抬头</th>
-                <th>客户</th>
-                <th>销售</th>
-                <th>合同金额</th>
-                <th>K1</th>
-                <th>K2</th>
-                <th>K3</th>
-                <th>K4</th>
-                <th>K5</th>
-                <th>合同状态</th>
+                <th class="sort-column c.create_date">日期</th>
+                <th class="sort-column c.no">合同编号</th>
+                <th class="sort-column c.NO">公司抬头</th>
+                <th class="sort-column cust.name">客户</th>
+                <th class="sort-column saler.name">销售</th>
+                <th class="sort-column c.amount">合同金额</th>
+                <th class="sort-column calc.k1_amount">K1</th>
+                <th class="sort-column calc.k2_amount">K2</th>
+                <th class="sort-column calc.k3_amount">K3</th>
+                <th class="sort-column calc.k4_amount">K4</th>
+                <th class="sort-column calc.k5_amount">K5</th>
+                <th class="sort-column sds.label">合同状态</th>
             </tr>
             </thead>
             <tbody>
