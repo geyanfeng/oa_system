@@ -660,6 +660,15 @@
                 <script type="text/javascript">
                     var income_stats = echarts.init(document
                             .getElementById('income-stats'));
+                    var home_ys_and_ss = ${fns:toJson(home_ys_and_ss)};
+                    if(home_ys_and_ss.lenght==0)
+                        ys_sl_data = 0;
+                    else
+                        ys_sl_data = home_ys_and_ss[0];
+                    if(!ys_sl_data.previous_ys_amount) ys_sl_data.previous_ys_amount=0;
+                    if(!ys_sl_data.current_ys_amount) ys_sl_data.current_ys_amount=0;
+                    if(!ys_sl_data.previous_ss_amount) ys_sl_data.previous_ss_amount=0;
+                    if(!ys_sl_data.current_ss_amount) ys_sl_data.current_ss_amount=0;
                     option = {
                         title: {
                             text: '应收实收情况'
@@ -691,11 +700,11 @@
                         series: [{
                             name: '应收',
                             type: 'bar',
-                            data: [18203, 23489]
+                            data: [ys_sl_data.previous_ys_amount, ys_sl_data.current_ys_amount]
                         }, {
                             name: '实收',
                             type: 'bar',
-                            data: [19325, 23438]
+                            data: [ys_sl_data.previous_ss_amount, ys_sl_data.current_ss_amount]
                         }]
                     };
                     income_stats.setOption(option);

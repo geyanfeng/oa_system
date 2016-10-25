@@ -118,4 +118,9 @@
         )
         }
     </select>
+
+    <!--首页应收和实收情况-->
+    <select id="home_ys_and_ss" parameterType="java.util.LinkedHashMap"  resultType="java.util.LinkedHashMap" statementType="CALLABLE" >
+        {call home_ys_and_ss()}
+    </select>
 </mapper>

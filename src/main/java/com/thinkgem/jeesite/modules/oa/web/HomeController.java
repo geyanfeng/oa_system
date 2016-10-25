@@ -116,6 +116,8 @@ public class HomeController extends BaseController {
 
 			//首页销售来单情况
 			model.addAttribute("home_ld_group_by_salar", reportDao.home_ld_group_by_salar(queryMap));
+			//首页应收和实收情况
+			model.addAttribute("home_ys_and_ss", reportDao.home_ys_and_ss(queryMap));
 			model.addAttribute("salerList", UserUtils.getUsersByRoleEnName("saler"));
 		}
 		

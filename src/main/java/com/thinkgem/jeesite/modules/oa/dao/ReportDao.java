@@ -26,4 +26,5 @@ public interface ReportDao {
 	public List<Map> reportSaleStatistics(Map map);
 	public List<Map> comminssionSummary(Map map);
 
+	public List<Map> home_ys_and_ss(Map queryMap);
 }
