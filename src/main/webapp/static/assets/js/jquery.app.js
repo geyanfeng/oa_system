@@ -152,6 +152,7 @@ function($) {
         this.SUPPORT = "coderthemes@gmail.com", 
         this.pageScrollElement = "html, body", 
         this.$body = $("body")
+
     };
     
      //on doc load
@@ -159,6 +160,9 @@ function($) {
       FastClick.attach(document.body);
       resizefunc.push("initscrolls");
       resizefunc.push("changeptype");
+
+        var alerts=[];
+        var processes=[];
 
       $('.animate-number').each(function(){
         $(this).animateNumbers($(this).attr("data-value"), true, parseInt($(this).attr("data-duration"))); 
@@ -168,45 +172,68 @@ function($) {
       $(window).resize(debounce(resizeitems,100));
       $("body").trigger("resize");
 
+        function loadData(){
+            $.getJSON(ctx + "/oa/alert", function (alertList) {
+                alerts = alertList;
+
+                if(alerts.length>0)
+                    $(".right-bar-toggle").parent().find(".noti-dot").show();
+                else
+                    $(".right-bar-toggle").parent().find(".noti-dot").hide();
+            });
+            $.getJSON(ctx + "/act/task/todoJson", function (list) {
+                processes= list;
+                if(processes.length>0)
+                    $(".right-bar-todo").parent().find(".noti-dot").show();
+                else
+                    $(".right-bar-todo").parent().find(".noti-dot").hide();
+            });
+        }
+       //定时获取提醒和待办事项
+        setInterval(loadData,60000);//本隔1分钟执行一次
+
+        loadData();
+
       // right side-bar toggle
       $('.right-bar-toggle').on('click', function(e){
           var alertTpl = $("#alertTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
           $("#ul-alert").closest(".right-bar").find("H4").html("提醒");
-          $.getJSON(ctx + "/oa/alert", function(alertList){
-              $("#ul-alert").empty();
-              $(".div-delete").show();
-              $("#ul-alert").append(Mustache.render(alertTpl, {alertList:alertList}));
-          });
+          //加载提醒数据
+          $("#ul-alert").empty();
+          $(".div-delete").show();
+          $("#ul-alert").append(Mustache.render(alertTpl, {alertList: alerts}));
           $('#wrapper').toggleClass('right-bar-enabled');
       });
 
         $('.right-bar-notify').on('click', function(e){
             $('#wrapper').toggleClass('right-bar-enabled');
         });
+
         $('.right-bar-todo').on('click', function(e){
             var alertTpl = $("#todoTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
             $("#ul-alert").closest(".right-bar").find("H4").html("待办事项");
-            $.getJSON(ctx + "/act/task/todoJson", function(list){
-                var todoList=[];
-                $.each(list, function(index, item){
-                    var todo ={};
-                    todo.taskCreateDate = item.taskCreateDate;
-                    todo.href = ctx + "/act/task/form?taskId=" + item.taskId + "&taskName="+ encodeURI(item.taskName) +"&taskDefKey="+ item.taskDefKey +"&procInsId=" + item.procInsId + "&procDefId=" + item.procDefId+ "&status=todo";
-                    if(item.procDefKey=="contract_audit"){
-                        todo.contract_name = item.vars.map.title ? item.vars.map.title : item.taskId;
-                        todo.no =  item.vars.map.contract_no ? item.vars.map.contract_no : todo.contract_name;
-                        todo.taskName = item.taskName;
-                    } else{
-                        todo.no =  item.vars.map.title ?  item.vars.map.title : item.taskId;
-                        todo.contract_name = item.vars.map.contract_name ? item.vars.map.contract_name : todo.no;
-                        todo.taskName = item.taskName;
-                    }
-                    todoList.push(todo);
-                });
-                $("#ul-alert").empty();
-                $(".div-delete").hide();
-                $("#ul-alert").append(Mustache.render(alertTpl, {todoList:todoList}));
+
+            //加载待办事项
+            var todoList=[];
+            $.each(processes, function(index, item){
+                var todo ={};
+                todo.taskCreateDate = item.taskCreateDate;
+                todo.href = ctx + "/act/task/form?taskId=" + item.taskId + "&taskName="+ encodeURI(item.taskName) +"&taskDefKey="+ item.taskDefKey +"&procInsId=" + item.procInsId + "&procDefId=" + item.procDefId+ "&status=todo";
+                if(item.procDefKey=="contract_audit"){
+                    todo.contract_name = item.vars.map.title ? item.vars.map.title : item.taskId;
+                    todo.no =  item.vars.map.contract_no ? item.vars.map.contract_no : todo.contract_name;
+                    todo.taskName = item.taskName;
+                } else{
+                    todo.no =  item.vars.map.title ?  item.vars.map.title : item.taskId;
+                    todo.contract_name = item.vars.map.contract_name ? item.vars.map.contract_name : todo.no;
+                    todo.taskName = item.taskName;
+                }
+                todoList.push(todo);
             });
+            $("#ul-alert").empty();
+            $(".div-delete").hide();
+            $("#ul-alert").append(Mustache.render(alertTpl, {todoList:todoList}));
+
             $('#wrapper').toggleClass('right-bar-enabled');
         });
     },
