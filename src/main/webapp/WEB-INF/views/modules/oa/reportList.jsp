@@ -443,6 +443,8 @@
                         <c:forEach items="${headers}" var="headers">
                             <c:choose>
                                 <c:when test="${reportType eq '5' and headers.key eq 'contract_name'}"><td><a href="${ctx}/oa/contract/view?id=${supplier['contract_id']}">${supplier[headers.key]}</a></td></c:when>
+                                <c:when test="${reportType eq '5' and headers.key eq 'over_days'}"><td ${supplier[headers.key]>0?'style="color:red"':''}>${supplier[headers.key]}</td></c:when>
+
                                 <c:when test="${reportType eq '6' and headers.key eq 'finance_no'}"><td><a href="${ctx}/oa/purchaseOrder/view?id=${supplier['po_id']}">${supplier[headers.key]}</a></td></c:when>
                                 <c:when test="${headers.key eq 'avgAmount' || headers.key eq 'totalAmount'}">
                                     <td><fmt:formatNumber type="number" value="${supplier[headers.key]}" maxFractionDigits="2" /></td>
