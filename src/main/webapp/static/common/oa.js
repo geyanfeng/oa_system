@@ -10,7 +10,7 @@ function calcPoZq(po){
         }
     });
     if(sumTime!=0 || count!=0){
-        po.zq = parseFloat(sumTime/count).toFixed(2);
+        po.zq = parseFloat(sumTime/count).toFixed(0);
         po.zqrll =((parseFloat(po.paymentPointnum) / (sumTime/count)).toFixed(4) * 100).toFixed(2);
     } else{
         po.zq = 0;
