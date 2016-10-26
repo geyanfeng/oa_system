@@ -71,15 +71,24 @@
     </div>
     <script type="text/javascript">
         var total = echarts.init(document.getElementById('total'));
-        var home_gauge = ${fns:toJson(home_gauge)};
-        var avg_quarter_gpi = home_gauge[0].avg_quarter_gpi,
-                avg_year_gpi = home_gauge[0].avg_year_gpi,
-                sum_quarter_gpi = home_gauge[0].sum_quarter_gpi,
-                sum_year_gpi = home_gauge[0].sum_year_gpi,
-                quarter_ld_amount = home_gauge[0].quarter_ld_amount,
-                year_ld_amount = home_gauge[0].year_ld_amount,
-                quarter_yj_amount = home_gauge[0].quarter_yj_amount,
-                year_yj_amount = home_gauge[0].year_yj_amount;
+        var home_gauge_data = ${fns:toJson(home_gauge)};
+        var avg_quarter_gpi = 0, avg_year_gpi=0,
+                sum_quarter_gpi =0,
+                sum_year_gpi =0,
+                quarter_ld_amount =0,
+                year_ld_amount = 0,
+                quarter_yj_amount = 0,
+                year_yj_amount = 0;
+        if(home_gauge_data && home_gauge_data.length>0) {
+            if (home_gauge.avg_quarter_gpi)avg_quarter_gpi = home_gauge.avg_quarter_gpi;
+            if (home_gauge.avg_year_gpi)avg_year_gpi = home_gauge.avg_year_gpi;
+            if (home_gauge.sum_quarter_gpi)sum_quarter_gpi = home_gauge.sum_quarter_gpi;
+            if (home_gauge.sum_year_gpi)sum_year_gpi = home_gauge.sum_year_gpi;
+            if (home_gauge.quarter_ld_amount)quarter_ld_amount = home_gauge.quarter_ld_amount;
+            if (home_gauge.year_ld_amount)year_ld_amount = home_gauge.year_ld_amount;
+            if (home_gauge.quarter_yj_amount)quarter_yj_amount = home_gauge.quarter_yj_amount;
+            if (home_gauge.year_yj_amount)year_yj_amount = home_gauge.year_yj_amount;
+        }
         option = {
             title: {
                 text: '业绩完成情况'

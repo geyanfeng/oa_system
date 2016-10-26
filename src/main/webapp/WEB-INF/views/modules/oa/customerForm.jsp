@@ -36,6 +36,20 @@
 				}
 			});
 
+			//更改发票类型时,显示或隐藏列
+			$('input[name=invoiceType]').change(function () {
+				var sVal = $('input[name=invoiceType]:checked ').val();
+				switch (sVal) {
+					case "2":
+						$("div[id^=field-invoice]").show();
+						break;
+					default:
+						$("div[id^=field-invoice]").hide();
+						break;
+				}
+			});
+			$('input[name=invoiceType]').trigger('change');
+
 			<c:if test="${not empty fromModal}">
 				$("#inputForm").ajaxForm({success:function(result){
 					var status= result.status;
@@ -57,30 +71,82 @@
 		<div class="panel-body">
 	<form:form id="inputForm" modelAttribute="customer" action="${ctx}/oa/customer/${not empty fromModal?'ajaxSave':'save'}" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
-		<sys:message content="${message}"/>		
+		<sys:message content="${message}"/>
 		<div class="form-group">
 			<label class="col-sm-2 control-label">名称 <span class="help-inline"><font color="red">*</font> </span></label>
-			<div class="col-sm-4">
+			<div class="col-sm-6">
 				<form:input path="name" htmlEscape="false" maxlength="100" class="input-xlarge required form-control" />
-				
+
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-sm-2 control-label">地址 </label>
-			<div class="col-sm-4">
+			<div class="col-sm-6">
 				<form:input path="address" htmlEscape="false" maxlength="255" class="input-xlarge form-control "/>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-sm-2 control-label">联系人 </label>
-			<div class="col-sm-4">
+			<div class="col-sm-6">
 				<form:input path="contact" htmlEscape="false" maxlength="100" class="input-xlarge form-control "/>
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-sm-2 control-label">电话 </label>
-			<div class="col-sm-4">
+			<div class="col-sm-6">
 				<form:input path="phone" htmlEscape="false" maxlength="100" class="input-xlarge form-control "/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">发票类型</label>
+			<div class="col-sm-10" style="padding-top:6px;">
+				<form:radiobuttons path="invoiceType"
+								   items="${fns:getDictList('oa_invoice_type')}" itemLabel="label"
+								   itemValue="value" htmlEscape="false" class=""
+								   element="span class='radio radio-custom radio-inline'" />
+			</div>
+		</div>
+		<div class="form-group clearfix">
+			<label class="col-sm-2 control-label">发票抬头</label>
+			<div class="col-sm-6">
+				<form:input path="invoiceCustomerName" htmlEscape="false"
+							maxlength="255" class="form-control" />
+			</div>
+		</div>
+
+		<div class="form-group" id="field-invoiceNo">
+			<label class="col-sm-2 control-label">纳税人识别码</label>
+			<div class="col-sm-6">
+				<form:input path="invoiceNo" htmlEscape="false" maxlength="255"
+							class="form-control" />
+			</div>
+		</div>
+		<div class="form-group" id="field-invoiceBank">
+			<label class="col-sm-2 control-label">开户行</label>
+			<div class="col-sm-6">
+				<form:input path="invoiceBank" htmlEscape="false"
+							maxlength="255" class="form-control" />
+			</div>
+		</div>
+		<div class="form-group" id="field-invoiceBankNo">
+			<label class="col-sm-2 control-label">银行帐号</label>
+			<div class="col-sm-6">
+				<form:input path="invoiceBankNo" htmlEscape="false"
+							maxlength="255" class="form-control" />
+			</div>
+		</div>
+		<div class="form-group" id="field-invoiceAddress">
+			<label class="col-sm-2 control-label">地址 </label>
+			<div class="col-sm-6">
+				<form:input path="invoiceAddress" htmlEscape="false"
+							maxlength="1000" class="form-control" />
+			</div>
+		</div>
+		<div class="form-group" id="field-invoicePhone">
+			<label class="col-sm-2 control-label">电话 </label>
+			<div class="col-sm-6">
+				<form:input path="invoicePhone" htmlEscape="false"
+							maxlength="100" class="form-control" />
 			</div>
 		</div>
 		<div class="form-actions text-center">

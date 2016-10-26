@@ -68,6 +68,8 @@ public class ContractService extends CrudService<ContractDao, Contract> {
     private RefundMainDao refundMainDao;
     @Autowired
     private ContractRefundService contractRefundService;
+    @Autowired
+    private CustomerDao customerDao;
 
     public Contract getByProcInsId(String procInsId) {
         return contractDao.getByProcInsId(procInsId);
@@ -164,11 +166,31 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         saveAttachments(contract);
         saveFinance(contract);
 
+        saveInvoiceToCustomer(contract);
+
        /* if(isNew) {
             if (!contract.getContractType().equals("1") && isNotBlank(contract.getAct().getFlag()) || isNotBlank(contract.getAct().getTaskDefKey())) {
                 submitAudit(contract);
             }
         }*/
+    }
+
+    /**
+     * 保存开票信息到客户信息中
+     */
+    private void saveInvoiceToCustomer(Contract contract){
+        if(contract.getCustomer() == null || StringUtils.isBlank(contract.getCustomer().getId())) return;
+        Customer cust = customerDao.get(contract.getCustomer().getId());
+        cust.setInvoiceType(contract.getInvoiceType());
+        cust.setInvoiceCustomerName(contract.getInvoiceCustomerName());
+        cust.setInvoiceNo(contract.getInvoiceNo());
+        cust.setInvoiceBank(contract.getInvoiceBank());
+        cust.setInvoiceBankNo(contract.getInvoiceBankNo());
+        cust.setInvoiceAddress(contract.getInvoiceAddress());
+        cust.setInvoicePhone(contract.getInvoicePhone());
+        cust.preUpdate();
+        customerDao.update(cust);
+
     }
 
     @Transactional(readOnly = false)

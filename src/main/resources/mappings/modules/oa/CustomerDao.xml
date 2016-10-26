@@ -15,7 +15,14 @@
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
-		a.update_date AS "updateDate"
+		a.update_date AS "updateDate",
+		a.invoice_type AS "invoiceType",
+		a.invoice_customer_name AS "invoiceCustomerName",
+		a.invoice_no AS "invoiceNo",
+		a.invoice_bank AS "invoiceBank",
+		a.invoice_bank_no AS "invoiceBankNo",
+		a.invoice_address AS "invoiceAddress",
+		a.invoice_phone AS "invoicePhone"
 	</sql>
 	
 	<sql id="customerJoins">
@@ -111,7 +118,14 @@
 			create_by,
 			create_date,
 			update_by,
-			update_date
+			update_date,
+			invoice_type,
+			invoice_customer_name,
+			invoice_no,
+			invoice_bank,
+			invoice_bank_no,
+			invoice_address,
+			invoice_phone
 		) VALUES (
 			#{id},
 			#{name},
@@ -124,7 +138,14 @@
 			#{createBy.id},
 			#{createDate},
 			#{updateBy.id},
-			#{updateDate}
+			#{updateDate},
+			#{invoiceType},
+			#{invoiceCustomerName},
+			#{invoiceNo},
+			#{invoiceBank},
+			#{invoiceBankNo},
+			#{invoiceAddress},
+			#{invoicePhone}
 		)
 	</insert>
 	
@@ -137,7 +158,14 @@
 			remark = #{remark},
 			used_flag = #{usedFlag},
 			update_by = #{updateBy.id},
-			update_date = #{updateDate}
+			update_date = #{updateDate},
+			invoice_type = #{invoiceType},
+			invoice_customer_name = #{invoiceCustomerName},
+			invoice_no = #{invoiceNo},
+			invoice_bank = #{invoiceBank},
+			invoice_bank_no = #{invoiceBankNo},
+			invoice_address = #{invoiceAddress},
+			invoice_phone = #{invoicePhone}
 		WHERE id = #{id}
 	</update>
 	

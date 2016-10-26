@@ -32,6 +32,7 @@ th,td{text-align:left;}
 }
 </style>
 <script type="text/javascript">
+	    var customerList = ${fns:toJson(customerList)};
         $(document).ready(function () {
             //增加定义付款金额验证规则
             $.validator.addMethod("validationPaymentAmount", function(value) {
@@ -184,7 +185,27 @@ th,td{text-align:left;}
         //更改客户
         function changeCustomer(sender) {
             var self = $(sender);
+			$("#invoiceCustomerName").val("");
+			$("#invoiceNo").val("");
+			$("#invoiceBank").val("");
+			$("#invoiceBankNo").val("");
+			$("#invoiceAddress").val("");
+			$("#invoicePhone").val("");
             $('#invoiceCustomerName').val(self.select2('data').text);
+			var custId = self.val();
+			$.map(customerList,function(cust){
+				if(cust.id == custId) {
+					if (cust.invoiceType){
+						$("input[name=invoiceType][value=" + cust.invoiceType + "]").prop("checked", true);
+						$("input[name=invoiceType]").trigger('change');
+					}
+					if (cust.invoiceNo)$("input[name=invoiceNo]").val(cust.invoiceNo);
+					if (cust.invoiceBank)$("input[name=invoiceBank]").val(cust.invoiceBank);
+					if (cust.invoiceBankNo)$("input[name=invoiceBankNo]").val(cust.invoiceBankNo);
+					if (cust.invoiceAddress)$("input[name=invoiceAddress]").val(cust.invoiceAddress);
+					if (cust.invoicePhone)$("input[name=invoicePhone]").val(cust.invoicePhone);
+				}
+			});
         }
 
         //增加客户
@@ -196,6 +217,7 @@ th,td{text-align:left;}
         function closeCustomerModal(customer){
             getCommonModal().modal('hide');
             $.get('${ctx}/oa/customer/treeData',function(data){
+				customerList = data;
                 $('#customer').children().remove();
                 $("#customer").append("<option value='' selected='selected'></option>");
                 $.each(data,function(idx, item){

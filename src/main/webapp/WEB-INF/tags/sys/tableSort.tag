@@ -16,6 +16,7 @@
 			}
 		});
 		$(".sort-column").click(function(){
+			$('#flag').val('sort');
 			var order = $(this).attr("class").split(" ");
 			var sort = $("#${id}").val().split(" ");
 			for(var i=0; i<order.length; i++){

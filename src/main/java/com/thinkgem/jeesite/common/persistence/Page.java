@@ -3,18 +3,16 @@
  */
 package com.thinkgem.jeesite.common.persistence;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Pattern;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.utils.CookieUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * 分页类
@@ -208,7 +206,7 @@ public class Page<T> {
 		if (pageNo == first) {// 如果是首页
 			sb.append("<li class=\"paginate_button previous disabled\"><a href=\"javascript:\">&#171; 上一页</a></li>\n");
 		} else {
-			sb.append("<li class=\"paginate_button previous\"><a href=\"javascript:\" onclick=\""+funcName+"("+prev+","+pageSize+",'"+funcParam+"');\">&#171; 上一页</a></li>\n");
+			sb.append("<li class=\"paginate_button previous\"><a href=\"javascript:\" onclick=\"$('#flag').val('page');"+funcName+"("+prev+","+pageSize+",'"+funcParam+"');\">&#171; 上一页</a></li>\n");
 		}
 
 		int begin = pageNo - (length / 2);
@@ -230,7 +228,7 @@ public class Page<T> {
 		if (begin > first) {
 			int i = 0;
 			for (i = first; i < first + slider && i < begin; i++) {
-				sb.append("<li class=\"paginate_button\"><a href=\"javascript:\" onclick=\""+funcName+"("+i+","+pageSize+",'"+funcParam+"');\">"
+				sb.append("<li class=\"paginate_button\"><a href=\"javascript:\" onclick=\"$('#flag').val('page');"+funcName+"("+i+","+pageSize+",'"+funcParam+"');\">"
 						+ (i + 1 - first) + "</a></li>\n");
 			}
 			if (i < begin) {
@@ -243,7 +241,7 @@ public class Page<T> {
 				sb.append("<li class=\"paginate_button active\"><a href=\"javascript:\">" + (i + 1 - first)
 						+ "</a></li>\n");
 			} else {
-				sb.append("<li class=\"paginate_button\"><a href=\"javascript:\" onclick=\""+funcName+"("+i+","+pageSize+",'"+funcParam+"');\">"
+				sb.append("<li class=\"paginate_button\"><a href=\"javascript:\" onclick=\"$('#flag').val('page');"+funcName+"("+i+","+pageSize+",'"+funcParam+"');\">"
 						+ (i + 1 - first) + "</a></li>\n");
 			}
 		}
@@ -254,23 +252,23 @@ public class Page<T> {
 		}
 
 		for (int i = end + 1; i <= last; i++) {
-			sb.append("<li class=\"paginate_button\"><a href=\"javascript:\" onclick=\""+funcName+"("+i+","+pageSize+",'"+funcParam+"');\">"
+			sb.append("<li class=\"paginate_button\"><a href=\"javascript:\" onclick=\"$('#flag').val('page');"+funcName+"("+i+","+pageSize+",'"+funcParam+"');\">"
 					+ (i + 1 - first) + "</a></li>\n");
 		}
 
 		if (pageNo == last) {
 			sb.append("<li class=\"paginate_button next disabled\"><a href=\"javascript:\">下一页 &#187;</a></li>\n");
 		} else {
-			sb.append("<li class=\"paginate_button next\"><a href=\"javascript:\" onclick=\""+funcName+"("+next+","+pageSize+",'"+funcParam+"');\">"
+			sb.append("<li class=\"paginate_button next\"><a href=\"javascript:\" onclick=\"$('#flag').val('page');"+funcName+"("+next+","+pageSize+",'"+funcParam+"');\">"
 					+ "下一页 &#187;</a></li>\n");
 		}
 
 		StringBuilder sb1 = new StringBuilder();
 		sb1.append("<div class=\"col-sm-6 disabled controls\"><div class=\"dataTables_info\"><a href=\"javascript:\">当前 ");
 		sb1.append("<input style=\"width: 40px;\" type=\"text\" value=\""+pageNo+"\" onkeypress=\"var e=window.event||event;var c=e.keyCode||e.which;if(c==13)");
-		sb1.append(funcName+"(this.value,"+pageSize+",'"+funcParam+"');\" onclick=\"this.select();\"/> / ");
+		sb1.append(funcName+"(this.value,"+pageSize+",'"+funcParam+"');\" onclick=\"$('#flag').val('page');this.select();\"/> / ");
 		sb1.append("<input style=\"width: 40px;\" type=\"text\" value=\""+pageSize+"\" onkeypress=\"var e=window.event||event;var c=e.keyCode||e.which;if(c==13)");
-		sb1.append(funcName+"("+pageNo+",this.value,'"+funcParam+"');\" onclick=\"this.select();\"/> 条，");
+		sb1.append(funcName+"("+pageNo+",this.value,'"+funcParam+"');\" onclick=\"$('#flag').val('page');this.select();\"/> 条，");
 		sb1.append("共 " + count + " 条"+(message!=null?message:"")+"</a></div></div>\n");
 
 		sb.insert(0,"<div class=\"row\">"+sb1.toString()+"<div class=\"col-sm-6\"><div class=\"dataTables_paginate paging_simple_numbers\" style=\"float: right;\"><ul class=\"pagination\">\n").append("</ul></div></div></div>\n");

@@ -32,6 +32,7 @@
                    value="${page.pageNo}"/>
             <input id="pageSize" name="pageSize" type="hidden"
                    value="${page.pageSize}"/>
+            <input type="hidden" name="flag" id="flag">
             <sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}"
                            callback="page();"/>
             <c:if test="${reportType eq '1' or reportType eq '2' or reportType eq '7'}">
@@ -257,10 +258,14 @@
                 </c:when>
             </c:choose>
             <div class="form-group m-r-10">
-                <button id="btnSubmit" class="btn btn-custom" type="submit"
+                <button id="btnSubmit" class="btn btn-custom" type="submit" onclick="$('#flag').val('search');"
                         value="查询">查&nbsp;&nbsp;询
                 </button>
-
+                <c:if test="${reportType eq '5' || reportType eq '6'}">
+                    <button id="btnExport" class="btn btn-custom" type="submit" onclick="$('#flag').val('export');"
+                            value="导出">导&nbsp;&nbsp;出
+                    </button>
+                </c:if>
             </div>
         </form:form>
         <c:if test="${reportType eq '3'}">

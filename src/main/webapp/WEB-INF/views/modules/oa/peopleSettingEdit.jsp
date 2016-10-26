@@ -100,9 +100,16 @@
 	</form:form>
 	<script>
 		$(function() {
-			$("select").each(function() {
-				$(this).val($(this).attr("data-value")).trigger("change");
+			$("select").each(function(){
+				var self = $(this);
+				if(!self.val() || self.val().length==0){
+					self.find("option").first().prop("selected",true);
+					self.trigger("change");
+				}
 			});
+			/*$("select").each(function() {
+				$(this).val($(this).attr("data-value")).trigger("change");
+			});*/
 		});
 	</script>
 </body>

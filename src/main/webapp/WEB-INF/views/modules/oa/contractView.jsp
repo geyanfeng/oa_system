@@ -82,7 +82,7 @@
                 submitHandler: function (form) {
                     loading('正在提交，请稍等...');
 
-                    if("${contract.status}" == "95"){
+                    if("${contract.act.taskDefKey}" == "finish"){
                         if($("#row-attachment-1 ol li").length == 1 || $("#row-attachment-3 ol li").length == 1){
                             showTipMsg("请上传合同文本和签收单","error");
                             closeLoading();

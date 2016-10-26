@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.oa.web;
 
+import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
@@ -41,7 +42,7 @@ public class ReportController extends BaseController {
 	@RequiresPermissions("oa:report:view")
 	@RequestMapping(value = { "list", "" })
 	public String list(SearchParams searchParams, HttpServletRequest request,
-			HttpServletResponse response, Model model) {
+			HttpServletResponse response, Model model) throws IOException {
 
 		if (StringUtils.isNumeric(request.getParameter("reportType"))) {
 			int reportType = Integer.parseInt(request
@@ -358,6 +359,23 @@ public class ReportController extends BaseController {
 			}
 			model.addAttribute("headers", headers);
 
+			if("export".equals(searchParams.getFlag())){
+				String exportTitle = "";
+				List<String> headList = Lists.newArrayList();
+				List<String> fieldList = Lists.newArrayList();
+				searchParams.setFlag("");
+				if(reportType == 5){
+					exportTitle = "应收列表";
+				} else if(reportType == 6){
+					exportTitle = "应付列表";
+				}
+
+				for (Object key: headers.keySet()){
+					fieldList.add(key.toString());
+					headList.add(headers.get(key).toString());
+				}
+				new ExportExcel(exportTitle, headList.toArray(new String[headList.size()])).setMapList(list, fieldList.toArray(new String[fieldList.size()])).write(response, exportTitle+".xlsx").dispose();
+			}
 		}
 
 		return "modules/oa/reportList";
@@ -454,6 +472,7 @@ public class ReportController extends BaseController {
 			model.addAttribute("summary", summary.get(0));
 
 		if("export".equals(searchParams.getFlag())){
+			searchParams.setFlag("");
 			queryMap.put("pageNo", 1);
 			queryMap.put("pageSize", 999999999);
 			queryMap.put("type", searchParams.getReportType().equals("3") ? 1 : 3);
@@ -461,6 +480,7 @@ public class ReportController extends BaseController {
 			String[] headers = new String[]{"日期","合同号","公司抬头","客户","销售","合同金额","K1","K2","K3","K4","K5","合同状态"};
 			String[] fieldNames = new String[]{"create_date","contract_no","company_name","cust_name","saler_name","amount","k1_amount","k2_amount","k3_amount","k4_amount","k5_amount","contract_status"};
 			new ExportExcel("销售统计报表", headers).setMapList(exportList, fieldNames).write(response, "销售统计报表.xlsx").dispose();
+			return "出错";
 		}
 
 		return "modules/oa/reportSaleStatistics";

@@ -67,6 +67,9 @@ public class CustomerController extends BaseController {
 		if(isNotBlank(fromModal)){
 			model.addAttribute("fromModal", fromModal);
 		}
+		if(StringUtils.isBlank(customer.getInvoiceType())){
+			customer.setInvoiceType("2");
+		}
 		return "modules/oa/customerForm";
 	}
 
@@ -163,6 +166,14 @@ public class CustomerController extends BaseController {
 			map.put("id", e.getId());
 			map.put("pId", "");
 			map.put("name", e.getName());
+			map.put("invoiceType", e.getInvoiceType());
+			map.put("invoiceCustomerName", e.getInvoiceCustomerName());
+			map.put("invoiceNo", e.getInvoiceNo());
+			map.put("invoiceBank", e.getInvoiceBank());
+			map.put("invoiceBankNo", e.getInvoiceBankNo());
+			map.put("invoiceAddress", e.getInvoicePhone());
+			map.put("invoicePhone", e.getInvoicePhone());
+
 			mapList.add(map);
 		}
 		return mapList;
