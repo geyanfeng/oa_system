@@ -391,14 +391,14 @@ th, td {
 			<div class="form-group">
 				<div class="text-center">
 					<input id="btnCancel" class="btn btn-inverse" type="button"
-						value="返 回" onclick="history.go(-1)" />
+						value="返 回" onClick="history.go(-1)" />
 					<c:if
 						test="${contract.contractType ne '1' and not empty contract.id and not empty contract.act.taskDefKey}">
-						
+					<input id="btnCancel" class="btn btn-info" type="submit"
+							value="驳 回" onClick="$('#flag').val('no')" />	
                     <input id="btnSubmit" class="btn btn-primary"
-							type="submit" value="同 意" onclick="$('#flag').val('yes')" />
-							<input id="btnCancel" class="btn btn-info" type="submit"
-							value="驳 回" onclick="$('#flag').val('no')" />
+							type="submit" value="同 意" onClick="$('#flag').val('yes')" />
+							
                 </c:if>
 				</div>
 			</div>

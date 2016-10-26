@@ -361,7 +361,7 @@
 
     <div class="form-group">
         <div class="text-center">
-        	<input id="btnCancel" class="btn btn-inverse" type="button" value="返 回" onclick="history.go(-1)"/>
+        	<input id="btnCancel" class="btn btn-inverse" type="button" value="返 回" onClick="history.go(-1)"/>
             <c:if test="${not empty purchaseOrder.act.taskDefKey || empty purchaseOrder.act.procInsId}">
                 <c:set var="submitText" value="提交审批"/>
 
@@ -395,11 +395,12 @@
 
                 <c:choose>
                     <c:when test="${purchaseOrder.act.taskDefKey eq 'verify_receiving_1' || purchaseOrder.act.taskDefKey eq 'verify_receiving_2'}">
-                        <input id="btnSubmit" class="btn btn-custom" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
-                        <input id="btnSubmit" class="btn btn-info" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
+                        
+                        <input id="btnSubmit" class="btn btn-info" type="submit" value="驳 回" onClick="$('#flag').val('no')"/>
+                        <input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onClick="$('#flag').val('yes')"/>
                     </c:when>
                     <c:otherwise>
-                        <input id="btnSubmit" class="btn btn-custom" type="submit" value="${submitText}" onclick="$('#flag').val('submit_audit')"/>&nbsp;
+                        <input id="btnSubmit" class="btn btn-custom" type="submit" value="${submitText}" onClick="$('#flag').val('submit_audit')"/>&nbsp;
                     </c:otherwise>
                 </c:choose>
             </c:if>

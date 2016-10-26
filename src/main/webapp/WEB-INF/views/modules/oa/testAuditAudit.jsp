@@ -106,14 +106,15 @@
 		<div class="form-actions">
 			<shiro:hasPermission name="oa:testAudit:edit">
 				<c:if test="${testAudit.act.taskDefKey eq 'apply_end'}">
-					<input id="btnSubmit" class="btn btn-primary" type="submit" value="兑 现" onclick="$('#flag').val('yes')"/>&nbsp;
+					<input id="btnSubmit" class="btn btn-primary" type="submit" value="兑 现" onClick="$('#flag').val('yes')"/>
 				</c:if>
 				<c:if test="${testAudit.act.taskDefKey ne 'apply_end'}">
-					<input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>&nbsp;
-					<input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>&nbsp;
+					
+					<input id="btnSubmit" class="btn btn-inverse" type="submit" value="驳 回" onClick="$('#flag').val('no')"/>
+                    <input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onClick="$('#flag').val('yes')"/>
 				</c:if>
 			</shiro:hasPermission>
-			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+			<input id="btnCancel" class="btn" type="button" value="返 回" onClick="history.go(-1)"/>
 		</div>
 		<act:histoicFlow procInsId="${testAudit.act.procInsId}"/>
 	</form:form>

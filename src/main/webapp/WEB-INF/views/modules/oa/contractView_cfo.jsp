@@ -392,9 +392,9 @@ th, td {
 						test="${contract.contractType ne '1' and not empty contract.id and not empty contract.act.taskDefKey}">
 
 						<input id="btnSubmit" class="btn btn-info" type="submit"
-							value="驳回" onclick="$('#flag').val('no')" />&nbsp;
-            	<input id="btnSubmit" class="btn btn-custom" type="submit"
-							value="同 意" onclick="$('#flag').val('yes')" />&nbsp;
+							value="驳回" onclick="$('#flag').val('no')" />
+            	<input id="btnSubmit" class="btn btn-primary" type="submit"
+							value="同 意" onclick="$('#flag').val('yes')" />
             </c:if>
 
 
