@@ -439,7 +439,7 @@
 							</td>
 							<td>	
 							    <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true'}">
-							        <div class="checkbox checkbox-custom"><input type="checkbox" onchange="selectProduct(this, '{{row.json}}')">
+							        <div class="checkbox checkbox-custom"><input type="checkbox" onchange="selectProduct(this, '{{row.id}}')">
                                 </c:if>
 								<label>{{row.name}}</label>
 								
@@ -518,7 +518,7 @@
 							</td>
 							<td>
 							    <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true'}">
-							        <div class="checkbox checkbox-custom"><input type="checkbox" onchange="selectProduct(this, '{{row.json}}')">
+							        <div class="checkbox checkbox-custom"><input type="checkbox" onchange="selectProduct(this, '{{row.id}}')">
                                 </c:if>
 								<label style="display:inline-block;width:100px;">{{row.name}}</label>
 								<span style="margin-left:50px">{{row.productType.name}}</span>
@@ -654,9 +654,9 @@
                 }
 
                 function addRow(list, idx, tpl, row) {
-                    <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true'}">
+                    <%--<c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true'}">
                         row.json = JSON.stringify(row);
-                    </c:if>
+                    </c:if>--%>
                     $(list).append(Mustache.render(tpl, {
                         idx: idx, delBtn: true, row: row, unitList:unitList, isServiceText: function(){
                             return row.serviceFlag == 1? "续约合同":"";
@@ -684,10 +684,10 @@
                 }
 
                 function addChildRow(list, idx, child_idx, tpl, row,productTypeId) {
-                    <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true'}">
+                  /*  <c:if test="${contract.act.taskDefKey eq 'split_po' || param.po eq 'true'}">
                     if(row)
                         row.json = JSON.stringify(row);
-                    </c:if>
+                    </c:if>*/
                     $(list).append(Mustache.render(tpl, {
                         idx: idx, child_idx: child_idx, delBtn: true, row: row
                     }));
@@ -741,12 +741,29 @@
                     }
                 }
 
-                function selectProduct(sender, dataString){
+                function selectProduct(sender, id){
                     loading('正在执行，请稍等...');
                     var self = $(sender);
                     var checked = self.is(':checked');
                     var poFrameWin = document.getElementById("poFrame").contentWindow;
-                    var data = JSON.parse(dataString);
+                    //var data = JSON.parse(dataString);
+                    var data={};
+                    if(contractProductList && contractProductList.length>0) {
+                        $.each(contractProductList, function (idx, product) {
+                            if (product.id == id) {
+                                data = product;
+                                return;
+                            }
+                            if(product.childs && product.childs.length>0) {
+                                $.each(product.childs, function (idx, childProduct) {
+                                    if (childProduct.id == id) {
+                                        data = childProduct;
+                                        return;
+                                    }
+                                });
+                            }
+                        });
+                    }
                     if(checked){
                         //检测是否设置产品类型
                         if(!data.childs){
