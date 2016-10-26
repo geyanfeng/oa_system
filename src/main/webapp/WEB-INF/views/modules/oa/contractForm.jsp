@@ -538,7 +538,7 @@ th,td{text-align:left;}
 								<tr role="row">
 									<th class="hidden"></th>
 									<th>名称</th>
-									<th>价格</th>
+									<th>合同价</th>
 									<th>数量</th>
 									<th>单位</th>
 									<th>金额</th>
@@ -655,7 +655,7 @@ th,td{text-align:left;}
 					</div>
 				</div>
 				<div class="panel-footer text-right" style="background:#fff;">
-					<strong id="span-display-amount">采购总金额:
+					<strong id="span-display-amount">合同总金额:
 						${contract.amount}</strong>
 				</div>
 			</div>
