@@ -76,6 +76,11 @@
             //表单验证
             $("#inputForm").validate({
                 rules: {
+                    <c:if test="${contract.act.taskDefKey eq 'verify_ship'}">
+                    shipMode:{
+                        required: true
+                    },
+                    </c:if>
                     "act.comment":  "val-comment",
                     backAmount:  "valiateBackAmount"
                 },
@@ -1307,7 +1312,8 @@
                 <c:when test="${contract.act.taskDefKey eq 'verify_ship' or contract.act.taskDefKey eq 'split_po'}">
                     <div class="row">
                         <div class="col-sm-12">
-                            <label class="control-label">发货方式：</label>
+                            <label class="control-label">发货方式：
+                                <c:if test="${contract.act.taskDefKey eq 'verify_ship'}"><span class="help-inline"><font color="red">*</font> </span></c:if> </label>
                             <form:radiobuttons path="shipMode" items="${fns:getDictList('oa_ship_mode')}"
                                                itemLabel="label" itemValue="value" htmlEscape="false" class=""
                                                element="span class='radio radio-custom radio-inline c_radio'"/>
