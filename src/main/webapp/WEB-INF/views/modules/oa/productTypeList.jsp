@@ -26,7 +26,7 @@
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<div class="form-group m-r-10">
 			<label>商品类型组：</label>
-			<form:select path="typeGroup.id" class="input-medium form-control">
+			<form:select path="typeGroup.id" class="input-medium form-control" style="width:100px;">
 					<form:option value="" label=""/>
 					<form:options items="${productTypeGroup_list}" itemLabel="name" itemValue="id" htmlEscape="false"/>
 				</form:select>
