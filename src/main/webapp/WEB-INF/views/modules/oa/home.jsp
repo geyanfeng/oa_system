@@ -61,7 +61,7 @@
     <shiro:hasAnyRoles name="cw,cfo">
     <div class="row" id="calendar" style="padding:10px;background:#fff;margin-bottom:20px;"></div>
     </shiro:hasAnyRoles>
-    <shiro:hasAnyRoles name="cso,saler">
+    <shiro:hasAnyRoles name="cso,saler,cto">
     <div class="row">
         <div class="col-sm-12">
             <div class="card-box">
@@ -300,7 +300,7 @@
         total.setOption(option);
     </script>
     </shiro:hasAnyRoles>
-    <shiro:hasAnyRoles name="cso,cfo">
+    <shiro:hasAnyRoles name="cso,cfo,cto">
     <div class="row">
         <div class="col-sm-4">
             <div class="card-box" style="height: 200px;">
@@ -380,7 +380,7 @@
     </shiro:hasAnyRoles>
 
     <div class="row masonry-container" id="masonry">
-        <shiro:hasAnyRoles name="cso">
+        <shiro:hasAnyRoles name="cso,cto">
 
             <div class="col-sm-6 item">
                 <div class="card-box">
@@ -463,7 +463,7 @@
             <!-- end col-->
         </shiro:hasAnyRoles>
 
-        <shiro:hasAnyRoles name="cso,saler">
+        <shiro:hasAnyRoles name="cso,saler,cto">
             <!--来单情况-->
             <div class="col-sm-6 item">
                 <div class="card-box">
@@ -602,7 +602,7 @@
 
             </div>
         </shiro:hasAnyRoles>
-        <shiro:hasAnyRoles name="cso">
+        <shiro:hasAnyRoles name="cso,cto">
             <!--KAB产品组来单情况-->
             <div class="col-sm-6 item">
                 <div class="card-box">

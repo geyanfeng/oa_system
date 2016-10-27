@@ -66,7 +66,7 @@ public class HomeController extends BaseController {
 		}
 
 		//KAB来单
-		if (UserUtils.IsRoleByRoleEnName("cso")){
+		if (UserUtils.IsRoleByRoleEnName("cso") || UserUtils.IsRoleByRoleEnName("cto")){
 			String sqlCondition = " and saler_id in (";
 			Integer index = 0;
 			User userFilter = new User();
@@ -84,9 +84,9 @@ public class HomeController extends BaseController {
 			model.addAttribute("salerHomeList"+4, reportDao.reportSalerHome(queryMap));
 		}
 		
-		if (UserUtils.IsRoleByRoleEnName("cso") || UserUtils.IsRoleByRoleEnName("saler")) {
+		if (UserUtils.IsRoleByRoleEnName("cso") || UserUtils.IsRoleByRoleEnName("cto")  || UserUtils.IsRoleByRoleEnName("saler")) {
 			String sqlCondition = "";
-			if(!UserUtils.IsRoleByRoleEnName("cso")){
+			if(!UserUtils.IsRoleByRoleEnName("cso") && !UserUtils.IsRoleByRoleEnName("cto")){
 				sqlCondition = "and saler_id='" +UserUtils.getUser().getId()+ "'";
 			}
 			for(int i= 1;i<6;i++){
@@ -100,7 +100,7 @@ public class HomeController extends BaseController {
 
 			//首页业绩完成情况
 			String saler_ids = "";
-			if(!UserUtils.IsRoleByRoleEnName("cso")){
+			if(!UserUtils.IsRoleByRoleEnName("cso") && !UserUtils.IsRoleByRoleEnName("cto")){
 				saler_ids = "'" +UserUtils.getUser().getId()+ "'";
 			} else{
 				List<User> userList = UserUtils.getUsersByRoleEnName("saler");
@@ -121,7 +121,7 @@ public class HomeController extends BaseController {
 			model.addAttribute("salerList", UserUtils.getUsersByRoleEnName("saler"));
 		}
 		
-		if (UserUtils.IsRoleByRoleEnName("cso") || UserUtils.IsRoleByRoleEnName("cfo")) {
+		if (UserUtils.IsRoleByRoleEnName("cso") || UserUtils.IsRoleByRoleEnName("cto") || UserUtils.IsRoleByRoleEnName("cfo")) {
 			List<Map> financeList = reportDao.reportHomeFinance();
 			model.addAttribute("financeList", financeList);
 		}
