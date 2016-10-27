@@ -80,6 +80,7 @@
                 quarter_yj_amount = 0,
                 year_yj_amount = 0;
         if(home_gauge_data && home_gauge_data.length>0) {
+            home_gauge = home_gauge_data[0];
             if (home_gauge.avg_quarter_gpi)avg_quarter_gpi = home_gauge.avg_quarter_gpi;
             if (home_gauge.avg_year_gpi)avg_year_gpi = home_gauge.avg_year_gpi;
             if (home_gauge.sum_quarter_gpi)sum_quarter_gpi = home_gauge.sum_quarter_gpi;
