@@ -130,7 +130,7 @@ th,td{text-align:left;}
             var price = row.find("input[id$='_price']").val();
             var num = row.find("input[id$='_num']").val();
             if (price && num) {
-                row.find("input[id$='_amount']").val(price * num);
+                row.find("input[id$='_amount']").val((price * num).toFixed(2));
             }
 
             //更新合同总金额
@@ -147,6 +147,7 @@ th,td{text-align:left;}
                 for (var i = 0; i < rowCount; i++) {
                     amount += ($(priceFields[i]).val() * $(numFields[i]).val())
                 }
+				amount = amount.toFixed(2);
                 $("#amount").val(amount);
 				$("#span-display-amount").html("采购总金额: " + amount);
             }
