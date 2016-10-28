@@ -183,6 +183,16 @@
 
 				</div>
 
+				<div class="form-group m-r-10">
+					<label>我司抬头：</label>
+					<form:select path="companyName"
+								 class="input-small form-control">
+						<form:option value="" label="" />
+						<form:options items="${fns:getDictList('oa_company_name')}"
+									  itemLabel="label" itemValue="value" htmlEscape="false" />
+					</form:select>
+				</div>
+
 				<div class="form-group m-r-10" id="div-status">
 					<label>合同状态：</label>
 					<form:select path="status" class="select2-container form-control"

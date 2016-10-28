@@ -95,6 +95,9 @@
 			<if test="contractType != null and contractType != ''">
 				AND a.contract_type = #{contractType}
 			</if>
+			<if test="companyName != null and companyName != ''">
+				AND a.company_name = #{companyName}
+			</if>
 			<if test="customer != null and customer.id != null and customer.id != ''">
 				AND a.customer_id = #{customer.id}
 			</if>
