@@ -55,11 +55,14 @@ h4 {
  	
     }
 
-
         
         $(document).ready(function() {
             //$("#name").focus();
             changeSupplier();
+
+            $("#inputForm").submit(function(){
+                $("#btnSubmit").attr("disabled","disabled");
+            });
 
             $("#inputForm").validate({
                 submitHandler: function(form){
@@ -67,11 +70,13 @@ h4 {
                     form.submit();*/
                     if(!validationPaymentAmount()) {
                         showTipMsg("付款金额应该等于采购总金额:"+ sumAmount, "error");
+                        $("#btnSubmit").removeAttr("disabled");
                         return;
                     }
 
                     if(!validatePayCondition()){
                         showTipMsg("只能第一个为预付", "error");
+                        $("#btnSubmit").removeAttr("disabled");
                         return;
                     }
 
@@ -85,6 +90,7 @@ h4 {
                             }
 
                             showTipMsg("订单保存成功","success");
+                            $("#btnSubmit").removeAttr("disabled");
 
                             if(parent.loadProductsAfterClear){
                                 $.getJSON("${ctx}/oa/contract/get?id="+result.contractId, function(result){

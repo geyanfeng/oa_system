@@ -95,7 +95,11 @@
                         <td>销售：<span id="span-saler">不限</span></td>
                         <td>本季度指标：<fmt:formatNumber type="number" value="${summary.sum_gpi}" maxFractionDigits="2" /></td>
                         <td>已完成业绩：<fmt:formatNumber type="number" value="${summary.sum_k_sv}" maxFractionDigits="2" /></td>
-                        <td>完成率：<span style="color:red;" id="span-otherML">${(summary.sum_k_sv / summary.sum_gpi) * 100} %</span></td>
+                        <td>完成率：
+                            <c:if test="${summary.sum_gpi ne '0.00' && summary.sum_k_sv ne '0.00'}">
+                                <span style="color:red;" id="span-otherML"><fmt:formatNumber type="number" value="${(summary.sum_k_sv / summary.sum_gpi) * 100}" maxFractionDigits="2" /> %</span>
+                            </c:if>
+                        </td>
                     </tr>
                     <tr>
                         <td>提成系数：<fmt:formatNumber type="number" value="${summary.avg_k_scc}" maxFractionDigits="2" /></td>
