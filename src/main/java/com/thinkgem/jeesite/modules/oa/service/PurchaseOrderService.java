@@ -19,10 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.codehaus.plexus.util.StringUtils.isNotBlank;
 import static org.jasig.cas.client.util.CommonUtils.isBlank;
@@ -197,6 +194,13 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 			if(purchaseOrderFinance.getStatus() == null)
 				purchaseOrderFinance.setStatus(1);
 
+			//如果付款金额为0,状态自动改成已付款
+			if(purchaseOrderFinance.getAmount() == 0){
+				purchaseOrderFinance.setPlanPayDate(new Date());
+				purchaseOrderFinance.setPayDate(new Date());
+				purchaseOrderFinance.setStatus(2);
+			}
+
 			if (ContractAttachment.DEL_FLAG_NORMAL.equals(purchaseOrderFinance.getDelFlag())) {
 				if (StringUtils.isBlank(purchaseOrderFinance.getId())) {
 					purchaseOrderFinance.setPurchaseOrder(purchaseOrder);
@@ -302,6 +306,20 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 			return true;
 	}
 
+	/**
+	 * 得到付款次数 (条件付款金额不能等于0)
+	 * @param purchaseOrder
+     */
+	private Integer getPaymentNum(PurchaseOrder purchaseOrder){
+		Integer count = 0 ;
+		for (PurchaseOrderFinance poFinance: purchaseOrder.getPurchaseOrderFinanceList()){
+			if(poFinance.getAmount()>0){
+				count++;
+			}
+		}
+		return count;
+	}
+
 	@Transactional(readOnly = false)
 	public void audit(PurchaseOrder purchaseOrder) {
 		// 对不同环节的业务逻辑进行操作
@@ -315,7 +333,7 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 			Map<String, Object> vars = Maps.newHashMap();
 			vars.put("business_person", UserUtils.get(contract.getBusinessPerson().getId()).getLoginName());//商务人员
 			vars.put("artisan",  UserUtils.get(contract.getArtisan().getId()).getLoginName());//技术人员
-			vars.put("payment_num", purchaseOrder.getPurchaseOrderFinanceList().size());//支付次数
+			vars.put("payment_num", getPaymentNum(purchaseOrder));//支付次数
 			vars.put("contract_no", contract.getNo());
 			vars.put("contract_name", contract.getName());
 			vars.put("po_no", purchaseOrder.getNo());

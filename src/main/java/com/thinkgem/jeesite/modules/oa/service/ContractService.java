@@ -289,7 +289,13 @@ public class ContractService extends CrudService<ContractDao, Contract> {
         List<ContractFinance> kfFinances = contractFinanceDao.findList(filter);
 
         //如果没有收款信息,可以直接删除所有
-        if(kfFinances.size()==0) {
+        Integer payCount = 0 ;
+        for (ContractFinance finance : kfFinances){
+            if(finance.getAmount()>0){
+                payCount++;
+            }
+        }
+        if(payCount==0) {
             //删除数据
             contractFinanceDao.delete(new ContractFinance(contract));
         }
@@ -322,6 +328,12 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             contractFinance.setPayCondition(Integer.parseInt(paymentObj.get("payment_onetime_payCondition").toString()));
             contractFinance.setSort(1);
             contractFinance.setStatus(1);
+            //如果收款金额为0,状态自动改成已收款
+            if(contractFinance.getAmount() == 0){
+                contractFinance.setPlanPayDate(new Date());
+                contractFinance.setPayDate(new Date());
+                contractFinance.setStatus(3);
+            }
             contractFinance.preInsert();
             contractFinanceDao.insert(contractFinance);
         } else if(contract.getPaymentCycle().equals("2")){//分期付款
@@ -350,6 +362,12 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                     contractFinance.setPayCondition(Integer.parseInt(paymentObj.get("payment_installment_payCondition").toString()));
                     contractFinance.setSort(sort);
                     contractFinance.setStatus(1);
+                    //如果收款金额为0,状态自动改成已收款
+                    if(contractFinance.getAmount() == 0){
+                        contractFinance.setPlanPayDate(new Date());
+                        contractFinance.setPayDate(new Date());
+                        contractFinance.setStatus(3);
+                    }
                     contractFinance.preInsert();
                     contractFinanceDao.insert(contractFinance);
                 }
@@ -382,8 +400,13 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                 cc.set(Calendar.MONTH, playMonth - 1);//
                 cc.set(Calendar.DAY_OF_MONTH, payment_month_day);
                 contractFinance.setPlanPayDate(cc.getTime());
-
                 contractFinance.setStatus(1);
+
+                //如果收款金额为0,状态自动改成已收款
+                if(contractFinance.getAmount() == 0) {
+                    contractFinance.setPayDate(contractFinance.getPlanPayDate());
+                    contractFinance.setStatus(3);
+                }
                 contractFinance.preInsert();
                 contractFinanceDao.insert(contractFinance);
             }
