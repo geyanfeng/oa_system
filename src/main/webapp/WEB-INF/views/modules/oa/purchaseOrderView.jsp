@@ -204,7 +204,7 @@
     <div class="panel panel-default">
         <div class="panel-heading"><h3 class="panel-title">付款信息</h3></div>
         <div class="panel-body">
-            <script type="text/template" id="payment-installment-tpl">//<!--
+           <%-- <script type="text/template" id="payment-installment-tpl">//<!--
                 <div class="row" id="payment-installment_{{idx}}">
                     <div class="col-sm-3">付款金额：{{row.amount}}</div>
                     <div class="col-sm-3">账期：{{row.zq}}</div>
@@ -212,10 +212,19 @@
                     <div class="col-sm-3">付款期限：{{row.activeDate}}</div>
                 </div>
                 //-->
-            </script>
+            </script>--%>
+            <c:forEach items="${purchaseOrder.purchaseOrderFinanceList}" var="finance" varStatus="status">
+                <div class="row" id="payment-installment_${status.count}">
+                    <div class="col-sm-3">付款金额：<fmt:formatNumber type="number" value="${finance.amount}" maxFractionDigits="2" /></div>
+                    <div class="col-sm-2">账期：<fmt:formatNumber type="number" value="${finance.zq}" maxFractionDigits="0" /></div>
+                    <div class="col-sm-3">付款方式：${fns:getDictLabel(finance.payMethod, "oa_payment_method" ,"银行转帐" )}</div>
+                    <div class="col-sm-2">付款期限：<fmt:formatDate value="${finance.activeDate}" pattern="yyyy-MM-dd" /></div>
+                    <div class="col-sm-2">付款条件：${finance.payCondition eq 0 ? '预付':'后付'}</div>
+                </div>
+            </c:forEach>
             <div id="payment-body" data-idx="1">
             </div>
-            <script type="text/javascript">
+          <%--  <script type="text/javascript">
                 $(document).ready(function () {
                     if ($('#id').val()!="") {
                         //load payment detail from saved data
@@ -246,7 +255,7 @@
                     idx = idx + 1;
                     $("#payment-body").data("idx", idx);
                 }
-            </script>
+            </script>--%>
 
             <div class="row">
                 <div class="col-sm-3">账期点数：${purchaseOrder.paymentPointnum}</div>
