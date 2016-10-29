@@ -591,6 +591,7 @@
                 });
 
                 function loadProducts(data){
+                    contractProductList=data;
                     for (var i = 0; i < data.length; i++) {
                         data[i].unitName = "";
                         for(var j = 0; j<unitList.length; j++){
