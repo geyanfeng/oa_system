@@ -298,11 +298,17 @@ h4 {
                 }
                 addRow('#purchaseOrderProductList', poProductRowIdx, poProductTpl, row);
                 poProductRowIdx = poProductRowIdx + 1;
+                $("input[id$='_price']").each(function(){
+                    updateSumAmount(this);
+                });
             }
 
             function removeProduct(id){
                 var deleteRow = $("#purchaseOrderProductList tr[data-contractProductId='"+id+"']");
                 deleteRow.remove();
+                $("input[id$='_price']").each(function(){
+                    updateSumAmount(this);
+                });
             }
 
             //更新总金额
