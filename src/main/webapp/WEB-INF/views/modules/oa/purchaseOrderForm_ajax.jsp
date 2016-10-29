@@ -117,6 +117,7 @@ h4 {
                     else {
                         error.insertAfter(element);
                     }
+                    $("#btnSubmit").removeAttr("disabled");
                 }
             });
         });
