@@ -279,4 +279,11 @@ public class ActTaskController extends BaseController {
 		}
 		return "redirect:" + adminPath + "/act/task";
 	}
+
+	@ResponseBody
+	@RequestMapping(value="jump")
+	public String jump(String executionId, String activityId){
+		actTaskService.Jump(executionId, activityId);
+		return "ok";
+	}
 }
