@@ -88,7 +88,7 @@
                     loading('正在提交，请稍等...');
 
                     if("${contract.act.taskDefKey}" == "finish"){
-                        if($("#row-attachment-1 ol li").length == 1 || $("#row-attachment-3 ol li").length == 1){
+                        if($("#row-attachment-1 ol li a").length == 0 || $("#row-attachment-3 ol li a").length == 0){
                             showTipMsg("请上传合同文本和签收单","error");
                             closeLoading();
                             return;
@@ -1475,8 +1475,8 @@
         $(function(){
             //如果合同已完成移除删除按钮
             if("${contract.status}" == "100"){
-                $("#attchmentTable ol li a:eq(1)").each(function(){
-                   $(this).remove();
+                $("#attchmentTable ol li").each(function(){
+                   $(this).find("a:eq(1)").remove();
                 });
             }
         });
