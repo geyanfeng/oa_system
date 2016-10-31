@@ -268,7 +268,19 @@
                     商务协同：${contract.businessPerson.name}
                 </div>
                 <div class="col-sm-3">
-                    技术协同：${contract.artisan.name}
+                    技术协同：
+                    <c:choose>
+                        <c:when test="${contract.act.taskDefKey eq 'split_po'}">
+                            <form:select path="artisan.id" id="artisan"  class="form-control required" cssStyle="width:100px;">
+                                <form:option value="" label="" />
+                                <form:options items="${artisanList}"
+                                              itemLabel="name" itemValue="id" htmlEscape="false" />
+                            </form:select>
+                        </c:when>
+                        <c:otherwise>
+                            ${contract.artisan.name}
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
             <c:if test="${contract.cost ne 0}">

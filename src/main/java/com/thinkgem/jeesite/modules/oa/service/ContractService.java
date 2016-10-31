@@ -607,6 +607,11 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                     vars.put("isRecall", 0);
                 }
                 saveProducts(contract);
+                //重新指派技术
+                if(!currentTaskVars.containsKey("artisan") || (currentTaskVars.containsKey("artisan") && !currentTaskVars.get("artisan").toString().equals(UserUtils.get(contract.getArtisan().getId()).getLoginName())))
+                {
+                    vars.put("artisan",  UserUtils.get(contract.getArtisan().getId()).getLoginName());
+                }
             } else if("business_person_createbill".equals(taskDefKey)){//商务下单
                 if(!isFinishCreateBill(contract))
                     throw new Exception("提交失败: 还有订单没有完成商务下单, 不能提交!");
