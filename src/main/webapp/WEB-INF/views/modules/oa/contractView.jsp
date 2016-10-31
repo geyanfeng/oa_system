@@ -283,32 +283,43 @@
                     </c:choose>
                 </div>
             </div>
-            <c:if test="${contract.cost ne 0}">
-                <div class="row" style="color:red">
-                    <div class="col-sm-3">
-                        毛利：
-                        <fmt:formatNumber type="number"
-                                          value="${contract.amount - (not empty contract.cost ? contract.cost : 0) - (not empty contract.customerCost ? contract.customerCost * 1.1 : 0)}"
-                                          maxFractionDigits="2" />
-                    </div>
-                    <div class="col-sm-3">
-                        毛利率：
-                        <fmt:formatNumber type="number"
-                                          value="${((contract.amount - (not empty contract.cost ? contract.cost : 0) - (not empty contract.customerCost ? contract.customerCost * 1.1 : 0))/contract.amount)*100}"
-                                          maxFractionDigits="2" />%
-                    </div>
-
+            <div class="row">
+                <div class="col-sm-3">
+                    合同总金额：
+                    <fmt:formatNumber type="number" value="${contract.amount}" maxFractionDigits="2" />
+                </div>
+                <div class="col-sm-3">
+                    采购总金额：
+                    <fmt:formatNumber type="number" value="${contract.cost}" maxFractionDigits="2" />
+                </div>
+                <c:if test="${contract.cost ne 0}">
+                        <div class="col-sm-3" style="color:red">
+                            毛利：
+                            <fmt:formatNumber type="number"
+                                              value="${contract.amount - (not empty contract.cost ? contract.cost : 0) - (not empty contract.customerCost ? contract.customerCost * 1.1 : 0)}"
+                                              maxFractionDigits="2" />
+                        </div>
+                        <div class="col-sm-3" style="color:red">
+                            毛利率：
+                            <fmt:formatNumber type="number"
+                                              value="${((contract.amount - (not empty contract.cost ? contract.cost : 0) - (not empty contract.customerCost ? contract.customerCost * 1.1 : 0))/contract.amount)*100}"
+                                              maxFractionDigits="2" />%
+                        </div>
+                </c:if>
+            </div>
+            <c:if test="${not empty contract.stockInAmount || not empty contract.extraAmount}">
+                <div class="row">
                     <c:if test="${not empty contract.stockInAmount}">
-                        <div class="col-sm-3">
+                        <div class="col-sm-3" style="color:red">
                             库存金额：
-                              <fmt:formatNumber type="number" value="${contract.stockInAmount}" maxFractionDigits="2" />
+                            <fmt:formatNumber type="number" value="${contract.stockInAmount}" maxFractionDigits="2" />
                         </div>
                     </c:if>
                     <c:if test="${not empty contract.extraAmount}">
-                        <div class="col-sm-3">
+                        <div class="col-sm-3" style="color:red">
                             额外成本：
                             <fmt:formatNumber type="number" value="${contract.extraAmount}" maxFractionDigits="2" />
-                    </div>
+                        </div>
                     </c:if>
                 </div>
             </c:if>
