@@ -1471,7 +1471,7 @@
                             <form:hidden id="files${status.index}"
                                          path="contractAttachmentList[${status.index}].files" htmlEscape="false"
                                          maxlength="2000" class="form-control"/>
-                            <sys:myckfinder input="files${status.index}" type="files" uploadPath="/oa/contract"
+                            <sys:myckfinder delConfirm="true" input="files${status.index}" type="files" uploadPath="/oa/contract"
                                             selectMultiple="true"/>
                         </td>
                         <td style="text-align:center;">
