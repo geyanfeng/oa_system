@@ -135,6 +135,10 @@ th,td{text-align:left;}
 
             //更新合同总金额
             updateAmount();
+
+			$(".payPercentage").each(function(){
+				updatePayment(this);
+			})
         }
 
         //更新合同总金额
@@ -853,6 +857,11 @@ th,td{text-align:left;}
 								required: true
 							});
 						});*/
+						var val = $(this).val();
+						if(val == "1"){
+							$('.payPercentage').val(100);
+							$('.payment_amount').val($("#amount").val());
+						}
                     });
 
 					if(is_recall) {
