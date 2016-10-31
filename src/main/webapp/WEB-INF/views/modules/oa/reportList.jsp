@@ -218,6 +218,16 @@
                         <form:option value="1" label="后付"/>
                     </form:select>
                 </div>
+                <div class="form-group m-r-10">
+                    <label>付款条件：</label>
+
+                    <form:select path="payStatus"
+                                 class="form-control" cssStyle="width:100px;">
+                        <form:option value="" label="全部"/>
+                        <form:option value="1" label="未付款"/>
+                        <form:option value="2" label="已付款"/>
+                    </form:select>
+                </div>
             </c:if>
             <c:choose>
                 <c:when test="${reportType eq '1'}">
@@ -476,11 +486,11 @@
                             <td>汇总行</td>
                             <td></td>
                             <td>${finishedCount}</td>
-                            <td>${avgPayDay}</td>
+                            <td><fmt:formatNumber type="number" value="${avgPayDay}" maxFractionDigits="2" /></td>
                             <td>${unfinishedCount}</td>
                             <td><fmt:formatNumber type="number" value="${totalAmount}" maxFractionDigits="2" /></td>
                             <td>${overdueTimes}</td>
-                            <td>${avgOverdueDay}</td>
+                            <td><fmt:formatNumber type="number" value="${avgOverdueDay}" maxFractionDigits="2" /></td>
                             <td><fmt:formatNumber type="number" value="${overdueAmount}" maxFractionDigits="2" /></td>
                         </tr>
                     </c:when>

@@ -144,6 +144,12 @@ public class ReportController extends BaseController {
 				}
 			}
 
+			if (reportType == 6) {
+				if (StringUtils.isNotBlank(searchParams.getPayStatus())) {
+					sqlCondition += "  and status="+searchParams.getPayStatus();
+				}
+			}
+
 			if (reportType == 3 || reportType == 4) {
 				boolean isSaler = UserUtils.IsRoleByRoleEnName("saler");
 				if (isSaler && !UserUtils.IsRoleByRoleEnName("cso")) {

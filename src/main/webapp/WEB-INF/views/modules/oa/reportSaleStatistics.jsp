@@ -186,6 +186,8 @@
                 <th class="sort-column cust.name">客户</th>
                 <th class="sort-column saler.name">销售</th>
                 <th class="sort-column c.amount">合同金额</th>
+                <th>毛利</th>
+                <th>毛利率(%)</th>
                 <th class="sort-column calc.k1_amount">K1</th>
                 <th class="sort-column calc.k2_amount">K2</th>
                 <th class="sort-column calc.k3_amount">K3</th>
@@ -203,6 +205,8 @@
                     <td>${item.cust_name}</td>
                     <td>${item.saler_name}</td>
                     <td><c:if test="${not empty item.amount && item.amount ne '0E-8'}"><fmt:formatNumber type="number" value="${item.amount}" maxFractionDigits="2" /></c:if></td>
+                    <td><c:if test="${not empty item.contract_ml && item.contract_ml ne '0E-8'}"><fmt:formatNumber type="number" value="${item.contract_ml}" maxFractionDigits="2" /></c:if></td>
+                    <td><c:if test="${not empty item.contract_mll && item.contract_mll ne '0E-8'}"><fmt:formatNumber type="number" value="${item.contract_mll}" maxFractionDigits="2" /></c:if></td>
                     <td><c:if test="${not empty item.k1_amount && item.k1_amount ne '0E-8'}"><fmt:formatNumber type="number" value="${item.k1_amount}" maxFractionDigits="2" /></c:if></td>
                     <td><c:if test="${not empty item.k2_amount && item.k2_amount ne '0E-8'}"><fmt:formatNumber type="number" value="${item.k2_amount}" maxFractionDigits="2" /></c:if></td>
                     <td><c:if test="${not empty item.k3_amount && item.k3_amount ne '0E-8'}"><fmt:formatNumber type="number" value="${item.k3_amount}" maxFractionDigits="2" /></c:if></td>
