@@ -660,15 +660,17 @@
                         if (data[i].childs) {
                             for (var j = 0; j < data[i].childs.length; j++) {
                                 if(data[i].childs[j].hasSendNum == data[i].childs[j].num){
+                                    $("tr[data-id="+data[i].childs[j].id+"] input:checkbox").closest("div").removeClass("checkbox");
+                                    $("tr[data-id="+data[i].childs[j].id+"] input:checkbox").closest("div").removeClass("checkbox-custom");
                                     $("tr[data-id="+data[i].childs[j].id+"] input:checkbox").remove();
                                 } else{
                                     existChildCount = existChildCount + 1;
                                 }
                             }
-                            if(existChildCount == 0)
-                                $("tr[data-id="+data[i].id+"] input:checkbox").closest("div").removeClass("checkbox");
-                                $("tr[data-id="+data[i].id+"] input:checkbox").closest("div").removeClass("checkbox-custom");
-                                $("tr[data-id="+data[i].id+"] input:checkbox").remove();
+                           /* if(existChildCount == 0)*/
+                            $("tr[data-id="+data[i].id+"] input:checkbox").closest("div").removeClass("checkbox");
+                            $("tr[data-id="+data[i].id+"] input:checkbox").closest("div").removeClass("checkbox-custom");
+                            $("tr[data-id="+data[i].id+"] input:checkbox").remove();
                                 //$("tr[data-id="+data[i].id+"]").next().remove();
                         } else{
                             if(data[i].hasSendNum == data[i].num){
