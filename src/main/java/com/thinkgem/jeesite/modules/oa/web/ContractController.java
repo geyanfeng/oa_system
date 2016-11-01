@@ -235,6 +235,8 @@ public class ContractController extends BaseController {
 		model.addAttribute("businessPeopleList", UserUtils.getUsersByRoleEnName("businesser"));
 		//获取技术人员
 		model.addAttribute("artisanList", UserUtils.getUsersByRoleEnName("tech"));
+		//判断是否显示退预付款
+		model.addAttribute("isShowTYFKSection",contractService.isShowTYFKSection(contract));
 
 		// 查看审批申请单
 		if (isNotBlank(contract.getId())) {//.getAct().getProcInsId())){

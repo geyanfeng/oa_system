@@ -1276,7 +1276,7 @@
 	</style>
 
     <!--退预付款-->
-    <c:if test="${not empty is_recall && is_recall eq true}">
+    <c:if test="${not empty is_recall && is_recall eq true && isShowTYFKSection eq true}">
         <div class="panel panel-default">
             <div class="panel-heading"><h3 class="panel-title">退预付款</h3></div>
             <div class="panel_body">

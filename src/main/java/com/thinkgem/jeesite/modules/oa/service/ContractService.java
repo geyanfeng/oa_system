@@ -523,6 +523,23 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             return false;
     }
 
+    /**
+     * 判断是否显示退预付款的section
+     * @param contract
+     */
+    public boolean isShowTYFKSection(Contract contract) {
+        ContractFinance filter = new ContractFinance(contract);
+        List<ContractFinance> finances = contractFinanceDao.findList(filter);
+        if(finances.size()>0) {
+            if(finances.get(0).getPayCondition() == 0 && finances.get(0).getStatus() == 3)
+                return true;
+            else
+                return false;
+        }
+        else
+            return false;
+    }
+
     @Transactional(readOnly = false)
     public void delete(Contract contract) {
         if (isNotBlank(contract.getProcInsId()))
@@ -1019,6 +1036,8 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             }
         }
     }
+
+
 
     /*@Transactional(readOnly = false)
     public void recallAudit(ContractRecallApprove recallApprove){
