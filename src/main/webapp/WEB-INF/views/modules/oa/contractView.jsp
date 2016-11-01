@@ -659,7 +659,7 @@
                         var existChildCount = 0;
                         if (data[i].childs) {
                             for (var j = 0; j < data[i].childs.length; j++) {
-                                if(data[i].childs[j].hasSendNum == data[i].childs[j].num){
+                                if(data[i].childs[j].hasSendNum >= data[i].childs[j].num){
                                     $("tr[data-id="+data[i].childs[j].id+"] input:checkbox").closest("div").removeClass("checkbox");
                                     $("tr[data-id="+data[i].childs[j].id+"] input:checkbox").closest("div").removeClass("checkbox-custom");
                                     $("tr[data-id="+data[i].childs[j].id+"] input:checkbox").remove();
@@ -673,7 +673,7 @@
                             $("tr[data-id="+data[i].id+"] input:checkbox").remove();
                                 //$("tr[data-id="+data[i].id+"]").next().remove();
                         } else{
-                            if(data[i].hasSendNum == data[i].num){
+                            if(data[i].hasSendNum >= data[i].num){
                                 $("tr[data-id="+data[i].id+"] input:checkbox").closest("div").removeClass("checkbox");
                                 $("tr[data-id="+data[i].id+"] input:checkbox").closest("div").removeClass("checkbox-custom");
                                 $("tr[data-id="+data[i].id+"] input:checkbox").remove();
@@ -1759,6 +1759,8 @@
 
             modal.find(".submit-poTKTH").data("type", type);
             modal.find(".submit-poTKTH").data("poId", po_id);
+            //删除保存事件
+            modal.find(".submit-poTKTH").unbind("click");
             modal.find(".submit-poTKTH").click(function(){
                 loading('正在提交，请稍等...');
 
