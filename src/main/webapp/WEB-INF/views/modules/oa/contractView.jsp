@@ -1495,16 +1495,22 @@
             </table>
         </div>
     </div>
+    <shiro:lacksRole name="businesser">
     <script>
         $(function(){
             //如果合同已完成移除删除按钮
             if("${contract.status}" == "100"){
                 $("#attchmentTable ol li").each(function(){
-                   $(this).find("a:eq(1)").remove();
+                    $(this).find("a:eq(1)").remove();
+                });
+
+                $("#attchmentTable .fa-cloud-upload").each(function(){
+                    $(this).remove();
                 });
             }
         });
     </script>
+    </shiro:lacksRole>
 
     <!--备注-->
     <div class="panel panel-default" id="card_other">
