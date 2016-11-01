@@ -118,7 +118,7 @@
                     收款方式：${fns:getDictLabel(finance.payMethod, "oa_payment_method","" )}
                 </div>
                 <div class="col-sm-6">
-                    实际收款日期：<input name="skDate" type="text" readonly="readonly" style="width: 150px;display:inline;"
+                    <font style="color:red">实际收款日期：</font><input name="skDate" type="text" readonly style="width: 150px;display:inline;"
                                   class="form-control Wdate input-sm required"
                                   value="${currentTime}"
                                   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
@@ -146,9 +146,9 @@
     <div class="form-group">
         <div class="text-center">
         <c:if test="${contract.act.hiddenButton ne '1'}">
-            <input id="btnSubmit" class="btn btn-custom" type="button" value="确认收款" onclick="return confirmx('请确认已收到这笔款项？', function(){document.forms[0].submit();})"/>&nbsp;
+            <input id="btnSubmit" class="btn btn-custom" type="button" value="确认收款" onClick="return confirmx('请确认已收到这笔款项？', function(){document.forms[0].submit();})"/>&nbsp;
         </c:if>
-            <input id="btnCancel" class="btn btn-inverse" type="button" value="返 回" onclick="history.go(-1)"/>
+            <input id="btnCancel" class="btn btn-inverse" type="button" value="返 回" onClick="history.go(-1)"/>
         </div>
     </div>
     </form:form>

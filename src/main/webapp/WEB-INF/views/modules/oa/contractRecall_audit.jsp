@@ -151,26 +151,26 @@ th, td {
 					</div>
 					<div class="row">
 						<div class="col-sm-3">
-							进销差价：
+							进销差价：<font style="color:red">
 							<fmt:formatNumber type="number"
-								value="${contract.amount - contract.cost}" maxFractionDigits="2" />
+								value="${contract.amount - contract.cost}" maxFractionDigits="2" /></font>
 						</div>
 						<div class="col-sm-3">
-							销售奖金：
+							销售奖金：<font style="color:red">
 							<fmt:formatNumber type="number" value="${contract.customerCost}"
-								maxFractionDigits="2" />
+								maxFractionDigits="2" /></font>
 						</div>
 						<div class="col-sm-3">
-							毛利：
+							毛利：<font style="color:red">
 							<fmt:formatNumber type="number"
 								value="${contract.amount - contract.cost - contract.customerCost * 1.1}"
-								maxFractionDigits="2" />
+								maxFractionDigits="2" /></font>
 						</div>
 						<div class="col-sm-3">
-							毛利率：
+							毛利率：<font style="color:red">
 							<fmt:formatNumber type="number"
 								value="${((contract.amount - contract.cost - contract.customerCost * 1.1)/contract.amount) *100}"
-								maxFractionDigits="2" />%
+								maxFractionDigits="2" />%</font>
 						</div>
 					</div>
 				</div>

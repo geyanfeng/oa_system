@@ -156,9 +156,9 @@ th, td {
 							</td>
 						</div>
 						<div class="col-sm-3">
-							付款金额：
+							付款金额：<font style="color:red">
 							<fmt:formatNumber type="number" value="${finance.amount}"
-								maxFractionDigits="2" />
+								maxFractionDigits="2" /></font>
 						</div>
 						<div class="col-sm-3">
 							帐期：
@@ -183,9 +183,9 @@ th, td {
 								String datetime = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()); //获取系统时间
 									request.setAttribute("currentTime", datetime);
 							%>
-							实际付款日期：
+							<font style="color:red">实际付款日期：</font>
 							<div class="input-group">
-								<input name="fkDate" type="text" readonly="readonly"
+								<input name="fkDate" type="text" readonly
 									style="width: 150px;"
 									class="form-control input-sm required"
 									value="${currentTime}"
@@ -225,7 +225,7 @@ th, td {
 							</c:if>
 
 							<input id="btnSubmit" class="btn btn-custom" type="submit"
-								value="${submitText}" onclick="$('#flag').val('submit_audit')" />&nbsp;
+								value="${submitText}" onClick="$('#flag').val('submit_audit')" />&nbsp;
             </c:if>
 					</c:if>
 					

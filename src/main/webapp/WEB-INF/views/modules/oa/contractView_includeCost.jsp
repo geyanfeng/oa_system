@@ -144,27 +144,26 @@ th, td {
 					</div>
 					<div class="row">
 						<div class="col-sm-3">
-							进销差价：
+							进销差价：<font style="color:red">
 							<fmt:formatNumber type="number"
-								value="${contract.amount - contract.cost}" maxFractionDigits="2" />
+								value="${contract.amount - contract.cost}" maxFractionDigits="2" /></font>
 						</div>
 						<div class="col-sm-3">
-							销售奖金：
+							销售奖金：<font style="color:red">
 							<fmt:formatNumber type="number" value="${contract.customerCost}"
-								maxFractionDigits="2" />
+								maxFractionDigits="2" /></font>
 						</div>
 						<div class="col-sm-3">
-							毛利：
+							毛利：<font style="color:red">
 							<fmt:formatNumber type="number"
 								value="${contract.amount - contract.cost - contract.customerCost * 1.1}"
-								maxFractionDigits="2" />
+								maxFractionDigits="2" /></font>
 						</div>
 						<div class="col-sm-3">
-							毛利率：
+							毛利率：<font style="color:red">
 							<fmt:formatNumber type="number"
 								value="${((contract.amount - contract.cost - contract.customerCost * 1.1)/contract.amount)*100}"
-								maxFractionDigits="2" />
-							%
+								maxFractionDigits="2" />%</font>
 						</div>
 					</div>
 				</div>
@@ -350,7 +349,7 @@ th, td {
 								<th>帐期点数</th>
 								<th>帐期日利率</th>
 								<th>退款金额</th>
-								<th>库存金额</th>
+								<th>滞库金额</th>
 							</tr>
 						</thead>
 						<tbody id="poBody">
@@ -429,7 +428,7 @@ th, td {
 							<div class="row form-inline">
 								<div class="col-sm-12">
 									<div class="form-group">
-										<label><font color="red">库存金额</font>：</label>
+										<label><font color="red">滞库金额</font>：</label>
 
 										<form:input path="stockInAmount" htmlEscape="false"
 											class="form-control required number " style="width:80px;"
@@ -562,13 +561,13 @@ th, td {
 			<div class="form-group">
 				<div class="text-center">
 					<input id="btnCancel" class="btn btn-inverse" type="button"
-						value="返 回" onclick="history.go(-1)" />
+						value="返 回" onClick="history.go(-1)" />
 					<c:if
 						test="${contract.contractType ne '1' and not empty contract.id and not empty contract.act.taskDefKey}">
 						<input id="btnSubmit" class="btn btn-info" type="submit"
-							value="驳 回" onclick="$('#flag').val('no')" />
+							value="驳 回" onClick="$('#flag').val('no')" />
 						<input id="btnSubmit" class="btn btn-primary" type="submit"
-							value="同 意" onclick="$('#flag').val('yes')" />
+							value="同 意" onClick="$('#flag').val('yes')" />
 					</c:if>
 				</div>
 			</div>

@@ -85,7 +85,7 @@
 
             <div class="row">
                 <div class="col-sm-6">
-                    付款笔数：${fn:length(purchaseOrder.purchaseOrderFinanceList)} 笔
+                    付款笔数：<font style="color:red">${fn:length(purchaseOrder.purchaseOrderFinanceList)} 笔</font>
                 </div>
             </div>
         </div>
@@ -113,14 +113,14 @@
                     帐期：<fmt:formatNumber type="number" value="${finance.zq}" maxFractionDigits="0"/>天
                 </div>
                 <div class="col-sm-2">
-                    应付日期：<fmt:formatDate value="${finance.planPayDate}" pattern="yyyy-MM-dd"/>
+                    应付日期：<font style="color:red"><fmt:formatDate value="${finance.planPayDate}" pattern="yyyy-MM-dd"/></font>
                 </div>
                 <div class="col-sm-2">
                     付款方式：<font
                         <c:if test="${finance.payMethod eq 3}">color="red"</c:if>> ${fns:getDictLabel(finance.payMethod,"oa_payment_method","")}</font>
                 </div>
                 <div class="col-sm-2">
-                    付款条件：<c:if test="${finance.payCondition eq 0}">预付</c:if><c:if test="${finance.payCondition eq 1}">后付</c:if>
+                    付款条件：<font style="color:red"><c:if test="${finance.payCondition eq 0}">预付</c:if><c:if test="${finance.payCondition eq 1}">后付</c:if></font>
                 </div>
 
             </div>
@@ -135,10 +135,10 @@
         <div class="col-sm-offset-4 col-sm-8">
             <c:if test="${purchaseOrder.act.taskDefKey eq 'cfo_confirm_payment_1' || purchaseOrder.act.taskDefKey eq 'cfo_confirm_payment_2' || purchaseOrder.act.taskDefKey eq 'cfo_confirm_payment_3'}">
                 <c:set var="submitText" value="批准付款"/>
-                <input id="btnSubmit" class="btn btn-custom" type="submit" value="${submitText}" onclick="$('#flag').val('submit_audit')"/>&nbsp;
+                <input id="btnSubmit" class="btn btn-custom" type="submit" value="${submitText}" onClick="$('#flag').val('submit_audit')"/>&nbsp;
             </c:if>
 
-            <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
+            <input id="btnCancel" class="btn" type="button" value="返 回" onClick="history.go(-1)"/>
         </div>
     </div>
 

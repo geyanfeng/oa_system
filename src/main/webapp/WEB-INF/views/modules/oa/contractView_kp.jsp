@@ -99,8 +99,8 @@
                             String datetime=new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()); //获取系统时间
                             request.setAttribute("currentTime",datetime);
                         %>
-                        实际开票日期：<div class="input-group">
-                        <input name="kpDate" type="text" readonly="readonly"
+                        <font style="color:red">实际开票日期：</font><div class="input-group">
+                        <input name="kpDate" type="text" readonly
                                       class="form-control input-sm required"
                                       value="${currentTime}"
                                       onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
@@ -163,7 +163,7 @@
             </c:if>
             <input id="btnSubmit" class="btn btn-custom" type="submit" value="${submitText}"/>&nbsp;
 		</c:if>
-            <input id="btnCancel" class="btn btn-inverse" type="button" value="返 回" onclick="history.go(-1)"/>
+            <input id="btnCancel" class="btn btn-inverse" type="button" value="返 回" onClick="history.go(-1)"/>
         </div>
     </div>
     </form:form>

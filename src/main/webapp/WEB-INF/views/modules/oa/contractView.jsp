@@ -125,7 +125,7 @@
         <div class="panel panel-default">
             <div class="panel-heading" style="text-align: center;"><span style="font-size:16px;">采购下单</span>
                 <div class="pull-right">
-                    <a href="javascript:void(0);" onclick="openOrClosePOPanel()" style="color:#797979;"><i class="glyphicon glyphicon-remove"></i></a>
+                    <a href="javascript:void(0);" onClick="openOrClosePOPanel()" style="color:#797979;"><i class="glyphicon glyphicon-remove"></i></a>
                 </div>
             </div>
             <div class="panel-body" style="padding:0;">
@@ -268,7 +268,7 @@
                     商务协同：${contract.businessPerson.name}
                 </div>
                 <div class="col-sm-3">
-                    技术协同：
+                    <font style="color:red">技术协同：</font>
                     <c:choose>
                         <c:when test="${contract.act.taskDefKey eq 'split_po'}">
                             <form:select path="artisan.id" id="artisan"  class="form-control required" cssStyle="width:100px;">
@@ -285,25 +285,25 @@
             </div>
             <div class="row">
                 <div class="col-sm-3">
-                    合同总金额：
-                    <fmt:formatNumber type="number" value="${contract.amount}" maxFractionDigits="2" />
+                    合同总金额：<font style="color:red">
+                    <fmt:formatNumber type="number" value="${contract.amount}" maxFractionDigits="2" /></font>
                 </div>
                 <div class="col-sm-3">
-                    采购总金额：
-                    <fmt:formatNumber type="number" value="${contract.cost}" maxFractionDigits="2" />
+                    采购总金额：<font style="color:red">
+                    <fmt:formatNumber type="number" value="${contract.cost}" maxFractionDigits="2" /></font>
                 </div>
                 <c:if test="${contract.cost ne 0}">
-                        <div class="col-sm-3" style="color:red">
-                            毛利：
+                        <div class="col-sm-3">
+                            毛利：<font style="color:red">
                             <fmt:formatNumber type="number"
                                               value="${contract.amount - (not empty contract.cost ? contract.cost : 0) - (not empty contract.customerCost ? contract.customerCost * 1.1 : 0)}"
-                                              maxFractionDigits="2" />
+                                              maxFractionDigits="2" /></font>
                         </div>
-                        <div class="col-sm-3" style="color:red">
-                            毛利率：
+                        <div class="col-sm-3">
+                            毛利率：<font style="color:red">
                             <fmt:formatNumber type="number"
                                               value="${((contract.amount - (not empty contract.cost ? contract.cost : 0) - (not empty contract.customerCost ? contract.customerCost * 1.1 : 0))/contract.amount)*100}"
-                                              maxFractionDigits="2" />%
+                                              maxFractionDigits="2" />%</font>
                         </div>
                 </c:if>
             </div>
@@ -311,7 +311,7 @@
                 <div class="row">
                     <c:if test="${not empty contract.stockInAmount}">
                         <div class="col-sm-3" style="color:red">
-                            库存金额：
+                            滞库金额：
                             <fmt:formatNumber type="number" value="${contract.stockInAmount}" maxFractionDigits="2" />
                         </div>
                     </c:if>
@@ -379,7 +379,7 @@
                 <span id="productMsg" style="display:none" class="label label-danger"></span>
             <div class="pull-right">
                 <a href="javascript:" class="btn btn-custom" id="btnSetProductCanEdit"><i class="zmdi zmdi-edit"></i>&nbsp;编辑</a>
-                <a href="javascript:" class="btn btn-primary" onclick="openPoPanel();"><i class="fa fa-folder-open-o"></i>&nbsp;打开下单</a>
+                <a href="javascript:" class="btn btn-primary" onClick="openPoPanel();"><i class="fa fa-folder-open-o"></i>&nbsp;打开下单</a>
             </div>
             </c:if>
             </h3>
@@ -992,7 +992,7 @@
                     <th>帐期点数</th>
                     <th>帐期日利率</th>
                     <th>退款金额</th>
-                    <th>库存金额</th>
+                    <th>滞库金额</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -1561,10 +1561,10 @@
 
     <div class="form-group">
         <div class="text-center">
-				<input id="btnCancel" class="btn btn-inverse" type="button" value="返 回" onclick="history.go(-1)"/>
+				<input id="btnCancel" class="btn btn-inverse" type="button" value="返 回" onClick="history.go(-1)"/>
                 <shiro:hasAnyRoles name="businesser">
                     <c:if test="${empty contract.act.taskDefKey}">
-                            <input id="btnSubmit" class="btn btn-custom" type="submit" value="保存附件" onclick="$('#flag').val('save_attachment')"/>
+                            <input id="btnSubmit" class="btn btn-custom" type="submit" value="保存附件" onClick="$('#flag').val('save_attachment')"/>
                     </c:if>
                 </shiro:hasAnyRoles>
                 <c:if test="${contract.contractType ne '1' and not empty contract.id}">
@@ -1617,11 +1617,11 @@
                                             contract.act.taskDefKey eq 'finish' ||
                                             contract.act.taskDefKey eq 'can_invoice' ||
                                             contract.act.taskDefKey eq 'can_invoice2'}">
-                            <input id="btnSubmit" class="btn btn-custom" type="submit" value="${submitText}" onclick="$('#flag').val('submit_audit')"/>&nbsp;
+                            <input id="btnSubmit" class="btn btn-custom" type="submit" value="${submitText}" onClick="$('#flag').val('submit_audit')"/>&nbsp;
                         </c:when>
                         <c:when test="${not empty contract.act.taskDefKey}">                          
-                            <input id="btnUnAudit" class="btn btn-info" type="submit" value="驳 回" onclick="$('#flag').val('no')"/>
-                            <input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onclick="$('#flag').val('yes')"/>
+                            <input id="btnUnAudit" class="btn btn-info" type="submit" value="驳 回" onClick="$('#flag').val('no')"/>
+                            <input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onClick="$('#flag').val('yes')"/>
                         </c:when>
                     </c:choose>
 

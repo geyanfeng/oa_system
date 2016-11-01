@@ -174,6 +174,7 @@ th, td {
 						<table class="table table-striped table-condensed">
 							<thead>
 							<tr row="row">
+                            	<th class="hidden"></th>
 								<th>收款次数</th>
 								<th>收款金额</th>
 								<th>收款方式</th>
@@ -187,6 +188,7 @@ th, td {
 							<tbody >
 							<c:forEach items="${contract.contractFinanceList}" var="finance" varStatus="status">
 								<tr row="row">
+                                	<td class="hidden"></td>
 									<td>${status.count}</td>
 									<td><fmt:formatNumber type="number" value="${finance.amount}" maxFractionDigits="2" /></td>
 									<td>${fns:getDictLabel(finance.payMethod, "oa_payment_method" ,"银行转帐" )}</td>
@@ -387,14 +389,14 @@ th, td {
 			<div class="form-group">
 				<div class="text-center">
 					<input id="btnCancel" class="btn btn-inverse" type="button"
-						value="返 回" onclick="history.go(-1)" />
+						value="返 回" onClick="history.go(-1)" />
 					<c:if
 						test="${contract.contractType ne '1' and not empty contract.id and not empty contract.act.taskDefKey}">
 
 						<input id="btnSubmit" class="btn btn-info" type="submit"
-							value="驳回" onclick="$('#flag').val('no')" />
+							value="驳回" onClick="$('#flag').val('no')" />
             	<input id="btnSubmit" class="btn btn-primary" type="submit"
-							value="同 意" onclick="$('#flag').val('yes')" />
+							value="同 意" onClick="$('#flag').val('yes')" />
             </c:if>
 
 
