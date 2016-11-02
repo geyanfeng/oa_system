@@ -371,7 +371,8 @@
     <div class="form-group">
         <div class="text-center">
         	<input id="btnCancel" class="btn btn-inverse" type="button" value="返 回" onClick="history.go(-1)"/>
-            <c:if test="${not empty purchaseOrder.act.taskDefKey || empty purchaseOrder.act.procInsId}">
+            <%--<c:if test="${not empty purchaseOrder.act.taskDefKey || empty purchaseOrder.act.procInsId}">--%>
+            <c:if test="${not empty purchaseOrder.act.taskDefKey}">
                 <c:set var="submitText" value="提交审批"/>
 
                 <c:if test="${purchaseOrder.act.taskDefKey eq 'business_person_createbill'}">
