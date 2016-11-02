@@ -6,6 +6,7 @@ package com.thinkgem.jeesite.modules.oa.service;
 import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
+import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.oa.dao.BonusRecordDao;
 import com.thinkgem.jeesite.modules.oa.dao.ContractDao;
 import com.thinkgem.jeesite.modules.oa.dao.OaCommissionDao;
@@ -62,19 +63,19 @@ public class OaCommissionService extends CrudService<OaCommissionDao, OaCommissi
 	public void saveBonusRecord(String contractId, Map<String, Object> map) throws ParseException {
 		Contract contract = contractDao.get(contractId);
 
-		if(map.get("customerCost")!=null)
+		if(map.get("customerCost")!=null && StringUtils.isNotBlank(map.get("customerCost").toString()))
 			contract.setCustomerCost(Double.parseDouble(map.get("customerCost").toString()));
 
-		if(map.get("stockInAmount")!=null)
+		if(map.get("stockInAmount")!=null && StringUtils.isNotBlank(map.get("stockInAmount").toString()))
 			contract.setStockInAmount(Double.parseDouble(map.get("stockInAmount").toString()));
 
-		if(map.get("returningAmount")!=null)
+		if(map.get("returningAmount")!=null && StringUtils.isNotBlank(map.get("returningAmount").toString()))
 			contract.setReturningAmount(Double.parseDouble(map.get("returningAmount").toString()));
 
-		if(map.get("discount")!=null)
+		if(map.get("discount")!=null  && StringUtils.isNotBlank(map.get("discount").toString()))
 			contract.setDiscount(Double.parseDouble(map.get("discount").toString()));
 
-		if(map.get("performancePercentage")!=null)
+		if(map.get("performancePercentage")!=null && StringUtils.isNotBlank(map.get("performancePercentage").toString()))
 			contract.setPerformancePercentage(Double.parseDouble(map.get("performancePercentage").toString()));
 
 		//更新合同
@@ -99,6 +100,7 @@ public class OaCommissionService extends CrudService<OaCommissionDao, OaCommissi
 		SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy-MM-dd" );
 		Integer sort = 1;
 		for(Map<String, Object> record: bonusRecords){
+			if(record.get("bonus")==null || StringUtils.isBlank(record.get("bonus").toString()) || record.get("bonusDate")==null || StringUtils.isBlank(record.get("bonusDate").toString())) continue;
 			BonusRecord newRecord = new BonusRecord();
 			newRecord.setBonus(Double.parseDouble(record.get("bonus").toString()));
 			newRecord.setBonusDate(sdf.parse(record.get("bonusDate").toString()));
