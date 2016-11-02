@@ -111,6 +111,10 @@ public class ContractController extends BaseController {
 		model.addAttribute("customerList", customerList);
 		//获取销售人员
 		model.addAttribute("salerList", UserUtils.getUsersByRoleEnName("saler"));
+		//获取商务人员
+		model.addAttribute("businessPeopleList", UserUtils.getUsersByRoleEnName("businesser"));
+		//获取技术人员
+		model.addAttribute("artisanList", UserUtils.getUsersByRoleEnName("tech"));
 		Page<Contract> page = contractService.findPage(new Page<Contract>(request, response), contract); 
 		model.addAttribute("page", page);
 		String isSelect = request.getParameter("isSelect");

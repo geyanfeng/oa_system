@@ -28,6 +28,9 @@
 			window.location = "${ctx}/oa/contract/view?po=true&id="+ selectedContract.id;
 		}
 	</script>
+	<style>
+		.form-inline .form-group {margin-bottom:15px;}
+	</style>
 </head>
 <body>
 <h2 style="padding-left:20px; font-weight: normal;font-size:18px;">
@@ -84,7 +87,22 @@
 				</form:select>
 
 			</div>
-
+			<div class="form-group m-r-10">
+				<label>商务人员：</label>
+				<form:select path="businessPerson.id" id="business_person" class="input-small form-control"  cssStyle="width: 150px">
+					<form:option value="" label="" />
+					<form:options items="${businessPeopleList}"
+								  itemLabel="name" itemValue="id" htmlEscape="false" />
+				</form:select>
+			</div>
+			<div class="form-group m-r-10">
+				<label>技术人员：</label>
+				<form:select path="artisan.id" id="artisan" class="input-small form-control"  cssStyle="width: 150px">
+					<form:option value="" label="" />
+					<form:options items="${artisanList}"
+								  itemLabel="name" itemValue="id" htmlEscape="false" />
+				</form:select>
+			</div>
 			<div class="form-group m-r-10">
 				<label>订单状态：</label>
 				<form:select path="status" class="select2-container form-control" cssStyle="width:150px;">

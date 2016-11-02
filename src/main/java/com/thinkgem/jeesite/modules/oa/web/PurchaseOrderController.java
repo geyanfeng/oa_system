@@ -16,6 +16,7 @@ import com.thinkgem.jeesite.modules.oa.dao.StockInDao;
 import com.thinkgem.jeesite.modules.oa.entity.*;
 import com.thinkgem.jeesite.modules.oa.service.*;
 
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -80,6 +81,10 @@ public class PurchaseOrderController extends BaseController {
 		//获取所有供应商
 		List<Supplier> supplierList = supplierService.findList(new Supplier());
 		model.addAttribute("supplierList", supplierList);
+		//获取商务人员
+		model.addAttribute("businessPeopleList", UserUtils.getUsersByRoleEnName("businesser"));
+		//获取技术人员
+		model.addAttribute("artisanList", UserUtils.getUsersByRoleEnName("tech"));
 		return "modules/oa/purchaseOrderList";
 	}
 

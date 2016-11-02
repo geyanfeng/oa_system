@@ -53,6 +53,12 @@
 			<if test="supplier != null and supplier.id != null and supplier.id != ''">
 				AND a.supplier_id = #{supplier.id}
 			</if>
+			<if test="businessPerson != null and businessPerson.id != null and businessPerson.id != ''">
+				AND a10.business_person_id = #{businessPerson.id}
+			</if>
+			<if test="artisan != null and artisan.id != null and artisan.id != ''">
+				AND a10.artisan_id = #{artisan.id}
+			</if>
 			<if test="status != null and status != ''">
 				AND a.status = #{status}
 			</if>

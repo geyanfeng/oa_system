@@ -182,6 +182,22 @@
 					</form:select>
 
 				</div>
+				<div class="form-group m-r-10">
+					<label>商务人员：</label>
+					<form:select path="businessPerson.id" id="business_person" class="input-small form-control"  cssStyle="width: 150px">
+						<form:option value="" label="" />
+						<form:options items="${businessPeopleList}"
+									  itemLabel="name" itemValue="id" htmlEscape="false" />
+					</form:select>
+				</div>
+				<div class="form-group m-r-10">
+					<label>技术人员：</label>
+					<form:select path="artisan.id" id="artisan" class="input-small form-control"  cssStyle="width: 150px">
+						<form:option value="" label="" />
+						<form:options items="${artisanList}"
+									  itemLabel="name" itemValue="id" htmlEscape="false" />
+					</form:select>
+				</div>
 
 				<div class="form-group m-r-10">
 					<label>我司抬头：</label>

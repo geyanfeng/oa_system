@@ -5,7 +5,7 @@ package com.thinkgem.jeesite.modules.oa.entity;
 
 import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.common.persistence.ActEntity;
-
+import com.thinkgem.jeesite.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.Date;
@@ -41,6 +41,8 @@ public class PurchaseOrder extends ActEntity<PurchaseOrder> {
 	private Date cancelDate;			//撤销时间
 	private Double refundMainAmount;	//退款金额
 	private Double stockInAmount;		//转库存金额
+	private User businessPerson;		// 商务人员
+	private User artisan;		// 技术人员
 	
 	public PurchaseOrder() {
 		super();
@@ -195,4 +197,18 @@ public class PurchaseOrder extends ActEntity<PurchaseOrder> {
 
 	public Double getStockInAmount(){return stockInAmount;}
 	public void setStockInAmount(Double stockInAmount){this.stockInAmount = stockInAmount;}
+
+	public User getBusinessPerson() {
+		return businessPerson;
+	}
+	public void setBusinessPerson(User businessPerson) {
+		this.businessPerson = businessPerson;
+	}
+
+	public User getArtisan() {
+		return artisan;
+	}
+	public void setArtisan(User artisan) {
+		this.artisan = artisan;
+	}
 }
