@@ -675,16 +675,16 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                         }
                     }
                      else if ("cso_audit".equals(taskDefKey)) {//销售总监审核
+                        actTaskService.claim(contract.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
                         if (pass) {
-                            actTaskService.claim(contract.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
                             contract.setStatus("26");//待审核(财务总监)
                         } else {
                             contract.setStatus("30");//已驳回待修改
                         }
                     }
                     else if ("cfo_audit".equals(taskDefKey)) {//财务总监审核
+                        actTaskService.claim(contract.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
                         if (pass) {
-                            actTaskService.claim(contract.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
                             contract.setStatus("35");//已批准待下单
                             Map<String, Object> currentTaskVars = taskService.getVariables(contract.getAct().getTaskId());//得到当前流程变量
                             if(currentTaskVars.containsKey("recall_type") && currentTaskVars.get("recall_type").toString().equals("2")){
