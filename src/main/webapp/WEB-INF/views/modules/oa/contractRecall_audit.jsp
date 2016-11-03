@@ -169,7 +169,7 @@ th, td {
 						<div class="col-sm-3">
 							毛利率：<font style="color:red">
 							<fmt:formatNumber type="number"
-								value="${((contract.amount - contract.cost - contract.customerCost * 1.1)/contract.amount) *100}"
+								value="${contract.amount eq 0 || (contract.amount - contract.cost - contract.customerCost * 1.1) eq 0? 0 :((contract.amount - contract.cost - contract.customerCost * 1.1)/contract.amount) *100}"
 								maxFractionDigits="2" />%</font>
 						</div>
 					</div>
@@ -193,7 +193,7 @@ th, td {
 								<th>合同售价</th>
 								<th>采购成本</th>
 								<th>毛利</th>
-								<th>毛利率</th>
+								<th>毛利率(%)</th>
 							</tr>
 						</thead>
 						<tbody id="contractProductList">

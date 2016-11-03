@@ -327,7 +327,7 @@
                         <div class="col-sm-3">
                             毛利率：<font style="color:red">
                             <fmt:formatNumber type="number"
-                                              value="${((contract.amount - (not empty contract.cost ? contract.cost : 0) - (not empty contract.customerCost ? contract.customerCost * 1.1 : 0))/contract.amount)*100}"
+                                              value="${contract.amount eq 0 || (contract.amount - contract.cost - contract.customerCost * 1.1) eq 0 ? 0: ((contract.amount - (not empty contract.cost ? contract.cost : 0) - (not empty contract.customerCost ? contract.customerCost * 1.1 : 0))/contract.amount)*100}"
                                               maxFractionDigits="2" />%</font>
                         </div>
                     </c:if>
@@ -1012,7 +1012,7 @@
                     <th>金额</th>
                     <th>帐期</th>
                     <th>帐期点数</th>
-                    <th>帐期日利率</th>
+                    <th>帐期日利率(%)</th>
                     <th>退款金额</th>
                     <th>滞库金额</th>
                     <th>操作</th>
