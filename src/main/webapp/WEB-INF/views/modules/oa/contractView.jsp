@@ -43,6 +43,16 @@
             return $('#modal');
         }
 
+        function disableButtons(){
+            $("#btnSubmit").attr("disabled","disabled");
+            $("#btnUnAudit").attr("disabled","disabled");
+        }
+
+        function enableButtons(){
+            $("#btnSubmit").removeAttr("disabled");
+            $("#btnUnAudit").removeAttr("disabled");
+        }
+
         $(function(){
             if(parent.mainFrame){
                 if(parent.window)
@@ -66,6 +76,10 @@
             if("${param.po}"!="" && "${param.poid}"!=""){
                 editPo("${param.poid}");
             }
+
+            $("#inputForm").submit(function(){
+                disableButtons();
+            });
 
             $.validator.addMethod("val-comment", function(value) {
                 return !($('#flag').val() === "no" && value==="");
@@ -91,10 +105,14 @@
                         if($("#row-attachment-1 ol li a").length == 0 || $("#row-attachment-3 ol li a").length == 0){
                             showTipMsg("请上传合同文本和签收单","error");
                             closeLoading();
+                            enableButtons();
                             return;
                         }
                     }
                     form.submit();
+                },
+                invalidHandler: function(){
+                    enableButtons();
                 },
                 errorContainer: "#messageBox",
                 errorPlacement: function (error, element) {
