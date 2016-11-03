@@ -114,9 +114,10 @@
 
 			</div>
 
-
+			<div class="form-group m-r-10">
 			<button id="btnSubmit" class="btn btn-custom" type="submit" value="查询">
 				查询</button>
+			</div>
 		</form:form>
 		<sys:message content="${message}"/>
 		<table id="contentTable" class="table table-striped table-condensed table-hover">
