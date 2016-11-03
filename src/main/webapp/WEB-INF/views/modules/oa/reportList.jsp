@@ -219,7 +219,7 @@
                     </form:select>
                 </div>
                 <div class="form-group m-r-10">
-                    <label>付款条件：</label>
+                    <label>状态：</label>
 
                     <form:select path="payStatus"
                                  class="form-control" cssStyle="width:100px;">

@@ -292,7 +292,14 @@
                     采购总金额：<font style="color:red">
                     <fmt:formatNumber type="number" value="${contract.cost}" maxFractionDigits="2" /></font>
                 </div>
-                <c:if test="${contract.cost ne 0}">
+                <div class="col-sm-3">
+                    进销差价：<font style="color:red">
+                    <fmt:formatNumber type="number" value="${contract.amount-contract.cost}" maxFractionDigits="2" /></font>
+                </div>
+            </div>
+            <c:if test="${contract.cost ne 0 || not empty contract.stockInAmount || not empty contract.extraAmount}">
+                <div class="row">
+                    <c:if test="${contract.cost ne 0}">
                         <div class="col-sm-3">
                             毛利：<font style="color:red">
                             <fmt:formatNumber type="number"
@@ -305,10 +312,7 @@
                                               value="${((contract.amount - (not empty contract.cost ? contract.cost : 0) - (not empty contract.customerCost ? contract.customerCost * 1.1 : 0))/contract.amount)*100}"
                                               maxFractionDigits="2" />%</font>
                         </div>
-                </c:if>
-            </div>
-            <c:if test="${not empty contract.stockInAmount || not empty contract.extraAmount}">
-                <div class="row">
+                    </c:if>
                     <c:if test="${not empty contract.stockInAmount}">
                         <div class="col-sm-3" style="color:red">
                             滞库金额：
@@ -390,7 +394,7 @@
                 <tr role="row">
                     <th class="hidden"></th>
                     <th>名称</th>
-                    <th>采购价格</th>
+                    <th>销售价格</th>
                     <th>数量</th>
                     <th>单位</th>
                     <th>金额</th>
