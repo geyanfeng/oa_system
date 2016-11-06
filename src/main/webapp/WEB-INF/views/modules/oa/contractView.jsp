@@ -1105,6 +1105,11 @@
                                     po.isDisplayTBtn = po.isPay;
                                     if((po.refundMainAmount && po.refundMainAmount > 0) || (po.stockInAmount && po.stockInAmount > 0))
                                         po.isDisplayTBtn = false;
+                                    if(po.amount==0) {
+                                        po.isDisplayTBtn = false;
+                                        po.isDisplayModifyBtn = true;
+                                        po.isDisplayDeleteBtn = true;
+                                    }
                                     addRow("#poBody", idx,poViewTpl,po );
                                 });
 
