@@ -83,6 +83,31 @@ th, td {
                     }
                 }
             });
+
+			//设置帐期
+			var paymentDetail = JSON.parse(${fns:toJson(contract.paymentDetail)});
+			var paymentCycle = ${contract.paymentCycle};
+			switch (paymentCycle) {
+				case 1:
+					if(paymentDetail && paymentDetail.payment_onetime_time) {
+						$("#span-zq").html(paymentDetail.payment_onetime_time);
+					}
+					break;
+				case 2:
+					var zq="";
+					if(paymentDetail && paymentDetail.length>0) {
+						$.each(paymentDetail, function (idx, item) {
+							if(item.payment_installment_time) {
+								if (idx > 0)
+									zq += " / ";
+								zq += item.payment_installment_time;
+							}
+						});
+						$("#span-zq").html(zq);
+					}
+					break;
+
+			}
         });
     </script>
 </head>
@@ -140,7 +165,7 @@ th, td {
 							<fmt:formatNumber type="number" value="${contract.cost}"
 								maxFractionDigits="2" />
 						</div>
-						<div class="col-sm-3">帐期：</div>
+						<div class="col-sm-3">帐期：<span id="span-zq"></span> </div>
 					</div>
 					<div class="row">
 						<div class="col-sm-3">
