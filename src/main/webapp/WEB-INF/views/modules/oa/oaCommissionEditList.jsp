@@ -119,7 +119,7 @@
         <sys:message content="${message}" />
         <table id="contentTable"
                class="table table-striped table-condensed table-hover">
-            <thead>
+            <thead style="background:#fff;">
             <tr>
                 <th class="sort-column no">合同编号</th>
                 <th class="sort-column a9.name">客户</th>
@@ -342,6 +342,22 @@
                         modal.find("#performancePercentage").prop('disabled', false);
                     }
                 });
+            });
+            
+          	//处理表头
+            var _top_ = 63 + $('#contentTable').offset().top - $('#contentTable thead').outerHeight();
+            if($('#contentTable tbody tr').eq(0)){
+            	$('#contentTable thead th').each(function(i){
+            		$(this).css({'width':$('#contentTable tbody tr').eq(0).find('td').eq(i).outerWidth()+'px'});
+            		$('#contentTable tbody tr').eq(0).find('td').eq(i).css({'width':$('#contentTable tbody tr').eq(0).find('td').eq(i).outerWidth()+'px'});
+            	});
+            } 
+            $(parent.window).scroll(function(){
+            	if($(parent.window).scrollTop() > _top_){
+            		$('#contentTable thead').css({'position':'fixed','top':$(parent.window).scrollTop(),'zIndex':'1000'});
+            	}else{
+            		$('#contentTable thead').css({'position':'static'});
+            	}
             });
         });
 
