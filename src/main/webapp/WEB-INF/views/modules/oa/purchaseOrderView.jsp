@@ -167,7 +167,9 @@
     <!--采购列表-->
     <a class="anchor" name="panel-3"></a>
     <div class="panel panel-default">
-        <div class="panel-heading"><h3 class="panel-title">采购列表</h3></div>
+        <div class="panel-heading">
+            <h3 class="panel-title">采购列表</h3>
+        </div>
         <div class="panel-body">
             <table id="contentTable" class="table table-condensed">
                 <thead>
@@ -193,6 +195,14 @@
                     <td>${product.amount}</td>
                 </tr>
                 </c:forEach>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>采购总金额: <fmt:formatNumber type="number" value="${purchaseOrder.amount}" maxFractionDigits="2" /></td>
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -371,8 +381,7 @@
     <div class="form-group">
         <div class="text-center">
         	<input id="btnCancel" class="btn btn-inverse" type="button" value="返 回" onClick="history.go(-1)"/>
-            <%--<c:if test="${not empty purchaseOrder.act.taskDefKey || empty purchaseOrder.act.procInsId}">--%>
-            <c:if test="${not empty purchaseOrder.act.taskDefKey}">
+            <c:if test="${not empty purchaseOrder.act.taskDefKey || empty purchaseOrder.act.procInsId}">
                 <c:set var="submitText" value="提交审批"/>
 
                 <c:if test="${purchaseOrder.act.taskDefKey eq 'business_person_createbill'}">
