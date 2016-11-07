@@ -366,21 +366,25 @@ public class ReportController extends BaseController {
 			model.addAttribute("headers", headers);
 
 			if("export".equals(searchParams.getFlag())){
+				List<Map> exportList = null;
 				String exportTitle = "";
 				List<String> headList = Lists.newArrayList();
 				List<String> fieldList = Lists.newArrayList();
 				searchParams.setFlag("");
+				queryMap.put("pageSize", 999999999);
 				if(reportType == 5){
 					exportTitle = "应收列表";
+					exportList = reportDao.reportReceivableAmount(queryMap);
 				} else if(reportType == 6){
 					exportTitle = "应付列表";
+					exportList = reportDao.reportPayAmount(queryMap);
 				}
 
 				for (Object key: headers.keySet()){
 					fieldList.add(key.toString());
 					headList.add(headers.get(key).toString());
 				}
-				new ExportExcel(exportTitle, headList.toArray(new String[headList.size()])).setMapList(list, fieldList.toArray(new String[fieldList.size()])).write(response, exportTitle+".xlsx").dispose();
+				new ExportExcel(exportTitle, headList.toArray(new String[headList.size()])).setMapList(exportList, fieldList.toArray(new String[fieldList.size()])).write(response, exportTitle+".xlsx").dispose();
 			}
 		}
 
