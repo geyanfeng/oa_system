@@ -200,8 +200,8 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td>采购总金额: <fmt:formatNumber type="number" value="${purchaseOrder.amount}" maxFractionDigits="2" /></td>
+                    <td style="text-align:right;">采购总金额：</td>
+                    <td><fmt:formatNumber type="number" value="${purchaseOrder.amount}" maxFractionDigits="2" /></td>
                 </tr>
                 </tbody>
             </table>
