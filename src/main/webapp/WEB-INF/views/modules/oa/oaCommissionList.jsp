@@ -119,20 +119,20 @@
                 <th class="sort-column a2.no">合同编号</th>
                 <th class="sort-column K_SV">合同金额</th>
                 <th class="sort-column K_COG">采购成本</th>
-                <th class="sort-column stock_in_amount+discount">额外总成本</th>
+                <th class="sort-column a.stock_in_amount+a.discount">额外总成本</th>
                 <th class="sort-column customerCost">销售奖金</th>
                 <th class="sort-column stockInAmount+extraAmount+customerCost">抵扣</th>
-                <th class="sort-column K_SV/kv">收款占比</th>
+                <th class="sort-column a.K_SV/a.sv">收款占比</th>
 
                 <%--<th>本期毛利</th>--%>
                 <th class="sort-column k_tr_v">税收成本</th>
              <%--   <th>物流费用</th>--%>
                 <th class="sort-column k_pcc_v">账期成本</th>
-                <th class="sort-column c.k_np">本期净利</th>
+                <th class="sort-column a.k_np">本期净利</th>
                 <th class="sort-column k_yj_v">业绩提成</th>
                 <th class="sort-column k_ew_v">额外佣金</th>
                 <th class="sort-column k_sc">合计</th>
-                <th>状态</th>
+                <th class="sort-column a.status">状态</th>
             </tr>
             </thead>
             <tbody>
