@@ -161,8 +161,7 @@ function($) {
       resizefunc.push("initscrolls");
       resizefunc.push("changeptype");
 
-        var alerts=[];
-        var processes=[];
+        
 
       $('.animate-number').each(function(){
         $(this).animateNumbers($(this).attr("data-value"), true, parseInt($(this).attr("data-duration"))); 
@@ -172,27 +171,11 @@ function($) {
       $(window).resize(debounce(resizeitems,100));
       $("body").trigger("resize");
 
-        function loadData(){
-            $.getJSON(ctx + "/oa/alert", function (alertList) {
-                alerts = alertList;
 
-                if(alerts.length>0)
-                    $(".right-bar-toggle").parent().find(".noti-dot").show();
-                else
-                    $(".right-bar-toggle").parent().find(".noti-dot").hide();
-            });
-            $.getJSON(ctx + "/act/task/todoJson", function (list) {
-                processes= list;
-                if(processes.length>0)
-                    $(".right-bar-todo").parent().find(".noti-dot").show();
-                else
-                    $(".right-bar-todo").parent().find(".noti-dot").hide();
-            });
-        }
        //定时获取提醒和待办事项
-        setInterval(loadData,60000);//本隔1分钟执行一次
+        setInterval(loadAlertAndTask,60000);//本隔1分钟执行一次
 
-        loadData();
+        loadAlertAndTask();
 
       // right side-bar toggle
       $('.right-bar-toggle').on('click', function(e){

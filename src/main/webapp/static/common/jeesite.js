@@ -10,6 +10,7 @@ document.onkeydown = function(e){
     var keycode = e.keyCode || e.which;
     if(!top.document.getElementById('mainFrame'))return;
     if( keycode == 116){
+        loadAlertAndTask();
         if(window.event){// ie
             try{e.keyCode = 0;}catch(e){}
             e.returnValue = false;
@@ -427,3 +428,23 @@ $.ajaxSetup({
         }
     }
 });
+
+var alerts=[];
+var processes=[];
+function loadAlertAndTask(){
+    $.getJSON(ctx + "/oa/alert", function (alertList) {
+        alerts = alertList;
+
+        if(alerts.length>0)
+            $(top.document).find(".right-bar-toggle").parent().find(".noti-dot").show();
+        else
+            $(top.document).find(".right-bar-toggle").parent().find(".noti-dot").hide();
+    });
+    $.getJSON(ctx + "/act/task/todoJson", function (list) {
+        processes= list;
+        if(processes.length>0)
+            $(top.document).find(".right-bar-todo").parent().find(".noti-dot").show();
+        else
+            $(top.document).find(".right-bar-todo").parent().find(".noti-dot").hide();
+    });
+}
