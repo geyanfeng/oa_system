@@ -353,7 +353,7 @@
             	});
             } 
             $(parent.window).scroll(function(){
-            	if($(parent.window).scrollTop() > _top_){
+            	if(parent&& parent.window && $(parent.window).scrollTop() > _top_){
             		$('#contentTable thead').css({'position':'fixed','top':$(parent.window).scrollTop(),'zIndex':'1000'});
             	}else{
             		$('#contentTable thead').css({'position':'static'});

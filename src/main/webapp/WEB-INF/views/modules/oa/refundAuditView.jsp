@@ -47,7 +47,7 @@
             if(parent.mainFrame){
                 if(parent.window)
                     $(parent.window).scroll( function(){
-                        if(parent.window)
+                        if(parent&& parent.window)
                             $('.navbar').css('top', parent.window.document.body.scrollTop)
                     });
             }

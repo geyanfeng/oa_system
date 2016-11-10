@@ -57,7 +57,8 @@
             if(parent.mainFrame){
                 if(parent.window)
                     $(parent.window).scroll( function(){
-                   $('.navbar').css('top', parent.window.document.body.scrollTop);
+                        if(parent&& parent.window)
+                            $('.navbar').css('top', parent.window.document.body.scrollTop);
                 });
             }
             //清除modal中的内容
@@ -160,9 +161,11 @@
             if(parent.mainFrame){
                 if(parent.window)
                     $(parent.window).scroll(  function(){
-                    var winHeight = $(parent.window).height(), winWidth = $(parent.window).width(), divHeight =  $("#panel_po").height(), divWidth = $("#panel_po").width();
-                    $("#panel_po").css('top',parent.window.document.body.scrollTop  + $('.navbar').height()); //控制上下位置
-                    $("#panel_po").attr('left',(winWidth - divWidth -300 - 20)); //控制横向位置
+                        if(parent&& parent.window) {
+                            var winHeight = $(parent.window).height(), winWidth = $(parent.window).width(), divHeight = $("#panel_po").height(), divWidth = $("#panel_po").width();
+                            $("#panel_po").css('top', parent.window.document.body.scrollTop + $('.navbar').height()); //控制上下位置
+                            $("#panel_po").attr('left', (winWidth - divWidth - 300 - 20)); //控制横向位置
+                        }
                 });
             } else{
                 $(parent).scroll( function(){
