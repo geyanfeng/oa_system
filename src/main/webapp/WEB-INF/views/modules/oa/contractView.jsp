@@ -1635,8 +1635,10 @@
                         <c:set var="submitText" value="确认可以开票"/>
                     </c:if>
                     <c:choose>
-                        <c:when test="${empty contract.act.procInsId ||
-                                            contract.act.taskDefKey eq 'split_po' ||
+                        <c:when test="${empty contract.act.procInsId && fns:getUser().id eq contract.createBy.id}">
+                            <input id="btnSubmit" class="btn btn-custom" type="submit" value="${submitText}" onClick="$('#flag').val('submit_audit')"/>&nbsp;
+                        </c:when>
+                        <c:when test="${contract.act.taskDefKey eq 'split_po' ||
                                             contract.act.taskDefKey eq 'contract_edit' ||
                                             contract.act.taskDefKey eq 'business_person_createbill' ||
                                             contract.act.taskDefKey eq 'verify_ship' ||
