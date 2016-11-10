@@ -208,7 +208,7 @@ h4 {
 								{{row.name}}
 							</td>
 							<td width="120">
-								<input id="purchaseOrderProductList{{idx}}_num" name="purchaseOrderProductList[{{idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="form-control number input-block required input-sm" onchange="updateSumAmount(this);" style="display:inline-block"/>
+								<input id="purchaseOrderProductList{{idx}}_num" name="purchaseOrderProductList[{{idx}}].num" type="text" min="1" value="{{row.num}}" maxlength="10" class="form-control number input-block required input-sm" onchange="updateSumAmount(this);" style="display:inline-block"/>
 							</td>
 							<td width="20">
 							    {{row.unitName}}

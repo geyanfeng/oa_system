@@ -340,6 +340,7 @@ th,td{text-align:left;}
 								<div class="col-sm-9">
 									<form:select path="companyName"
 										class="form-control col-md-12 required">
+										<form:option value="" label="" />
 										<form:options items="${fns:getDictList('oa_company_name')}"
 											itemLabel="label" itemValue="value" htmlEscape="false" />
 									</form:select>
@@ -593,7 +594,7 @@ th,td{text-align:left;}
 								<input id="contractProductList{{idx}}_price" name="contractProductList[{{idx}}].price" type="text" value="{{row.price}}" class="form-control number input-block required " onchange="updatePriceAmount(this);"/>
 							</td>
 							<td>
-								<input id="contractProductList{{idx}}_num" name="contractProductList[{{idx}}].num" type="text" value="{{row.num}}" maxlength="10" class="form-control number input-block required " onchange="updatePriceAmount(this);" size="10"/>
+								<input id="contractProductList{{idx}}_num" name="contractProductList[{{idx}}].num" type="text" min="1" value="{{row.num}}" maxlength="10" class="form-control number input-block required " onchange="updatePriceAmount(this);" size="10"/>
 							</td>
 							<td>
 								<select id="contractProductList{{idx}}_unit" name="contractProductList[{{idx}}].unit" data-value="{{row.unit}}" class="form-control input-block required ">
