@@ -175,8 +175,6 @@ function($) {
        //定时获取提醒和待办事项
         setInterval(loadAlertAndTask,60000);//本隔1分钟执行一次
 
-        loadAlertAndTask();
-
       // right side-bar toggle
       $('.right-bar-toggle').on('click', function(e){
           var alertTpl = $("#alertTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");

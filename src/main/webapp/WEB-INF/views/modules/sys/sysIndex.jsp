@@ -27,6 +27,17 @@
 			}
 		}
 	}
+
+	var iframeOldLocation="";
+	$(function(){
+		$("#mainFrame").bind("load",function(eventData){
+			if(iframeOldLocation !== this.contentWindow.location){
+				iframeOldLocation == this.contentWindow.location;
+				loadAlertAndTask();
+			}
+			console.log("iframe finish loading: " + this.contentWindow.location);
+		});
+	});
 </script>
 </head>
 <BODY class="fixed-left">
