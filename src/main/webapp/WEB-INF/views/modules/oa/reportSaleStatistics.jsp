@@ -228,7 +228,7 @@
                     <td><c:if test="${not empty item.k3_amount && item.k3_amount ne '0E-8'}"><fmt:formatNumber type="number" value="${item.k3_amount}" maxFractionDigits="2" /></c:if></td>
                     <td><c:if test="${not empty item.k4_amount && item.k4_amount ne '0E-8'}"><fmt:formatNumber type="number" value="${item.k4_amount}" maxFractionDigits="2" /></c:if></td>
                     <td><c:if test="${not empty item.k5_amount && item.k5_amount ne '0E-8'}"><fmt:formatNumber type="number" value="${item.k5_amount}" maxFractionDigits="2" /></c:if></td>
-                    <td>${item.contract_status}</td>
+                    <td><c:if test="${item.cancel_flag eq 1}"><del class="text-danger"></c:if>${item.contract_status}<c:if test="${item.cancel_flag eq 1}"></del></c:if></td>
                 </tr>
             </c:forEach>
             </tbody>
