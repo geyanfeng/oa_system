@@ -1530,12 +1530,13 @@
     <shiro:lacksRole name="businesser">
     <script>
         $(function(){
-            //如果合同已完成移除删除按钮
-            if("${contract.status}" == "100"){
-                $("#attchmentTable ol li").each(function(){
-                    $(this).find("a:eq(1)").remove();
-                });
+            //其它角色移除删除按钮
+            $("#attchmentTable ol li").each(function(){
+                $(this).find("a:eq(1)").remove();
+            });
 
+            //如果合同完成删除上传按钮
+            if("${contract.status}" == "100"){
                 $("#attchmentTable .fa-cloud-upload").each(function(){
                     $(this).remove();
                 });
@@ -1543,6 +1544,18 @@
         });
     </script>
     </shiro:lacksRole>
+    <shiro:hasRole name="businesser">
+    <script>
+        $(function(){
+            //如果合同已完成移除删除按钮
+            if("${contract.status}" == "100"){
+                $("#attchmentTable ol li").each(function(){
+                    $(this).find("a:eq(1)").remove();
+                });
+            }
+        });
+    </script>
+    </shiro:hasRole>
 
     <!--备注-->
     <div class="panel panel-default" id="card_other">
