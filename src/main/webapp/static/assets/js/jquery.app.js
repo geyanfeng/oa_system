@@ -354,8 +354,15 @@ function deleteAlert(sender,urlPrefix, id){
     $.post(urlPrefix+"/oa/alert/delete?id="+id,{}, function(){
         if(id==""){
             $("#ul-alert").empty();
+            alerts=[];
         } else {
             self.closest('li').remove();
+            $.each(alerts,function(idx,item){
+                if(item && item.id == id) {
+                    alerts.splice(idx,1);
+                    return;
+                }
+            })
         }
     });
 }
