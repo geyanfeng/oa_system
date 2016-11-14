@@ -143,7 +143,7 @@
 						<th class="sort-column createDate">日期</th>
 						<th class="sort-column no">合同号</th>
 						<th class="sort-column name">合同名称</th>
-						<th class="sort-column companyName">公司抬头</th>
+						<th class="sort-column companyName">抬头</th>
 						<th class="sort-column a9.name">客户</th>
 						<th class="sort-column u32.name">有效期</th>
 						<%-- <th>更新时间</th>--%>

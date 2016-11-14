@@ -275,7 +275,7 @@ public class ReportController extends BaseController {
 				model.addAttribute("title", "业绩统计报表");
 				headers.put("createDate", "日期");
 				headers.put("no", "合同号");
-				headers.put("companyName", "公司抬头");
+				headers.put("companyName", "抬头");
 				headers.put("customerName", "客户");
 				headers.put("name", "合同名称");
 				headers.put("amount", "合同金额");
@@ -301,7 +301,7 @@ public class ReportController extends BaseController {
 				break;
 			case 5:
 				model.addAttribute("title", "应收列表");
-				headers.put("finance_no", "收款流水号");
+				headers.put("finance_no", "流水号");
 				headers.put("company_name", "单位");
 				headers.put("saler_name", "销售");
 				headers.put("customer_name", "客户");
@@ -311,10 +311,10 @@ public class ReportController extends BaseController {
 				headers.put("billing_date", "开票日期");
 				headers.put("payment_days", "账期");
 				headers.put("plan_pay_date", "应收日期");
-				headers.put("finance_status_name", "收款状态");
+				headers.put("finance_status_name", "状态");
 				headers.put("finance_amount", "收款金额");
 				headers.put("pay_date", "实收日期");
-				headers.put("over_days", "逾期天数");
+				headers.put("over_days", "天数");
 				list = reportDao.reportReceivableAmount(queryMap);
 				break;
 			case 6:
@@ -487,7 +487,7 @@ public class ReportController extends BaseController {
 			queryMap.put("pageSize", 999999999);
 			queryMap.put("type", searchParams.getReportType().equals("3") ? 1 : 3);
 			List<Map> exportList = reportDao.reportSaleStatistics(queryMap);
-			String[] headers = new String[]{"日期","合同号","公司抬头","客户","销售","合同金额","K1","K2","K3","K4","K5","合同状态"};
+			String[] headers = new String[]{"日期","合同号","抬头","客户","销售","合同金额","K1","K2","K3","K4","K5","合同状态"};
 			String[] fieldNames = new String[]{"create_date","contract_no","company_name","cust_name","saler_name","amount","k1_amount","k2_amount","k3_amount","k4_amount","k5_amount","contract_status"};
 			new ExportExcel("销售统计报表", headers).setMapList(exportList, fieldNames).write(response, "销售统计报表.xlsx").dispose();
 			return "出错";

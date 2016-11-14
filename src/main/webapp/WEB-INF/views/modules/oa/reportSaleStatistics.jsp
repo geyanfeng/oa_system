@@ -198,7 +198,7 @@
             <tr>
                 <th class="sort-column c.create_date">日期</th>
                 <th class="sort-column c.no">合同编号</th>
-                <th class="sort-column c.NO">公司抬头</th>
+                <th class="sort-column c.NO">抬头</th>
                 <th class="sort-column cust.name">客户</th>
                 <th class="sort-column saler.name">销售</th>
                 <th class="sort-column c.amount">合同金额</th>
