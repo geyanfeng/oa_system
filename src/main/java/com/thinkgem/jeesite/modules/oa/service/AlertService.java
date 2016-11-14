@@ -140,6 +140,18 @@ public class AlertService extends CrudService<AlertDao, Alert> {
                 }
             }
         }
+
+        //是否向财务总监发送消息
+        if (setting.getIsCfo() == 1) {
+            List<User> userList = userDao.findUserByRoleEnName("cfo");
+            if (userList != null) {
+                for (User user : userList) {
+                    if(!receiverMap.containsKey(user.getId()))
+                        receiverMap.put(user.getId(), user.getEmail());
+                }
+            }
+        }
+
         return receiverMap;
     }
 

@@ -73,6 +73,9 @@
                         <span class="checkbox checkbox-custom ">
                             <input id="isCw[${settingIdx.index}]" name="alertSettingList[${settingIdx.index}].isCw" type="checkbox" value="1" <c:if test="${setting.isCw eq 1}">checked="checked"</c:if>><label for="isCw[${settingIdx.index}]">财务</label>
                         </span>
+                        <span class="checkbox checkbox-custom ">
+                            <input id="isCfo[${settingIdx.index}]" name="alertSettingList[${settingIdx.index}].isCfo" type="checkbox" value="1" <c:if test="${setting.isCfo eq 1}">checked="checked"</c:if>><label for="isCfo[${settingIdx.index}]">财务总监</label>
+                        </span>
                     </div>
                     <div class="col-sm-2">
                         <span class="checkbox checkbox-custom ">

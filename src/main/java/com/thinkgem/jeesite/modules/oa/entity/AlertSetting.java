@@ -20,6 +20,7 @@ public class AlertSetting extends DataEntity<AlertSetting> {
 	private Integer isTech=0;		// 提醒对象:技术
 	private Integer isCso=0;		// 提醒对象:销售总监
 	private Integer isCw=0;		// 提醒对象:财务
+	private Integer isCfo=0;		// 提醒对象:财务总监
 	private Integer isMsg=0;		// 提醒方式: 站内通知
 	private Integer isEmail=0;		// 提醒方式: 邮件通知
 	private Integer isCalendar=0;		// 提醒方式: 日历提醒
@@ -143,6 +144,8 @@ public class AlertSetting extends DataEntity<AlertSetting> {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	
+
+	public Integer getIsCfo(){return isCfo;}
+	public void setIsCfo(Integer isCfo){this.isCfo = isCfo;}
 }
 
