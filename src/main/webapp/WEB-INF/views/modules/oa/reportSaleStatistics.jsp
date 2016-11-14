@@ -170,22 +170,22 @@
                     <tbody>
                         <tr>
                             <td>客户：<span id="span-cust">全选</span></td>
-                            <td><span id="span-summary-amount">合同总金额</span>：<fmt:formatNumber type="number" value="${summary.amount}" maxFractionDigits="2" /></td>
-                            <td>采购总金额：<fmt:formatNumber type="number" value="${summary.po_sum_amount}" maxFractionDigits="2" /></td>
-                            <td>进销差价：<fmt:formatNumber type="number" value="${summary.contract_ce}" maxFractionDigits="2" /></td>
-                            <td>销售总费用：<fmt:formatNumber type="number" value="${summary.customer_cost}" maxFractionDigits="2" /></td>
+                            <td><span id="span-summary-amount">合同总金额</span>：<fmt:formatNumber type="number" value="${(not empty summary.amount && summary.amount ne '0E-8') ? summary.amount : 0}" maxFractionDigits="2" /></td>
+                            <td>采购总金额：<fmt:formatNumber type="number" value="${(not empty summary.po_sum_amount && summary.po_sum_amount ne '0E-8') ? summary.po_sum_amount : 0}" maxFractionDigits="2" /></td>
+                            <td>进销差价：<fmt:formatNumber type="number" value="${(not empty summary.contract_ce && summary.contract_ce ne '0E-8') ? summary.contract_ce : 0}" maxFractionDigits="2" /></td>
+                            <td>销售总费用：<fmt:formatNumber type="number" value="${(not empty summary.customer_cost && summary.customer_cost ne '0E-8') ? summary.customer_cost : 0}" maxFractionDigits="2" /></td>
                         </tr>
                         <tr>
-                            <td>K1总金额：<fmt:formatNumber type="number" value="${summary.k1_amount}" maxFractionDigits="2" /></td>
-                            <td>K2总金额：<fmt:formatNumber type="number" value="${summary.k2_amount}" maxFractionDigits="2" /></td>
-                            <td>K3总金额：<fmt:formatNumber type="number" value="${summary.k3_amount}" maxFractionDigits="2" /></td>
-                            <td>K4总金额：<fmt:formatNumber type="number" value="${summary.k4_amount}" maxFractionDigits="2" /></td>
-                            <td>K5总金额：<fmt:formatNumber type="number" value="${summary.k5_amount}" maxFractionDigits="2" /></td>
+                            <td>K1总金额：<fmt:formatNumber type="number" value="${(not empty summary.k1_amount && summary.k1_amount ne '0E-8') ? summary.k1_amount : 0}" maxFractionDigits="2" /></td>
+                            <td>K2总金额：<fmt:formatNumber type="number" value="${(not empty summary.k2_amount && summary.k2_amount ne '0E-8') ? summary.k2_amount : 0}" maxFractionDigits="2" /></td>
+                            <td>K3总金额：<fmt:formatNumber type="number" value="${(not empty summary.k3_amount && summary.k3_amount ne '0E-8') ? summary.k3_amount : 0}" maxFractionDigits="2" /></td>
+                            <td>K4总金额：<fmt:formatNumber type="number" value="${(not empty summary.k4_amount && summary.k4_amount ne '0E-8') ? summary.k4_amount : 0}" maxFractionDigits="2" /></td>
+                            <td>K5总金额：<fmt:formatNumber type="number" value="${(not empty summary.k5_amount && summary.k5_amount ne '0E-8') ? summary.k5_amount : 0}" maxFractionDigits="2" /></td>
                         </tr>
                         <tr>
-                            <td>K1-K4产品利润：<fmt:formatNumber type="number" value="${summary.other_ml}" maxFractionDigits="2" /></td>
+                            <td>K1-K4产品利润：<fmt:formatNumber type="number" value="${(not empty summary.other_ml && summary.other_ml ne '0E-8') ? summary.other_ml : 0}" maxFractionDigits="2" /></td>
                             <td>K1-K4产品利润率：<c:if test="${not empty summary.amount && summary.amount ne '0E-8' && not empty summary.other_ml && summary.other_ml ne '0E-8'}"><span style="color:red;" id="span-otherML">${(summary.other_ml / summary.amount) * 100} %</span></c:if></td>
-                            <td>总毛利：<fmt:formatNumber type="number" value="${summary.contract_ml}" maxFractionDigits="2" /></td>
+                            <td>总毛利：<fmt:formatNumber type="number" value="${(not empty summary.contract_ml && summary.contract_ml ne '0E-8') ? summary.contract_ml : 0}" maxFractionDigits="2" /></td>
                             <td>总毛利率：<c:if test="${not empty summary.amount && summary.amount ne '0E-8' && not empty summary.contract_ml && summary.contract_ml ne '0E-8'}"><span style="color:red;" id="span-ml">${(summary.contract_ml / summary.amount) * 100} %</span></c:if></td>
                             <td></td>
                         </tr>
