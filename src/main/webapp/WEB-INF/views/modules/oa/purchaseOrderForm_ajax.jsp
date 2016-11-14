@@ -62,6 +62,7 @@ h4 {
 
             $("#inputForm").submit(function(){
                 $("#btnSubmit").attr("disabled","disabled");
+                console.log("Submit button disable;");
             });
 
             $("#inputForm").validate({
@@ -71,12 +72,21 @@ h4 {
                     if(!validationPaymentAmount()) {
                         showTipMsg("付款金额应该等于采购总金额:"+ sumAmount, "error");
                         $("#btnSubmit").removeAttr("disabled");
+                        console.log("Submit button enabled;");
                         return;
                     }
 
                     if(!validatePayCondition()){
                         showTipMsg("只能第一个为预付", "error");
                         $("#btnSubmit").removeAttr("disabled");
+                        console.log("Submit button enabled;");
+                        return;
+                    }
+
+                    if(!validationPayPointNum()){
+                        showTipMsg("账期点数大于0，账期不得为0", "error");
+                        $("#btnSubmit").removeAttr("disabled");
+                        console.log("Submit button enabled;");
                         return;
                     }
 
@@ -90,7 +100,6 @@ h4 {
                             }
 
                             showTipMsg("订单保存成功","success");
-                            $("#btnSubmit").removeAttr("disabled");
 
                             if(parent.loadProductsAfterClear){
                                 $.getJSON("${ctx}/oa/contract/get?id="+result.contractId, function(result){
@@ -477,7 +486,7 @@ h4 {
                 row.bl = ((parseFloat(row.amount)/sumAmount) * 100).toFixed(2);
             var tpl= $("#paymentTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
             if($('.div-pay').length > 0){
-            	tpl = tpl.replace('font-size:25px;display:none;','font-size:25px;');	
+            	tpl = tpl.replace('font-size:25px;display:none;','font-size:25px;');
             }
             var idx = 0;
             if($("#payment-body").data("idx")){
@@ -560,7 +569,7 @@ h4 {
                     }
                 });
             }
-            
+
 
             $("#rll").html(rll.toFixed(2));
 
@@ -611,6 +620,21 @@ h4 {
                 }
             });
             return result;
+        }
+
+        //验证帐期点数
+        function validationPayPointNum(){
+            var pointNum = $("#paymentPointnum").val();
+            if(pointNum && pointNum!="0"){
+                var result = true;
+                $("input[id$='_zq']").each(function(){
+                    var zq=$(this).val();
+                    if(zq=="" || zq=="0")
+                        result = false;
+                })
+                return result;
+            }
+            return true;
         }
     </script>
 
