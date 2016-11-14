@@ -114,10 +114,14 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     收款方式：${fns:getDictLabel(finance.payMethod, "oa_payment_method","" )}
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-4">
+                    应收日期：<fmt:formatDate value="${finance.planPayDate}"
+                                         pattern="yyyy-MM-dd" /></td>
+                </div>
+                <div class="col-sm-4">
                     <font style="color:red">实际收款日期：</font><input name="skDate" type="text" readonly style="width: 150px;display:inline;"
                                   class="form-control Wdate input-sm required"
                                   value="${currentTime}"
