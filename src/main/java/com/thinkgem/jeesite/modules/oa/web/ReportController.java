@@ -314,7 +314,7 @@ public class ReportController extends BaseController {
 				headers.put("finance_status_name", "状态");
 				headers.put("finance_amount", "收款金额");
 				headers.put("pay_date", "实收日期");
-				headers.put("over_days", "天数");
+				headers.put("over_days", "逾期");
 				list = reportDao.reportReceivableAmount(queryMap);
 				break;
 			case 6:

@@ -95,7 +95,7 @@
         <div class="panel-body panel-collapse collapse in" id="card-collapse">
             <div class="row">
                 <div class="col-sm-3">
-                    合同编号：${purchaseOrder.contract.no}
+                    合同编号：<a href="${ctx}/oa/contract/view?id=${purchaseOrder.contract.id}">${purchaseOrder.contract.no}</a>
                 </div>
                 <div class="col-sm-3">
                     合同名称：${purchaseOrder.contract.name}
