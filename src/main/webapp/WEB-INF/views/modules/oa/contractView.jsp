@@ -746,12 +746,10 @@
                     </c:if>*/
                     $(list).append(Mustache.render(tpl, {
                         idx: idx, child_idx: child_idx, delBtn: true, row: row
-                    }));
-                    $(list + "_" + child_idx).find("select").each(function () {
+                    })).find("select").each(function () {
                         $(this).val($(this).attr("data-value"));
                         $(this).select2();
-                    });
-                    $(list + "_" + child_idx).find("input[type='checkbox'], input[type='radio']").each(function () {
+                    }).find("input[type='checkbox'], input[type='radio']").each(function () {
                         var dataValue = $(this).attr("data-value")
                         if(dataValue) {
                             var ss = dataValue.split(',');
@@ -765,7 +763,6 @@
                     if(productTypeId){
                     	$("#childProductList"+idx +"_"+ child_idx +"_productType").val(productTypeId);
                     }
-                    
                 }
 
                 function addNewChildRow(sender,productTypeId) {
