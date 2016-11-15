@@ -7,14 +7,13 @@
 <title>财务总监付款审核</title>
 <meta name="decorator" content="default" />
 <style>
-.panel-body .row {
-	padding: 10px;
-	margin: 0;
-}
-
-.panel-body .row:not (:last-child ){
-	border-bottom: 1px solid #dcdcdc;
-}
+	.panel-body .row{
+		padding: 10px;
+		margin:0;
+	}
+	.panel-body .row:not(:last-child){
+		border-bottom: 1px solid #dcdcdc;
+	}
 
 .panel .panel-body {
 	padding: 0;
@@ -90,6 +89,11 @@ th, td {
 		<sys:message content="${message}" />
 
 		<div class="col-sm-12">
+			<div class="row m-b-20">
+				<div class="pull-right">
+					订单状态: <span class="label label-${fns:getDictRemark(contract.status,"oa_po_status","warning")}" style="font-size:16px;color:#000;">${fns:getDictLabel(purchaseOrder.status, "oa_po_status","" )}</span>
+				</div>
+			</div>
 			<!--合同信息-->
 			<div class="panel panel-default">
 				<div class="panel-heading">
