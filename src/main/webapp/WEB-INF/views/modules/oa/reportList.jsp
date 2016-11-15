@@ -182,8 +182,8 @@
                     <form:select path="payStatus"
                                  class="form-control" cssStyle="width:100px;">
                         <form:option value="" label="全部"/>
-                        <form:option value="1" label="未付款"/>
-                        <form:option value="2" label="已付款"/>
+                        <form:option value="1" label="未收款"/>
+                        <form:option value="2" label="已收款"/>
                     </form:select>
                 </div>
                 <div class="form-group m-r-10">
@@ -461,6 +461,7 @@
                                 <c:when test="${reportType eq '5' and headers.key eq 'over_days'}"><td ${supplier[headers.key]>0?'style="color:red"':''} width="50">${supplier[headers.key]}</td></c:when>
 								<c:when test="${reportType eq '5' and headers.key eq 'finance_no'}"><td style="width:80px;">${supplier[headers.key]}</td></c:when>
 								<c:when test="${reportType eq '5' and headers.key eq 'customer_name'}"><td style="width:80px;">${supplier[headers.key]}</td></c:when>
+                                <%--<c:when test="${reportType eq '5' and headers.key eq 'contract_status_name'}"><td><c:if test="${supplier['contract_cancel_flag'] eq 1}"><del class="text-danger"></c:if>${supplier['contract_cancel_flag']} ${supplier[headers.key]}<c:if test="${supplier['contract_cancel_flag'] eq 1}"></del></c:if></td></c:when>--%>
 								
 								
                                 <c:when test="${reportType eq '6' and headers.key eq 'finance_no'}"><td><a href="${ctx}/oa/purchaseOrder/view?id=${supplier['po_id']}">${supplier[headers.key]}</a></td></c:when>

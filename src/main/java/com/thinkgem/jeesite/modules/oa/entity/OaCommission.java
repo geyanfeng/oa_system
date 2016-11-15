@@ -66,6 +66,7 @@ public class OaCommission extends DataEntity<OaCommission> {
 	private Double discount;
 	private Double returningAmount;
 	private Double extraAmount;
+	private Integer cancelFlag=0;		//撤销标志: 0为没有撤销, 1为撤销
 	
 	public OaCommission() {
 		super();
@@ -419,4 +420,7 @@ public class OaCommission extends DataEntity<OaCommission> {
 
 	public Double getExtraAmount(){return extraAmount;}
 	public void setExtraAmount(Double extraAmount){this.extraAmount = extraAmount;}
+
+	public Integer getCancelFlag(){return cancelFlag;}
+	public void setCancelFlag(Integer cancelFlag){this.cancelFlag = cancelFlag;}
 }

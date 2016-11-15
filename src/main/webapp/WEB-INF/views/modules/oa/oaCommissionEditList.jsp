@@ -141,7 +141,8 @@
                 <tr>
                     <input type="hidden" value="${contract.id}"/>
                     <td><a href="${ctx}/oa/contract/view?id=${contract.id}">
-                            ${contract.no} </a></td>
+                        <c:if test="${contract.cancelFlag eq 1}"><del class="text-danger"></c:if>${contract.no}<c:if test="${contract.cancelFlag eq 1}"></del></c:if>
+                             </a></td>
                     <td>${contract.customer.name}</td>
                     <td>${contract.name}</td>
                     <td><fmt:formatNumber type="number" value="${contract.customerCost}" maxFractionDigits="2" /></td>

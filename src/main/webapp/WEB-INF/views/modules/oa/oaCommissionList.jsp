@@ -140,7 +140,7 @@
                 <tr>
 
                     <td>${oaCommission.saler.name}</td>
-                    <td><a href="${ctx}/oa/contract/view?id=${oaCommission.contract.id}">${oaCommission.contract.no}</a>
+                    <td><a href="${ctx}/oa/contract/view?id=${oaCommission.contract.id}"><c:if test="${oaCommission.cancelFlag eq 1}"><del class="text-danger"></c:if>${oaCommission.contract.no}<c:if test="${oaCommission.cancelFlag eq 1}"></del></c:if></a>
                     </td>
                     <td><fmt:formatNumber type="number" value="${oaCommission.KSv}" maxFractionDigits="2" /></td>
                     <td><fmt:formatNumber type="number" value="${oaCommission.KCog}" maxFractionDigits="2" /></td>

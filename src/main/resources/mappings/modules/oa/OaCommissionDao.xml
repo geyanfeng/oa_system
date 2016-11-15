@@ -28,7 +28,8 @@
 		a3.sort AS "finance.sort",
 		a4.id AS "saler.id",
 		a4.name AS "saler.name",
-		a.status AS "status"
+		a.status AS "status",
+		a2.cancel_flag AS "cancelFlag"
 	</sql>
 	
 	<sql id="oaCommissionJoins">
