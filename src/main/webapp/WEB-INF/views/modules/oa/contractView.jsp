@@ -1143,8 +1143,13 @@
     <!--收款信息-->
     <a class="anchor" name="panel-4"></a>
     <div class="panel panel-default" id="panel-payment">
-        <div class="panel-heading"><h3 class="panel-title">收款信息</h3></div>
-        <div class="panel-body panel-collapse collapse in" id="payment-collapse">
+        <div class="panel-heading"><h3 class="panel-title">收款信息
+        	<div class="pull-right">
+                <a data-toggle="collapse" href="#payment-collapse" class="" aria-expanded="false"><i
+                        class="zmdi zmdi-minus"></i></a>
+            </div>
+        </h3></div>
+        <div class="panel-body panel-collapse collapse" id="payment-collapse">
             <div class="row">
                 <div class="col-sm-12">
                     收款周期：${fns:getDictLabel(contract.paymentCycle,"oa_payment_cycle" ,"" )}
@@ -1359,8 +1364,13 @@
     <!--物流信息-->
     <a class="anchor" name="panel-5"></a>
     <div class="panel panel-default">
-        <div class="panel-heading"><h3 class="panel-title">收货信息</h3></div>
-        <div class="panel-body panel-collapse collapse in" id="ship-collapse">
+        <div class="panel-heading"><h3 class="panel-title">收货信息
+        <div class="pull-right">
+                <a data-toggle="collapse" href="#ship-collapse" class="" aria-expanded="false"><i
+                        class="zmdi zmdi-minus"></i></a>
+            </div>
+        </h3></div>
+        <div class="panel-body panel-collapse collapse" id="ship-collapse">
             <c:choose>
                 <c:when test="${contract.act.taskDefKey eq 'verify_ship' or contract.act.taskDefKey eq 'split_po'}">
                     <div class="row">
@@ -1480,8 +1490,13 @@
     <!--附件-->
     <a class="anchor" name="panel-7"></a>
     <div class="panel panel-default" id="card_attachemnts">
-        <div class="panel-heading"><h3 class="panel-title">附件</h3></div>
-        <div class="panel-body">
+        <div class="panel-heading"><h3 class="panel-title">附件
+        <div class="pull-right">
+                <a data-toggle="collapse" href="#attch-collapse" class="" aria-expanded="false"><i
+                        class="zmdi zmdi-minus"></i></a>
+            </div>
+        </h3></div>
+        <div class="panel-body collapse" id="attch-collapse">
             <table id="attchmentTable" class="table table-striped table-condensed">
                 <thead>
                 <tr role="row">
