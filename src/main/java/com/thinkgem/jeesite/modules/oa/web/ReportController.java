@@ -180,18 +180,20 @@ public class ReportController extends BaseController {
 			}
 			// 设置排序参数
 			String orderBy = request.getParameter("orderBy");
-			if (!StringUtils.isNotBlank(orderBy)) {
-
-			}
-
-			if (reportType == 6 || reportType == 5) {
-				orderBy = "order by plan_pay_date desc";
-			} 
-			else if (reportType == 7) {
-				orderBy = "order by billing_date desc";
-			}
-			else {
-				orderBy = "";
+			if (StringUtils.isBlank(orderBy))
+				orderBy = page.getOrderBy();
+			if (StringUtils.isBlank(orderBy)) {
+				if (reportType == 6 || reportType == 5) {
+					orderBy = "order by plan_pay_date desc";
+				}
+				else if (reportType == 7) {
+					orderBy = "order by billing_date desc";
+				}
+				else {
+					orderBy = "";
+				}
+			} else{
+				orderBy = "order by " + orderBy;
 			}
 			Map queryMap = new LinkedHashMap();
 			queryMap.put("pageNo", page.getPageNo());
