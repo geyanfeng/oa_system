@@ -3,10 +3,10 @@
  */
 package com.thinkgem.jeesite.common.utils;
 
+import org.apache.commons.lang3.time.DateFormatUtils;
+
 import java.util.Arrays;
 import java.util.Date;
-
-import org.apache.commons.lang3.time.DateFormatUtils;
 
 /**
  * 时间计算工具类
@@ -16,11 +16,23 @@ import org.apache.commons.lang3.time.DateFormatUtils;
 public class TimeUtils {
 	
 	public static String toTimeString(long time) {
-		TimeUtils t = new TimeUtils(time);
+		/*TimeUtils t = new TimeUtils(time);
 		int day = t.get(TimeUtils.DAY);
 		int hour = t.get(TimeUtils.HOUR);
 		int minute = t.get(TimeUtils.MINUTE);
-		int second = t.get(TimeUtils.SECOND);
+		int second = t.get(TimeUtils.SECOND);*/
+        long nd = 1000 * 24 * 60 * 60;
+        long nh = 1000 * 60 * 60;
+        long nm = 1000 * 60;
+        long ns = 1000;
+        // 计算差多少天
+        long day = time / nd;
+        // 计算差多少小时
+        long hour = time % nd / nh;
+        // 计算差多少分钟
+        long minute = time % nd % nh / nm;
+        // 计算差多少秒//输出结果
+        long second = time % nd % nh % nm / ns;
 		StringBuilder sb = new StringBuilder();
 		if (day > 0){
 			sb.append(day).append("天");
