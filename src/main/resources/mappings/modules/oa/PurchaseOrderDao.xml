@@ -50,6 +50,9 @@
 		<include refid="purchaseOrderJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="no != null and no != ''">
+				AND a.no like concat('%',#{no},'%')
+			</if>
 			<if test="supplier != null and supplier.id != null and supplier.id != ''">
 				AND a.supplier_id = #{supplier.id}
 			</if>

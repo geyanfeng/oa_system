@@ -92,6 +92,9 @@
 		<include refid="contractJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="no != null and no != ''">
+				AND a.no like concat('%',#{no},'%')
+			</if>
 			<if test="contractType != null and contractType != ''">
 				AND a.contract_type = #{contractType}
 			</if>

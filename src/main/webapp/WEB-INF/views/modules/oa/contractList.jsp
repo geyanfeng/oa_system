@@ -155,15 +155,13 @@
 						name="isSelect" value="${isSelect}" />
 				</div>
 
+				<div class="form-group m-r-10">
+					<label>合同号：</label>
+					<form:input path="no" class="input-small form-control" cssStyle="width: 150px"></form:input>
+				</div>
 
 				<div class="form-group m-r-10">
 					<label>客户：</label>
-
-					<%-- <sys:treeselect id="customer" name="customer.id" value="${contract.customer.id}"
-                                labelName="customer.name" labelValue="${contract.customer.name}"
-                                title="客户" url="/oa/customer/treeData" cssClass="input-small input-sm"
-                                allowClear="true" notAllowSelectParent="true" buttonIconCss="input-sm"/>
---%>
 					<form:select path="customer.id" class="input-small form-control" id="customer"
 						cssStyle="width: 150px">
 						<form:option value="" label="" />

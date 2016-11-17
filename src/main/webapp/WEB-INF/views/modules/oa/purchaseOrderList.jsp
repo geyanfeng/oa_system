@@ -52,7 +52,10 @@
 			<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 			<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 			<sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();"/>
-
+			<div class="form-group m-r-10">
+				<label>订单号：</label>
+				<form:input path="no" class="input-small form-control" cssStyle="width: 150px"></form:input>
+			</div>
 			<div class="form-group m-r-10">
 				<label>日期：</label>
 <div class="input-group">

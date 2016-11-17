@@ -74,6 +74,12 @@
 					<input name="contractType" value="${contract.contractType}" /> <input
 						name="isSelect" value="${isSelect}" />
 				</div>
+
+				<div class="form-group m-r-10">
+					<label>合同号：</label>
+					<form:input path="no" class="input-small form-control" cssStyle="width: 150px"></form:input>
+				</div>
+
 				<div class="form-group m-r-10">
 					<label>客户：</label>
 

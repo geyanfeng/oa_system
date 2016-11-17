@@ -47,7 +47,10 @@
             <div class="hidden">
                 <input name="targetType" value="${targetType}" />
             </div>
-
+            <div class="form-group m-r-10">
+                <label>合同号：</label>
+                <form:input path="no" class="input-small form-control" cssStyle="width: 150px"></form:input>
+            </div>
             <div class="form-group m-r-10">
                 <label>合同名称：</label>
                 <form:input path="searchName" class="form-control input-small"></form:input>
