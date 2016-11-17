@@ -356,11 +356,11 @@
     <div class="panel panel-default" id="panel-invoice">
         <div class="panel-heading"><h3 class="panel-title">开票信息
             <div class="pull-right">
-                <a data-toggle="collapse" href="#invoice-collapse" class="" aria-expanded="true"><i
+                <a data-toggle="collapse" href="#invoice-collapse" class="" aria-expanded="false"><i
                         class="zmdi zmdi-minus"></i></a>
             </div></h3>
         </div>
-        <div class="panel-body" id="invoice-collapse">
+        <div class="panel-body collapse" id="invoice-collapse">
             <div class="row">
                 <div class="col-sm-12">
                     发票类型：${fns:getDictLabel(contract.invoiceType,"oa_invoice_type" ,"" )}
