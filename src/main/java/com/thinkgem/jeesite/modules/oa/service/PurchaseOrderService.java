@@ -432,7 +432,7 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 			if(!pass){
 				purchaseOrder.setStatus("95");//验收失败待发货
 			} else{
-				if("verify_ship_1".equals(taskDefKey)){
+				if("verify_receiving_1".equals(taskDefKey)){
 					purchaseOrder.setStatus("70");//已验收待审核
 				} else{
 					purchaseOrder.setStatus("100");//已验收已完成
