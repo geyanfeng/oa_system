@@ -88,6 +88,7 @@
         #zy-table td{
             text-align: left;
         }
+        #contentTable td{word-wrap:break-word;word-break:break-all;}
     </style>
 </head>
 <body>
@@ -218,7 +219,7 @@
                     <td>${item.create_date}</td>
                     <td><a href="${ctx}/oa/contract/view?id=${item.id}" target="mainFrame">${item.contract_no}</a></td>
                     <td>${item.company_name}</td>
-                    <td>${item.cust_name}</td>
+                    <td style="width:80px;">${item.cust_name}</td>
                     <td>${item.saler_name}</td>
                     <td><c:if test="${not empty item.amount && item.amount ne '0E-8'}"><fmt:formatNumber type="number" value="${item.amount}" maxFractionDigits="2" /></c:if></td>
                     <td><c:if test="${not empty item.contract_ml && item.contract_ml ne '0E-8'}"><fmt:formatNumber type="number" value="${item.contract_ml}" maxFractionDigits="2" /></c:if></td>
@@ -228,7 +229,7 @@
                     <td><fmt:formatNumber type="number" value="${(not empty item.k3_amount && item.k3_amount ne '0E-8')? item.k3_amount :0}" maxFractionDigits="2" /></td>
                     <td><fmt:formatNumber type="number" value="${(not empty item.k4_amount && item.k4_amount ne '0E-8')? item.k4_amount :0}" maxFractionDigits="2" /></td>
                     <td><fmt:formatNumber type="number" value="${(not empty item.k5_amount && item.k5_amount ne '0E-8')? item.k5_amount :0}" maxFractionDigits="2" /></td>
-                    <td><c:if test="${item.cancel_flag eq 1}"><del class="text-danger"></c:if>${item.contract_status}<c:if test="${item.cancel_flag eq 1}"></del></c:if></td>
+                    <td style="width:50px;"><c:if test="${item.cancel_flag eq 1}"><del class="text-danger"></c:if>${item.contract_status}<c:if test="${item.cancel_flag eq 1}"></del></c:if></td>
                 </tr>
             </c:forEach>
             </tbody>
