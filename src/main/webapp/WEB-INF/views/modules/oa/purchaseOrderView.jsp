@@ -225,11 +225,12 @@
             </script>--%>
             <c:forEach items="${purchaseOrder.purchaseOrderFinanceList}" var="finance" varStatus="status">
                 <div class="row" id="payment-installment_${status.count}">
-                    <div class="col-sm-3">付款金额：<fmt:formatNumber type="number" value="${finance.amount}" maxFractionDigits="2" /></div>
+                    <div class="col-sm-2">付款金额：<fmt:formatNumber type="number" value="${finance.amount}" maxFractionDigits="2" /></div>
                     <div class="col-sm-2">账期：<fmt:formatNumber type="number" value="${finance.zq}" maxFractionDigits="0" /></div>
-                    <div class="col-sm-3">付款方式：${fns:getDictLabel(finance.payMethod, "oa_payment_method" ,"银行转帐" )}</div>
+                    <div class="col-sm-2">付款方式：${fns:getDictLabel(finance.payMethod, "oa_payment_method" ,"银行转帐" )}</div>
                     <div class="col-sm-2">付款期限：<fmt:formatDate value="${finance.activeDate}" pattern="yyyy-MM-dd" /></div>
                     <div class="col-sm-2">付款条件：${finance.payCondition eq 0 ? '预付':'后付'}</div>
+                    <div class="col-sm-2">状态：${finance.status eq 1 ? '未付款':'已付款'}</div>
                 </div>
             </c:forEach>
             <div id="payment-body" data-idx="1">
