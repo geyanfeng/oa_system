@@ -24,7 +24,7 @@ public class PurchaseOrder extends ActEntity<PurchaseOrder> {
 	private String addressType;		// 地址类型
 	private String address;		// 地址
 	private Supplier supplier;		// 供应商
-	private Integer paymentPointnum;		// 帐期点数
+	private Double paymentPointnum;		// 帐期点数
 	private Integer shipDate;		// 预计到货时间
 	private String remark;		// 备注
 	private Double amount;		// 金额
@@ -118,11 +118,11 @@ public class PurchaseOrder extends ActEntity<PurchaseOrder> {
 		this.supplier = supplier;
 	}
 
-	public Integer getPaymentPointnum() {
+	public Double getPaymentPointnum() {
 		return paymentPointnum;
 	}
 
-	public void setPaymentPointnum(Integer paymentPointnum) {
+	public void setPaymentPointnum(Double paymentPointnum) {
 		this.paymentPointnum = paymentPointnum;
 	}
 	
