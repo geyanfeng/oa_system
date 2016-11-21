@@ -150,7 +150,8 @@ public class PurchaseOrderController extends BaseController {
 			}
 		}
 		//源url地址
-		model.addAttribute("sUrl", Encodes.urlEncode(request.getHeader("referer")));
+		if(StringUtils.isNotBlank(request.getHeader("referer")))
+			model.addAttribute("sUrl", Encodes.urlEncode(request.getHeader("referer")));
 		return "modules/oa/" + view;
 	}
 

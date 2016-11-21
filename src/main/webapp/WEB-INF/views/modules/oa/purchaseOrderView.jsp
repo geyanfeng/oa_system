@@ -378,14 +378,14 @@
     </div>
     </c:if>
 
-
     <div class="form-group">
         <div class="text-center">
         	<input id="btnCancel" class="btn btn-inverse" type="button" value="返 回" onClick="history.go(-1)"/>
+            <c:if test="${empty purchaseOrder.procInsId && not empty param.temp}">
+                <c:set var="submitText" value="提交审批"/>
+                <input id="btnSubmit" class="btn btn-custom" type="submit" value="${submitText}" onClick="$('#flag').val('submit_audit')"/>&nbsp;
+            </c:if>
             <c:if test="${not empty purchaseOrder.act.taskDefKey}">
-            <%--<c:if test="${not empty purchaseOrder.act.taskDefKey || empty purchaseOrder.act.procInsId}">--%>
-                <%--<c:set var="submitText" value="提交审批"/>--%>
-
                 <c:if test="${purchaseOrder.act.taskDefKey eq 'business_person_createbill'}">
                     <c:set var="submitText" value="确认下单"/>
                 </c:if>

@@ -342,6 +342,8 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 			}
 			//purchaseOrder.getAct().setComment("商务下单");
 			purchaseOrder.setStatus("10");//待下单
+			purchaseOrder.preUpdate();
+			purchaseOrderDao.update(purchaseOrder);
 
 			vars.put("status", purchaseOrder.getStatus());
 			actTaskService.startProcess(ActUtils.PD_PO_AUDIT[0], ActUtils.PD_PO_AUDIT[1], purchaseOrder.getId(), purchaseOrder.getNo(), vars);
