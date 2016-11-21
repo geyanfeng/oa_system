@@ -282,7 +282,7 @@ th, td {
 								<th>合同售价</th>
 								<th>采购成本</th>
 								<th>毛利</th>
-								<th>毛利率(%)</th>
+								<th>毛利率</th>
 							</tr>
 						</thead>
 						<tbody id="contractProductList">
@@ -310,7 +310,7 @@ th, td {
 								{{row.ml}}
 							</td>
 							<td>
-								{{row.mll}}
+								{{row.mll}}%
 							</td>
 						</tr>
 						//-->
