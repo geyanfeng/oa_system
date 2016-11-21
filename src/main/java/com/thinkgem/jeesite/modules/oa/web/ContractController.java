@@ -496,7 +496,7 @@ public class ContractController extends BaseController {
 	public String recallApprove(@PathVariable String contractId, @RequestBody ContractRecallApprove recallApprove,HttpServletResponse response){
 		try{
 			contractService.recallApprove(contractId, recallApprove);
-			return renderString(response, "撤回申请提交成功!");
+			return renderString(response, "提交成功,等待审核通过后,进行下步操作!");
 		}catch(Exception e){
 			return renderString(response, "撤回申请提交失败!");
 		}
