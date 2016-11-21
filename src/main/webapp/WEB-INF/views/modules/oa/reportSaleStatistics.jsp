@@ -9,18 +9,17 @@
             $("select").select2({allowClear: true});
 
           	//处理表头
-            var _top_ = 63 + $('#contentTable').offset().top - $('#contentTable thead').outerHeight();
-            if($('#contentTable tbody tr').eq(0)){
-            	$('#contentTable thead th').each(function(i){
-            		$(this).css({'width':$('#contentTable tbody tr').eq(0).find('td').eq(i).outerWidth()+'px'});
-            		$('#contentTable tbody tr').eq(0).find('td').eq(i).css({'width':$('#contentTable tbody tr').eq(0).find('td').eq(i).outerWidth()+'px'});
+            var _top_ = 63 + $('.J_contentTable').offset().top - $('.J_contentTable thead').outerHeight();
+            if($('.J_contentTable tbody tr').eq(0)){
+            	$('.J_contentTable thead th').each(function(i){
+            		$(this).css({'width':$('.J_contentTable tbody tr').eq(0).find('td').eq(i).outerWidth()+'px'});
             	});
             } 
             $(parent.window).scroll(function(){
             	if(parent&& parent.window &&$(parent.window).scrollTop() > _top_){
-            		$('#contentTable thead').css({'position':'fixed','top':$(parent.window).scrollTop(),'zIndex':'1000'});
+            		$('.J_contentTable thead').css({'position':'fixed','top':$(parent.window).scrollTop(),'zIndex':'1000'});
             	}else{
-            		$('#contentTable thead').css({'position':'static'});
+            		$('.J_contentTable thead').css({'position':'static'});
             	}
             });
             
@@ -194,7 +193,7 @@
                 </table>
             </div>
         </div>
-        <table id="contentTable" class="table table-striped m-0">
+        <table id="contentTable" class="table table-striped m-0 J_contentTable">
             <thead style="background:#fff;">
             <tr>
                 <th class="sort-column c.create_date">日期</th>

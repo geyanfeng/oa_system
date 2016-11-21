@@ -33,6 +33,13 @@
       
       toggle_slimscroll(".slimscrollleft");
       $("body").trigger("resize");
+      
+
+      if($(window.frames["mainFrame"].document).find('.J_contentTable tbody tr').eq(0)){
+    	  $(window.frames["mainFrame"].document).find('.J_contentTable thead th').each(function(i){
+      		$(this).css({'width':$(window.frames["mainFrame"].document).find('.J_contentTable tbody tr').eq(0).find('td').eq(i).outerWidth()+'px'});
+      	});
+      } 
     },
     //menu item click
     Sidemenu.prototype.menuItemClick = function(e) {

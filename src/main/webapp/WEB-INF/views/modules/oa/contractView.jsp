@@ -419,7 +419,7 @@
                     <th>数量</th>
                     <th>单位</th>
                     <th>金额</th>
-                    <th>备注</th>
+                    <th width="200">备注</th>
                 </tr>
                 </thead>
                 <tbody id="contractProductList">
