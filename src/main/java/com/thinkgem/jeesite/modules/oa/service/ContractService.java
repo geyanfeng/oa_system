@@ -691,9 +691,10 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                                 restorePoWorkFlow(contract.getId());//恢复订单流程
                                 //退合同预付款
                                 contractRefundService.saveRefund(contract, currentTaskVars.containsKey("recall_id")? currentTaskVars.get("recall_id").toString():"");
-                            }else{
-                                autoStartPOFlow(contract);//自动启动合同相关的所有订单流程
                             }
+
+                            autoStartPOFlow(contract);//自动启动合同相关的所有订单流程
+
                             //第一笔是否为预付
                             if(checkFirstPaymentIsYF(contract)){
                                 vars.put("isyf", 1);
@@ -845,8 +846,10 @@ public class ContractService extends CrudService<ContractDao, Contract> {
     private void autoStartPOFlow(Contract contract){
         List<PurchaseOrder> poList = purchaseOrderService.getPoListByContractId(contract.getId());
         for(PurchaseOrder purchaseOrder:poList){
-            purchaseOrder.getAct().setFlag("submit_audit");
-            purchaseOrderService.audit(purchaseOrder);
+            if(StringUtils.isBlank(purchaseOrder.getProcInsId())) {
+                purchaseOrder.getAct().setFlag("submit_audit");
+                purchaseOrderService.audit(purchaseOrder);
+            }
         }
     }
 
