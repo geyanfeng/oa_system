@@ -356,11 +356,11 @@
     <div class="panel panel-default" id="panel-invoice">
         <div class="panel-heading"><h3 class="panel-title">开票信息
             <div class="pull-right">
-                <a data-toggle="collapse" href="#invoice-collapse" class="" aria-expanded="true"><i
+                <a data-toggle="collapse" href="#invoice-collapse" class="" aria-expanded="false"><i
                         class="zmdi zmdi-minus"></i></a>
             </div></h3>
         </div>
-        <div class="panel-body collapse in" id="invoice-collapse">
+        <div class="panel-body collapse" id="invoice-collapse">
             <div class="row">
                 <div class="col-sm-12">
                     发票类型：${fns:getDictLabel(contract.invoiceType,"oa_invoice_type" ,"" )}
@@ -1145,11 +1145,11 @@
     <div class="panel panel-default" id="panel-payment">
         <div class="panel-heading"><h3 class="panel-title">收款信息
         	<div class="pull-right">
-                <a data-toggle="collapse" href="#payment-collapse" class="" aria-expanded="false"><i
+                <a data-toggle="collapse" href="#payment-collapse" class="" aria-expanded="true"><i
                         class="zmdi zmdi-minus"></i></a>
             </div>
         </h3></div>
-        <div class="panel-body panel-collapse collapse" id="payment-collapse">
+        <div class="panel-body panel-collapse collapse in" id="payment-collapse">
             <div class="row">
                 <div class="col-sm-12">
                     收款周期：${fns:getDictLabel(contract.paymentCycle,"oa_payment_cycle" ,"" )}
