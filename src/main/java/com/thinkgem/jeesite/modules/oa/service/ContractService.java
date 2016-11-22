@@ -326,6 +326,12 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             contractFinance.setPayMethod(paymentObj.get("payment_onetime_paymentMethod").toString());
             contractFinance.setAmount(Double.parseDouble(paymentObj.get("payment_onetime_amount").toString()));
             contractFinance.setPayCondition(Integer.parseInt(paymentObj.get("payment_onetime_payCondition").toString()));
+
+            Integer payment_onetime_time = 0;
+            if(paymentObj.get("payment_onetime_time")!=null && isNotBlank(paymentObj.get("payment_onetime_time").toString()))
+                payment_onetime_time = Integer.parseInt(paymentObj.get("payment_onetime_time").toString());
+            contractFinance.setZq(payment_onetime_time);
+
             contractFinance.setSort(1);
             contractFinance.setStatus(1);
             //如果收款金额为0,状态自动改成已收款
@@ -360,6 +366,12 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                     contractFinance.setPayMethod(paymentObj.get("payment_installment_paymentMethod").toString());
                     contractFinance.setAmount(Double.parseDouble(paymentObj.get("payment_installment_amount").toString()));
                     contractFinance.setPayCondition(Integer.parseInt(paymentObj.get("payment_installment_payCondition").toString()));
+
+                    Integer payment_installment_time = 0;
+                    if(paymentObj.get("payment_installment_time")!=null && isNotBlank(paymentObj.get("payment_installment_time").toString()))
+                        payment_installment_time = Integer.parseInt(paymentObj.get("payment_installment_time").toString());
+                    contractFinance.setZq(payment_installment_time);
+
                     contractFinance.setSort(sort);
                     contractFinance.setStatus(1);
                     //如果收款金额为0,状态自动改成已收款
@@ -440,6 +452,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             Integer payment_onetime_time = 0;
             if(paymentObj.get("payment_onetime_time")!=null && isNotBlank(paymentObj.get("payment_onetime_time").toString()))
                 payment_onetime_time = Integer.parseInt(paymentObj.get("payment_onetime_time").toString());
+            contractFinance.setZq(payment_onetime_time);
             contractFinance.setBillingDate(cc.getTime());//设置开票日期
             if(contractFinance.getPlanPayDate()==null){//设置预付款时间
                 cc.add(Calendar.DATE, payment_onetime_time);
@@ -453,6 +466,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             Integer payment_installment_time = 0;
             if(paymentObj.get("payment_installment_time")!=null && isNotBlank(paymentObj.get("payment_installment_time").toString()))
                 payment_installment_time = Integer.parseInt(paymentObj.get("payment_installment_time").toString());
+            contractFinance.setZq(payment_installment_time);
             contractFinance.setBillingDate(cc.getTime());//设置开票日期
             if(contractFinance.getPlanPayDate()==null) {//设置预付款时间
                 cc.add(Calendar.DATE, payment_installment_time);

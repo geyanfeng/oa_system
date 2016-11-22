@@ -21,6 +21,7 @@ public class ContractFinance extends DataEntity<ContractFinance> {
 	private Contract contract;		// 合同 父类
 	private Integer payCondition = 1;		//付款条件,0为预付,1为后付, 默认为后付
 	private String paymentCycle;		// 付款周期
+	private Integer zq = 0;				//帐期
 	private Date billingDate;		// 开票时间
 	private String payMethod;		// 收款方式
 	private Date planPayDate;		// 预计付款时间
@@ -161,4 +162,11 @@ public class ContractFinance extends DataEntity<ContractFinance> {
 
 	public Integer getPayCondition(){return payCondition;}
 	public void setPayCondition(Integer payCondition){this.payCondition = payCondition;}
+
+	public Integer getZq() {
+		return zq;
+	}
+	public void setZq(Integer zq) {
+		this.zq = zq;
+	}
 }
