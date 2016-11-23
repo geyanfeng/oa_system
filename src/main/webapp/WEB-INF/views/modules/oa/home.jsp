@@ -306,7 +306,7 @@
             <div class="card-box" style="height: 200px;">
                 <h4 class="header-title m-t-0">收款情况</h4>
                 <div class="text-center m-t-30">
-                    <h2 class="text-custom">应收${financeList[0]['allAmount']}</h2>
+                    <h2 class="text-custom">应收<fmt:formatNumber type="number" value="${financeList[0]['allAmount']}" maxFractionDigits="2" /></h2>
                     <ul class="list-unstyled">
                         <c:choose>
                             <c:when test="${fn:length(financeList) eq 0}">
@@ -315,11 +315,11 @@
                                 <li>逾期：<span class="text-danger">0</span></li>
                             </c:when>
                             <c:otherwise>
-                                <li>已收：${not empty financeList[0]['payAmount'] ? financeList[0]['payAmount'] : 0}</li>
+                                <li>已收：<fmt:formatNumber type="number" value="${not empty financeList[0]['payAmount'] ? financeList[0]['payAmount'] : 0}" maxFractionDigits="2" /></li>
                                 <li>
-                                    未收：${not empty financeList[0]['noPayAmount'] ? financeList[0]['noPayAmount'] : 0}</li>
+                                    未收：<fmt:formatNumber type="number" value="${not empty financeList[0]['noPayAmount'] ? financeList[0]['noPayAmount'] : 0}" maxFractionDigits="2" /></li>
                                 <li>逾期：<span
-                                        class="text-danger">${not empty financeList[0]['overdueAmount']? financeList[0]['overdueAmount']:0}</span>
+                                        class="text-danger"><fmt:formatNumber type="number" value="${not empty financeList[0]['overdueAmount']? financeList[0]['overdueAmount']:0}" maxFractionDigits="2" /></span>
                                 </li>
                             </c:otherwise>
                         </c:choose>
@@ -344,12 +344,12 @@
                         </c:when>
                         <c:otherwise>
                             <h2 class="text-custom">
-                                应付${not empty financeList[0]['toAllAmount'] ? financeList[0]['toAllAmount'] : 0}</h2>
+                                应付<fmt:formatNumber type="number" value="${not empty financeList[0]['toAllAmount'] ? financeList[0]['toAllAmount'] : 0}" maxFractionDigits="2" /></h2>
                             <ul class="list-unstyled">
                                 <li>
-                                    已付：${not empty financeList[0]['toPayAmount'] ? financeList[0]['toPayAmount'] : 0}</li>
+                                    已付：<fmt:formatNumber type="number" value="${not empty financeList[0]['toPayAmount'] ? financeList[0]['toPayAmount'] : 0}" maxFractionDigits="2" /></li>
                                 <li>
-                                    未付：${not empty financeList[0]['toNoPayAmount'] ? financeList[0]['toNoPayAmount'] : 0}</li>
+                                    未付：<fmt:formatNumber type="number" value="${not empty financeList[0]['toNoPayAmount'] ? financeList[0]['toNoPayAmount'] : 0}" maxFractionDigits="2" /></li>
                             </ul>
                         </c:otherwise>
                     </c:choose>
@@ -369,7 +369,7 @@
                         </c:when>
                         <c:otherwise>
                             <h2 class="text-custom">
-                                待开票${not empty financeList[0]['noBillAmount'] ? financeList[0]['noBillAmount'] : 0}</h2>
+                                待开票<fmt:formatNumber type="number" value="${not empty financeList[0]['noBillAmount'] ? financeList[0]['noBillAmount'] : 0}" maxFractionDigits="2" /></h2>
                         </c:otherwise>
                     </c:choose>
                 </div>
