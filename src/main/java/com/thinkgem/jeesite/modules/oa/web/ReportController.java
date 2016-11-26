@@ -489,8 +489,8 @@ public class ReportController extends BaseController {
 			queryMap.put("pageSize", 999999999);
 			queryMap.put("type", searchParams.getReportType().equals("3") ? 1 : 3);
 			List<Map> exportList = reportDao.reportSaleStatistics(queryMap);
-			String[] headers = new String[]{"日期","合同号","抬头","客户","销售","合同金额","K1","K2","K3","K4","K5","合同状态"};
-			String[] fieldNames = new String[]{"create_date","contract_no","company_name","cust_name","saler_name","amount","k1_amount","k2_amount","k3_amount","k4_amount","k5_amount","contract_status"};
+			String[] headers = new String[]{"日期","合同号","抬头","客户","销售","合同金额","毛利","毛利率","K1","K2","K3","K4","K5","合同状态"};
+			String[] fieldNames = new String[]{"create_date","contract_no","company_name","cust_name","saler_name","amount","contract_ml","contract_mll","k1_amount","k2_amount","k3_amount","k4_amount","k5_amount","contract_status"};
 			new ExportExcel("销售统计报表", headers).setMapList(exportList, fieldNames).write(response, "销售统计报表.xlsx").dispose();
 			return "出错";
 		}
