@@ -336,6 +336,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             contractFinance.setStatus(1);
             //如果收款金额为0,状态自动改成已收款
             if(contractFinance.getAmount() == 0){
+                contractFinance.setBillingDate(new Date());
                 contractFinance.setPlanPayDate(new Date());
                 contractFinance.setPayDate(new Date());
                 contractFinance.setStatus(3);
@@ -376,6 +377,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                     contractFinance.setStatus(1);
                     //如果收款金额为0,状态自动改成已收款
                     if(contractFinance.getAmount() == 0){
+                        contractFinance.setBillingDate(new Date());
                         contractFinance.setPlanPayDate(new Date());
                         contractFinance.setPayDate(new Date());
                         contractFinance.setStatus(3);
@@ -416,6 +418,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
 
                 //如果收款金额为0,状态自动改成已收款
                 if(contractFinance.getAmount() == 0) {
+                    contractFinance.setBillingDate(contractFinance.getPlanPayDate());
                     contractFinance.setPayDate(contractFinance.getPlanPayDate());
                     contractFinance.setStatus(3);
                 }
