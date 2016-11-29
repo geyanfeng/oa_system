@@ -396,6 +396,7 @@ public class ReportController extends BaseController {
 	@RequiresPermissions("oa:report:saleStatistics")
 	@RequestMapping(value = { "saleStatistics" })
 	public String sale_statistics(SearchParams searchParams, HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+		String view= "modules/oa/reportSaleStatistics";
 		//设置默认类型
 		if (StringUtils.isBlank(searchParams.getReportType())) {
 			searchParams.setReportType("3");
@@ -413,6 +414,7 @@ public class ReportController extends BaseController {
 
 		model.addAttribute("customerList", customerService.findList(new Customer()));//客户列表
 
+		if(StringUtils.isBlank(searchParams.getFlag())) return view;
 
 		String sqlCondition = "";
 
@@ -495,6 +497,6 @@ public class ReportController extends BaseController {
 			return "出错";
 		}
 
-		return "modules/oa/reportSaleStatistics";
+		return view;
 	}
 }
