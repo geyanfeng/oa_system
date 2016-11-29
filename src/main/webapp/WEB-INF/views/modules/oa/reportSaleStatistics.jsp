@@ -176,11 +176,11 @@
                             <td>销售总费用：<fmt:formatNumber type="number" value="${(not empty summary.customer_cost && summary.customer_cost ne '0E-8') ? summary.customer_cost : 0}" maxFractionDigits="2" /></td>
                         </tr>
                         <tr>
-                            <td>K1总金额：<fmt:formatNumber type="number" value="${(not empty summary.k1_amount && summary.k1_amount ne '0E-8') ? summary.k1_amount : 0}" maxFractionDigits="2" /></td>
-                            <td>K2总金额：<fmt:formatNumber type="number" value="${(not empty summary.k2_amount && summary.k2_amount ne '0E-8') ? summary.k2_amount : 0}" maxFractionDigits="2" /></td>
-                            <td>K3总金额：<fmt:formatNumber type="number" value="${(not empty summary.k3_amount && summary.k3_amount ne '0E-8') ? summary.k3_amount : 0}" maxFractionDigits="2" /></td>
-                            <td>K4总金额：<fmt:formatNumber type="number" value="${(not empty summary.k4_amount && summary.k4_amount ne '0E-8') ? summary.k4_amount : 0}" maxFractionDigits="2" /></td>
-                            <td>K5总金额：<fmt:formatNumber type="number" value="${(not empty summary.k5_amount && summary.k5_amount ne '0E-8') ? summary.k5_amount : 0}" maxFractionDigits="2" /></td>
+                            <td>K1毛利：<fmt:formatNumber type="number" value="${(not empty summary.k1_amount && summary.k1_amount ne '0E-8') ? summary.k1_amount : 0}" maxFractionDigits="2" /></td>
+                            <td>K2毛利：<fmt:formatNumber type="number" value="${(not empty summary.k2_amount && summary.k2_amount ne '0E-8') ? summary.k2_amount : 0}" maxFractionDigits="2" /></td>
+                            <td>K3毛利：<fmt:formatNumber type="number" value="${(not empty summary.k3_amount && summary.k3_amount ne '0E-8') ? summary.k3_amount : 0}" maxFractionDigits="2" /></td>
+                            <td>K4毛利：<fmt:formatNumber type="number" value="${(not empty summary.k4_amount && summary.k4_amount ne '0E-8') ? summary.k4_amount : 0}" maxFractionDigits="2" /></td>
+                            <td>K5毛利：<fmt:formatNumber type="number" value="${(not empty summary.k5_amount && summary.k5_amount ne '0E-8') ? summary.k5_amount : 0}" maxFractionDigits="2" /></td>
                         </tr>
                         <tr>
                             <td>K1-K4毛利：<fmt:formatNumber type="number" value="${(not empty summary.other_ml && summary.other_ml ne '0E-8') ? summary.other_ml : 0}" maxFractionDigits="2" /></td>
