@@ -43,6 +43,39 @@
                             $('.navbar').css('top', parent.window.document.body.scrollTop)
                     });
             }
+
+            function disableButtons(){
+                $("#btnSubmit").attr("disabled","disabled");
+                $("#btnUnAudit").attr("disabled","disabled");
+            }
+
+            function enableButtons(){
+                $("#btnSubmit").removeAttr("disabled");
+                $("#btnUnAudit").removeAttr("disabled");
+            }
+
+            $("#inputForm").submit(function(){
+                disableButtons();
+            });
+
+            $("#inputForm").validate({
+                submitHandler: function (form) {
+                    loading('正在提交，请稍等...');
+                    form.submit();
+                },
+                invalidHandler: function(){
+                    enableButtons();
+                },
+                errorContainer: "#messageBox",
+                errorPlacement: function (error, element) {
+                    $("#messageBox").text("输入有误，请先更正。");
+                    if (element.is(":checkbox") || element.is(":radio") || element.parent().is(".input-append")) {
+                        error.appendTo(element.parent().parent());
+                    } else {
+                        error.insertAfter(element);
+                    }
+                }
+            });
         });
     </script>
 </head>
@@ -417,7 +450,7 @@
                 <c:choose>
                     <c:when test="${purchaseOrder.act.taskDefKey eq 'verify_receiving_1' || purchaseOrder.act.taskDefKey eq 'verify_receiving_2'}">
                         
-                        <input id="btnSubmit" class="btn btn-info" type="submit" value="驳 回" onClick="$('#flag').val('no')"/>
+                        <input id="btnUnAudit" class="btn btn-info" type="submit" value="驳 回" onClick="$('#flag').val('no')"/>
                         <input id="btnSubmit" class="btn btn-primary" type="submit" value="同 意" onClick="$('#flag').val('yes')"/>
                     </c:when>
                     <c:otherwise>

@@ -53,11 +53,28 @@ th, td {
 </style>
 <script>
 	$(function() {
+		function disableButtons(){
+			$("#btnSubmit").attr("disabled","disabled");
+			//$("#btnUnAudit").attr("disabled","disabled");
+		}
+
+		function enableButtons(){
+			$("#btnSubmit").removeAttr("disabled");
+			//$("#btnUnAudit").removeAttr("disabled");
+		}
+
+		$("#inputForm").submit(function(){
+			disableButtons();
+		});
+
 		$("#inputForm").validate(
 				{
 					submitHandler : function(form) {
 						loading('正在提交，请稍等...');
 						form.submit();
+					},
+					invalidHandler: function(){
+						enableButtons();
 					},
 					errorContainer : "#messageBox",
 					errorPlacement : function(error, element) {

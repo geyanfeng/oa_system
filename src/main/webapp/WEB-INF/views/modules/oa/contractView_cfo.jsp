@@ -47,6 +47,21 @@ th, td {
 </style>
 <script>
 	$(function() {
+
+		function disableButtons(){
+			$("#btnSubmit").attr("disabled","disabled");
+			$("#btnUnAudit").attr("disabled","disabled");
+		}
+
+		function enableButtons(){
+			$("#btnSubmit").removeAttr("disabled");
+			$("#btnUnAudit").removeAttr("disabled");
+		}
+
+		$("#inputForm").submit(function(){
+			disableButtons();
+		});
+
 		$.validator.addMethod("val-comment", function(value) {
 			return !($('#flag').val() === "no" && value === "");
 		}, "请输入驳回信息");
@@ -60,6 +75,9 @@ th, td {
 					submitHandler : function(form) {
 						loading('正在提交，请稍等...');
 						form.submit();
+					},
+					invalidHandler: function(){
+						enableButtons();
 					},
 					errorContainer : "#messageBox",
 					errorPlacement : function(error, element) {
@@ -393,7 +411,7 @@ th, td {
 					<c:if
 						test="${contract.contractType ne '1' and not empty contract.id and not empty contract.act.taskDefKey}">
 
-						<input id="btnSubmit" class="btn btn-info" type="submit"
+						<input id="btnUnAudit" class="btn btn-info" type="submit"
 							value="驳回" onClick="$('#flag').val('no')" />
             	<input id="btnSubmit" class="btn btn-primary" type="submit"
 							value="同 意" onClick="$('#flag').val('yes')" />

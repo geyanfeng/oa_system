@@ -51,6 +51,39 @@
                             $('.navbar').css('top', parent.window.document.body.scrollTop)
                     });
             }
+
+            function disableButtons(){
+                $("#btnSubmit").attr("disabled","disabled");
+                //$("#btnUnAudit").attr("disabled","disabled");
+            }
+
+            function enableButtons(){
+                $("#btnSubmit").removeAttr("disabled");
+                //$("#btnUnAudit").removeAttr("disabled");
+            }
+
+            $("#inputForm").submit(function(){
+                disableButtons();
+            });
+
+            $("#inputForm").validate({
+                submitHandler: function (form) {
+                    loading('正在提交，请稍等...');
+                    form.submit();
+                },
+                invalidHandler: function(){
+                    enableButtons();
+                },
+                errorContainer: "#messageBox",
+                errorPlacement: function (error, element) {
+                    $("#messageBox").text("输入有误，请先更正。");
+                    if (element.is(":checkbox") || element.is(":radio") || element.parent().is(".input-append")) {
+                        error.appendTo(element.parent().parent());
+                    } else {
+                        error.insertAfter(element);
+                    }
+                }
+            });
         });
     </script>
 </head>
@@ -144,7 +177,7 @@
         <div class="text-center">
             <input id="btnCancel" class="btn btn-inverse" type="button" value="返 回" onclick="history.go(-1)"/>&nbsp;
             <c:if test="${refundMain.act.hiddenButton ne '1'}">
-            <input id="btnSubmit" class="btn btn-custom" type="button" value="确认收款" onclick="return confirmx('请确认已收到这笔款项？', function(){document.forms[0].submit();})"/>
+            <input id="btnSubmit" class="btn btn-custom" type="button" value="确认收款" onclick="return confirmx('请确认已收到这笔款项？', function(){document.forms[0].submit();},function(){enableButtons();})"/>
             </c:if>
         </div>
     </div>

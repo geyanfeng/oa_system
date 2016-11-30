@@ -38,6 +38,42 @@
         }
         th,td{text-align:left;}
     </style>
+    <script>
+        $(function(){
+            function disableButtons(){
+                $("#btnSubmit").attr("disabled","disabled");
+                //$("#btnUnAudit").attr("disabled","disabled");
+            }
+
+            function enableButtons(){
+                $("#btnSubmit").removeAttr("disabled");
+                //$("#btnUnAudit").removeAttr("disabled");
+            }
+
+            $("#inputForm").submit(function(){
+                disableButtons();
+            });
+
+            $("#inputForm").validate({
+                submitHandler: function (form) {
+                    loading('正在提交，请稍等...');
+                    form.submit();
+                },
+                invalidHandler: function(){
+                    enableButtons();
+                },
+                errorContainer: "#messageBox",
+                errorPlacement: function (error, element) {
+                    $("#messageBox").text("输入有误，请先更正。");
+                    if (element.is(":checkbox") || element.is(":radio") || element.parent().is(".input-append")) {
+                        error.appendTo(element.parent().parent());
+                    } else {
+                        error.insertAfter(element);
+                    }
+                }
+            });
+        });
+    </script>
 </head>
 <body data-spy="scroll" data-target="#navbar">
 

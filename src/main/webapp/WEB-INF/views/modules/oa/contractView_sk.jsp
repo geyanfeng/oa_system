@@ -39,6 +39,20 @@
         th,td{text-align:left;}
     </style>
     <script>
+        function disableButtons(){
+            $("#btnSubmit").attr("disabled","disabled");
+            //$("#btnUnAudit").attr("disabled","disabled");
+        }
+
+        function enableButtons(){
+            $("#btnSubmit").removeAttr("disabled");
+            //$("#btnUnAudit").removeAttr("disabled");
+        }
+
+        $("#inputForm").submit(function(){
+            disableButtons();
+        });
+
         $(function(){
             var amount = ${contract.amount};
             var currentAmount = ${finance.amount};
@@ -49,6 +63,9 @@
                 submitHandler: function (form) {
                     loading('正在提交，请稍等...');
                     form.submit();
+                },
+                invalidHandler: function(){
+                    enableButtons();
                 },
                 errorContainer: "#messageBox",
                 errorPlacement: function (error, element) {
@@ -150,7 +167,7 @@
     <div class="form-group">
         <div class="text-center">
         <c:if test="${contract.act.hiddenButton ne '1'}">
-            <input id="btnSubmit" class="btn btn-custom" type="button" value="确认收款" onClick="return confirmx('请确认已收到这笔款项？', function(){document.forms[0].submit();})"/>&nbsp;
+            <input id="btnSubmit" class="btn btn-custom" type="button" value="确认收款" onClick="return confirmx('请确认已收到这笔款项？', function(){document.forms[0].submit();},function(){enableButtons();})"/>&nbsp;
         </c:if>
             <input id="btnCancel" class="btn btn-inverse" type="button" value="返 回" onClick="history.go(-1)"/>
         </div>
