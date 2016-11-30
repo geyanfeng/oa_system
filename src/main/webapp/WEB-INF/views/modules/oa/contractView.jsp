@@ -1061,7 +1061,7 @@
 							         {{/row.isDisplayDeleteBtn}}
                                      {{#row.isDisplayTBtn}}
 							            <a href="javascript:void(0);" title="退款确认" onclick="showPoTKTHUI(this, '{{row.id}}', 1);" class="text-success">退</a>
-							            <a href="javascript:void(0);" title="转入库存" onclick="showPoTKTHUI(this, '{{row.id}}', 2);" class="text-success">库</a>
+							            <a href="javascript:void(0);" title="转入库存" onclick="showPoTKTHUI(this, '{{row.id}}', 2);" class="text-warning">库</a>
 							         {{/row.isDisplayTBtn}}
 							    </c:if>
 							</td>
