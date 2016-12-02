@@ -457,7 +457,7 @@
                     <tr>
                         <c:forEach items="${headers}" var="headers">
                             <c:choose>
-                                <c:when test="${reportType eq '5' and headers.key eq 'contract_name'}"><td style="width:80px;"><a href="${ctx}/oa/contract/view?id=${supplier['contract_id']}">${supplier[headers.key]}</a></td></c:when>
+                                <c:when test="${(reportType eq '5' or reportType eq '7') and headers.key eq 'contract_name'}"><td style="width:80px;"><a href="${ctx}/oa/contract/view?id=${supplier['contract_id']}">${supplier[headers.key]}</a></td></c:when>
                                 <c:when test="${reportType eq '5' and headers.key eq 'over_days'}"><td ${supplier[headers.key]>0?'style="color:red"':''} width="50">${supplier[headers.key]}</td></c:when>
 								<c:when test="${reportType eq '5' and headers.key eq 'finance_no'}"><td style="width:80px;">${supplier[headers.key]}</td></c:when>
 								<c:when test="${reportType eq '5' and headers.key eq 'customer_name'}"><td style="width:80px;">${supplier[headers.key]}</td></c:when>
