@@ -237,7 +237,7 @@ public class AlertService extends CrudService<AlertDao, Alert> {
                     data.put("po", po);
                     String title, content, emailTitle, emailContent;
                     title = po.getNo();
-                    content = String.format("%s %,.2f -> %s", po.getSupplier(),po.getAmount(), DictUtils.getDictLabel(status, "oa_po_status",""));
+                    content = String.format("%,.2f %s -> %s",po.getAmount(),  po.getSupplier(), DictUtils.getDictLabel(status, "oa_po_status",""));
                     //得到标题
                     if (StringUtils.isBlank(alertSetting.getTitle()))
                         emailTitle = "系统消息提醒";
