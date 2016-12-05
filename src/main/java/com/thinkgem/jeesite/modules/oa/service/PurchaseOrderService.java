@@ -340,6 +340,9 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 			if(purchaseOrder.getPurchaseOrderFinanceList().size() == 1){
 				vars.put("zq", purchaseOrder.getPurchaseOrderFinanceList().get(0).getZq());//如果为一次付款,写入帐期数
 			}
+			if(purchaseOrder.getSupplier()!=null && StringUtils.isNotBlank(purchaseOrder.getSupplier().getName())){
+				vars.put("supplier", String.format("%s %,.2f", purchaseOrder.getSupplier().getName(), purchaseOrder.getAmount()));
+			}
 			//purchaseOrder.getAct().setComment("商务下单");
 			purchaseOrder.setStatus("10");//待下单
 			purchaseOrder.preUpdate();

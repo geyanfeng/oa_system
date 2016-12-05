@@ -6,7 +6,7 @@
     <title>合同管理</title>
     <meta name="decorator" content="default"/>
     <style>
-	body{padding-top:17px;}
+        body{padding-top:17px;}
     </style>
     <script src='${ctxStatic}/jquery-plugin/jquery.masonry.js'></script>
     <script src="${ctxStatic}/assets/plugins/echarts.min.js"></script>
@@ -401,11 +401,11 @@
                         type: 'bar',
                         stack: '总量',
                         /*label: {
-                            normal: {
-                                show: true,
-                                position: 'insideRight'
-                            }
-                        },*/
+                         normal: {
+                         show: true,
+                         position: 'insideRight'
+                         }
+                         },*/
                         data: [0, 0, 0, 0]
                     };
                     $.each(home_ld_group_by_salar, function (idx, data) {
@@ -877,7 +877,7 @@
                                 <c:forEach items="${po_audit_list}" var="po_audit"
                                            varStatus="p">
                                     <c:set var="task" value="${po_audit.task}"/>
-                                    <c:set var="title" value="${po_audit.title}"/>
+                                    <c:set var="title" value="${not empty po_audit.vars.map.supplier?po_audit.vars.map.supplier:(not empty po_audit.vars.map.contract_name? po_audit.vars.map.contract_name:task.id)}"/>
                                     <c:set var="vars" value="${po_audit.vars}"/>
                                     <c:set var="procDef" value="${po_audit.procDef}"/>
                                     <c:set var="status" value="${po_audit.status}"/>
@@ -886,9 +886,8 @@
                                             <a  href="${ctx}/act/task/form?taskId=${task.id}&taskName=${fns:urlEncode(task.name)}&taskDefKey=${task.taskDefinitionKey}&procInsId=${task.processInstanceId}&procDefId=${task.processDefinitionId}&status=${status}">
                                                     ${not empty vars.map.title ? vars.map.title: p.index + 1}
                                             </a>
-                                        </td>
                                         <td>
-                                                ${fns:abbr(not empty title ? title : task.id, 30)}
+                                                ${fns:abbr(title, 30)}
                                         </td>
                                         <td><span
                                                 class="label label-<c:if test="${not empty vars.map.status}">${fns:getDictRemark(vars.map.status,"oa_po_status" ,"danguer" )}</c:if>

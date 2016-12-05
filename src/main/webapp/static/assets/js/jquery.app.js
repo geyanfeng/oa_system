@@ -209,11 +209,11 @@ function($) {
                 todo.href = ctx + "/act/task/form?taskId=" + item.taskId + "&taskName="+ encodeURI(item.taskName) +"&taskDefKey="+ item.taskDefKey +"&procInsId=" + item.procInsId + "&procDefId=" + item.procDefId+ "&status=todo";
                 if(item.procDefKey=="contract_audit"){
                     todo.contract_name = item.vars.map.title ? item.vars.map.title : item.taskId;
-                    todo.no =  item.vars.map.contract_no ? item.vars.map.contract_no : todo.contract_name;
+                    todo.no = item.vars.map.contract_no ? item.vars.map.contract_no : todo.contract_name;
                     todo.taskName = item.taskName;
                 } else{
                     todo.no =  item.vars.map.title ?  item.vars.map.title : item.taskId;
-                    todo.contract_name = item.vars.map.contract_name ? item.vars.map.contract_name : todo.no;
+                    todo.contract_name =  item.vars.map.supplier? item.vars.map.supplier: (item.vars.map.contract_name ? item.vars.map.contract_name : todo.no);
                     todo.taskName = item.taskName;
                 }
                 todoList.push(todo);
