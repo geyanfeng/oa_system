@@ -5,7 +5,9 @@ import com.thinkgem.jeesite.modules.act.entity.Act;
 import com.thinkgem.jeesite.modules.act.service.ActTaskService;
 import com.thinkgem.jeesite.modules.act.utils.ActUtils;
 import com.thinkgem.jeesite.modules.oa.dao.ReportDao;
+import com.thinkgem.jeesite.modules.oa.entity.PurchaseOrder;
 import com.thinkgem.jeesite.modules.oa.service.ContractService;
+import com.thinkgem.jeesite.modules.oa.service.PurchaseOrderService;
 import com.thinkgem.jeesite.modules.sys.dao.UserDao;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.thinkgem.jeesite.modules.sys.entity.User;
@@ -32,6 +34,8 @@ public class HomeController extends BaseController {
 	@Autowired
 	private ContractService contractService;
 	@Autowired
+	private PurchaseOrderService purchaseOrderService;
+	@Autowired
 	private ActTaskService actTaskService;
 	@Autowired
 	private ReportDao reportDao;
@@ -51,6 +55,11 @@ public class HomeController extends BaseController {
 		act = new Act();
 		act.setProcDefKey("purchaseOrder_audit");
 		List<Act> po_audit_list = actTaskService.todoList(act);
+		for(Act po_audit : po_audit_list){
+			PurchaseOrder po = purchaseOrderService.getByProcInsId(po_audit.getProcInsId());
+			if(po!=null)
+				po_audit.setTitle(String.format("%s %,.2f", po.getSupplier().getName(), po.getAmount()));
+		}
 		model.addAttribute("po_audit_list", po_audit_list);
 		
 		if (UserUtils.IsRoleByRoleEnName("cfo") || UserUtils.IsRoleByRoleEnName("cw")) {
