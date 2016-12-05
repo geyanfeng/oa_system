@@ -13,7 +13,7 @@
 		JOIN sys_user u ON u.id = a.create_by
 		JOIN sys_office c ON c.id = u.company_id
 		JOIN sys_office o ON o.id = u.office_id
-		WHERE a.create_date BETWEEN #{beginDate} AND #{endDate}
+		WHERE a.create_date BETWEEN #{beginDate} AND DATE_ADD(#{endDate}, INTERVAL 1 DAY)
 		<if test="title != null and title != ''">
 			AND a.title LIKE 
 					<if test="dbName == 'oracle'">'%'||#{title}||'%'</if>

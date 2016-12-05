@@ -58,7 +58,14 @@
                 disableButtons();
             });
 
+            $.validator.addMethod("val-comment", function(value) {
+                return !($('#flag').val() === "no" && value==="");
+            }, "请输入驳回信息");
+
             $("#inputForm").validate({
+                rules: {
+                    "act.comment":  "val-comment"
+                },
                 submitHandler: function (form) {
                     loading('正在提交，请稍等...');
                     form.submit();
@@ -69,6 +76,9 @@
                 errorContainer: "#messageBox",
                 errorPlacement: function (error, element) {
                     $("#messageBox").text("输入有误，请先更正。");
+                    if(element.prop("id")== 'act.comment'){
+                        error.appendTo(element.closest(".panel").find(".panel-heading"));
+                    }
                     if (element.is(":checkbox") || element.is(":radio") || element.parent().is(".input-append")) {
                         error.appendTo(element.parent().parent());
                     } else {
@@ -404,7 +414,7 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-sm-12">
-                    <form:textarea path="act.comment" class="required form-control" rows="5"/>
+                    <form:textarea path="act.comment" class="form-control" rows="5"/>
                 </div>
             </div>
         </div>

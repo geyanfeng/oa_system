@@ -117,7 +117,7 @@
 				AND a.create_by = #{createBy.id}
 			</if>
 			<if test="beginCreateDate != null and endCreateDate != null and beginCreateDate != '' and endCreateDate != ''">
-				AND a.create_date BETWEEN #{beginCreateDate} AND #{endCreateDate}
+				AND a.create_date BETWEEN #{beginCreateDate} AND DATE_ADD(#{endCreateDate}, INTERVAL 1 DAY)
 			</if>
 			<if test="searchStartAmount != null and searchStartAmount != ''">
 				AND a.amount &gt;= #{searchStartAmount}

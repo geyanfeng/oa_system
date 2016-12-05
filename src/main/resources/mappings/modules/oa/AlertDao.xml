@@ -58,7 +58,7 @@
 				AND a.node = #{node}
 			</if>
 			<if test="beginCreateDate != null and endCreateDate != null and beginCreateDate != '' and endCreateDate != ''">
-				AND a.create_date BETWEEN #{beginCreateDate} AND #{endCreateDate}
+				AND a.create_date BETWEEN #{beginCreateDate} AND  DATE_ADD(#{endCreateDate}, INTERVAL 1 DAY)
 			</if>
 			<if test="isRead != null and isRead != ''">
 				AND a.isRead = #{isRead}

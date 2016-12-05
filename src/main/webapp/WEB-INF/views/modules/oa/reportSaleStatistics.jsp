@@ -60,7 +60,7 @@
 
             changeType(${searchParams.reportType});
 
-            $("button,.sort-column").click(function(){
+            $("#btnSubmit,.sort-column").click(function(){
                 loading('正在正询数据，请稍等...');
             });
             closeLoading();
