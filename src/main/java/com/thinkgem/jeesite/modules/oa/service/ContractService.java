@@ -663,13 +663,17 @@ public class ContractService extends CrudService<ContractDao, Contract> {
             } else if("verify_sk".equals(taskDefKey) || "verify_sk2".equals(taskDefKey)){//确认收款
                 actTaskService.claim(contract.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
                 updateFinanceSK(contract);
-                //检查是否已经全部收款
-                if(!checkSK(contract)){
-                    contract.setStatus("90");//已收款待开票
-                    vars.put("finishPayment",0);
-                } else {
-                    contract.setStatus("95");//已收款待收尾
-                    vars.put("finishPayment",1);
+                if("verify_sk".equals(taskDefKey)){
+                    //检查是否已经全部收款
+                    if(!checkSK(contract)){
+                        contract.setStatus("90");//已收款待开票
+                        vars.put("finishPayment",0);
+                    } else {
+                        contract.setStatus("95");//已收款待收尾
+                        vars.put("finishPayment",1);
+                    }
+                } else{
+                    contract.setStatus("37");//已收款待下单
                 }
             } else if("finish".equals(taskDefKey)){//商务确认合同完成
                 contract.setStatus("100");//已确认已完成
@@ -702,7 +706,6 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                     else if ("cfo_audit".equals(taskDefKey)) {//财务总监审核
                         actTaskService.claim(contract.getAct().getTaskId(),  UserUtils.getUser().getLoginName());
                         if (pass) {
-                            contract.setStatus("35");//已批准待下单
                             Map<String, Object> currentTaskVars = taskService.getVariables(contract.getAct().getTaskId());//得到当前流程变量
                             if(currentTaskVars.containsKey("recall_type") && currentTaskVars.get("recall_type").toString().equals("2")){
                                 restorePoWorkFlow(contract.getId());//恢复订单流程
@@ -715,8 +718,10 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                             //第一笔是否为预付
                             if(checkFirstPaymentIsYF(contract)){
                                 vars.put("isyf", 1);
+                                contract.setStatus("36");//已批准待开票
                             } else{
                                 vars.put("isyf", 0);
+                                contract.setStatus("35");//已批准待下单
                             }
 
                         } else {
@@ -731,7 +736,7 @@ public class ContractService extends CrudService<ContractDao, Contract> {
                                 contract.setStatus("90");//已收款待开票
                                 vars.put("finishPayment",0);
                             } else {
-                                contract.setStatus("95");//已收款待收尾
+                                contract.setStatus("96");//已收款待收尾
                                 vars.put("finishPayment",1);
                             }
                         } else {
