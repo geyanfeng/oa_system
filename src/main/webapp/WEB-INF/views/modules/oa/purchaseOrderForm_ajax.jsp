@@ -509,6 +509,7 @@ h4 {
                     $("#div-activeData_"+index).hide();
                 }
             });
+
             $("#payment-body .row[data-idx='"+idx+"']").find("select").each(function () {
                 if($(this).attr("data-value"))
                     $(this).val($(this).attr("data-value"));
@@ -516,6 +517,20 @@ h4 {
                     $(this).val(0);
             });
 
+            //付款条件
+            $("#purchaseOrderFinanceList"+ idx +"_payCondition").change(function () {
+                var index = $(this).closest('.row').data("idx");
+                var val = $(this).val();
+                if(val == 0){
+                    $("#purchaseOrderFinanceList"+ index +"_zq").val(0);
+                    $("#purchaseOrderFinanceList"+ index +"_zq").attr("readonly", "readonly");
+                } else{
+                    $("#purchaseOrderFinanceList"+ index +"_zq").removeAttr("readonly");
+                    if($("#purchaseOrderFinanceList"+ index +"_zq").val()==0)
+                        $("#purchaseOrderFinanceList"+ index +"_zq").val("");
+                }
+            });
+            $("#purchaseOrderFinanceList"+ idx +"_payCondition").trigger("change");
 
             $("#payment-body .row[data-idx='"+idx+"']").find("input[type='checkbox'], input[type='radio']").each(function () {
                 var ss = $(this).attr("data-value").split(',');
