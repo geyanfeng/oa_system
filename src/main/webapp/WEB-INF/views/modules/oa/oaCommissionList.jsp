@@ -117,8 +117,9 @@
             <tr>
                 <th class="sort-column a4.name ">销售</th>
                 <th class="sort-column a2.no">合同编号</th>
-                <th class="sort-column K_SV">合同金额</th>
-                <th class="sort-column K_COG">采购成本</th>
+               <%-- <th class="sort-column K_SV">合同金额</th>
+                <th class="sort-column K_COG">采购成本</th>--%>
+                <th class="sort-column K_SV-K_COg">进销差价</th>
                 <th class="sort-column a.stock_in_amount+a.discount">额外总成本</th>
                 <th class="sort-column customerCost">销售奖金</th>
                 <th class="sort-column stockInAmount+extraAmount+customerCost">抵扣</th>
@@ -126,7 +127,7 @@
 
                 <%--<th>本期毛利</th>--%>
                 <th class="sort-column k_tr_v">税收成本</th>
-             <%--   <th>物流费用</th>--%>
+                <th>物流费用</th>
                 <th class="sort-column k_pcc_v">账期成本</th>
                 <th class="sort-column a.k_np">本期净利</th>
                 <th class="sort-column k_yj_v">业绩提成</th>
@@ -142,8 +143,9 @@
                     <td>${oaCommission.saler.name}</td>
                     <td><a href="${ctx}/oa/contract/view?id=${oaCommission.contract.id}"><c:if test="${oaCommission.cancelFlag eq 1}"><del class="text-danger"></c:if>${oaCommission.contract.no}<c:if test="${oaCommission.cancelFlag eq 1}"></del></c:if></a>
                     </td>
-                    <td><fmt:formatNumber type="number" value="${oaCommission.KSv}" maxFractionDigits="2" /></td>
-                    <td><fmt:formatNumber type="number" value="${oaCommission.KCog}" maxFractionDigits="2" /></td>
+                   <%-- <td><fmt:formatNumber type="number" value="${oaCommission.KSv}" maxFractionDigits="2" /></td>
+                    <td><fmt:formatNumber type="number" value="${oaCommission.KCog}" maxFractionDigits="2" /></td>--%>
+                    <td><fmt:formatNumber type="number" value="${oaCommission.KSv - oaCommission.KCog}" maxFractionDigits="2" /></td>
                     <td><fmt:formatNumber type="number" value="${oaCommission.stockInAmount + oaCommission.extraAmount}" maxFractionDigits="2" /></td>
                     <td><fmt:formatNumber type="number" value="${oaCommission.customerCost * 1.1}" maxFractionDigits="2" /></td>
                     <td><fmt:formatNumber type="number" value="${oaCommission.stockInAmount + oaCommission.extraAmount + oaCommission.customerCost * 1.1}" maxFractionDigits="2" /></td>
@@ -151,7 +153,7 @@
 
                    <%-- <td>${oaCommission.KGp}</td>--%>
                     <td>${oaCommission.KTrV}</td>
-                   <%-- <td>${oaCommission.KLc}</td>--%>
+                    <td>${oaCommission.KLc}</td>
                     <td>${oaCommission.KPccV}</td>
                     <td>${oaCommission.KNp}</td>
                     <td>${oaCommission.KYjV}</td>
