@@ -423,6 +423,7 @@
 								</div>
 							</div>
 						</div>
+						<div style="color:red">提醒：撤回申请提交后将由销售总监审核，通过后合同返回销售处重新提交。</div>
 				</div>
 				<div class="text-center">
 					<button type="button" class="btn btn-inverse" data-dismiss="modal">返回</button>
