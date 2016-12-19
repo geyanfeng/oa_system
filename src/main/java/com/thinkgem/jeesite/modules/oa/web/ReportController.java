@@ -433,7 +433,7 @@ public class ReportController extends BaseController {
 		SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		if (StringUtils.isNotBlank(searchParams.getStartTime())) {
 			Calendar cc = Calendar.getInstance();
-			sqlCondition += StringUtils.isNotBlank(sqlCondition) ? " and " : "";
+			//sqlCondition += StringUtils.isNotBlank(sqlCondition) ? " and " : "";
 			String[] startTimes = searchParams.getStartTime().split("-");
 			cc.set(Calendar.YEAR, Integer.parseInt(startTimes[0]));
 			cc.set(Calendar.MONTH, Integer.parseInt(startTimes[1]) - 1);
@@ -442,7 +442,7 @@ public class ReportController extends BaseController {
 			cc.set(Calendar.SECOND, 0);
 			cc.set(Calendar.MINUTE, 0);
 			cc.set(Calendar.MILLISECOND, 0);
-			sqlCondition += "c.create_date>='" + dataFormat.format(cc.getTime()) + "'";
+			sqlCondition += " and c.create_date>='" + dataFormat.format(cc.getTime()) + "'";
 		}
 
 		if (StringUtils.isNotBlank(searchParams.getEndTime())) {
