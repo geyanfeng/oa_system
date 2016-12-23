@@ -374,7 +374,7 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 				}
 
 			} else if("verify_ship_1".equals(taskDefKey) || "verify_ship_2".equals(taskDefKey)){//确认发货
-				if("verify_ship_1".equals(taskDefKey))
+				//if("verify_ship_1".equals(taskDefKey))
 					updatePlanPayDate(purchaseOrder);//更新预付款时间
 			}  else if("cfo_confirm_payment_1".equals(taskDefKey) || "cfo_confirm_payment_2".equals(taskDefKey) || "cfo_confirm_payment_3".equals(taskDefKey)){
 				updatePlanPayDate(purchaseOrder);//如果是预付的，预付款时间就是财务总监审核通过的日期

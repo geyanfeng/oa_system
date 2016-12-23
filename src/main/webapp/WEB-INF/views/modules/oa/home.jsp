@@ -150,7 +150,7 @@
                 center: ['20%', '55%'], // 默认全局居中
                 radius: '55%',
                 min: 0,
-                max: avg_quarter_gpi,
+                max: <shiro:hasAnyRoles name="cso,cto">12500000</shiro:hasAnyRoles><shiro:hasAnyRoles name="saler">1500000</shiro:hasAnyRoles>,
                 endAngle: 45,
                 splitNumber: 7,
                 axisLine: { // 坐标轴线
@@ -292,7 +292,7 @@
                     show: false
                 },
                 data: [{
-                    value: ((year_ld_amount / sum_year_gpi) * 100).toFixed(2),
+                    value: ((year_ld_amount / <shiro:hasAnyRoles name="cso,cto">50000000</shiro:hasAnyRoles><shiro:hasAnyRoles name="saler">6000000</shiro:hasAnyRoles>) * 100).toFixed(2),
                     name: '年度来单'
                 }]
             }]
