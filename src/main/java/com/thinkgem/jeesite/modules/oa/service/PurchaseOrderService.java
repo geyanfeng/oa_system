@@ -254,26 +254,44 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 	}
 
 	/*
-	技术验收后更新预付款日期
+	三种情况，1，一次付款有账期，相当于后付，应付日期为技术验收通过日期+账期；
+				2，一次付款无账期（预付），商务确认下单日期；
+				3，多笔，第一笔为商务确认下单日期，第二笔为技术验收后+账期，第三笔（如果有）技术验收日期+账期
 	 */
 	private void updatePlanPayDate(PurchaseOrder purchaseOrder) {
 		String taskDefKey = purchaseOrder.getAct().getTaskDefKey();
+		/*PurchaseOrderFinance filter = new PurchaseOrderFinance(purchaseOrder,1);//过滤还没有付款的数据
+			List<PurchaseOrderFinance> finances = purchaseOrderFinanceDao.findList(filter);
+			if(finances.size()==0)
+				return;
+			PurchaseOrderFinance poFinance = finances.get(0);
+			Calendar cc = Calendar.getInstance();
+			if(("cfo_confirm_payment_1".equals(taskDefKey) || "cfo_confirm_payment_2".equals(taskDefKey) || "cfo_confirm_payment_3".equals(taskDefKey)) && poFinance.getPayCondition() == 0){//财务总监确认可付款
+				poFinance.setPlanPayDate(cc.getTime());
+			} else {
+				cc.add(Calendar.DATE, poFinance.getZq());
+				poFinance.setPlanPayDate(cc.getTime());
+			}*/
 
-		PurchaseOrderFinance filter = new PurchaseOrderFinance(purchaseOrder,1);//过滤还没有付款的数据
-		List<PurchaseOrderFinance> finances = purchaseOrderFinanceDao.findList(filter);
 
-		if(finances.size()==0)
-			return;
-		PurchaseOrderFinance poFinance = finances.get(0);
-		Calendar cc = Calendar.getInstance();
-		if(("cfo_confirm_payment_1".equals(taskDefKey) || "cfo_confirm_payment_2".equals(taskDefKey) || "cfo_confirm_payment_3".equals(taskDefKey)) && poFinance.getPayCondition() == 0){//财务总监确认可付款
-			poFinance.setPlanPayDate(cc.getTime());
-		} else {
-			cc.add(Calendar.DATE, poFinance.getZq());
-			poFinance.setPlanPayDate(cc.getTime());
+		//商务下单第一笔为预付
+		if("business_person_createbill".equals(taskDefKey) && purchaseOrder.getPurchaseOrderFinanceList().size() > 0 && purchaseOrder.getPurchaseOrderFinanceList().get(0).getPayCondition() == 0){
+			PurchaseOrderFinance finance = purchaseOrder.getPurchaseOrderFinanceList().get(0);
+			Calendar cc = Calendar.getInstance();
+			finance.setPlanPayDate(cc.getTime());
+			finance.preUpdate();
+			purchaseOrderFinanceDao.update(finance);
+		} else if("verify_receiving_1".equals(taskDefKey)){
+			for(PurchaseOrderFinance finance : purchaseOrder.getPurchaseOrderFinanceList()){
+				if(finance.getPayCondition() != 0){
+					Calendar cc = Calendar.getInstance();
+					cc.add(Calendar.DATE, finance.getZq());
+					finance.setPlanPayDate(cc.getTime());
+					finance.preUpdate();
+					purchaseOrderFinanceDao.update(finance);
+				}
+			}
 		}
-		poFinance.preUpdate();
-		purchaseOrderFinanceDao.update(poFinance);
 	}
 
 	/*
@@ -373,11 +391,13 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 					vars.put("finishPayment",checkSK(purchaseOrder)? 1:0 );//检查是否已经全部付款并将变量写入到流程中
 				}
 
-			} else if("verify_ship_1".equals(taskDefKey) || "verify_ship_2".equals(taskDefKey)){//确认发货
-				//if("verify_ship_1".equals(taskDefKey))
-					updatePlanPayDate(purchaseOrder);//更新预付款时间
-			}  else if("cfo_confirm_payment_1".equals(taskDefKey) || "cfo_confirm_payment_2".equals(taskDefKey) || "cfo_confirm_payment_3".equals(taskDefKey)){
-				updatePlanPayDate(purchaseOrder);//如果是预付的，预付款时间就是财务总监审核通过的日期
+			} else if("business_person_createbill".equals(taskDefKey) || "verify_receiving_1".equals(taskDefKey)){//商务下单和技术确认验收
+				/*
+				三种情况，1，一次付款有账期，相当于后付，应付日期为技术验收通过日期+账期；
+				2，一次付款无账期（预付），商务确认下单日期；
+				3，多笔，第一笔为商务确认下单日期，第二笔为技术验收后+账期，第三笔（如果有）技术验收日期+账期
+				* */
+				updatePlanPayDate(purchaseOrder);//更新预付款时间
 			}
 
 			updatePoStatus(purchaseOrder, taskDefKey, pass);//更新订单状态
@@ -408,14 +428,6 @@ public class PurchaseOrderService extends CrudService<PurchaseOrderDao, Purchase
 			}
 			else//多次付款
 				purchaseOrder.setStatus("20");//已下单待审核
-			//预付的应付时间就是商务下单的时间
-			if(purchaseOrder.getPurchaseOrderFinanceList().size() > 0 && purchaseOrder.getPurchaseOrderFinanceList().get(0).getPayCondition() == 0){
-				PurchaseOrderFinance finance = purchaseOrder.getPurchaseOrderFinanceList().get(0);
-				Calendar cc = Calendar.getInstance();
-				finance.setPlanPayDate(cc.getTime());
-				finance.preUpdate();
-				purchaseOrderFinanceDao.update(finance);
-			}
 		}
 		else if("cfo_confirm_payment_1".equals(taskDefKey) || "cfo_confirm_payment_2".equals(taskDefKey) || "cfo_confirm_payment_3".equals(taskDefKey)){//财务总监确认可付款
 			purchaseOrder.setStatus("30");//已审核待付款
