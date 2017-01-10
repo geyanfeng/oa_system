@@ -189,9 +189,9 @@
                         </tr>
                         <tr>
                             <td>K1-K4毛利：<fmt:formatNumber type="number" value="${(not empty summary.other_ml && summary.other_ml ne '0E-8') ? summary.other_ml : 0}" maxFractionDigits="2" /></td>
-                            <td>K1-K4毛利率：<c:if test="${not empty summary.amount && summary.amount ne '0E-8' && not empty summary.other_ml && summary.other_ml ne '0E-8'}"><span style="color:red;" id="span-otherML">${(summary.other_ml / summary.amount) * 100} %</span></c:if></td>
+                            <td>K1-K4毛利率：<c:if test="${not empty summary.amount && summary.amount ne '0.00' && summary.amount ne '0E-8' && not empty summary.other_ml && summary.other_ml ne '0E-8'}"><span style="color:red;" id="span-otherML">${(summary.other_ml / summary.amount) * 100} %</span></c:if></td>
                             <td>总毛利：<fmt:formatNumber type="number" value="${(not empty summary.contract_ml && summary.contract_ml ne '0E-8') ? summary.contract_ml : 0}" maxFractionDigits="2" /></td>
-                            <td>总毛利率：<c:if test="${not empty summary.amount && summary.amount ne '0E-8' && not empty summary.contract_ml && summary.contract_ml ne '0E-8'}"><span style="color:red;" id="span-ml">${(summary.contract_ml / summary.amount) * 100} %</span></c:if></td>
+                            <td>总毛利率：<c:if test="${not empty summary.amount && summary.amount ne '0.00' &&  summary.amount ne '0E-8' && not empty summary.contract_ml && summary.contract_ml ne '0E-8'}"><span style="color:red;" id="span-ml">${(summary.contract_ml / summary.amount) * 100} %</span></c:if></td>
                             <td></td>
                         </tr>
                     </tbody>
