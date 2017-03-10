@@ -657,6 +657,8 @@ th,td{text-align:left;}
                             $(obj).html("&times;").attr("title", "删除");
                             $(obj).parent().parent().removeClass("error");
                         }
+						//更新合同总金额
+						updateAmount();
                     }
 
 					//导入excel
