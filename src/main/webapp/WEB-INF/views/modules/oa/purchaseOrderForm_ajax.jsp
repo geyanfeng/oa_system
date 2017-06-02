@@ -329,7 +329,7 @@ h4 {
                     var price = parseFloat(row.find("input[id$='_price']").val());
                     var num = parseFloat(row.find("input[id$='_num']").val());
                     if(price && num)
-                        sumAmount = sumAmount + price * num;
+                        sumAmount = sumAmount + (price * num).toFixed(2);
                 });
 
                 $("input[id$='_amount']").each(function(){
